@@ -1,0 +1,642 @@
+dnl Process this file with autoconf to produce a configure script. -*-m4-*-
+
+dnl ***********************************************************************
+dnl When preparing a release, increase the numeric and string version numbers,
+dnl remove the "-cvs" suffix, and set is_release=yes
+AC_INIT([sane-backends],[1.1.0-svn],[sane-devel@lists.alioth.debian.org])
+V_MAJOR=1
+V_MINOR=1
+V_REV=0
+is_release=no
+dnl ***********************************************************************
+
+AC_CONFIG_HEADERS([include/sane/config.h])
+AC_PREREQ(2.54)dnl		dnl Minimum Autoconf version required.
+AC_ARG_PROGRAM
+
+PACKAGE=AC_PACKAGE_NAME
+VERSION=AC_PACKAGE_VERSION
+NUMBER_VERSION=${V_MAJOR}.${V_MINOR}.${V_REV}
+AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE",
+                   [Define to the name of the distribution.])
+AC_DEFINE_UNQUOTED(VERSION, "$VERSION",
+                   [Define to the version of the distribution.])
+AC_DEFINE_UNQUOTED(SANE_DLL_V_MAJOR, $V_MAJOR, [SANE DLL major number])
+AC_DEFINE_UNQUOTED(SANE_DLL_V_MINOR, $V_MINOR, [SANE DLL minor number])
+AC_DEFINE_UNQUOTED(SANE_DLL_V_BUILD, $V_REV, [SANE DLL revision number])
+AC_SUBST(V_MAJOR)
+AC_SUBST(V_MINOR)
+AC_SUBST(V_REV)
+AC_SUBST(PACKAGE)
+AC_SUBST(VERSION)
+AC_SUBST(NUMBER_VERSION)
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST 
+
+dnl no bloody way to have a decent --docdir...
+AC_ARG_WITH(docdir, 
+  AC_HELP_STRING([--with-docdir=DIR],
+                 [documentation @<:@PREFIX/doc/sane-VERSION@:>@]),
+[
+  docdir="${withval}"
+  AC_SUBST([docdir])dnl
+], [
+  AC_SUBST([docdir],         ['${prefix}/doc/sane-${VERSION}'])dnl
+])
+
+dnl ***********************************************************************
+dnl Checks for programs.
+dnl ***********************************************************************
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+AC_PROG_CPP
+AC_PROG_GCC_TRADITIONAL
+AC_PATH_PROG(SANE_CONFIG_PATH, sane-config, no)
+AC_PATH_PROG(MSGFMT, msgfmt$EXEEXT, no)
+AC_PATH_PROG(XGETTEXT, xgettext$EXEEXT, no)
+AC_PATH_PROG(MSGMERGE, msgmerge$EXEEXT, no)
+AC_PATH_PROG(LATEX, latex$EXEEXT, no)
+AC_PATH_PROG(DVIPS, dvips$EXEEXT, no)
+AC_PATH_PROG(MAKEINDEX, makeindex$EXEEXT, no)
+AC_PATH_PROG(MAKEDEPEND, makedepend$EXEEXT, no)
+AC_SUBST(MSGFMT)
+AC_SUBST(XGETTEXT)
+AC_SUBST(MSGMERGE)
+AC_SUBST(LATEX)
+AC_SUBST(DVIPS)
+AC_SUBST(MAKEINDEX)
+if test "$MAKEDEPEND" != "no"; then
+  DEPEND_RECURSIVE="depend-recursive"
+fi
+AC_SUBST(DEPEND_RECURSIVE)
+
+CROSS_COMPILING=$cross_compiling
+AC_SUBST(CROSS_COMPILING)
+
+dnl ***********************************************************************
+dnl set compiler/linker flags
+dnl ***********************************************************************
+INCLUDES="${INCLUDES} -I/usr/local/include"
+AC_SUBST(INCLUDES)
+SANE_SET_CFLAGS([$is_release])
+SANE_SET_LDFLAGS
+SANE_LINKER_RPATH
+
+dnl ***********************************************************************
+dnl Checks for unix variants
+dnl ***********************************************************************
+AC_GNU_SOURCE
+AC_AIX
+AC_MINIX
+AC_ISC_POSIX
+
+AC_NEED_BYTEORDER_H([include/byteorder.h])
+AX_NEED_STDINT_H([include/_stdint.h])
+
+dnl ***********************************************************************
+dnl Checks for libraries
+dnl ***********************************************************************
+SANE_CHECK_DLL_LIB
+dnl Checks for Backend libraries.
+AC_CHECK_LIB(m,sqrt)
+AC_CHECK_LIB(scsi, scsireq_enter)	# FreeBSD needs this
+AC_CHECK_LIB(cam, cam_open_device)      # FreeBSD 3+ needs this
+dnl IRIX sometimes has SYSVR3/4 network DSOs, but we do not need or want
+dnl to use them!
+if test "`uname`" != "IRIX" -a "`uname`" != "IRIX64"; then
+    AC_SEARCH_LIBS(gethostbyaddr, nsl bind)
+    AC_SEARCH_LIBS(socket, socket)
+    AC_SEARCH_LIBS(syslog, syslog be)            # OS/2 needs -lsyslog, BeOS needs -lbe
+fi
+SANE_CHECK_JPEG
+SANE_CHECK_TIFF
+SANE_CHECK_IEEE1284
+SANE_CHECK_PTHREAD
+SANE_CHECK_LOCKING
+SANE_CHECK_GPHOTO2
+dnl check sane to make sure we don't have two installations
+AC_CHECK_LIB(sane, sane_init, LIBSANE_EXISTS="yes")
+
+dnl ***********************************************************************
+dnl Checks for header files.
+dnl ***********************************************************************
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h unistd.h libc.h sys/dsreq.h sys/select.h \
+    sys/time.h sys/shm.h sys/ipc.h sys/signal.h \
+    sys/scanio.h scsi.h sys/scsi.h sys/scsicmd.h sys/scsiio.h \
+    bsd/dev/scsireg.h scsi/sg.h /usr/src/linux/include/scsi/sg.h \
+    camlib.h os2.h sys/socket.h sys/io.h gscdds.h sys/hw.h \
+    sys/types.h sys/scsi/scsi.h sys/scsi/sgdefs.h sys/scsi/targets/scgio.h \
+    apollo/scsi.h sys/sdi_comm.h sys/passthrudef.h linux/ppdev.h \
+    dev/ppbus/ppi.h machine/cpufunc.h usb.h sys/bitypes.h sys/sem.h sys/poll.h \
+    IOKit/cdb/IOSCSILib.h IOKit/scsi/SCSICommandOperationCodes.h \
+    IOKit/scsi-commands/SCSICommandOperationCodes.h \
+    windows.h be/kernel/OS.h be/drivers/USB_scanner.h limits.h sys/ioctl.h asm/types.h\
+    netinet/in.h tiffio.h)
+AC_CHECK_HEADERS([asm/io.h],,,[#include <sys/types.h>])
+AC_CHECK_HEADERS([io/cam/cam.h],,,[#include <io/common/iotypes.h>])
+
+SANE_CHECK_MISSING_HEADERS
+
+AC_CHECK_HEADER(resmgr.h,[
+	AC_CHECK_LIB(
+		resmgr,
+		rsm_open_device,[
+			AC_DEFINE(HAVE_RESMGR,1,[define if you have the resmgr library])
+			LIBS="$LIBS -lresmgr"
+		]
+	)
+])
+
+AC_CHECK_HEADER(usbcalls.h,[
+			AC_DEFINE(HAVE_USBCALLS,1,[define if you have the usbcalls library])
+			LIBS="$LIBS -lusbcalls"
+		],,[
+#include <usb.h> 
+#include <os2.h>])
+
+
+dnl ***********************************************************************
+dnl Checks for types and structures
+dnl ***********************************************************************
+AC_TYPE_SIGNAL
+AC_TYPE_SIZE_T
+AC_TYPE_PID_T
+AC_CHECK_TYPE(ssize_t, long)
+SANE_CHECK_U_TYPES
+
+# from Python, check for "long long" type
+AC_MSG_CHECKING(for long long support)
+have_long_long=no
+AC_TRY_COMPILE([], [long long x; x = (long long)0;], AC_DEFINE(HAVE_LONG_LONG, 1, [Define if the long long type is available.]) have_long_long=yes)
+AC_MSG_RESULT($have_long_long)
+
+if test "$ac_cv_header_sys_scsiio_h" = "yes" \
+     -a "$ac_cv_header_scsi_h" = "yes";
+then
+ AC_TRY_COMPILE([
+#include <sys/scsiio.h>
+#include <scsi.h>
+],[scsireq_t req],,
+   AC_DEFINE(scsireq_t, struct scsireq_t,
+             [Define scsireq_t as \`struct scsireq\' if necessary.]))
+fi
+
+AC_MSG_CHECKING([for socklen_t in <sys/socket.h>])
+AC_TRY_COMPILE([
+#include <sys/socket.h>
+],[socklen_t len],AC_MSG_RESULT(yes),
+[AC_MSG_RESULT(no); AC_DEFINE(socklen_t,int,
+[Define socklen_t as \`int\' if necessary.])])
+
+AC_MSG_CHECKING([for union semun in <sys/sem.h>])
+AC_TRY_COMPILE([
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+],[union semun test_semun],[AC_MSG_RESULT(yes);
+AC_DEFINE(HAVE_UNION_SEMUN,1,[Define if union semun is available.])],
+AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([for sg_header.target_status in <scsi/sg.h>])
+AC_TRY_COMPILE([
+#include <sys/types.h>
+#include <scsi/sg.h>
+],[
+struct sg_header hdr;
+hdr.target_status = 1;
+return 0;
+],[AC_MSG_RESULT(yes);
+AC_DEFINE(HAVE_SG_TARGET_STATUS,1,[Define if sg_header.target_status is
+available.])],
+AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([for struct flock in fcntl.h])
+AC_EGREP_HEADER([struct flock], fcntl.h, [AC_MSG_RESULT(yes) ;
+                AC_DEFINE(HAVE_STRUCT_FLOCK, 1,
+                [Define if struct flock is available.])], AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([for Linux ioctl defines])
+AC_TRY_COMPILE([
+#include <sys/ioctl.h>
+#include <asm/types.h>
+],[
+__u32 houba = _IOR('v',14, unsigned long);
+],[AC_MSG_RESULT(yes);
+have_linux_ioctl_defines="yes";],AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([for SCSITaskSGElement in IOKit/scsi/SCSITaskLib.h])
+AC_TRY_COMPILE([
+#undef VERSION
+#include <IOKit/scsi/SCSITaskLib.h>
+],[
+SCSITaskSGElement range;
+return 0;
+],[AC_MSG_RESULT(yes);
+AC_DEFINE(HAVE_SCSITASKSGELEMENT,1,[Define if SCSITaskSGElement is available.])],
+AC_MSG_RESULT(no))
+
+dnl ***********************************************************************
+dnl Checks for compiler characteristics
+dnl ***********************************************************************
+AC_C_BIGENDIAN
+AC_C_CONST
+AC_C_INLINE
+
+dnl ***********************************************************************
+dnl Checks for library functions
+dnl ***********************************************************************
+if test "$ac_cv_header_be_kernel_OS_h" = "yes" ; then
+    dnl those are known to be broken in BeOS (BONE)
+    ac_cv_func_getaddrinfo=no
+    ac_cv_func_getnameinfo=no
+fi
+AC_FUNC_ALLOCA
+AC_FUNC_MMAP
+AC_CHECK_FUNCS(atexit inet_addr inet_aton inet_ntoa ioperm i386_set_ioperm mkdir \
+    scsireq_enter strftime strstr strtod  \
+    cfmakeraw tcsendbreak strcasecmp strncasecmp _portaccess \
+    getaddrinfo getnameinfo poll setitimer iopl )
+AC_REPLACE_FUNCS(getenv inet_ntop inet_pton isfdtype sigprocmask snprintf \
+    strdup strndup strsep usleep vsyslog)
+SANE_PROTOTYPES
+if test "$ac_cv_header_os2_h" = "yes" ; then
+  AC_DEFINE(strncasecmp, strnicmp, [Define for OS/2 only])
+  AC_DEFINE(strcasecmp, stricmp, [Define for OS/2 only])
+fi
+dnl On OS/2, libc knows getopt
+AH_BOTTOM([
+#ifdef __INNOTEK_LIBC__
+#define ELIDE_CODE 1
+#endif
+])
+dnl ***********************************************************************
+dnl checks for system services
+dnl ***********************************************************************
+if test -c /dev/urandom ; then
+    AC_DEFINE(HAVE_DEV_URANDOM, 1, [Is /dev/urandom available?])
+fi
+
+dnl libusb on enabled by default (if found)
+USE_LIBUSB=yes
+AC_ARG_ENABLE(libusb,
+  AC_HELP_STRING([--disable-libusb],
+                 [disable support for libusb]),
+  [
+    if eval "test x$enable_libusb = xno"; then
+      USE_LIBUSB=
+    fi
+  ])
+
+dnl we need both libusb header and a libusb providing usb_interrupt_read
+if test "${ac_cv_header_usb_h}" = "yes" && test "$USE_LIBUSB" = "yes" ; then
+  AC_CHECK_LIB(usb, usb_interrupt_read)
+  if test "${ac_cv_lib_usb_usb_interrupt_read}" = "yes" ; then
+    HAVE_LIBUSB="yes"
+  fi
+fi
+
+dnl disable Linux SCSI generic version 3 to avoid 32/64 bit problems
+if sparc64 -q > /dev/null 2>&1 ; then
+  AC_DEFINE(DISABLE_LINUX_SG_IO, 1, [Should we disable SCSI generic v3?])
+fi
+
+dnl check for IPv6 (can be overriden by --enable-ipv6)
+if test "$ac_cv_func_getnameinfo" = "yes" \
+  && test "$ac_cv_func_getaddrinfo" = "yes" ; then
+  SANE_CHECK_IPV6
+else
+  ipv6="no"
+fi
+
+dnl ***********************************************************************
+dnl initialize libtool
+dnl ***********************************************************************
+AC_LIBTOOL_WIN32_DLL
+AC_DISABLE_STATIC
+AC_PROG_LIBTOOL
+
+dnl Windows/Cygwin needs this, else the library creation fails
+dnl BeOS also needs this (why isnt it the default anyway ???)
+if test "$ac_cv_header_windows_h" = "yes" -o "$ac_cv_header_be_kernel_OS_h" = "yes" ; then
+  LIBTOOL_LINK_EXTRA=-no-undefined
+  AC_SUBST(LIBTOOL_LINK_EXTRA)
+fi
+
+dnl Check for lock dir
+
+AC_ARG_WITH(lockdir, AC_HELP_STRING([--with-lockdir=DIR],
+                                    [set SANE lockdir @<:@localstatedir/lock/sane@:>@]),
+                                    [locksanedir=$withval],[locksanedir=${localstatedir}/lock/sane])
+AC_SUBST(locksanedir)
+
+dnl ***********************************************************************
+dnl enable/disable backends and features based on previous tests and user's
+dnl choice
+dnl ***********************************************************************
+CPPFLAGS="${CPPFLAGS} -DPATH_SANE_CONFIG_DIR=\$(configdir) \
+	  -DPATH_SANE_DATA_DIR=\$(datadir) \
+	  -DPATH_SANE_LOCK_DIR=\$(locksanedir) \
+	  -DV_MAJOR=${V_MAJOR} -DV_MINOR=${V_MINOR}"
+
+if test "${ac_cv_header_sys_socket_h}" = "no"; then
+  echo "*** disabling saned (sys/socket.h not found)"
+  SANED=
+else
+  SANED=saned
+fi
+AC_SUBST(SANED)
+
+dnl These are the backends that are build in any case:
+
+AC_ARG_ENABLE(local-backends,
+  AC_HELP_STRING([--disable-local-backends],
+                 [turn off compilation of all backends but net]))
+
+if eval "test x$enable_local_backends = xno"; then 
+   BACKENDS="net"
+else
+  if test "${BACKENDS}" != "" ; then
+    AC_MSG_NOTICE([Manually selected backends: ${BACKENDS}])
+  else
+    BACKENDS="abaton agfafocus apple artec artec_eplus48u as6e avision bh \
+	  canon canon630u cardscan coolscan coolscan2 coolscan3 dc25 dmc \
+	  epjitsu epson epson2 fujitsu genesys gt68xx \
+	  hp hp3500 hp3900 hp4200 hp5400 hp5590 hpljm1005 hs2p \
+	  ibm leo lexmark \
+	  ma1509 matsushita microtek microtek2 mustek mustek_usb \
+	  nec niash pie pixma plustek ricoh \
+	  s9036 sceptre sharp sm3600 sm3840 snapscan sp15c st400 stv680 \
+	  tamarack teco1 teco2 teco3 test u12 umax umax_pp umax1220u"
+
+    case "$host_os" in
+	gnu*) 
+	  echo "*** disabling PLUSTEK_PP backend (GNU/Hurd not supported)"
+	  ;;
+	*)
+	  BACKENDS="${BACKENDS} plustek_pp"
+	  ;;
+    esac
+
+  if test "${sane_cv_use_libjpeg}" != "yes"; then
+    echo "*** disabling DC210 backend (failed to find JPEG library)"
+    echo "*** disabling DC240 backend (failed to find JPEG library)"
+  else
+    BACKENDS="${BACKENDS} dc210 dc240"
+    SANEI_JPEG="sanei_jpeg.o"
+    SANEI_JPEG_LO="sanei_jpeg.lo"
+  fi
+  AC_SUBST(SANEI_JPEG)
+  AC_SUBST(SANEI_JPEG_LO)
+
+  if test "${sane_cv_use_libieee1284}" != "yes"
+    then
+    echo "*** disabling CANON_PP backend (failed to find libieee1284 library)"
+    echo "*** disabling HPSJ5S backend (failed to find libieee1284 library)"
+  else
+    BACKENDS="${BACKENDS} canon_pp hpsj5s"
+  fi
+
+  if test "${sane_cv_use_libieee1284}" != "yes" && test "${enable_parport_directio}" != "yes"
+    then
+    echo "*** disabling MUSTEK_PP backend (failed to find libieee1284 library"
+    echo "***                              and parport-directio is disabled)"
+  else
+    BACKENDS="${BACKENDS} mustek_pp"
+  fi
+
+  if test "${sane_cv_use_libjpeg}" != "yes" || test "${sane_cv_use_libtiff}" != "yes"
+    then
+    echo "*** disabling DELL1600N_NET backend (failed to find jpeg and/or tiff library)"
+  else
+    BACKENDS="${BACKENDS} dell1600n_net"
+  fi
+
+  if test "${HAVE_GPHOTO2}" != "true" \
+        -o "${sane_cv_use_libjpeg}" != "yes"; then
+    echo "*** disabling GPHOTO2 backend (not requested, or failed to find required libraries)"
+  else
+    BACKENDS="${BACKENDS} gphoto2"
+  fi
+
+  if test "${ac_cv_header_sys_scanio_h}" = "no"; then
+    echo "*** disabling PINT backend (sys/scanio.h not found)"
+  else
+    BACKENDS="${BACKENDS} pint"
+  fi
+
+  if test "${ac_cv_func_ioperm}" = "no" \
+      && test "${ac_cv_func__portaccess}" = "no"
+  then
+    echo "*** disabling qcam backend (ioperm or portaccess not found)"
+  else
+    BACKENDS="${BACKENDS} qcam"
+  fi
+
+  if test "${have_linux_ioctl_defines}" != "yes"
+  then
+    echo "*** disabling v4l (Video for Linux) backend"
+  else
+    BACKENDS="${BACKENDS} v4l"
+  fi
+
+  if test "${ac_cv_header_sys_socket_h}" = "no"; then
+    echo "*** disabling net backend (sys/socket.h not found)"
+  else
+    BACKENDS="${BACKENDS} net"
+  fi
+
+  if test "${have_pthread}" != "yes"; then
+    echo "*** disabling MUSTEK_USB2 backend (failed to find pthread library)"
+  else
+    BACKENDS="${BACKENDS} mustek_usb2"
+  fi
+
+  AC_ARG_ENABLE(pnm-backend, 
+    AC_HELP_STRING([--enable-pnm-backend],
+                   [enable the pnm backend for testing frontends (possible
+                    security risk, see PROBLEMS file)]),
+    [
+    BACKENDS="${BACKENDS} pnm"
+    ], [
+    echo "*** disabling pnm backend (not selected manually)"
+  ])
+fi
+fi
+
+AC_SUBST(BACKENDS)
+
+if test "${enable_shared}" = "no"; then
+  enable_preload=yes
+fi
+if test "${enable_dynamic}" != yes || test "${enable_preload}" = "yes"; then
+  echo "preloading backends into DLL"
+  DLL_PRELOAD="\$(PRELOADABLE_BACKENDS)"
+else
+  DLL_PRELOAD=""
+fi
+AC_SUBST(DLL_PRELOAD)
+
+dnl in BeOS, backends are not installed in lib/sane, but add-ons/SANE/
+dnl we account for both installing in /boot/beos and ~/config
+dnl faster than: if test "`uname`" = "BeOS" -o "`uname`" = "Zeta" ; then
+if test "$ac_cv_header_be_kernel_OS_h" = "yes" ; then
+  BEOS_ADDONDIR="${libdir}/../add-ons/SANE"
+  AC_SUBST(BEOS_ADDONDIR)
+  BE_INSTALL_FLAVOR=-beos
+  AC_SUBST(BE_INSTALL_FLAVOR)
+fi
+
+
+AC_ARG_ENABLE(scsibuffersize, 
+  AC_HELP_STRING([--enable-scsibuffersize=N],
+                 [specify the default size in bytes of the buffer for SCSI
+                  commands [[default=131072]]]),
+  [set_scsibuffersize="$enableval"], [set_scsibuffersize=131072])
+AC_DEFINE_UNQUOTED(SCSIBUFFERSIZE, $set_scsibuffersize,
+                   [SCSI command buffer size])
+echo "scsi buffersize: $set_scsibuffersize"
+
+AC_ARG_ENABLE(scsi-directio,
+  AC_HELP_STRING([--enable-scsi-directio],
+                 [enable SCSI direct IO (Linux only, dangerous, see
+                  README.linux)]),
+  [
+    if eval "test x$enable_scsi_directio = xyes"; then
+      CFLAGS="$CFLAGS -DENABLE_SCSI_DIRECTIO"
+    fi
+  ])
+
+AC_ARG_ENABLE(parport-directio,
+  AC_HELP_STRING([--enable-parport-directio],
+                 [enable direct hardware access to the parallel port, so 
+                  frontends will require special permission level]),
+  [
+    if eval "test x$enable_parport_directio = xyes"; then
+      CFLAGS="$CFLAGS -DENABLE_PARPORT_DIRECTIO"
+    fi
+  ])
+
+AC_ARG_ENABLE(translations,
+  AC_HELP_STRING([--disable-translations],
+                 [don't install translations of backend options]),
+  [
+      if eval "test x$enable_translations = xno"; then 
+        INSTALL_TRANSLATIONS=
+      else
+        INSTALL_TRANSLATIONS=install-translations
+      fi
+  ],
+  INSTALL_TRANSLATIONS=install-translations
+)
+if eval "test x$INSTALL_TRANSLATIONS = xinstall-translations" ; then
+  if test x$MSGFMT = xno || test x$XGETTEXT = xno || test $MSGMERGE = no ; then
+    INSTALL_TRANSLATIONS=
+    echo "disabling translations (missing msgfmt, xgettext or msgmerge)"
+  else
+    echo "enabling translations"
+  fi
+else
+  echo "disabling translations"
+fi  
+AC_SUBST(INSTALL_TRANSLATIONS)
+
+
+if test "$LATEX" != "no" && test "$DVIPS" != "no" && test "$MAKEINDEX" != "no" ; then
+  USE_LATEX="yes"
+else
+  USE_LATEX="no"
+fi
+AC_SUBST(USE_LATEX)
+
+dnl ***********************************************************************
+dnl Write output files
+dnl ***********************************************************************
+
+DISTCLEAN_FILES="*~ .*~ *.log *.bak *.old *.orig *.out *.rej \"\#\"* \".\\#\"*"
+AC_SUBST(DISTCLEAN_FILES)
+
+AC_CONFIG_FILES([Makefile lib/Makefile sanei/Makefile frontend/Makefile \
+  japi/Makefile backend/Makefile include/Makefile doc/Makefile \
+  po/Makefile testsuite/Makefile tools/Makefile doc/doxygen-sanei.conf])
+AC_CONFIG_FILES([tools/sane-config], [chmod a+x tools/sane-config])
+AC_OUTPUT
+
+dnl ***********************************************************************
+dnl print configuration information
+dnl ***********************************************************************
+
+echo "-> Variables used for compilation/linking:"
+echo CPPFLAGS=\"${CPPFLAGS}\"
+echo CFLAGS=\"${CFLAGS}\"
+echo LDFLAGS=\"${LDFLAGS}\"
+echo LIBS=\"${LIBS}\"
+echo "-> Installation directories:"
+echo "Configuration: `eval eval echo ${sysconfdir}`"
+echo "Libraries:     `eval eval echo ${libdir}`"
+echo "Binaries:      `eval eval echo ${bindir}` and `eval eval echo ${sbindir}`"
+echo "Manpages:      `eval eval echo ${mandir}`"
+echo "Documentation: `eval eval echo ${docdir}`"
+if eval "test x$INSTALL_LOCKPATH = xinstall-lockpath" ; then
+  echo "Lockfiles:     `eval eval echo ${locksanedir}`"
+else
+  echo "Lockfiles:     Feature is disabled!"
+fi
+echo "-> Network parameters:"
+if test "${SANED}" = "saned" ; then
+  echo "Build saned:   yes"
+else
+  echo "Build saned:   no"
+fi
+echo "IPv6 support:  `eval eval echo ${ipv6}`"
+echo "-> The following backends will be built:"
+for backend in ${BACKENDS} ; do
+  echo $ECHO_N "${backend} " 
+done
+echo
+
+if test "$SANE_CONFIG_PATH" != "no" ; then
+  SANE_INSTALLED_VERSION=`$SANE_CONFIG_PATH --version`
+  SANE_INSTALLED_PREFIX=`$SANE_CONFIG_PATH --prefix`
+  if test "$SANE_INSTALLED_PREFIX" != "$prefix" ; then
+    echo "*** WARNING: SANE is already installed (version $SANE_INSTALLED_VERSION). The old"
+    echo "*** installation is at $SANE_INSTALLED_PREFIX while SANE will now be installed"
+    echo "*** at $prefix. It is recommended to uninstall the old SANE version"
+    echo "*** before installing the new one to avoid problems."
+  fi
+else
+  if test "$LIBSANE_EXISTS" = "yes" ; then
+    echo "*** Warning: An old version of SANE was detected but the sane-config program"
+    echo "*** couldn't be found. If you encounter any problems with SANE remove the old"
+    echo "*** SANE files and reinstall this version."
+  fi
+fi
+if eval "test x${sysconfdir} = x/usr/etc" ; then
+  echo "*** WARNING: Configuration files are stored in /usr/etc. If this is not"
+  echo "*** intended, use --sysconfdir to set another path (e.g. "/etc")."
+fi
+if test "$SELECTED_BACKENDS" != "" ; then
+  echo "*** Warning: Local backends have been disabled.  This means that scanners"
+  echo "*** connected to your local computer won't be supported.  Only a network"
+  echo "*** connection to a remote host is possible."
+fi
+if test "$HAVE_LIBUSB" != "yes" && test "$USE_LIBUSB" = "yes" ; then
+  echo "*** Warning: sane-backends will be built without libusb support.  There may"
+  echo "*** be valid reasons to do so, e.g. if you don't use USB scanners or on"
+  echo "*** platforms without libusb support but generally this means that you"
+  echo "*** can't use USB devices with SANE. The most probable cause is that"
+  if test "${ac_cv_header_usb_h}" != "yes"; then
+    echo "*** the libusb header file usb.h is not installed. If you use Linux"
+    echo "*** you may need a package called 'libusb-dev', 'libusb-devel' or similar."
+  else
+    echo "*** libusb is not installed at all or is too old. See README."
+  fi
+fi
+
+echo "****************************************************************"
+echo "* Please be sure to read file PROBLEMS in this directory       *"
+echo "* BEFORE running any of the SANE applications.  Some devices   *"
+echo "* may be damaged by improper operation, so please do heed this *"
+echo "* advice.                                                      *"
+echo "****************************************************************"

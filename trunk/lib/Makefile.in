@@ -1,0 +1,98 @@
+SHELL = /bin/sh
+
+VPATH = @srcdir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+top_builddir = ..
+
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+distdir = $(top_srcdir)/$(PACKAGE)-$(VERSION)
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datarootdir = @datarootdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+configdir = ${sysconfdir}/sane.d
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+RANLIB = @RANLIB@
+
+CC = @CC@
+INCLUDES = -I. -I$(srcdir) \
+	-I$(top_builddir)/include/sane -I$(top_srcdir)/include
+CPPFLAGS = @CPPFLAGS@
+CFLAGS = @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+DEFS = @DEFS@
+
+COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LIBTOOL = ../libtool
+MCOMP	= --mode=compile
+MLINK	= --mode=link
+
+DISTCLEAN_FILES = @DISTCLEAN_FILES@
+
+@SET_MAKE@
+
+LIBLIB_OBJS      = @LIBOBJS@ @ALLOCA@ getopt.o getopt1.o md5.o
+LIBLIB_LTOBJS    = $(addsuffix .lo,$(basename $(LIBLIB_OBJS)))
+
+TARGETS = liblib.a $(LIBLIB_LTOBJS)
+
+DISTFILES = Makefile.in alloca.c getenv.c getopt.c getopt1.c \
+  inet_ntop.c inet_pton.c isfdtype.c md5.c sigprocmask.c snprintf.c strdup.c \
+  strndup.c strsep.c usleep.c vsyslog.c
+
+.PHONY: all check clean depend dist distclean install uninstall
+
+.SUFFIXES:
+.SUFFIXES: .c .o .lo
+.c.o:
+	$(COMPILE) $<
+
+.c.lo:
+	@$(LIBTOOL) $(MCOMP) $(COMPILE) -static $<
+
+all:	$(TARGETS)
+
+liblib.a: $(LIBLIB_LTOBJS)
+	@$(LIBTOOL) $(MLINK) $(CC) -static $(LIBLIB_LTOBJS) -o $@
+
+install:
+
+uninstall:
+
+check:
+
+depend:
+	makedepend -I. -I../include *.c 2>/dev/null
+
+clean:
+	rm -f *.o *.lo *.a $(TESTPROGRAMS)
+	rm -rf .libs
+
+distclean: clean
+	rm -f $(DISTCLEAN_FILES)
+	rm -f Makefile
+
+dist: $(DISTFILES)
+	for file in $(DISTFILES); do \
+	  ln $$file $(distdir)/lib 2> /dev/null \
+	    || cp -p $$file $(distdir)/lib ; \
+	done
+

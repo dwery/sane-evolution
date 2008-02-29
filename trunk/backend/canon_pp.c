@@ -900,9 +900,9 @@ sane_get_parameters(SANE_Handle h, SANE_Parameters * params)
 
 	/* Copy the options stored in the vals into the scaninfo */
 	params->pixels_per_line =
-		((cs->vals[OPT_BR_X] - cs->vals[OPT_TL_X]) * res) / MM_PER_IN;
+		((cs->vals[OPT_BR_X] - cs->vals[OPT_TL_X]) * res) / SANE_MM_PER_INCH;
 	params->lines = ((cs->vals[OPT_BR_Y] - cs->vals[OPT_TL_Y]) * res)
-		/ MM_PER_IN;
+		/ SANE_MM_PER_INCH;
 
 	/* FIXME: Magic numbers ahead! */
 
@@ -958,7 +958,7 @@ sane_get_parameters(SANE_Handle h, SANE_Parameters * params)
 	    "max_res=%d, res=%d, max_height=%d, br_y=%d, tl_y=%d, "
 	    "mm_per_in=%f\n", params->bytes_per_line, params->pixels_per_line,
 	    params->lines, max_res, res, max_height, cs->vals[OPT_BR_Y],
-	    cs->vals[OPT_TL_Y], MM_PER_IN);
+	    cs->vals[OPT_TL_Y], SANE_MM_PER_INCH);
 
 	DBG(2, "<< sane_get_parameters\n");
 	return SANE_STATUS_GOOD;
@@ -997,12 +997,12 @@ sane_start(SANE_Handle h)
 
 	/* Copy the options stored in the vals into the scaninfo */
 	cs->scan.width = ((cs->vals[OPT_BR_X] - cs->vals[OPT_TL_X]) * res)
-		/ MM_PER_IN;
+		/ SANE_MM_PER_INCH;
 	cs->scan.height = ((cs->vals[OPT_BR_Y] - cs->vals[OPT_TL_Y]) * res)
-		/ MM_PER_IN;
+		/ SANE_MM_PER_INCH;
 
-	cs->scan.xoffset = (cs->vals[OPT_TL_X] * res) / MM_PER_IN;
-	cs->scan.yoffset = (cs->vals[OPT_TL_Y] * res) / MM_PER_IN;
+	cs->scan.xoffset = (cs->vals[OPT_TL_X] * res) / SANE_MM_PER_INCH;
+	cs->scan.yoffset = (cs->vals[OPT_TL_Y] * res) / SANE_MM_PER_INCH;
 
 	/* 
 	 * These values have to pass the requirements of not exceeding 

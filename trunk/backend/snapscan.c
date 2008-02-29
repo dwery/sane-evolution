@@ -1081,7 +1081,7 @@ sane_get_parameters(SANE_Handle h, SANE_Parameters * p)
 		width = SANE_UNFIX(pss->brx - pss->tlx);
 		height = SANE_UNFIX(pss->bry - pss->tly);
 		dpi = pss->res;
-		dots_per_mm = dpi / MM_PER_IN;
+		dots_per_mm = dpi / SANE_MM_PER_INCH;
 		p->pixels_per_line = width * dots_per_mm;
 		p->lines = height * dots_per_mm;
 		switch (mode) {

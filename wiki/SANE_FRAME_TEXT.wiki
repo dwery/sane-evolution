@@ -1,0 +1,3 @@
+#summary definition of SANE_FRAME_TEXT
+
+This frame type is deprecated. Please use [SANE_FRAME_XML] instead.

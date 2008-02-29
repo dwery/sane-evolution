@@ -51,11 +51,12 @@
 #include <sane/sane.h>
 
 /** some modes, we'd like to see/use. */
-enum sanei_pp_mode {
-  	SANEI_PP_MODE_SPP  = (1<<1), 		/**< SPP */
-	SANEI_PP_MODE_BIDI = (1<<2), 		/**< BIDI */
-	SANEI_PP_MODE_EPP  = (1<<4), 		/**< EPP */
-	SANEI_PP_MODE_ECP  = (1<<8) 		/**< ECP */
+enum sanei_pp_mode
+{
+	SANEI_PP_MODE_SPP = (1 << 1),		/**< SPP */
+	SANEI_PP_MODE_BIDI = (1 << 2),		/**< BIDI */
+	SANEI_PP_MODE_EPP = (1 << 4),		/**< EPP */
+	SANEI_PP_MODE_ECP = (1 << 8)				/**< ECP */
 };
 
 #define SANEI_PP_DATAIN  1
@@ -76,7 +77,7 @@ enum sanei_pp_mode {
  *
  * This function must be called before any other sanei_pp function.
  */
-extern SANE_Status sanei_pp_init( void );
+extern SANE_Status sanei_pp_init(void);
 
 /** Open a parport device. 
  *
@@ -84,27 +85,27 @@ extern SANE_Status sanei_pp_init( void );
  * @param fd  - pointer to variable that should revceive the handle.
  * @return
  */
-extern SANE_Status sanei_pp_open( const char *dev, int *fd );
+extern SANE_Status sanei_pp_open(const char *dev, int *fd);
 
 /* Close a previously opened parport device.
  *
  * @param fd - handle of the device to close
  */
-extern void sanei_pp_close( int fd );
+extern void sanei_pp_close(int fd);
 
 /** Claim a parport device
  *
  * @param fd - handle of the device to claim
  * @return 
  */
-extern SANE_Status sanei_pp_claim( int fd );
+extern SANE_Status sanei_pp_claim(int fd);
 
 /** Release a previously claimed device
  *
  * @param fd - handle of the device to release
  * @return
  */
-extern SANE_Status sanei_pp_release( int fd );
+extern SANE_Status sanei_pp_release(int fd);
 
 /** Set the data direction
  *
@@ -112,7 +113,7 @@ extern SANE_Status sanei_pp_release( int fd );
  * @param rev -
  * @return SANE_STATUS_GOOD on success
  */
-extern SANE_Status sanei_pp_set_datadir( int fd, int rev );
+extern SANE_Status sanei_pp_set_datadir(int fd, int rev);
 
 /** Check whether for libieee1284 usage.
  *
@@ -122,7 +123,7 @@ extern SANE_Status sanei_pp_set_datadir( int fd, int rev );
  * @return SANE_TRUE if we use direct access, SANE_FALSE if the lib uses
  *         libieee1284 functions.
  */
-extern SANE_Bool sanei_pp_uses_directio( void );
+extern SANE_Bool sanei_pp_uses_directio(void);
 
 /** Determine the available parallel port modes for a given device.
  *
@@ -130,7 +131,7 @@ extern SANE_Bool sanei_pp_uses_directio( void );
  * @param mode - pointer to variable, which should receive the modes.
  * @return SANE_STATUS_GOOD on success.
  */
-extern SANE_Status sanei_pp_getmodes( int fd, int *mode );
+extern SANE_Status sanei_pp_getmodes(int fd, int *mode);
 
 /** Set the operation mode for a given device.
  *
@@ -138,7 +139,7 @@ extern SANE_Status sanei_pp_getmodes( int fd, int *mode );
  * @param mode - mode to set, see sanei_pp_mode.
  * @return SANE_STATUS_GOOD on success.
  */
-extern SANE_Status sanei_pp_setmode( int fd, int mode );
+extern SANE_Status sanei_pp_setmode(int fd, int mode);
 
 /** Write data to ports (spp-data, ctrl, epp-address and epp-data)
  *
@@ -146,19 +147,19 @@ extern SANE_Status sanei_pp_setmode( int fd, int mode );
  * @param val - data to write.
  * @return SANE_STATUS_GOOD on success.
  */
-extern SANE_Status sanei_pp_outb_data( int fd, SANE_Byte val );
-extern SANE_Status sanei_pp_outb_ctrl( int fd, SANE_Byte val );
-extern SANE_Status sanei_pp_outb_addr( int fd, SANE_Byte val );
-extern SANE_Status sanei_pp_outb_epp ( int fd, SANE_Byte val );
+extern SANE_Status sanei_pp_outb_data(int fd, SANE_Byte val);
+extern SANE_Status sanei_pp_outb_ctrl(int fd, SANE_Byte val);
+extern SANE_Status sanei_pp_outb_addr(int fd, SANE_Byte val);
+extern SANE_Status sanei_pp_outb_epp(int fd, SANE_Byte val);
 
 /** Read data from ports (spp-data, status, ctrl and epp-data)
  * @param fd - handle of device who should be read from.
  * @return value got from port
  */
-extern SANE_Byte sanei_pp_inb_data( int fd );
-extern SANE_Byte sanei_pp_inb_stat( int fd );
-extern SANE_Byte sanei_pp_inb_ctrl( int fd );
-extern SANE_Byte sanei_pp_inb_epp ( int fd );
+extern SANE_Byte sanei_pp_inb_data(int fd);
+extern SANE_Byte sanei_pp_inb_stat(int fd);
+extern SANE_Byte sanei_pp_inb_ctrl(int fd);
+extern SANE_Byte sanei_pp_inb_epp(int fd);
 
 /** Delay execution for some micro-seconds.
  *  Please not, that the accuracy highly depends on your system architechture
@@ -167,6 +168,6 @@ extern SANE_Byte sanei_pp_inb_epp ( int fd );
  *
  * @param usec - number of micro-seconds to delay
  */
-extern void sanei_pp_udelay( unsigned long usec );
+extern void sanei_pp_udelay(unsigned long usec);
 
 #endif

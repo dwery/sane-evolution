@@ -92,7 +92,7 @@
  */
 
 SANE_Status
-sanei_authorize (const char *resource,
-		 const char *backend, SANE_Auth_Callback authorize);
+sanei_authorize(const char *resource,
+		const char *backend, SANE_Auth_Callback authorize);
 
 #endif /* sanei_auth_h */

@@ -42,7 +42,7 @@
 # ifdef O_NDELAY
 #  define O_NONBLOCK O_NDELAY
 # else
-#  define O_NONBLOCK FNDELAY    /* last resort */
+#  define O_NONBLOCK FNDELAY	/* last resort */
 # endif
 #endif
 #endif /* HAVE_OS2_H */
@@ -110,14 +110,14 @@
 extern SANE_Status ENTRY(init) (SANE_Int *, SANE_Auth_Callback);
 extern SANE_Status ENTRY(get_devices) (const SANE_Device ***, SANE_Bool);
 extern SANE_Status ENTRY(open) (SANE_String_Const, SANE_Handle *);
-extern const SANE_Option_Descriptor *
-  ENTRY(get_option_descriptor) (SANE_Handle, SANE_Int);
+extern const SANE_Option_Descriptor
+	* ENTRY(get_option_descriptor) (SANE_Handle, SANE_Int);
 extern SANE_Status ENTRY(control_option) (SANE_Handle, SANE_Int, SANE_Action,
-                                          void *, SANE_Word *);
+					  void *, SANE_Word *);
 extern SANE_Status ENTRY(get_parameters) (SANE_Handle, SANE_Parameters *);
 extern SANE_Status ENTRY(start) (SANE_Handle);
 extern SANE_Status ENTRY(read) (SANE_Handle, SANE_Byte *, SANE_Int,
-                                SANE_Int *);
+				SANE_Int *);
 extern SANE_Status ENTRY(set_io_mode) (SANE_Handle, SANE_Bool);
 extern SANE_Status ENTRY(get_select_fd) (SANE_Handle, SANE_Int *);
 extern void ENTRY(cancel) (SANE_Handle);
@@ -159,10 +159,10 @@ extern void ENTRY(exit) (void);
 #ifndef SANE_OPTION
 typedef union
 {
-  SANE_Bool b;		/**< bool */
-  SANE_Word w;		/**< word */
-  SANE_Word *wa;	/**< word array */
-  SANE_String s;	/**< string */
+	SANE_Bool b;	/**< bool */
+	SANE_Word w;	/**< word */
+	SANE_Word *wa;	/**< word array */
+	SANE_String s;	/**< string */
 }
 Option_Value;
 #define SANE_OPTION 1

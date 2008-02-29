@@ -70,7 +70,7 @@
  * @sa sanei_pa4s2_open
  *
  */
-extern const char ** sanei_pa4s2_devices(void);
+extern const char **sanei_pa4s2_devices(void);
 
 /** Open pa4s2 device 
  *
@@ -86,7 +86,7 @@ extern const char ** sanei_pa4s2_devices(void);
  * - SANE_STATUS_IO_ERROR - if the port couldn't be accessed
  * 
  */
-extern SANE_Status sanei_pa4s2_open (const char *dev, int *fd);
+extern SANE_Status sanei_pa4s2_open(const char *dev, int *fd);
 
 /** Open pa4s2 SCSI-over-parallel device 
  *
@@ -102,13 +102,13 @@ extern SANE_Status sanei_pa4s2_open (const char *dev, int *fd);
  * - SANE_STATUS_IO_ERROR - if the port couldn't be accessed
  * 
  */
-extern SANE_Status sanei_pa4s2_scsi_pp_open (const char *dev, int *fd);
+extern SANE_Status sanei_pa4s2_scsi_pp_open(const char *dev, int *fd);
 
 /** Close pa4s2 device 
  *
  * @param fd file descriptor
  */
-extern void sanei_pa4s2_close (int fd);
+extern void sanei_pa4s2_close(int fd);
 
 /** Set/get options
  *
@@ -121,7 +121,7 @@ extern void sanei_pa4s2_close (int fd);
  * @return
  * - SANE_STATUS_GOOD - on success
  */
-extern SANE_Status sanei_pa4s2_options (u_int * options, int set);
+extern SANE_Status sanei_pa4s2_options(u_int * options, int set);
 
 /** Enables/disable device
  *
@@ -135,7 +135,7 @@ extern SANE_Status sanei_pa4s2_options (u_int * options, int set);
  * - SANE_STATUS_GOOD - on success
  * - SANE_STATUS_INVAL - if fd is invalid or device not in use
  */
-extern SANE_Status sanei_pa4s2_enable (int fd, int enable);
+extern SANE_Status sanei_pa4s2_enable(int fd, int enable);
 
 /** Select a register
  *
@@ -151,7 +151,7 @@ extern SANE_Status sanei_pa4s2_enable (int fd, int enable);
  *
  * @sa sanei_pa4s2_readbyte(), sanei_pa4s2_readend()
  */
-extern SANE_Status sanei_pa4s2_readbegin (int fd, u_char reg);
+extern SANE_Status sanei_pa4s2_readbegin(int fd, u_char reg);
 
 /** Return port status information
  *
@@ -162,7 +162,7 @@ extern SANE_Status sanei_pa4s2_readbegin (int fd, u_char reg);
  * - SANE_STATUS_GOOD - on success
  * - SANE_STATUS_INVAL - if fd is invalid or device not in use
  */
-extern SANE_Status sanei_pa4s2_scsi_pp_get_status (int fd, u_char *status);
+extern SANE_Status sanei_pa4s2_scsi_pp_get_status(int fd, u_char * status);
 
 /** Selects a register number on a SCSI-over-parallel scanner
  *
@@ -173,7 +173,7 @@ extern SANE_Status sanei_pa4s2_scsi_pp_get_status (int fd, u_char *status);
  * - SANE_STATUS_GOOD - on success
  * - SANE_STATUS_INVAL - if fd is invalid
  */
-extern SANE_Status sanei_pa4s2_scsi_pp_reg_select (int fd, int reg);
+extern SANE_Status sanei_pa4s2_scsi_pp_reg_select(int fd, int reg);
 
 /** Read a register 
  *
@@ -189,7 +189,7 @@ extern SANE_Status sanei_pa4s2_scsi_pp_reg_select (int fd, int reg);
  *
  * @sa sanei_pa4s2_readbegin(), sanei_pa4s2_readend()
  */
-extern SANE_Status sanei_pa4s2_readbyte (int fd, u_char * val);
+extern SANE_Status sanei_pa4s2_readbyte(int fd, u_char * val);
 
 /** Terminate reading sequence 
  *
@@ -203,7 +203,7 @@ extern SANE_Status sanei_pa4s2_readbyte (int fd, u_char * val);
  * - SANE_STATUS_INVAL - if fd is invalid or device not in use
  * @sa sanei_pa4s2_readbegin(), sanei_pa4s2_readbyte()
  */
-extern SANE_Status sanei_pa4s2_readend (int fd);
+extern SANE_Status sanei_pa4s2_readend(int fd);
 
 /** Write a register
  *
@@ -215,6 +215,6 @@ extern SANE_Status sanei_pa4s2_readend (int fd);
  * - SANE_STATUS_GOOD - on success
  * - SANE_STATUS_INVAL - if fd is invalid or device not in use
  */
-extern SANE_Status sanei_pa4s2_writebyte (int fd, u_char reg, u_char val);
+extern SANE_Status sanei_pa4s2_writebyte(int fd, u_char reg, u_char val);
 
 #endif

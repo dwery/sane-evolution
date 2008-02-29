@@ -1,3 +1,4 @@
+
 /* sane - Scanner Access Now Easy.
    Copyright (C) 1996, 1997 David Mosberger-Tang
    This file is part of the SANE package.

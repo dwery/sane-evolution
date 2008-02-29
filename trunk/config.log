@@ -5665,7 +5665,7 @@ configure:11338: checking for i386_set_ioperm
 configure:11394: gcc -o conftest -g -O2 -W -Wall -Wcast-align -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wpointer-arith -Wreturn-type -Wstrict-prototypes -pedantic -ansi  -D_REENTRANT -I/usr/include/gphoto2 -I/usr/include/libexif     conftest.c -lpthread -lm  -ljpeg -ltiff -lieee1284  -lgphoto2 -lgphoto2_port -lexif -lm -lusb >&5
 conftest.c:100: warning: function declaration isn't a prototype
 conftest.c:110: warning: function declaration isn't a prototype
-/tmp/ccACs8HK.o: In function `main':
+/tmp/ccCnFVBK.o: In function `main':
 /home/azummo/cvs/sane-evolution/conftest.c:111: undefined reference to `i386_set_ioperm'
 collect2: ld returned 1 exit status
 configure:11400: $? = 1
@@ -5795,7 +5795,7 @@ configure:11338: checking for scsireq_enter
 configure:11394: gcc -o conftest -g -O2 -W -Wall -Wcast-align -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wpointer-arith -Wreturn-type -Wstrict-prototypes -pedantic -ansi  -D_REENTRANT -I/usr/include/gphoto2 -I/usr/include/libexif     conftest.c -lpthread -lm  -ljpeg -ltiff -lieee1284  -lgphoto2 -lgphoto2_port -lexif -lm -lusb >&5
 conftest.c:101: warning: function declaration isn't a prototype
 conftest.c:111: warning: function declaration isn't a prototype
-/tmp/ccYKVWtt.o: In function `main':
+/tmp/cc0LWELo.o: In function `main':
 /home/azummo/cvs/sane-evolution/conftest.c:112: undefined reference to `scsireq_enter'
 collect2: ld returned 1 exit status
 configure:11400: $? = 1
@@ -5964,7 +5964,7 @@ configure:11338: checking for _portaccess
 configure:11394: gcc -o conftest -g -O2 -W -Wall -Wcast-align -Wcast-qual -Wmissing-declarations -Wmissing-prototypes -Wpointer-arith -Wreturn-type -Wstrict-prototypes -pedantic -ansi  -D_REENTRANT -I/usr/include/gphoto2 -I/usr/include/libexif     conftest.c -lpthread -lm  -ljpeg -ltiff -lieee1284  -lgphoto2 -lgphoto2_port -lexif -lm -lusb >&5
 conftest.c:108: warning: function declaration isn't a prototype
 conftest.c:118: warning: function declaration isn't a prototype
-/tmp/ccc5pqCT.o: In function `main':
+/tmp/ccM2jLLh.o: In function `main':
 /home/azummo/cvs/sane-evolution/conftest.c:119: undefined reference to `_portaccess'
 collect2: ld returned 1 exit status
 configure:11400: $? = 1
@@ -6681,6 +6681,7 @@ config.status:674: creating tools/Makefile
 config.status:674: creating doc/doxygen-sanei.conf
 config.status:674: creating tools/sane-config
 config.status:674: creating include/sane/config.h
+config.status:995: include/sane/config.h is unchanged
 
 ## ---------------- ##
 ## Cache variables. ##

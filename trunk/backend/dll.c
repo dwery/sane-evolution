@@ -44,11 +44,8 @@
 
 /* Please increase version number with every change 
    (don't forget to update dll.desc) */
-#define DLL_VERSION "1.0.12"
 
-#ifdef _AIX
-# include "lalloca.h"		/* MUST come first for AIX! */
-#endif
+#define DLL_VERSION "1.1.0"
 
 #ifdef __BEOS__
 #include <kernel/OS.h>
@@ -58,7 +55,6 @@
 #endif
 
 #include "sane/config.h"
-#include "lalloca.h"
 
 #include <errno.h>
 #include <limits.h>
@@ -524,7 +520,10 @@ load(struct backend *be)
 	}
 
 	/* all is dandy---lookup and fill in backend ops: */
-	funcname = alloca(strlen(be->name) + 64);
+	funcname = malloc(strlen(be->name) + 64);
+	if (funcname == NULL)
+		return SANE_STATUS_NO_MEM;
+	
 	for (i = 0; i < NUM_OPS; ++i) {
 		void *(*op) (void);
 
@@ -582,6 +581,8 @@ load(struct backend *be)
 		if (NULL == op)
 			DBG(1, "load: unable to find %s\n", funcname);
 	}
+
+	free(funcname);
 
 	return SANE_STATUS_GOOD;
 
@@ -1047,24 +1048,18 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 
 	dev_name = strchr(full_name, ':');
 	if (dev_name) {
-#ifdef strndupa
-		be_name = strndupa(full_name, dev_name - full_name);
-#else
-		char *tmp;
-
-		tmp = alloca(dev_name - full_name + 1);
-		memcpy(tmp, full_name, dev_name - full_name);
-		tmp[dev_name - full_name] = '\0';
-		be_name = tmp;
-#endif
+		be_name = strndup(full_name, dev_name - full_name);
 		++dev_name;	/* skip colon */
 	} else {
 		/* if no colon interpret full_name as the backend name; an empty
 		   backend device name will cause us to open the first device of
 		   that backend.  */
-		be_name = full_name;
+		be_name = strdup(full_name);
 		dev_name = "";
 	}
+
+	if (be_name == NULL)
+		return SANE_STATUS_NO_MEM;
 
 	if (!be_name[0])
 		be = first_backend;
@@ -1076,29 +1071,35 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 	if (!be) {
 		status = add_backend(be_name, &be);
 		if (status != SANE_STATUS_GOOD)
-			return status;
+			goto exit;
 	}
 
 	if (!be->inited) {
 		status = init(be);
 		if (status != SANE_STATUS_GOOD)
-			return status;
+			goto exit;
 	}
 
 	status = (*(op_open_t) be->op[OP_OPEN]) (dev_name, &handle);
 	if (status != SANE_STATUS_GOOD)
-		return status;
+		goto exit;
 
 	s = calloc(1, sizeof(*s));
-	if (!s)
-		return SANE_STATUS_NO_MEM;
+	if (!s) {
+		status = SANE_STATUS_NO_MEM;
+		goto exit;
+	}
 
 	s->be = be;
 	s->handle = handle;
 	*meta_handle = s;
 
 	DBG(3, "sane_open: open successful\n");
-	return SANE_STATUS_GOOD;
+exit:
+
+	free(be_name);
+	
+	return status;
 }
 
 void
@@ -1106,7 +1107,7 @@ sane_close(SANE_Handle handle)
 {
 	struct meta_scanner *s = handle;
 
-	DBG(3, "sane_close(handle=%p)\n", handle);
+	DBG(3, "sane_close(handle = %p)\n", handle);
 	(*(op_close_t) s->be->op[OP_CLOSE]) (s->handle);
 	free(s);
 }

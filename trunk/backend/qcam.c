@@ -66,12 +66,7 @@
    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
 
-#ifdef _AIX
-# include "lalloca.h"		/* MUST come first for AIX! */
-#endif
-
 #include "sane/config.h"
-#include "lalloca.h"
 
 #include <assert.h>
 #include <ctype.h>

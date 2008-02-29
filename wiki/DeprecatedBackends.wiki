@@ -10,9 +10,8 @@ marked Removed they will be removed (d'oh!) .
 = Deprecated =
 
  * coolscan2 (use coolscan3)
-
+ * epson (use epson2)
 
 = Removed =
 
- * epson (use epson2)
  * coolscan (use coolscan3)

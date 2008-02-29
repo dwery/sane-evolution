@@ -1523,7 +1523,7 @@ sanei_genesys_search_reference_point(Genesys_Device * dev, u_int8_t * data,
 		}
 		bottom = bottom / count;
 		dev->model->y_offset_calib =
-			SANE_FIX((bottom * MM_PER_INCH) / dpi);
+			SANE_FIX((bottom * SANE_MM_PER_INCH) / dpi);
 		DBG(DBG_info,
 		    "sanei_genesys_search_reference_point: black stripe y_offset = %f mm \n",
 		    SANE_UNFIX(dev->model->y_offset_calib));
@@ -1545,7 +1545,7 @@ sanei_genesys_search_reference_point(Genesys_Device * dev, u_int8_t * data,
 		}
 		top = top / count;
 		dev->model->y_offset_calib =
-			SANE_FIX((top * MM_PER_INCH) / dpi);
+			SANE_FIX((top * SANE_MM_PER_INCH) / dpi);
 		DBG(DBG_info,
 		    "sanei_genesys_search_reference_point: white corner y_offset = %f mm\n",
 		    SANE_UNFIX(dev->model->y_offset_calib));
@@ -4464,9 +4464,9 @@ calc_parameters(Genesys_Scanner * s)
 
 
 	s->params.lines =
-		((br_y - tl_y) * s->dev->settings.yres) / MM_PER_INCH;
+		((br_y - tl_y) * s->dev->settings.yres) / SANE_MM_PER_INCH;
 	s->params.pixels_per_line =
-		((br_x - tl_x) * s->dev->settings.xres) / MM_PER_INCH;
+		((br_x - tl_x) * s->dev->settings.xres) / SANE_MM_PER_INCH;
 
 	s->params.bytes_per_line = s->params.pixels_per_line;
 	if (s->params.depth > 8) {

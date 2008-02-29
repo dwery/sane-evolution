@@ -273,7 +273,7 @@ gt68xx_generic_setup_scan(GT68xx_Device * dev,
 			y0 = model->y_offset_calib_ta;
 		else
 			y0 = model->y_offset_calib;
-		ys = SANE_FIX(1.0 * MM_PER_INCH / ydpi);	/* one line */
+		ys = SANE_FIX(1.0 * SANE_MM_PER_INCH / ydpi);	/* one line */
 		xs = request->xs;
 		depth = 8;
 		break;
@@ -360,10 +360,10 @@ gt68xx_generic_setup_scan(GT68xx_Device * dev,
 		return SANE_STATUS_INVAL;
 	}
 
-	pixel_x0 = SANE_UNFIX(x0) * xdpi / MM_PER_INCH + 0.5;
-	pixel_y0 = SANE_UNFIX(y0) * ydpi / MM_PER_INCH + 0.5;
-	pixel_ys = SANE_UNFIX(ys) * ydpi / MM_PER_INCH + 0.5;
-	pixel_xs = SANE_UNFIX(xs) * xdpi / MM_PER_INCH + 0.5;
+	pixel_x0 = SANE_UNFIX(x0) * xdpi / SANE_MM_PER_INCH + 0.5;
+	pixel_y0 = SANE_UNFIX(y0) * ydpi / SANE_MM_PER_INCH + 0.5;
+	pixel_ys = SANE_UNFIX(ys) * ydpi / SANE_MM_PER_INCH + 0.5;
+	pixel_xs = SANE_UNFIX(xs) * xdpi / SANE_MM_PER_INCH + 0.5;
 
 
 	DBG(6, "gt68xx_generic_setup_scan: xdpi=%d, ydpi=%d\n", xdpi, ydpi);
@@ -477,7 +477,7 @@ gt68xx_generic_setup_scan(GT68xx_Device * dev,
 	} else {
 		int max_bpl = xdpi * 3 * depth *
 			(SANE_UNFIX(model->x_size) -
-			 SANE_UNFIX(model->x_offset)) / MM_PER_INCH / 8;
+			 SANE_UNFIX(model->x_offset)) / SANE_MM_PER_INCH / 8;
 
 		line_mode = FALSE;
 		if (!color) {

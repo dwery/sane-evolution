@@ -229,8 +229,7 @@ CDB;
 
 /*--------------------------------------------------------------------------*/
 
-#define MM_PER_INCH     25.4
-#define length_quant SANE_UNFIX(SANE_FIX(MM_PER_INCH / 600))
+#define length_quant SANE_UNFIX(SANE_FIX(SANE_MM_PER_INCH / 600))
 #define mmToIlu(mm) ((mm) / length_quant)
 #define iluToMm(ilu) ((ilu) * length_quant)
 

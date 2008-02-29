@@ -70,9 +70,8 @@
 
 #define HP_CONFIG_FILE 	 STRINGIFY(BACKEND_NAME) ".conf"
 
-#define MM_PER_INCH		25.4
 #define DEVPIX_PER_INCH		300.0
-#define MM_PER_DEVPIX		(MM_PER_INCH / DEVPIX_PER_INCH)
+#define MM_PER_DEVPIX		(SANE_MM_PER_INCH / DEVPIX_PER_INCH)
 
 /*
  * Macros for testing return values of functions which

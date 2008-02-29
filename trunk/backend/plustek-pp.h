@@ -489,7 +489,6 @@ typedef struct
 
 #ifndef __KERNEL__
 
-#define MM_PER_INCH         25.4
 
 #define PLUSTEK_CONFIG_FILE	"plustek_pp.conf"
 
@@ -517,10 +516,10 @@ typedef struct
 
 /** image sizes for normal, transparent and negative modes
  */
-#define _TP_X  ((double)_TPAPageWidth/300.0 * MM_PER_INCH)
-#define _TP_Y  ((double)_TPAPageHeight/300.0 * MM_PER_INCH)
-#define _NEG_X ((double)_NegativePageWidth/300.0 * MM_PER_INCH)
-#define _NEG_Y ((double)_NegativePageHeight/300.0 * MM_PER_INCH)
+#define _TP_X  ((double)_TPAPageWidth/300.0 * SANE_MM_PER_INCH)
+#define _TP_Y  ((double)_TPAPageHeight/300.0 * SANE_MM_PER_INCH)
+#define _NEG_X ((double)_NegativePageWidth/300.0 * SANE_MM_PER_INCH)
+#define _NEG_Y ((double)_NegativePageHeight/300.0 * SANE_MM_PER_INCH)
 
 /************************ some structures ************************************/
 

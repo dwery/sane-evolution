@@ -309,7 +309,7 @@ sm3840_unit_convert(int val)
 {
 	double d;
 	d = SANE_UNFIX(val);
-	d /= MM_PER_INCH;
+	d /= SANE_MM_PER_INCH;
 	return d;
 }
 

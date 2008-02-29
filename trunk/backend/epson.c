@@ -341,8 +341,7 @@
 #define  PATH_MAX	(1024)
 #endif
 
-#ifndef MM_PER_INCH
-#define MM_PER_INCH     25.4
+#ifndef SANE_MM_PER_INCH
 #endif
 
 #define  walloc(x)	(x *)malloc(sizeof(x))
@@ -1533,8 +1532,8 @@ check_ext_status(Epson_Scanner * s, int *max_x, int *max_y)
 			   detected sheet size) */
 			double w, h;
 			get_size(buf[16], buf[17], &w, &h);
-			w = SANE_FIX(w * MM_PER_INCH);
-			h = SANE_FIX(h * MM_PER_INCH);
+			w = SANE_FIX(w * SANE_MM_PER_INCH);
+			h = SANE_FIX(h * SANE_MM_PER_INCH);
 			if (w < s->val[OPT_BR_X].w)
 				s->val[OPT_BR_X].w = w;
 			if (h < s->val[OPT_BR_Y].w)

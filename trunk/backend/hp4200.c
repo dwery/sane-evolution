@@ -88,8 +88,8 @@ static const int dpi_list[] =
 #else
 static const int dpi_list[] = { 4, 75, 150, 300, 600 };
 #endif
-static SANE_Range x_range = { SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0 };
-static SANE_Range y_range = { SANE_FIX(0), SANE_FIX(11.75 * MM_PER_INCH), 0 };
+static SANE_Range x_range = { SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0 };
+static SANE_Range y_range = { SANE_FIX(0), SANE_FIX(11.75 * SANE_MM_PER_INCH), 0 };
 static const SANE_Range u8_range = { 0, 255, 0 };
 
 struct coarse_t
@@ -2875,13 +2875,13 @@ compute_parameters(HP4200_Scanner * s)
 	s->user_parms.vertical_resolution = resolution;
 
 	s->runtime_parms.steps_to_skip =
-		floor(300.0 / MM_PER_INCH * opt_tl_y);
+		floor(300.0 / SANE_MM_PER_INCH * opt_tl_y);
 	s->user_parms.lines_to_scan =
-		floor((opt_br_y - opt_tl_y) / MM_PER_INCH * resolution);
+		floor((opt_br_y - opt_tl_y) / SANE_MM_PER_INCH * resolution);
 	s->user_parms.image_width =
-		floor((opt_br_x - opt_tl_x) / MM_PER_INCH * resolution);
+		floor((opt_br_x - opt_tl_x) / SANE_MM_PER_INCH * resolution);
 	s->runtime_parms.first_pixel =
-		floor(opt_tl_x / MM_PER_INCH * resolution);
+		floor(opt_tl_x / SANE_MM_PER_INCH * resolution);
 
 	/* fixme: add support for more depth's and bpp's. */
 	s->runtime_parms.image_line_size = s->user_parms.image_width * 3;

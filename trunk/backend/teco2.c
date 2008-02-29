@@ -336,8 +336,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 300, 600,		/* max x and Y resolution */
 	 2550, 12, 3, 1,	/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm3564_dpi_color_adjust},
 
 	{6, "TECO VM356A",
@@ -347,8 +347,8 @@ static const struct scanners_supported scanners[] = {
 	 300, 600,		/* max x and Y resolution */
 	 2550, 12, 3, 1,	/* calibration */
 	 /* dots/inch * x-length, calibration samples, tot.bytes for 3 colors, default SANE_TECO2_CAL_ALGO value */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm356a_dpi_color_adjust},
 
 	{6, "TECO VM356A",
@@ -358,8 +358,8 @@ static const struct scanners_supported scanners[] = {
 	 300, 600,		/* max x and Y resolution */
 	 2550, 12, 3, 1,	/* calibration */
 	 /* dots/inch * x-length, calibration samples, tot.bytes for 3 colors, default SANE_TECO2_CAL_ALGO value */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm356a_dpi_color_adjust},
 
 	{6, "TECO VM3575",
@@ -368,8 +368,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 300, 600,		/* max x and Y resolution */
 	 2550, 12, 6, 1,	/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm3575_dpi_color_adjust},
 
 	{6, "TECO VM3575",
@@ -378,8 +378,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 300, 600,		/* max x and Y resolution */
 	 2550, 12, 6, 1,	/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm3575_dpi_color_adjust},
 
 	{6, "TECO VM656A",
@@ -398,8 +398,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 600, 1200,		/* max x and Y resolution */
 	 5100, 8, 6, 1,		/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm6575_dpi_color_adjust},
 
 	{6, "TECO VM6575",
@@ -408,8 +408,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 600, 1200,		/* max x and Y resolution */
 	 5100, 8, 6, 1,		/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm6575_dpi_color_adjust},
 
 	{6, "TECO VM6586",
@@ -418,8 +418,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 600, 1200,		/* max x and Y resolution */
 	 5100, 8, 6, 0,		/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm6586_dpi_color_adjust},
 
 	{6, "TECO VM6586",
@@ -428,8 +428,8 @@ static const struct scanners_supported scanners[] = {
 	 {1, 600, 1},		/* resolution */
 	 600, 1200,		/* max x and Y resolution */
 	 5100, 8, 6, 0,		/* calibration */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},
-	 {SANE_FIX(0), SANE_FIX(11.7 * MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},
+	 {SANE_FIX(0), SANE_FIX(11.7 * SANE_MM_PER_INCH), 0},
 	 vm6586_dpi_color_adjust}
 };
 

@@ -104,7 +104,6 @@ static ST400_Model st400_models[] = {
 	{0, NULL, 0, NULL, 0, 0, 0, NULL, NULL, NULL, NULL}
 };
 
-#define MM_PER_INCH		25.4
 
 static ST400_Device *st400_devices = NULL;
 static unsigned int st400_num_devices = 0;
@@ -895,11 +894,11 @@ st400_init_options(ST400_Device * dev)
 		SANE_FIX(0.0), SANE_FIX(100.0), SANE_FIX(0.0)
 	};
 	static const SANE_Range x_range = {
-		SANE_FIX(0.0), SANE_FIX(ST400_MAX_X * MM_PER_INCH),
+		SANE_FIX(0.0), SANE_FIX(ST400_MAX_X * SANE_MM_PER_INCH),
 		SANE_FIX(0.0)
 	};
 	static const SANE_Range y_range = {
-		SANE_FIX(0.0), SANE_FIX(ST400_MAX_Y * MM_PER_INCH),
+		SANE_FIX(0.0), SANE_FIX(ST400_MAX_Y * SANE_MM_PER_INCH),
 		SANE_FIX(0.0)
 	};
 
@@ -1128,7 +1127,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * paramsP)
 		/* make best-effort guess at what parameters will look like once
 		   scanning starts.  */
 		if (dpi > 0.0 && width > 0.0 && height > 0.0) {
-			double dots_per_mm = dpi / MM_PER_INCH;
+			double dots_per_mm = dpi / SANE_MM_PER_INCH;
 
 			dev->params.pixels_per_line =
 				width * dots_per_mm + 0.5;

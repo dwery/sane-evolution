@@ -1175,16 +1175,16 @@ attach(SANE_String_Const devname, HS2P_Device ** devp)
 	/* 4692 / 400 * 25.4 = 297 */
 	mm = (dev->info.resBasicX > 0) ?
 		((double) dev->info.winWidth / (double) dev->info.resBasicX *
-		 MM_PER_INCH) : 0.0;
+		 SANE_MM_PER_INCH) : 0.0;
 	dev->info.x_range.min = SANE_FIX(0.0);
 	dev->info.x_range.max = SANE_FIX(mm);
 	dev->info.x_range.quant = SANE_FIX(0.0);
 	DBG(DBG_info, "attach: winWidth=%d resBasicX=%d mm/in=%f mm=%f\n",
-	    dev->info.winWidth, dev->info.resBasicX, MM_PER_INCH, mm);
+	    dev->info.winWidth, dev->info.resBasicX, SANE_MM_PER_INCH, mm);
 
 	mm = (dev->info.resBasicY > 0) ?
 		((double) dev->info.winHeight / (double) dev->info.resBasicY *
-		 MM_PER_INCH) : 0.0;
+		 SANE_MM_PER_INCH) : 0.0;
 	dev->info.y_range.min = SANE_FIX(0.0);
 	dev->info.y_range.max = SANE_FIX(mm);
 	dev->info.y_range.quant = SANE_FIX(0.0);
@@ -1963,9 +1963,9 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		/* make best-effort guess at what parameters will look like once scanning starts.  */
 		if (xres > 0 && yres > 0 && width > 0 && length > 0) {	/* convert from mm to pixels */
 			s->params.pixels_per_line =
-				width * xres / s->hw->info.mud / MM_PER_INCH;
+				width * xres / s->hw->info.mud / SANE_MM_PER_INCH;
 			s->params.lines =
-				length * yres / s->hw->info.mud / MM_PER_INCH;
+				length * yres / s->hw->info.mud / SANE_MM_PER_INCH;
 		}
 
 		mode = s->val[OPT_SCAN_MODE].s;
@@ -2055,7 +2055,7 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
 	 * 8-bits gray: 4960 bytes
 	 */
 	if (!strcmp(s->val[OPT_SCAN_MODE].s, SM_LINEART)) {
-		bytes = (width / MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w /
+		bytes = (width / SANE_MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w /
 						 8.0);
 		if (bytes > 620) {
 			DBG(DBG_error,
@@ -2064,7 +2064,7 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
 			return (SANE_STATUS_INVAL);
 		}
 	} else if (!strcmp(s->val[OPT_SCAN_MODE].s, SM_4BITGRAY)) {
-		bytes = (width / MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w /
+		bytes = (width / SANE_MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w /
 						 2.0);
 		if (bytes > 2480) {
 			DBG(DBG_error,
@@ -2073,7 +2073,7 @@ set_window_data(HS2P_Scanner * s, SWD * wbuf)
 			return (SANE_STATUS_INVAL);
 		}
 	} else if (!strcmp(s->val[OPT_SCAN_MODE].s, SM_8BITGRAY)) {
-		bytes = (width / MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w);
+		bytes = (width / SANE_MM_PER_INCH) * (s->val[OPT_X_RESOLUTION].w);
 		if (bytes > 4960) {
 			DBG(DBG_error,
 			    "width in pixels too large: width=%ld x-resolution=%d bytes=%ld\n",

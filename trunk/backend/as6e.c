@@ -118,7 +118,7 @@ as6e_unit_convert(SANE_Fixed value)
 	int return_value;
 
 	precise = SANE_UNFIX(value);
-	precise = (precise * 300) / MM_PER_INCH;
+	precise = (precise * 300) / SANE_MM_PER_INCH;
 	return_value = precise;
 	return return_value;
 }

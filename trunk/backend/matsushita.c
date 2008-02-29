@@ -303,8 +303,8 @@ static const struct paper_sizes paper_sizes[] = {
 	{"C8", 57, 81},
 	{"C9", 40, 57},
 	{"C10", 28, 40},
-	{"Legal", 8.5 * MM_PER_INCH, 14 * MM_PER_INCH},
-	{"Letter", 8.5 * MM_PER_INCH, 11 * MM_PER_INCH}
+	{"Legal", 8.5 * SANE_MM_PER_INCH, 14 * SANE_MM_PER_INCH},
+	{"Letter", 8.5 * SANE_MM_PER_INCH, 11 * SANE_MM_PER_INCH}
 };
 
 /*--------------------------------------------------------------------------*/
@@ -315,8 +315,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS25 */
 	{
 	 0x06, "K.M.E.  ", "KV-SS25A        ",
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,
@@ -329,8 +329,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS25D */
 	{
 	 0x06, "K.M.E.  ", "KV-SS25D        ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,
@@ -343,8 +343,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS50 */
 	{
 	 0x06, "K.M.E.  ", "KV-SS50         ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(14 * MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(14 * SANE_MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
 	 {1, 5, 1},		/* brightness range, TO FIX */
 	 {0, 0, 0},		/* contrast range */
 	 scan_mode_list_1,
@@ -355,8 +355,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS55 */
 	{
 	 0x06, "K.M.E.  ", "KV-SS55         ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(14 * MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(14 * SANE_MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
 	 {1, 5, 1},		/* brightness range, TO FIX */
 	 {1, 255, 1},		/* contrast range, TO FIX */
 	 scan_mode_list_1,
@@ -368,8 +368,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS50EX */
 	{
 	 0x06, "K.M.E.  ", "KV-SS50EX       ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {0, 0, 0},		/* contrast range */
 	 scan_mode_list_3,
@@ -382,8 +382,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS55EX */
 	{
 	 0x06, "K.M.E.  ", "KV-SS55EX       ",
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,
@@ -396,8 +396,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS850 */
 	{
 	 0x06, "K.M.E.  ", "KV-SS850        ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(11.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
+	 {SANE_FIX(0), SANE_FIX(11.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {0, 0, 0},		/* contrast range */
 	 scan_mode_list_3,
@@ -410,8 +410,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-SS855 */
 	{
 	 0x06, "K.M.E.  ", "KV-SS855        ",	/* TO FIX */
-	 {SANE_FIX(0), SANE_FIX(11.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
+	 {SANE_FIX(0), SANE_FIX(11.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 355.6 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range, TO FIX */
 	 scan_mode_list_3,
@@ -425,8 +425,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-S2065L */
 	{
 	 0x06, "K.M.E.  ", "KV-S2065L       ",
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,
@@ -439,8 +439,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-S2025C */
 	{
 	 0x06, "K.M.E.  ", "KV-S2025C       ",
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,
@@ -453,8 +453,8 @@ static const struct scanners_supported scanners[] = {
 	/* Panasonic KV-S2045C */
 	{
 	 0x06, "K.M.E.  ", "KV-S2045C       ",
-	 {SANE_FIX(0), SANE_FIX(8.5 * MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
-	 {SANE_FIX(0), SANE_FIX(17 * MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
+	 {SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0},	/* x range 0 to 215.9 mm */
+	 {SANE_FIX(0), SANE_FIX(17 * SANE_MM_PER_INCH), 0},	/* y range 0 to 431.8 mm */
 	 {1, 255, 1},		/* brightness range */
 	 {1, 255, 1},		/* contrast range */
 	 scan_mode_list_3,

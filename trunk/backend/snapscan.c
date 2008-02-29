@@ -131,7 +131,6 @@ if ((s) != SANE_STATUS_GOOD) { DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n"
 
 #define HCFG_HT   0x0C		/* support halftone matrices at all */
 
-#define MM_PER_IN 25.4		/* # millimetres per inch */
 #define IN_PER_MM 0.03937	/* # inches per millimetre  */
 
 #ifndef SANE_I18N

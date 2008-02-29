@@ -50,7 +50,6 @@
 
 #define THREE_BITS 0xE0
 #define TWO_BITS 0xC0
-#define MM_PER_IN 25.4
 
 #ifndef NOSANE
 #include "../include/sane/config.h"

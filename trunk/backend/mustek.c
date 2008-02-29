@@ -1106,8 +1106,8 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	dev->x_trans_range.min = 0;
 	dev->y_trans_range.min = 0;
 	/* default to something really small to be on the safe side: */
-	dev->x_trans_range.max = SANE_FIX(8.0 * MM_PER_INCH);
-	dev->y_trans_range.max = SANE_FIX(5.0 * MM_PER_INCH);
+	dev->x_trans_range.max = SANE_FIX(8.0 * SANE_MM_PER_INCH);
+	dev->y_trans_range.max = SANE_FIX(5.0 * SANE_MM_PER_INCH);
 	dev->x_trans_range.quant = 0;
 	dev->y_trans_range.quant = 0;
 	dev->dpi_range.min = SANE_FIX(72);	/* some scanners don't like low dpi */
@@ -1146,9 +1146,9 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 		/* These values were measured and compared to those from the Windows
 		   driver. Tested with a Paragon MFS-12000CX v4.00 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0.0);
-		dev->y_range.max = SANE_FIX(14.00 * MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(14.00 * SANE_MM_PER_INCH);
 		dev->x_trans_range.min = SANE_FIX(1.0);
 		dev->y_trans_range.min = SANE_FIX(1.0);
 		dev->x_trans_range.max = SANE_FIX(205.0);
@@ -1162,9 +1162,9 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 		/* These values were measured and tested with a Paragon MFS-6000CX
 		   v4.06 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0.0);
-		dev->y_range.max = SANE_FIX(13.86 * MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(13.86 * SANE_MM_PER_INCH);
 		dev->x_trans_range.min = SANE_FIX(1.0);
 		dev->y_trans_range.min = SANE_FIX(2.0);
 		dev->x_trans_range.max = SANE_FIX(203.0);
@@ -1176,9 +1176,9 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 		/* These values were measured and compared to those from the Windows
 		   driver. Tested with a Paragon MFS-6000CX v4.00 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0.0);
-		dev->y_range.max = SANE_FIX(13.85 * MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(13.85 * SANE_MM_PER_INCH);
 		dev->x_trans_range.min = SANE_FIX(1.0);
 		dev->y_trans_range.min = SANE_FIX(2.0);
 		dev->x_trans_range.max = SANE_FIX(205.0);
@@ -1195,8 +1195,8 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	   "MFS-12000SP" */
 	else if (strncmp((SANE_String) model_name, "MSF-12000SP", 11) == 0) {
 		/* These values are not tested and mostly guessed. */
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
-		dev->y_range.max = SANE_FIX(13.85 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(13.85 * SANE_MM_PER_INCH);
 		dev->x_trans_range.min = SANE_FIX(1.0);
 		dev->y_trans_range.min = SANE_FIX(1.0);
 		dev->x_trans_range.max = SANE_FIX(200.0);
@@ -1213,7 +1213,7 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 		/* These values were measured and compared to those from the Windows
 		   driver. Tested with a Paragon MFS-8000SP v1.20 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0);
 		dev->y_range.max = SANE_FIX(355.6);
 		dev->x_trans_range.min = SANE_FIX(1.0);
@@ -1234,7 +1234,7 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 		/* These values were measured and compared to those from the Windows
 		   driver. Tested with a Paragon MFS-6000SP v3.12 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0.0);
 		dev->y_range.max = SANE_FIX(355.6);
 		dev->x_trans_range.min = SANE_FIX(1.0);
@@ -1279,7 +1279,7 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	else if (strncmp((SANE_String) model_name, "MFS-08000SP", 11) == 0) {
 		/* These values are tested with a MFS-08000SP v 2.04 */
 		dev->x_range.min = SANE_FIX(0.0);
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
 		dev->y_range.min = SANE_FIX(0);
 		dev->y_range.max = SANE_FIX(355.6);
 		dev->x_trans_range.min = SANE_FIX(1.0);
@@ -1298,8 +1298,8 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	/* I have never seen one of those */
 	else if (strncmp((SANE_String) model_name, "MFS-06000SP", 11) == 0) {
 		/* These values are not tested. */
-		dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
-		dev->y_range.max = SANE_FIX(13.84 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(13.84 * SANE_MM_PER_INCH);
 		/* copied from MSF-06000SP */
 		dev->x_trans_range.min = SANE_FIX(1.0);
 		dev->y_trans_range.min = SANE_FIX(1.0);
@@ -1500,8 +1500,8 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	/* Paragon 1200 SP Pro */
 	else if (strncmp((SANE_String) model_name, "MFS-1200SPPRO", 13) == 0) {
 		/* These values were measured with a Paragon 1200 SP Pro v2.01 */
-		dev->x_range.max = SANE_FIX(8.6 * MM_PER_INCH);
-		dev->y_range.max = SANE_FIX(13.70 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(8.6 * SANE_MM_PER_INCH);
+		dev->y_range.max = SANE_FIX(13.70 * SANE_MM_PER_INCH);
 		dev->dpi_range.max = SANE_FIX(1200);
 		dev->sane.model = "1200 SP PRO";
 		dev->flags |= MUSTEK_FLAG_LD_NONE;
@@ -1511,7 +1511,7 @@ attach(SANE_String_Const devname, Mustek_Device ** devp, SANE_Bool may_wait)
 	else if (strncmp((SANE_String) model_name, "MFS-1200A3PRO", 13) == 0) {
 		/* These values were measured and compared to those from the Windows
 		   driver. Tested with a Paragon 1200 A3 Pro v1.10 */
-		dev->x_range.max = SANE_FIX(11.7 * MM_PER_INCH);
+		dev->x_range.max = SANE_FIX(11.7 * SANE_MM_PER_INCH);
 		dev->y_range.max = SANE_FIX(424);
 		dev->dpi_range.max = SANE_FIX(1200);
 		dev->sane.model = "1200 A3 PRO";
@@ -1824,7 +1824,7 @@ area_and_windows(Mustek_Scanner * s)
 	/* fill in frame header: */
 
 	if (s->hw->flags & MUSTEK_FLAG_USE_EIGHTS) {
-		double eights_per_mm = 8 / MM_PER_INCH;
+		double eights_per_mm = 8 / SANE_MM_PER_INCH;
 		int tlx, tly, brx, bry;
 		/*
 		 * The MSF-06000CZ seems to lock-up if the pixel-unit is used.
@@ -1850,7 +1850,7 @@ area_and_windows(Mustek_Scanner * s)
 		    (int) (bry / eights_per_mm));
 	} else {
 		double pixels_per_mm =
-			SANE_UNFIX(s->hw->dpi_range.max) / MM_PER_INCH;
+			SANE_UNFIX(s->hw->dpi_range.max) / SANE_MM_PER_INCH;
 		int tlx, tly, brx, bry;
 
 		if (s->hw->flags & MUSTEK_FLAG_THREE_PASS)
@@ -1949,7 +1949,7 @@ set_window_se(Mustek_Scanner * s, int lamp)
 	/* x and y resolution           */
 	STORE16B(cp, 0);	/* not used acc. to specs       */
 
-	pixels_per_mm = SANE_UNFIX(s->hw->dpi_range.max) / MM_PER_INCH;
+	pixels_per_mm = SANE_UNFIX(s->hw->dpi_range.max) / SANE_MM_PER_INCH;
 
 	/* fill in scanning area, begin and length(!) */
 	if ((strcmp(s->val[OPT_SOURCE].s, "Transparency Adapter") == 0) &&
@@ -2033,7 +2033,7 @@ set_window_pro(Mustek_Scanner * s)
 	cp = cmd + sizeof(scsi_set_window);	/* skip command block           */
 
 	*cp++ = 0;		/* what's this? */
-	pixels_per_mm = SANE_UNFIX(s->hw->dpi_range.max) / MM_PER_INCH;
+	pixels_per_mm = SANE_UNFIX(s->hw->dpi_range.max) / SANE_MM_PER_INCH;
 
 	/* The next for 16 bit values are x0, y0, x1, y1 in pixels at max res */
 	STORE16L(cp, SANE_UNFIX(s->val[OPT_TL_X].w) * pixels_per_mm + 0.5);
@@ -6127,7 +6127,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		/* make best-effort guess at what parameters will look like once
 		   scanning starts.  */
 		if (dpi > 0.0 && width > 0.0 && height > 0.0) {
-			double dots_per_mm = dpi / MM_PER_INCH;
+			double dots_per_mm = dpi / SANE_MM_PER_INCH;
 
 			s->params.pixels_per_line = width * dots_per_mm;
 			s->params.lines = height * dots_per_mm;

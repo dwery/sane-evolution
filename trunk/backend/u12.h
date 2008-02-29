@@ -68,7 +68,6 @@ typedef union
 # define PATH_MAX 1024
 #endif
 
-#define _MM_PER_INCH  25.4
 #define _MEASURE_BASE 300UL
 #define _DEF_DPI      50
 
@@ -99,10 +98,10 @@ typedef union
 #define _NegativePageWidth  460UL
 #define _NegativePageHeight 350UL
 
-#define _TP_X			((double)_TPAPageWidth/300.0 * _MM_PER_INCH)
-#define _TP_Y			((double)_TPAPageHeight/300.0 * _MM_PER_INCH)
-#define _NEG_X			((double)_NegativePageWidth/300.0 * _MM_PER_INCH)
-#define _NEG_Y			((double)_NegativePageHeight/300.0 * _MM_PER_INCH)
+#define _TP_X			((double)_TPAPageWidth/300.0 * SANE_MM_PER_INCH)
+#define _TP_Y			((double)_TPAPageHeight/300.0 * SANE_MM_PER_INCH)
+#define _NEG_X			((double)_NegativePageWidth/300.0 * SANE_MM_PER_INCH)
+#define _NEG_Y			((double)_NegativePageHeight/300.0 * SANE_MM_PER_INCH)
 
 /** scan modes
  */

@@ -47,7 +47,6 @@
 # define PATH_MAX	1024
 #endif
 
-#define MM_PER_INCH	25.4
 
 #undef Byte
 #define Byte SANE_Byte
@@ -392,7 +391,7 @@ set_window(AgfaFocus_Scanner * s)
 /* This function sets and sends the window for scanning */
 {
 	double pixels_per_mm =
-		(double) s->val[OPT_RESOLUTION].w / MM_PER_INCH;
+		(double) s->val[OPT_RESOLUTION].w / SANE_MM_PER_INCH;
 
 	SANE_Bool auto_bright = s->val[OPT_AUTO_BRIGHTNESS].b;
 	SANE_Bool auto_contr = s->val[OPT_AUTO_CONTRAST].b;
@@ -986,9 +985,9 @@ init_options(AgfaFocus_Scanner * s)
 
 
 	static const SANE_Range x_range =
-		{ 0, SANE_FIX(8.27 * MM_PER_INCH), 0 };
+		{ 0, SANE_FIX(8.27 * SANE_MM_PER_INCH), 0 };
 	static const SANE_Range y_range =
-		{ 0, SANE_FIX(12.72 * MM_PER_INCH), 0 };
+		{ 0, SANE_FIX(12.72 * SANE_MM_PER_INCH), 0 };
 
 	/* ------ */
 
@@ -1670,7 +1669,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		/* make best-effort guess at what parameters will look like once
 		   scanning starts.  */
 		if (dpi > 0.0 && width > 0.0 && height > 0.0) {
-			double dots_per_mm = dpi / MM_PER_INCH;
+			double dots_per_mm = dpi / SANE_MM_PER_INCH;
 
 			s->params.pixels_per_line = width * dots_per_mm + 0.5;
 			s->params.lines = height * dots_per_mm + 0.5;

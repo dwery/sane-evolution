@@ -1101,9 +1101,9 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		memset(&s->params, 0, sizeof(s->params));
 
 		width = SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w)
-			* s->hw->info.mud / MM_PER_INCH;
+			* s->hw->info.mud / SANE_MM_PER_INCH;
 		length = SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w)
-			* s->hw->info.mud / MM_PER_INCH;
+			* s->hw->info.mud / SANE_MM_PER_INCH;
 
 		xres = s->val[OPT_X_RESOLUTION].w;
 		yres = s->val[OPT_Y_RESOLUTION].w;
@@ -1313,14 +1313,14 @@ sane_start(SANE_Handle handle)
 		s->yres = s->xres;
 
 	s->ulx = SANE_UNFIX(s->val[OPT_TL_X].w) * s->hw->info.mud /
-		MM_PER_INCH;
+		SANE_MM_PER_INCH;
 	s->uly = SANE_UNFIX(s->val[OPT_TL_Y].w) * s->hw->info.mud /
-		MM_PER_INCH;
+		SANE_MM_PER_INCH;
 
 	s->width = SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w)
-		* s->hw->info.mud / MM_PER_INCH;
+		* s->hw->info.mud / SANE_MM_PER_INCH;
 	s->length = SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w)
-		* s->hw->info.mud / MM_PER_INCH;
+		* s->hw->info.mud / SANE_MM_PER_INCH;
 
 	DBG(11, "s->width='%d', s->length='%d'\n", s->width, s->length);
 

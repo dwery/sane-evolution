@@ -958,11 +958,11 @@ gt68xx_afe_ccd_calc(GT68xx_Afe_Values * values, unsigned int *buffer)
 	/* set size of black mark and white segments */
 	start_black =
 		SANE_UNFIX(values->start_black) * values->scan_dpi /
-		MM_PER_INCH;
-	end_black = start_black + 1.0 * values->scan_dpi / MM_PER_INCH;	/* 1 mm */
+		SANE_MM_PER_INCH;
+	end_black = start_black + 1.0 * values->scan_dpi / SANE_MM_PER_INCH;	/* 1 mm */
 
 	/* 5mm after mark */
-	start_white = end_black + 5.0 * values->scan_dpi / MM_PER_INCH;
+	start_white = end_black + 5.0 * values->scan_dpi / SANE_MM_PER_INCH;
 	end_white = values->calwidth;
 
 	DBG(5,

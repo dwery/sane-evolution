@@ -101,7 +101,6 @@ in ADF mode this is done often:
 
 #define BACKEND_NAME     umax
 #define UMAX_CONFIG_FILE "umax.conf"
-#define MM_PER_INCH	 25.4
 
 /* ------------------------------------------------------------ SANE INTERNATIONALISATION ------------------ */
 
@@ -5206,11 +5205,11 @@ attach_scanner(const char *devicename, Umax_Device ** devp,
 
 	dev->x_range.min = SANE_FIX(0);
 	dev->x_range.quant = SANE_FIX(0);
-	dev->x_range.max = SANE_FIX(dev->inquiry_fb_width * MM_PER_INCH);
+	dev->x_range.max = SANE_FIX(dev->inquiry_fb_width * SANE_MM_PER_INCH);
 
 	dev->y_range.min = SANE_FIX(0);
 	dev->y_range.quant = SANE_FIX(0);
-	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * MM_PER_INCH);
+	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
 
 #if UMAX_RESOLUTION_PERCENT_STEP
 	dev->x_dpi_range.min = SANE_FIX(dev->inquiry_optical_res / 100);
@@ -6814,18 +6813,18 @@ umax_set_max_geometry(Umax_Scanner * scanner)
 	if (scanner->val[OPT_DOR].w) {
 		scanner->device->x_range.min =
 			SANE_FIX(scanner->device->inquiry_dor_x_off *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->x_range.max =
 			SANE_FIX((scanner->device->inquiry_dor_x_off +
 				  scanner->device->inquiry_dor_width) *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->y_range.min =
 			SANE_FIX(scanner->device->inquiry_dor_y_off *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->y_range.max =
 			SANE_FIX((scanner->device->inquiry_dor_y_off +
 				  scanner->device->inquiry_dor_length) *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 
 		scanner->device->x_dpi_range.max =
 			SANE_FIX(scanner->device->inquiry_dor_x_res);
@@ -6836,11 +6835,11 @@ umax_set_max_geometry(Umax_Scanner * scanner)
 		scanner->device->x_range.min = 0;
 		scanner->device->x_range.max =
 			SANE_FIX(scanner->device->inquiry_fb_width *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->y_range.min = 0;
 		scanner->device->y_range.max =
 			SANE_FIX(scanner->device->inquiry_fb_length *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 
 		scanner->device->x_dpi_range.max =
 			SANE_FIX(scanner->device->inquiry_x_res);
@@ -6849,18 +6848,18 @@ umax_set_max_geometry(Umax_Scanner * scanner)
 	} else if (strcmp(scanner->val[OPT_SOURCE].s, UTA_STR) == 0) {
 		scanner->device->x_range.min =
 			SANE_FIX(scanner->device->inquiry_uta_x_off *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->x_range.max =
 			SANE_FIX((scanner->device->inquiry_uta_x_off +
 				  scanner->device->inquiry_uta_width) *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->y_range.min =
 			SANE_FIX(scanner->device->inquiry_uta_y_off *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 		scanner->device->y_range.max =
 			SANE_FIX((scanner->device->inquiry_uta_y_off +
 				  scanner->device->inquiry_uta_length) *
-				 MM_PER_INCH);
+				 SANE_MM_PER_INCH);
 
 		scanner->device->x_dpi_range.max =
 			SANE_FIX(scanner->device->inquiry_x_res);
@@ -7782,8 +7781,8 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		}
 
 		if (x_dpi > 0.0 && y_dpi > 0.0 && width > 0.0 && length > 0.0) {
-			double x_dots_per_mm = x_dpi / MM_PER_INCH;
-			double y_dots_per_mm = y_dpi / MM_PER_INCH;
+			double x_dots_per_mm = x_dpi / SANE_MM_PER_INCH;
+			double y_dots_per_mm = y_dpi / SANE_MM_PER_INCH;
 
 			scanner->params.pixels_per_line =
 				width * x_dots_per_mm;
@@ -7983,13 +7982,13 @@ sane_start(SANE_Handle handle)
 			scanner->val[OPT_BATCH_SCAN_END].w;
 		scanner->device->batch_next_tl_y =
 			SANE_UNFIX(scanner->val[OPT_BATCH_NEXT_TL_Y].w) *
-			scanner->device->y_coordinate_base / MM_PER_INCH;
+			scanner->device->y_coordinate_base / SANE_MM_PER_INCH;
 
 		if (scanner->val[OPT_BATCH_NEXT_TL_Y].w == 0xFFFF) {	/* option not set: use br_y => scanhead stops at end of batch area */
 			scanner->device->batch_next_tl_y =
 				SANE_UNFIX(scanner->val[OPT_BR_Y].w) *
 				scanner->device->y_coordinate_base /
-				MM_PER_INCH;
+				SANE_MM_PER_INCH;
 		}
 
 		if ((scanner->device->batch_scan)
@@ -8231,8 +8230,8 @@ sane_start(SANE_Handle handle)
 				scanner->device->x_resolution;
 		}
 
-		xbasedots = scanner->device->x_coordinate_base / MM_PER_INCH;
-		ybasedots = scanner->device->y_coordinate_base / MM_PER_INCH;
+		xbasedots = scanner->device->x_coordinate_base / SANE_MM_PER_INCH;
+		ybasedots = scanner->device->y_coordinate_base / SANE_MM_PER_INCH;
 
 #if 0
 		scanner->device->upper_left_x = ((int)

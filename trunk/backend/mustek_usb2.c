@@ -86,13 +86,13 @@ static const SANE_Range u8_range = {
 };
 static SANE_Range x_range = {
 	SANE_FIX(0.0),		/* minimum */
-	SANE_FIX(8.3 * MM_PER_INCH),	/* maximum */
+	SANE_FIX(8.3 * SANE_MM_PER_INCH),	/* maximum */
 	SANE_FIX(0.0)		/* quantization */
 };
 
 static SANE_Range y_range = {
 	SANE_FIX(0.0),		/* minimum */
-	SANE_FIX(11.6 * MM_PER_INCH),	/* maximum */
+	SANE_FIX(11.6 * SANE_MM_PER_INCH),	/* maximum */
 	SANE_FIX(0.0)		/* quantization */
 };
 
@@ -132,13 +132,13 @@ static Scanner_Model mustek_A2nu2_model = {
 
 	SANE_FIX(0.0),		/* Start of scan area in mm  (x) */
 	SANE_FIX(0.0),		/* Start of scan area in mm (y) */
-	SANE_FIX(8.3 * MM_PER_INCH),	/* Size of scan area in mm (x) */
-	SANE_FIX(11.6 * MM_PER_INCH),	/* Size of scan area in mm (y) */
+	SANE_FIX(8.3 * SANE_MM_PER_INCH),	/* Size of scan area in mm (x) */
+	SANE_FIX(11.6 * SANE_MM_PER_INCH),	/* Size of scan area in mm (y) */
 
 	SANE_FIX(0.0),		/* Start of scan area in TA mode in mm (x) */
 	SANE_FIX(0.0),		/* Start of scan area in TA mode in mm (y) */
-	SANE_FIX(1.46 * MM_PER_INCH),	/* Size of scan area in TA mode in mm (x) */
-	SANE_FIX(6.45 * MM_PER_INCH),	/* Size of scan area in TA mode in mm (y) */
+	SANE_FIX(1.46 * SANE_MM_PER_INCH),	/* Size of scan area in TA mode in mm (x) */
+	SANE_FIX(6.45 * SANE_MM_PER_INCH),	/* Size of scan area in TA mode in mm (y) */
 
 	0,			/* Order of the CCD/CIS colors 0:RO_RGB 1:RO_BGR */
 	SANE_FIX(2.0),		/* Default gamma value */
@@ -245,16 +245,16 @@ calc_parameters(Mustek_Scanner * s)
 
 	s->setpara.fmArea.x1 =
 		(unsigned short) ((SANE_UNFIX(s->val[OPT_TL_X].w) * 300.0) /
-				  MM_PER_INCH + 0.5);
+				  SANE_MM_PER_INCH + 0.5);
 	s->setpara.fmArea.x2 =
 		(unsigned short) ((SANE_UNFIX(s->val[OPT_BR_X].w) * 300.0) /
-				  MM_PER_INCH + 0.5);
+				  SANE_MM_PER_INCH + 0.5);
 	s->setpara.fmArea.y1 =
 		(unsigned short) ((SANE_UNFIX(s->val[OPT_TL_Y].w) * 300.0) /
-				  MM_PER_INCH + 0.5);
+				  SANE_MM_PER_INCH + 0.5);
 	s->setpara.fmArea.y2 =
 		(unsigned short) ((SANE_UNFIX(s->val[OPT_BR_Y].w) * 300.0) /
-				  MM_PER_INCH + 0.5);
+				  SANE_MM_PER_INCH + 0.5);
 
 	if (s->val[OPT_PREVIEW].w) {
 		s->setpara.fmArea.y1 =

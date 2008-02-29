@@ -471,10 +471,10 @@ read_barcode_data(BH_Scanner * s, FILE * fp)
 			    res, 200.0);
 			res = 200.0;
 		}
-		x = x * MM_PER_INCH / res;
-		y = y * MM_PER_INCH / res;
-		w = w * MM_PER_INCH / res;
-		l = l * MM_PER_INCH / res;
+		x = x * SANE_MM_PER_INCH / res;
+		y = y * SANE_MM_PER_INCH / res;
+		w = w * SANE_MM_PER_INCH / res;
+		l = l * SANE_MM_PER_INCH / res;
 		/* add a bit of a border around the edges */
 		x = MAX(0.0, x - BH_DECODE_FUDGE);
 		y = MAX(0.0, y - BH_DECODE_FUDGE);
@@ -1367,17 +1367,17 @@ section_parse(const char *val, BH_Section * sect, int res, int comp)
 			mm = strtod(x, &ep);
 			if (*ep != '\0' || errno == ERANGE || mm < 0.0)
 				break;
-			sect->left = mm * 1000.0 / MM_PER_INCH;
+			sect->left = mm * 1000.0 / SANE_MM_PER_INCH;
 
 			mm = strtod(y, &ep);
 			if (*ep != '\0' || errno == ERANGE || mm < 0.0)
 				break;
-			sect->top = mm * 1000.0 / MM_PER_INCH;
+			sect->top = mm * 1000.0 / SANE_MM_PER_INCH;
 
 			mm = strtod(w, &ep);
 			if (*ep != '\0' || errno == ERANGE || mm < 0.0)
 				break;
-			sect->width = mm * 1000.0 / MM_PER_INCH;
+			sect->width = mm * 1000.0 / SANE_MM_PER_INCH;
 			/* the window width must be truncated to 16 bit points */
 			fpixels = sect->width * res / 1000.0;
 			pixels = fpixels / 16;
@@ -1386,7 +1386,7 @@ section_parse(const char *val, BH_Section * sect, int res, int comp)
 			mm = strtod(l, &ep);
 			if (*ep != '\0' || errno == ERANGE || mm < 0.0)
 				break;
-			sect->length = mm * 1000.0 / MM_PER_INCH;
+			sect->length = mm * 1000.0 / SANE_MM_PER_INCH;
 
 			status = SANE_STATUS_GOOD;
 			while (f) {
@@ -2960,14 +2960,14 @@ attach(const char *devnam, BH_Device ** devp)
 
 	mm = (dev->info.resBasicX > 0) ?
 		((double) dev->info.winWidth / (double) dev->info.resBasicX *
-		 MM_PER_INCH) : 0.0;
+		 SANE_MM_PER_INCH) : 0.0;
 	dev->info.x_range.min = SANE_FIX(0.0);
 	dev->info.x_range.max = SANE_FIX(mm);
 	dev->info.x_range.quant = SANE_FIX(0.0);
 
 	mm = (dev->info.resBasicY > 0) ?
 		((double) dev->info.winHeight / (double) dev->info.resBasicY *
-		 MM_PER_INCH) : 0.0;
+		 SANE_MM_PER_INCH) : 0.0;
 	dev->info.y_range.min = SANE_FIX(0.0);
 	dev->info.y_range.max = SANE_FIX(mm);
 	dev->info.y_range.quant = SANE_FIX(0.0);

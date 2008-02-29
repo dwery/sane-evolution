@@ -74,7 +74,6 @@
 
 #define TAMARACK_CONFIG_FILE "tamarack.conf"
 
-#define MM_PER_INCH	25.4
 
 static int num_devices;
 static Tamarack_Device *first_dev;
@@ -263,8 +262,8 @@ attach(const char *devname, Tamarack_Device ** devp)
 	dev->dpi_range.min = SANE_FIX(1);
 	dev->dpi_range.quant = SANE_FIX(1);
 
-	dev->x_range.max = SANE_FIX(8.5 * MM_PER_INCH);
-	dev->y_range.max = SANE_FIX(11.0 * MM_PER_INCH);
+	dev->x_range.max = SANE_FIX(8.5 * SANE_MM_PER_INCH);
+	dev->y_range.max = SANE_FIX(11.0 * SANE_MM_PER_INCH);
 	dev->dpi_range.max = SANE_FIX(600);
 
 	DBG(3, "attach: found Tamarack scanner model %s (%s)\n",
@@ -1304,7 +1303,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		/* make best-effort guess at what parameters will look like once
 		   scanning starts.  */
 		if (dpi > 0.0 && width > 0.0 && height > 0.0) {
-			double dots_per_mm = dpi / MM_PER_INCH;
+			double dots_per_mm = dpi / SANE_MM_PER_INCH;
 
 			s->params.pixels_per_line = width * dots_per_mm;
 			s->params.lines = height * dots_per_mm;

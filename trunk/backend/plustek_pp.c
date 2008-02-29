@@ -1099,8 +1099,8 @@ attach(const char *dev_name, pCnfDef cnf, Plustek_Device ** devp)
 	DBG(_DBG_INFO, "Asic   : 0x%02x\n", dev->caps.AsicID);
 	DBG(_DBG_INFO, "Flags  : 0x%08lx\n", dev->caps.dwFlag);
 
-	dev->max_x = dev->caps.wMaxExtentX * MM_PER_INCH / _MEASURE_BASE;
-	dev->max_y = dev->caps.wMaxExtentY * MM_PER_INCH / _MEASURE_BASE;
+	dev->max_x = dev->caps.wMaxExtentX * SANE_MM_PER_INCH / _MEASURE_BASE;
+	dev->max_y = dev->caps.wMaxExtentY * SANE_MM_PER_INCH / _MEASURE_BASE;
 
 	dev->res_list = (int *) calloc(((lens.rDpiX.wMax - _DEF_DPI) / 25 + 1), sizeof(int));	/* one more to avoid a buffer overflow */
 
@@ -1830,11 +1830,11 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 
 		s->params.pixels_per_line = SANE_UNFIX(s->val[OPT_BR_X].w -
 						       s->val[OPT_TL_X].w) /
-			MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		s->params.lines = SANE_UNFIX(s->val[OPT_BR_Y].w -
 					     s->val[OPT_TL_Y].w) /
-			MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		/* pixels_per_line seems to be 8 * n.  */
 		/* s->params.pixels_per_line = s->params.pixels_per_line & ~7; debug only */
@@ -1955,19 +1955,19 @@ sane_start(SANE_Handle handle)
 
 	/* position and extent are always relative to 300 dpi */
 	left = (int) (SANE_UNFIX(s->val[OPT_TL_X].w) *
-		      (double) lens.rDpiX.wPhyMax / (MM_PER_INCH *
+		      (double) lens.rDpiX.wPhyMax / (SANE_MM_PER_INCH *
 						     ((double) lens.rDpiX.
 						      wPhyMax / 300.0)));
 	top = (int) (SANE_UNFIX(s->val[OPT_TL_Y].w) *
-		     (double) lens.rDpiY.wPhyMax / (MM_PER_INCH *
+		     (double) lens.rDpiY.wPhyMax / (SANE_MM_PER_INCH *
 						    ((double) lens.rDpiY.
 						     wPhyMax / 300.0)));
 	width = (int) (SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w) *
-		       (double) lens.rDpiX.wPhyMax / (MM_PER_INCH *
+		       (double) lens.rDpiX.wPhyMax / (SANE_MM_PER_INCH *
 						      ((double) lens.rDpiX.
 						       wPhyMax / 300.0)));
 	height = (int) (SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w) *
-			(double) lens.rDpiY.wPhyMax / (MM_PER_INCH *
+			(double) lens.rDpiY.wPhyMax / (SANE_MM_PER_INCH *
 						       ((double) lens.rDpiY.
 							wPhyMax / 300.0)));
 

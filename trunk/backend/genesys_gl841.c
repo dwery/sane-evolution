@@ -3959,7 +3959,7 @@ gl841_init_regs_for_scan(Genesys_Device * dev)
 	   SANE_Fixed y_offset;                       
 	   SANE_Fixed y_size;                 
 	   SANE_Fixed y_offset_calib;
-	   mm_to_steps()=motor dpi / 2.54 / 10=motor dpi / MM_PER_INCH */
+	   mm_to_steps()=motor dpi / 2.54 / 10=motor dpi / SANE_MM_PER_INCH */
 
 	/* if scanner uses GENESYS_FLAG_SEARCH_START y_offset is
 	   relative from origin, else, it is from parking position */
@@ -3978,14 +3978,14 @@ gl841_init_regs_for_scan(Genesys_Device * dev)
 	move += dev->settings.tl_y;
 	DBG(DBG_info, "gl841_init_regs_for_scan: move=%f steps\n", move);
 
-	move = (move * move_dpi) / MM_PER_INCH;
+	move = (move * move_dpi) / SANE_MM_PER_INCH;
 
 /* start */
 	start = SANE_UNFIX(dev->model->x_offset);
 
 	start += dev->settings.tl_x;
 
-	start = (start * dev->sensor.optical_res) / MM_PER_INCH;
+	start = (start * dev->sensor.optical_res) / SANE_MM_PER_INCH;
 
 	status = gl841_init_scan_regs(dev,
 				      dev->reg,

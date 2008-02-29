@@ -83,7 +83,6 @@
 #define ARTEC_SUB       16
 #define ARTEC_LAST_MOD  "05/26/2001 17:28 EST"
 
-#define MM_PER_INCH	25.4
 
 #ifndef PATH_MAX
 #define PATH_MAX	1024
@@ -1153,12 +1152,12 @@ artec_set_scan_window(SANE_Handle handle)
 	DBG(5, "  Width       : %5d (%d-%d)\n",
 	    s->params.pixels_per_line,
 	    s->hw->x_range.min,
-	    (int) ((SANE_UNFIX(s->hw->x_range.max) / MM_PER_INCH) *
+	    (int) ((SANE_UNFIX(s->hw->x_range.max) / SANE_MM_PER_INCH) *
 		   s->x_resolution));
 	DBG(5, "  Height      : %5d (%d-%d)\n",
 	    s->params.lines,
 	    s->hw->y_range.min,
-	    (int) ((SANE_UNFIX(s->hw->y_range.max) / MM_PER_INCH) *
+	    (int) ((SANE_UNFIX(s->hw->y_range.max) / SANE_MM_PER_INCH) *
 		   s->y_resolution));
 
 	DBG(5, "  Image Comp. : %s\n", s->mode);
@@ -1185,7 +1184,7 @@ artec_set_scan_window(SANE_Handle handle)
 		/* the select area is flipped across the page, so we have to do some */
 		/* calculation here to get the the real starting X value */
 		max_x = (int) ((SANE_UNFIX(s->hw->x_range.max) /
-				MM_PER_INCH) * s->x_resolution);
+				SANE_MM_PER_INCH) * s->x_resolution);
 		reversed_x = max_x - s->tl_x - s->params.pixels_per_line;
 
 		data[14] = reversed_x >> 24;
@@ -1591,13 +1590,13 @@ artec_get_cap_data(ARTEC_Device * dev, int fd)
 	}
 
 	dev->x_range.min = 0;
-	dev->x_range.max = SANE_FIX(cap_data[cap_model].width) * MM_PER_INCH;
+	dev->x_range.max = SANE_FIX(cap_data[cap_model].width) * SANE_MM_PER_INCH;
 	dev->x_range.quant = 1;
 
 	dev->width = cap_data[cap_model].width;
 
 	dev->y_range.min = 0;
-	dev->y_range.max = SANE_FIX(cap_data[cap_model].height) * MM_PER_INCH;
+	dev->y_range.max = SANE_FIX(cap_data[cap_model].height) * SANE_MM_PER_INCH;
 	dev->y_range.quant = 1;
 
 	dev->height = cap_data[cap_model].height;
@@ -3005,9 +3004,9 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 			s->y_resolution = s->x_resolution;
 		}
 
-		s->tl_x = SANE_UNFIX(s->val[OPT_TL_X].w) / MM_PER_INCH
+		s->tl_x = SANE_UNFIX(s->val[OPT_TL_X].w) / SANE_MM_PER_INCH
 			* s->x_resolution;
-		s->tl_y = SANE_UNFIX(s->val[OPT_TL_Y].w) / MM_PER_INCH
+		s->tl_y = SANE_UNFIX(s->val[OPT_TL_Y].w) / SANE_MM_PER_INCH
 			* s->y_resolution;
 		width = SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w);
 		height = SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w);
@@ -3016,9 +3015,9 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		    (s->y_resolution > 0.0) &&
 		    (width > 0.0) && (height > 0.0)) {
 			s->params.pixels_per_line =
-				width * s->x_resolution / MM_PER_INCH + 1;
+				width * s->x_resolution / SANE_MM_PER_INCH + 1;
 			s->params.lines =
-				height * s->y_resolution / MM_PER_INCH + 1;
+				height * s->y_resolution / SANE_MM_PER_INCH + 1;
 		}
 
 		s->onepasscolor = FALSE;

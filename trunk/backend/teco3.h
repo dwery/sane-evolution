@@ -228,9 +228,8 @@ getbitfield(unsigned char *pageaddr, int mask, int shift)
 
 /*--------------------------------------------------------------------------*/
 
-#define MM_PER_INCH     25.4
-#define mmToIlu(mm) (((mm) * 300) / MM_PER_INCH)
-#define iluToMm(ilu) (((ilu) * MM_PER_INCH) / 300)
+#define mmToIlu(mm) (((mm) * 300) / SANE_MM_PER_INCH)
+#define iluToMm(ilu) (((ilu) * SANE_MM_PER_INCH) / 300)
 
 /*--------------------------------------------------------------------------*/
 

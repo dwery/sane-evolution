@@ -1,0 +1,17 @@
+#summary definition of SANE_FRAME_XML
+
+= Introduction =
+
+SANE_FRAME_XML is a generic text based frame type that has a minimal
+structure to handle things like barcodes and patchcodes.
+
+Based on XML it can easily extended while maintaining compatibility.
+
+= Elements =
+
+== Barcodes ==
+
+<barcode type="BarcodeType" length="...">
+<corner x="..." y="..." />
+<data>.....</data>
+</barcode>

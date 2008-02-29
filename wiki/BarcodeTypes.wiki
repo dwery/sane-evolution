@@ -1,0 +1,26 @@
+#summary Available bar code types
+
+ * ean-8
+ * ean-13
+ * reserved-ean-add
+ * ean-add-2
+ * ean-add-5
+ * code-39
+ * code2-5-interleaved
+ * code2-5-inverted
+ * code2-5-3lines-matrix
+ * code2-5-3lines-datalogic
+ * code2-5-5lines-industrial
+ * code2-5-5lines-iata
+ * codabar
+ * codabar-with-start-stop
+ * code39ascii
+ * code128
+ * datamatrix
+ * pdf417
+ * patchcode
+ * code-93
+ * ean-128
+ * upc-a
+ * upc-e
+ 

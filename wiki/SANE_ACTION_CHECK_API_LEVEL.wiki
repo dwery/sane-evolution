@@ -1,0 +1,3 @@
+#summary SANE_ACTION_CHECK_API_LEVEL
+
+placeholder

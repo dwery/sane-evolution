@@ -1,0 +1,10 @@
+#summary SANE Evolution compatible frontends
+
+Any frontend that works with SANE 1.0 should work
+with SANE Evolution. 
+
+Some frontends are going to implement SANE Evolution
+specific features, so we suggest to try:
+
+ * tiffscan
+ * ...scan

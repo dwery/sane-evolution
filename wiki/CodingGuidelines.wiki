@@ -6,7 +6,7 @@
 {{{
 -i8 --no-space-after-function-call-names --braces-on-if-line --cuddle-else \
 --honour-newlines --case-brace-indentation0
-}}
+}}}
 
  You can place them in ~/.indent.pro
 

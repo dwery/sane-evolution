@@ -10,8 +10,11 @@ Based on XML it can easily extended while maintaining compatibility.
 = Elements =
 
 == Barcodes ==
-
-<barcode type="BarcodeType" length="...">
+''
+<barcode type="..." length="...">
 <corner x="..." y="..." />
 <data>.....</data>
 </barcode>
+''
+
+Available barcode types are listed [BarcodeTypes here]

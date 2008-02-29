@@ -86,10 +86,9 @@ DBG levels:
 #include "sane/config.h"
 
 #include "sane/sanei_scsi.h"
-
 #include "sane/sanei_debug.h"
 
-#include "sanei_DomainOS.h"
+#include "sanei_domainos.h"
 
 /* Timeout period for SCSI wait, in milliseconds.
 We are using 100 seconds here. */

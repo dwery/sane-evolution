@@ -1,0 +1,16 @@
+#summary ODeprecated backends
+= Introduction =
+
+In SANE Evolution some older backends will be removed,
+provided that there is an available replacement.
+
+
+= Deprecated =
+
+ * coolscan2 (use coolscan3)
+
+
+= Removed =
+
+ * epson (use epson2)
+ * coolscan (use coolscan3)

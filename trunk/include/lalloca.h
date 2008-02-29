@@ -56,11 +56,11 @@
 #  ifdef _AIX
 #pragma alloca
 #  else
-#   ifndef alloca /* predefined by HP cc +Olibcalls */
+#   ifndef alloca		/* predefined by HP cc +Olibcalls */
 #    if __STDC__
-void *alloca ();
+void *alloca();
 #    else
-char *alloca ();
+char *alloca();
 #    endif
 #   endif
 #  endif

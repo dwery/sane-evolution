@@ -99,7 +99,7 @@ sanei_udp_connect(int fd, const char *host, int port)
 	memcpy(&saddr.sin_addr, h->h_addr_list[0], h->h_length);
 
 	if ((err = connect(fd, (struct sockaddr *) &saddr,
-		     sizeof(struct sockaddr_in))) != 0) {
+			   sizeof(struct sockaddr_in))) != 0) {
 		return SANE_STATUS_INVAL;
 	}
 
@@ -166,7 +166,7 @@ sanei_udp_write_broadcast(int fd, int port, const u_char * buf, int count)
 	saddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
 
 	return sendto(fd, buf, count, 0,
-		(struct sockaddr *)&saddr, sizeof(saddr));
+		      (struct sockaddr *) &saddr, sizeof(saddr));
 }
 
 ssize_t
@@ -185,7 +185,7 @@ sanei_udp_recvfrom(int fd, u_char * buf, int count, char **fromp)
 	fl = sizeof(from);
 
 	l = recvfrom(fd, buf, count, MSG_DONTWAIT,
-		(struct sockaddr *) &from, &fl);
+		     (struct sockaddr *) &from, &fl);
 
 	if (l > 0 && fromp) {
 		*fromp = inet_ntoa(from.sin_addr);
@@ -193,4 +193,3 @@ sanei_udp_recvfrom(int fd, u_char * buf, int count, char **fromp)
 
 	return l;
 }
-

@@ -62,162 +62,161 @@
 #define DBG_info    5
 
 void
-sanei_pv8630_init (void)
+sanei_pv8630_init(void)
 {
-  DBG_INIT();
+	DBG_INIT();
 }
 
 /* Write one control byte */
 SANE_Status
-sanei_pv8630_write_byte (int fd, SANEI_PV_Index index, SANE_Byte byte)
+sanei_pv8630_write_byte(int fd, SANEI_PV_Index index, SANE_Byte byte)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  DBG(DBG_info, "sanei_pv8630_write_byte - index=%d, byte=%d\n", index, byte);
-  status =
-    sanei_usb_control_msg (fd, 0x40, PV8630_REQ_WRITEBYTE, byte, index, 0,
-			   NULL);
+	DBG(DBG_info, "sanei_pv8630_write_byte - index=%d, byte=%d\n", index,
+	    byte);
+	status = sanei_usb_control_msg(fd, 0x40, PV8630_REQ_WRITEBYTE, byte,
+				       index, 0, NULL);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_write_byte error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_write_byte error\n");
+	return status;
 }
 
 /* Read one control byte */
 SANE_Status
-sanei_pv8630_read_byte (int fd, SANEI_PV_Index index, SANE_Byte * byte)
+sanei_pv8630_read_byte(int fd, SANEI_PV_Index index, SANE_Byte * byte)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  DBG(DBG_info, "sanei_pv8630_read_byte - index=%d, byte=%p\n", index, byte);
+	DBG(DBG_info, "sanei_pv8630_read_byte - index=%d, byte=%p\n", index,
+	    byte);
 
-  status =
-    sanei_usb_control_msg (fd, 0xc0, PV8630_REQ_READBYTE, 0, index, 1, byte);
+	status = sanei_usb_control_msg(fd, 0xc0, PV8630_REQ_READBYTE, 0,
+				       index, 1, byte);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_read_byte error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_read_byte error\n");
+	return status;
 }
 
 /* Prepare a bulk read. len is the size of the data going to be
  * read by pv8630_bulkread(). */
 SANE_Status
-sanei_pv8630_prep_bulkread (int fd, int len)
+sanei_pv8630_prep_bulkread(int fd, int len)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  status =
-    sanei_usb_control_msg (fd, 0x40, PV8630_REQ_EPPBULKREAD, len & 0xffff,
-			   len >> 16, 0, NULL);
+	status = sanei_usb_control_msg(fd, 0x40, PV8630_REQ_EPPBULKREAD,
+				       len & 0xffff, len >> 16, 0, NULL);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_prep_bulkread error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_prep_bulkread error\n");
+	return status;
 }
 
 /* Prepare a bulk write. len is the size of the data going to be
  * written by pv8630_bulkwrite(). */
 SANE_Status
-sanei_pv8630_prep_bulkwrite (int fd, int len)
+sanei_pv8630_prep_bulkwrite(int fd, int len)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  status =
-    sanei_usb_control_msg (fd, 0x40, PV8630_REQ_EPPBULKWRITE, len & 0xffff,
-			   len >> 16, 0, NULL);
+	status = sanei_usb_control_msg(fd, 0x40, PV8630_REQ_EPPBULKWRITE,
+				       len & 0xffff, len >> 16, 0, NULL);
 
-  if (status != SANE_STATUS_GOOD)
-      DBG (DBG_error, "sanei_pv8630_prep_bulkwrite error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_prep_bulkwrite error\n");
+	return status;
 }
 
 /* Flush the buffer. */
 SANE_Status
-sanei_pv8630_flush_buffer (int fd)
+sanei_pv8630_flush_buffer(int fd)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  status =
-    sanei_usb_control_msg (fd, 0x40, PV8630_REQ_FLUSHBUFFER, 0, 0, 0, NULL);
+	status = sanei_usb_control_msg(fd, 0x40, PV8630_REQ_FLUSHBUFFER, 0, 0,
+				       0, NULL);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_flush_buffer error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_flush_buffer error\n");
+	return status;
 }
 
 /* Do a bulk write. The length must have previously been sent via
  * pv8630_prep_bulkwrite(). */
 SANE_Status
-sanei_pv8630_bulkwrite (int fd, const void *data, size_t * len)
+sanei_pv8630_bulkwrite(int fd, const void *data, size_t * len)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  status = sanei_usb_write_bulk (fd, (const SANE_Byte *) data, len);
+	status = sanei_usb_write_bulk(fd, (const SANE_Byte *) data, len);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_bulkwrite error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_bulkwrite error\n");
+	return status;
 }
 
 /* Do a bulk read. The length must have previously been sent via
  * pv8630_prep_bulkread(). */
 SANE_Status
-sanei_pv8630_bulkread (int fd, void *data, size_t * len)
+sanei_pv8630_bulkread(int fd, void *data, size_t * len)
 {
-  SANE_Status status;
+	SANE_Status status;
 
-  status = sanei_usb_read_bulk (fd, data, len);
+	status = sanei_usb_read_bulk(fd, data, len);
 
-  if (status != SANE_STATUS_GOOD)
-    DBG (DBG_error, "sanei_pv8630_bulkread error\n");
-  return status;
+	if (status != SANE_STATUS_GOOD)
+		DBG(DBG_error, "sanei_pv8630_bulkread error\n");
+	return status;
 }
 
 /* Expects a specific byte in a register */
 SANE_Status
-sanei_pv8630_xpect_byte (int fd, SANEI_PV_Index index, SANE_Byte value,
-			 SANE_Byte mask)
+sanei_pv8630_xpect_byte(int fd, SANEI_PV_Index index, SANE_Byte value,
+			SANE_Byte mask)
 {
-  SANE_Status status;
-  SANE_Byte s;
+	SANE_Status status;
+	SANE_Byte s;
 
-  status = sanei_pv8630_read_byte (fd, index, &s);
-  if (status != SANE_STATUS_GOOD)
-      return status;
+	status = sanei_pv8630_read_byte(fd, index, &s);
+	if (status != SANE_STATUS_GOOD)
+		return status;
 
-  if ((s & mask) != value)
-    {
-      DBG (DBG_error, "sanei_pv8630_xpect_byte: expected %x, got %x\n", value,
-	   s);
-      return SANE_STATUS_IO_ERROR;
-    }
-  return SANE_STATUS_GOOD;
+	if ((s & mask) != value) {
+		DBG(DBG_error,
+		    "sanei_pv8630_xpect_byte: expected %x, got %x\n", value,
+		    s);
+		return SANE_STATUS_IO_ERROR;
+	}
+	return SANE_STATUS_GOOD;
 }
 
 /* Wait for the status register to present a given status. A timeout value
    is given in tenths of a second. */
 SANE_Status
-sanei_pv8630_wait_byte (int fd, SANEI_PV_Index index, SANE_Byte value,
-			SANE_Byte mask, int timeout)
+sanei_pv8630_wait_byte(int fd, SANEI_PV_Index index, SANE_Byte value,
+		       SANE_Byte mask, int timeout)
 {
-  SANE_Status status;
-  SANE_Byte s;
-  int n;
+	SANE_Status status;
+	SANE_Byte s;
+	int n;
 
-  for (n = 0; n < timeout; n++)
-    {
+	for (n = 0; n < timeout; n++) {
 
-      status = sanei_pv8630_read_byte (fd, index, &s);
-      if (status != SANE_STATUS_GOOD)
-	return status;
+		status = sanei_pv8630_read_byte(fd, index, &s);
+		if (status != SANE_STATUS_GOOD)
+			return status;
 
-      if ((s & mask) == value)
-	return SANE_STATUS_GOOD;
+		if ((s & mask) == value)
+			return SANE_STATUS_GOOD;
 
-      usleep (100000);
-    }
+		usleep(100000);
+	}
 
-  DBG (DBG_error, "sanei_pv8630_wait_byte: timeout waiting for %x (got %x)\n",
-       value, s);
-  return SANE_STATUS_IO_ERROR;
+	DBG(DBG_error,
+	    "sanei_pv8630_wait_byte: timeout waiting for %x (got %x)\n",
+	    value, s);
+	return SANE_STATUS_IO_ERROR;
 }

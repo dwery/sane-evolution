@@ -66,70 +66,65 @@
 #include "../include/sane/sanei_debug.h"
 
 void
-sanei_init_debug (const char * backend, int * var)
+sanei_init_debug(const char *backend, int *var)
 {
-  char ch, buf[256] = "SANE_DEBUG_";
-  const char * val;
-  unsigned int i;
+	char ch, buf[256] = "SANE_DEBUG_";
+	const char *val;
+	unsigned int i;
 
-  *var = 0;
+	*var = 0;
 
-  for (i = 11; (ch = backend[i - 11]) != 0; ++i)
-    {
-      if (i >= sizeof (buf) - 1)
-        break;
-      buf[i] = toupper(ch);
-    }
-  buf[i] = '\0';
+	for (i = 11; (ch = backend[i - 11]) != 0; ++i) {
+		if (i >= sizeof(buf) - 1)
+			break;
+		buf[i] = toupper(ch);
+	}
+	buf[i] = '\0';
 
-  val = getenv (buf);
+	val = getenv(buf);
 
-  if (!val)
-    return;
+	if (!val)
+		return;
 
-  *var = atoi (val);
+	*var = atoi(val);
 
-  DBG (0, "Setting debug level of %s to %d.\n", backend, *var);
+	DBG(0, "Setting debug level of %s to %d.\n", backend, *var);
 }
 
-void
-sanei_debug_msg
-  (int level, int max_level, const char *be, const char *fmt, va_list ap)
+void sanei_debug_msg
+	(int level, int max_level, const char *be, const char *fmt,
+	 va_list ap)
 {
-  char *msg;
-	
-  if (max_level >= level)
-    {
+	char *msg;
+
+	if (max_level >= level) {
 #ifdef S_IFSOCK
-      if ( 1 == isfdtype(fileno(stderr), S_IFSOCK) )
-	{
-	  msg = (char *)malloc (sizeof(char) * (strlen(be) + strlen(fmt) + 4));
-	  if (msg == NULL)
-	    {
-	      syslog (LOG_DEBUG, "[sanei_debug] malloc() failed\n");
-	      vsyslog (LOG_DEBUG, fmt, ap);
-	    }
-	  else
-	    {
-	      sprintf (msg, "[%s] %s", be, fmt);
-              vsyslog(LOG_DEBUG, msg, ap);
-	      free (msg);
-	    }
-	}
-      else
+		if (1 == isfdtype(fileno(stderr), S_IFSOCK)) {
+			msg = (char *) malloc(sizeof(char) *
+					      (strlen(be) + strlen(fmt) + 4));
+			if (msg == NULL) {
+				syslog(LOG_DEBUG,
+				       "[sanei_debug] malloc() failed\n");
+				vsyslog(LOG_DEBUG, fmt, ap);
+			} else {
+				sprintf(msg, "[%s] %s", be, fmt);
+				vsyslog(LOG_DEBUG, msg, ap);
+				free(msg);
+			}
+		} else
 #endif
-	{
-	  fprintf (stderr, "[%s] ", be);
-          vfprintf (stderr, fmt, ap);
+		{
+			fprintf(stderr, "[%s] ", be);
+			vfprintf(stderr, fmt, ap);
+		}
+
 	}
-	 
-    }
 }
 
 #ifdef NDEBUG
 void
-sanei_debug_ndebug (int level, const char *fmt, ...)
+sanei_debug_ndebug(int level, const char *fmt, ...)
 {
-  /* this function is never called */
+	/* this function is never called */
 }
 #endif

@@ -79,32 +79,31 @@ static int random_seeded = 0;
 #ifdef HAVE_DEV_URANDOM
 
 static unsigned long
-randombits (void)
+randombits(void)
 {
 
-  FILE *dev_urandom;
-  unsigned long result = 0;
-  char buffer[4];
+	FILE *dev_urandom;
+	unsigned long result = 0;
+	char buffer[4];
 
-  if ((dev_urandom = fopen ("/dev/urandom", "r")) == NULL)
-    {
-      DBG (2, "randombits: could not open /dev/urandom...\n");
-      return rand ();
-    }
+	if ((dev_urandom = fopen("/dev/urandom", "r")) == NULL) {
+		DBG(2, "randombits: could not open /dev/urandom...\n");
+		return rand();
+	}
 
-  fread (buffer, 1, 4, dev_urandom);
+	fread(buffer, 1, 4, dev_urandom);
 
-  fclose (dev_urandom);
+	fclose(dev_urandom);
 
-  result = buffer[0];
-  result <<= 8;
-  result += buffer[1];
-  result <<= 8;
-  result += buffer[2];
-  result <<= 8;
-  result += buffer[3];
+	result = buffer[0];
+	result <<= 8;
+	result += buffer[1];
+	result <<= 8;
+	result += buffer[2];
+	result <<= 8;
+	result += buffer[3];
 
-  return result;
+	return result;
 
 }
 
@@ -116,168 +115,162 @@ randombits (void)
 
 
 static int
-check_passwd (const char *upassword,
-	      const char *password,
-	      const char *randomstring, const char *username)
+check_passwd(const char *upassword,
+	     const char *password,
+	     const char *randomstring, const char *username)
 {
 
-  unsigned char md5digest[16];
-  char tmpstr[512];
+	unsigned char md5digest[16];
+	char tmpstr[512];
 
-  if (strncmp (upassword, "$MD5$", 5) == 0)
-    {
+	if (strncmp(upassword, "$MD5$", 5) == 0) {
 
-      sprintf (tmpstr, "%s%.128s",
-	       strstr (randomstring, "$MD5$") + 5, password);
-      md5_buffer (tmpstr, strlen (tmpstr), md5digest);
+		sprintf(tmpstr, "%s%.128s",
+			strstr(randomstring, "$MD5$") + 5, password);
+		md5_buffer(tmpstr, strlen(tmpstr), md5digest);
 
-      sprintf (tmpstr, "$MD5$%02x%02x%02x%02x%02x%02x%02x%02x"
-	       "%02x%02x%02x%02x%02x%02x%02x%02x",
-	       md5digest[0], md5digest[1],
-	       md5digest[2], md5digest[3],
-	       md5digest[4], md5digest[5],
-	       md5digest[6], md5digest[7],
-	       md5digest[8], md5digest[9],
-	       md5digest[10], md5digest[11],
-	       md5digest[12], md5digest[13], md5digest[14], md5digest[15]);
+		sprintf(tmpstr, "$MD5$%02x%02x%02x%02x%02x%02x%02x%02x"
+			"%02x%02x%02x%02x%02x%02x%02x%02x",
+			md5digest[0], md5digest[1],
+			md5digest[2], md5digest[3],
+			md5digest[4], md5digest[5],
+			md5digest[6], md5digest[7],
+			md5digest[8], md5digest[9],
+			md5digest[10], md5digest[11],
+			md5digest[12], md5digest[13], md5digest[14],
+			md5digest[15]);
 
 
-      return (strcmp (upassword, tmpstr) == 0);
+		return (strcmp(upassword, tmpstr) == 0);
 
-    }
-  else
-    {
+	} else {
 
-      DBG (1, "check_passwd: received plain-text reply from user ``%s''\n",
-	   username);
+		DBG(1,
+		    "check_passwd: received plain-text reply from user ``%s''\n",
+		    username);
 
-      return (strcmp (upassword, password) == 0);
+		return (strcmp(upassword, password) == 0);
 
-    }
+	}
 }
 
 
 SANE_Status
-sanei_authorize (const char *resource,
-		 const char *backend, SANE_Auth_Callback authorize)
+sanei_authorize(const char *resource,
+		const char *backend, SANE_Auth_Callback authorize)
 {
-  FILE *passwd_file;
-  char passwd_filename[256];
-  char line[1024], *linep;
-  SANE_Bool entry_found = FALSE;
-  char md5resource[256];
-  char username[SANE_MAX_USERNAME_LEN];
-  char password[SANE_MAX_PASSWORD_LEN];
+	FILE *passwd_file;
+	char passwd_filename[256];
+	char line[1024], *linep;
+	SANE_Bool entry_found = FALSE;
+	char md5resource[256];
+	char username[SANE_MAX_USERNAME_LEN];
+	char password[SANE_MAX_PASSWORD_LEN];
 
-  INIT_RND ();
+	INIT_RND();
 
-  DBG (4, "called for ``%s'' by %s\n", resource, backend);
+	DBG(4, "called for ``%s'' by %s\n", resource, backend);
 
-  if (strlen (resource) > 127)
-    DBG (1, "resource is longer than 127 chars...\n");
+	if (strlen(resource) > 127)
+		DBG(1, "resource is longer than 127 chars...\n");
 
-  sprintf (passwd_filename, "%s.users", backend);
+	sprintf(passwd_filename, "%s.users", backend);
 
-  passwd_file = sanei_config_open (passwd_filename);
+	passwd_file = sanei_config_open(passwd_filename);
 
-  if (passwd_file == NULL)
-    {
-      DBG (3, "could not open ``%s''...\n", passwd_filename);
-      return SANE_STATUS_GOOD;
-    }
+	if (passwd_file == NULL) {
+		DBG(3, "could not open ``%s''...\n", passwd_filename);
+		return SANE_STATUS_GOOD;
+	}
 
-  while (sanei_config_read (line, 1024, passwd_file))
-    {
+	while (sanei_config_read(line, 1024, passwd_file)) {
 
-      if (strchr (line, ':') != NULL)
-	{
-	  if (strchr (strchr (line, ':') + 1, ':') != NULL)
-	    {
+		if (strchr(line, ':') != NULL) {
+			if (strchr(strchr(line, ':') + 1, ':') != NULL) {
 
-	      if (strcmp (strchr (strchr (line, ':') + 1, ':') + 1, resource)
-		  == 0)
-
-		{
+				if (strcmp
+				    (strchr(strchr(line, ':') + 1, ':') + 1,
+				     resource)
+				    == 0)
+				{
 
 
 
-		  entry_found = TRUE;
-		  break;
+					entry_found = TRUE;
+					break;
+
+				}
+			}
 
 		}
-	    }
 
 	}
 
-    }
+	if (entry_found == FALSE) {
 
-  if (entry_found == FALSE)
-    {
+		fclose(passwd_file);
 
-      fclose (passwd_file);
+		DBG(3, "could not find resource ``%s''...\n", resource);
+		return SANE_STATUS_GOOD;
 
-      DBG (3, "could not find resource ``%s''...\n", resource);
-      return SANE_STATUS_GOOD;
-
-    }
-
-  if (authorize == NULL)
-    {
-      DBG (2, "no authorization callback supplied by frontend\n");
-      return SANE_STATUS_ACCESS_DENIED;
-    }
-
-  sprintf (md5resource, "%.128s$MD5$%x%lx%08lx",
-	   resource, getpid (), (long int) time (NULL), randombits ());
-
-  DBG(0, "resource=%s\n", md5resource);
-
-  memset (username, 0, SANE_MAX_USERNAME_LEN);
-  memset (password, 0, SANE_MAX_PASSWORD_LEN);
-
-  (*authorize) (md5resource, username, password);
-
-
-  fseek (passwd_file, 0L, SEEK_SET);
-
-  while (sanei_config_read (line, 1024, passwd_file))
-    {
-
-      if ((strlen (line) > 0) && (line[strlen (line) - 1] == '\n'))
-	line[strlen (line) - 1] = '\n';
-
-      if ((strlen (line) > 0) && (line[strlen (line) - 1] == '\r'))
-	line[strlen (line) - 1] = '\r';
-
-
-      if ((strncmp (line, username, strlen (username)) == 0) &&
-	  (((strchr (line, ':')) - line) == (signed) strlen (username)))
-	{
-
-	  linep = strchr (line, ':') + 1;
-
-	  if ((strchr (linep, ':') != NULL)
-	      && (strcmp (strchr (linep, ':') + 1, resource) == 0))
-	    {
-
-	      *(strchr (linep, ':')) = 0;
-
-
-	      if (check_passwd (password, linep, md5resource, username))
-		{
-		  fclose (passwd_file);
-		  DBG (2, "authorization succeeded\n");
-		  return SANE_STATUS_GOOD;
-		}
-	    }
 	}
 
+	if (authorize == NULL) {
+		DBG(2, "no authorization callback supplied by frontend\n");
+		return SANE_STATUS_ACCESS_DENIED;
+	}
 
-    }
+	sprintf(md5resource, "%.128s$MD5$%x%lx%08lx",
+		resource, getpid(), (long int) time(NULL), randombits());
 
-  fclose (passwd_file);
+	DBG(0, "resource=%s\n", md5resource);
 
-  DBG (1, "authorization failed\n");
+	memset(username, 0, SANE_MAX_USERNAME_LEN);
+	memset(password, 0, SANE_MAX_PASSWORD_LEN);
 
-  return SANE_STATUS_ACCESS_DENIED;
+	(*authorize) (md5resource, username, password);
+
+
+	fseek(passwd_file, 0L, SEEK_SET);
+
+	while (sanei_config_read(line, 1024, passwd_file)) {
+
+		if ((strlen(line) > 0) && (line[strlen(line) - 1] == '\n'))
+			line[strlen(line) - 1] = '\n';
+
+		if ((strlen(line) > 0) && (line[strlen(line) - 1] == '\r'))
+			line[strlen(line) - 1] = '\r';
+
+
+		if ((strncmp(line, username, strlen(username)) == 0) &&
+		    (((strchr(line, ':')) - line) ==
+		     (signed) strlen(username))) {
+
+			linep = strchr(line, ':') + 1;
+
+			if ((strchr(linep, ':') != NULL)
+			    && (strcmp(strchr(linep, ':') + 1, resource) ==
+				0)) {
+
+				*(strchr(linep, ':')) = 0;
+
+
+				if (check_passwd
+				    (password, linep, md5resource,
+				     username)) {
+					fclose(passwd_file);
+					DBG(2, "authorization succeeded\n");
+					return SANE_STATUS_GOOD;
+				}
+			}
+		}
+
+
+	}
+
+	fclose(passwd_file);
+
+	DBG(1, "authorization failed\n");
+
+	return SANE_STATUS_ACCESS_DENIED;
 }

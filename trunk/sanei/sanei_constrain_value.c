@@ -51,180 +51,169 @@
 #include "sane/sanei.h"
 
 SANE_Status
-sanei_check_value (const SANE_Option_Descriptor * opt, void * value)
+sanei_check_value(const SANE_Option_Descriptor * opt, void *value)
 {
-  const SANE_String_Const * string_list;
-  const int * word_list;
-  int i;
-  const SANE_Range * range;
-  int w, v;
-  size_t len;
+	const SANE_String_Const *string_list;
+	const int *word_list;
+	int i;
+	const SANE_Range *range;
+	int w, v;
+	size_t len;
 
-  switch (opt->constraint_type)
-    {
-    case SANE_CONSTRAINT_RANGE:
-      w = *(int *) value;
-      range = opt->constraint.range;
+	switch (opt->constraint_type) {
+	case SANE_CONSTRAINT_RANGE:
+		w = *(int *) value;
+		range = opt->constraint.range;
 
-      if (w < range->min || w > range->max)
-	return SANE_STATUS_INVAL;
+		if (w < range->min || w > range->max)
+			return SANE_STATUS_INVAL;
 
-      w = *(int *) value;
+		w = *(int *) value;
 
-      if (range->quant)
-	{
-	  v = (unsigned int) (w - range->min + range->quant/2) / range->quant;
-	  v = v * range->quant + range->min;
-	  if (v != w)
-	    return SANE_STATUS_INVAL;
+		if (range->quant) {
+			v = (unsigned int) (w - range->min +
+					    range->quant / 2) / range->quant;
+			v = v * range->quant + range->min;
+			if (v != w)
+				return SANE_STATUS_INVAL;
+		}
+		break;
+
+	case SANE_CONSTRAINT_WORD_LIST:
+		w = *(int *) value;
+		word_list = opt->constraint.word_list;
+		for (i = 1; w != word_list[i]; ++i)
+			if (i >= word_list[0])
+				return SANE_STATUS_INVAL;
+		break;
+
+	case SANE_CONSTRAINT_STRING_LIST:
+		string_list = opt->constraint.string_list;
+		len = strlen(value);
+
+		for (i = 0; string_list[i]; ++i)
+			if (strncmp(value, string_list[i], len) == 0
+			    && len == strlen(string_list[i]))
+				return SANE_STATUS_GOOD;
+		return SANE_STATUS_INVAL;
+
+	default:
+		break;
 	}
-      break;
-
-    case SANE_CONSTRAINT_WORD_LIST:
-      w = *(int *) value;
-      word_list = opt->constraint.word_list;
-      for (i = 1; w != word_list[i]; ++i)
-        if (i >= word_list[0])
-          return SANE_STATUS_INVAL;
-      break;
-
-    case SANE_CONSTRAINT_STRING_LIST:
-      string_list = opt->constraint.string_list;
-      len = strlen (value);
-
-      for (i = 0; string_list[i]; ++i)
-	if (strncmp (value, string_list[i], len) == 0
-	    && len == strlen (string_list[i]))
-	  return SANE_STATUS_GOOD;
-      return SANE_STATUS_INVAL;
-      
-    default:
-      break;
-    }
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 
 SANE_Status
-sanei_constrain_value (const SANE_Option_Descriptor * opt, void * value,
-		       int * info)
+sanei_constrain_value(const SANE_Option_Descriptor * opt, void *value,
+		      int *info)
 {
-  const SANE_String_Const * string_list;
-  const int * word_list;
-  int i, k, num_matches, match;
-  const SANE_Range * range;
-  int w, v;
-  SANE_Bool b;
-  size_t len;
+	const SANE_String_Const *string_list;
+	const int *word_list;
+	int i, k, num_matches, match;
+	const SANE_Range *range;
+	int w, v;
+	SANE_Bool b;
+	size_t len;
 
-  switch (opt->constraint_type)
-    {
-    case SANE_CONSTRAINT_RANGE:
-      w = *(int *) value;
-      range = opt->constraint.range;
+	switch (opt->constraint_type) {
+	case SANE_CONSTRAINT_RANGE:
+		w = *(int *) value;
+		range = opt->constraint.range;
 
-      if (w < range->min)
-      {
-        *(int *) value = range->min;
-        if (info)
-        {
-          *info |= SANE_INFO_INEXACT;
-        }
-      }
+		if (w < range->min) {
+			*(int *) value = range->min;
+			if (info) {
+				*info |= SANE_INFO_INEXACT;
+			}
+		}
 
-      if (w > range->max)
-      {
-        *(int *) value = range->max;
-        if (info)
-        {
-          *info |= SANE_INFO_INEXACT;
-        }
-      }
+		if (w > range->max) {
+			*(int *) value = range->max;
+			if (info) {
+				*info |= SANE_INFO_INEXACT;
+			}
+		}
 
-      w = *(int *) value;
+		w = *(int *) value;
 
-      if (range->quant)
-	{
-	  v = (unsigned int) (w - range->min + range->quant/2) / range->quant;
-	  v = v * range->quant + range->min;
-	  if (v != w)
-	    {
-	      *(int *) value = v;
-	      if (info)
-		*info |= SANE_INFO_INEXACT;
-	    }
-	}
-      break;
+		if (range->quant) {
+			v = (unsigned int) (w - range->min +
+					    range->quant / 2) / range->quant;
+			v = v * range->quant + range->min;
+			if (v != w) {
+				*(int *) value = v;
+				if (info)
+					*info |= SANE_INFO_INEXACT;
+			}
+		}
+		break;
 
-    case SANE_CONSTRAINT_WORD_LIST:
-      /* If there is no exact match in the list, use the nearest value */
-      w = *(int *) value;
-      word_list = opt->constraint.word_list;
-      for (i = 1, k = 1, v = abs(w - word_list[1]); i <= word_list[0]; i++)
-	{
-	  int vh;
-	  if ((vh = abs(w - word_list[i])) < v)
-	    {
-	      v = vh;
-	      k = i;
-	    }
-	}
-      if (w != word_list[k])
-	{
-	  *(int *) value = word_list[k];
-	  if (info)
-	    *info |= SANE_INFO_INEXACT;
-	}
-      break;
+	case SANE_CONSTRAINT_WORD_LIST:
+		/* If there is no exact match in the list, use the nearest value */
+		w = *(int *) value;
+		word_list = opt->constraint.word_list;
+		for (i = 1, k = 1, v = abs(w - word_list[1]);
+		     i <= word_list[0]; i++) {
+			int vh;
+			if ((vh = abs(w - word_list[i])) < v) {
+				v = vh;
+				k = i;
+			}
+		}
+		if (w != word_list[k]) {
+			*(int *) value = word_list[k];
+			if (info)
+				*info |= SANE_INFO_INEXACT;
+		}
+		break;
 
-    case SANE_CONSTRAINT_STRING_LIST:
-      /* Matching algorithm: take the longest unique match ignoring
-	 case.  If there is an exact match, it is admissible even if
-	 the same string is a prefix of a longer option name. */
-      string_list = opt->constraint.string_list;
-      len = strlen (value);
+	case SANE_CONSTRAINT_STRING_LIST:
+		/* Matching algorithm: take the longest unique match ignoring
+		   case.  If there is an exact match, it is admissible even if
+		   the same string is a prefix of a longer option name. */
+		string_list = opt->constraint.string_list;
+		len = strlen(value);
 
-      /* count how many matches of length LEN characters we have: */
-      num_matches = 0;
-      match = -1;
-      for (i = 0; string_list[i]; ++i)
-	if (strncasecmp (value, string_list[i], len) == 0
-	    && len <= strlen (string_list[i]))
-	  {
-	    match = i;
-	    if (len == strlen (string_list[i]))
-	      {
-		/* exact match... */
-		if (strcmp (value, string_list[i]) != 0)
-		  /* ...but case differs */
-		  strcpy (value, string_list[match]);
-		return SANE_STATUS_GOOD;
-	      }
-	    ++num_matches;
-	  }
+		/* count how many matches of length LEN characters we have: */
+		num_matches = 0;
+		match = -1;
+		for (i = 0; string_list[i]; ++i)
+			if (strncasecmp(value, string_list[i], len) == 0
+			    && len <= strlen(string_list[i])) {
+				match = i;
+				if (len == strlen(string_list[i])) {
+					/* exact match... */
+					if (strcmp(value, string_list[i]) !=
+					    0)
+						/* ...but case differs */
+						strcpy(value,
+						       string_list[match]);
+					return SANE_STATUS_GOOD;
+				}
+				++num_matches;
+			}
 
-      if (num_matches > 1)
-	return SANE_STATUS_INVAL;
-      else if (num_matches == 1)
-	{
-	  strcpy (value, string_list[match]);
-	  return SANE_STATUS_GOOD;
-	}
-      return SANE_STATUS_INVAL;
-      
-    case SANE_CONSTRAINT_NONE:
-      switch (opt->type)
-	{
-	case SANE_TYPE_BOOL:
-	  b = *(SANE_Bool *) value;
-	  if (b != TRUE && b != FALSE)
-	    return SANE_STATUS_INVAL;
-	  break;
+		if (num_matches > 1)
+			return SANE_STATUS_INVAL;
+		else if (num_matches == 1) {
+			strcpy(value, string_list[match]);
+			return SANE_STATUS_GOOD;
+		}
+		return SANE_STATUS_INVAL;
+
+	case SANE_CONSTRAINT_NONE:
+		switch (opt->type) {
+		case SANE_TYPE_BOOL:
+			b = *(SANE_Bool *) value;
+			if (b != TRUE && b != FALSE)
+				return SANE_STATUS_INVAL;
+			break;
+		default:
+			break;
+		}
 	default:
-	  break;
+		break;
 	}
-    default:
-      break;
-    }
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }

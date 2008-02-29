@@ -47,139 +47,136 @@
 #include "../include/sane/sanei_net.h"
 
 void
-sanei_w_init_req (Wire *w, SANE_Init_Req *req)
+sanei_w_init_req(Wire * w, SANE_Init_Req * req)
 {
-  sanei_w_word (w, &req->version_code);
-  sanei_w_string (w, &req->username);
+	sanei_w_word(w, &req->version_code);
+	sanei_w_string(w, &req->username);
 }
 
 void
-sanei_w_init_reply (Wire *w, SANE_Init_Reply *reply)
+sanei_w_init_reply(Wire * w, SANE_Init_Reply * reply)
 {
-  sanei_w_status (w, &reply->status);
-  sanei_w_word (w, &reply->version_code);
+	sanei_w_status(w, &reply->status);
+	sanei_w_word(w, &reply->version_code);
 }
 
 void
-sanei_w_get_devices_reply (Wire *w, SANE_Get_Devices_Reply *reply)
+sanei_w_get_devices_reply(Wire * w, SANE_Get_Devices_Reply * reply)
 {
-  int len;
+	int len;
 
-  if (w->direction != WIRE_DECODE)
-    {
-      if (reply->device_list)
-	{
-	  for (len = 0; reply->device_list[len]; ++len);
-	  ++len;
+	if (w->direction != WIRE_DECODE) {
+		if (reply->device_list) {
+			for (len = 0; reply->device_list[len]; ++len);
+			++len;
+		} else
+			len = 0;
 	}
-      else
-	len = 0;
-    }
-  sanei_w_status (w, &reply->status);
-  sanei_w_array (w, &len, (void *) &reply->device_list,
-		 (WireCodecFunc) sanei_w_device_ptr,
-		 sizeof (reply->device_list[0]));
+	sanei_w_status(w, &reply->status);
+	sanei_w_array(w, &len, (void *) &reply->device_list,
+		      (WireCodecFunc) sanei_w_device_ptr,
+		      sizeof(reply->device_list[0]));
 }
 
 void
-sanei_w_open_reply (Wire *w, SANE_Open_Reply *reply)
+sanei_w_open_reply(Wire * w, SANE_Open_Reply * reply)
 {
-  sanei_w_status (w, &reply->status);
-  sanei_w_word (w, &reply->handle);
-  sanei_w_string (w, &reply->resource_to_authorize);
+	sanei_w_status(w, &reply->status);
+	sanei_w_word(w, &reply->handle);
+	sanei_w_string(w, &reply->resource_to_authorize);
 }
 
 static void
-w_option_value (Wire *w, int type, int size, void **value)
+w_option_value(Wire * w, int type, int size, void **value)
 {
-  int len, element_size;
-  WireCodecFunc w_value;
+	int len, element_size;
+	WireCodecFunc w_value;
 
-  switch (type)
-    {
-    case SANE_TYPE_BOOL:
-    case SANE_TYPE_INT:
-    case SANE_TYPE_FIXED:
-      w_value = (WireCodecFunc) sanei_w_word;
-      element_size = sizeof (int);
-      len = size / element_size;
-      break;
+	switch (type) {
+	case SANE_TYPE_BOOL:
+	case SANE_TYPE_INT:
+	case SANE_TYPE_FIXED:
+		w_value = (WireCodecFunc) sanei_w_word;
+		element_size = sizeof(int);
+		len = size / element_size;
+		break;
 
-    case SANE_TYPE_STRING:
-      w_value = (WireCodecFunc) sanei_w_char;
-      element_size = sizeof (char);
-      len = size;
-      break;
+	case SANE_TYPE_STRING:
+		w_value = (WireCodecFunc) sanei_w_char;
+		element_size = sizeof(char);
+		len = size;
+		break;
 
-    case SANE_TYPE_BUTTON:
-    case SANE_TYPE_GROUP:
-      w_value = (WireCodecFunc) sanei_w_void;
-      len = 0;
-      element_size = 0;
-      break;
+	case SANE_TYPE_BUTTON:
+	case SANE_TYPE_GROUP:
+		w_value = (WireCodecFunc) sanei_w_void;
+		len = 0;
+		element_size = 0;
+		break;
 
-    default:
-      w->status = EINVAL;
-      return;
-    }
-  sanei_w_array (w, &len, value, w_value, element_size);
+	default:
+		w->status = EINVAL;
+		return;
+	}
+	sanei_w_array(w, &len, value, w_value, element_size);
 }
 
 void
-sanei_w_option_descriptor_array (Wire *w, SANE_Option_Descriptor_Array *a)
+sanei_w_option_descriptor_array(Wire * w, SANE_Option_Descriptor_Array * a)
 {
-  sanei_w_array (w, &a->num_options, (void **) &a->desc,
-		 (WireCodecFunc) sanei_w_option_descriptor_ptr,
-		 sizeof (a->desc[0]));
+	sanei_w_array(w, &a->num_options, (void **) &a->desc,
+		      (WireCodecFunc) sanei_w_option_descriptor_ptr,
+		      sizeof(a->desc[0]));
 }
 
 void
-sanei_w_control_option_req (Wire *w, SANE_Control_Option_Req *req)
+sanei_w_control_option_req(Wire * w, SANE_Control_Option_Req * req)
 {
-  sanei_w_word (w, &req->handle);
-  sanei_w_word (w, &req->option);
-  sanei_w_word (w, &req->action);
-  /* Up to and including version 2, we incorrectly attempted to encode
-     the option value even the action was SANE_ACTION_SET_AUTO.  */
-  if (w->version < 3 || req->action != SANE_ACTION_SET_AUTO)
-    {
-      sanei_w_word (w, &req->value_type);
-      sanei_w_word (w, &req->value_size);
-      w_option_value (w, req->value_type, req->value_size, &req->value);
-    }
+	sanei_w_word(w, &req->handle);
+	sanei_w_word(w, &req->option);
+	sanei_w_word(w, &req->action);
+	/* Up to and including version 2, we incorrectly attempted to encode
+	   the option value even the action was SANE_ACTION_SET_AUTO.  */
+	if (w->version < 3 || req->action != SANE_ACTION_SET_AUTO) {
+		sanei_w_word(w, &req->value_type);
+		sanei_w_word(w, &req->value_size);
+		w_option_value(w, req->value_type, req->value_size,
+			       &req->value);
+	}
 }
 
 void
-sanei_w_control_option_reply (Wire *w, SANE_Control_Option_Reply *reply)
+sanei_w_control_option_reply(Wire * w, SANE_Control_Option_Reply * reply)
 {
-  sanei_w_status (w, &reply->status);
-  sanei_w_word (w, &reply->info);
-  sanei_w_word (w, &reply->value_type);
-  sanei_w_word (w, &reply->value_size);
-  w_option_value (w, reply->value_type, reply->value_size, &reply->value);
-  sanei_w_string (w, &reply->resource_to_authorize);
+	sanei_w_status(w, &reply->status);
+	sanei_w_word(w, &reply->info);
+	sanei_w_word(w, &reply->value_type);
+	sanei_w_word(w, &reply->value_size);
+	w_option_value(w, reply->value_type, reply->value_size,
+		       &reply->value);
+	sanei_w_string(w, &reply->resource_to_authorize);
 }
 
 void
-sanei_w_get_parameters_reply (Wire *w, SANE_Get_Parameters_Reply *reply)
+sanei_w_get_parameters_reply(Wire * w, SANE_Get_Parameters_Reply * reply)
 {
-  sanei_w_status (w, &reply->status);
-  sanei_w_parameters (w, &reply->params);
+	sanei_w_status(w, &reply->status);
+	sanei_w_parameters(w, &reply->params);
 }
 
 void
-sanei_w_start_reply (Wire *w, SANE_Start_Reply *reply)
+sanei_w_start_reply(Wire * w, SANE_Start_Reply * reply)
 {
-  sanei_w_status (w, &reply->status);
-  sanei_w_word (w, &reply->port);
-  sanei_w_word (w, &reply->byte_order);
-  sanei_w_string (w, &reply->resource_to_authorize);
+	sanei_w_status(w, &reply->status);
+	sanei_w_word(w, &reply->port);
+	sanei_w_word(w, &reply->byte_order);
+	sanei_w_string(w, &reply->resource_to_authorize);
 }
 
 void
-sanei_w_authorization_req (Wire *w, SANE_Authorization_Req *req)
+sanei_w_authorization_req(Wire * w, SANE_Authorization_Req * req)
 {
-  sanei_w_string (w, &req->resource);
-  sanei_w_string (w, &req->username);
-  sanei_w_string (w, &req->password);
+	sanei_w_string(w, &req->resource);
+	sanei_w_string(w, &req->username);
+	sanei_w_string(w, &req->password);
 }

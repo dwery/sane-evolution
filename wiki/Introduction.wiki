@@ -1,5 +1,6 @@
 #summary A quick introduction to SANE Evolution
 
-SANE Evolution is a fork of the SANE project. It aims to produce
-an evolved version of SANE by adding features and small improvements
+SANE Evolution is a fork of the [http://www.sane-project.org SANE project]. It aims to produce an evolved version of SANE by adding features and small improvements
 while keeping compatibility.
+
+You can now think of SANE as Scanner Access Now Evolved.

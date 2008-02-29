@@ -1,7 +1,6 @@
 #summary Short term tasks in sparse order
 
- * remove most SANE specific types in the repository, keep them
- in the includes for compatibility.
+ * remove most SANE specific types in the repository, keep them in the includes for compatibility.
  * fixup code indentation to one common style
  * get rid of alloca() calls and of the related #include
  * add api level check and protection

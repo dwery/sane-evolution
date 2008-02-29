@@ -1,8 +1,10 @@
-#summary ODeprecated backends
+#summary Deprecated backends
 = Introduction =
 
 In SANE Evolution some older backends will be removed,
-provided that there is an available replacement.
+provided that there is an available replacement. Deprecated
+backends will be kept in the repository for a while. Once they
+marked Removed they will be removed (d'oh!) .
 
 
 = Deprecated =

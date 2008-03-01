@@ -20,7 +20,7 @@
 
 /* SANE types and defines */
 
-#define SANE_EVOLUTION		1	/* This realy is SANE Evolution */
+#define SANE_EVOLUTION		1	/* This really is SANE Evolution */
 #define SANE_CURRENT_MAJOR	1
 
 #define SANE_VERSION_CODE(major, minor, build)	\
@@ -36,22 +36,28 @@
 
 #define SANE_FALSE	0
 #define SANE_TRUE	1
+
 #define FALSE 0
 #define TRUE 1
 
+/* deprecated types */
 typedef unsigned char SANE_Byte;
 typedef int SANE_Word;
-typedef SANE_Word SANE_Bool;
-typedef SANE_Word SANE_Int;
+typedef int SANE_Bool;
+typedef int SANE_Int;
 typedef char SANE_Char;
-typedef SANE_Char *SANE_String;
-typedef const SANE_Char *SANE_String_Const;
+
+typedef char * SANE_String;
+typedef const char * SANE_String_Const;
+
 typedef void *SANE_Handle;
 typedef SANE_Word SANE_Fixed;
 
 #define SANE_FIXED_SCALE_SHIFT	16
 #define SANE_FIX(v)	((SANE_Word) ((v) * (1 << SANE_FIXED_SCALE_SHIFT)))
 #define SANE_UNFIX(v)	((double)(v) / (1 << SANE_FIXED_SCALE_SHIFT))
+
+#define SANE_MM_PER_INCH	25.4
 
 typedef enum
 {
@@ -138,13 +144,15 @@ SANE_Range;
 
 typedef struct
 {
-	SANE_String_Const name;	/* name of this option (command-line name) */
-	SANE_String_Const title;	/* title of this option (single-line) */
-	SANE_String_Const desc;	/* description of this option (multi-line) */
+	const char * name;	/* name of this option (command-line name) */
+	const char * title;	/* title of this option (single-line) */
+	const char * desc;	/* description of this option (multi-line) */
+
 	SANE_Value_Type type;	/* how are values interpreted? */
 	SANE_Unit unit;		/* what is the (physical) unit? */
-	SANE_Int size;
-	SANE_Int cap;		/* capabilities */
+
+	int size;
+	int cap;		/* capabilities */
 
 	SANE_Constraint_Type constraint_type;
 	union
@@ -195,12 +203,22 @@ typedef struct
 {
 	SANE_Frame format;
 	SANE_Bool last_frame;
-	SANE_Int bytes_per_line;
-	SANE_Int pixels_per_line;
-	SANE_Int lines;
-	SANE_Int depth;
+
+	int bytes_per_line;
+	int pixels_per_line;
+	int lines;
+	int depth;
 }
 SANE_Parameters;
+
+typedef struct
+{
+	unsigned char *vendor;
+	unsigned char *model;
+	unsigned char *serial;
+}
+SANE_Scanner_Info;
+
 
 struct SANE_Auth_Data;
 

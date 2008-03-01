@@ -373,12 +373,12 @@ typedef struct Avision_Device
 	} scanner_type;
 
 	/* the list of available color modes */
-	SANE_String_Const color_list[AV_COLOR_MODE_LAST + 1];
+	const char * color_list[AV_COLOR_MODE_LAST + 1];
 	color_mode color_list_num[AV_COLOR_MODE_LAST];
 	color_mode color_list_default;
 
 	/* the list of available source modes */
-	SANE_String_Const source_list[AV_SOURCE_MODE_LAST + 1];
+	const char * source_list[AV_SOURCE_MODE_LAST + 1];
 	source_mode source_list_num[AV_SOURCE_MODE_LAST];
 
 	int inquiry_optical_res;	/* in dpi */

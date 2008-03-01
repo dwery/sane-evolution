@@ -2329,7 +2329,7 @@ sane_read(SANE_Handle h, SANE_Byte * buf, int maxlen, int * len)
 }
 
 static HP4200_Device *
-find_device(SANE_String_Const name)
+find_device(const char * name)
 {
 	static char me[] = "find_device";
 	HP4200_Device *dev;
@@ -2345,7 +2345,7 @@ find_device(SANE_String_Const name)
 }
 
 static SANE_Status
-add_device(SANE_String_Const name, HP4200_Device ** argpd)
+add_device(const char * name, HP4200_Device ** argpd)
 {
 	int fd;
 	HP4200_Device *pd;
@@ -2404,7 +2404,7 @@ add_device(SANE_String_Const name, HP4200_Device ** argpd)
 }
 
 static SANE_Status
-attach(SANE_String_Const name)
+attach(const char * name)
 {
 	static char me[] = "attach";
 	DBG(DBG_proc, "%s\n", me);
@@ -2662,7 +2662,7 @@ init_options(HP4200_Scanner * s)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	static const char me[] = "sane_hp4200_open";
 	SANE_Status status;

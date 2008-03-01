@@ -126,7 +126,7 @@ sane_get_devices(const SANE_Device *** device_list,
 /**************************************************************************/
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	CANON_Device *dev;
@@ -712,7 +712,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_MODE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)
@@ -801,7 +801,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_NEGATIVE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)
@@ -826,7 +826,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_NEGATIVE_TYPE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)
@@ -839,7 +839,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_SCANNING_SPEED:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)

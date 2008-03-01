@@ -100,9 +100,9 @@ typedef struct pixma_sane_t
 	option_descriptor_t opt[opt_last];
 	SANE_Range xrange, yrange;
 	int dpi_list[9];	/* up to 9600 dpi */
-	SANE_String_Const mode_list[3];
+	const char * mode_list[3];
 	uint8_t gamma_table[4096];
-	SANE_String_Const source_list[4];
+	const char * source_list[4];
 	pixma_paper_source_t source_map[4];
 
 	unsigned byte_pos_in_line, output_line_size;
@@ -384,8 +384,8 @@ control_string_option(pixma_sane_t * ss, int n, SANE_Action a, void *v,
 		      int * info)
 {
 	option_descriptor_t *opt = &(OPT_IN_CTX[n]);
-	const SANE_String_Const *slist = opt->sod.constraint.string_list;
-	SANE_String str = (SANE_String) v;
+	const char * *slist = opt->sod.constraint.string_list;
+	char * str = (char *) v;
 	int i;
 
 	if (opt->sod.constraint_type == SANE_CONSTRAINT_NONE) {
@@ -957,7 +957,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	unsigned i, nscanners;
 	int error = 0;

@@ -146,9 +146,9 @@ struct Artec48U_Device
 	int fd;
   /** Device activation flag. */
 	SANE_Bool active;
-	SANE_String_Const name;
+	const char * name;
 	SANE_Device sane;	 /** Scanner model data. */
-	SANE_String_Const firmware_path;
+	const char * firmware_path;
 	double gamma_master;
 	double gamma_r;
 	double gamma_g;
@@ -278,7 +278,7 @@ typedef union
 {
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 }
 Option_Value;
 #endif

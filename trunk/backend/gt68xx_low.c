@@ -122,7 +122,7 @@
  * @param req    The request packet to be dumped.
  */
 static void
-dump_req(SANE_String_Const prefix, GT68xx_Packet req)
+dump_req(const char * prefix, GT68xx_Packet req)
 {
 	int i;
 	char buf[GT68XX_PACKET_SIZE * 3 + 1];
@@ -326,7 +326,7 @@ gt68xx_device_set_model(GT68xx_Device * dev, GT68xx_Model * model)
 }
 
 static SANE_Bool
-gt68xx_device_get_model(SANE_String name, GT68xx_Model ** model)
+gt68xx_device_get_model(char * name, GT68xx_Model ** model)
 {
 	GT68xx_USB_Device_Entry *entry;
 

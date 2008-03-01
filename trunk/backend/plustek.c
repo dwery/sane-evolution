@@ -215,14 +215,14 @@ static Plustek_Scanner *sc = NULL;
 static const int bpp_lm9832_list[] = { 2, 8, 14 };
 static const int bpp_lm9833_list[] = { 2, 8, 16 };
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_LINEART,
 	SANE_VALUE_SCAN_MODE_GRAY,
 	SANE_VALUE_SCAN_MODE_COLOR,
 	NULL
 };
 
-static const SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	SANE_I18N("Normal"),
 	SANE_I18N("Transparency"),
 	SANE_I18N("Negative"),
@@ -370,7 +370,7 @@ getScanMode(Plustek_Scanner * scanner)
 /** return the len of the largest string in the array
  */
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1731,7 +1731,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 /** open the sane device
  */
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	Plustek_Device *dev;
@@ -1827,8 +1827,8 @@ sane_close(SANE_Handle handle)
 /** goes through a string list and returns the start-address of the string
  * that has been found, or NULL on error
  */
-static const SANE_String_Const *
-search_string_list(const SANE_String_Const * list, SANE_String value)
+static const char * *
+search_string_list(const char * * list, char * value)
 {
 	while (*list != NULL && strcmp(value, *list) != 0)
 		++list;
@@ -1912,7 +1912,7 @@ sane_control_option(SANE_Handle handle, int option,
 	AdjDef *adj = &dev->adj;
 	DCapsDef *caps = &dev->usbDev.Caps;
 	SANE_Status status;
-	const SANE_String_Const *optval;
+	const char * *optval;
 	int scanmode;
 
 	if (s->scanning)

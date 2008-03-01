@@ -198,8 +198,8 @@ in ADF mode this is done often:
 /* ------------------------------------------------------------ GLOBAL VARIABLES --------------------------- */
 
 
-static SANE_String scan_mode_list[7];
-static SANE_String_Const source_list[4];
+static char * scan_mode_list[7];
+static const char * source_list[4];
 static int bit_depth_list[9];
 static SANE_Auth_Callback frontend_authorize_callback;
 
@@ -239,7 +239,7 @@ static int umax_connection_type = 1;	/* 1=scsi, 2=usb */
 #define CALIB_MODE_1010		SANE_I18N("Multi-level RGB color (one pass color)")
 #define CALIB_MODE_1001		SANE_I18N("Ignore calibration")
 
-static SANE_String_Const calibration_list[] = {
+static const char * calibration_list[] = {
 	CALIB_MODE_0000,
 	CALIB_MODE_1111,
 	CALIB_MODE_1110,
@@ -4967,7 +4967,7 @@ umax_init(Umax_Device * dev)
 
 
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -5434,10 +5434,10 @@ init_options(Umax_Scanner * scanner)
 	scanner->opt[OPT_MODE].desc = SANE_DESC_SCAN_MODE;
 	scanner->opt[OPT_MODE].type = SANE_TYPE_STRING;
 	scanner->opt[OPT_MODE].size =
-		max_string_size((SANE_String_Const *) scan_mode_list);
+		max_string_size((const char * *) scan_mode_list);
 	scanner->opt[OPT_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	scanner->opt[OPT_MODE].constraint.string_list =
-		(SANE_String_Const *) scan_mode_list;
+		(const char * *) scan_mode_list;
 	scanner->val[OPT_MODE].s = (char *) strdup(scan_mode_list[0]);
 
 	/* source */
@@ -6316,7 +6316,7 @@ init_options(Umax_Scanner * scanner)
 	scanner->val[OPT_PREVIEW].w = FALSE;
 
 	sane_control_option(scanner, OPT_MODE, SANE_ACTION_SET_VALUE,
-			    (SANE_String *) scan_mode_list[scan_modes], NULL);
+			    (char * *) scan_mode_list[scan_modes], NULL);
 
 	return SANE_STATUS_GOOD;
 }
@@ -6617,7 +6617,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Umax_Device *dev;
 	SANE_Status status;
@@ -6907,7 +6907,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 	Umax_Scanner *scanner = handle;
 	SANE_Status status;
 	int w, cap;
-	SANE_String_Const name;
+	const char * name;
 
 	if (info) {
 		*info = 0;

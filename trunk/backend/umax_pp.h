@@ -98,8 +98,8 @@ typedef struct Umax_PP_Descriptor
 {
 	SANE_Device sane;
 
-	SANE_String port;
-	SANE_String ppdevice;
+	char * port;
+	char * ppdevice;
 
 	int max_res;
 	int ccd_res;

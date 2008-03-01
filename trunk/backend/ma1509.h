@@ -129,7 +129,7 @@ enum Ma1509_Option
 typedef struct Ma1509_Device
 {
 	struct Ma1509_Device *next;
-	SANE_String name;
+	char * name;
 	SANE_Device sane;
 	SANE_Bool has_ta;
 	SANE_Bool has_adf;

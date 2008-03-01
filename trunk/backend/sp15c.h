@@ -202,7 +202,7 @@ SANE_Status sane_init(int * version_code, SANE_Auth_Callback authorize);
 SANE_Status
 sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only);
 
-SANE_Status sane_open(SANE_String_Const name, SANE_Handle * handle);
+SANE_Status sane_open(const char * name, SANE_Handle * handle);
 
 SANE_Status sane_set_io_mode(SANE_Handle h, SANE_Bool non_blocking);
 
@@ -268,7 +268,7 @@ static int __sane_unused__ sp15c_object_discharge(struct sp15c *s);
 
 static int sp15c_set_window_param(struct sp15c *s, int prescan);
 
-static size_t max_string_size(const SANE_String_Const strings[]);
+static size_t max_string_size(const char * strings[]);
 
 static int sp15c_start_scan(struct sp15c *s);
 

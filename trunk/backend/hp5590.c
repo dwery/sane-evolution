@@ -97,7 +97,7 @@ static int res_list[] = { 6, 100, 200, 300, 600, 1200, 2400 };
 
 static SANE_Range range_x, range_y, range_qual;
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_COLOR_24,
 #ifdef HAS_WORKING_COLOR_48
 	SANE_VALUE_SCAN_MODE_COLOR_48,
@@ -216,7 +216,7 @@ calc_image_params(struct hp5590_scanner *scanner,
 
 /******************************************************************************/
 static SANE_Status
-attach_usb_device(SANE_String_Const devname,
+attach_usb_device(const char * devname,
 		  enum hp_scanner_types hp_scanner_type)
 {
 	struct scanner_info *info;
@@ -281,21 +281,21 @@ attach_usb_device(SANE_String_Const devname,
 
 /******************************************************************************/
 static SANE_Status
-attach_hp5550(SANE_String_Const devname)
+attach_hp5550(const char * devname)
 {
 	return attach_usb_device(devname, SCANNER_HP5550);
 }
 
 /******************************************************************************/
 static SANE_Status
-attach_hp5590(SANE_String_Const devname)
+attach_hp5590(const char * devname)
 {
 	return attach_usb_device(devname, SCANNER_HP5590);
 }
 
 /******************************************************************************/
 static SANE_Status
-attach_hp7650(SANE_String_Const devname)
+attach_hp7650(const char * devname)
 {
 	return attach_usb_device(devname, SCANNER_HP7650);
 }
@@ -398,12 +398,12 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 
 /******************************************************************************/
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	struct hp5590_scanner *ptr;
 	SANE_Option_Descriptor *opts;
 	unsigned int available_sources;
-	SANE_String_Const *sources_list;
+	const char * *sources_list;
 	unsigned int source_idx;
 
 	DBG(DBG_proc, "%s: device name: %s\n", __FUNCTION__, devicename);
@@ -519,7 +519,7 @@ sane_open(SANE_String_Const devicename, SANE_Handle * handle)
 	if (ptr->info->features & FEATURE_TMA)
 		available_sources += 2;
 	available_sources++;	/* Count terminating NULL */
-	sources_list = malloc(available_sources * sizeof(SANE_String_Const));
+	sources_list = malloc(available_sources * sizeof(const char *));
 	if (!sources_list)
 		return SANE_STATUS_NO_MEM;
 	source_idx = 0;

@@ -60,7 +60,7 @@ struct scanner
 	/* instead of in global vars so that they can differ for each scanner    */
 
 	/*mode group */
-	SANE_String_Const mode_list[3];
+	const char * mode_list[3];
 
 	/* --------------------------------------------------------------------- */
 	/* changeable vars to hold user input. modified by SANE_Options above    */
@@ -144,7 +144,7 @@ SANE_Status sane_init(int * version_code, SANE_Auth_Callback authorize);
 SANE_Status sane_get_devices(const SANE_Device *** device_list,
 			     SANE_Bool local_only);
 
-SANE_Status sane_open(SANE_String_Const name, SANE_Handle * handle);
+SANE_Status sane_open(const char * name, SANE_Handle * handle);
 
 SANE_Status sane_set_io_mode(SANE_Handle h, SANE_Bool non_blocking);
 
@@ -194,6 +194,6 @@ static SANE_Status power_down(struct scanner *s);
 
 static void hexdump(int level, char *comment, unsigned char *p, int l);
 
-static size_t maxStringSize(const SANE_String_Const strings[]);
+static size_t maxStringSize(const char * strings[]);
 
 #endif /* CARDSCAN_H */

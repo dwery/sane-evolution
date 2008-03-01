@@ -138,7 +138,7 @@ enum SANE_Ops
 typedef SANE_Status(*op_init_t) (int *, SANE_Auth_Callback);
 typedef void (*op_exit_t) (void);
 typedef SANE_Status(*op_get_devs_t) (const SANE_Device ***, SANE_Bool);
-typedef SANE_Status(*op_open_t) (SANE_String_Const, SANE_Handle *);
+typedef SANE_Status(*op_open_t) (const char *, SANE_Handle *);
 typedef void (*op_close_t) (SANE_Handle);
 typedef const SANE_Option_Descriptor *(*op_get_option_desc_t) (SANE_Handle,
 							       int);
@@ -169,7 +169,7 @@ struct backend
   extern void *BE_ENTRY(name,init) (int *, SANE_Auth_Callback);                  \
   extern void *BE_ENTRY(name,exit) (void);                  \
   extern void *BE_ENTRY(name,get_devices) (const SANE_Device ***, SANE_Bool);           \
-  extern void *BE_ENTRY(name,open) (SANE_String_Const, SANE_Handle *);                  \
+  extern void *BE_ENTRY(name,open) (const char *, SANE_Handle *);                  \
   extern void *BE_ENTRY(name,close) (SANE_Handle);                 \
   extern void *BE_ENTRY(name,get_option_descriptor) (SANE_Handle,  int); \
   extern void *BE_ENTRY(name,control_option) (SANE_Handle, int, SANE_Action, void *, int *);        \
@@ -771,7 +771,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 	DBG(5, "sane_init: reading %s\n", DLL_CONFIG_FILE);
 	while (sanei_config_read(config_line, sizeof(config_line), fp)) {
 		char *comment;
-		SANE_String_Const cp;
+		const char * cp;
 
 		cp = sanei_config_get_string(config_line, &backend_name);
 		/* ignore empty lines */
@@ -1026,7 +1026,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
+sane_open(const char * full_name, SANE_Handle * meta_handle)
 {
 	const char *be_name, *dev_name;
 	struct meta_scanner *s;

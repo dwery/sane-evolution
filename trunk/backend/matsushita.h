@@ -241,11 +241,11 @@ struct scanners_supported
 	SANE_Range brightness_range;
 	SANE_Range contrast_range;
 
-	SANE_String_Const *scan_mode_list;	/* array of scan modes */
+	const char * *scan_mode_list;	/* array of scan modes */
 	const int *resolutions_list;	/* array of available resolutions */
 	const int *resolutions_round;	/* rounding values for each resolutions */
 
-	SANE_String_Const *image_emphasis_list;	/* list of image emphasis options */
+	const char * *image_emphasis_list;	/* list of image emphasis options */
 	const int *image_emphasis_val;	/* list of image emphasis values */
 
 	/* Scanner capabilities. */
@@ -264,7 +264,7 @@ struct scanners_supported
 
 struct paper_sizes
 {
-	SANE_String_Const name;	/* name of the paper */
+	const char * name;	/* name of the paper */
 	int width;
 	int length;
 };
@@ -290,7 +290,7 @@ typedef struct Matsushita_Scanner
 	int scnum;		/* index of that scanner in
 				 * scanners_supported */
 
-	SANE_String_Const *paper_sizes_list;	/* names of supported papers */
+	const char * *paper_sizes_list;	/* names of supported papers */
 	int *paper_sizes_val;	/* indirection into paper_sizes[] */
 
 	/* SCSI handling */

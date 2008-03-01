@@ -133,7 +133,7 @@ static int blue_offset = 0;
 
 
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Lineart"), SANE_I18N("Grayscale"), SANE_I18N("Color"), 0
 };
 
@@ -1091,7 +1091,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Umax_PP_Device *dev;
 	Umax_PP_Descriptor *desc;

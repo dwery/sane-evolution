@@ -167,7 +167,7 @@ enum Mustek_Usb_Option
 typedef struct Mustek_Usb_Device
 {
 	struct Mustek_Usb_Device *next;
-	SANE_String name;
+	char * name;
 	SANE_Device sane;
 	SANE_Range dpi_range;
 	SANE_Range x_range;

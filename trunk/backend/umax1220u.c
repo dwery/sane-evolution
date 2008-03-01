@@ -72,7 +72,7 @@
 typedef struct Umax_Device
 {
 	struct Umax_Device *next;
-	SANE_String name;
+	char * name;
 	SANE_Device sane;
 }
 Umax_Device;
@@ -163,7 +163,7 @@ static SANE_Option_Descriptor optionResolutionDescriptor = {
 	sizeof(int),
 	SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_AUTOMATIC,
 	SANE_CONSTRAINT_WORD_LIST,
-	{(const SANE_String_Const *) optionResolutionList}
+	{(const char * *) optionResolutionList}
 };
 
 static int optionResolutionValue = 75;
@@ -301,7 +301,7 @@ static SANE_Option_Descriptor optionTopLeftXDescriptor = {
 	sizeof(SANE_Fixed),
 	SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	SANE_CONSTRAINT_RANGE,
-	{(const SANE_String_Const *) &widthRange}
+	{(const char * *) &widthRange}
 };
 
 static SANE_Status
@@ -342,7 +342,7 @@ static SANE_Option_Descriptor optionTopLeftYDescriptor = {
 	sizeof(SANE_Fixed),
 	SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	SANE_CONSTRAINT_RANGE,
-	{(const SANE_String_Const *) &heightRange}
+	{(const char * *) &heightRange}
 };
 
 static SANE_Status
@@ -383,7 +383,7 @@ static SANE_Option_Descriptor optionBotRightXDescriptor = {
 	sizeof(SANE_Fixed),
 	SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	SANE_CONSTRAINT_RANGE,
-	{(const SANE_String_Const *) &widthRange}
+	{(const char * *) &widthRange}
 };
 
 static SANE_Status
@@ -424,7 +424,7 @@ static SANE_Option_Descriptor optionBotRightYDescriptor = {
 	sizeof(SANE_Fixed),
 	SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	SANE_CONSTRAINT_RANGE,
-	{(const SANE_String_Const *) &heightRange}
+	{(const char * *) &heightRange}
 };
 
 static SANE_Status
@@ -669,7 +669,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Umax_Device *dev;
 	SANE_Status status;

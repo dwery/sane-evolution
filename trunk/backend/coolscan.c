@@ -1857,7 +1857,7 @@ sense_handler(int scsi_fd, unsigned char *result, void *arg)
 
 static const char negativeStr[] = "Negative";
 static const char positiveStr[] = "Positive";
-static SANE_String_Const type_list[] = {
+static const char * type_list[] = {
 	positiveStr,
 	negativeStr,
 	0
@@ -1868,13 +1868,13 @@ static const char grayStr[] = "Gray";
 static const char rgbiStr[] = "RGBI";
 static const char iredStr[] = "Infrared";
 
-static SANE_String_Const scan_mode_list_LS20[] = {
+static const char * scan_mode_list_LS20[] = {
 	colorStr,
 	grayStr,
 	NULL
 };
 
-static SANE_String_Const scan_mode_list_LS30[] = {
+static const char * scan_mode_list_LS30[] = {
 	colorStr,
 	grayStr,
 #ifdef HAS_IRED
@@ -1889,7 +1889,7 @@ static const char neverStr[] = "never";
 static const char previewStr[] = "before preview";
 static const char scanStr[] = "before scan";
 static const char preandscanStr[] = "before preview and scan";
-static SANE_String_Const autofocus_mode_list[] = {
+static const char * autofocus_mode_list[] = {
 	neverStr,
 	previewStr,
 	scanStr,
@@ -1897,7 +1897,7 @@ static SANE_String_Const autofocus_mode_list[] = {
 	NULL
 };
 
-static SANE_String_Const source_list[4] = { NULL, NULL, NULL, NULL };
+static const char * source_list[4] = { NULL, NULL, NULL, NULL };
 
 static const SANE_Range gamma_range_8 = {
 	0,			/* minimum */
@@ -1953,7 +1953,7 @@ static Coolscan_t *first_dev;
 
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -3330,7 +3330,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Coolscan_t *dev;
 	SANE_Status status;

@@ -137,9 +137,9 @@ static Apple_Device *first_dev;
 static Apple_Scanner *first_handle;
 
 
-static SANE_String_Const mode_list[6];
+static const char * mode_list[6];
 
-static SANE_String_Const SupportedModel[] = {
+static const char * SupportedModel[] = {
 	"3",
 	"AppleScanner 4bit, 16 Shades of Gray",
 	"OneScanner 8bit, 256 Shades of Gray",
@@ -147,7 +147,7 @@ static SANE_String_Const SupportedModel[] = {
 	NULL
 };
 
-static const SANE_String_Const graymap_list[] = {
+static const char * graymap_list[] = {
 	"dark", "normal", "light",
 	0
 };
@@ -170,14 +170,14 @@ static const int resbit_list[] = {
 	75, 100, 150, 200, 300
 };
 
-static const SANE_String_Const speed_list[] = {
+static const char * speed_list[] = {
 	"normal", "high", "high wo H/S",
 	0
 };
 
-static SANE_String_Const halftone_pattern_list[6];
+static const char * halftone_pattern_list[6];
 
-static const SANE_String_Const color_sensor_list[] = {
+static const char * color_sensor_list[] = {
 	"All", "Red", "Green", "Blue",
 	0
 };
@@ -600,7 +600,7 @@ attach(const char *devname, Apple_Device ** devp, int may_wait)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -861,7 +861,7 @@ start_scan(Apple_Scanner * s)
 static SANE_Status
 calc_parameters(Apple_Scanner * s)
 {
-	SANE_String val = s->val[OPT_MODE].s;
+	char * val = s->val[OPT_MODE].s;
 	SANE_Status status = SANE_STATUS_GOOD;
 	SANE_Bool OutOfRangeX, OutOfRangeY, Protect = TRUE;
 	int xqstep, yqstep;
@@ -1918,7 +1918,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Apple_Device *dev;
 	SANE_Status status;

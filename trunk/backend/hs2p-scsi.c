@@ -45,11 +45,11 @@
 #include "hs2p.h"
 
 
-static SANE_String_Const
+static const char *
 print_devtype(SANE_Byte devtype)
 {
 	int i = devtype;
-	static SANE_String devtypes[] = {
+	static char * devtypes[] = {
 		"disk",
 		"tape",
 		"printer",
@@ -1191,7 +1191,7 @@ is_valid_endorser_character(char c)
 }
 
 static SANE_Status
-set_endorser_string(int fd, SANE_String s)
+set_endorser_string(int fd, char * s)
 {
 	struct
 	{

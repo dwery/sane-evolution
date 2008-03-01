@@ -131,7 +131,7 @@ typedef union
 {
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 } TOptionValue;
 
 typedef struct
@@ -142,11 +142,11 @@ typedef struct
 	struct params ScanParams;
 
 	/* lists */
-	SANE_String_Const *list_colormodes;
+	const char * *list_colormodes;
 	int *list_depths;
-	SANE_String_Const *list_models;
+	const char * *list_models;
 	int *list_resolutions;
-	SANE_String_Const *list_sources;
+	const char * *list_sources;
 
 	int *aGammaTable[3];	/* a 16-to-16 bit color lookup table */
 	SANE_Range rng_gamma;
@@ -177,7 +177,7 @@ static void options_free(TScanner * scanner);
 /* devices listing */
 static int _ReportDevice(TScannerModel * pModel,
 			      const char *pszDeviceName);
-static SANE_Status attach_one_device(SANE_String_Const devname);
+static SANE_Status attach_one_device(const char * devname);
 
 /* capabilities */
 static SANE_Status bknd_colormodes(TScanner * scanner, int model);
@@ -203,11 +203,11 @@ static void gamma_apply(TScanner * s, SANE_Byte * buffer, int size,
 static int gamma_create(TScanner * s, double gamma);
 static void gamma_free(TScanner * s);
 
-static int Get_Colormode(SANE_String colormode);
-static int Get_Model(SANE_String model);
-static int Get_Source(SANE_String source);
-static int GetUSB_device_model(SANE_String_Const name);
-static size_t max_string_size(const SANE_String_Const strings[]);
+static int Get_Colormode(char * colormode);
+static int Get_Model(char * model);
+static int Get_Source(char * source);
+static int GetUSB_device_model(const char * name);
+static size_t max_string_size(const char * strings[]);
 
 static SANE_Status get_button_status(TScanner * s);
 
@@ -241,7 +241,7 @@ const SANE_Option_Descriptor *sane_get_option_descriptor(SANE_Handle h,
 SANE_Status sane_get_parameters(SANE_Handle h, SANE_Parameters * p);
 SANE_Status sane_get_select_fd(SANE_Handle handle, int * fd);
 SANE_Status sane_init(int * version_code, SANE_Auth_Callback authorize);
-SANE_Status sane_open(SANE_String_Const name, SANE_Handle * h);
+SANE_Status sane_open(const char * name, SANE_Handle * h);
 SANE_Status sane_read(SANE_Handle h, SANE_Byte * buf, int maxlen,
 		      int * len);
 SANE_Status sane_set_io_mode(SANE_Handle handle, SANE_Bool non_blocking);
@@ -339,17 +339,17 @@ bknd_models(TScanner * scanner)
 	DBG(DBG_FNC, "> bknd_models:\n");
 
 	if (scanner != NULL) {
-		SANE_String_Const *model = NULL;
+		const char * *model = NULL;
 
 		/* at this moment all devices use the same list */
-		SANE_String_Const mymodel[] =
+		const char * mymodel[] =
 			{ "HP3800", "HP3970", "HP4070", "HP4370", "UA4900",
 			"HPG3010",
 			"BQ5550", "HPG2710", 0
 		};
 
 		/* allocate space to save list */
-		model = (SANE_String_Const *) malloc(sizeof(mymodel));
+		model = (const char * *) malloc(sizeof(mymodel));
 		if (model != NULL)
 			memcpy(model, &mymodel, sizeof(mymodel));
 
@@ -375,10 +375,10 @@ bknd_colormodes(TScanner * scanner, int model)
 	DBG(DBG_FNC, "> bknd_colormodes(*scanner, model=%i)\n", model);
 
 	if (scanner != NULL) {
-		SANE_String_Const *colormode = NULL;
+		const char * *colormode = NULL;
 
 		/* at this moment all devices use the same list */
-		SANE_String_Const mycolormode[] =
+		const char * mycolormode[] =
 			{ SANE_I18N("Color"), SANE_I18N("Gray"),
 			SANE_I18N("Lineart"), 0
 		};
@@ -386,7 +386,7 @@ bknd_colormodes(TScanner * scanner, int model)
 		/* silence gcc */
 		model = model;
 
-		colormode = (SANE_String_Const *) malloc(sizeof(mycolormode));
+		colormode = (const char * *) malloc(sizeof(mycolormode));
 		if (colormode != NULL)
 			memcpy(colormode, &mycolormode, sizeof(mycolormode));
 
@@ -410,14 +410,14 @@ bknd_sources(TScanner * scanner, int model)
 	DBG(DBG_FNC, "> bknd_sources(*scanner, model=%i)\n", model);
 
 	if (scanner != NULL) {
-		SANE_String_Const *source = NULL;
+		const char * *source = NULL;
 
 		switch (model) {
 		case UA4900:
 		{
-			SANE_String_Const mysource[] =
+			const char * mysource[] =
 				{ SANE_I18N("Flatbed"), 0 };
-			source = (SANE_String_Const *)
+			source = (const char * *)
 				malloc(sizeof(mysource));
 			if (source != NULL)
 				memcpy(source, &mysource, sizeof(mysource));
@@ -425,11 +425,11 @@ bknd_sources(TScanner * scanner, int model)
 			break;
 		default:	/* hp3970, hp4070, hp4370 and others */
 		{
-			SANE_String_Const mysource[] =
+			const char * mysource[] =
 				{ SANE_I18N("Flatbed"), SANE_I18N("Slide"),
 				SANE_I18N("Negative"), 0
 			};
-			source = (SANE_String_Const *)
+			source = (const char * *)
 				malloc(sizeof(mysource));
 			if (source != NULL)
 				memcpy(source, &mysource, sizeof(mysource));
@@ -515,7 +515,7 @@ bknd_info(TScanner * scanner)
 }
 
 static int
-GetUSB_device_model(SANE_String_Const name)
+GetUSB_device_model(const char * name)
 {
 	int usbid, model;
 
@@ -963,7 +963,7 @@ gamma_apply(TScanner * s, SANE_Byte * buffer, int size, int depth)
 }
 
 static int
-Get_Model(SANE_String model)
+Get_Model(char * model)
 {
 	int rst;
 
@@ -990,7 +990,7 @@ Get_Model(SANE_String model)
 }
 
 static int
-Get_Source(SANE_String source)
+Get_Source(char * source)
 {
 	int rst;
 
@@ -1007,7 +1007,7 @@ Get_Source(SANE_String source)
 }
 
 static int
-Get_Colormode(SANE_String colormode)
+Get_Colormode(char * colormode)
 {
 	int rst;
 
@@ -1059,7 +1059,7 @@ Translate_coords(struct st_coords *coords)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1757,7 +1757,7 @@ _ReportDevice(TScannerModel * pModel, const char *pszDeviceName)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	static TScannerModel sModel;
 
@@ -1815,7 +1815,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 	FILE *conf_fp;		/* Config file stream  */
 	char line[PATH_MAX];
 	char *str = NULL;
-	SANE_String_Const proper_str;
+	const char * proper_str;
 	int nline = 0;
 
 	/* Initialize debug */
@@ -1901,7 +1901,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	TScanner *s;
 	SANE_Status rst;

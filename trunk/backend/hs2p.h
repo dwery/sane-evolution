@@ -266,19 +266,19 @@ static const SANE_Range u16_range = {
 #define SM_4BITGRAY       "4-Bit Gray"
 #define SM_6BITGRAY       "6-Bit Gray"
 #define SM_8BITGRAY       "8-Bit Gray"
-static SANE_String scan_mode_list[9];
+static char * scan_mode_list[9];
 enum
 { FB, ADF };
-static SANE_String_Const scan_source_list[] = {
+static const char * scan_source_list[] = {
 	"FB",			/* Flatbed */
 	"ADF",			/* Automatic Document Feeder */
 	NULL
 };
-static SANE_String compression_list[6];	/* "none", "g31d MH", "g32d MR", "g42d MMR", "MH byte boundary", NULL} */
+static char * compression_list[6];	/* "none", "g31d MH", "g32d MR", "g42d MMR", "MH byte boundary", NULL} */
 
 typedef struct
 {
-	SANE_String name;
+	char * name;
 	double width, length;	/* paper dimensions in mm */
 } HS2P_Paper;
 /* list of support paper sizes */
@@ -302,7 +302,7 @@ static const HS2P_Paper paper_sizes[] = {	/* Name, Width, Height in mm */
 };
 
 /* MUST be kept in sync with paper_sizes */
-static SANE_String_Const paper_list[] = {
+static const char * paper_list[] = {
 	"Custom",
 	"Letter",
 	"Legal",

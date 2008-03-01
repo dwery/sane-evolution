@@ -2689,7 +2689,7 @@ usb_low_identify_scanner(int fd, Mustek_Type * scanner_type)
 }
 
 SANE_Status
-usb_low_open(ma1017 * chip, SANE_String_Const devname)
+usb_low_open(ma1017 * chip, const char * devname)
 {
 	SANE_Status status;
 	Mustek_Type scanner_type;
@@ -2705,7 +2705,7 @@ usb_low_open(ma1017 * chip, SANE_String_Const devname)
 		return SANE_STATUS_INVAL;
 	}
 
-	status = sanei_usb_open((SANE_String_Const) devname, &chip->fd);
+	status = sanei_usb_open((const char *) devname, &chip->fd);
 
 	if (status == SANE_STATUS_GOOD) {
 		DBG(7, "usb_low_open: device %s successfully opened\n",

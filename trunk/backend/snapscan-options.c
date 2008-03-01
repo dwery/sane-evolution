@@ -227,17 +227,17 @@ init_options(SnapScan_Scanner * ps)
 		{ 15, 50, 150, 200, 240, 266, 300, 350, 360, 400, 600, 720,
 		800, 1200, 1600, 3200
 	};
-	static SANE_String_Const names_all[] =
+	static const char * names_all[] =
 		{ md_colour, md_bilevelcolour, md_greyscale, md_lineart,
 		NULL
 	};
-	static SANE_String_Const names_basic[] =
+	static const char * names_basic[] =
 		{ md_colour, md_greyscale, md_lineart, NULL };
-	static SANE_String_Const preview_names_all[] =
+	static const char * preview_names_all[] =
 		{ md_auto, md_colour, md_bilevelcolour, md_greyscale,
 		md_lineart, NULL
 	};
-	static SANE_String_Const preview_names_basic[] =
+	static const char * preview_names_basic[] =
 		{ md_auto, md_colour, md_greyscale, md_lineart, NULL };
 	static int bit_depth_list[4];
 	int bit_depths;
@@ -454,7 +454,7 @@ init_options(SnapScan_Scanner * ps)
 		| SANE_CAP_INACTIVE | SANE_CAP_AUTOMATIC;
 	po[OPT_SOURCE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	{
-		static SANE_String_Const source_list[3];
+		static const char * source_list[3];
 		int i = 0;
 
 		source_list[i++] = src_flatbed;
@@ -543,7 +543,7 @@ init_options(SnapScan_Scanner * ps)
 	po[OPT_PREDEF_WINDOW].cap =
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	{
-		static SANE_String_Const names[] =
+		static const char * names[] =
 			{ pdw_none, pdw_6X4, pdw_8X10, pdw_85X11, NULL };
 		po[OPT_PREDEF_WINDOW].constraint_type =
 			SANE_CONSTRAINT_STRING_LIST;
@@ -756,7 +756,7 @@ init_options(SnapScan_Scanner * ps)
 	case HCFG_HT:
 		/* both 16x16, 8x8 matrices */
 	{
-		static SANE_String_Const names[] =
+		static const char * names[] =
 			{ dm_dd8x8, dm_dd16x16, NULL };
 
 		po[OPT_HALFTONE_PATTERN].constraint.string_list = names;
@@ -766,7 +766,7 @@ init_options(SnapScan_Scanner * ps)
 	case HCFG_HT16:
 		/* 16x16 matrices only */
 	{
-		static SANE_String_Const names[] = { dm_dd16x16, NULL };
+		static const char * names[] = { dm_dd16x16, NULL };
 
 		po[OPT_HALFTONE_PATTERN].constraint.string_list = names;
 		ps->dither_matrix = dm_dd16x16;
@@ -775,7 +775,7 @@ init_options(SnapScan_Scanner * ps)
 	case HCFG_HT8:
 		/* 8x8 matrices only */
 	{
-		static SANE_String_Const names[] = { dm_dd8x8, NULL };
+		static const char * names[] = { dm_dd8x8, NULL };
 
 		po[OPT_HALFTONE_PATTERN].constraint.string_list = names;
 		ps->dither_matrix = dm_dd8x8;
@@ -784,7 +784,7 @@ init_options(SnapScan_Scanner * ps)
 	default:
 		/* no halftone matrices */
 	{
-		static SANE_String_Const names[] = { dm_none, NULL };
+		static const char * names[] = { dm_none, NULL };
 
 		po[OPT_HALFTONE_PATTERN].constraint.string_list = names;
 		ps->dither_matrix = dm_none;
@@ -976,14 +976,14 @@ sane_control_option(SANE_Handle h,
 		case OPT_MODE:
 			DBG(DL_VERBOSE,
 			    "%s: writing \"%s\" to location %p\n",
-			    me, pss->mode_s, (SANE_String) v);
-			strcpy((SANE_String) v, pss->mode_s);
+			    me, pss->mode_s, (char *) v);
+			strcpy((char *) v, pss->mode_s);
 			break;
 		case OPT_PREVIEW_MODE:
 			DBG(DL_VERBOSE,
 			    "%s: writing \"%s\" to location %p\n",
-			    me, pss->preview_mode_s, (SANE_String) v);
-			strcpy((SANE_String) v, pss->preview_mode_s);
+			    me, pss->preview_mode_s, (char *) v);
+			strcpy((char *) v, pss->preview_mode_s);
 			break;
 		case OPT_SOURCE:
 			strcpy(v, pss->source_s);
@@ -1011,8 +1011,8 @@ sane_control_option(SANE_Handle h,
 		case OPT_PREDEF_WINDOW:
 			DBG(DL_VERBOSE,
 			    "%s: writing \"%s\" to location %p\n",
-			    me, pss->predef_window, (SANE_String) v);
-			strcpy((SANE_String) v, pss->predef_window);
+			    me, pss->predef_window, (char *) v);
+			strcpy((char *) v, pss->predef_window);
 			break;
 		case OPT_GAMMA_GS:
 			*(SANE_Fixed *) v = pss->gamma_gs;
@@ -1044,8 +1044,8 @@ sane_control_option(SANE_Handle h,
 		case OPT_HALFTONE_PATTERN:
 			DBG(DL_VERBOSE,
 			    "%s: writing \"%s\" to location %p\n",
-			    me, pss->dither_matrix, (SANE_String) v);
-			strcpy((SANE_String) v, pss->dither_matrix);
+			    me, pss->dither_matrix, (char *) v);
+			strcpy((char *) v, pss->dither_matrix);
 			break;
 		case OPT_NEGATIVE:
 			*(SANE_Bool *) v = pss->negative;
@@ -1109,7 +1109,7 @@ sane_control_option(SANE_Handle h,
 			break;
 		case OPT_MODE:
 		{
-			char *s = (SANE_String) v;
+			char *s = (char *) v;
 			if (strcmp(s, md_colour) == 0) {
 				pss->mode_s = md_colour;
 				pss->mode = MD_COLOUR;
@@ -1207,7 +1207,7 @@ sane_control_option(SANE_Handle h,
 			break;
 		case OPT_PREVIEW_MODE:
 		{
-			char *s = (SANE_String) v;
+			char *s = (char *) v;
 			if (strcmp(s, md_auto) == 0) {
 				pss->preview_mode_s = md_auto;
 				pss->preview_mode = pss->mode;
@@ -1319,7 +1319,7 @@ sane_control_option(SANE_Handle h,
 			break;
 		case OPT_PREDEF_WINDOW:
 		{
-			char *s = (SANE_String) v;
+			char *s = (char *) v;
 			if (strcmp(s, pdw_none) != 0) {
 				pss->tlx = 0;
 				pss->tly = 0;
@@ -1417,7 +1417,7 @@ sane_control_option(SANE_Handle h,
 			break;
 		case OPT_HALFTONE_PATTERN:
 		{
-			char *s = (SANE_String) v;
+			char *s = (char *) v;
 			if (strcmp(s, dm_dd8x8) == 0) {
 				pss->dither_matrix = dm_dd8x8;
 			} else if (strcmp(s, dm_dd16x16) == 0) {

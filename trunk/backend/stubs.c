@@ -16,7 +16,7 @@ sane_get_devices(const SANE_Device *** dl, SANE_Bool local)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	return ENTRY(open) (name, h);
 }

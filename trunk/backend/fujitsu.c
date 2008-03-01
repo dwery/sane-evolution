@@ -1650,7 +1650,7 @@ init_options(struct fujitsu *s)
  * (if there is such a device).
  */
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	struct fujitsu *dev = NULL;
 	struct fujitsu *s = NULL;
@@ -6244,7 +6244,7 @@ get_page_height(struct fujitsu *s)
  * Convenience method to determine longest string size in a list.
  */
 static size_t
-maxStringSize(const SANE_String_Const strings[])
+maxStringSize(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;

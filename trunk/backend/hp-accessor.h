@@ -82,7 +82,7 @@ SANE_Fixed sanei_hp_accessor_vector_minval(HpAccessorVector this);
 SANE_Fixed sanei_hp_accessor_vector_maxval(HpAccessorVector this);
 
 int sanei_hp_accessor_choice_maxsize(HpAccessorChoice this);
-SANE_String_Const *sanei_hp_accessor_choice_strlist(HpAccessorChoice this,
+const char * *sanei_hp_accessor_choice_strlist(HpAccessorChoice this,
 						    HpOptSet optset,
 						    HpData data,
 						    const HpDeviceInfo *

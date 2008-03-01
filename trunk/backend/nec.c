@@ -156,7 +156,7 @@ Modes;
 #define M_GRAY               "Gray"
 #define M_LINEART_COLOR      "Lineart Color"
 #define M_COLOR              "Color"
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 #if 0
 	M_LINEART, M_GRAY, M_LINEART_COLOR, M_COLOR,
 #endif
@@ -175,7 +175,7 @@ static const SANE_String_Const mode_list[] = {
 #define M_DITHER3        "Dither 3"
 #define M_DITHERUSER     "User defined"
 
-static const SANE_String_Const halftone_list[] = {
+static const char * halftone_list[] = {
 	M_BILEVEL, M_DITHER1, M_DITHER2, M_DITHER3,
 	0
 };
@@ -186,15 +186,15 @@ static const SANE_String_Const halftone_list[] = {
 #define LIGHT_NONE  "none"
 #define LIGHT_WHITE "white"
 
-static const SANE_String_Const light_color_list[] = {
+static const char * light_color_list[] = {
 	LIGHT_GREEN, LIGHT_RED, LIGHT_BLUE, LIGHT_NONE,
 	0
 };
 
 /* possible values for ADF/FSU selection */
-static SANE_String use_adf = "Automatic Document Feeder";
-static SANE_String use_fsu = "Transparency Adapter";
-static SANE_String use_simple = "Flatbed";
+static char * use_adf = "Automatic Document Feeder";
+static char * use_fsu = "Transparency Adapter";
+static char * use_simple = "Flatbed";
 
 #define HAVE_FSU 1
 #define HAVE_ADF 2
@@ -212,13 +212,13 @@ static SANE_String use_simple = "Flatbed";
 #define PAPER_MAX  10
 #define W_LETTER "11\"x17\""
 #define INVOICE  "8.5\"x5.5\""
-static const SANE_String_Const paper_list_pcinxxx[] = {
+static const char * paper_list_pcinxxx[] = {
 	"A3", "A4", "A5", "A6", "B4", "B5",
 	W_LETTER, "Legal", "Letter", INVOICE,
 	0
 };
 
-static const SANE_String_Const paper_list_pcin500[] = {
+static const char * paper_list_pcin500[] = {
 	"A4", "A5", "A6", "B5",
 	0
 };
@@ -230,7 +230,7 @@ static const SANE_String_Const paper_list_pcin500[] = {
 #define PRINTER2 "PRINTER2"
 #define NONE    "NONE"
 /* #define CUSTOM  "CUSTOM" */
-static const SANE_String_Const gamma_list[] = {
+static const char * gamma_list[] = {
 	CRT1, CRT2, PRINTER1, PRINTER2, NONE,
 	0
 };
@@ -238,7 +238,7 @@ static const SANE_String_Const gamma_list[] = {
 #if 0
 #define SPEED_NORMAL    "Normal"
 #define SPEED_FAST      "Fast"
-static const SANE_String_Const speed_list[] = {
+static const char * speed_list[] = {
 	SPEED_NORMAL, SPEED_FAST,
 	0
 };
@@ -246,13 +246,13 @@ static const SANE_String_Const speed_list[] = {
 
 #ifdef USE_RESOLUTION_LIST
 #define RESOLUTION_MAX_PCINXXX 8
-static const SANE_String_Const resolution_list_pcinxxx[] = {
+static const char * resolution_list_pcinxxx[] = {
 	"50", "75", "100", "150", "200", "300", "400", "600", "Select",
 	0
 };
 
 #define RESOLUTION_MAX_PCIN500 8
-static const SANE_String_Const resolution_list_pcin500[] = {
+static const char * resolution_list_pcin500[] = {
 	"50", "75", "100", "150", "200", "300", "400", "480", "Select",
 	0
 };
@@ -262,7 +262,7 @@ static const SANE_String_Const resolution_list_pcin500[] = {
 #define EDGE_MIDDLE  "Middle"
 #define EDGE_STRONG  "Strong"
 #define EDGE_BLUR    "Blur"
-static const SANE_String_Const edge_emphasis_list[] = {
+static const char * edge_emphasis_list[] = {
 	EDGE_NONE, EDGE_MIDDLE, EDGE_STRONG, EDGE_BLUR,
 	0
 };
@@ -920,7 +920,7 @@ read_data(NEC_Scanner * s, SANE_Byte * buf, size_t * buf_size)
 #endif
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1075,7 +1075,7 @@ attach(const char *devnam, NEC_Device ** devp)
 		return (SANE_STATUS_NO_MEM);
 	memset(dev, 0, sizeof(*dev));
 
-	dev->sane.name = (SANE_String) strdup(devnam);
+	dev->sane.name = (char *) strdup(devnam);
 	dev->sane.vendor = "NEC";
 	model_name = inquiry_data + 16;
 	dev->sane.model = strndup((char *) model_name, 10);
@@ -1308,7 +1308,7 @@ set_gamma_caps(NEC_Scanner * s)
 static void
 clip_value(const SANE_Option_Descriptor * opt, void *value)
 {
-	const SANE_String_Const *string_list;
+	const char * *string_list;
 	const int *word_list;
 	int i, num_matches, match;
 	const SANE_Range *range;
@@ -1388,9 +1388,9 @@ clip_value(const SANE_Option_Descriptor * opt, void *value)
    write behind the end of the allocated memory. 
 */
 static SANE_Status
-init_string_option(NEC_Scanner * s, SANE_String_Const name,
-		   SANE_String_Const title, SANE_String_Const desc,
-		   const SANE_String_Const * string_list, int option,
+init_string_option(NEC_Scanner * s, const char * name,
+		   const char * title, const char * desc,
+		   const char * * string_list, int option,
 		   int default_index)
 {
 	int i;
@@ -1476,7 +1476,7 @@ init_options(NEC_Scanner * s)
 
 	init_string_option(s, SANE_NAME_SCAN_SOURCE, SANE_TITLE_SCAN_SOURCE,
 			   SANE_DESC_SCAN_SOURCE,
-			   (SANE_String_Const *) s->dev->info.scansources,
+			   (const char * *) s->dev->info.scansources,
 			   OPT_SCANSOURCE, 0);
 
 	if (i < 2)
@@ -2097,7 +2097,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	NEC_Device *dev;
@@ -2421,7 +2421,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_SCANSOURCE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 #if 0

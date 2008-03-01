@@ -256,8 +256,8 @@ struct fujitsu
 	SANE_Option_Descriptor opt[NUM_OPTIONS];
 
 	/*mode group */
-	SANE_String_Const mode_list[7];
-	SANE_String_Const source_list[5];
+	const char * mode_list[7];
+	const char * source_list[5];
 
 	int x_res_list[17];
 	int y_res_list[17];
@@ -281,16 +281,16 @@ struct fujitsu
 	/*ipc group */
 
 	/*advanced group */
-	SANE_String_Const compress_list[3];
+	const char * compress_list[3];
 	SANE_Range compress_arg_range;
-	SANE_String_Const df_detect_list[6];
-	SANE_String_Const df_diff_list[5];
-	SANE_String_Const bg_color_list[4];
-	SANE_String_Const do_color_list[5];
-	SANE_String_Const lamp_color_list[5];
-	SANE_String_Const buff_mode_list[4];
-	SANE_String_Const prepick_list[4];
-	SANE_String_Const overscan_list[4];
+	const char * df_detect_list[6];
+	const char * df_diff_list[5];
+	const char * bg_color_list[4];
+	const char * do_color_list[5];
+	const char * lamp_color_list[5];
+	const char * buff_mode_list[4];
+	const char * prepick_list[4];
+	const char * overscan_list[4];
 	SANE_Range sleep_time_range;
 	SANE_Range duplex_offset_range;
 	SANE_Range green_offset_range;
@@ -497,7 +497,7 @@ SANE_Status sane_init(int * version_code, SANE_Auth_Callback authorize);
 SANE_Status sane_get_devices(const SANE_Device *** device_list,
 			     SANE_Bool local_only);
 
-SANE_Status sane_open(SANE_String_Const name, SANE_Handle * handle);
+SANE_Status sane_open(const char * name, SANE_Handle * handle);
 
 SANE_Status sane_set_io_mode(SANE_Handle h, SANE_Bool non_blocking);
 
@@ -614,6 +614,6 @@ static SANE_Status get_hardware_status(struct fujitsu *s);
 
 static void hexdump(int level, char *comment, unsigned char *p, int l);
 
-static size_t maxStringSize(const SANE_String_Const strings[]);
+static size_t maxStringSize(const char * strings[]);
 
 #endif /* FUJITSU_H */

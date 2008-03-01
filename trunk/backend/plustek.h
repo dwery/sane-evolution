@@ -383,7 +383,7 @@ typedef union
 {
 	int w;
 	int *wa;
-	SANE_String s;
+	char * s;
 } Option_Value;
 #endif
 

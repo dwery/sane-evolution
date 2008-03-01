@@ -91,7 +91,7 @@ get_scanner_info(unsigned devnr)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname)
+attach(const char * devname)
 {
 	scanner_info_t *si;
 

@@ -194,14 +194,14 @@ static struct mode_param mode_params[] = {
 	{1, 0x02, 0x00, 8}
 };
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Binary"),
 	SANE_I18N("Gray"),
 	SANE_I18N("Color"),
 	NULL
 };
 
-static const SANE_String_Const adf_mode_list[] = {
+static const char * adf_mode_list[] = {
 	SANE_I18N("Simplex"),
 	SANE_I18N("Duplex"),
 	NULL
@@ -219,7 +219,7 @@ static const SANE_String_Const adf_mode_list[] = {
  * of the scanner.
  */
 
-static SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	FBF_STR,
 	NULL,
 	NULL,
@@ -230,7 +230,7 @@ static SANE_String_Const source_list[] = {
 #define FILM_TYPE_NEGATIVE	(1L << 0)
 #define FILM_TYPE_SLIDE		(1L << 1)
 
-static const SANE_String_Const film_list[] = {
+static const char * film_list[] = {
 	SANE_I18N("Positive Film"),
 	SANE_I18N("Negative Film"),
 	SANE_I18N("Positive Slide"),
@@ -240,7 +240,7 @@ static const SANE_String_Const film_list[] = {
 
 static int film_params[] = { 0, 1, 2, 3 };
 
-static const SANE_String_Const focus_list[] = {
+static const char * focus_list[] = {
 	SANE_I18N("Focus on glass"),
 	SANE_I18N("Focus 2.5mm above glass"),
 	NULL
@@ -263,7 +263,7 @@ static const int halftone_params[] = {
 	0xd0
 };
 
-static const SANE_String_Const halftone_list[] = {
+static const char * halftone_list[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Halftone A (Hard Tone)"),
 	SANE_I18N("Halftone B (Soft Tone)"),
@@ -271,7 +271,7 @@ static const SANE_String_Const halftone_list[] = {
 	NULL
 };
 
-static const SANE_String_Const halftone_list_4[] = {
+static const char * halftone_list_4[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Halftone A (Hard Tone)"),
 	SANE_I18N("Halftone B (Soft Tone)"),
@@ -283,7 +283,7 @@ static const SANE_String_Const halftone_list_4[] = {
 	NULL
 };
 
-static const SANE_String_Const halftone_list_7[] = {
+static const char * halftone_list_7[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Halftone A (Hard Tone)"),
 	SANE_I18N("Halftone B (Soft Tone)"),
@@ -305,7 +305,7 @@ static const int dropout_params[] = {
 	0x30			/* blue */
 };
 
-static const SANE_String_Const dropout_list[] = {
+static const char * dropout_list[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Red"),
 	SANE_I18N("Green"),
@@ -337,7 +337,7 @@ static const SANE_Bool color_userdefined[] = {
 	FALSE
 };
 
-static const SANE_String_Const color_list[] = {
+static const char * color_list[] = {
 	SANE_I18N("No Correction"),
 	SANE_I18N("User defined"),
 	SANE_I18N("Impact-dot printers"),
@@ -361,7 +361,7 @@ static int gamma_params_ab[] = {
 	0x20
 };
 
-static const SANE_String_Const gamma_list_ab[] = {
+static const char * gamma_list_ab[] = {
 	SANE_I18N("Default"),
 	SANE_I18N("User defined"),
 	SANE_I18N("High density printing"),
@@ -383,7 +383,7 @@ static int gamma_params_d[] = {
 	0x04
 };
 
-static const SANE_String_Const gamma_list_d[] = {
+static const char * gamma_list_d[] = {
 	SANE_I18N("User defined (Gamma=1.0)"),
 	SANE_I18N("User defined (Gamma=1.8)"),
 	NULL
@@ -402,7 +402,7 @@ static int *gamma_params;
  * XXX Add APS loader support
  */
 
-static const SANE_String_Const bay_list[] = {
+static const char * bay_list[] = {
 	"1",
 	"2",
 	"3",
@@ -441,7 +441,7 @@ static const SANE_Device **devlist = 0;
 /* Some utility functions */
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -464,8 +464,8 @@ typedef struct
 } EpsonDataRec;
 
 static SANE_Status color_shuffle(SANE_Handle handle, int *new_length);
-static SANE_Status attach_one_usb(SANE_String_Const devname);
-static SANE_Status attach_one_net(SANE_String_Const devname);
+static SANE_Status attach_one_usb(const char * devname);
+static SANE_Status attach_one_net(const char * devname);
 static void filter_resolution_list(Epson_Scanner * s);
 
 
@@ -836,7 +836,7 @@ e2_discover_capabilities(Epson_Scanner * s)
 	unsigned char scanner_status;
 	Epson_Device *dev = s->hw;
 
-	SANE_String_Const *source_list_add = source_list;
+	const char * *source_list_add = source_list;
 
 	DBG(5, "%s\n", __func__);
 
@@ -2305,7 +2305,7 @@ init_options(Epson_Scanner * s)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	SANE_Status status;
 	Epson_Device *dev;
@@ -2405,8 +2405,8 @@ sane_get_option_descriptor(SANE_Handle handle, int option)
 	return (s->opt + option);
 }
 
-static const SANE_String_Const *
-search_string_list(const SANE_String_Const * list, SANE_String value)
+static const char * *
+search_string_list(const char * * list, char * value)
 {
 	while (*list != NULL && strcmp(value, *list) != 0) {
 		++list;
@@ -2666,7 +2666,7 @@ setvalue(SANE_Handle handle, int option, void *value, int * info)
 	Option_Value *sval = &(s->val[option]);
 
 	SANE_Status status;
-	const SANE_String_Const *optval;
+	const char * *optval;
 	int optindex;
 	SANE_Bool reload = FALSE;
 

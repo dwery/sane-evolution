@@ -210,7 +210,7 @@ static SANE_Option_Descriptor sod[] = {
 	 4,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & image_range}	/* this is ANSI conformant! */
+	 {(const char * *) & image_range}	/* this is ANSI conformant! */
 	 }
 	,
 
@@ -307,7 +307,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int),
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(const SANE_String_Const *) &contrast_range}	/* this is ANSI conformant! */
+	 {(const char * *) &contrast_range}	/* this is ANSI conformant! */
 	 },
 
 #define DC25_OPT_GAMMA 10
@@ -320,7 +320,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int),
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(const SANE_String_Const *) &gamma_range}	/* this is ANSI conformant! */
+	 {(const char * *) &gamma_range}	/* this is ANSI conformant! */
 	 },
 
 #define DC25_OPT_DEFAULT 11
@@ -1921,7 +1921,7 @@ sane_get_devices(const SANE_Device *** device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	int i;
 

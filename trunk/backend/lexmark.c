@@ -81,7 +81,7 @@ static const SANE_Device **sane_device_list = NULL;
 /* Program globals F.O - Should this be per device?*/
 static SANE_Bool initialized = FALSE;
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_COLOR,
 	SANE_VALUE_SCAN_MODE_GRAY,
 	SANE_VALUE_SCAN_MODE_LINEART,
@@ -132,7 +132,7 @@ static SANE_Range y_range = {
 
 /* static functions */
 static SANE_Status init_options(Lexmark_Device * lexmark_device);
-static SANE_Status attachLexmark(SANE_String_Const devname);
+static SANE_Status attachLexmark(const char * devname);
 
 SANE_Status
 init_options(Lexmark_Device * dev)
@@ -359,7 +359,7 @@ init_options(Lexmark_Device * dev)
 /***************************** SANE API ****************************/
 
 SANE_Status
-attachLexmark(SANE_String_Const devname)
+attachLexmark(const char * devname)
 {
 	Lexmark_Device *lexmark_device;
 	int dn, vendor, product;
@@ -591,7 +591,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
  * available handle.
  */
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Lexmark_Device *lexmark_device;
 	SANE_Status status;

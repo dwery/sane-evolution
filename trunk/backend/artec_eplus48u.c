@@ -150,7 +150,7 @@ static int send_small_cmd_index = 0x3f40;	/**< Send small command - wIndex */
 static int recv_small_res_value = 0x2013;	/**< Receive small result - wValue */
 static int recv_small_res_index = 0x3f00;	/**< Receive small result - wIndex */
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Lineart"),
 	SANE_I18N("Grayscale"),
 	SANE_I18N("Color"),
@@ -825,7 +825,7 @@ attach(const char *dev_name, Artec48U_Device ** devp)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	Artec48U_Device *dev;
 	SANE_Status status;
@@ -2649,7 +2649,7 @@ artec48u_calculate_shading_buffer(Artec48U_Scanner * s, int start, int end,
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -3736,7 +3736,7 @@ save_calibration_data(Artec48U_Scanner * s)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status = SANE_STATUS_INVAL;
 	Artec48U_Device *dev = 0;
@@ -4039,7 +4039,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 	SANE_Status status;
 	int resx;
 /*  int scan_mode;*/
-	SANE_String str = s->val[OPT_SCAN_MODE].s;
+	char * str = s->val[OPT_SCAN_MODE].s;
 	int tlx;
 	int tly;
 	int brx;

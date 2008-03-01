@@ -1053,7 +1053,7 @@ _make_probed_choice_list(HpScsi scsi, HpScl scl, HpChoice choice,
 }
 
 static void
-_set_stringlist(HpOption this, HpData data, SANE_String_Const * strlist)
+_set_stringlist(HpOption this, HpData data, const char * * strlist)
 {
 	_HpSaneOption optd = _hp_option_saneoption(this, data);
 	optd->constraint.string_list = strlist;
@@ -2778,7 +2778,7 @@ static hp_bool_t
 _enable_choice(HpOption this, HpOptSet optset, HpData data,
 	       const HpDeviceInfo * info)
 {
-	SANE_String_Const *strlist
+	const char * *strlist
 		=
 		sanei_hp_accessor_choice_strlist((HpAccessorChoice) this->
 						 data_acsr,

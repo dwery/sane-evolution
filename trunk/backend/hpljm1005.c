@@ -87,9 +87,9 @@ struct usbdev_s
 {
 	int vendor_id;
 	int product_id;
-	SANE_String_Const vendor_s;
-	SANE_String_Const model_s;
-	SANE_String_Const type_s;
+	const char * vendor_s;
+	const char * model_s;
+	const char * type_s;
 };
 
 /* Zero-terminated USB VID/PID array */
@@ -127,7 +127,7 @@ static SANE_Range range_y = { 0, MAX_Y_S, 0 };
 
 static SANE_Range range_br_cont = { BR_CONT_MIN, BR_CONT_MAX, 0 };
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	"Gray",
 	"Color",
 	NULL
@@ -149,7 +149,7 @@ static const SANE_String_Const mode_list[] = {
 struct device_s
 {
 	struct device_s *next;
-	SANE_String_Const devname;
+	const char * devname;
 	int idx;		/* Index in the usbid array */
 	int dn;			/* Usb "Handle" */
 	SANE_Option_Descriptor optiond[OPTION_MAX];
@@ -232,7 +232,7 @@ update_img_size(struct device_s *dev)
 
 /* This function is copy/pasted from the Epson backend */
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -247,7 +247,7 @@ max_string_size(const SANE_String_Const strings[])
 
 
 static SANE_Status
-attach(SANE_String_Const devname)
+attach(const char * devname)
 {
 	struct device_s *dev;
 
@@ -484,7 +484,7 @@ sane_get_devices(const SANE_Device * **device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	struct device_s *dev;
 	int ret;

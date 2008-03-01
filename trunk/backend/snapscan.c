@@ -150,7 +150,7 @@ static void gamma_n(double gamma, int brightness, int contrast,
 		    u_char * buf, int length, int gamma_16bit);
 static void gamma_to_sane(int length, u_char * in, int * out);
 
-static size_t max_string_size(SANE_String_Const strings[]);
+static size_t max_string_size(const char * strings[]);
 
 /* inline functions */
 static inline SnapScan_Mode
@@ -274,7 +274,7 @@ init_gamma(SnapScan_Scanner * ps)
 /* Max string size */
 
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size;
 	size_t max_size = 0;
@@ -368,7 +368,7 @@ mkDn(u_char * Dn, u_char * Dn_half, unsigned n)
 }
 
 static SANE_Bool
-device_already_in_list(SnapScan_Device * current, SANE_String_Const name)
+device_already_in_list(SnapScan_Device * current, const char * name)
 {
 	for (; NULL != current; current = current->pnext) {
 		if (0 == strcmp(name, current->dev.name))
@@ -449,7 +449,7 @@ snapscani_check_device(int fd,
 static SANE_Status
 snapscani_init_device_structure(SnapScan_Device ** pd,
 				const SnapScan_Bus bus_type,
-				SANE_String_Const name,
+				const char * name,
 				const char *vendor,
 				const char *model,
 				const SnapScan_Model model_num)
@@ -499,7 +499,7 @@ snapscani_init_device_structure(SnapScan_Device ** pd,
 }
 
 static SANE_Status
-add_scsi_device(SANE_String_Const full_name)
+add_scsi_device(const char * full_name)
 {
 	int fd;
 	static const char me[] = "add_scsi_device";
@@ -551,7 +551,7 @@ add_scsi_device(SANE_String_Const full_name)
 }
 
 static SANE_Status
-add_usb_device(SANE_String_Const full_name)
+add_usb_device(const char * full_name)
 {
 	static const char me[] = "add_usb_device";
 	int fd;
@@ -641,7 +641,7 @@ add_usb_device(SANE_String_Const full_name)
    is no such device */
 
 static SnapScan_Device *
-find_device(SANE_String_Const name)
+find_device(const char * name)
 {
 	static char me[] = "find_device";
 	SnapScan_Device *psd;
@@ -829,7 +829,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	static const char *me = "sane_snapscan_open";
 	SnapScan_Device *psd;

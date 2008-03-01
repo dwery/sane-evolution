@@ -67,7 +67,7 @@
 #define PC_DEFAULT 0x80
 #define PC_SAVED   0xc0
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	"Lineart", "Halftone", "Gray",
 	0
 };

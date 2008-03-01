@@ -135,7 +135,7 @@ static ModeParam mode_params[] = {
 	{1, 16, COLOR_TRUE42}
 };
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_LINEART,
 	SANE_VALUE_SCAN_MODE_GRAY,
 	SANE_VALUE_SCAN_MODE_COLOR,
@@ -143,7 +143,7 @@ static const SANE_String_Const mode_list[] = {
 	NULL
 };
 
-static const SANE_String_Const src_list[] = {
+static const char * src_list[] = {
 	SANE_I18N("Normal"),
 	SANE_I18N("Transparency"),
 	SANE_I18N("Negative"),
@@ -254,8 +254,8 @@ getModeList(U12_Scanner * scanner)
 /** goes through a string list and returns the start-address of the string
  * that has been found, or NULL on error
  */
-static const SANE_String_Const *
-search_string_list(const SANE_String_Const * list, SANE_String value)
+static const char * *
+search_string_list(const char * * list, char * value)
 {
 	while (*list != NULL && strcmp(value, *list) != 0)
 		++list;
@@ -1119,7 +1119,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 /** open the sane device
  */
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	U12_Device *dev;
@@ -1226,7 +1226,7 @@ sane_control_option(SANE_Handle handle, int option,
 {
 	U12_Scanner *s = (U12_Scanner *) handle;
 	SANE_Status status;
-	const SANE_String_Const *optval;
+	const char * *optval;
 #ifdef ALL_MODES
 	pModeParam mp;
 	int idx;

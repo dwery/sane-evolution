@@ -75,7 +75,7 @@ static const SANE_Device **devlist = 0;
 static SANE_Status attach(const char *devname, AS6E_Device ** devp);
 /* static SANE_Status attach_one (const char *dev);  */
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	"Lineart", "Gray", "Color",
 	0
 };
@@ -347,7 +347,7 @@ SANE_Status
 sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 {
 	AS6E_Scan *s = handle;
-	SANE_String mode;
+	char * mode;
 	int divisor = 1;
 	DBG(2, "sane_get_parameters\n");
 	if (!s->scanning) {
@@ -621,7 +621,8 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 	FILE *fp = NULL;
 
 	DBG_INIT();
-	DBG(2, "sane_init (authorize = %p)\n", (void *) authorize);
+	DBG(2, "%s\n", __func__);
+
 	if (version_code)
 		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, 0);
 /*  fp = sanei_config_open (AS6E_CONFIG_FILE);*/
@@ -678,7 +679,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 /*--------------------------------------------------------------------------*/
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -871,7 +872,7 @@ attach(const char *devname, AS6E_Device ** devp)
 
 /*--------------------------------------------------------------------------*/
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	AS6E_Device *dev;

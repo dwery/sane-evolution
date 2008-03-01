@@ -44,7 +44,7 @@
 
 #include "sane/sane.h"
 
-SANE_String_Const
+const char *
 sane_strstatus(SANE_Status status)
 {
 	static char buf[80];

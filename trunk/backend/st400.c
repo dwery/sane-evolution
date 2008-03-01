@@ -818,7 +818,7 @@ sane_get_devices(const SANE_Device *** devarrayP, SANE_Bool local_only)
 
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handleP)
+sane_open(const char * devicename, SANE_Handle * handleP)
 {
 	ST400_Device *dev;
 	SANE_Status status;

@@ -89,9 +89,9 @@ PictureInfo;
 
 typedef struct GPHOTO2_s
 {
-	SANE_String port;	/* the port name it's on */
+	char * port;	/* the port name it's on */
 	int speed;		/* current port speed */
-	SANE_String camera_name;
+	char * camera_name;
 	SANE_Bool scanning;	/* currently scanning an image? */
 	SANE_Byte model;
 	SANE_Byte ver_major;
@@ -185,11 +185,11 @@ static SANE_Status snap_pic(void);
 
 char *sanei_config_read(char *str, int n, FILE * stream);
 
-static int read_dir(SANE_String dir, SANE_Bool read_files);
+static int read_dir(char * dir, SANE_Bool read_files);
 
 static void set_res(int lowres);
 
-static int read_info(SANE_String_Const fname);
+static int read_info(const char * fname);
 
 static SANE_Status converter_do_scan_complete_cleanup(void);
 

@@ -131,7 +131,7 @@ allblank(const char *s)
 #endif
 
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -250,10 +250,10 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_SCAN_MODE].cap =
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_SCAN_MODE].size =
-		max_string_size((SANE_String_Const *) scan_mode_list);
+		max_string_size((const char * *) scan_mode_list);
 	s->opt[OPT_SCAN_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_SCAN_MODE].constraint.string_list =
-		(SANE_String_Const *) & scan_mode_list[0];
+		(const char * *) & scan_mode_list[0];
 	s->val[OPT_SCAN_MODE].s = strdup(scan_mode_list[0]);
 	s->image_composition = LINEART;
 
@@ -295,10 +295,10 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_COMPRESSION].cap =
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_COMPRESSION].size =
-		max_string_size((SANE_String_Const *) compression_list);
+		max_string_size((const char * *) compression_list);
 	s->opt[OPT_COMPRESSION].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_COMPRESSION].constraint.string_list =
-		(SANE_String_Const *) & compression_list[0];
+		(const char * *) & compression_list[0];
 	s->val[OPT_COMPRESSION].s = strdup(compression_list[0]);
 	if (s->hw->info.supports_MH == FALSE ||	/* MH  G3 1-D       */
 	    s->hw->info.supports_MR == FALSE ||	/* MR  G3 2-D       */
@@ -429,7 +429,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_SCAN_SOURCE].size = max_string_size(scan_source_list);
 	s->opt[OPT_SCAN_SOURCE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_SCAN_SOURCE].constraint.string_list =
-		(SANE_String_Const *) & scan_source_list[0];
+		(const char * *) & scan_source_list[0];
 	s->val[OPT_SCAN_SOURCE].s = strdup(scan_source_list[0]);
 	if (!s->hw->info.hasADF)
 		s->opt[OPT_SCAN_SOURCE].cap |= SANE_CAP_INACTIVE;
@@ -507,7 +507,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_HALFTONE_CODE].constraint_type =
 		SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_HALFTONE_CODE].constraint.string_list =
-		(SANE_String_Const *) & halftone_code[0];
+		(const char * *) & halftone_code[0];
 	s->val[OPT_HALFTONE_CODE].s = strdup(halftone_code[0]);
 	if (s->image_composition == LINEART)
 		s->opt[OPT_HALFTONE_CODE].cap |= SANE_CAP_INACTIVE;
@@ -518,13 +518,13 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_HALFTONE_PATTERN].desc = SANE_DESC_HALFTONE_PATTERN;
 	s->opt[OPT_HALFTONE_PATTERN].type = SANE_TYPE_STRING;
 	s->opt[OPT_HALFTONE_PATTERN].size =
-		max_string_size((SANE_String_Const *) halftone_pattern_list);
+		max_string_size((const char * *) halftone_pattern_list);
 	s->opt[OPT_HALFTONE_PATTERN].cap =
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_HALFTONE_PATTERN].constraint_type =
 		SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_HALFTONE_PATTERN].constraint.string_list =
-		(SANE_String_Const *) & halftone_pattern_list[0];
+		(const char * *) & halftone_pattern_list[0];
 	s->val[OPT_HALFTONE_PATTERN].s = strdup(halftone_pattern_list[0]);
 	if (s->image_composition == LINEART)
 		s->opt[OPT_HALFTONE_CODE].cap |= SANE_CAP_INACTIVE;
@@ -539,7 +539,7 @@ init_options(HS2P_Scanner * s)
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_GRAYFILTER].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_GRAYFILTER].constraint.string_list =
-		(SANE_String_Const *) & grayfilter_list[0];
+		(const char * *) & grayfilter_list[0];
 	s->val[OPT_GRAYFILTER].s = strdup(grayfilter_list[0]);
 
 	/* Scan Wait Mode */
@@ -591,7 +591,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_GAMMA].type = SANE_TYPE_STRING;
 	s->opt[OPT_GAMMA].cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_GAMMA].size =
-		max_string_size((SANE_String_Const *) gamma_list);
+		max_string_size((const char * *) gamma_list);
 	/*
 	   s->opt[OPT_GAMMA].type = SANE_TYPE_INT;
 	   s->opt[OPT_GAMMA].unit = SANE_UNIT_NONE;
@@ -602,7 +602,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_GAMMA].type = SANE_TYPE_STRING;
 	s->opt[OPT_GAMMA].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_GAMMA].constraint.string_list =
-		(SANE_String_Const *) & gamma_list[0];
+		(const char * *) & gamma_list[0];
 	s->val[OPT_GAMMA].s = strdup(gamma_list[0]);
 
 	/* custom-gamma table */
@@ -655,7 +655,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_NOISEREMOVAL].cap =
 		SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_NOISEREMOVAL].constraint.string_list =
-		(SANE_String_Const *) & noisematrix_list[0];
+		(const char * *) & noisematrix_list[0];
 	s->val[OPT_NOISEREMOVAL].s = strdup(noisematrix_list[0]);
 	if (!s->hw->info.hasIPU)
 		s->opt[OPT_NOISEREMOVAL].cap |= SANE_CAP_INACTIVE;
@@ -668,7 +668,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_AUTOSEP].size = max_string_size(auto_separation_list);
 	s->opt[OPT_AUTOSEP].cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_AUTOSEP].constraint.string_list =
-		(SANE_String_Const *) & auto_separation_list[0];
+		(const char * *) & auto_separation_list[0];
 	s->val[OPT_AUTOSEP].s = strdup(auto_separation_list[0]);
 	if (!s->hw->info.hasIPU)
 		s->opt[OPT_AUTOSEP].cap |= SANE_CAP_INACTIVE;
@@ -681,7 +681,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_AUTOBIN].size = max_string_size(auto_binarization_list);
 	s->opt[OPT_AUTOBIN].cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	s->opt[OPT_AUTOBIN].constraint.string_list =
-		(SANE_String_Const *) & auto_binarization_list[0];
+		(const char * *) & auto_binarization_list[0];
 	s->val[OPT_AUTOBIN].s = strdup(auto_binarization_list[0]);
 	if (!s->hw->info.hasIPU)
 		s->opt[OPT_AUTOBIN].cap |= SANE_CAP_INACTIVE;
@@ -738,7 +738,7 @@ init_options(HS2P_Scanner * s)
 	s->opt[OPT_PADDING_TYPE].constraint_type =
 		SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_PADDING_TYPE].constraint.string_list =
-		(SANE_String_Const *) & paddingtype_list[0];
+		(const char * *) & paddingtype_list[0];
 	s->val[OPT_PADDING_TYPE].s =
 		strdup(paddingtype_list[get_paddingtype_strndx(TRUNCATE)]);
 	DBG(DBG_info, "PADDINGTYPE =%s size=%d\n", s->val[OPT_PADDING_TYPE].s,
@@ -771,7 +771,7 @@ init_options(HS2P_Scanner * s)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname, HS2P_Device ** devp)
+attach(const char * devname, HS2P_Device ** devp)
 {
 	SANE_Status status;
 	HS2P_Device *dev;
@@ -785,7 +785,7 @@ attach(SANE_String_Const devname, HS2P_Device ** devp)
 	char device_string[60];
 
 	unsigned int i;
-	SANE_String *str;
+	char * *str;
 
 
 	DBG(DBG_sane_proc, ">>> attach:\n");
@@ -1407,8 +1407,8 @@ sane_exit(void)
 
 	for (dev = first_dev; dev; dev = next) {
 		next = dev->next;
-		free((void *) (SANE_String_Const *) dev->sane.name);
-		free((SANE_String_Const *) dev->sane.model);
+		free((void *) (const char * *) dev->sane.name);
+		free((const char * *) dev->sane.model);
 		free(dev);
 	}
 
@@ -1441,7 +1441,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	HS2P_Device *dev;
@@ -1553,7 +1553,7 @@ sane_control_option(SANE_Handle handle, int option,
 	HS2P_Scanner *s = handle;
 	SANE_Status status;
 	int cap;
-	SANE_String_Const name;
+	const char * name;
 
 
 
@@ -1745,8 +1745,8 @@ sane_control_option(SANE_Handle handle, int option,
 
 			/* options with side effect */
 		case OPT_GAMMA:
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
-				if (!strcmp((SANE_String) val, "User")) {
+			if (strcmp(s->val[option].s, (char *) val)) {
+				if (!strcmp((char *) val, "User")) {
 					s->val[OPT_CUSTOM_GAMMA].b =
 						TRUE;
 					s->opt[OPT_CUSTOM_GAMMA].cap &=
@@ -1810,7 +1810,7 @@ sane_control_option(SANE_Handle handle, int option,
 			if (s->val[option].s)
 				free(s->val[option].s);
 			s->val[option].s = strdup(val);
-			if (!strcmp("ADF", (SANE_String) val)) {
+			if (!strcmp("ADF", (char *) val)) {
 				s->opt[OPT_ENDORSER].cap &=
 					~SANE_CAP_INACTIVE;
 				s->opt[OPT_ENDORSER_STRING].cap &=
@@ -1830,10 +1830,10 @@ sane_control_option(SANE_Handle handle, int option,
 		case OPT_SCAN_MODE:
 			/* a string option */
 			/* scan mode != lineart disables compression, setting it to  'none' */
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
+			if (strcmp(s->val[option].s, (char *) val)) {
 				if (info)
 					*info |= SANE_INFO_RELOAD_OPTIONS;
-				if (!strcmp(SM_LINEART, (SANE_String) val)) {
+				if (!strcmp(SM_LINEART, (char *) val)) {
 					s->image_composition = LINEART;
 					s->opt[OPT_COMPRESSION].cap &= ~SANE_CAP_INACTIVE;	/* enable compression control */
 					s->opt[OPT_THRESHOLD].cap &= ~SANE_CAP_INACTIVE;	/* enable threshold control   */
@@ -1847,19 +1847,19 @@ sane_control_option(SANE_Handle handle, int option,
 				} else {
 					if (!strcmp
 					    (SM_HALFTONE,
-					     (SANE_String) val)) {
+					     (char *) val)) {
 						s->image_composition =
 							HALFTONE;
 						s->opt[OPT_HALFTONE_CODE].cap &= ~SANE_CAP_INACTIVE;	/* enable halftone code    */
 						s->opt[OPT_HALFTONE_PATTERN].cap &= ~SANE_CAP_INACTIVE;	/* enable halftone pattern */
 					} else if (!strcmp
 						   (SM_4BITGRAY,
-						    (SANE_String) val)
+						    (char *) val)
 						   || !strcmp(SM_6BITGRAY,
-							      (SANE_String)
+							      (char *)
 							      val)
 						   || !strcmp(SM_8BITGRAY,
-							      (SANE_String)
+							      (char *)
 							      val)) {
 						s->image_composition =
 							GRAYSCALE;
@@ -1893,9 +1893,9 @@ sane_control_option(SANE_Handle handle, int option,
 			/* a string option */
 			/* changes geometry options, therefore _RELOAD_PARAMS and _RELOAD_OPTIONS */
 			s->opt[OPT_AUTO_SIZE].cap |= SANE_CAP_INACTIVE;	/* disable auto size */
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
+			if (strcmp(s->val[option].s, (char *) val)) {
 				int paper_id =
-					get_paper_id((SANE_String) val);
+					get_paper_id((char *) val);
 
 				/* paper_id 0 is a special case (custom) that
 				 * disables the paper size control of geometry
@@ -2341,7 +2341,7 @@ sane_start(SANE_Handle handle)
 
 	prefeed = s->val[OPT_PREFEED].w ? 0x04 : 0x00;
 	DBG(DBG_info, "sane_start: setting scan source to %d %s\n", mode,
-	    (SANE_String) s->val[OPT_SCAN_SOURCE].s);
+	    (char *) s->val[OPT_SCAN_SOURCE].s);
 	DBG(DBG_info, "sane_start: setting prefeed to %d\n", prefeed);
 	if ((status =
 	     set_adf_control(s->fd, &mode, &prefeed,
@@ -2373,7 +2373,7 @@ sane_start(SANE_Handle handle)
 		    s->val[OPT_ENDORSER_STRING].s);
 		if ((status =
 		     set_endorser_string(s->fd,
-					 (SANE_String) s->
+					 (char *) s->
 					 val[OPT_ENDORSER_STRING].s)) !=
 		    SANE_STATUS_GOOD) {
 			DBG(DBG_error, "set_endorser_string failed: %s\n",

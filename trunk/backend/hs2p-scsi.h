@@ -674,7 +674,7 @@ struct val_id
 	SANE_Byte val;
 	SANE_Byte id;
 };
-static SANE_String_Const noisematrix_list[] = {
+static const char * noisematrix_list[] = {
 	"None", "3x3", "4x4", "5x5", NULL
 };
 struct val_id noisematrix[] = {
@@ -683,7 +683,7 @@ struct val_id noisematrix[] = {
 	{0x01, 2},
 	{0x02, 3}
 };
-static SANE_String_Const grayfilter_list[] = {
+static const char * grayfilter_list[] = {
 	"none", "averaging", "MTF correction", NULL
 };
 struct val_id grayfilter[] = {
@@ -692,7 +692,7 @@ struct val_id grayfilter[] = {
 	{0x03, 2}
 };
 
-static SANE_String_Const paddingtype_list[] = {
+static const char * paddingtype_list[] = {
 	"Pad with 0's to byte boundary",
 	"Pad with 1's to byte boundary",
 	"Truncate to byte boundary",
@@ -708,7 +708,7 @@ struct val_id paddingtype[] = {
 
 #define NPADDINGTYPES 3
 #define PADDINGTYPE_DEFAULT 2
-static SANE_String_Const auto_separation_list[] = {
+static const char * auto_separation_list[] = {
 	"Off", "On", "User", NULL
 };
 struct val_id auto_separation[] = {
@@ -716,7 +716,7 @@ struct val_id auto_separation[] = {
 	{0x01, 1},
 	{0x80, 2}
 };
-static SANE_String_Const auto_binarization_list[] = {
+static const char * auto_binarization_list[] = {
 	"Off",
 	"On",
 	"Enhancement of light characters",
@@ -735,10 +735,10 @@ enum imagecomposition
 { LINEART = 0x00, HALFTONE, GRAYSCALE };
 enum halftonecode
 { DITHER = 0x02, ERROR_DIFFUSION };
-static SANE_String_Const halftone_code[] = {
+static const char * halftone_code[] = {
 	"Dither", "Error Diffusion", NULL
 };
-static SANE_String_Const halftone_pattern_list[] = {
+static const char * halftone_pattern_list[] = {
 	"8x4, 45 degree",
 	"6x6, 90 degree",
 	"4x4, spiral",
@@ -811,7 +811,7 @@ static struct
 #define GAMMA_USER    0x08
 /* 04H-07H Reserved */
 /* 09H-0FH Reserved */
-static SANE_String gamma_list[6] = {
+static char * gamma_list[6] = {
 	"Normal", "Soft", "Sharp", "Linear", "User", NULL
 };
 

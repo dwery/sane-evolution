@@ -214,7 +214,7 @@ typedef enum
 
 typedef struct _BH_Paper
 {
-	SANE_String name;
+	char * name;
 
 	/* paper dimensions in mm */
 	double width, length;
@@ -431,18 +431,18 @@ static const SANE_Range ace_sensitivity_range = {
 	0			/* quantization */
 };
 
-static SANE_String_Const scan_mode_list[] = {
+static const char * scan_mode_list[] = {
 	"lineart",
 	"halftone",
 	0
 };
 
-static SANE_String_Const scan_mode_min_list[] = {
+static const char * scan_mode_min_list[] = {
 	"lineart",
 	0
 };
 
-static SANE_String_Const barcode_search_mode_list[] = {
+static const char * barcode_search_mode_list[] = {
 	"horiz-vert",		/* 9 */
 	"horizontal",		/* 1 */
 	"vertical",		/* 2 */
@@ -450,13 +450,13 @@ static SANE_String_Const barcode_search_mode_list[] = {
 	0
 };
 
-static SANE_String_Const scan_source_list[] = {
+static const char * scan_source_list[] = {
 	"Automatic Document Feeder",
 	"Manual Feed Tray",
 	0
 };
 
-static SANE_String_Const compression_list[] = {
+static const char * compression_list[] = {
 	"none",
 	"g31d",
 	"g32d",
@@ -465,7 +465,7 @@ static SANE_String_Const compression_list[] = {
 };
 
 /* list of supported bar/patch codes */
-static SANE_String_Const barcode_search_bar_list[] = {
+static const char * barcode_search_bar_list[] = {
 	"none",
 	"ean-8",
 	"ean-13",
@@ -485,7 +485,7 @@ static SANE_String_Const barcode_search_bar_list[] = {
 };
 
 /* list of supported rotation angles */
-static SANE_String_Const rotation_list[] = {
+static const char * rotation_list[] = {
 	"0",
 	"90",
 	"180",
@@ -511,7 +511,7 @@ static const BH_Paper paper_sizes[] = {
 };
 
 /* MUST be kept in sync with paper_sizes */
-static SANE_String_Const paper_list[] = {
+static const char * paper_list[] = {
 	"Custom",
 	"Letter",
 	"Legal",
@@ -997,12 +997,6 @@ struct mode_page_33
 	SANE_Byte reserved[2];
 };
 
-#ifndef sane_isbasicframe
-#define SANE_FRAME_TEXT 10
-#define SANE_FRAME_JPEG 11
-#define SANE_FRAME_G31D 12
-#define SANE_FRAME_G32D 13
-#define SANE_FRAME_G42D 14
 #define sane_strframe(f) ( (f) == SANE_FRAME_GRAY ? "gray" : \
   (f) == SANE_FRAME_RGB ? "RGB" : \
   (f) == SANE_FRAME_RED ? "red" : \
@@ -1014,13 +1008,5 @@ struct mode_page_33
   (f) == SANE_FRAME_G32D ? "g32d" : \
   (f) == SANE_FRAME_G42D ? "g42d" : \
   "unknown" )
-
-#define sane_isbasicframe(f) ( (f) == SANE_FRAME_GRAY || \
-  (f) == SANE_FRAME_RGB || \
-  (f) == SANE_FRAME_RED || \
-  (f) == SANE_FRAME_GREEN || \
-  (f) == SANE_FRAME_BLUE )
-
-#endif
 
 #endif /* BH_H */

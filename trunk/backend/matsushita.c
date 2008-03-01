@@ -85,12 +85,12 @@
 /*--------------------------------------------------------------------------*/
 
 /* Lists of possible scan modes. */
-static SANE_String_Const scan_mode_list_1[] = {
+static const char * scan_mode_list_1[] = {
 	BLACK_WHITE_STR,
 	NULL
 };
 
-static SANE_String_Const scan_mode_list_3[] = {
+static const char * scan_mode_list_3[] = {
 	BLACK_WHITE_STR,
 	GRAY4_STR,
 	GRAY8_STR,
@@ -134,7 +134,7 @@ static const int resolutions_rounds_400[8] = {
 
 /* Lists of supported halftone. They are only valid with 
  * for the Black&White mode. */
-static SANE_String_Const halftone_pattern_list[] = {
+static const char * halftone_pattern_list[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Bayer Dither 16"),
 	SANE_I18N("Bayer Dither 64"),
@@ -155,7 +155,7 @@ static const int halftone_pattern_val[] = {
 /*--------------------------------------------------------------------------*/
 
 /* List of automatic threshold options */
-static SANE_String_Const automatic_threshold_list[] = {
+static const char * automatic_threshold_list[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Mode 1"),
 	SANE_I18N("Mode 2"),
@@ -172,7 +172,7 @@ static const int automatic_threshold_val[] = {
 /*--------------------------------------------------------------------------*/
 
 /* List of white level base. */
-static SANE_String_Const white_level_list[] = {
+static const char * white_level_list[] = {
 	SANE_I18N("From white stick"),
 	SANE_I18N("From paper"),
 	SANE_I18N("Automatic"),
@@ -187,7 +187,7 @@ static const int white_level_val[] = {
 /*--------------------------------------------------------------------------*/
 
 /* List of noise reduction options. */
-static SANE_String_Const noise_reduction_list[] = {
+static const char * noise_reduction_list[] = {
 	SANE_I18N("None"),
 	"1x1",
 	"2x2",
@@ -208,7 +208,7 @@ static const int noise_reduction_val[] = {
 /*--------------------------------------------------------------------------*/
 
 /* List of image emphasis options, 5 steps */
-static SANE_String_Const image_emphasis_list_5[] = {
+static const char * image_emphasis_list_5[] = {
 	SANE_I18N("Smooth"),
 	SANE_I18N("None"),
 	SANE_I18N("Low"),
@@ -225,7 +225,7 @@ static const int image_emphasis_val_5[] = {
 };
 
 /* List of image emphasis options, 3 steps */
-static SANE_String_Const image_emphasis_list_3[] = {
+static const char * image_emphasis_list_3[] = {
 	SANE_I18N("Low"),
 	SANE_I18N("Medium"),	/* default ? */
 	SANE_I18N("High"),
@@ -240,7 +240,7 @@ static const int image_emphasis_val_3[] = {
 /*--------------------------------------------------------------------------*/
 
 /* List of gamma */
-static SANE_String_Const gamma_list[] = {
+static const char * gamma_list[] = {
 	SANE_I18N("Normal"),
 	SANE_I18N("CRT"),
 	NULL
@@ -253,7 +253,7 @@ static const int gamma_val[] = {
 /*--------------------------------------------------------------------------*/
 
 /* Page feeder options */
-static SANE_String_Const feeder_mode_list[] = {
+static const char * feeder_mode_list[] = {
 	SANE_I18N("One page"),
 	SANE_I18N("All pages"),
 	NULL
@@ -506,7 +506,7 @@ hexdump(int level, const char *comment, unsigned char *p, int l)
 /* Returns the length of the longest string, including the terminating
  * character. */
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -729,14 +729,14 @@ matsushita_identify_scanner(Matsushita_Scanner * dev)
 static int
 matsushita_build_paper_sizes(Matsushita_Scanner * dev)
 {
-	SANE_String_Const *psl;	/* string list */
+	const char * *psl;	/* string list */
 	int *psv;		/* value list */
 	int num;
 	int i;
 
 	DBG(DBG_proc, "matsushita_build_paper_sizes: enter\n");
 
-	psl = malloc((sizeof(SANE_String_Const) + 1) * NELEMS(paper_sizes));
+	psl = malloc((sizeof(const char *) + 1) * NELEMS(paper_sizes));
 	if (psl == NULL) {
 		DBG(DBG_error, "ERROR: not enough memory\n");
 		return SANE_STATUS_NO_MEM;
@@ -773,7 +773,7 @@ matsushita_build_paper_sizes(Matsushita_Scanner * dev)
 
 /* Lookup a string list from one array and return its index. */
 static int
-get_string_list_index(SANE_String_Const list[], SANE_String_Const name)
+get_string_list_index(const char * list[], const char * name)
 {
 	int index;
 
@@ -1283,10 +1283,10 @@ matsushita_init_options(Matsushita_Scanner * dev)
 	/* Lastly, set the default scan mode. This might change some
 	 * values previously set here. */
 	sane_control_option(dev, OPT_PAPER_SIZE, SANE_ACTION_SET_VALUE,
-			    (SANE_String_Const *) dev->paper_sizes_list[0],
+			    (const char * *) dev->paper_sizes_list[0],
 			    NULL);
 	sane_control_option(dev, OPT_MODE, SANE_ACTION_SET_VALUE,
-			    (SANE_String_Const *) scanners[dev->scnum].
+			    (const char * *) scanners[dev->scnum].
 			    scan_mode_list[0], NULL);
 }
 
@@ -1741,7 +1741,7 @@ sane_get_devices(const SANE_Device *** device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Matsushita_Scanner *dev;
 	SANE_Status status;
@@ -1812,7 +1812,7 @@ sane_control_option(SANE_Handle handle, int option,
 	Matsushita_Scanner *dev = handle;
 	SANE_Status status;
 	int cap;
-	SANE_String_Const name;
+	const char * name;
 	int i;
 	int value;
 	int rc;
@@ -1946,7 +1946,7 @@ sane_control_option(SANE_Handle handle, int option,
 		case OPT_GAMMA:
 		case OPT_FEEDER_MODE:
 			free(dev->val[option].s);
-			dev->val[option].s = (SANE_String) strdup(val);
+			dev->val[option].s = (char *) strdup(val);
 			return SANE_STATUS_GOOD;
 
 		case OPT_MODE:
@@ -2016,7 +2016,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_HALFTONE_PATTERN:
 			free(dev->val[option].s);
-			dev->val[option].s = (SANE_String) strdup(val);
+			dev->val[option].s = (char *) strdup(val);
 			i = get_string_list_index(halftone_pattern_list,
 						  dev->
 						  val[OPT_HALFTONE_PATTERN].

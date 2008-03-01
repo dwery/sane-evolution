@@ -2180,8 +2180,8 @@ cis_calibrate(Mustek_PP_CIS_dev * dev)
 
 /* Shared initialization routine */
 static SANE_Status
-cis_attach(SANE_String_Const port,
-	   SANE_String_Const name,
+cis_attach(const char * port,
+	   const char * name,
 	   SANE_Attach_Callback attach, int driverNo, int info)
 {
 	int fd;
@@ -2192,7 +2192,7 @@ cis_attach(SANE_String_Const port,
 
 	if (status != SANE_STATUS_GOOD) {
 		SANE_Status altStatus;
-		SANE_String_Const altPort;
+		const char * altPort;
 
 		DBG(2, "cis_attach: couldn't attach to `%s' (%s)\n", port,
 		    sane_strstatus(status));
@@ -2245,8 +2245,8 @@ cis_attach(SANE_String_Const port,
 }
 
 SANE_Status
-cis600_drv_init(int options, SANE_String_Const port,
-		SANE_String_Const name, SANE_Attach_Callback attach)
+cis600_drv_init(int options, const char * port,
+		const char * name, SANE_Attach_Callback attach)
 {
 	if (options != CAP_NOTHING)
 		return SANE_STATUS_INVAL;
@@ -2256,8 +2256,8 @@ cis600_drv_init(int options, SANE_String_Const port,
 }
 
 SANE_Status
-cis1200_drv_init(int options, SANE_String_Const port,
-		 SANE_String_Const name, SANE_Attach_Callback attach)
+cis1200_drv_init(int options, const char * port,
+		 const char * name, SANE_Attach_Callback attach)
 {
 	if (options != CAP_NOTHING)
 		return SANE_STATUS_INVAL;
@@ -2267,8 +2267,8 @@ cis1200_drv_init(int options, SANE_String_Const port,
 }
 
 SANE_Status
-cis1200p_drv_init(int options, SANE_String_Const port,
-		  SANE_String_Const name, SANE_Attach_Callback attach)
+cis1200p_drv_init(int options, const char * port,
+		  const char * name, SANE_Attach_Callback attach)
 {
 	if (options != CAP_NOTHING)
 		return SANE_STATUS_INVAL;
@@ -2281,8 +2281,8 @@ cis1200p_drv_init(int options, SANE_String_Const port,
 * Capabilities                                                                *
 ******************************************************************************/
 void
-cis_drv_capabilities(int info, SANE_String * model,
-		     SANE_String * vendor, SANE_String * type,
+cis_drv_capabilities(int info, char * * model,
+		     char * * vendor, char * * type,
 		     int * maxres, int * minres,
 		     int * maxhsize, int * maxvsize,
 		     int * caps)
@@ -2320,7 +2320,7 @@ cis_drv_capabilities(int info, SANE_String * model,
 * Open                                                                        *
 ******************************************************************************/
 SANE_Status
-cis_drv_open(SANE_String port, int caps, int * fd)
+cis_drv_open(char * port, int caps, int * fd)
 {
 	SANE_Status status;
 
@@ -2337,7 +2337,7 @@ cis_drv_open(SANE_String port, int caps, int * fd)
 
 	if (status != SANE_STATUS_GOOD) {
 		SANE_Status altStatus;
-		SANE_String_Const altPort;
+		const char * altPort;
 
 		DBG(2, "cis_attach: couldn't attach to `%s' (%s)\n", port,
 		    sane_strstatus(status));
@@ -2412,8 +2412,8 @@ cis_drv_setup(SANE_Handle hndl)
 * Config                                                                      *
 ******************************************************************************/
 SANE_Status
-cis_drv_config(SANE_Handle hndl, SANE_String_Const optname,
-	       SANE_String_Const optval)
+cis_drv_config(SANE_Handle hndl, const char * optname,
+	       const char * optval)
 {
 	Mustek_pp_Handle *dev = hndl;
 	Mustek_PP_CIS_dev *cisdev = dev->priv;

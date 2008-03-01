@@ -229,9 +229,9 @@
 	 int inquiry_cal_eqn;	/* which calibration equation to use */
 	 int inquiry_min_exp;	/* min exposure % */
 	 int inquiry_max_exp;	/* max exposure % */
-	SANE_String scan_mode_list[7];	/* holds names of types of scan (color, ...) */
-	SANE_String halftone_list[17];	/* holds the names of the halftone patterns from the scanner */
-	SANE_String speed_list[9];	/* holds the names of available speeds */
+	char * scan_mode_list[7];	/* holds names of types of scan (color, ...) */
+	char * halftone_list[17];	/* holds the names of the halftone patterns from the scanner */
+	char * speed_list[9];	/* holds the names of available speeds */
 	int cal_info_count;	/* number of calibration info sets */
 	 struct Pie_cal_info *cal_info;	/* points to the actual calibration information */
  } Pie_Device;
@@ -1161,7 +1161,7 @@ attach_scanner(const char *devicename, Pie_Device ** devp)
 
 /* --------------------------- MAX STRING SIZE ---------------------------- */ 
 static size_t 
-max_string_size(SANE_String_Const strings[]) 
+max_string_size(const char * strings[]) 
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1210,11 +1210,11 @@ init_options(Pie_Scanner * scanner)
 	scanner->opt[OPT_MODE].desc = SANE_DESC_SCAN_MODE;
 	scanner->opt[OPT_MODE].type = SANE_TYPE_STRING;
 	scanner->opt[OPT_MODE].size =
-		max_string_size((SANE_String_Const *) scanner->device->
+		max_string_size((const char * *) scanner->device->
 				 scan_mode_list);
 	scanner->opt[OPT_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	scanner->opt[OPT_MODE].constraint.string_list = 
-		(SANE_String_Const *) scanner->device->scan_mode_list;
+		(const char * *) scanner->device->scan_mode_list;
 	scanner->val[OPT_MODE].s = 
 		(char *) strdup(scanner->device->scan_mode_list[0]);
 	
@@ -1357,12 +1357,12 @@ init_options(Pie_Scanner * scanner)
 	scanner->opt[OPT_HALFTONE_PATTERN].desc = SANE_DESC_HALFTONE_PATTERN;
 	scanner->opt[OPT_HALFTONE_PATTERN].type = SANE_TYPE_STRING;
 	scanner->opt[OPT_HALFTONE_PATTERN].size =
-		max_string_size((SANE_String_Const *) scanner->device->
+		max_string_size((const char * *) scanner->device->
 				 halftone_list);
 	scanner->opt[OPT_HALFTONE_PATTERN].constraint_type =
 		SANE_CONSTRAINT_STRING_LIST;
 	scanner->opt[OPT_HALFTONE_PATTERN].constraint.string_list =
-		(SANE_String_Const *) scanner->device->halftone_list;
+		(const char * *) scanner->device->halftone_list;
 	scanner->val[OPT_HALFTONE_PATTERN].s =
 		(char *) strdup(scanner->device->halftone_list[0]);
 	scanner->opt[OPT_HALFTONE_PATTERN].cap |= SANE_CAP_INACTIVE;
@@ -1373,12 +1373,12 @@ init_options(Pie_Scanner * scanner)
 	scanner->opt[OPT_SPEED].desc = SANE_DESC_SCAN_SPEED;
 	scanner->opt[OPT_SPEED].type = SANE_TYPE_STRING;
 	scanner->opt[OPT_SPEED].size =
-		max_string_size((SANE_String_Const *) scanner->device->
+		max_string_size((const char * *) scanner->device->
 				 speed_list);
 	scanner->opt[OPT_SPEED].constraint_type =
 		SANE_CONSTRAINT_STRING_LIST;
 	scanner->opt[OPT_SPEED].constraint.string_list =
-		(SANE_String_Const *) scanner->device->speed_list;
+		(const char * *) scanner->device->speed_list;
 	scanner->val[OPT_SPEED].s =
 		(char *) strdup(scanner->device->speed_list[0]);
 	
@@ -2832,7 +2832,7 @@ sane_get_devices(const SANE_Device *** device_list,
 
 /* --------------------------------------- SANE OPEN ---------------------------------- */ 
 	SANE_Status 
-sane_open(SANE_String_Const devicename, SANE_Handle * handle) 
+sane_open(const char * devicename, SANE_Handle * handle) 
 {
 	Pie_Device * dev;
 	SANE_Status status;
@@ -2973,7 +2973,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 	Pie_Scanner * scanner = handle;
 	SANE_Status status;
 	int cap;
-	SANE_String_Const name;
+	const char * name;
 	if (info)
 		 {
 		*info = 0;

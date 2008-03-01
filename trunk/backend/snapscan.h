@@ -346,7 +346,7 @@ typedef struct snapscan_scanner SnapScan_Scanner;
 
 struct snapscan_scanner
 {
-	SANE_String devname;	/* the scsi device name */
+	char * devname;	/* the scsi device name */
 	SnapScan_Device *pdev;	/* the device */
 	int fd;			/* scsi file descriptor */
 	int opens;		/* open count */
@@ -388,16 +388,16 @@ struct snapscan_scanner
 	int bpp_scan;	/* bit depth used for scanning */
 	SANE_Bool preview;	/* preview mode toggle */
 	SANE_Bool highquality;	/* high quality mode toggle */
-	SANE_String mode_s;	/* scanning mode */
-	SANE_String source_s;	/* scanning source */
-	SANE_String preview_mode_s;	/* scanning mode for preview */
+	char * mode_s;	/* scanning mode */
+	char * source_s;	/* scanning source */
+	char * preview_mode_s;	/* scanning mode for preview */
 	SANE_Fixed tlx;		/* window top left x */
 	SANE_Fixed tly;		/* window top left y */
 	SANE_Fixed brx;		/* window bottom right x */
 	SANE_Fixed bry;		/* window bottom right y */
 	int bright;		/* brightness */
 	int contrast;		/* contrast */
-	SANE_String predef_window;	/* predefined window name */
+	char * predef_window;	/* predefined window name */
 	SANE_Fixed gamma_gs;	/* gamma correction value (greyscale) */
 	SANE_Fixed gamma_r;	/* gamma correction value (red) */
 	SANE_Fixed gamma_g;	/* gamma correction value (green) */
@@ -409,7 +409,7 @@ struct snapscan_scanner
 	int *gamma_table_b;	/* gamma correction vector (blue) */
 	int gamma_length;	/* length of gamma vectors */
 	SANE_Bool halftone;	/* halftone toggle */
-	SANE_String dither_matrix;	/* the halftone dither matrix */
+	char * dither_matrix;	/* the halftone dither matrix */
 	SANE_Bool negative;	/* swap black and white */
 	int threshold;	/* threshold for line art */
 	int rgb_lpr;	/* lines per scsi read (RGB) */

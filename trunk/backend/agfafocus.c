@@ -54,46 +54,46 @@
 static int num_devices;
 static AgfaFocus_Device *agfafocus_devices;
 
-static const SANE_String_Const focus_mode_list[] = {
+static const char * focus_mode_list[] = {
 	"Lineart", "Gray (6 bit)",
 	0
 };
 
-static const SANE_String_Const focusii_mode_list[] = {
+static const char * focusii_mode_list[] = {
 	"Lineart", "Gray (6 bit)", "Gray (8 bit)",
 	0
 };
 
-static const SANE_String_Const focuscolor_mode_list[] = {
+static const char * focuscolor_mode_list[] = {
 	"Lineart", "Gray (6 bit)", "Gray (8 bit)", "Color (18 bit)",
 	"Color (24 bit)",
 	0
 };
 
-static const SANE_String_Const halftone_list[] = {
+static const char * halftone_list[] = {
 	"None", "Dispersed dot 4x4", "Round (Clustered dot 4x4)",
 	"Diamond (Clustered dot 4x4)",
 	0
 };
 
-static const SANE_String_Const halftone_upload_list[] = {
+static const char * halftone_upload_list[] = {
 	"None", "Dispersed dot 4x4", "Round (Clustered dot 4x4)",
 	"Diamond (Clustered dot 4x4)",
 	0
 };
 
-static const SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	"Opaque/Normal", "Transparency",
 	0
 };
 
-static const SANE_String_Const quality_list[] = {
+static const char * quality_list[] = {
 	"Low", "Normal", "High",
 	0
 };
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1343,7 +1343,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	AgfaFocus_Device *dev;
 	SANE_Status status;
@@ -1482,7 +1482,7 @@ sane_control_option(SANE_Handle handle, int option,
 			s->val[option].b = *(SANE_Bool *) val;
 			break;
 		case OPT_MODE:
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
+			if (strcmp(s->val[option].s, (char *) val)) {
 				if (info)
 					*info |= SANE_INFO_RELOAD_OPTIONS |
 						SANE_INFO_RELOAD_PARAMS;
@@ -1632,7 +1632,7 @@ sane_control_option(SANE_Handle handle, int option,
 		case OPT_QUALITY:
 		case OPT_HALFTONE_PATTERN:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)

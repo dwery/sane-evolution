@@ -184,7 +184,7 @@ Modes;
 #define M_GRAY               "Gray"
 #define M_LINEART_COLOR      "Lineart Color"
 #define M_COLOR              "Color"
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	M_LINEART, M_GRAY, M_LINEART_COLOR, M_COLOR,
 	0
 };
@@ -195,7 +195,7 @@ static const SANE_String_Const mode_list[] = {
 #define M_DISPERSED      "Dither Dispersed"
 #define M_ERRDIFFUSION   "Error Diffusion"
 
-static const SANE_String_Const halftone_list[] = {
+static const char * halftone_list[] = {
 	M_BILEVEL, M_BAYER, M_SPIRAL, M_DISPERSED, M_ERRDIFFUSION,
 	0
 };
@@ -207,15 +207,15 @@ static const SANE_String_Const halftone_list[] = {
 
 #define MAX_RETRIES 50
 
-static const SANE_String_Const light_color_list[] = {
+static const char * light_color_list[] = {
 	LIGHT_GREEN, LIGHT_RED, LIGHT_BLUE, LIGHT_WHITE,
 	0
 };
 
 /* possible values for ADF/FSU selection */
-static SANE_String use_adf = "Automatic Document Feeder";
-static SANE_String use_fsu = "Transparency Adapter";
-static SANE_String use_simple = "Flatbed";
+static char * use_adf = "Automatic Document Feeder";
+static char * use_fsu = "Transparency Adapter";
+static char * use_simple = "Flatbed";
 
 /* auto selection of ADF and FSU, as described in the JX330 manual, 
    is a nice idea -- but I assume that the possible scan window 
@@ -230,7 +230,7 @@ static SANE_String use_simple = "Flatbed";
    with this feature.
 */
 #ifdef ALLOW_AUTO_SELECT_ADF
-static SANE_String_Const use_auto = "AutoSelection";
+static const char * use_auto = "AutoSelection";
 #endif
 
 #define HAVE_FSU 1
@@ -251,13 +251,13 @@ static SANE_String_Const use_auto = "AutoSelection";
 #define PAPER_MAX  10
 #define W_LETTER "11\"x17\""
 #define INVOICE  "8.5\"x5.5\""
-static const SANE_String_Const paper_list_jx610[] = {
+static const char * paper_list_jx610[] = {
 	"A3", "A4", "A5", "A6", "B4", "B5",
 	W_LETTER, "Legal", "Letter", INVOICE,
 	0
 };
 
-static const SANE_String_Const paper_list_jx330[] = {
+static const char * paper_list_jx330[] = {
 	"A4", "A5", "A6", "B5",
 	0
 };
@@ -265,7 +265,7 @@ static const SANE_String_Const paper_list_jx330[] = {
 #define GAMMA10    "1.0"
 #define GAMMA22    "2.2"
 
-static const SANE_String_Const gamma_list[] = {
+static const char * gamma_list[] = {
 	GAMMA10, GAMMA22,
 	0
 };
@@ -273,7 +273,7 @@ static const SANE_String_Const gamma_list[] = {
 #if 0
 #define SPEED_NORMAL    "Normal"
 #define SPEED_FAST      "Fast"
-static const SANE_String_Const speed_list[] = {
+static const char * speed_list[] = {
 	SPEED_NORMAL, SPEED_FAST,
 	0
 };
@@ -281,13 +281,13 @@ static const SANE_String_Const speed_list[] = {
 
 #ifdef USE_RESOLUTION_LIST
 #define RESOLUTION_MAX_JX610 8
-static const SANE_String_Const resolution_list_jx610[] = {
+static const char * resolution_list_jx610[] = {
 	"50", "75", "100", "150", "200", "300", "400", "600", "Select",
 	0
 };
 
 #define RESOLUTION_MAX_JX250 7
-static const SANE_String_Const resolution_list_jx250[] = {
+static const char * resolution_list_jx250[] = {
 	"50", "75", "100", "150", "200", "300", "400", "Select",
 	0
 };
@@ -297,7 +297,7 @@ static const SANE_String_Const resolution_list_jx250[] = {
 #define EDGE_MIDDLE  "Middle"
 #define EDGE_STRONG  "Strong"
 #define EDGE_BLUR    "Blur"
-static const SANE_String_Const edge_emphasis_list[] = {
+static const char * edge_emphasis_list[] = {
 	EDGE_NONE, EDGE_MIDDLE, EDGE_STRONG, EDGE_BLUR,
 	0
 };
@@ -1165,7 +1165,7 @@ read_data(SHARP_Scanner * s, SANE_Byte * buf, size_t * buf_size)
 #endif
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1691,7 +1691,7 @@ set_gamma_caps(SHARP_Scanner * s)
 static void
 clip_value(const SANE_Option_Descriptor * opt, void *value)
 {
-	const SANE_String_Const *string_list;
+	const char * *string_list;
 	const int *word_list;
 	int i, num_matches, match;
 	const SANE_Range *range;
@@ -1771,9 +1771,9 @@ clip_value(const SANE_Option_Descriptor * opt, void *value)
    write behind the end of the allocated memory. 
 */
 static SANE_Status
-init_string_option(SHARP_Scanner * s, SANE_String_Const name,
-		   SANE_String_Const title, SANE_String_Const desc,
-		   const SANE_String_Const * string_list, int option,
+init_string_option(SHARP_Scanner * s, const char * name,
+		   const char * title, const char * desc,
+		   const char * * string_list, int option,
 		   int default_index)
 {
 	int i;
@@ -1906,13 +1906,13 @@ init_options(SHARP_Scanner * s)
 		max_string_size(s->dev->info.scansources);
 	s->opt[OPT_SCANSOURCE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_SCANSOURCE].constraint.string_list =
-		(SANE_String_Const *) s->dev->info.scansources;
+		(const char * *) s->dev->info.scansources;
 	s->val[OPT_SCANSOURCE].s = strdup(s->dev->info.scansources[0]);
 #endif
 
 	init_string_option(s, SANE_NAME_SCAN_SOURCE, SANE_TITLE_SCAN_SOURCE,
 			   SANE_DESC_SCAN_SOURCE,
-			   (SANE_String_Const *) s->dev->info.scansources,
+			   (const char * *) s->dev->info.scansources,
 			   OPT_SCANSOURCE, sourcename_index);
 
 	if (i < 2)
@@ -2651,7 +2651,7 @@ sane_get_devices(const SANE_Device *** device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	SHARP_Device *dev;
@@ -2952,7 +2952,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_SCANSOURCE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 #if 0

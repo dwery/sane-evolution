@@ -75,8 +75,8 @@
 
 
 /* the function init uses this callback to register a device to the backend */
-typedef SANE_Status(*SANE_Attach_Callback) (SANE_String_Const port,
-					    SANE_String_Const name,
+typedef SANE_Status(*SANE_Attach_Callback) (const char * port,
+					    const char * name,
 					    int driver, int info);
 
 typedef struct
@@ -89,8 +89,8 @@ typedef struct
 	/* this function detects the presence of a scanner at the
 	 * given location */
 	  SANE_Status(*init) (int options,
-			      SANE_String_Const port,
-			      SANE_String_Const name,
+			      const char * port,
+			      const char * name,
 			      SANE_Attach_Callback attach);
 	/* this function returns the informationen needed to set up
 	 * the device entry. the info parameter is passed from
@@ -98,24 +98,24 @@ typedef struct
 	 * help to identify the device, before it is registered
 	 */
 	void (*capabilities) (int info,
-			      SANE_String * model,
-			      SANE_String * vendor,
-			      SANE_String * type,
+			      char * * model,
+			      char * * vendor,
+			      char * * type,
 			      int * maxres,
 			      int * minres,
 			      int * maxhsize,
 			      int * maxvsize, int * caps);
 
 	/* tries to open the given device. returns a fd on success */
-	  SANE_Status(*open) (SANE_String port, int caps, int * fd);
+	  SANE_Status(*open) (char * port, int caps, int * fd);
 
 	/* start scanning session */
 	void (*setup) (SANE_Handle hndl);
 
 	/* processes a configuration option */
 	  SANE_Status(*config) (SANE_Handle hndl,
-				SANE_String_Const optname,
-				SANE_String_Const optval);
+				const char * optname,
+				const char * optval);
 
 	/* stop scanning session */
 	void (*close) (SANE_Handle hndl);
@@ -150,8 +150,8 @@ typedef struct
 typedef struct Mustek_pp_config_option
 {
 
-	SANE_String name;
-	SANE_String value;
+	char * name;
+	char * value;
 
 } Mustek_pp_config_option;
 
@@ -163,10 +163,10 @@ typedef struct Mustek_pp_Device
 	SANE_Device sane;
 
 	/* non-const copy of SANE_Device */
-	SANE_String name, vendor, model, type;
+	char * name, vendor, model, type;
 
 	/* port */
-	SANE_String port;
+	char * port;
 
 	/* part describing hardware capabilities */
 	int minres;

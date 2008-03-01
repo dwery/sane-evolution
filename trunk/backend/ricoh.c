@@ -81,7 +81,7 @@ static int is50 = 0;
 #include "ricoh-scsi.c"
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -555,7 +555,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	Ricoh_Device *dev;
@@ -693,7 +693,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_MODE:
 			if (info
-			    && strcmp(s->val[option].s, (SANE_String) val))
+			    && strcmp(s->val[option].s, (char *) val))
 				*info |= SANE_INFO_RELOAD_OPTIONS |
 					SANE_INFO_RELOAD_PARAMS;
 			if (s->val[option].s)

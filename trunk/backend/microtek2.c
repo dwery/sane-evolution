@@ -488,7 +488,7 @@ sane_init(int *version_code, SANE_Auth_Callback authorize)
 /*---------- sane_open() -----------------------------------------------------*/
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	SANE_Status status;
 	Microtek2_Scanner *ms;
@@ -659,10 +659,10 @@ sane_set_io_mode(SANE_Handle handle, SANE_Bool non_blocking)
 /*---------- add_device_list() -----------------------------------------------*/
 
 static SANE_Status
-add_device_list(SANE_String_Const dev_name, Microtek2_Device ** mdev)
+add_device_list(const char * dev_name, Microtek2_Device ** mdev)
 {
 	Microtek2_Device *md;
-	SANE_String hdev;
+	char * hdev;
 	size_t len;
 
 
@@ -733,7 +733,7 @@ attach(Microtek2_Device * md)
 	/* device is passed in sane_open() this function may also be called */
 	/* from sane_open() or sane_get_devices(). */
 
-	SANE_String model_string;
+	char * model_string;
 	SANE_Status status;
 	SANE_Byte source_info;
 
@@ -1041,7 +1041,7 @@ check_option(const char *cp, Config_Options * co)
 /*---------- check_inquiry() -------------------------------------------------*/
 
 static SANE_Status
-check_inquiry(Microtek2_Device * md, SANE_String * model_string)
+check_inquiry(Microtek2_Device * md, char * * model_string)
 {
 	Microtek2_Info *mi;
 
@@ -1840,7 +1840,7 @@ dump_attributes(Microtek2_Info * mi)
 /*---------- max_string_size() -----------------------------------------------*/
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size;
 	size_t max_size = 0;
@@ -2001,28 +2001,28 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 	if (val[OPT_SOURCE].s)
 		free((void *) val[OPT_SOURCE].s);
 	i = 0;
-	md->scansource_list[i] = (SANE_String) MD_SOURCESTRING_FLATBED;
+	md->scansource_list[i] = (char *) MD_SOURCESTRING_FLATBED;
 	if (current_scan_source == MD_SOURCE_FLATBED)
 		val[OPT_SOURCE].s =
-			(SANE_String) strdup(md->scansource_list[i]);
+			(char *) strdup(md->scansource_list[i]);
 	if (md->status.adfcnt) {
-		md->scansource_list[++i] = (SANE_String) MD_SOURCESTRING_ADF;
+		md->scansource_list[++i] = (char *) MD_SOURCESTRING_ADF;
 		if (current_scan_source == MD_SOURCE_ADF)
 			val[OPT_SOURCE].s =
-				(SANE_String) strdup(md->scansource_list[i]);
+				(char *) strdup(md->scansource_list[i]);
 	}
 	if (md->status.tmacnt) {
-		md->scansource_list[++i] = (SANE_String) MD_SOURCESTRING_TMA;
+		md->scansource_list[++i] = (char *) MD_SOURCESTRING_TMA;
 		if (current_scan_source == MD_SOURCE_TMA)
 			val[OPT_SOURCE].s =
-				(SANE_String) strdup(md->scansource_list[i]);
+				(char *) strdup(md->scansource_list[i]);
 	}
 	if (mi->option_device & MI_OPTDEV_STRIPE) {
 		md->scansource_list[++i] =
-			(SANE_String) MD_SOURCESTRING_STRIPE;
+			(char *) MD_SOURCESTRING_STRIPE;
 		if (current_scan_source == MD_SOURCE_STRIPE)
 			val[OPT_SOURCE].s =
-				(SANE_String) strdup(md->scansource_list[i]);
+				(char *) strdup(md->scansource_list[i]);
 	}
 
 	/* Comment this out as long as I do not know in which bit */
@@ -2030,10 +2030,10 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 #if 0
 	if (mi->option_device & MI_OPTDEV_SLIDE) {
 		md->scansource_list[++i] =
-			(SANE_String) MD_SOURCESTRING_SLIDE;
+			(char *) MD_SOURCESTRING_SLIDE;
 		if (current_scan_source == MD_SOURCE_SLIDE)
 			val[OPT_SOURCE].s =
-				(SANE_String) strdup(md->scansource_list[i]);
+				(char *) strdup(md->scansource_list[i]);
 	}
 #endif
 
@@ -2045,20 +2045,20 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 
 	i = 0;
 	if ((mi->scanmode & MI_HASMODE_COLOR)) {
-		md->scanmode_list[i] = (SANE_String) MD_MODESTRING_COLOR;
+		md->scanmode_list[i] = (char *) MD_MODESTRING_COLOR;
 		val[OPT_MODE].s = strdup(md->scanmode_list[i]);
 		++i;
 	}
 
 	if (mi->scanmode & MI_HASMODE_GRAY) {
-		md->scanmode_list[i] = (SANE_String) MD_MODESTRING_GRAY;
+		md->scanmode_list[i] = (char *) MD_MODESTRING_GRAY;
 		if (!(mi->scanmode & MI_HASMODE_COLOR))
 			val[OPT_MODE].s = strdup(md->scanmode_list[i]);
 		++i;
 	}
 
 	if (mi->scanmode & MI_HASMODE_HALFTONE) {
-		md->scanmode_list[i] = (SANE_String) MD_MODESTRING_HALFTONE;
+		md->scanmode_list[i] = (char *) MD_MODESTRING_HALFTONE;
 		if (!(mi->scanmode & MI_HASMODE_COLOR)
 		    && !(mi->scanmode & MI_HASMODE_GRAY))
 			val[OPT_MODE].s = strdup(md->scanmode_list[i]);
@@ -2068,7 +2068,7 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 	/* Always enable a lineart mode. Some models (X6, FW 1.40) say */
 	/* that they have no lineart mode. In this case we will do a grayscale */
 	/* scan and convert it to onebit data */
-	md->scanmode_list[i] = (SANE_String) MD_MODESTRING_LINEART;
+	md->scanmode_list[i] = (char *) MD_MODESTRING_LINEART;
 	if (!(mi->scanmode & MI_HASMODE_COLOR)
 	    && !(mi->scanmode & MI_HASMODE_GRAY)
 	    && !(mi->scanmode & MI_HASMODE_HALFTONE))
@@ -2101,18 +2101,18 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 		val[OPT_BITDEPTH].w = md->bitdepth_list[2];
 
 	/* Halftone */
-	md->halftone_mode_list[0] = (SANE_String) MD_HALFTONE0;
-	md->halftone_mode_list[1] = (SANE_String) MD_HALFTONE1;
-	md->halftone_mode_list[2] = (SANE_String) MD_HALFTONE2;
-	md->halftone_mode_list[3] = (SANE_String) MD_HALFTONE3;
-	md->halftone_mode_list[4] = (SANE_String) MD_HALFTONE4;
-	md->halftone_mode_list[5] = (SANE_String) MD_HALFTONE5;
-	md->halftone_mode_list[6] = (SANE_String) MD_HALFTONE6;
-	md->halftone_mode_list[7] = (SANE_String) MD_HALFTONE7;
-	md->halftone_mode_list[8] = (SANE_String) MD_HALFTONE8;
-	md->halftone_mode_list[9] = (SANE_String) MD_HALFTONE9;
-	md->halftone_mode_list[10] = (SANE_String) MD_HALFTONE10;
-	md->halftone_mode_list[11] = (SANE_String) MD_HALFTONE11;
+	md->halftone_mode_list[0] = (char *) MD_HALFTONE0;
+	md->halftone_mode_list[1] = (char *) MD_HALFTONE1;
+	md->halftone_mode_list[2] = (char *) MD_HALFTONE2;
+	md->halftone_mode_list[3] = (char *) MD_HALFTONE3;
+	md->halftone_mode_list[4] = (char *) MD_HALFTONE4;
+	md->halftone_mode_list[5] = (char *) MD_HALFTONE5;
+	md->halftone_mode_list[6] = (char *) MD_HALFTONE6;
+	md->halftone_mode_list[7] = (char *) MD_HALFTONE7;
+	md->halftone_mode_list[8] = (char *) MD_HALFTONE8;
+	md->halftone_mode_list[9] = (char *) MD_HALFTONE9;
+	md->halftone_mode_list[10] = (char *) MD_HALFTONE10;
+	md->halftone_mode_list[11] = (char *) MD_HALFTONE11;
 	md->halftone_mode_list[12] = NULL;
 	if (val[OPT_HALFTONE].s)
 		free((void *) val[OPT_HALFTONE].s);
@@ -2157,9 +2157,9 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 	/* Gamma */
 	/* linear gamma must come first */
 	i = 0;
-	md->gammamode_list[i++] = (SANE_String) MD_GAMMAMODE_LINEAR;
-	md->gammamode_list[i++] = (SANE_String) MD_GAMMAMODE_SCALAR;
-	md->gammamode_list[i++] = (SANE_String) MD_GAMMAMODE_CUSTOM;
+	md->gammamode_list[i++] = (char *) MD_GAMMAMODE_LINEAR;
+	md->gammamode_list[i++] = (char *) MD_GAMMAMODE_SCALAR;
+	md->gammamode_list[i++] = (char *) MD_GAMMAMODE_CUSTOM;
 	if (val[OPT_GAMMA_MODE].s)
 		free((void *) val[OPT_GAMMA_MODE].s);
 	val[OPT_GAMMA_MODE].s = strdup(md->gammamode_list[0]);
@@ -2226,10 +2226,10 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 	val[OPT_GAMMA_CUSTOM_B].wa = &md->custom_gamma_table[3][0];
 
 	/* Shadow, midtone, highlight, exposure time */
-	md->channel_list[0] = (SANE_String) MD_CHANNEL_MASTER;
-	md->channel_list[1] = (SANE_String) MD_CHANNEL_RED;
-	md->channel_list[2] = (SANE_String) MD_CHANNEL_GREEN;
-	md->channel_list[3] = (SANE_String) MD_CHANNEL_BLUE;
+	md->channel_list[0] = (char *) MD_CHANNEL_MASTER;
+	md->channel_list[1] = (char *) MD_CHANNEL_RED;
+	md->channel_list[2] = (char *) MD_CHANNEL_GREEN;
+	md->channel_list[3] = (char *) MD_CHANNEL_BLUE;
 	md->channel_list[4] = NULL;
 	if (val[OPT_CHANNEL].s)
 		free((void *) val[OPT_CHANNEL].s);
@@ -2881,7 +2881,7 @@ set_option_dependencies(Microtek2_Scanner * ms, SANE_Option_Descriptor * sod,
 		/* reset options values that are inactive to their default */
 		if (val[OPT_CHANNEL].s)
 			free((void *) val[OPT_CHANNEL].s);
-		val[OPT_CHANNEL].s = strdup((SANE_String) MD_CHANNEL_MASTER);
+		val[OPT_CHANNEL].s = strdup((char *) MD_CHANNEL_MASTER);
 	}
 
 	else if (strcmp(val[OPT_MODE].s, MD_MODESTRING_HALFTONE) == 0) {
@@ -2906,7 +2906,7 @@ set_option_dependencies(Microtek2_Scanner * ms, SANE_Option_Descriptor * sod,
 		val[OPT_CONTRAST].w = MD_CONTRAST_DEFAULT;
 		if (val[OPT_CHANNEL].s)
 			free((void *) val[OPT_CHANNEL].s);
-		val[OPT_CHANNEL].s = strdup((SANE_String) MD_CHANNEL_MASTER);
+		val[OPT_CHANNEL].s = strdup((char *) MD_CHANNEL_MASTER);
 		val[OPT_SHADOW].w = MD_SHADOW_DEFAULT;
 		val[OPT_MIDTONE].w = MD_MIDTONE_DEFAULT;
 		val[OPT_HIGHLIGHT].w = MD_HIGHLIGHT_DEFAULT;
@@ -2939,7 +2939,7 @@ set_option_dependencies(Microtek2_Scanner * ms, SANE_Option_Descriptor * sod,
 		val[OPT_CONTRAST].w = MD_CONTRAST_DEFAULT;
 		if (val[OPT_CHANNEL].s)
 			free((void *) val[OPT_CHANNEL].s);
-		val[OPT_CHANNEL].s = strdup((SANE_String) MD_CHANNEL_MASTER);
+		val[OPT_CHANNEL].s = strdup((char *) MD_CHANNEL_MASTER);
 		val[OPT_SHADOW].w = MD_SHADOW_DEFAULT;
 		val[OPT_MIDTONE].w = MD_MIDTONE_DEFAULT;
 		val[OPT_HIGHLIGHT].w = MD_HIGHLIGHT_DEFAULT;
@@ -3192,8 +3192,8 @@ sane_control_option(SANE_Handle handle, int option,
 		case SANE_TYPE_STRING:
 			DBG(50,
 			    "sane_control_option: option=%d, action=%d, value=%s\n",
-			    option, action, (SANE_String) value);
-			if (strcmp(val[option].s, (SANE_String) value) == 0)
+			    option, action, (char *) value);
+			if (strcmp(val[option].s, (char *) value) == 0)
 				return SANE_STATUS_GOOD;	/* no change */
 			if (val[option].s)
 				free((void *) val[option].s);

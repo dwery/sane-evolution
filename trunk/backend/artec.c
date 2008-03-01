@@ -96,17 +96,17 @@ static const SANE_Device **devlist = 0;
 static ARTEC_Device *first_dev;
 static ARTEC_Scanner *first_handle;
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	"Lineart", "Halftone", "Gray", "Color",
 	0
 };
 
-static const SANE_String_Const filter_type_list[] = {
+static const char * filter_type_list[] = {
 	"Mono", "Red", "Green", "Blue",
 	0
 };
 
-static const SANE_String_Const halftone_pattern_list[] = {
+static const char * halftone_pattern_list[] = {
 	"User defined (unsupported)", "4x4 Spiral", "4x4 Bayer", "8x8 Spiral",
 	"8x8 Bayer",
 	0
@@ -129,16 +129,16 @@ static const u_int8_t test_unit_ready[] = {
 
 static struct
 {
-	SANE_String model;	/* product model */
-	SANE_String type;	/* type of scanner */
+	char * model;	/* product model */
+	char * type;	/* type of scanner */
 	double width;		/* width in inches */
 	double height;		/* height in inches */
 	int adc_bits;	/* Analog-to-Digital Converter Bits */
 	int setwindow_cmd_size;	/* Set-Window command size */
 	int max_read_size;	/* Max Read size in bytes */
 	long flags;		/* flags */
-	SANE_String horz_resolution_str;	/* Horizontal resolution list */
-	SANE_String vert_resolution_str;	/* Vertical resolution list */
+	char * horz_resolution_str;	/* Horizontal resolution list */
+	char * vert_resolution_str;	/* Vertical resolution list */
 }
 cap_data[] = {
 	{
@@ -259,7 +259,7 @@ artec_skip_whitespace(char *str)
 }
 
 static SANE_Status
-artec_str_list_to_word_list(int ** word_list_ptr, SANE_String str)
+artec_str_list_to_word_list(int ** word_list_ptr, char * str)
 {
 	int *word_list;
 	char *start;
@@ -315,7 +315,7 @@ artec_str_list_to_word_list(int ** word_list_ptr, SANE_String str)
 }
 
 static size_t
-artec_get_str_index(const SANE_String_Const strings[], char *str)
+artec_get_str_index(const char * strings[], char *str)
 {
 	size_t index;
 
@@ -332,7 +332,7 @@ artec_get_str_index(const SANE_String_Const strings[], char *str)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -2535,7 +2535,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	ARTEC_Device *dev;

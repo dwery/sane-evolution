@@ -92,7 +92,7 @@ static V4L_Device *first_dev;
 static V4L_Scanner *first_handle;
 static char *buffer;
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_GRAY, SANE_VALUE_SCAN_MODE_COLOR,
 	0
 };
@@ -496,7 +496,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devname, SANE_Handle * handle)
+sane_open(const char * devname, SANE_Handle * handle)
 {
 	V4L_Device *dev;
 	V4L_Scanner *s;

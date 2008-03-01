@@ -211,7 +211,7 @@ struct GT68xx_Command_Set
 	/*@{ */
 
   /** Name of this command set */
-	SANE_String_Const name;
+	const char * name;
 
 	/*@} */
 
@@ -413,16 +413,16 @@ struct GT68xx_Model
 	/*@{ */
 
   /** A single lowercase word to be used in the configuration file. */
-	SANE_String_Const name;
+	const char * name;
 
   /** Device vendor string. */
-	SANE_String_Const vendor;
+	const char * vendor;
 
   /** Device model name. */
-	SANE_String_Const model;
+	const char * model;
 
   /** Name of the firmware file. */
-	SANE_String_Const firmware_name;
+	const char * firmware_name;
 
   /** Dynamic allocation flag.
    *
@@ -524,7 +524,7 @@ struct GT68xx_Device
 	struct GT68xx_Device *next;
 
   /** Device file name */
-	SANE_String file_name;
+	char * file_name;
 };
 
 /** Parameters for the high-level scan request.
@@ -693,7 +693,7 @@ gt68xx_device_set_model(GT68xx_Device * dev, GT68xx_Model * model);
  * - #FALSE - model not found.
  */
 static SANE_Bool
-gt68xx_device_get_model(SANE_String name, GT68xx_Model ** model);
+gt68xx_device_get_model(char * name, GT68xx_Model ** model);
 
 #if 0
 /** Create a new private copy of the model data for this device.

@@ -81,7 +81,7 @@
 /*--------------------------------------------------------------------------*/
 
 /* Lists of possible scan modes. */
-static SANE_String_Const scan_mode_list[] = {
+static const char * scan_mode_list[] = {
 	BLACK_WHITE_STR,
 	GRAY_STR,
 	COLOR_STR,
@@ -104,7 +104,7 @@ static const SANE_Range gamma_range = {
 
 /*--------------------------------------------------------------------------*/
 
-static SANE_String_Const halftone_pattern_list[] = {
+static const char * halftone_pattern_list[] = {
 	SANE_I18N("None"),
 	SANE_I18N("Diamond"),
 	SANE_I18N("8x8 Coarse Fatting"),
@@ -190,7 +190,7 @@ hexdump(int level, const char *comment, unsigned char *p, int l)
 /* Returns the length of the longest string, including the terminating
  * character. */
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -207,7 +207,7 @@ max_string_size(SANE_String_Const strings[])
 
 /* Lookup a string list from one array and return its index. */
 static int
-get_string_list_index(SANE_String_Const list[], SANE_String_Const name)
+get_string_list_index(const char * list[], const char * name)
 {
 	int index;
 
@@ -911,7 +911,7 @@ leo_init_options(Leo_Scanner * dev)
 	/* Lastly, set the default scan mode. This might change some
 	 * values previously set here. */
 	sane_control_option(dev, OPT_MODE, SANE_ACTION_SET_VALUE,
-			    (SANE_String_Const *) scan_mode_list[0], NULL);
+			    (const char * *) scan_mode_list[0], NULL);
 }
 
 /* 
@@ -1339,7 +1339,7 @@ sane_get_devices(const SANE_Device *** device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Leo_Scanner *dev;
 	SANE_Status status;
@@ -1567,7 +1567,7 @@ sane_control_option(SANE_Handle handle, int option,
 
 		case OPT_HALFTONE_PATTERN:
 			free(dev->val[option].s);
-			dev->val[option].s = (SANE_String) strdup(val);
+			dev->val[option].s = (char *) strdup(val);
 			i = get_string_list_index(halftone_pattern_list,
 						  dev->
 						  val[OPT_HALFTONE_PATTERN].

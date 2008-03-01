@@ -97,7 +97,7 @@ typedef union
 {
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 } TOptionValue;
 
 #define HW_GAMMA_SIZE 4096
@@ -228,7 +228,7 @@ static const SANE_Range rangeThreshold = {
 };
 
 /* scanning modes */
-static SANE_String_Const modeList[] = {
+static const char * modeList[] = {
 	colorStr,
 	grayStr,
 	lineartStr,
@@ -544,7 +544,7 @@ _SetScalarGamma(int * aiGamma, int sfGamma)
 
 /* return size of longest string in a string list */
 static size_t
-_MaxStringSize(const SANE_String_Const strings[])
+_MaxStringSize(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -892,7 +892,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	TScanner *s;
 

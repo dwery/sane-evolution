@@ -126,21 +126,21 @@ static int new_dev_alloced = 0;
 SANE_Bool little_endian;
 SANE_Bool debug_options = FALSE;
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_VALUE_SCAN_MODE_COLOR,
 	SANE_VALUE_SCAN_MODE_GRAY,
 	SANE_VALUE_SCAN_MODE_LINEART,
 	0
 };
 
-static SANE_String_Const gray_mode_list[] = {
+static const char * gray_mode_list[] = {
 	GT68XX_COLOR_RED,
 	GT68XX_COLOR_GREEN,
 	GT68XX_COLOR_BLUE,
 	0
 };
 
-static SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	SANE_I18N("Flatbed"),
 	SANE_I18N("Transparency Adapter"),
 	0
@@ -190,7 +190,7 @@ calc_little_endian(void)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -204,7 +204,7 @@ max_string_size(const SANE_String_Const strings[])
 }
 
 static SANE_Status
-get_afe_values(SANE_String_Const cp, GT68xx_AFE_Parameters * afe)
+get_afe_values(const char * cp, GT68xx_AFE_Parameters * afe)
 {
 	char *word, *end;
 	int i;
@@ -349,7 +349,7 @@ setup_scan_request(GT68xx_Scanner * s, GT68xx_Scan_Request * scan_request)
 static SANE_Status
 calc_parameters(GT68xx_Scanner * s)
 {
-	SANE_String val;
+	char * val;
 	SANE_Status status = SANE_STATUS_GOOD;
 	GT68xx_Scan_Request scan_request;
 	GT68xx_Scan_Parameters scan_params;
@@ -747,7 +747,7 @@ init_options(GT68xx_Scanner * s)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname, GT68xx_Device ** devp, SANE_Bool may_wait)
+attach(const char * devname, GT68xx_Device ** devp, SANE_Bool may_wait)
 {
 	GT68xx_Device *dev;
 	SANE_Status status;
@@ -821,7 +821,7 @@ attach(SANE_String_Const devname, GT68xx_Device ** devp, SANE_Bool may_wait)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	GT68xx_Device *dev;
 	SANE_Status status;
@@ -1006,7 +1006,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 {
 	char line[PATH_MAX];
 	char *word;
-	SANE_String_Const cp;
+	const char * cp;
 	int linenumber;
 	FILE *fp;
 
@@ -1280,7 +1280,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	GT68xx_Device *dev;
 	SANE_Status status;

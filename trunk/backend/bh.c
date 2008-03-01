@@ -84,7 +84,7 @@ allblank(const char *s)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -108,10 +108,10 @@ trim_spaces(char *s, size_t n)
 	}
 }
 
-static SANE_String_Const
+static const char *
 print_devtype(SANE_Byte devtype)
 {
-	static SANE_String devtypes[] = {
+	static char * devtypes[] = {
 		"disk",
 		"tape",
 		"printer",
@@ -128,14 +128,14 @@ print_devtype(SANE_Byte devtype)
 		devtypes[devtype] : "unknown-device";
 }
 
-static SANE_String_Const
+static const char *
 print_barcodetype(int i)
 {
 	return (i > 0 && i < NELEMS(barcode_search_bar_list)) ?
-		barcode_search_bar_list[i] : (SANE_String_Const) "unknown";
+		barcode_search_bar_list[i] : (const char *) "unknown";
 }
 
-static SANE_String_Const
+static const char *
 print_orientation(int i)
 {
 	switch (i) {
@@ -156,7 +156,7 @@ print_orientation(int i)
 	}
 }
 
-static SANE_String_Const
+static const char *
 print_read_type(int i)
 {
 	static char buf[32];
@@ -3130,7 +3130,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devnam, SANE_Handle * handle)
+sane_open(const char * devnam, SANE_Handle * handle)
 {
 	SANE_Status status;
 	BH_Device *dev;
@@ -3215,7 +3215,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 	BH_Scanner *s = handle;
 	SANE_Status status;
 	int cap;
-	SANE_String_Const name;
+	const char * name;
 
 	DBG(3, "sane_control_option called\n");
 
@@ -3454,10 +3454,10 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 			/* scan mode != lineart disables compression, setting it to
 			 * 'none'
 			 */
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
+			if (strcmp(s->val[option].s, (char *) val)) {
 				if (info)
 					*info |= SANE_INFO_RELOAD_OPTIONS;
-				if (get_scan_mode_id((SANE_String) val) != 0) {
+				if (get_scan_mode_id((char *) val) != 0) {
 					/* scan mode is not lineart, disable compression 
 					 * and set compression to 'none'
 					 */
@@ -3487,9 +3487,9 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 		case OPT_PAPER_SIZE:
 			/* a string option */
 			/* changes geometry options, therefore _RELOAD_PARAMS and _RELOAD_OPTIONS */
-			if (strcmp(s->val[option].s, (SANE_String) val)) {
+			if (strcmp(s->val[option].s, (char *) val)) {
 				int paper_id =
-					get_paper_id((SANE_String) val);
+					get_paper_id((char *) val);
 
 				/* paper_id 0 is a special case (custom) that
 				 * disables the paper size control of geometry

@@ -103,7 +103,7 @@
 
 /*--------------------------------------------------------------------------*/
 /* Lists of possible scan modes. */
-static SANE_String_Const scan_mode_list[] = {
+static const char * scan_mode_list[] = {
 	COLOR_RGB_STR,
 	COLOR_RGB_TEXT_STR,
 	SANE_VALUE_SCAN_MODE_COLOR,
@@ -215,7 +215,7 @@ hexdump(int level, const char *comment, unsigned char *buf, const int length)
 /* Returns the length of the longest string, including the terminating
  * character. */
 static size_t
-max_string_size(SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -825,7 +825,7 @@ stv680_vidcam_init(Stv680_Vidcam * dev)
 
 /* Attach a vidcam to this backend. */
 static SANE_Status
-attach_vidcam(SANE_String_Const devicename, Stv680_Vidcam ** devp)
+attach_vidcam(const char * devicename, Stv680_Vidcam ** devp)
 {
 	Stv680_Vidcam *dev;
 	int fd;
@@ -1060,7 +1060,7 @@ stv680_init_options(Stv680_Vidcam * dev)
 	 * values previously set here. */
 
 	sane_control_option(dev, OPT_MODE, SANE_ACTION_SET_VALUE,
-			    (SANE_String_Const *) scan_mode_list[0], NULL);
+			    (const char * *) scan_mode_list[0], NULL);
 	DBG(DBG_proc, "stv680_init_options: exit\n");
 }
 
@@ -1581,7 +1581,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Stv680_Vidcam *dev;
 	SANE_Status status;

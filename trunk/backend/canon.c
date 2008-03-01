@@ -134,57 +134,57 @@ static int num_devices = 0;
 static CANON_Device *first_dev = NULL;
 static CANON_Scanner *first_handle = NULL;
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N(SANE_I18N("Lineart")), SANE_I18N("Halftone"),
 	SANE_I18N("Gray"),
 	SANE_I18N("Color"), 0
 };
 
 /* modification for FS2710 */
-static const SANE_String_Const mode_list_fs2710[] = {
+static const char * mode_list_fs2710[] = {
 	SANE_I18N("Color"), SANE_I18N("Raw"), 0
 };
 
 /* modification for FB620S */
-static const SANE_String_Const mode_list_fb620[] = {
+static const char * mode_list_fb620[] = {
 	SANE_I18N("Lineart"), SANE_I18N("Gray"), SANE_I18N("Color"),
 	SANE_I18N("Fine color"), 0
 };
 
 /* modification for FB1200S */
-static const SANE_String_Const mode_list_fb1200[] = {
+static const char * mode_list_fb1200[] = {
 	SANE_I18N("Lineart"), SANE_I18N("Gray"), SANE_I18N("Color"), 0
 };
 
-static const SANE_String_Const tpu_dc_mode_list[] = {
+static const char * tpu_dc_mode_list[] = {
 	SANE_I18N("No transparency correction"),
 	SANE_I18N("Correction according to film type"),
 	SANE_I18N("Correction according to transparency ratio"),
 	0
 };
 
-static const SANE_String_Const filmtype_list[] = {
+static const char * filmtype_list[] = {
 	SANE_I18N("Negatives"), SANE_I18N("Slides"),
 	0
 };
 
-static const SANE_String_Const negative_filmtype_list[] = {
+static const char * negative_filmtype_list[] = {
 	"Kodak", "Fuji", "Agfa", "Konica",
 	0
 };
 
-static const SANE_String_Const scanning_speed_list[] = {
+static const char * scanning_speed_list[] = {
 	SANE_I18N("Automatic"), SANE_I18N("Normal speed"),
 	SANE_I18N("1/2 normal speed"), SANE_I18N("1/3 normal speed"),
 	0
 };
 
-static const SANE_String_Const tpu_filmtype_list[] = {
+static const char * tpu_filmtype_list[] = {
 	"Film 0", "Film 1", "Film 2", "Film 3",
 	0
 };
 
-static const SANE_String_Const papersize_list[] = {
+static const char * papersize_list[] = {
 	"A4", "Letter", "B5", "Maximal",
 	0
 };
@@ -202,7 +202,7 @@ static const SANE_Range u8_range = {
 /**************************************************************************/
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;

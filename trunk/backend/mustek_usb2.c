@@ -101,7 +101,7 @@ static SANE_Range gamma_range = {
 	SANE_FIX(5.0),		/* maximum */
 	SANE_FIX(0.01)		/* quantization */
 };
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Color48"),
 	SANE_I18N("Color24"),
 	SANE_I18N("Gray16"),
@@ -110,12 +110,12 @@ static SANE_String_Const mode_list[] = {
 	0
 };
 
-static SANE_String_Const negative_mode_list[] = {
+static const char * negative_mode_list[] = {
 	SANE_I18N("Color24"),
 	0
 };
 
-static SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	SANE_I18N("Reflective"),
 	SANE_I18N("Positive"),
 	SANE_I18N("Negative"),
@@ -162,7 +162,7 @@ static SANE_Bool StopScan(void);
 static SANE_Bool IsTAConnected(void);
 static void AutoLevel(SANE_Byte * lpSource, SCANMODE scanMode,
 		      unsigned short ScanLines, unsigned int BytesPerLine);
-static size_t max_string_size(const SANE_String_Const strings[]);
+static size_t max_string_size(const char * strings[]);
 static SANE_Status calc_parameters(Mustek_Scanner * s);
 #ifdef SANE_UNUSED
 static SANE_Bool GetGammaInfo(LPGAMMAINFO pGamaInfo);
@@ -176,7 +176,7 @@ static void QBETDetectAutoLevel(void *pDIB, unsigned int ImageWidth,
 
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -192,7 +192,7 @@ max_string_size(const SANE_String_Const strings[])
 static SANE_Status
 calc_parameters(Mustek_Scanner * s)
 {
-	SANE_String val, val_source;
+	char * val, val_source;
 	val = s->val[OPT_MODE].s;
 	val_source = s->val[OPT_SOURCE].s;
 
@@ -2007,7 +2007,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Mustek_Scanner *s;
 

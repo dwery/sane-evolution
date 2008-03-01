@@ -97,12 +97,12 @@ static int new_dev_len;
 /* Number of entries alloced for new_dev */
 static int new_dev_alloced;
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Lineart"), SANE_I18N("Gray"), SANE_I18N("Color"),
 	0
 };
 
-static SANE_String_Const ta_source_list[] = {
+static const char * ta_source_list[] = {
 	SANE_I18N("Flatbed"), SANE_I18N("Transparency Adapter"),
 	0
 };
@@ -140,9 +140,9 @@ print_data_buffer(const SANE_Byte * buffer, size_t len)
 
 	buffer_byte_list[0] = '\0';
 	for (pp = buffer; pp < (buffer + len); pp++) {
-		sprintf((SANE_String) buffer_byte, " %02x", *pp);
-		strcat((SANE_String) buffer_byte_list,
-		       (SANE_String) buffer_byte);
+		sprintf((char *) buffer_byte, " %02x", *pp);
+		strcat((char *) buffer_byte_list,
+		       (char *) buffer_byte);
 		if (((pp - buffer) % 0x10 == 0x0f)
 		    || (pp >= (buffer + len - 1))) {
 			DBG(5, "buffer: %s\n", buffer_byte_list);
@@ -270,7 +270,7 @@ test_unit_ready(Ma1509_Scanner * s)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname, Ma1509_Device ** devp)
+attach(const char * devname, Ma1509_Device ** devp)
 {
 	int fw_revision;
 	SANE_Byte result[INQ_LEN];
@@ -359,13 +359,13 @@ attach(SANE_String_Const devname, Ma1509_Device ** devp)
 		inquiry_byte_list[0] = '\0';
 		inquiry_text_list[0] = '\0';
 		for (pp = result; pp < (result + INQ_LEN); pp++) {
-			sprintf((SANE_String) inquiry_text, "%c",
+			sprintf((char *) inquiry_text, "%c",
 				(*pp < 127) && (*pp > 31) ? *pp : '.');
-			strcat((SANE_String) inquiry_text_list,
-			       (SANE_String) inquiry_text);
-			sprintf((SANE_String) inquiry_byte, " %02x", *pp);
-			strcat((SANE_String) inquiry_byte_list,
-			       (SANE_String) inquiry_byte);
+			strcat((char *) inquiry_text_list,
+			       (char *) inquiry_text);
+			sprintf((char *) inquiry_byte, " %02x", *pp);
+			strcat((char *) inquiry_byte_list,
+			       (char *) inquiry_byte);
 			if ((pp - result) % 0x10 == 0x0f) {
 				DBG(5, "%s  %s\n", inquiry_byte_list,
 				    inquiry_text_list);
@@ -390,7 +390,7 @@ attach(SANE_String_Const devname, Ma1509_Device ** devp)
 	dev->name = strdup(devname);
 	if (!dev->name)
 		return SANE_STATUS_NO_MEM;
-	dev->sane.name = (SANE_String_Const) dev->name;
+	dev->sane.name = (const char *) dev->name;
 	dev->sane.vendor = "Mustek";
 	dev->sane.type = "flatbed scanner";
 
@@ -409,7 +409,7 @@ attach(SANE_String_Const devname, Ma1509_Device ** devp)
 	DBG(3, "attach: scanner id: %.11s\n", model_name);
 
 	/* BearPaw 1200F (SCSI-over-USB) */
-	if (strncmp((SANE_String) model_name, " B06", 4) == 0) {
+	if (strncmp((char *) model_name, " B06", 4) == 0) {
 		dev->x_range.max = SANE_FIX(211.3);
 		dev->y_range.min = SANE_FIX(0);
 		dev->y_range.max = SANE_FIX(296.7);
@@ -449,7 +449,7 @@ attach(SANE_String_Const devname, Ma1509_Device ** devp)
 
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -656,7 +656,7 @@ init_options(Ma1509_Scanner * s)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	Ma1509_Device *dev;
 
@@ -1076,7 +1076,7 @@ SANE_Status
 sane_init(int * version_code, SANE_Auth_Callback authorize)
 {
 	char line[PATH_MAX], *word, *end;
-	SANE_String_Const cp;
+	const char * cp;
 	int linenumber;
 	FILE *fp;
 
@@ -1259,7 +1259,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Ma1509_Device *dev;
 	SANE_Status status;
@@ -1634,7 +1634,7 @@ SANE_Status
 sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 {
 	Ma1509_Scanner *s = handle;
-	SANE_String_Const mode;
+	const char * mode;
 
 	if (!s) {
 		DBG(1, "sane_get_parameters: handle is null!\n");
@@ -1696,7 +1696,7 @@ sane_start(SANE_Handle handle)
 {
 	Ma1509_Scanner *s = handle;
 	SANE_Status status;
-	SANE_String_Const mode;
+	const char * mode;
 	struct timeval start;
 
 	if (!s) {

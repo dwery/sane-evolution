@@ -84,9 +84,9 @@ static int num_devices;
 static Abaton_Device *first_dev;
 static Abaton_Scanner *first_handle;
 
-static SANE_String_Const mode_list[5];
+static const char * mode_list[5];
 
-static const SANE_String_Const halftone_pattern_list[] = {
+static const char * halftone_pattern_list[] = {
 	"spiral", "bayer",
 	0
 };
@@ -480,7 +480,7 @@ attach_one(const char *devname)
 static SANE_Status
 calc_parameters(Abaton_Scanner * s)
 {
-	SANE_String val = s->val[OPT_MODE].s;
+	char * val = s->val[OPT_MODE].s;
 	SANE_Status status = SANE_STATUS_GOOD;
 	int dpix = s->val[OPT_X_RESOLUTION].w;
 	int dpiy = s->val[OPT_Y_RESOLUTION].w;
@@ -584,7 +584,7 @@ mode_update(SANE_Handle handle, char *val)
 
 /* find the longest of a list of strings */
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -896,7 +896,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Abaton_Device *dev;
 	SANE_Status status;

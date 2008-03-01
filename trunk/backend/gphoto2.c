@@ -131,7 +131,7 @@ static djpeg_dest_ptr dest_mgr = NULL;
 
 static int highres_height = 960, highres_width = 1280;
 static int thumb_height = 120, thumb_width = 160;
-static SANE_String TopFolder;	/* Fixed part of path strings */
+static char * TopFolder;	/* Fixed part of path strings */
 static int SubDirs = 1;	/* Search for Sub directories */
 
 static GPHOTO2 Cam_data;	/* Other camera data */
@@ -142,7 +142,7 @@ static SANE_Range image_range = {
 	0
 };
 
-static SANE_String *folder_list;
+static char * *folder_list;
 static int current_folder = 0;
 
 static SANE_Option_Descriptor sod[] = {
@@ -197,7 +197,7 @@ static SANE_Option_Descriptor sod[] = {
 	 4,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & image_range}	/* this is ANSI conformant! */
+	 {(const char * *) & image_range}	/* this is ANSI conformant! */
 	 }
 	,
 
@@ -524,7 +524,7 @@ close_gphoto2(void)
 int
 get_info(void)
 {
-	SANE_String_Const val;
+	const char * val;
 	int n;
 
 	if (Cam_data.pic_taken == 0) {
@@ -555,7 +555,7 @@ get_info(void)
 	}
 
 	folder_list =
-		(SANE_String *) malloc((n + 1) * sizeof(SANE_String_Const *));
+		(char * *) malloc((n + 1) * sizeof(const char * *));
 
 	if (SubDirs) {
 		for (n = 0; n < gp_list_count(dir_list); n++) {
@@ -567,7 +567,7 @@ get_info(void)
 			}
 		}
 		if (n == 0) {
-			folder_list[n++] = (SANE_String) strdup("");
+			folder_list[n++] = (char *) strdup("");
 		}
 	} else {
 		n = 0;
@@ -576,7 +576,7 @@ get_info(void)
 
 	folder_list[n] = NULL;
 	sod[GPHOTO2_OPT_FOLDER].constraint.string_list =
-		(SANE_String_Const *) folder_list;
+		(const char * *) folder_list;
 
 	Cam_data.pic_taken = 0;
 	Cam_data.pic_left = 1;	/* Just a guess! */
@@ -593,7 +593,7 @@ get_info(void)
 static int
 erase(void)
 {
-	SANE_String_Const filename;
+	const char * filename;
 
 	if (SubDirs) {
 		sprintf(cmdbuf, "%s/%s", (char *) TopFolder,
@@ -911,7 +911,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool
  */
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	int i;
 
@@ -1315,7 +1315,7 @@ jpeg_term_source(j_decompress_ptr UNUSEDARG cinfo)
 SANE_Status
 sane_start(SANE_Handle handle)
 {
-	SANE_String_Const filename, mime_type;
+	const char * filename, mime_type;
 
 	DBG(127, "sane_start called\n");
 	if (handle != MAGIC || !is_open ||
@@ -1636,7 +1636,7 @@ snap_pic(void)
  *		be "picture #1", etc.
  */
 static int
-read_dir(SANE_String dir, SANE_Bool read_files)
+read_dir(char * dir, SANE_Bool read_files)
 {
 	int retval = 0;
 	char f[] = "read_dir";
@@ -1671,7 +1671,7 @@ read_dir(SANE_String dir, SANE_Bool read_files)
  *	like update the image size parameters displayed by the GUI
  */
 static int
-read_info(SANE_String_Const fname)
+read_info(const char * fname)
 {
 	char path[256];
 
@@ -1710,7 +1710,7 @@ converter_do_scan_complete_cleanup(void)
 {
 	CameraList *tmp_list;
 	int i;
-	SANE_String_Const filename;
+	const char * filename;
 
 	gp_file_unref(data_file);
 
@@ -1753,7 +1753,7 @@ converter_do_scan_complete_cleanup(void)
 		gp_list_new(&tmp_list);
 
 		for (i = 0; i < gp_list_count(dir_list); i++) {
-			SANE_String_Const tfilename;
+			const char * tfilename;
 
 			CHECK_RET(gp_list_get_name(dir_list, i, &tfilename));
 			/* If not the one to delete, copy to the new list */

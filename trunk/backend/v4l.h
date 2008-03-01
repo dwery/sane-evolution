@@ -219,7 +219,7 @@ typedef struct V4L_Scanner
 	Option_Value val[NUM_OPTIONS];
 	V4L_Resolution resolution;
 	SANE_Parameters params;
-	SANE_String_Const devicename;	/* Name of the Device */
+	const char * devicename;	/* Name of the Device */
 	int fd;			/* Filedescriptor */
 	int user_corner;	/* bitmask of user-selected coordinates */
 	SANE_Bool scanning;
@@ -233,7 +233,7 @@ typedef struct V4L_Scanner
 	struct video_window window;
 	struct video_mbuf mbuf;
 	struct video_mmap mmap;
-	SANE_String_Const channel[MAX_CHANNELS];
+	const char * channel[MAX_CHANNELS];
 	int buffercount;
 }
 V4L_Scanner;

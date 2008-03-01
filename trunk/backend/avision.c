@@ -1106,7 +1106,7 @@ static const uint8_t get_status[] = {
 };
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -2095,7 +2095,7 @@ bubble_sort(uint8_t * sort_data, size_t count)
 }
 
 static SANE_Status
-add_color_mode(Avision_Device * dev, color_mode mode, SANE_String name)
+add_color_mode(Avision_Device * dev, color_mode mode, char * name)
 {
 	int i;
 	DBG(3, "add_color_mode: %d %s\n", mode, name);
@@ -2127,7 +2127,7 @@ last_color_mode(Avision_Device * dev)
 }
 
 static color_mode
-match_color_mode(Avision_Device * dev, SANE_String name)
+match_color_mode(Avision_Device * dev, char * name)
 {
 	int i;
 	DBG(3, "match_color_mode:\n");
@@ -2167,7 +2167,7 @@ is_adf_scan(Avision_Scanner * s)
 }
 
 static SANE_Status
-add_source_mode(Avision_Device * dev, source_mode mode, SANE_String name)
+add_source_mode(Avision_Device * dev, source_mode mode, char * name)
 {
 	int i;
 
@@ -2183,7 +2183,7 @@ add_source_mode(Avision_Device * dev, source_mode mode, SANE_String name)
 }
 
 static source_mode
-match_source_mode(Avision_Device * dev, SANE_String name)
+match_source_mode(Avision_Device * dev, char * name)
 {
 	int i;
 
@@ -3403,7 +3403,7 @@ set_frame(Avision_Scanner * s, int frame)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname, Avision_ConnectionType con_type,
+attach(const char * devname, Avision_ConnectionType con_type,
        Avision_Device ** devp)
 {
 	uint8_t result[AVISION_INQUIRY_SIZE_MAX];
@@ -7669,7 +7669,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Avision_Device *dev;
 	SANE_Status status;

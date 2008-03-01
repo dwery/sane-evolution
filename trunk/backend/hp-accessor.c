@@ -376,7 +376,7 @@ struct hp_accessor_choice_s
 	size_t data_size;
 
 	HpChoice choices;
-	SANE_String_Const *strlist;
+	const char * *strlist;
 };
 
 static SANE_Status
@@ -392,7 +392,7 @@ hp_accessor_choice_set(HpAccessor _this, HpData data, void *valp)
 {
 	HpAccessorChoice this = (HpAccessorChoice) _this;
 	HpChoice choice;
-	SANE_String_Const *strlist = this->strlist;
+	const char * *strlist = this->strlist;
 
 	for (choice = this->choices; choice; choice = choice->next) {
 		/* Skip choices which aren't in strlist. */
@@ -423,7 +423,7 @@ hp_accessor_choice_setint(HpAccessor _this, HpData data, int val)
 	HpAccessorChoice this = (HpAccessorChoice) _this;
 	HpChoice choice;
 	HpChoice first_choice = 0;
-	SANE_String_Const *strlist = this->strlist;
+	const char * *strlist = this->strlist;
 
 	for (choice = this->choices; choice; choice = choice->next) {
 		/* Skip choices which aren't in strlist. */
@@ -460,7 +460,7 @@ sanei_hp_accessor_choice_maxsize(HpAccessorChoice this)
 	return size;
 }
 
-SANE_String_Const *
+const char * *
 sanei_hp_accessor_choice_strlist(HpAccessorChoice this,
 				 HpOptSet optset, HpData data,
 				 const HpDeviceInfo * info)
@@ -509,7 +509,7 @@ sanei_hp_accessor_choice_new(HpData data, HpChoice choices,
 	this->data_offset = hp_data_alloc(data, this->data_size =
 					  sizeof(HpChoice));
 	this->choices = choices;
-	this->strlist = (SANE_String_Const *) (this + 1);
+	this->strlist = (const char * *) (this + 1);
 
 	count = 0;
 	for (choice = this->choices; choice; choice = choice->next)

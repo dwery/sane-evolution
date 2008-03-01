@@ -181,7 +181,7 @@ typedef struct SHARP_Info
 	int bmu;
 	int mud;
 	int adf_fsu_installed;
-	SANE_String_Const scansources[5];
+	const char * scansources[5];
 	size_t buffers;
 	size_t bufsize;
 	int wanted_bufsize;

@@ -596,7 +596,7 @@ do_cancel(Net_Scanner * s)
 }
 
 static void
-do_authorization(Net_Device * dev, SANE_String resource)
+do_authorization(Net_Device * dev, char * resource)
 {
 	SANE_Authorization_Req req;
 	char username[SANE_MAX_USERNAME_LEN];
@@ -1044,7 +1044,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
+sane_open(const char * full_name, SANE_Handle * meta_handle)
 {
 	SANE_Open_Reply reply;
 	const char *dev_name;
@@ -1052,7 +1052,7 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 	const char *tmp_name;
 	SANE_Bool v6addr = FALSE;
 #endif /* ENABLE_IPV6 */
-	SANE_String nd_name;
+	char * nd_name;
 	SANE_Status status;
 	int handle;
 	Net_Device *dev;
@@ -1391,9 +1391,9 @@ sane_control_option(SANE_Handle handle, int option,
 		case SANE_TYPE_STRING:	/* strings can be smaller than size */
 			req.value_size = s->opt.desc[option]->size;
 			if ((action == SANE_ACTION_SET_VALUE)
-			    && (((int) strlen((SANE_String) value) + 1)
+			    && (((int) strlen((char *) value) + 1)
 				< s->opt.desc[option]->size))
-				req.value_size = strlen((SANE_String) value) + 1;
+				req.value_size = strlen((char *) value) + 1;
 			break;
 		default:
 			req.value_size = s->opt.desc[option]->size;

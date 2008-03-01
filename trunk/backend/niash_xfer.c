@@ -93,7 +93,7 @@ MatchUsbDevice(int iVendor, int iProduct, TScannerModel ** ppModel)
 
 /* callback for sanei_usb_attach_matching_devices */
 static SANE_Status
-_AttachUsb(SANE_String_Const devname)
+_AttachUsb(const char * devname)
 {
 	DBG(DBG_MSG, "_AttachUsb: found %s\n", devname);
 

@@ -3,7 +3,7 @@ static const SANE_Range constraint_gamma_table = { 0, 255, 0 };
 
 
 static int
-find_string_in_list(SANE_String_Const str, const SANE_String_Const * list)
+find_string_in_list(const char * str, const char * * list)
 {
 	int i;
 	for (i = 0; list[i] && strcmp(str, list[i]) != 0; i++) {

@@ -271,7 +271,7 @@ typedef struct Genesys_Command_Set
 	/*@{ */
 
   /** Name of this command set */
-	SANE_String_Const name;
+	const char * name;
 
 	/*@} */
 
@@ -339,9 +339,9 @@ typedef struct Genesys_Command_Set
 
 typedef struct Genesys_Model
 {
-	SANE_String_Const name;
-	SANE_String_Const vendor;
-	SANE_String_Const model;
+	const char * name;
+	const char * vendor;
+	const char * model;
 
 	int asic_type;	/* ASIC type gl646 or gl841 */
 	Genesys_Command_Set *cmd_set;	/* pointers to low level functions */
@@ -438,7 +438,7 @@ typedef struct Genesys_Buffer
 struct Genesys_Device
 {
 	int dn;
-	SANE_String file_name;
+	char * file_name;
 	Genesys_Model *model;
 
 	Genesys_Register_Set reg[GENESYS_MAX_REGS];

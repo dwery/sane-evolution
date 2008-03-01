@@ -119,7 +119,7 @@ typedef enum
 	optLast
 } TOptionIndex;
 
-static const SANE_String_Const aScanModes[] = { "color", "gray", "lineart",
+static const char * aScanModes[] = { "color", "gray", "lineart",
 	"halftone", NULL
 };
 
@@ -337,7 +337,7 @@ InitOptions(TInstance * this)
 }
 
 static SANE_Status
-RegisterSaneDev(TModel model, SANE_String_Const szName)
+RegisterSaneDev(TModel model, const char * szName)
 {
 	TDevice *q;
 
@@ -349,7 +349,7 @@ RegisterSaneDev(TModel model, SANE_String_Const szName)
 
 	memset(q, 0, sizeof(*q));	/* clear every field */
 	q->szSaneName = strdup(szName);
-	q->sane.name = (SANE_String_Const) q->szSaneName;
+	q->sane.name = (const char *) q->szSaneName;
 	q->sane.vendor = "Microtek";
 	q->sane.model = "ScanMaker 3600";
 	q->sane.type = "flatbed scanner";
@@ -364,7 +364,7 @@ RegisterSaneDev(TModel model, SANE_String_Const szName)
 }
 
 static SANE_Status
-sm_usb_attach(SANE_String_Const dev_name)
+sm_usb_attach(const char * dev_name)
 {
 	int fd;
 	SANE_Status err;
@@ -461,7 +461,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	TDevice *pdev;
 	TInstance *this;

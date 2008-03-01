@@ -116,7 +116,7 @@ static SANE_Bool inhibit_real_calib = FALSE;
 #define M_SCALAR "Scalar"
 #define M_TABLE  "Table"
 
-static SANE_String_Const gamma_mode_list[4] = {
+static const char * gamma_mode_list[4] = {
 	M_NONE,
 	M_SCALAR,
 	M_TABLE,
@@ -125,7 +125,7 @@ static SANE_String_Const gamma_mode_list[4] = {
 
 
 /* These are for the E6.  Does this hold for other models? */
-static SANE_String_Const halftone_mode_list[13] = {
+static const char * halftone_mode_list[13] = {
 	" 1 53-dot screen (53 gray levels)",
 	" 2 Horiz. screen (65 gray levels)",
 	" 3 Vert. screen (65 gray levels)",
@@ -194,7 +194,7 @@ MDBG_FINISH(int dbglvl)
 /********************************************************************/
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1183,11 +1183,11 @@ init_options(Microtek_Scanner * ms)
 	sod[OPT_MODE].type = SANE_TYPE_STRING;
 	sod[OPT_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	{
-		SANE_String_Const *mode_list;
+		const char * *mode_list;
 		mode_list =
-			(SANE_String_Const *) malloc(5 *
+			(const char * *) malloc(5 *
 						     sizeof
-						     (SANE_String_Const));
+						     (const char *));
 		if (mode_list == NULL)
 			return SANE_STATUS_NO_MEM;
 		i = 0;
@@ -1271,11 +1271,11 @@ init_options(Microtek_Scanner * ms)
 	sod[OPT_SOURCE].unit = SANE_UNIT_NONE;
 	sod[OPT_SOURCE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	{
-		SANE_String_Const *source_list;
+		const char * *source_list;
 		source_list =
-			(SANE_String_Const *) malloc(4 *
+			(const char * *) malloc(4 *
 						     sizeof
-						     (SANE_String_Const));
+						     (const char *));
 		if (source_list == NULL)
 			return SANE_STATUS_NO_MEM;
 		i = 0;
@@ -3460,7 +3460,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 /* sane_open                                                        */
 /********************************************************************/
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Microtek_Scanner *scanner;
 	Microtek_Device *dev;

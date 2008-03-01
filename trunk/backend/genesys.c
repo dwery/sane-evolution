@@ -84,7 +84,7 @@ static int new_dev_len = 0;
 /* Number of entries alloced for new_dev */
 static int new_dev_alloced = 0;
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Color"),
 	SANE_I18N("Gray"),
 	/* SANE_I18N ("Halftone"),  currently unused */
@@ -92,14 +92,14 @@ static SANE_String_Const mode_list[] = {
 	0
 };
 
-static SANE_String_Const color_filter_list[] = {
+static const char * color_filter_list[] = {
 	SANE_I18N("Red"),
 	SANE_I18N("Green"),
 	SANE_I18N("Blue"),
 	0
 };
 
-static SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	SANE_I18N("Flatbed"),
 	SANE_I18N("Transparency Adapter"),
 	0
@@ -4405,7 +4405,7 @@ Problems with the first approach:
 /* ------------------------------------------------------------------------ */
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -4421,7 +4421,7 @@ max_string_size(const SANE_String_Const strings[])
 static SANE_Status
 calc_parameters(Genesys_Scanner * s)
 {
-	SANE_String mode, source, color_filter;
+	char * mode, source, color_filter;
 	SANE_Status status = SANE_STATUS_GOOD;
 	int depth = 0, resolution = 0;
 	double tl_x = 0, tl_y = 0, br_x = 0, br_y = 0;
@@ -4748,7 +4748,7 @@ init_options(Genesys_Scanner * s)
 }
 
 static SANE_Status
-attach(SANE_String_Const devname, Genesys_Device ** devp, SANE_Bool may_wait)
+attach(const char * devname, Genesys_Device ** devp, SANE_Bool may_wait)
 {
 	Genesys_Device *dev = 0;
 	int dn, vendor, product;
@@ -4836,7 +4836,7 @@ attach(SANE_String_Const devname, Genesys_Device ** devp, SANE_Bool may_wait)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	Genesys_Device *dev;
 	SANE_Status status;
@@ -4876,7 +4876,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 {
 	char line[PATH_MAX];
 	char *word;
-	SANE_String_Const cp;
+	const char * cp;
 	int linenumber;
 	FILE *fp;
 
@@ -5035,7 +5035,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Genesys_Device *dev;
 	SANE_Status status;

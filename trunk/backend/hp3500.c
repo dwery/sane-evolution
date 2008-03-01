@@ -326,7 +326,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
  * (if there is such a device).
  */
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	struct hp3500_data *dev = NULL;
 	struct hp3500_data *scanner = NULL;

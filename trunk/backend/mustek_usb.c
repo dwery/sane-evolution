@@ -98,7 +98,7 @@ static int new_dev_len;
 /* Number of entries alloced for new_dev */
 static int new_dev_alloced;
 
-static SANE_String_Const mode_list[6];
+static const char * mode_list[6];
 
 static const SANE_Range char_range = {
 	-127, 127, 1
@@ -112,7 +112,7 @@ static const SANE_Range u8_range = {
 
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -129,7 +129,7 @@ max_string_size(const SANE_String_Const strings[])
 static SANE_Status
 calc_parameters(Mustek_Usb_Scanner * s)
 {
-	SANE_String val;
+	char * val;
 	SANE_Status status = SANE_STATUS_GOOD;
 	int max_x, max_y;
 
@@ -424,7 +424,7 @@ init_options(Mustek_Usb_Scanner * s)
 
 
 static SANE_Status
-attach(SANE_String_Const devname, Mustek_Usb_Device ** devp,
+attach(const char * devname, Mustek_Usb_Device ** devp,
        SANE_Bool may_wait)
 {
 	Mustek_Usb_Device *dev;
@@ -483,7 +483,7 @@ attach(SANE_String_Const devname, Mustek_Usb_Device ** devp,
 
 	memset(dev, 0, sizeof(*dev));
 	dev->name = strdup(devname);
-	dev->sane.name = (SANE_String_Const) dev->name;
+	dev->sane.name = (const char *) dev->name;
 	dev->sane.vendor = "Mustek";
 	switch (scanner_type) {
 	case MT_1200CU:
@@ -548,7 +548,7 @@ attach(SANE_String_Const devname, Mustek_Usb_Device ** devp,
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	Mustek_Usb_Device *dev;
 	SANE_Status status;
@@ -692,7 +692,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 {
 	char line[PATH_MAX];
 	char *word, *end;
-	SANE_String_Const cp;
+	const char * cp;
 	int linenumber;
 	FILE *fp;
 
@@ -986,7 +986,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Mustek_Usb_Device *dev;
 	SANE_Status status;
@@ -1375,7 +1375,7 @@ sane_start(SANE_Handle handle)
 {
 	Mustek_Usb_Scanner *s = handle;
 	SANE_Status status;
-	SANE_String val;
+	char * val;
 	Colormode color_mode;
 	int dpi, x, y, width, height;
 

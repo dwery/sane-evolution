@@ -218,7 +218,7 @@ u12if_IsDeviceSupported(U12_Device * dev)
 /**
  */
 static SANE_Status
-u12if_usbattach(SANE_String_Const dev_name)
+u12if_usbattach(const char * dev_name)
 {
 	if (USB_devname[0] == '\0') {
 		DBG(_DBG_INFO, "Found device at >%s<\n", dev_name);

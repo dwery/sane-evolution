@@ -118,11 +118,11 @@ static SANE_Device **devarray = NULL;
 /* currently active Handles */
 static Mustek_pp_Handle *first_hndl = NULL;
 
-static SANE_String_Const mustek_pp_modes[4] =
+static const char * mustek_pp_modes[4] =
 	{ "Lineart", "Grayscale", "Color", NULL };
 static int mustek_pp_modes_size = 10;
 
-static SANE_String_Const mustek_pp_speeds[6] =
+static const char * mustek_pp_speeds[6] =
 	{ "Slowest", "Slower", "Normal", "Faster", "Fastest", NULL };
 static int mustek_pp_speeds_size = 8;
 static int mustek_pp_depths[5] = { 4, 8, 10, 12, 16 };
@@ -133,11 +133,11 @@ static void free_cfg_options(int *numoptions,
 static SANE_Status do_eof(Mustek_pp_Handle * hndl);
 static SANE_Status do_stop(Mustek_pp_Handle * hndl);
 static int reader_process(Mustek_pp_Handle * hndl, int pipe);
-static SANE_Status sane_attach(SANE_String_Const port, SANE_String_Const name,
+static SANE_Status sane_attach(const char * port, const char * name,
 			       int driver, int info);
 static void init_options(Mustek_pp_Handle * hndl);
-static void attach_device(SANE_String * driver, SANE_String * name,
-			  SANE_String * port, SANE_String * option_ta);
+static void attach_device(char * * driver, char * * name,
+			  char * * port, char * * option_ta);
 
 
 /*
@@ -330,7 +330,7 @@ reader_process(Mustek_pp_Handle * hndl, int pipe)
  *
  */
 static SANE_Status
-sane_attach(SANE_String_Const port, SANE_String_Const name, int driver,
+sane_attach(const char * port, const char * name, int driver,
 	    int info)
 {
 	Mustek_pp_Device *dev;
@@ -640,8 +640,8 @@ init_options(Mustek_pp_Handle * hndl)
  *      this driver is called to initialize the device.
  */
 static void
-attach_device(SANE_String * driver, SANE_String * name,
-	      SANE_String * port, SANE_String * option_ta)
+attach_device(char * * driver, char * * name,
+	      char * * port, char * * option_ta)
 {
 	int found = 0, driver_no, port_no;
 	const char **ports;
@@ -1135,7 +1135,7 @@ sane_get_devices(const SANE_Device *** device_list,
  */
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 
 	Mustek_pp_Handle *hndl;

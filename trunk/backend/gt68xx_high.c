@@ -1010,7 +1010,7 @@ gt68xx_afe_ccd_calc(GT68xx_Afe_Values * values, unsigned int *buffer)
 }
 
 static SANE_Bool
-gt68xx_afe_ccd_adjust_offset_gain(SANE_String_Const color_name,
+gt68xx_afe_ccd_adjust_offset_gain(const char * color_name,
 				  GT68xx_Afe_Values * values,
 				  unsigned int *buffer, SANE_Byte * offset,
 				  SANE_Byte * pga, SANE_Byte * old_offset,
@@ -1447,7 +1447,7 @@ gt68xx_afe_cis_calc_white(GT68xx_Afe_Values * values,
 }
 
 static SANE_Bool
-gt68xx_afe_cis_adjust_gain_offset(SANE_String_Const color_name,
+gt68xx_afe_cis_adjust_gain_offset(const char * color_name,
 				  GT68xx_Afe_Values * values,
 				  unsigned int *black_buffer,
 				  unsigned int *white_buffer,
@@ -1563,7 +1563,7 @@ gt68xx_afe_cis_adjust_gain_offset(SANE_String_Const color_name,
 
 
 static SANE_Bool
-gt68xx_afe_cis_adjust_exposure(SANE_String_Const color_name,
+gt68xx_afe_cis_adjust_exposure(const char * color_name,
 			       GT68xx_Afe_Values * values,
 			       unsigned int *white_buffer, int border,
 			       int * exposure_time)

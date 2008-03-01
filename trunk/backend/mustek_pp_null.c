@@ -63,8 +63,8 @@
 #define MUSTEK_PP_NULL_DRIVER	0
 
 static SANE_Status
-debug_drv_init(int options, SANE_String_Const port,
-	       SANE_String_Const name, SANE_Attach_Callback attach)
+debug_drv_init(int options, const char * port,
+	       const char * name, SANE_Attach_Callback attach)
 {
 
 	if (options != CAP_NOTHING)
@@ -75,8 +75,8 @@ debug_drv_init(int options, SANE_String_Const port,
 }
 
  /*ARGSUSED*/ static void
-debug_drv_capabilities(int info __UNUSED__, SANE_String * model,
-		       SANE_String * vendor, SANE_String * type,
+debug_drv_capabilities(int info __UNUSED__, char * * model,
+		       char * * vendor, char * * type,
 		       int * maxres, int * minres,
 		       int * maxhsize, int * maxvsize,
 		       int * caps)
@@ -94,7 +94,7 @@ debug_drv_capabilities(int info __UNUSED__, SANE_String * model,
 }
 
  /*ARGSUSED*/ static SANE_Status
-debug_drv_open(SANE_String port __UNUSED__,
+debug_drv_open(char * port __UNUSED__,
 	       int caps __UNUSED__, int * fd)
 {
 	*fd = 1;
@@ -113,7 +113,7 @@ debug_drv_setup(SANE_Handle hndl)
 
  /*ARGSUSED*/ static SANE_Status
 debug_drv_config(SANE_Handle hndl __UNUSED__,
-		 SANE_String_Const optname, SANE_String_Const optval)
+		 const char * optname, const char * optval)
 {
 	DBG(3, "debug_drv cfg option: %s=%s\n", optname,
 	    optval ? optval : "");

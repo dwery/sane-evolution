@@ -206,7 +206,7 @@ enum Mustek_Option
 typedef struct Mustek_Device
 {
 	struct Mustek_Device *next;
-	SANE_String name;
+	char * name;
 	SANE_Device sane;
 	SANE_Range dpi_range;
 	SANE_Range x_range;

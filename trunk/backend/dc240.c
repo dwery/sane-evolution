@@ -129,7 +129,7 @@ static SANE_Range image_range = {
 	0
 };
 
-static SANE_String **folder_list;
+static char * **folder_list;
 static int current_folder = 0;
 
 static SANE_Option_Descriptor sod[] = {
@@ -184,7 +184,7 @@ static SANE_Option_Descriptor sod[] = {
 	 4,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & image_range}	/* this is ANSI conformant! */
+	 {(const char * *) & image_range}	/* this is ANSI conformant! */
 	 }
 	,
 
@@ -591,16 +591,16 @@ get_info(DC240 * camera)
 	}
 
 	folder_list =
-		(SANE_String * *)malloc((n + 1) * sizeof(SANE_String *));
+		(char * * *)malloc((n + 1) * sizeof(char * *));
 	for (e = dir_head, n = 0; e; e = e->next, n++) {
-		folder_list[n] = (SANE_String *) strdup(e->name);
+		folder_list[n] = (char * *) strdup(e->name);
 		if (strchr((char *) folder_list[n], ' ')) {
 			*strchr((char *) folder_list[n], ' ') = '\0';
 		}
 	}
 	folder_list[n] = NULL;
 	sod[DC240_OPT_FOLDER].constraint.string_list =
-		(SANE_String_Const *) folder_list;
+		(const char * *) folder_list;
 
 	return 0;
 
@@ -922,7 +922,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	int i;
 
@@ -1465,7 +1465,7 @@ sane_read(SANE_Handle UNUSEDARG handle, SANE_Byte * data,
 			strcpy((char *) filename_buf,
 			       strrchr((char *) name_buf + 1, '\\') + 1);
 			strcpy(strrchr((char *) filename_buf, '.'), "JPG");
-			dir_delete((SANE_String) filename_buf);
+			dir_delete((char *) filename_buf);
 
 		}
 		if (dc240_opt_autoinc) {
@@ -1730,7 +1730,7 @@ snap_pic(int fd)
  *		be "picture #1", etc.
  */
 static int
-read_dir(SANE_String dir)
+read_dir(char * dir)
 {
 	int retval = 0;
 	SANE_Byte buf[256];
@@ -1827,7 +1827,7 @@ read_dir(SANE_String dir)
  * read_info - read the info block from camera for the specified file
  */
 static int
-read_info(SANE_String fname)
+read_info(char * fname)
 {
 	SANE_Byte buf[256];
 	int i;
@@ -1965,7 +1965,7 @@ dir_insert(struct cam_dirent *entry)
  * 		names
  */
 static int
-dir_delete(SANE_String fname)
+dir_delete(char * fname)
 {
 	struct cam_dirlist *cur, *e;
 

@@ -3907,10 +3907,10 @@ SetExtraSetting(PAsic chip, unsigned short wXResolution,
 static unsigned short ProductID = 0x0409;
 static unsigned short VendorID = 0x055f;
 
-static SANE_String_Const device_name;
+static const char * device_name;
 
 static SANE_Status
-attach_one_scanner(SANE_String_Const devname)
+attach_one_scanner(const char * devname)
 {
 	DBG(DBG_ASIC, "attach_one_scanner: enter\n");
 	DBG(DBG_INFO, "attach_one_scanner: devname = %s\n", devname);

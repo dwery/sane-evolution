@@ -948,7 +948,7 @@ typedef struct Microtek2_Device
 #define MD_MODESTRING_GRAY             "Gray"
 #define MD_MODESTRING_HALFTONE         "Halftone"
 #define MD_MODESTRING_LINEART          "LineArt"
-	SANE_String_Const scanmode_list[MD_MODESTRING_NUMS + 1];
+	const char * scanmode_list[MD_MODESTRING_NUMS + 1];
 
 #define MD_DEPTHVAL_NUMS               6
 #define MD_DEPTHVAL_16                16
@@ -965,7 +965,7 @@ typedef struct Microtek2_Device
 #define MD_SOURCESTRING_TMA           "TMA"
 #define MD_SOURCESTRING_STRIPE        "Filmstrip"
 #define MD_SOURCESTRING_SLIDE         "Slide"
-	SANE_String_Const scansource_list[MD_SOURCESTRING_NUMS + 1];
+	const char * scansource_list[MD_SOURCESTRING_NUMS + 1];
 
 #define MD_HALFTONE_NUMS              12
 #define MD_HALFTONE0                  "53-dot screen (53 gray levels)"
@@ -980,20 +980,20 @@ typedef struct Microtek2_Device
 #define MD_HALFTONE9                  "Slant line (17 gray levels)"
 #define MD_HALFTONE10                 "Posterizing (10 gray levels)"
 #define MD_HALFTONE11                 "High Contrast (5 gray levels)"
-	SANE_String_Const halftone_mode_list[MD_HALFTONE_NUMS + 1];
+	const char * halftone_mode_list[MD_HALFTONE_NUMS + 1];
 
 #define MD_CHANNEL_NUMS               4
 #define MD_CHANNEL_MASTER             "Master"
 #define MD_CHANNEL_RED                "Red"
 #define MD_CHANNEL_GREEN              "Green"
 #define MD_CHANNEL_BLUE               "Blue"
-	SANE_String_Const channel_list[MD_CHANNEL_NUMS + 1];
+	const char * channel_list[MD_CHANNEL_NUMS + 1];
 
 #define MD_GAMMAMODE_NUMS             3
 #define MD_GAMMAMODE_LINEAR           "None"
 #define MD_GAMMAMODE_SCALAR           "Scalar"
 #define MD_GAMMAMODE_CUSTOM           "Custom"
-	SANE_String_Const gammamode_list[MD_GAMMAMODE_NUMS + 1];
+	const char * gammamode_list[MD_GAMMAMODE_NUMS + 1];
 
 	SANE_Range x_res_range_dpi;	/* X resolution in dpi */
 	SANE_Range y_res_range_dpi;	/* Y resolution in dpi */
@@ -1157,7 +1157,7 @@ typedef struct Microtek2_Scanner
 /* Function prototypes                                                        */
 /******************************************************************************/
 
-static SANE_Status add_device_list(SANE_String_Const, Microtek2_Device **);
+static SANE_Status add_device_list(const char *, Microtek2_Device **);
 
 static SANE_Status attach(Microtek2_Device *);
 
@@ -1174,7 +1174,7 @@ static SANE_Status calculate_sane_params(Microtek2_Scanner *);
 
 static SANE_Status cancel_scan(Microtek2_Scanner *);
 
-static SANE_Status check_inquiry(Microtek2_Device *, SANE_String *);
+static SANE_Status check_inquiry(Microtek2_Device *, char * *);
 
 static void check_option(const char *, Config_Options *);
 
@@ -1240,7 +1240,7 @@ lplconcat_copy_pixels(Microtek2_Scanner *, u_int8_t **, int, int);
 
 static SANE_Status lplconcat_proc_data(Microtek2_Scanner * ms);
 
-static size_t max_string_size(const SANE_String_Const * /* strings[] */ );
+static size_t max_string_size(const char * * /* strings[] */ );
 
 static void parse_config_file(FILE *, Config_Temp **);
 

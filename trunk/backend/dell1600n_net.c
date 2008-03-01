@@ -451,7 +451,7 @@ sane_get_devices(const SANE_Device *** device_list,
 /***********************************************************/
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 
 	int iHandle = -1, i;

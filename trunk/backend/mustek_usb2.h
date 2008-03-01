@@ -99,16 +99,16 @@ typedef struct Scanner_Model
 	/*@{ */
 
   /** A single lowercase word to be used in the configuration file. */
-	SANE_String_Const name;
+	const char * name;
 
   /** Device vendor string. */
-	SANE_String_Const vendor;
+	const char * vendor;
 
   /** Device model name. */
-	SANE_String_Const model;
+	const char * model;
 
   /** Name of the firmware file. */
-	SANE_String_Const firmware_name;
+	const char * firmware_name;
 
   /** @name Scanner model parameters */
 	/*@{ */

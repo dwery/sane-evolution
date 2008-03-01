@@ -74,13 +74,13 @@ static DMC_Device *FirstDevice = NULL;
 static DMC_Camera *FirstHandle = NULL;
 static int NumDevices = 0;
 
-static SANE_String_Const ValidModes[] = { "Full frame", "Viewfinder",
+static const char * ValidModes[] = { "Full frame", "Viewfinder",
 	"Raw", "Thumbnail",
 	"Super-Resolution",
 	NULL
 };
 
-static SANE_String_Const ValidBalances[] = { "Daylight", "Incandescent",
+static const char * ValidBalances[] = { "Daylight", "Incandescent",
 	"Fluorescent", NULL
 };
 
@@ -512,7 +512,7 @@ DMCInitOptions(DMC_Camera * c)
 	c->opt[OPT_WHITE_BALANCE].constraint.string_list = ValidBalances;
 	c->opt[OPT_WHITE_BALANCE].size = 16;
 	c->val[OPT_WHITE_BALANCE].s =
-		(SANE_String) ValidBalances[c->hw->whiteBalance];
+		(char *) ValidBalances[c->hw->whiteBalance];
 
 	return SANE_STATUS_GOOD;
 }
@@ -948,7 +948,7 @@ sane_get_devices(SANE_Device const ***device_list, SANE_Bool local_only)
 // Opens a DMC camera device
 // *********************************************************************/
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	SANE_Status status;
 	DMC_Device *dev;
@@ -1117,7 +1117,7 @@ sane_control_option(SANE_Handle handle, int option,
 			if (!strcmp(val, ValidModes[i])) {
 				status = DMCSetMode(c, i);
 				c->val[OPT_IMAGE_MODE].s =
-					(SANE_String) ValidModes[i];
+					(char *) ValidModes[i];
 				if (info)
 					*info |= SANE_INFO_RELOAD_PARAMS |
 						SANE_INFO_RELOAD_OPTIONS;
@@ -1129,7 +1129,7 @@ sane_control_option(SANE_Handle handle, int option,
 		for (i = 0; i <= WHITE_BALANCE_FLUORESCENT; i++) {
 			if (!strcmp(val, ValidBalances[i])) {
 				c->val[OPT_WHITE_BALANCE].s =
-					(SANE_String) ValidBalances[i];
+					(char *) ValidBalances[i];
 				return SANE_STATUS_GOOD;
 			}
 		}

@@ -72,7 +72,7 @@ static PINT_Device *first_dev;
 static PINT_Scanner *first_handle;
 
 /* A zero-terminated list of valid scanner modes. */
-static SANE_String_Const mode_list[8];
+static const char * mode_list[8];
 
 static const SANE_Range s7_range = {
 	-127,			/* minimum */
@@ -81,7 +81,7 @@ static const SANE_Range s7_range = {
 };
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -621,7 +621,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	PINT_Device *dev;

@@ -120,23 +120,23 @@ static SANE_Range fixed_constraint_range = {
 	SANE_FIX(2.0)
 };
 
-static SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Gray"), SANE_I18N("Color"),
 	0
 };
 
-static SANE_String_Const order_list[] = {
+static const char * order_list[] = {
 	"RGB", "RBG", "GBR", "GRB", "BRG", "BGR",
 	0
 };
 
-static SANE_String_Const test_picture_list[] = {
+static const char * test_picture_list[] = {
 	SANE_I18N("Solid black"), SANE_I18N("Solid white"),
 	SANE_I18N("Color pattern"), SANE_I18N("Grid"),
 	0
 };
 
-static SANE_String_Const read_status_code_list[] = {
+static const char * read_status_code_list[] = {
 	SANE_I18N("Default"), "SANE_STATUS_UNSUPPORTED",
 	"SANE_STATUS_CANCELLED",
 	"SANE_STATUS_DEVICE_BUSY", "SANE_STATUS_INVAL", "SANE_STATUS_EOF",
@@ -159,7 +159,7 @@ static int fixed_constraint_word_list[] = {
 	4, SANE_FIX(-32.7), SANE_FIX(12.1), SANE_FIX(42.0), SANE_FIX(129.5)
 };
 
-static SANE_String_Const string_constraint_string_list[] = {
+static const char * string_constraint_string_list[] = {
 	SANE_I18N("First entry"), SANE_I18N("Second entry"),
 	SANE_I18N
 		("This is the very long third entry. Maybe the frontend has an idea how to "
@@ -167,7 +167,7 @@ static SANE_String_Const string_constraint_string_list[] = {
 	0
 };
 
-static SANE_String_Const string_constraint_long_string_list[] = {
+static const char * string_constraint_long_string_list[] = {
 	SANE_I18N("First entry"), SANE_I18N("Second entry"), "3", "4", "5",
 	"6",
 	"7", "8", "9", "10",
@@ -192,7 +192,7 @@ static int int_array_constraint_word_list[] = {
 	-42, 0, -8, 17, 42, 42
 };
 
-static SANE_String_Const source_list[] = {
+static const char * source_list[] = {
 	SANE_I18N("Flatbed"), SANE_I18N("Automatic Document Feeder"),
 	0
 };
@@ -206,28 +206,28 @@ static SANE_Fixed init_tl_y = SANE_FIX(0.0);
 static SANE_Fixed init_br_x = SANE_FIX(80.0);
 static SANE_Fixed init_br_y = SANE_FIX(100.0);
 static int init_resolution = 50;
-static SANE_String init_mode = "Gray";
+static char * init_mode = "Gray";
 static int init_depth = 8;
 static SANE_Bool init_hand_scanner = FALSE;
 static SANE_Bool init_three_pass = FALSE;
-static SANE_String init_three_pass_order = "RGB";
-static SANE_String init_scan_source = "Flatbed";
-static SANE_String init_test_picture = "Solid black";
+static char * init_three_pass_order = "RGB";
+static char * init_scan_source = "Flatbed";
+static char * init_test_picture = "Solid black";
 static SANE_Bool init_invert_endianess = FALSE;
 static SANE_Bool init_read_limit = FALSE;
 static int init_read_limit_size = 1;
 static SANE_Bool init_read_delay = FALSE;
 static int init_read_delay_duration = 1000;
-static SANE_String init_read_status_code = "Default";
+static char * init_read_status_code = "Default";
 static SANE_Bool init_fuzzy_parameters = FALSE;
 static int init_ppl_loss = 0;
 static SANE_Bool init_non_blocking = FALSE;
 static SANE_Bool init_select_fd = FALSE;
 static SANE_Bool init_enable_test_options = FALSE;
-static SANE_String init_string = "This is the contents of the string option. "
+static char * init_string = "This is the contents of the string option. "
 	"Fill some more words to see how the frontend behaves.";
-static SANE_String init_string_constraint_string_list = "First entry";
-static SANE_String init_string_constraint_long_string_list = "First entry";
+static char * init_string_constraint_string_list = "First entry";
+static char * init_string_constraint_long_string_list = "First entry";
 
 /* Test if this machine is little endian (from coolscan.c) */
 static SANE_Bool
@@ -254,7 +254,7 @@ swap_double(double *a, double *b)
 }
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -1159,10 +1159,10 @@ init_options(Test_Device * test_device)
 }
 
 static SANE_Status
-read_option(SANE_String line, SANE_String option_string,
+read_option(char * line, char * option_string,
 	    parameter_type p_type, void *value)
 {
-	SANE_String_Const cp;
+	const char * cp;
 	char *word, *end;
 
 	word = 0;
@@ -1271,7 +1271,7 @@ read_option(SANE_String line, SANE_String option_string,
 		} else {
 			DBG(3, "read_option: set option `%s' to `%s'\n",
 			    option_string, word);
-			*(SANE_String *) value = strdup(word);
+			*(char * *) value = strdup(word);
 		}
 		break;
 	}
@@ -1490,7 +1490,7 @@ sane_init(int * __sane_unused__ version_code,
 	FILE *fp;
 	int linenumber;
 	char line[PATH_MAX], *word;
-	SANE_String_Const cp;
+	const char * cp;
 	SANE_Device *sane_device;
 	Test_Device *test_device, *previous_device;
 	int num;
@@ -1754,7 +1754,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Test_Device *test_device = first_test_device;
 	SANE_Status status;
@@ -2074,12 +2074,12 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 				break;
 			}
 			strcpy(test_device->val[option].s,
-			       (SANE_String) value);
+			       (char *) value);
 			myinfo |= SANE_INFO_RELOAD_PARAMS;
 			DBG(4,
 			    "sane_control_option: set option %d (%s) to %s\n",
 			    option, test_device->opt[option].name,
-			    (SANE_String) value);
+			    (char *) value);
 			break;
 		case opt_int_constraint_word_list:	/* Word list */
 		case opt_fixed_constraint_word_list:
@@ -2108,11 +2108,11 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 				break;
 			}
 			strcpy(test_device->val[option].s,
-			       (SANE_String) value);
+			       (char *) value);
 			DBG(4,
 			    "sane_control_option: set option %d (%s) to `%s'\n",
 			    option, test_device->opt[option].name,
-			    (SANE_String) value);
+			    (char *) value);
 			break;
 		case opt_int_array:	/* Word array */
 		case opt_int_array_constraint_range:
@@ -2143,7 +2143,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 				break;
 			}
 			strcpy(test_device->val[option].s,
-			       (SANE_String) value);
+			       (char *) value);
 			myinfo |= SANE_INFO_RELOAD_PARAMS;
 			myinfo |= SANE_INFO_RELOAD_OPTIONS;
 			if (strcmp(test_device->val[option].s, "Color") == 0) {
@@ -2163,7 +2163,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 			DBG(4,
 			    "sane_control_option: set option %d (%s) to %s\n",
 			    option, test_device->opt[option].name,
-			    (SANE_String) value);
+			    (char *) value);
 			break;
 		case opt_three_pass:
 			if (test_device->val[option].w ==
@@ -2365,7 +2365,7 @@ sane_control_option(SANE_Handle handle, int option, SANE_Action action,
 			DBG(4,
 			    "sane_control_option: get option %d (%s), value=`%s'\n",
 			    option, test_device->opt[option].name,
-			    (SANE_String) value);
+			    (char *) value);
 			break;
 		case opt_depth:	/* Int + word list options */
 		case opt_read_limit_size:
@@ -2417,7 +2417,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 	Test_Device *test_device = handle;
 	SANE_Parameters *p;
 	double res, tl_x = 0, tl_y = 0, br_x = 0, br_y = 0;
-	SANE_String text_format, mode;
+	char * text_format, mode;
 	int channels = 1;
 
 	DBG(2, "sane_get_parameters: handle=%p, params=%p\n",
@@ -2680,7 +2680,7 @@ sane_read(SANE_Handle handle, SANE_Byte * data,
 	}
 
 	if (strcmp(test_device->val[opt_read_status_code].s, "Default") != 0) {
-		SANE_String_Const sc =
+		const char * sc =
 			test_device->val[opt_read_status_code].s;
 		DBG(3, "sane_read: setting return status to %s\n", sc);
 		if (strcmp(sc, "SANE_STATUS_UNSUPPORTED") == 0)

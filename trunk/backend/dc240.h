@@ -265,13 +265,13 @@ static SANE_Status snap_pic(int fd);
 
 char *sanei_config_read(char *str, int n, FILE * stream);
 
-static int read_dir(SANE_String dir);
+static int read_dir(char * dir);
 
-static int read_info(SANE_String fname);
+static int read_info(char * fname);
 
 static int dir_insert(struct cam_dirent *entry);
 
-static int dir_delete(SANE_String name);
+static int dir_delete(char * name);
 
 static int send_data(SANE_Byte * buf);
 

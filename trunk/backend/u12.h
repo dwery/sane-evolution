@@ -56,7 +56,7 @@ typedef union
 {
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 } Option_Value;
 #endif
 

@@ -140,7 +140,7 @@ typedef union
 {
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 }
 TOptionValue;
 
@@ -461,7 +461,7 @@ _ReportDevice(TScannerModel * pModel, const char *pszDeviceName)
 }
 
 static SANE_Status
-attach_one_device(SANE_String_Const devname)
+attach_one_device(const char * devname)
 {
 	const char *filename = (const char *) devname;
 	if (HP5400Detect(filename, _ReportDevice) < 0) {
@@ -483,7 +483,7 @@ sane_init(int * piVersion, SANE_Auth_Callback pfnAuth)
 	FILE *conf_fp;		/* Config file stream  */
 	char line[PATH_MAX];
 	char *str = NULL;
-	SANE_String_Const proper_str;
+	const char * proper_str;
 	int nline = 0;
 
 	/* prevent compiler from complaing about unused parameters */
@@ -606,7 +606,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	TScanner *s;
 

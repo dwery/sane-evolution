@@ -474,7 +474,7 @@ getLast(DevList * l)
 /** add a new entry to our internal device list, when a device is detected
  */
 static SANE_Status
-usb_attach(SANE_String_Const dev_name)
+usb_attach(const char * dev_name)
 {
 	int len;
 	DevList *tmp, *last;

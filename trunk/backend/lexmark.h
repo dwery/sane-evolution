@@ -79,9 +79,9 @@ typedef struct Lexmark_Model
 	int vendor_id;
 	int product_id;
 	SANE_Byte mainboard_id;	/* matched against the content of reg B0 */
-	SANE_String_Const name;
-	SANE_String_Const vendor;
-	SANE_String_Const model;
+	const char * name;
+	const char * vendor;
+	const char * model;
 	int motor_type;
 	int sensor_type;
 } Lexmark_Model;
@@ -138,7 +138,7 @@ typedef union
 	SANE_Bool b;
 	int w;
 	int *wa;		/* word array */
-	SANE_String s;
+	char * s;
 }
 Option_Value;
 #endif

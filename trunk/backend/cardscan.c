@@ -638,7 +638,7 @@ load_calibration(struct scanner *s)
  * (if there is such a device).
  */
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	struct scanner *dev = NULL;
 	struct scanner *s = NULL;
@@ -1558,7 +1558,7 @@ do_cmd(struct scanner *s, int shortTime,
  * Convenience method to determine longest string size in a list.
  */
 static size_t
-maxStringSize(const SANE_String_Const strings[])
+maxStringSize(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;

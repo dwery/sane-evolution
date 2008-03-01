@@ -6,7 +6,7 @@ typedef union
 	int i;
 	SANE_Bool b;
 	SANE_Fixed f;
-	SANE_String s;
+	char * s;
 	void *ptr;
 } option_value_t;
 

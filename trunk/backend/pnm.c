@@ -191,7 +191,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int),
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_AUTOMATIC,
 	 SANE_CONSTRAINT_WORD_LIST,
-	 {(SANE_String_Const *) resbit_list}
+	 {(const char * *) resbit_list}
 	 }
 	,
 	{			/* opt_enhancement_group */
@@ -215,7 +215,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int),
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & percentage_range}	/* this is ANSI conformant! */
+	 {(const char * *) & percentage_range}	/* this is ANSI conformant! */
 	 }
 	,
 	{			/* opt_contrast */
@@ -227,7 +227,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int),
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & percentage_range}	/* this is ANSI conformant! */
+	 {(const char * *) & percentage_range}	/* this is ANSI conformant! */
 	 }
 	,
 	{			/* opt_grayify */
@@ -331,7 +331,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int) * 256,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_INACTIVE,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & gamma_range}
+	 {(const char * *) & gamma_range}
 	 }
 	,
 	{			/* opt_gamma_r */
@@ -343,7 +343,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int) * 256,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_INACTIVE,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & gamma_range}
+	 {(const char * *) & gamma_range}
 	 }
 	,
 	{			/* opt_gamma_g */
@@ -355,7 +355,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int) * 256,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_INACTIVE,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & gamma_range}
+	 {(const char * *) & gamma_range}
 	 }
 	,
 	{			/* opt_gamma_b */
@@ -367,7 +367,7 @@ static SANE_Option_Descriptor sod[] = {
 	 sizeof(int) * 256,
 	 SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT | SANE_CAP_INACTIVE,
 	 SANE_CONSTRAINT_RANGE,
-	 {(SANE_String_Const *) & gamma_range}
+	 {(const char * *) & gamma_range}
 	 }
 	,
 	{			/* opt_status_group */
@@ -550,7 +550,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	int i;
 

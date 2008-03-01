@@ -82,7 +82,7 @@
 
 /*--------------------------------------------------------------------------*/
 
-static const SANE_String scan_mode_list[] = { LINEART_STR, HALFTONE_STR,
+static const char * scan_mode_list[] = { LINEART_STR, HALFTONE_STR,
 	GRAY_STR, COLOR_STR, NULL
 };
 
@@ -652,7 +652,7 @@ sceptre_init_options(Sceptre_Scanner * dev)
 	dev->opt[OPT_MODE].size = 30;	/* should define yet another max_string_size() */
 	dev->opt[OPT_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	dev->opt[OPT_MODE].constraint.string_list =
-		(SANE_String_Const *) scan_mode_list;
+		(const char * *) scan_mode_list;
 	dev->val[OPT_MODE].s = (char *) strdup(scan_mode_list[0]);
 
 	/* Common resolution */
@@ -802,7 +802,7 @@ sceptre_init_options(Sceptre_Scanner * dev)
 	/* Lastly, set the default mode. This might change some values
 	 * previously set here. */
 	sane_control_option(dev, OPT_MODE, SANE_ACTION_SET_VALUE,
-			    (SANE_String *) COLOR_STR, NULL);
+			    (char * *) COLOR_STR, NULL);
 
 	DBG(DBG_proc, "sceptre_init_options: leave\n");
 }
@@ -1351,7 +1351,7 @@ sane_get_devices(const SANE_Device *** device_list,
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	Sceptre_Scanner *dev;
 	SANE_Status status;

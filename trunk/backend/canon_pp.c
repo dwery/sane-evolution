@@ -107,14 +107,14 @@ static SANE_Bool force_nibble = FALSE;
 /* Constants */
 
 /* Colour Modes */
-static const SANE_String_Const cmodes[] = {
+static const char * cmodes[] = {
 	SANE_VALUE_SCAN_MODE_GRAY,
 	SANE_VALUE_SCAN_MODE_COLOR,
 	NULL
 };
 
 /* bit depths */
-static const SANE_String_Const depths[] = { "8", "12", NULL };
+static const char * depths[] = { "8", "12", NULL };
 
 /* resolutions */
 static const int res300[] = { 3, 75, 150, 300 };
@@ -488,7 +488,7 @@ sane_get_devices(const SANE_Device *** dl, SANE_Bool local)
  *
  *************************************************************************/
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * h)
+sane_open(const char * name, SANE_Handle * h)
 {
 	CANONP_Scanner *cs;
 	SANE_Range *tmp_range;

@@ -224,9 +224,9 @@ static const char RCSid[] =
 
 static const char negativeStr[] = "Negative";
 static const char positiveStr[] = "Positive";
-static SANE_String_Const type_list[] = { positiveStr, negativeStr, 0 };
+static const char * type_list[] = { positiveStr, negativeStr, 0 };
 
-static SANE_String_Const source_list[] = { "ADF", "FB", NULL };
+static const char * source_list[] = { "ADF", "FB", NULL };
 
 static const int resolution_list[] =
 	{ 11, 0, 60, 75, 80, 100, 120, 150, 200, 240, 300, 600 };
@@ -242,7 +242,7 @@ static const char halfStr[] = "Halftone";
 static const char gray4Str[] = "4-bit Gray";
 static const char gray8Str[] = "8-bit Gray";
 static const char colorStr[] = "Color";
-static SANE_String_Const scan_mode_list[] =
+static const char * scan_mode_list[] =
 	{ lineStr, halfStr, gray4Str, gray8Str, colorStr, NULL };
 
 /* how do the following work? */
@@ -318,7 +318,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 
 
 SANE_Status
-sane_open(SANE_String_Const name, SANE_Handle * handle)
+sane_open(const char * name, SANE_Handle * handle)
 {
 	struct sp15c *dev = first_dev;
 
@@ -1831,7 +1831,7 @@ sp15c_set_window_param(struct sp15c *s, int prescan)
 }				/* sp15c_set_window_param */
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;

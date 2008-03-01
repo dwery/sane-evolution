@@ -126,7 +126,7 @@ static int num_devices;
 static QC_Device *first_dev;
 static QC_Scanner *first_handle;
 
-static const SANE_String_Const resolution_list[] = {
+static const char * resolution_list[] = {
 	"Low",			/* million-mode */
 	"High",			/* billion-mode */
 	0
@@ -1498,7 +1498,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 }
 
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	QC_Device *dev;

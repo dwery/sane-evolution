@@ -1543,8 +1543,8 @@ get_color_line(Mustek_pp_Handle * dev, SANE_Byte * buf)
 
 
 static SANE_Status
-ccd300_init(int options, SANE_String_Const port,
-	    SANE_String_Const name, SANE_Attach_Callback attach)
+ccd300_init(int options, const char * port,
+	    const char * name, SANE_Attach_Callback attach)
 {
 	SANE_Status status;
 	unsigned char asic, ccd;
@@ -1593,8 +1593,8 @@ ccd300_init(int options, SANE_String_Const port,
 }
 
 static void
-ccd300_capabilities(int info, SANE_String * model,
-		    SANE_String * vendor, SANE_String * type,
+ccd300_capabilities(int info, char * * model,
+		    char * * vendor, char * * type,
 		    int * maxres, int * minres,
 		    int * maxhsize, int * maxvsize, int * caps)
 {
@@ -1612,7 +1612,7 @@ ccd300_capabilities(int info, SANE_String * model,
 }
 
 static SANE_Status
-ccd300_open(SANE_String port, int caps, int * fd)
+ccd300_open(char * port, int caps, int * fd)
 {
 	SANE_Status status;
 
@@ -1696,8 +1696,8 @@ ccd300_close(SANE_Handle handle)
 }
 
 static SANE_Status
-ccd300_config(SANE_Handle handle, SANE_String_Const optname,
-	      SANE_String_Const optval)
+ccd300_config(SANE_Handle handle, const char * optname,
+	      const char * optval)
 {
 	Mustek_pp_Handle *dev = handle;
 	mustek_pp_ccd300_priv *priv = dev->priv;

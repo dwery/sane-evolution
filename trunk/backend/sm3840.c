@@ -77,7 +77,7 @@ static SM3840_Device *first_dev;
 static SM3840_Scan *first_handle;
 static const SANE_Device **devlist = 0;
 
-static const SANE_String_Const mode_list[] = {
+static const char * mode_list[] = {
 	SANE_I18N("Gray"), SANE_I18N("Color"),
 	SANE_I18N("Lineart"), SANE_I18N("Halftone"),
 	0
@@ -555,7 +555,7 @@ sane_init(int * version_code, SANE_Auth_Callback authorize)
 
 
 static SANE_Status
-add_sm_device(SANE_String_Const devname, SANE_String_Const modname)
+add_sm_device(const char * devname, const char * modname)
 {
 	SM3840_Device *dev;
 
@@ -576,13 +576,13 @@ add_sm_device(SANE_String_Const devname, SANE_String_Const modname)
 }
 
 static SANE_Status
-add_sm3840_device(SANE_String_Const devname)
+add_sm3840_device(const char * devname)
 {
 	return add_sm_device(devname, "ScanMaker 3840");
 }
 
 static SANE_Status
-add_sm4800_device(SANE_String_Const devname)
+add_sm4800_device(const char * devname)
 {
 	return add_sm_device(devname, "ScanMaker 4800");
 }
@@ -629,7 +629,7 @@ sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 /*--------------------------------------------------------------------------*/
 
 static size_t
-max_string_size(const SANE_String_Const strings[])
+max_string_size(const char * strings[])
 {
 	size_t size, max_size = 0;
 	int i;
@@ -779,7 +779,7 @@ initialize_options_list(SM3840_Scan * s)
 
 /*--------------------------------------------------------------------------*/
 SANE_Status
-sane_open(SANE_String_Const devicename, SANE_Handle * handle)
+sane_open(const char * devicename, SANE_Handle * handle)
 {
 	SANE_Status status;
 	SM3840_Device *dev;

@@ -1,8 +1,0 @@
-*.tif
-*.pnm
-*.conf
-*.la
-*.lo
-.libs
-Makefile
-dll-preload.c

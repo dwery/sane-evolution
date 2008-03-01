@@ -1,6 +1,0 @@
-*.class
-*.la
-*.lo
-.libs
-Makefile
-Sane.h

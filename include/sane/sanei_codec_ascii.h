@@ -57,6 +57,6 @@
  *
  * @param w Wire
  */
-extern void sanei_codec_ascii_init (Wire *w);
+extern void sanei_codec_ascii_init(Wire * w);
 
 #endif /* sanei_codec_ascii_h */

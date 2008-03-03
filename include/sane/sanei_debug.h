@@ -66,36 +66,36 @@
 /* @} */
 
 
-                                  /** @hideinitializer*/
+				  /** @hideinitializer*/
 #define ENTRY(name)     PASTE(PASTE(PASTE(sane_,BACKEND_NAME),_),name)
 
 #ifdef NDEBUG
-  
-extern void sanei_debug_ndebug (int level, const char *msg, ...);
-	
+
+extern void sanei_debug_ndebug(int level, const char *msg, ...);
+
 # define DBG_LEVEL	(0)
 # define DBG_INIT()
 # define DBG		sanei_debug_ndebug
 # define IF_DBG(x)
-	
+
 #else /* !NDEBUG */
-	
-                                  /** @hideinitializer*/
+
+				  /** @hideinitializer*/
 # define DBG_LEVEL      PASTE(sanei_debug_,BACKEND_NAME)
 
 # if defined(BACKEND_NAME) && !defined(STUBS)
 #  ifdef DEBUG_DECLARE_ONLY
 extern int DBG_LEVEL;
-#  else /* !DEBUG_DECLARE_ONLY */
+#  else	/* !DEBUG_DECLARE_ONLY */
 int DBG_LEVEL = 0;
 #  endif /* DEBUG_DECLARE_ONLY */
-# endif /* BACKEND_NAME && !STUBS */
+# endif	/* BACKEND_NAME && !STUBS */
 
-                                  /** @hideinitializer*/
+				  /** @hideinitializer*/
 # define DBG_INIT()                                     \
   sanei_init_debug (STRINGIFY(BACKEND_NAME), &DBG_LEVEL)
 
-                                  /** @hideinitializer*/
+				  /** @hideinitializer*/
 # define DBG_LOCAL	PASTE(DBG_LEVEL,_call)
 
 
@@ -103,49 +103,52 @@ int DBG_LEVEL = 0;
 
 #  ifdef DEBUG_DECLARE_ONLY
 
-extern void DBG_LOCAL (int level, const char *msg, ...) 
+extern void
+DBG_LOCAL(int level, const char *msg, ...)
 #ifdef __GNUC__
-__attribute__ ((format (printf, 2, 3)))
+	__attribute__ ((format(printf, 2, 3)))
 #endif
-;
+	;
 
-#  else /* !DEBUG_DECLARE_ONLY */
+#  else	/* !DEBUG_DECLARE_ONLY */
 
 #   include <stdarg.h>
-	
-extern void sanei_debug_msg 
-  (int level, int max_level, const char *be, const char *fmt, va_list ap);
+
+extern void sanei_debug_msg
+	(int level, int max_level, const char *be, const char *fmt,
+	 va_list ap);
 
 #ifdef __GNUC__
 #   ifndef DEBUG_NOT_STATIC
 static
-#   endif /* !DEBUG_NOT_STATIC */
-void DBG_LOCAL (int level, const char *msg, ...) __attribute__ ((format (printf, 2, 3)));
+#   endif			/* !DEBUG_NOT_STATIC */
+void DBG_LOCAL(int level, const char *msg, ...)
+	__attribute__ ((format(printf, 2, 3)));
 #endif /* __GNUC__ */
 
 #   ifndef DEBUG_NOT_STATIC
 static
-#   endif /* !DEBUG_NOT_STATIC */
-void
-DBG_LOCAL (int level, const char *msg, ...)
+#   endif			/* !DEBUG_NOT_STATIC */
+	void
+DBG_LOCAL(int level, const char *msg, ...)
 {
-  va_list ap;
+	va_list ap;
 
-  va_start (ap, msg);
-  sanei_debug_msg (level, DBG_LEVEL, STRINGIFY(BACKEND_NAME), msg, ap);
-  va_end (ap);
+	va_start(ap, msg);
+	sanei_debug_msg(level, DBG_LEVEL, STRINGIFY(BACKEND_NAME), msg, ap);
+	va_end(ap);
 }
 
 #  endif /* DEBUG_DECLARE_ONLY */
 
-# endif /* !STUBS */
+# endif	/* !STUBS */
 
-                                  /** @hideinitializer*/
+				  /** @hideinitializer*/
 # define DBG            DBG_LOCAL
 
-extern void sanei_init_debug (const char * backend, int * debug_level_var);
-  
-                                  /** @hideinitializer*/
+extern void sanei_init_debug(const char *backend, int *debug_level_var);
+
+				  /** @hideinitializer*/
 # define IF_DBG(x)      x
 
 #endif /* NDEBUG */

@@ -62,7 +62,7 @@
  *
  * @param backend - backend name, who uses this lib
  */
-extern void sanei_access_init( const char * backend );
+extern void sanei_access_init(const char *backend);
 
 /** Set a lock.
  *
@@ -81,7 +81,8 @@ extern void sanei_access_init( const char * backend );
  * - SANE_STATUS_GOOD          - if the lock has been successfully set
  * - SANE_STATUS_ACCESS_DENIED - the lock could not set
  */
-extern SANE_Status sanei_access_lock( const char * devicename, SANE_Word timeout );
+extern SANE_Status sanei_access_lock(const char *devicename,
+				     SANE_Word timeout);
 
 /** Unlock a previously set lock.
  *
@@ -92,6 +93,6 @@ extern SANE_Status sanei_access_lock( const char * devicename, SANE_Word timeout
  * @return
  * - SANE_STATUS_GOOD - currently the one and only return value
  */
-extern SANE_Status sanei_access_unlock( const char * devicename );
+extern SANE_Status sanei_access_unlock(const char *devicename);
 
 #endif /* sanei_access_h */

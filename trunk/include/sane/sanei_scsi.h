@@ -64,9 +64,9 @@
  * - SANE_STATUS_GOOD - on success (sense isn't regarded as error)
  * - any other status if sense code is regarded as error
  */
-typedef SANE_Status (*SANEI_SCSI_Sense_Handler) (int fd,
-						 u_char *sense_buffer,
-						 void *arg);
+typedef SANE_Status(*SANEI_SCSI_Sense_Handler) (int fd,
+						u_char * sense_buffer,
+						void *arg);
 /** Maximum size of a SCSI request
  */
 extern int sanei_scsi_max_request_size;
@@ -90,10 +90,10 @@ extern int sanei_scsi_max_request_size;
  * @param attach callback invoked once for each device, dev is the real devicename (passed to attach callback)
  *
  */
-extern void sanei_scsi_find_devices (const char *vendor, const char *model,
-				     const char *type,
-				     int bus, int channel, int id, int lun,
-				     SANE_Status (*attach) (const char *dev));
+extern void sanei_scsi_find_devices(const char *vendor, const char *model,
+				    const char *type,
+				    int bus, int channel, int id, int lun,
+				    SANE_Status(*attach) (const char *dev));
 
 
 /** Open a SCSI device
@@ -116,9 +116,9 @@ extern void sanei_scsi_find_devices (const char *vendor, const char *model,
  *
  * @sa sanei_scsi_open_extended(), HAVE_SANEI_SCSI_OPEN_EXTENDED
  */
-extern SANE_Status sanei_scsi_open (const char * device_name, int * fd,
-				    SANEI_SCSI_Sense_Handler sense_handler,
-				    void *sense_arg);
+extern SANE_Status sanei_scsi_open(const char *device_name, int *fd,
+				   SANEI_SCSI_Sense_Handler sense_handler,
+				   void *sense_arg);
 
 /** Open a SCSI device and set the buffer size
  *
@@ -147,10 +147,10 @@ extern SANE_Status sanei_scsi_open (const char * device_name, int * fd,
  *
  * @sa sanei_scsi_open(), HAVE_SANEI_SCSI_OPEN_EXTENDED
  */
-extern SANE_Status sanei_scsi_open_extended (
-       const char * device_name, int * fd,
-       SANEI_SCSI_Sense_Handler sense_handler,
-       void *sense_arg, int *buffersize);
+extern SANE_Status sanei_scsi_open_extended(const char *device_name, int *fd,
+					    SANEI_SCSI_Sense_Handler
+					    sense_handler, void *sense_arg,
+					    int *buffersize);
 
 /** Do we have sanei_scsi_open_extended()?
  *
@@ -189,10 +189,10 @@ extern SANE_Status sanei_scsi_open_extended (
  * @sa sanei_scsi_req_enter2()
  *
 */
-extern SANE_Status sanei_scsi_req_enter (int fd,
-					 const void * src, size_t src_size,
-					 void * dst, size_t * dst_size,
-					 void **idp);
+extern SANE_Status sanei_scsi_req_enter(int fd,
+					const void *src, size_t src_size,
+					void *dst, size_t * dst_size,
+					void **idp);
 
 /** Enqueue SCSI command and separated data 
  *
@@ -226,10 +226,10 @@ extern SANE_Status sanei_scsi_req_enter (int fd,
  * - SANE_STATUS_INVAL - if a locking or an unknown error occured
  * @sa sanei_scsi_req_enter()
  */
-extern SANE_Status sanei_scsi_req_enter2 (int fd,
-					 const void * cmd, size_t cmd_size,
-					 const void * src, size_t src_size,
-					 void * dst, size_t * dst_size,
+extern SANE_Status sanei_scsi_req_enter2(int fd,
+					 const void *cmd, size_t cmd_size,
+					 const void *src, size_t src_size,
+					 void *dst, size_t * dst_size,
 					 void **idp);
 
 /** Wait for SCSI command
@@ -243,7 +243,7 @@ extern SANE_Status sanei_scsi_req_enter2 (int fd,
  * - SANE_STATUS_DEVICE_BUSY - if the device is busy (try again later)
  * - SANE_STATUS_IO_ERROR - if an error was received from the SCSI driver
 */
-extern SANE_Status sanei_scsi_req_wait (void *id);
+extern SANE_Status sanei_scsi_req_wait(void *id);
 
 /** Send SCSI command
  *
@@ -267,9 +267,9 @@ extern SANE_Status sanei_scsi_req_wait (void *id);
  *
  * @sa sanei_scsi_cmd2(), sanei_scsi_req_enter(), sanei_scsi_req_wait()
  */
-extern SANE_Status sanei_scsi_cmd (int fd,
-				   const void * src, size_t src_size,
-				   void * dst, size_t * dst_size);
+extern SANE_Status sanei_scsi_cmd(int fd,
+				  const void *src, size_t src_size,
+				  void *dst, size_t * dst_size);
 
 /** Send SCSI command and separated data
  *
@@ -294,10 +294,10 @@ extern SANE_Status sanei_scsi_cmd (int fd,
  *
  * @sa sanei_scsi_cmd(), sanei_scsi_req_enter(), sanei_scsi_req_wait()
  */
-extern SANE_Status sanei_scsi_cmd2 (int fd,
-				   const void * cmd, size_t cmd_size,
-				   const void * src, size_t src_size,
-				   void * dst, size_t * dst_size);
+extern SANE_Status sanei_scsi_cmd2(int fd,
+				   const void *cmd, size_t cmd_size,
+				   const void *src, size_t src_size,
+				   void *dst, size_t * dst_size);
 
 /** Flush queue
  *
@@ -306,7 +306,7 @@ extern SANE_Status sanei_scsi_cmd2 (int fd,
  *
  * @sa sanei_scsi_req_flush_all_extended()
 */
-extern void sanei_scsi_req_flush_all (void);
+extern void sanei_scsi_req_flush_all(void);
 
 /** Flush queue for handle
  *
@@ -316,13 +316,13 @@ extern void sanei_scsi_req_flush_all (void);
  *
  * @sa sanei_scsi_req_flush_all()
  */
-extern void sanei_scsi_req_flush_all_extended (int fd);
+extern void sanei_scsi_req_flush_all_extended(int fd);
 
 /** Close a SCSI device
  *
  * @param fd file descriptor
  *
  */
-extern void sanei_scsi_close (int fd);
+extern void sanei_scsi_close(int fd);
 
 #endif /* sanei_scsi_h */

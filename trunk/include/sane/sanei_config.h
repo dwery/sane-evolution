@@ -62,7 +62,7 @@
  * @return file pointer, or NULL if not found
  *
  */
-extern FILE *sanei_config_open (const char *name);
+extern FILE *sanei_config_open(const char *name);
 
 /** Read a line from configuration file.
  *
@@ -75,7 +75,7 @@ extern FILE *sanei_config_open (const char *name);
  *
  * @return \a str on success and NULL on error
 */
-extern char *sanei_config_read (char *str, int n, FILE *stream);
+extern char *sanei_config_read(char *str, int n, FILE * stream);
 
 /** Remove all whitespace from the beginning of a string.
  *
@@ -84,7 +84,7 @@ extern char *sanei_config_read (char *str, int n, FILE *stream);
  * @return string without leading whitespace
  *
  */
-extern const char *sanei_config_skip_whitespace (const char *str);
+extern const char *sanei_config_skip_whitespace(const char *str);
 
 
 /** Scan a string constant from a line of text and return a malloced copy
@@ -100,8 +100,8 @@ extern const char *sanei_config_skip_whitespace (const char *str);
  *
  * @return a pointer to the position in str where the scan stopped
  */
-extern const char *sanei_config_get_string (const char *str,
-					    char **string_const);
+extern const char *sanei_config_get_string(const char *str,
+					   char **string_const);
 
 /** Expand device name patterns into a list of devices.
  *
@@ -120,8 +120,8 @@ extern const char *sanei_config_get_string (const char *str,
  * @param name device name pattern
  * @param attach attach function
  */
-extern void sanei_config_attach_matching_devices (const char *name,
-						  SANE_Status (*attach)
-						  (const char *dev));
+extern void sanei_config_attach_matching_devices(const char *name,
+						 SANE_Status(*attach)
+						   (const char *dev));
 
-#endif	/* sanei_config_h */
+#endif /* sanei_config_h */

@@ -28,7 +28,9 @@ extern SANE_Status sanei_udp_open_broadcast(int *fdp);
 extern void sanei_udp_close(int fd);
 extern ssize_t sanei_udp_write(int fd, const u_char * buf, int count);
 extern ssize_t sanei_udp_read(int fd, u_char * buf, int count);
-extern ssize_t sanei_udp_write_broadcast(int fd, int port, const u_char * buf, int count);
-extern ssize_t sanei_udp_recvfrom(int fd, u_char * buf, int count, char **fromp);
+extern ssize_t sanei_udp_write_broadcast(int fd, int port, const u_char * buf,
+					 int count);
+extern ssize_t sanei_udp_recvfrom(int fd, u_char * buf, int count,
+				  char **fromp);
 
 #endif /* sanei_udp_h */

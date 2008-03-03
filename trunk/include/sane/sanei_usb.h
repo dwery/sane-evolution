@@ -64,7 +64,7 @@
 #include "../include/sane/config.h"
 #include "../include/sane/sane.h"
 
-#include <stdlib.h> /* for size_t */
+#include <stdlib.h>		/* for size_t */
 
 /* USB spec defines */
 #ifndef USB_CLASS_PER_INTERFACE
@@ -165,20 +165,20 @@
 /** */
 struct sanei_usb_dev_descriptor
 {
-	SANE_Byte    desc_type;
+	SANE_Byte desc_type;
 	unsigned int bcd_usb;
 	unsigned int bcd_dev;
-	SANE_Byte    dev_class;
-	SANE_Byte    dev_sub_class;
-	SANE_Byte    dev_protocol;
-	SANE_Byte    max_packet_size;
+	SANE_Byte dev_class;
+	SANE_Byte dev_sub_class;
+	SANE_Byte dev_protocol;
+	SANE_Byte max_packet_size;
 };
 
 /** Initialize sanei_usb.
  *
  * Call this before any other sanei_usb function.
  */
-extern void sanei_usb_init (void);
+extern void sanei_usb_init(void);
 
 /** Get the vendor and product ids.
  *
@@ -195,8 +195,8 @@ extern void sanei_usb_init (void);
  * - SANE_STATUS_UNSUPPORTED - if the OS doesn't support detection of ids
  */
 extern SANE_Status
-sanei_usb_get_vendor_product (SANE_Int dn, SANE_Word * vendor,
-			      SANE_Word * product);
+sanei_usb_get_vendor_product(SANE_Int dn, SANE_Word * vendor,
+			     SANE_Word * product);
 
 /** Find devices that match given vendor and product ids.
  *
@@ -210,8 +210,8 @@ sanei_usb_get_vendor_product (SANE_Int dn, SANE_Word * vendor,
  * @return SANE_STATUS_GOOD - on success (even if no scanner was found)
  */
 extern SANE_Status
-sanei_usb_find_devices (SANE_Int vendor, SANE_Int product,
-			SANE_Status (*attach) (SANE_String_Const devname));
+sanei_usb_find_devices(SANE_Int vendor, SANE_Int product,
+		       SANE_Status(*attach) (SANE_String_Const devname));
 
 /** Open a USB device.
  *
@@ -233,19 +233,19 @@ sanei_usb_find_devices (SANE_Int vendor, SANE_Int product,
  *   permissions
  * - SANE_STATUS_INVAL - on every other error
  */
-extern SANE_Status sanei_usb_open (SANE_String_Const devname, SANE_Int * dn);
+extern SANE_Status sanei_usb_open(SANE_String_Const devname, SANE_Int * dn);
 
 /** Close a USB device.
  * 
  * @param dn device number
  */
-extern void sanei_usb_close (SANE_Int dn);
+extern void sanei_usb_close(SANE_Int dn);
 
 /** Set the libusb timeout for bulk and interrupt reads.
  * 
  * @param timeout the new timeout in ms
  */
-extern void sanei_usb_set_timeout (SANE_Int timeout);
+extern void sanei_usb_set_timeout(SANE_Int timeout);
 
 /** Check if sanei_usb_set_timeout() is available.
  */
@@ -268,7 +268,7 @@ extern void sanei_usb_set_timeout (SANE_Int timeout);
  *
  */
 extern SANE_Status
-sanei_usb_read_bulk (SANE_Int dn, SANE_Byte * buffer, size_t * size);
+sanei_usb_read_bulk(SANE_Int dn, SANE_Byte * buffer, size_t * size);
 
 /** Initiate a bulk transfer write.
  *
@@ -285,7 +285,7 @@ sanei_usb_read_bulk (SANE_Int dn, SANE_Byte * buffer, size_t * size);
  * - SANE_STATUS_INVAL - on every other error
  */
 extern SANE_Status
-sanei_usb_write_bulk (SANE_Int dn, const SANE_Byte * buffer, size_t * size);
+sanei_usb_write_bulk(SANE_Int dn, const SANE_Byte * buffer, size_t * size);
 
 /** Send/receive a control message to/from a USB device.
  *
@@ -312,9 +312,9 @@ sanei_usb_write_bulk (SANE_Int dn, const SANE_Byte * buffer, size_t * size);
  *   SANE.
  */
 extern SANE_Status
-sanei_usb_control_msg (SANE_Int dn, SANE_Int rtype, SANE_Int req,
-		       SANE_Int value, SANE_Int index, SANE_Int len,
-		       SANE_Byte * data);
+sanei_usb_control_msg(SANE_Int dn, SANE_Int rtype, SANE_Int req,
+		      SANE_Int value, SANE_Int index, SANE_Int len,
+		      SANE_Byte * data);
 
 /** Initiate a interrupt transfer read.
  *
@@ -334,7 +334,7 @@ sanei_usb_control_msg (SANE_Int dn, SANE_Int rtype, SANE_Int req,
  */
 
 extern SANE_Status
-sanei_usb_read_int (SANE_Int dn, SANE_Byte * buffer, size_t * size);
+sanei_usb_read_int(SANE_Int dn, SANE_Byte * buffer, size_t * size);
 
 /** Expand device name patterns into a list of devices.
  *
@@ -353,8 +353,8 @@ sanei_usb_read_int (SANE_Int dn, SANE_Byte * buffer, size_t * size);
  *
  */
 extern void
-sanei_usb_attach_matching_devices (const char *name,
-				   SANE_Status (*attach) (const char *dev));
+sanei_usb_attach_matching_devices(const char *name,
+				  SANE_Status(*attach) (const char *dev));
 
 /** Initiate set configuration.
  *
@@ -372,7 +372,7 @@ sanei_usb_attach_matching_devices (const char *name,
  */
 
 extern SANE_Status
-sanei_usb_set_configuration (SANE_Int dn, SANE_Int configuration);
+sanei_usb_set_configuration(SANE_Int dn, SANE_Int configuration);
 
 /** Initiate claim interface.
  *
@@ -390,7 +390,7 @@ sanei_usb_set_configuration (SANE_Int dn, SANE_Int configuration);
  */
 
 extern SANE_Status
-sanei_usb_claim_interface (SANE_Int dn, SANE_Int interface_number);
+sanei_usb_claim_interface(SANE_Int dn, SANE_Int interface_number);
 
 /** Initiate release interface.
  *
@@ -408,7 +408,7 @@ sanei_usb_claim_interface (SANE_Int dn, SANE_Int interface_number);
  */
 
 extern SANE_Status
-sanei_usb_release_interface (SANE_Int dn, SANE_Int interface_number);
+sanei_usb_release_interface(SANE_Int dn, SANE_Int interface_number);
 
 /** Initiate a set altinterface.
  *
@@ -426,7 +426,7 @@ sanei_usb_release_interface (SANE_Int dn, SANE_Int interface_number);
  */
 
 extern SANE_Status
-sanei_usb_set_altinterface (SANE_Int dn, SANE_Int alternate);
+sanei_usb_set_altinterface(SANE_Int dn, SANE_Int alternate);
 
 /** Get some information from the device descriptor
  *
@@ -445,7 +445,7 @@ sanei_usb_set_altinterface (SANE_Int dn, SANE_Int alternate);
  */
 
 extern SANE_Status
-sanei_usb_get_descriptor( SANE_Int dn, struct sanei_usb_dev_descriptor *desc );
+sanei_usb_get_descriptor(SANE_Int dn, struct sanei_usb_dev_descriptor *desc);
 
 /*------------------------------------------------------*/
 #endif /* sanei_usb_h */

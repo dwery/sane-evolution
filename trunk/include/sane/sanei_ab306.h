@@ -77,7 +77,7 @@
  * - SANE_STATUS_INVAL - if the port address can't be interpreted
  * - SANE_STATUS_IO_ERROR - if the device file for a port couldn't be accessed
  */
-SANE_Status	sanei_ab306_open (const char *dev, int *fd);
+SANE_Status sanei_ab306_open(const char *dev, int *fd);
 
 /**
  * Close the connection to an AB306 device.
@@ -85,7 +85,7 @@ SANE_Status	sanei_ab306_open (const char *dev, int *fd);
  * @param fd  Information about port address and I/O method.
  *
  */
-void		sanei_ab306_close (int fd);
+void sanei_ab306_close(int fd);
 
 /**
  * Exit ab306.
@@ -93,7 +93,7 @@ void		sanei_ab306_close (int fd);
  * Also powers down all devices.
  *
  */
-void		sanei_ab306_exit (void);
+void sanei_ab306_exit(void);
 
 /**
  * Get the permission for direct access to the ports.
@@ -109,7 +109,7 @@ void		sanei_ab306_exit (void);
  * - SANE_STATUS_IO_ERROR - if the i/o privilege was denied by the operating
  *   system
  */
-SANE_Status	sanei_ab306_get_io_privilege (int fd);
+SANE_Status sanei_ab306_get_io_privilege(int fd);
 /**
  * Find out if the device is ready to accept new commands.
  *
@@ -119,7 +119,7 @@ SANE_Status	sanei_ab306_get_io_privilege (int fd);
  * - SANE_STATUS_GOOD - if the device is ready
  * - SANE_STATUS_DEVICE_BUSY if the device is still busy (try again later)
  */
-SANE_Status	sanei_ab306_test_ready (int fd);
+SANE_Status sanei_ab306_test_ready(int fd);
 
 /**
  * Send a command to the AB306 device.
@@ -135,8 +135,8 @@ SANE_Status	sanei_ab306_test_ready (int fd);
  * - SANE_STATUS_IO_ERROR - if an error occured during the dialog with the
  *   device
  */
-SANE_Status	sanei_ab306_cmd (int fd, const void *src, size_t src_size,
-				 void *dst, size_t *dst_size);
+SANE_Status sanei_ab306_cmd(int fd, const void *src, size_t src_size,
+			    void *dst, size_t * dst_size);
 
 /**
  * Read scanned image data.
@@ -152,7 +152,7 @@ SANE_Status	sanei_ab306_cmd (int fd, const void *src, size_t src_size,
  * - SANE_STATUS_IO_ERROR - if an error occured during the dialog with the 
  *   device
  */
-SANE_Status	sanei_ab306_rdata (int fd, int planes,
-				   SANE_Byte *buf, int lines, int bpl);
+SANE_Status sanei_ab306_rdata(int fd, int planes,
+			      SANE_Byte * buf, int lines, int bpl);
 
 #endif /* sanei_ab306_h */

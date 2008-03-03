@@ -46,10 +46,9 @@
 
 #include <sane/sane.h>
 
-extern SANE_Status	sanei_pio_open  (const char * dev, int * fd);
-extern void		sanei_pio_close (int fd);
-extern int		sanei_pio_read  (int fd, u_char * buf, int n);
-extern int		sanei_pio_write (int fd, const u_char * buf, int n);
+extern SANE_Status sanei_pio_open(const char *dev, int *fd);
+extern void sanei_pio_close(int fd);
+extern int sanei_pio_read(int fd, u_char * buf, int n);
+extern int sanei_pio_write(int fd, const u_char * buf, int n);
 
 #endif /* sanei_pio_h */
-

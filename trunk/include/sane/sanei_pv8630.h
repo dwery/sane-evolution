@@ -55,42 +55,42 @@
 
 typedef enum
 {
-  PV8630_REQ_READBYTE = 0x00,
-  PV8630_REQ_WRITEBYTE = 0x01,
-  PV8630_REQ_EPPBULKREAD = 0x02,
-  PV8630_REQ_EPPBULKWRITE = 0x03,
-  PV8630_REQ_FLUSHBUFFER = 0x04,
-  PV8630_REQ_ENABLEINTERRUPT = 0x05,
-  PV8630_REQ_DISABLEINTERRUPT = 0x06,
-  PV8630_REQ_READWORD = 0x08,
-  PV8630_REQ_WRITEWORD = 0x09
+	PV8630_REQ_READBYTE = 0x00,
+	PV8630_REQ_WRITEBYTE = 0x01,
+	PV8630_REQ_EPPBULKREAD = 0x02,
+	PV8630_REQ_EPPBULKWRITE = 0x03,
+	PV8630_REQ_FLUSHBUFFER = 0x04,
+	PV8630_REQ_ENABLEINTERRUPT = 0x05,
+	PV8630_REQ_DISABLEINTERRUPT = 0x06,
+	PV8630_REQ_READWORD = 0x08,
+	PV8630_REQ_WRITEWORD = 0x09
 }
 SANEI_PV_Request;
 
 typedef enum
 {
-  PV8630_RDATA = 0x00,
-  PV8630_REPPADDRESS = 0x01,
-  PV8630_UNKNOWN = 0x02,
-  PV8630_RMODE = 0x03,
-  PV8630_RSTATUS = 0x04
+	PV8630_RDATA = 0x00,
+	PV8630_REPPADDRESS = 0x01,
+	PV8630_UNKNOWN = 0x02,
+	PV8630_RMODE = 0x03,
+	PV8630_RSTATUS = 0x04
 }
 SANEI_PV_Index;
 
-extern void sanei_pv8630_init (void);
-extern SANE_Status sanei_pv8630_write_byte (int fd, SANEI_PV_Index index,
-					    SANE_Byte byte);
-extern SANE_Status sanei_pv8630_read_byte (int fd, SANEI_PV_Index index,
-					   SANE_Byte * byte);
-extern SANE_Status sanei_pv8630_prep_bulkread (int fd, int len);
-extern SANE_Status sanei_pv8630_prep_bulkwrite (int fd, int len);
-extern SANE_Status sanei_pv8630_flush_buffer (int fd);
-extern SANE_Status sanei_pv8630_bulkwrite (int fd, const void *data,
-					   size_t * len);
-extern SANE_Status sanei_pv8630_bulkread (int fd, void *data, size_t * len);
-extern SANE_Status sanei_pv8630_xpect_byte (int fd, SANEI_PV_Index index,
-					    SANE_Byte value, SANE_Byte mask);
-extern SANE_Status sanei_pv8630_wait_byte (int fd, SANEI_PV_Index index,
-					   SANE_Byte value, SANE_Byte mask,
-					   int timeout);
+extern void sanei_pv8630_init(void);
+extern SANE_Status sanei_pv8630_write_byte(int fd, SANEI_PV_Index index,
+					   SANE_Byte byte);
+extern SANE_Status sanei_pv8630_read_byte(int fd, SANEI_PV_Index index,
+					  SANE_Byte * byte);
+extern SANE_Status sanei_pv8630_prep_bulkread(int fd, int len);
+extern SANE_Status sanei_pv8630_prep_bulkwrite(int fd, int len);
+extern SANE_Status sanei_pv8630_flush_buffer(int fd);
+extern SANE_Status sanei_pv8630_bulkwrite(int fd, const void *data,
+					  size_t * len);
+extern SANE_Status sanei_pv8630_bulkread(int fd, void *data, size_t * len);
+extern SANE_Status sanei_pv8630_xpect_byte(int fd, SANEI_PV_Index index,
+					   SANE_Byte value, SANE_Byte mask);
+extern SANE_Status sanei_pv8630_wait_byte(int fd, SANEI_PV_Index index,
+					  SANE_Byte value, SANE_Byte mask,
+					  int timeout);
 #endif /* sanei_pv8630_h */

@@ -149,11 +149,11 @@
 /** @hideinitializer */
 #define PASTE(x,y)	PASTE1(x,y)
 
-extern SANE_Status sanei_check_value (const SANE_Option_Descriptor * opt,
-				      void * value);
+extern SANE_Status sanei_check_value(const SANE_Option_Descriptor * opt,
+				     void *value);
 
-extern SANE_Status sanei_constrain_value (const SANE_Option_Descriptor * opt,
-					  void * value, SANE_Word * info);
+extern SANE_Status sanei_constrain_value(const SANE_Option_Descriptor * opt,
+					 void *value, SANE_Word * info);
 
 
 #endif /* sanei_h */

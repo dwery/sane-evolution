@@ -64,7 +64,7 @@
  *
  * This function must be called before any other sanei_thread function.
  */
-extern void sanei_thread_init (void);
+extern void sanei_thread_init(void);
 
 /** Do we use processes or threads?
  *
@@ -74,7 +74,7 @@ extern void sanei_thread_init (void);
  * - SANE_TRUE - if processes are used (fork)
  * - SANE_FALSE - i threads are used
  */
-extern SANE_Bool sanei_thread_is_forked (void);
+extern SANE_Bool sanei_thread_is_forked(void);
 
 /** Spawn a new task.
  *
@@ -87,7 +87,7 @@ extern SANE_Bool sanei_thread_is_forked (void);
  * - task id
  * - -1 if creating the new task failed
  */
-extern int sanei_thread_begin (int (*func) (void *args), void *args);
+extern int sanei_thread_begin(int (*func) (void *args), void *args);
 
 /** Terminate spawned task.
  *
@@ -102,7 +102,7 @@ extern int sanei_thread_begin (int (*func) (void *args), void *args);
  * - 0 on success
  * - any other value if an error occured while terminating the task
  */
-extern int sanei_thread_kill (int pid);
+extern int sanei_thread_kill(int pid);
 
 /** Send a signal to a task.
  *
@@ -117,7 +117,7 @@ extern int sanei_thread_kill (int pid);
  * - 0 - on success
  * - any other value - if an error occured while sending the signal
  */
-extern int sanei_thread_sendsig (int pid, int sig);
+extern int sanei_thread_sendsig(int pid, int sig);
 
 /** Wait for task termination.
  *
@@ -131,7 +131,7 @@ extern int sanei_thread_sendsig (int pid, int sig);
  * @return
  * - the pid of the task we have been waiting for
  */
-extern int sanei_thread_waitpid (int pid, int *status);
+extern int sanei_thread_waitpid(int pid, int *status);
 
 /** Check the current status of the spawned task
  *
@@ -142,6 +142,6 @@ extern int sanei_thread_waitpid (int pid, int *status);
  * - SANE_STATUS_GOOD - if the task finished without errors
  * - any other value - if the task finished unexpectantly or hasn't finished yet
  */
-extern SANE_Status sanei_thread_get_status (int pid);
+extern SANE_Status sanei_thread_get_status(int pid);
 
 #endif /* sanei_thread_h */

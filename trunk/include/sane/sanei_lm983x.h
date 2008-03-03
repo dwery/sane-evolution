@@ -78,7 +78,7 @@
  *
  * Currently, this function only enables the debugging functionality.
  */
-extern void sanei_lm983x_init( void );
+extern void sanei_lm983x_init(void);
 
 /**
  * Write one data byte to a specific LM983x register.
@@ -92,8 +92,8 @@ extern void sanei_lm983x_init( void );
  * - SANE_STATUS_IO_ERROR - system write function failed
  * - SANE_STATUS_INVAL    - register out of range
  */
-extern SANE_Status sanei_lm983x_write_byte( SANE_Int fd,
-                                            SANE_Byte reg, SANE_Byte value );
+extern SANE_Status sanei_lm983x_write_byte(SANE_Int fd,
+					   SANE_Byte reg, SANE_Byte value);
 
 /**
  * Write one or more data bytes to one or more specific LM983x
@@ -111,9 +111,9 @@ extern SANE_Status sanei_lm983x_write_byte( SANE_Int fd,
  * - SANE_STATUS_IO_ERROR - system read function failed
  * - SANE_STATUS_INVAL    - register out of range or len field was 0
  */
-extern SANE_Status sanei_lm983x_write( SANE_Int fd, SANE_Byte reg,
-                                       SANE_Byte *buffer, SANE_Word len,
-                                                         SANE_Bool increment );
+extern SANE_Status sanei_lm983x_write(SANE_Int fd, SANE_Byte reg,
+				      SANE_Byte * buffer, SANE_Word len,
+				      SANE_Bool increment);
 
 /**
  * Read one or more data bytes from one ore more specific LM983x
@@ -132,9 +132,9 @@ extern SANE_Status sanei_lm983x_write( SANE_Int fd, SANE_Byte reg,
  * - SANE_STATUS_INVAL    - register out of range
  * - SANE_STATUS_EOF      - if nothing can't be read
  */
-extern SANE_Status sanei_lm983x_read( SANE_Int fd, SANE_Byte reg,
-                                      SANE_Byte *buffer, SANE_Word len,
-                                                         SANE_Bool increment );
+extern SANE_Status sanei_lm983x_read(SANE_Int fd, SANE_Byte reg,
+				     SANE_Byte * buffer, SANE_Word len,
+				     SANE_Bool increment);
 
 /**
  * Reset the LM983x chip.
@@ -144,7 +144,6 @@ extern SANE_Status sanei_lm983x_read( SANE_Int fd, SANE_Byte reg,
  * - SANE_TRUE  - reset successfuly done
  * - SANE_FALSE - reset failed
  */
-extern SANE_Bool sanei_lm983x_reset( SANE_Int fd );
+extern SANE_Bool sanei_lm983x_reset(SANE_Int fd);
 
 #endif /* sanei_lm983x_h */
-

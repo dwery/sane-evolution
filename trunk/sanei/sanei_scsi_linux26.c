@@ -387,6 +387,7 @@ sanei_scsi_open_extended(const char *dev, int *fdp,
 			DBG(1, "sanei_scsi_open: SG driver version: %i\n",
 			    sg_version);
 
+			/* XXX abort if not >= v3 */
 			ioctl_val = ioctl(fd, SG_GET_SCSI_ID, &devinfo);
 			if (ioctl_val == EINVAL || ioctl_val == ENOTTY) {
 				DBG(1,
@@ -477,10 +478,8 @@ sanei_scsi_open_extended(const char *dev, int *fdp,
 			if (fdpa->sg_queue_max > 1)
 				DBG(1,
 				    "sanei_scsi_open: low level command queueing enabled\n");
-			if (sg_version >= 30000) {
-				DBG(1,
-				    "sanei_scsi_open: using new SG header structure\n");
-			}
+			DBG(1,
+			    "sanei_scsi_open: using new SG header structure\n");
 		}
 	}
 
@@ -640,34 +639,7 @@ issue(struct req *req)
 		retries = 20;
 		while (retries) {
 			errno = 0;
-			if (sg_version < 30000) {
-				old_mask = atomic_begin();
-
-
-				rp->running = 1;
-				nwritten =
-					write(rp->fd, &rp->sgdata.cdb,
-					      rp->sgdata.cdb.hdr.pack_len);
-				ret = 0;
-				if (nwritten != rp->sgdata.cdb.hdr.pack_len) {
-					/* ENOMEM can easily happen, if both command queueing
-					   inside the SG driver and large buffers are used.
-					   Therefore, if ENOMEM does not occur for the first
-					   command in the queue, we simply try to issue
-					   it later again.
-					 */
-					if (errno == EAGAIN
-					    || (errno == ENOMEM
-						&& rp != fdp->sane_qhead)) {
-						/* don't try to send the data again, but
-						   wait for the next call to issue()
-						 */
-						rp->running = 0;
-					}
-				}
-
-				atomic_end(old_mask);
-			} else {
+			{
 				old_mask = atomic_begin();
 
 				rp->running = 1;
@@ -709,21 +681,11 @@ issue(struct req *req)
 				}
 			}
 
-			if ((sg_version < 30000
-			     && nwritten != rp->sgdata.cdb.hdr.pack_len)
-			    || (sg_version >= 30000 && ret < 0)) {
+			if (ret < 0) {
 				if (rp->running) {
-					if (sg_version < 30000) {
-						DBG(1,
-						    "sanei_scsi.issue: bad write (errno=%i) %s %li\n",
-						    errno, strerror(errno),
-						    (long) nwritten);
-					} else if (sg_version > 30000) {
-						DBG(1,
-						    "sanei_scsi.issue: SG_IO ioctl error (errno=%i, ret=%d) %s\n",
-						    errno, ret,
-						    strerror(errno));
-					}
+					DBG(1,
+					    "sanei_scsi.issue: SG_IO ioctl error (errno=%i, ret=%d) %s\n",
+					    errno, ret, strerror(errno));
 
 					rp->done = 1;
 
@@ -753,11 +715,8 @@ issue(struct req *req)
 				break;	/* in case of an error don't try to queue more commands */
 
 			} else {
-				if (sg_version < 30000) {
-					req->status = SANE_STATUS_IO_ERROR;
-				} else if (sg_version > 30000) {	/* SG_IO is synchronous, we're all set */
-					req->status = SANE_STATUS_GOOD;
-				}
+				/* SG_IO is synchronous, we're all set */
+				req->status = SANE_STATUS_GOOD;
 			}
 
 			fdp->sg_queue_used++;
@@ -779,15 +738,9 @@ sanei_scsi_req_flush_all_extended(int fd)
 			count = sane_scsicmd_timeout * 10;
 			while (count) {
 				errno = 0;
-				if (sg_version < 30000)
-					len = read(fd,
-						   &req->sgdata.cdb,
-						   req->sgdata.cdb.
-						   hdr.reply_len);
-				else
-					len = read(fd,
-						   &req->sgdata.sg3.
-						   hdr, sizeof(Sg_io_hdr));
+				len = read(fd,
+					   &req->sgdata.sg3.
+					   hdr, sizeof(Sg_io_hdr));
 				if (len >= 0 || (len < 0 && errno != EAGAIN))
 					break;
 				usleep(100000);
@@ -845,13 +798,8 @@ sanei_scsi_req_enter2(int fd,
 		fdp->sane_free_list = req->next;
 		req->next = 0;
 	} else {
-		if (sg_version < 30000)
-			size = (sizeof(*req) - sizeof(req->sgdata.cdb.data)
-				+ fdp->buffersize);
-		else
-			size = sizeof(*req) + MAX_CDB +
-				fdp->buffersize -
-				sizeof(req->sgdata.sg3.data);
+		size = sizeof(*req) + MAX_CDB +
+			fdp->buffersize - sizeof(req->sgdata.sg3.data);
 		req = malloc(size);
 		if (!req) {
 			DBG(1,
@@ -866,22 +814,7 @@ sanei_scsi_req_enter2(int fd,
 	req->status = SANE_STATUS_GOOD;
 	req->dst = dst;
 	req->dst_len = dst_size;
-	if (sg_version < 30000) {
-		memset(&req->sgdata.cdb.hdr, 0, sizeof(req->sgdata.cdb.hdr));
-		req->sgdata.cdb.hdr.pack_id = pack_id++;
-		req->sgdata.cdb.hdr.pack_len = cmd_size + src_size
-			+ sizeof(req->sgdata.cdb.hdr);
-		req->sgdata.cdb.hdr.reply_len = (dst_size ? *dst_size : 0)
-			+ sizeof(req->sgdata.cdb.hdr);
-		memcpy(&req->sgdata.cdb.data, cmd, cmd_size);
-		memcpy(&req->sgdata.cdb.data[cmd_size], src, src_size);
-		if (CDB_SIZE(*(const u_char *) cmd) != cmd_size) {
-			if (ioctl(fd, SG_NEXT_CMD_LEN, &cmd_size)) {
-				DBG(1,
-				    "sanei_scsi_req_enter2: ioctl to set command length failed\n");
-			}
-		}
-	} else {
+	{
 		memset(&req->sgdata.sg3.hdr, 0, sizeof(req->sgdata.sg3.hdr));
 		req->sgdata.sg3.hdr.interface_id = 'S';
 		req->sgdata.sg3.hdr.cmd_len = cmd_size;
@@ -975,22 +908,7 @@ sanei_scsi_req_wait(void *id)
 		issue(req->next);	/* issue next command, if any */
 		status = req->status;
 	} else {
-		sigset_t old_mask;
-		if (sg_version < 30000) {
-			fd_set readable;
-
-			/* wait for command completion: */
-			FD_ZERO(&readable);
-			FD_SET(req->fd, &readable);
-			select(req->fd + 1, &readable, 0, 0, 0);
-
-			/* now atomically read result and set DONE: */
-			old_mask = atomic_begin();
-			nread = read(req->fd, &req->sgdata.cdb,
-				     req->sgdata.cdb.hdr.reply_len);
-			req->done = 1;
-			atomic_end(old_mask);
-		} else {
+		{
 			IF_DBG(if (DBG_LEVEL >= 255)
 			       system("cat /proc/scsi/sg/debug 1>&2");)
 
@@ -1015,114 +933,7 @@ sanei_scsi_req_wait(void *id)
 			    (long) nread, errno);
 			status = SANE_STATUS_IO_ERROR;
 		} else {
-			if (sg_version < 30000) {
-				nread -= sizeof(req->sgdata.cdb.hdr);
-
-				/* check for errors, but let the sense_handler decide.... */
-				if ((req->sgdata.cdb.hdr.result != 0)
-				    ||
-				    (((req->sgdata.cdb.hdr.
-				       sense_buffer[0] & 0x7f) != 0)
-#ifdef HAVE_SG_TARGET_STATUS
-				     /* this is messy... Sometimes it happens that we have
-				        a valid looking sense buffer, but the DRIVER_SENSE
-				        bit is not set. Moreover, we can check this only for
-				        not tooo old SG drivers
-				      */
-				     && (req->sgdata.cdb.hdr.
-					 driver_status & DRIVER_SENSE)
-#endif
-				    )) {
-					SANEI_SCSI_Sense_Handler
-						handler =
-						fd_info[req->fd].
-						sense_handler;
-					void *arg =
-						fd_info[req->fd].
-						sense_handler_arg;
-
-					DBG(1,
-					    "sanei_scsi_req_wait: SCSI command complained: %s\n",
-					    strerror(req->sgdata.cdb.
-						     hdr.result));
-					DBG(10,
-					    "sense buffer: %02x %02x %02x %02x %02x %02x %02x %02x"
-					    " %02x %02x %02x %02x %02x %02x %02x %02x\n",
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[0],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[1],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[2],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[3],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[4],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[5],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[6],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[7],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[8],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[9],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[10],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[11],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[12],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[13],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[14],
-					    req->sgdata.cdb.hdr.
-					    sense_buffer[15]);
-#ifdef HAVE_SG_TARGET_STATUS
-					/* really old SG header do not define target_status,
-					   host_status and driver_status
-					 */
-					DBG(10,
-					    "target status: %02x host status: %02x"
-					    " driver status: %02x\n",
-					    req->sgdata.cdb.hdr.
-					    target_status,
-					    req->sgdata.cdb.hdr.
-					    host_status,
-					    req->sgdata.cdb.hdr.
-					    driver_status);
-
-					if (req->sgdata.cdb.hdr.host_status == DID_NO_CONNECT || req->sgdata.cdb.hdr.host_status == DID_BUS_BUSY || req->sgdata.cdb.hdr.host_status == DID_TIME_OUT || req->sgdata.cdb.hdr.driver_status == DRIVER_BUSY || req->sgdata.cdb.hdr.target_status == 0x04)	/* BUSY */
-#else
-					if (req->sgdata.cdb.hdr.
-					    result == EBUSY)
-#endif
-						status = SANE_STATUS_DEVICE_BUSY;
-					else if (handler)
-						/* sense handler should return SANE_STATUS_GOOD if it
-						   decided all was ok afterall */
-						status = (*handler)
-							(req->fd,
-							 req->sgdata.
-							 cdb.hdr.
-							 sense_buffer, arg);
-					else
-						status = SANE_STATUS_IO_ERROR;
-				}
-
-				/* if we are ok so far, copy over the return data */
-				if (status == SANE_STATUS_GOOD) {
-					if (req->dst)
-						memcpy(req->dst,
-						       req->sgdata.
-						       cdb.data, nread);
-
-					if (req->dst_len)
-						*req->dst_len = nread;
-				}
-			} else {
+			{
 				/* check for errors, but let the sense_handler decide.... */
 				if (((req->sgdata.sg3.hdr.
 				      info & SG_INFO_CHECK) != 0)

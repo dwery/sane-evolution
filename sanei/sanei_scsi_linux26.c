@@ -18,32 +18,8 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston,
    MA 02111-1307, USA.
 
-   As a special exception, the authors of SANE give permission for
-   additional uses of the libraries contained in this release of SANE.
-
-   The exception is that, if you link a SANE library with other files
-   to produce an executable, this does not by itself cause the
-   resulting executable to be covered by the GNU General Public
-   License.  Your use of that executable is in no way restricted on
-   account of linking the SANE library code into it.
-
-   This exception does not, however, invalidate any other reasons why
-   the executable file might be covered by the GNU General Public
-   License.
-
-   If you submit changes to SANE to the maintainers to be included in
-   a subsequent release, you agree by submitting the changes that
-   those changes may be distributed with this exception intact.
-
-   If you write modifications of your own for SANE, it is your choice
-   whether to permit this exception to apply to your modifications.
-   If you do not wish that, delete this exception notice.
-
-   This file provides a generic SCSI interface.  */
-
-#ifdef _AIX
-# include "../include/lalloca.h"	/* MUST come first for AIX! */
-#endif
+   This file provides a SCSI interface for Linux 2.6.
+*/
 
 #include "../include/sane/config.h"
 #include "../include/lalloca.h"
@@ -66,141 +42,8 @@
 # include <resmgr.h>
 #endif
 
-#if defined (HAVE_SCSI_SG_H)
-# define USE LINUX_INTERFACE
-# include <scsi/sg.h>
-#elif defined (HAVE__USR_SRC_LINUX_INCLUDE_SCSI_SG_H)
-# define USE LINUX_INTERFACE
-# include "/usr/src/linux/include/scsi/sg.h"
-#elif defined (HAVE_SYS_SCSICMD)
-# define USE SCSO_OS5_INTERFACE
-# include <sys/scsi.h>
-# include <sys/scsicmd.h>
-#elif defined (HAVE_CAMLIB_H)
-# define USE FREEBSD_CAM_INTERFACE
-# include <stdio.h>		/* there is a bug in scsi_all.h */
-# include <cam/cam.h>
-# include <cam/cam_ccb.h>
-# include <cam/scsi/scsi_message.h>
-# include <cam/scsi/scsi_pass.h>
-# include <camlib.h>
-#elif defined (HAVE_SYS_SCSIIO_H)
-# define USE BSD_INTERFACE
-# include <sys/scsiio.h>
-# ifdef HAVE_SCSI_H
-#  include <scsi.h>
-# endif
-#elif defined (HAVE_BSD_DEV_SCSIREG_H)
-# define USE OPENSTEP_INTERFACE
-# include <bsd/dev/scsireg.h>
-#elif defined (HAVE_IO_CAM_CAM_H)
-# define USE DECUNIX_INTERFACE
-# include <io/common/iotypes.h>
-# include <io/cam/cam.h>
-# include <io/cam/dec_cam.h>
-# include <io/cam/uagt.h>
-# include <io/cam/scsi_all.h>
-#elif defined (HAVE_SYS_DSREQ_H)
-# define USE IRIX_INTERFACE
-# include <sys/dsreq.h>
-# include <invent.h>
-#elif defined (HAVE_SYS_SCSI_H)
-# include <sys/scsi.h>
-# ifdef HAVE_SYS_SDI_COMM_H
-#  ifdef HAVE_SYS_PASSTHRUDEF_H
-#   define USE SCO_UW71_INTERFACE
-#   include <sys/scsi.h>
-#   include <sys/sdi_edt.h>
-#   include <sys/sdi.h>
-#   include <sys/passthrudef.h>
-#  else
-#   define USE SYSVR4_INTERFACE	/* Unixware 2.x tested */
-#   define HAVE_SYSV_DRIVER
-#   include <sys/sdi_edt.h>
-#   include <sys/sdi_comm.h>
-#  endif
-# else
-#  ifdef SCTL_READ
-#   define USE HPUX_INTERFACE
-#  else
-#   ifdef HAVE_GSCDDS_H
-#    define USE AIX_GSC_INTERFACE
-#    include <gscdds.h>
-#   else
-    /* This happens for AIX without gsc and possibly other platforms... */
-#   endif
-#  endif
-# endif
-#elif defined (HAVE_OS2_H)
-# define USE OS2_INTERFACE
-# define INCL_DOSFILEMGR
-# define INCL_DOS
-# define INCL_DOSDEVICES
-# define INCL_DOSDEVIOCTL
-# define INCL_DOSMEMMGR
-# include <os2.h>
-# include "os2_srb.h"
-#elif defined (HAVE_SYS_SCSI_SGDEFS_H)
-# define USE SOLARIS_SG_INTERFACE
-# include <sys/scsi/sgdefs.h>
-#elif defined (HAVE_SYS_SCSI_TARGETS_SCGIO_H)
-# define USE SOLARIS_INTERFACE
-# define SOL2
-# include <sys/scsi/targets/scgio.h>
-#elif defined (HAVE_SYS_SCSI_SCSI_H)
-  /*
-   * the "offical" solaris uscsi(7I) interface; comes last, so that users
-   * installing the SCG/SG driver can still use these generic scsi interfaces
-   */
-# define USE SOLARIS_USCSI_INTERFACE
-# define SOL2
-# include <sys/scsi/scsi.h>
-#elif defined (HAVE_APOLLO_SCSI_H)
-# define USE DOMAINOS_INTERFACE
-# include <signal.h>		/* Only used for signal name for KillDomainServer */
-# include <apollo/base.h>
-# include <apollo/ec2.h>
-# include <apollo/error.h>
-# include <apollo/ms.h>
-# include <apollo/mutex.h>
-# include <apollo/scsi.h>
-# include <apollo/time.h>
-# include "sanei_DomainOS.h"
-#elif defined (HAVE_IOKIT_CDB_IOSCSILIB_H) || \
-      defined (HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H) || \
-      defined (HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H)
-# define USE MACOSX_INTERFACE
-# include <CoreFoundation/CoreFoundation.h>
-# include <IOKit/IOKitLib.h>
-# ifdef HAVE_IOKIT_CDB_IOSCSILIB_H
-#  include <IOKit/IOCFPlugIn.h>
-#  include <IOKit/cdb/IOSCSILib.h>
-# endif
-# ifdef HAVE_IOKIT_SCSI_SCSICOMMANDOPERATIONCODES_H
-/* The def of VERSION causes problems in the following include files */
-#  undef VERSION
-#  include <IOKit/scsi/SCSICmds_INQUIRY_Definitions.h>
-#  include <IOKit/scsi/SCSICommandOperationCodes.h>
-#  include <IOKit/scsi/SCSITaskLib.h>
-# else
-# ifdef HAVE_IOKIT_SCSI_COMMANDS_SCSICOMMANDOPERATIONCODES_H
-/* The def of VERSION causes problems in the following include files */
-#  undef VERSION
-#  include <IOKit/scsi-commands/SCSICmds_INQUIRY_Definitions.h>
-#  include <IOKit/scsi-commands/SCSICommandOperationCodes.h>
-#  include <IOKit/scsi-commands/SCSITaskLib.h>
-# endif
-# endif
-#elif defined (HAVE_WINDOWS_H)
-# define USE WIN32_INTERFACE
-# include <windows.h>
-# include <ddk/scsi.h>
-# include <ddk/ntddscsi.h>
-#endif
-
-#ifndef USE
-# define USE STUBBED_INTERFACE
-#endif
+#define USE LINUX_INTERFACE
+#include <scsi/sg.h>
 
 #include "../include/sane/sanei.h"
 #include "../include/sane/sanei_config.h"
@@ -355,7 +198,6 @@ static u_char cdb_sizes[8] = {
 
 static int num_alloced = 0;
 
-#if USE == LINUX_INTERFACE
 
 static int sg_version = 0;
 
@@ -420,21 +262,14 @@ SANE_Status
 sanei_scsi_open_extended (const char *dev, int *fdp,
 			  SANEI_SCSI_Sense_Handler handler,
 			  void *handler_arg, int *buffersize)
-#else
-
-SANE_Status
-sanei_scsi_open (const char *dev, int *fdp,
-		 SANEI_SCSI_Sense_Handler handler, void *handler_arg)
-#endif
 {
   u_int bus = 0, target = 0, lun = 0, fake_fd = 0;
   char *real_dev = 0;
   void *pdata = 0;
   char *cc, *cc1;
   int fd, i;
-#if USE == LINUX_INTERFACE
+
   static int first_time = 1;
-#endif
 
   cc = getenv ("SANE_SCSICMD_TIMEOUT");
   if (cc)
@@ -454,7 +289,6 @@ sanei_scsi_open (const char *dev, int *fdp,
 
   DBG_INIT ();
 
-#if USE == LINUX_INTERFACE
   if (first_time)
     {
       first_time = 0;
@@ -487,7 +321,6 @@ sanei_scsi_open (const char *dev, int *fdp,
       DBG (4, "sanei_scsi_open: sanei_scsi_max_request_size=%d bytes\n",
 	   sanei_scsi_max_request_size);
     }
-#endif
 
   fd = -1;
 #ifdef HAVE_RESMGR
@@ -495,10 +328,7 @@ sanei_scsi_open (const char *dev, int *fdp,
 #endif
 
   if (fd == -1)
-    fd = open (dev, O_RDWR | O_EXCL
-#if USE == LINUX_INTERFACE
-	     | O_NONBLOCK
-#endif
+    fd = open (dev, O_RDWR | O_EXCL | O_NONBLOCK
     );
   if (fd < 0)
     {
@@ -542,7 +372,6 @@ sanei_scsi_open (const char *dev, int *fdp,
   }
 #endif /* SGIOCSTL */
 
-#if USE == LINUX_INTERFACE
   {
     SG_scsi_id sid;
     int ioctl_val;
@@ -669,7 +498,6 @@ sanei_scsi_open (const char *dev, int *fdp,
 #endif
       }
   }
-#endif /* LINUX_INTERFACE */
 
 /* Note: this really relies on fd to start small. Windows starts a little higher than 3. */
 
@@ -707,7 +535,6 @@ sanei_scsi_open (const char *dev, int *fdp,
   return SANE_STATUS_GOOD;
 }
 
-#if USE == LINUX_INTERFACE
 /* The "wrapper" for the old open call */
 SANE_Status
 sanei_scsi_open (const char *dev, int *fdp,
@@ -750,25 +577,10 @@ sanei_scsi_open (const char *dev, int *fdp,
   first_time = 0;
   return res;
 }
-#else
-/* dummy for the proposed new open call */
-SANE_Status
-sanei_scsi_open_extended (const char *dev, int *fdp,
-			  SANEI_SCSI_Sense_Handler handler,
-			  void *handler_arg, int *buffersize)
-{
-  SANE_Status res;
-  res = sanei_scsi_open (dev, fdp, handler, handler_arg);
-  if (sanei_scsi_max_request_size < *buffersize)
-    *buffersize = sanei_scsi_max_request_size;
-  return res;
-}
-#endif
 
 void
 sanei_scsi_close (int fd)
 {
-#if USE == LINUX_INTERFACE
   if (fd_info[fd].pdata)
     {
       req *req, *next_req;
@@ -785,23 +597,14 @@ sanei_scsi_close (int fd)
 	}
       free (fd_info[fd].pdata);
     }
-#endif
 
   fd_info[fd].in_use = 0;
   fd_info[fd].sense_handler = 0;
   fd_info[fd].sense_handler_arg = 0;
 
-#ifdef WIN32
-  CloseHandle(fd);
-#else
   if (!fd_info[fd].fake_fd)
     close (fd);
-#endif
-
 }
-
-
-#if USE == LINUX_INTERFACE
 
 #include <ctype.h>
 #include <signal.h>
@@ -1167,7 +970,6 @@ issue (struct req *req)
 	req->sgdata.sg3.hdr.pack_id = pack_id++;
 	req->sgdata.sg3.hdr.usr_ptr = 0;
       }
-#endif
 
     req->next = 0;
     ATOMIC (if (fdp->sane_qtail)

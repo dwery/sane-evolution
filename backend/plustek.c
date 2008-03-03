@@ -129,12 +129,7 @@
  *  @verbinclude Plustek-USB.txt
  */
 
-#ifdef _AIX
-# include "../include/lalloca.h"
-#endif
-
 #include "../include/sane/config.h"
-#include "../include/lalloca.h"
 
 #include <errno.h>
 #include <fcntl.h>

@@ -51,12 +51,7 @@
  * <hr>
  */
 
-#ifdef _AIX
-# include "../include/lalloca.h"	/* MUST come first for AIX! */
-#endif
-
 #include "../include/sane/config.h"
-#include "../include/lalloca.h"
 
 #include <errno.h>
 #include <fcntl.h>

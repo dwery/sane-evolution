@@ -109,33 +109,34 @@ intention).
 #define __FUNCTION__ "(undef)"
 #endif
 
-static SANE_Status Source_init (Source *pself,
-                                SnapScan_Scanner *pss,
-                                SourceRemaining remaining,
-                                SourceBytesPerLine bytesPerLine,
-                                SourcePixelsPerLine pixelsPerLine,
-                                SourceGet get,
-                                SourceDone done)
+static SANE_Status
+Source_init(Source * pself,
+	    SnapScan_Scanner * pss,
+	    SourceRemaining remaining,
+	    SourceBytesPerLine bytesPerLine,
+	    SourcePixelsPerLine pixelsPerLine, SourceGet get, SourceDone done)
 {
-    pself->pss = pss;
-    pself->remaining = remaining;
-    pself->bytesPerLine = bytesPerLine;
-    pself->pixelsPerLine = pixelsPerLine;
-    pself->get = get;
-    pself->done = done;
-    return SANE_STATUS_GOOD;
+	pself->pss = pss;
+	pself->remaining = remaining;
+	pself->bytesPerLine = bytesPerLine;
+	pself->pixelsPerLine = pixelsPerLine;
+	pself->get = get;
+	pself->done = done;
+	return SANE_STATUS_GOOD;
 }
 
 /* these are defaults, normally used only by base sources */
 
-static SANE_Int Source_bytesPerLine (Source *pself)
+static SANE_Int
+Source_bytesPerLine(Source * pself)
 {
-    return pself->pss->bytes_per_line;
+	return pself->pss->bytes_per_line;
 }
 
-static SANE_Int Source_pixelsPerLine (Source *pself)
+static SANE_Int
+Source_pixelsPerLine(Source * pself)
 {
-    return pself->pss->pixels_per_line;
+	return pself->pss->pixels_per_line;
 }
 
 /**********************************************************************/
@@ -143,169 +144,169 @@ static SANE_Int Source_pixelsPerLine (Source *pself)
 /* the base sources */
 typedef enum
 {
-    SCSI_SRC,
-    FD_SRC,
-    BUF_SRC
+	SCSI_SRC,
+	FD_SRC,
+	BUF_SRC
 } BaseSourceType;
 
 
 typedef struct
 {
-    SOURCE_GUTS;
-    SANE_Int scsi_buf_pos;    /* current position in scsi buffer */
-    SANE_Int scsi_buf_max;    /* data limit */
-    SANE_Int absolute_max;    /* largest possible data read */
+	SOURCE_GUTS;
+	SANE_Int scsi_buf_pos;	/* current position in scsi buffer */
+	SANE_Int scsi_buf_max;	/* data limit */
+	SANE_Int absolute_max;	/* largest possible data read */
 } SCSISource;
 
-static SANE_Int SCSISource_remaining (Source *pself)
+static SANE_Int
+SCSISource_remaining(Source * pself)
 {
-    SCSISource *ps = (SCSISource *) pself;
-    return ps->pss->bytes_remaining + (ps->scsi_buf_max - ps->scsi_buf_pos);
+	SCSISource *ps = (SCSISource *) pself;
+	return ps->pss->bytes_remaining + (ps->scsi_buf_max -
+					   ps->scsi_buf_pos);
 }
 
-static SANE_Status SCSISource_get (Source *pself,
-                                   SANE_Byte *pbuf,
-                                   SANE_Int *plen)
+static SANE_Status
+SCSISource_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    SCSISource *ps = (SCSISource *) pself;
-    SANE_Status status = SANE_STATUS_GOOD;
-    SANE_Int remaining = *plen;
-    char* me = "SCSISource_get";
+	SCSISource *ps = (SCSISource *) pself;
+	SANE_Status status = SANE_STATUS_GOOD;
+	SANE_Int remaining = *plen;
+	char *me = "SCSISource_get";
 
-    DBG (DL_CALL_TRACE, "%s\n", me);
-    while (remaining > 0
-           && pself->remaining(pself) > 0
-           && status == SANE_STATUS_GOOD
-           && !cancelRead)
-    {
-        SANE_Int ndata = ps->scsi_buf_max - ps->scsi_buf_pos;
-        DBG (DL_DATA_TRACE, "%s: ndata %d; remaining %d\n", me, ndata, remaining);
-        if (ndata == 0)
-        {
-            ps->pss->expected_read_bytes = MIN((size_t)ps->absolute_max,
-                                           ps->pss->bytes_remaining);
-            ps->scsi_buf_pos = 0;
-            ps->scsi_buf_max = 0;
-            status = scsi_read (ps->pss, READ_IMAGE);
-            if (status != SANE_STATUS_GOOD)
-                break;
-            ps->scsi_buf_max = ps->pss->read_bytes;
-            ndata = ps->pss->read_bytes;
-            ps->pss->bytes_remaining -= ps->pss->read_bytes;
-            DBG (DL_DATA_TRACE, "%s: pos: %d; max: %d; expected: %lu; read: %lu\n",
-                me, ps->scsi_buf_pos, ps->scsi_buf_max, (u_long) ps->pss->expected_read_bytes,
-                (u_long) ps->pss->read_bytes);
-        }
-        ndata = MIN(ndata, remaining);
-        memcpy (pbuf, ps->pss->buf + ps->scsi_buf_pos, (size_t)ndata);
-        pbuf += ndata;
-        ps->scsi_buf_pos += ndata;
-        remaining -= ndata;
-    }
-    *plen -= remaining;
-    return status;
+	DBG(DL_CALL_TRACE, "%s\n", me);
+	while (remaining > 0
+	       && pself->remaining(pself) > 0
+	       && status == SANE_STATUS_GOOD && !cancelRead) {
+		SANE_Int ndata = ps->scsi_buf_max - ps->scsi_buf_pos;
+		DBG(DL_DATA_TRACE, "%s: ndata %d; remaining %d\n", me, ndata,
+		    remaining);
+		if (ndata == 0) {
+			ps->pss->expected_read_bytes =
+				MIN((size_t) ps->absolute_max,
+				    ps->pss->bytes_remaining);
+			ps->scsi_buf_pos = 0;
+			ps->scsi_buf_max = 0;
+			status = scsi_read(ps->pss, READ_IMAGE);
+			if (status != SANE_STATUS_GOOD)
+				break;
+			ps->scsi_buf_max = ps->pss->read_bytes;
+			ndata = ps->pss->read_bytes;
+			ps->pss->bytes_remaining -= ps->pss->read_bytes;
+			DBG(DL_DATA_TRACE,
+			    "%s: pos: %d; max: %d; expected: %lu; read: %lu\n",
+			    me, ps->scsi_buf_pos, ps->scsi_buf_max,
+			    (u_long) ps->pss->expected_read_bytes,
+			    (u_long) ps->pss->read_bytes);
+		}
+		ndata = MIN(ndata, remaining);
+		memcpy(pbuf, ps->pss->buf + ps->scsi_buf_pos, (size_t) ndata);
+		pbuf += ndata;
+		ps->scsi_buf_pos += ndata;
+		remaining -= ndata;
+	}
+	*plen -= remaining;
+	return status;
 }
 
-static SANE_Status SCSISource_done (Source *pself)
+static SANE_Status
+SCSISource_done(Source * pself)
 {
-    DBG(DL_MINOR_INFO, "SCSISource_done\n");
-    UNREFERENCED_PARAMETER(pself);
-    return SANE_STATUS_GOOD;
+	DBG(DL_MINOR_INFO, "SCSISource_done\n");
+	UNREFERENCED_PARAMETER(pself);
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status SCSISource_init (SCSISource *pself, SnapScan_Scanner *pss)
+static SANE_Status
+SCSISource_init(SCSISource * pself, SnapScan_Scanner * pss)
 {
-    SANE_Status status = Source_init ((Source *) pself, pss,
-                                      SCSISource_remaining,
-                                      Source_bytesPerLine,
-                                      Source_pixelsPerLine,
-                                      SCSISource_get,
-                                      SCSISource_done);
-    if (status == SANE_STATUS_GOOD)
-    {
-        pself->scsi_buf_max = 0;
-        pself->scsi_buf_pos = 0;
-        pself->absolute_max =
-            (pss->phys_buf_sz/pss->bytes_per_line)*pss->bytes_per_line;
-    }
-    return status;
+	SANE_Status status = Source_init((Source *) pself, pss,
+					 SCSISource_remaining,
+					 Source_bytesPerLine,
+					 Source_pixelsPerLine,
+					 SCSISource_get,
+					 SCSISource_done);
+	if (status == SANE_STATUS_GOOD) {
+		pself->scsi_buf_max = 0;
+		pself->scsi_buf_pos = 0;
+		pself->absolute_max =
+			(pss->phys_buf_sz / pss->bytes_per_line) *
+			pss->bytes_per_line;
+	}
+	return status;
 }
 
 /* File sources */
 
 typedef struct
 {
-    SOURCE_GUTS;
-    int fd;
-    SANE_Int bytes_remaining;
+	SOURCE_GUTS;
+	int fd;
+	SANE_Int bytes_remaining;
 } FDSource;
 
-static SANE_Int FDSource_remaining (Source *pself)
+static SANE_Int
+FDSource_remaining(Source * pself)
 {
-    FDSource *ps = (FDSource *) pself;    
-    return ps->bytes_remaining;
+	FDSource *ps = (FDSource *) pself;
+	return ps->bytes_remaining;
 }
 
-static SANE_Status FDSource_get (Source *pself, SANE_Byte *pbuf, SANE_Int *plen)
+static SANE_Status
+FDSource_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    SANE_Status status = SANE_STATUS_GOOD;
-    FDSource *ps = (FDSource *) pself;
-    SANE_Int remaining = *plen;
+	SANE_Status status = SANE_STATUS_GOOD;
+	FDSource *ps = (FDSource *) pself;
+	SANE_Int remaining = *plen;
 
-    while (remaining > 0
-           && pself->remaining(pself) > 0
-           && status == SANE_STATUS_GOOD)
-    {
-        SANE_Int bytes_read = read (ps->fd, pbuf, remaining);
-        if (bytes_read == -1)
-        {
-            if (errno == EAGAIN)
-            {
-                /* No data currently available */
-                break;
-            }
-            /* It's an IO error */
-            DBG (DL_MAJOR_ERROR, "%s: read failed: %s\n",
-                     __FUNCTION__, strerror(errno));
-            status = SANE_STATUS_IO_ERROR;
-        }
-        else if (bytes_read == 0)
-        {
-            /* EOF of current reading */
-            DBG(DL_DATA_TRACE, "%s: EOF\n",__FUNCTION__);
-            break;
-        }
-        ps->bytes_remaining -= bytes_read;
-        remaining -= bytes_read;
-        pbuf += bytes_read;
-    }
-    *plen -= remaining;
-    return status;
+	while (remaining > 0
+	       && pself->remaining(pself) > 0 && status == SANE_STATUS_GOOD) {
+		SANE_Int bytes_read = read(ps->fd, pbuf, remaining);
+		if (bytes_read == -1) {
+			if (errno == EAGAIN) {
+				/* No data currently available */
+				break;
+			}
+			/* It's an IO error */
+			DBG(DL_MAJOR_ERROR, "%s: read failed: %s\n",
+			    __FUNCTION__, strerror(errno));
+			status = SANE_STATUS_IO_ERROR;
+		} else if (bytes_read == 0) {
+			/* EOF of current reading */
+			DBG(DL_DATA_TRACE, "%s: EOF\n", __FUNCTION__);
+			break;
+		}
+		ps->bytes_remaining -= bytes_read;
+		remaining -= bytes_read;
+		pbuf += bytes_read;
+	}
+	*plen -= remaining;
+	return status;
 }
 
-static SANE_Status FDSource_done (Source *pself)
+static SANE_Status
+FDSource_done(Source * pself)
 {
-    close(((FDSource *) pself)->fd);
-    return SANE_STATUS_GOOD;
+	close(((FDSource *) pself)->fd);
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status FDSource_init (FDSource *pself,
-                                  SnapScan_Scanner *pss,
-                                  int fd)
+static SANE_Status
+FDSource_init(FDSource * pself, SnapScan_Scanner * pss, int fd)
 {
-    SANE_Status status = Source_init ((Source *) pself,
-                                      pss,
-                                      FDSource_remaining,
-                                      Source_bytesPerLine,
-                                      Source_pixelsPerLine,
-                                      FDSource_get,
-                                      FDSource_done);
-    if (status == SANE_STATUS_GOOD)
-    {
-        pself->fd = fd;
-        pself->bytes_remaining = pss->bytes_per_line * (pss->lines + pss->chroma);
-    }
-    return status;
+	SANE_Status status = Source_init((Source *) pself,
+					 pss,
+					 FDSource_remaining,
+					 Source_bytesPerLine,
+					 Source_pixelsPerLine,
+					 FDSource_get,
+					 FDSource_done);
+	if (status == SANE_STATUS_GOOD) {
+		pself->fd = fd;
+		pself->bytes_remaining =
+			pss->bytes_per_line * (pss->lines + pss->chroma);
+	}
+	return status;
 }
 
 
@@ -315,120 +316,105 @@ static SANE_Status FDSource_init (FDSource *pself,
 
 typedef struct
 {
-    SOURCE_GUTS;
-    SANE_Byte *buf;
-    SANE_Int buf_size;
-    SANE_Int buf_pos;
+	SOURCE_GUTS;
+	SANE_Byte *buf;
+	SANE_Int buf_size;
+	SANE_Int buf_pos;
 } BufSource;
 
-static SANE_Int BufSource_remaining (Source *pself)
+static SANE_Int
+BufSource_remaining(Source * pself)
 {
-    BufSource *ps = (BufSource *) pself;
-    return  ps->buf_size - ps->buf_pos;
+	BufSource *ps = (BufSource *) pself;
+	return ps->buf_size - ps->buf_pos;
 }
 
-static SANE_Status BufSource_get (Source *pself,
-                                  SANE_Byte *pbuf,
-                                  SANE_Int *plen)
+static SANE_Status
+BufSource_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    BufSource *ps = (BufSource *) pself;
-    SANE_Status status = SANE_STATUS_GOOD;
-    SANE_Int to_move = MIN(*plen, pself->remaining(pself));
-    if (to_move == 0)
-    {
-        status = SANE_STATUS_EOF;
-    }
-    else
-    {
-        memcpy (pbuf, ps->buf + ps->buf_pos, to_move);
-        ps->buf_pos += to_move;
-        *plen = to_move;
-    }
-    return status;
+	BufSource *ps = (BufSource *) pself;
+	SANE_Status status = SANE_STATUS_GOOD;
+	SANE_Int to_move = MIN(*plen, pself->remaining(pself));
+	if (to_move == 0) {
+		status = SANE_STATUS_EOF;
+	} else {
+		memcpy(pbuf, ps->buf + ps->buf_pos, to_move);
+		ps->buf_pos += to_move;
+		*plen = to_move;
+	}
+	return status;
 }
 
-static SANE_Status BufSource_done (Source *pself)
+static SANE_Status
+BufSource_done(Source * pself)
 {
-    UNREFERENCED_PARAMETER(pself);
-    return SANE_STATUS_GOOD;
+	UNREFERENCED_PARAMETER(pself);
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status BufSource_init (BufSource *pself,
-                                   SnapScan_Scanner *pss,
-                                     SANE_Byte *buf,
-                                   SANE_Int buf_size)
+static SANE_Status
+BufSource_init(BufSource * pself,
+	       SnapScan_Scanner * pss, SANE_Byte * buf, SANE_Int buf_size)
 {
-    SANE_Status status = Source_init ((Source *) pself,
-                                      pss,
-                                      BufSource_remaining,
-                                      Source_bytesPerLine,
-                                      Source_pixelsPerLine,
-                                      BufSource_get,
-                                      BufSource_done);
-    DBG(DL_DATA_TRACE, "BufSource_init: buf_size=%d\n", buf_size);
-    if (status == SANE_STATUS_GOOD)
-    {
-        pself->buf = buf;
-        pself->buf_size = buf_size;
-        pself->buf_pos = 0;
-    }
-    return status;
+	SANE_Status status = Source_init((Source *) pself,
+					 pss,
+					 BufSource_remaining,
+					 Source_bytesPerLine,
+					 Source_pixelsPerLine,
+					 BufSource_get,
+					 BufSource_done);
+	DBG(DL_DATA_TRACE, "BufSource_init: buf_size=%d\n", buf_size);
+	if (status == SANE_STATUS_GOOD) {
+		pself->buf = buf;
+		pself->buf_size = buf_size;
+		pself->buf_pos = 0;
+	}
+	return status;
 }
 
 /* base source creation */
 
-static SANE_Status create_base_source (SnapScan_Scanner *pss,
-                                       BaseSourceType st,
-                                       Source **pps)
+static SANE_Status
+create_base_source(SnapScan_Scanner * pss, BaseSourceType st, Source ** pps)
 {
-    SANE_Status status = SANE_STATUS_GOOD;
-    *pps = NULL;
-    switch (st)
-    {
-    case SCSI_SRC:
-        *pps = (Source *) malloc(sizeof(SCSISource));
-        if (*pps == NULL)
-        {
-            DBG (DL_MAJOR_ERROR, "failed to allocate SCSISource");
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            status = SCSISource_init ((SCSISource *) *pps, pss);
-        }
-    break;
-    case FD_SRC:
-        *pps = (Source *) malloc(sizeof(FDSource));
-        if (*pps == NULL)
-        {
-            DBG (DL_MAJOR_ERROR, "failed to allocate FDSource");
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            status = FDSource_init ((FDSource *) *pps, pss, pss->rpipe[0]);
-        }
-    break;
-    case BUF_SRC:
-        *pps = (Source *) malloc(sizeof(BufSource));
-        if (*pps == NULL)
-        {
-            DBG (DL_MAJOR_ERROR, "failed to allocate BufSource");
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            status = BufSource_init ((BufSource *) *pps,
-                                     pss,
-                                     pss->buf,
-                                     pss->read_bytes);
-        }
-    break;
-    default:
-        DBG (DL_MAJOR_ERROR, "illegal base source type %d", st);
-        break;
-    }
-    return status;
+	SANE_Status status = SANE_STATUS_GOOD;
+	*pps = NULL;
+	switch (st) {
+	case SCSI_SRC:
+		*pps = (Source *) malloc(sizeof(SCSISource));
+		if (*pps == NULL) {
+			DBG(DL_MAJOR_ERROR, "failed to allocate SCSISource");
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			status = SCSISource_init((SCSISource *) * pps, pss);
+		}
+		break;
+	case FD_SRC:
+		*pps = (Source *) malloc(sizeof(FDSource));
+		if (*pps == NULL) {
+			DBG(DL_MAJOR_ERROR, "failed to allocate FDSource");
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			status = FDSource_init((FDSource *) * pps, pss,
+					       pss->rpipe[0]);
+		}
+		break;
+	case BUF_SRC:
+		*pps = (Source *) malloc(sizeof(BufSource));
+		if (*pps == NULL) {
+			DBG(DL_MAJOR_ERROR, "failed to allocate BufSource");
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			status = BufSource_init((BufSource *) * pps,
+						pss,
+						pss->buf, pss->read_bytes);
+		}
+		break;
+	default:
+		DBG(DL_MAJOR_ERROR, "illegal base source type %d", st);
+		break;
+	}
+	return status;
 }
 
 /**********************************************************************/
@@ -437,65 +423,69 @@ static SANE_Status create_base_source (SnapScan_Scanner *pss,
 
 #define TX_SOURCE_GUTS \
         SOURCE_GUTS;\
-        Source *psub    /* sub-source */
+        Source *psub		/* sub-source */
 
 typedef struct
 {
-    TX_SOURCE_GUTS;
+	TX_SOURCE_GUTS;
 } TxSource;
 
-static SANE_Int TxSource_remaining (Source *pself)
+static SANE_Int
+TxSource_remaining(Source * pself)
 {
-    TxSource *ps = (TxSource *) pself;
-    return ps->psub->remaining(ps->psub);
+	TxSource *ps = (TxSource *) pself;
+	return ps->psub->remaining(ps->psub);
 }
 
-static SANE_Int TxSource_bytesPerLine (Source *pself)
+static SANE_Int
+TxSource_bytesPerLine(Source * pself)
 {
-    TxSource *ps = (TxSource *) pself;
-    return ps->psub->bytesPerLine(ps->psub);
+	TxSource *ps = (TxSource *) pself;
+	return ps->psub->bytesPerLine(ps->psub);
 }
 
-static SANE_Int TxSource_pixelsPerLine (Source *pself)
+static SANE_Int
+TxSource_pixelsPerLine(Source * pself)
 {
-    TxSource *ps = (TxSource *) pself;
-    return ps->psub->pixelsPerLine(ps->psub);
+	TxSource *ps = (TxSource *) pself;
+	return ps->psub->pixelsPerLine(ps->psub);
 }
 
-static SANE_Status TxSource_get (Source *pself, SANE_Byte *pbuf, SANE_Int *plen)
+static SANE_Status
+TxSource_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    TxSource *ps = (TxSource *) pself;
-    return ps->psub->get(ps->psub, pbuf, plen);
+	TxSource *ps = (TxSource *) pself;
+	return ps->psub->get(ps->psub, pbuf, plen);
 }
 
-static SANE_Status TxSource_done (Source *pself)
+static SANE_Status
+TxSource_done(Source * pself)
 {
-    TxSource *ps = (TxSource *) pself;
-    SANE_Status status = ps->psub->done(ps->psub);
-    free(ps->psub);
-    ps->psub = NULL;
-    return status;
+	TxSource *ps = (TxSource *) pself;
+	SANE_Status status = ps->psub->done(ps->psub);
+	free(ps->psub);
+	ps->psub = NULL;
+	return status;
 }
 
-static SANE_Status TxSource_init (TxSource *pself,
-                                  SnapScan_Scanner *pss,
-                                  SourceRemaining remaining,
-                                  SourceBytesPerLine bytesPerLine,
-                                  SourcePixelsPerLine pixelsPerLine,
-                                  SourceGet get,
-                                  SourceDone done,
-                                  Source *psub)
+static SANE_Status
+TxSource_init(TxSource * pself,
+	      SnapScan_Scanner * pss,
+	      SourceRemaining remaining,
+	      SourceBytesPerLine bytesPerLine,
+	      SourcePixelsPerLine pixelsPerLine,
+	      SourceGet get, SourceDone done, Source * psub)
 {
-    SANE_Status status = Source_init((Source *) pself,
-                                     pss,
-                                     remaining,
-                                     bytesPerLine,
-                                     pixelsPerLine,
-                                     get,
-                                     done);
-    if (status == SANE_STATUS_GOOD)
-        pself->psub = psub;
-    return status;
+	SANE_Status status = Source_init((Source *) pself,
+					 pss,
+					 remaining,
+					 bytesPerLine,
+					 pixelsPerLine,
+					 get,
+					 done);
+	if (status == SANE_STATUS_GOOD)
+		pself->psub = psub;
+	return status;
 }
 
 /* The expander makes three-channel, one-bit, raw scanner data into
@@ -503,165 +493,153 @@ static SANE_Status TxSource_init (TxSource *pself,
 
 typedef struct
 {
-    TX_SOURCE_GUTS;
-    SANE_Byte *ch_buf;            /* channel buffer */
-    SANE_Int   ch_size;            /* channel buffer size = #bytes in a channel */
-    SANE_Int   ch_ndata;        /* actual #bytes in channel buffer */
-    SANE_Int   ch_pos;            /* position in buffer */
-    SANE_Int   bit;                /* current bit */
-    SANE_Int   last_bit;        /* current last bit (counting down) */
-    SANE_Int   last_last_bit;    /* last bit in the last byte of the channel */
+	TX_SOURCE_GUTS;
+	SANE_Byte *ch_buf;	/* channel buffer */
+	SANE_Int ch_size;	/* channel buffer size = #bytes in a channel */
+	SANE_Int ch_ndata;	/* actual #bytes in channel buffer */
+	SANE_Int ch_pos;	/* position in buffer */
+	SANE_Int bit;		/* current bit */
+	SANE_Int last_bit;	/* current last bit (counting down) */
+	SANE_Int last_last_bit;	/* last bit in the last byte of the channel */
 } Expander;
 
-static SANE_Int Expander_remaining (Source *pself)
+static SANE_Int
+Expander_remaining(Source * pself)
 {
-    Expander *ps = (Expander *) pself;
-    SANE_Int sub_remaining = TxSource_remaining(pself);
-    SANE_Int sub_bits_per_channel = TxSource_pixelsPerLine(pself);
-    SANE_Int whole_channels = sub_remaining/ps->ch_size;
-    SANE_Int result = whole_channels*sub_bits_per_channel;
+	Expander *ps = (Expander *) pself;
+	SANE_Int sub_remaining = TxSource_remaining(pself);
+	SANE_Int sub_bits_per_channel = TxSource_pixelsPerLine(pself);
+	SANE_Int whole_channels = sub_remaining / ps->ch_size;
+	SANE_Int result = whole_channels * sub_bits_per_channel;
 
-    if (ps->ch_pos < ps->ch_size)
-    {
-        SANE_Int bits_covered = MAX((ps->ch_pos - 1)*8, 0) + 7 - ps->bit;
-        result += sub_bits_per_channel - bits_covered;
-    }
+	if (ps->ch_pos < ps->ch_size) {
+		SANE_Int bits_covered =
+			MAX((ps->ch_pos - 1) * 8, 0) + 7 - ps->bit;
+		result += sub_bits_per_channel - bits_covered;
+	}
 
-    return result;
+	return result;
 }
 
-static SANE_Int Expander_bytesPerLine (Source *pself)
+static SANE_Int
+Expander_bytesPerLine(Source * pself)
 {
-    return TxSource_pixelsPerLine(pself)*3;
+	return TxSource_pixelsPerLine(pself) * 3;
 }
 
-static SANE_Status Expander_get (Source *pself, SANE_Byte *pbuf, SANE_Int *plen)
+static SANE_Status
+Expander_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    Expander *ps = (Expander *) pself;
-    SANE_Status status = SANE_STATUS_GOOD;
-    SANE_Int remaining = *plen;
+	Expander *ps = (Expander *) pself;
+	SANE_Status status = SANE_STATUS_GOOD;
+	SANE_Int remaining = *plen;
 
-    while (remaining > 0
-           &&
-           pself->remaining(pself) > 0 &&
-           !cancelRead)
-    {
-        if (ps->ch_pos == ps->ch_ndata)
-        {
-            /* we need more data; try to get the remainder of the current
-               channel, or else the next channel */
-            SANE_Int ndata = ps->ch_size - ps->ch_ndata;
-            if (ndata == 0)
-            {
-                ps->ch_ndata = 0;
-                ps->ch_pos = 0;
-                ndata = ps->ch_size;
-            }
-            status = TxSource_get(pself, ps->ch_buf + ps->ch_pos, &ndata);
-            if (status != SANE_STATUS_GOOD)
-                break;
-            if (ndata == 0)
-                break;
-            ps->ch_ndata += ndata;
-            if (ps->ch_pos == (ps->ch_size - 1))
-                ps->last_bit = ps->last_last_bit;
-            else
-                ps->last_bit = 0;
-            ps->bit = 7;
-        }
-        *pbuf = ((ps->ch_buf[ps->ch_pos] >> ps->bit) & 0x01) ? 0xFF : 0x00;
-        pbuf++;
-        remaining--;
+	while (remaining > 0 && pself->remaining(pself) > 0 && !cancelRead) {
+		if (ps->ch_pos == ps->ch_ndata) {
+			/* we need more data; try to get the remainder of the current
+			   channel, or else the next channel */
+			SANE_Int ndata = ps->ch_size - ps->ch_ndata;
+			if (ndata == 0) {
+				ps->ch_ndata = 0;
+				ps->ch_pos = 0;
+				ndata = ps->ch_size;
+			}
+			status = TxSource_get(pself, ps->ch_buf + ps->ch_pos,
+					      &ndata);
+			if (status != SANE_STATUS_GOOD)
+				break;
+			if (ndata == 0)
+				break;
+			ps->ch_ndata += ndata;
+			if (ps->ch_pos == (ps->ch_size - 1))
+				ps->last_bit = ps->last_last_bit;
+			else
+				ps->last_bit = 0;
+			ps->bit = 7;
+		}
+		*pbuf = ((ps->ch_buf[ps->ch_pos] >> ps->
+			  bit) & 0x01) ? 0xFF : 0x00;
+		pbuf++;
+		remaining--;
 
-        if (ps->bit == ps->last_bit)
-        {
-            ps->bit = 7;
-            ps->ch_pos++;
-            if (ps->ch_pos == (ps->ch_size - 1))
-                ps->last_bit = ps->last_last_bit;
-            else
-                ps->last_bit = 0;
-        }
-        else
-        {
-            ps->bit--;
-        }
-    }
+		if (ps->bit == ps->last_bit) {
+			ps->bit = 7;
+			ps->ch_pos++;
+			if (ps->ch_pos == (ps->ch_size - 1))
+				ps->last_bit = ps->last_last_bit;
+			else
+				ps->last_bit = 0;
+		} else {
+			ps->bit--;
+		}
+	}
 
-    *plen -= remaining;
-    return status;
+	*plen -= remaining;
+	return status;
 }
 
-static SANE_Status Expander_done (Source *pself)
+static SANE_Status
+Expander_done(Source * pself)
 {
-    Expander *ps = (Expander *) pself;
-    SANE_Status status = TxSource_done(pself);
-    free(ps->ch_buf);
-    ps->ch_buf = NULL;
-    ps->ch_size = 0;
-    ps->ch_pos = 0;
-    return status;
+	Expander *ps = (Expander *) pself;
+	SANE_Status status = TxSource_done(pself);
+	free(ps->ch_buf);
+	ps->ch_buf = NULL;
+	ps->ch_size = 0;
+	ps->ch_pos = 0;
+	return status;
 }
 
-static SANE_Status Expander_init (Expander *pself,
-                  SnapScan_Scanner *pss,
-                                  Source *psub)
+static SANE_Status
+Expander_init(Expander * pself, SnapScan_Scanner * pss, Source * psub)
 {
-    SANE_Status status = TxSource_init((TxSource *) pself,
-                                       pss,
-                                       Expander_remaining,
-                                       Expander_bytesPerLine,
-                                       TxSource_pixelsPerLine,
-                                       Expander_get,
-                                       Expander_done,
-                                       psub);
-    if (status == SANE_STATUS_GOOD)
-    {
-        pself->ch_size = TxSource_bytesPerLine((Source *) pself)/3;
-        pself->ch_buf = (SANE_Byte *) malloc(pself->ch_size);
-        if (pself->ch_buf == NULL)
-        {
-            DBG (DL_MAJOR_ERROR,
-                 "%s: couldn't allocate channel buffer.\n",
-                 __FUNCTION__);
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            pself->ch_ndata = 0;
-            pself->ch_pos = 0;
-            pself->last_last_bit = pself->pixelsPerLine((Source *) pself)%8;
-            if (pself->last_last_bit == 0)
-                pself->last_last_bit = 7;
-            pself->last_last_bit = 7 - pself->last_last_bit;
-            pself->bit = 7;
-            if (pself->ch_size > 1)
-                pself->last_bit = 0;
-            else
-                pself->last_bit = pself->last_last_bit;
-        }
-    }
-    return status;
+	SANE_Status status = TxSource_init((TxSource *) pself,
+					   pss,
+					   Expander_remaining,
+					   Expander_bytesPerLine,
+					   TxSource_pixelsPerLine,
+					   Expander_get,
+					   Expander_done,
+					   psub);
+	if (status == SANE_STATUS_GOOD) {
+		pself->ch_size = TxSource_bytesPerLine((Source *) pself) / 3;
+		pself->ch_buf = (SANE_Byte *) malloc(pself->ch_size);
+		if (pself->ch_buf == NULL) {
+			DBG(DL_MAJOR_ERROR,
+			    "%s: couldn't allocate channel buffer.\n",
+			    __FUNCTION__);
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			pself->ch_ndata = 0;
+			pself->ch_pos = 0;
+			pself->last_last_bit =
+				pself->pixelsPerLine((Source *) pself) % 8;
+			if (pself->last_last_bit == 0)
+				pself->last_last_bit = 7;
+			pself->last_last_bit = 7 - pself->last_last_bit;
+			pself->bit = 7;
+			if (pself->ch_size > 1)
+				pself->last_bit = 0;
+			else
+				pself->last_bit = pself->last_last_bit;
+		}
+	}
+	return status;
 }
 
-static SANE_Status create_Expander (SnapScan_Scanner *pss,
-                                    Source *psub,
-                                    Source **pps)
+static SANE_Status
+create_Expander(SnapScan_Scanner * pss, Source * psub, Source ** pps)
 {
-    SANE_Status status = SANE_STATUS_GOOD;
-    *pps = (Source *) malloc(sizeof(Expander));
-    if (*pps == NULL)
-    {
-        DBG (DL_MAJOR_ERROR,
-             "%s: failed to allocate Expander.\n",
-             __FUNCTION__);
-        status = SANE_STATUS_NO_MEM;
-    }
-    else
-    {
-        status = Expander_init ((Expander *) *pps, pss, psub);
-    }
-    return status;
+	SANE_Status status = SANE_STATUS_GOOD;
+	*pps = (Source *) malloc(sizeof(Expander));
+	if (*pps == NULL) {
+		DBG(DL_MAJOR_ERROR,
+		    "%s: failed to allocate Expander.\n", __FUNCTION__);
+		status = SANE_STATUS_NO_MEM;
+	} else {
+		status = Expander_init((Expander *) * pps, pss, psub);
+	}
+	return status;
 }
 
 /* 
@@ -683,232 +661,241 @@ static SANE_Status create_Expander (SnapScan_Scanner *pss,
 
 typedef struct
 {
-    TX_SOURCE_GUTS;
-    SANE_Byte *ch_buf;            /* channel buffer */
-    SANE_Int   ch_size;           /* channel buffer size */
-    SANE_Int   ch_line_size;      /* size of one line */
-    SANE_Int   ch_ndata;          /* actual #bytes in channel buffer */
-    SANE_Int   ch_pos;            /* position in buffer */
-    SANE_Int   ch_bytes_per_pixel;
-    SANE_Bool  ch_lineart;
-    SANE_Int   ch_offset;         /* The number of lines to be shifted */
-    SANE_Bool  ch_past_init;      /* flag indicating if we have enough data to shift pixels down */
-    SANE_Bool  ch_shift_even;     /* flag indicating wether even or odd pixels are shifted */
+	TX_SOURCE_GUTS;
+	SANE_Byte *ch_buf;	/* channel buffer */
+	SANE_Int ch_size;	/* channel buffer size */
+	SANE_Int ch_line_size;	/* size of one line */
+	SANE_Int ch_ndata;	/* actual #bytes in channel buffer */
+	SANE_Int ch_pos;	/* position in buffer */
+	SANE_Int ch_bytes_per_pixel;
+	SANE_Bool ch_lineart;
+	SANE_Int ch_offset;	/* The number of lines to be shifted */
+	SANE_Bool ch_past_init;	/* flag indicating if we have enough data to shift pixels down */
+	SANE_Bool ch_shift_even;	/* flag indicating wether even or odd pixels are shifted */
 } Deinterlacer;
 
-static SANE_Int Deinterlacer_remaining (Source *pself)
+static SANE_Int
+Deinterlacer_remaining(Source * pself)
 {
-    Deinterlacer *ps = (Deinterlacer *) pself;
-    SANE_Int result = TxSource_remaining(pself);
-    result += ps->ch_ndata - ps->ch_pos;
-    return result;
+	Deinterlacer *ps = (Deinterlacer *) pself;
+	SANE_Int result = TxSource_remaining(pself);
+	result += ps->ch_ndata - ps->ch_pos;
+	return result;
 }
 
-static SANE_Status Deinterlacer_get (Source *pself, SANE_Byte *pbuf, SANE_Int *plen)
+static SANE_Status
+Deinterlacer_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    Deinterlacer *ps = (Deinterlacer *) pself;
-    SANE_Status status = SANE_STATUS_GOOD;
-    SANE_Int remaining = *plen;
-    SANE_Int org_len = *plen;
-    char *me = "Deinterlacer_get";
-    
-    DBG(DL_DATA_TRACE, "%s: remaining=%d, pself->remaining=%d, ch_ndata=%d, ch_pos=%d\n",
-            me, remaining, pself->remaining(pself), ps->ch_ndata, ps->ch_pos);
+	Deinterlacer *ps = (Deinterlacer *) pself;
+	SANE_Status status = SANE_STATUS_GOOD;
+	SANE_Int remaining = *plen;
+	SANE_Int org_len = *plen;
+	char *me = "Deinterlacer_get";
 
-    while (remaining > 0
-           &&
-           pself->remaining(pself) > 0 &&
-           !cancelRead)
-    {
-        if (ps->ch_pos % (ps->ch_line_size) == ps->ch_ndata % (ps->ch_line_size) )
-        {
-            /* we need more data; try to get the remainder of the current
-               line, or else the next line */
-            SANE_Int ndata = (ps->ch_line_size) - ps->ch_ndata % (ps->ch_line_size);
-            if (ps->ch_pos >= ps->ch_size)
-            {
-	        /* wrap to the beginning of the buffer if we need to */
-                ps->ch_ndata = 0;
-                ps->ch_pos = 0;
-                ndata = ps->ch_line_size;
-            }
-            status = TxSource_get(pself, ps->ch_buf + ps->ch_pos, &ndata);
-            if (status != SANE_STATUS_GOOD)
-                break;
-            if (ndata == 0)
-                break;
-            ps->ch_ndata += ndata;
-        }
-        /* Handle special lineart mode: Valid pixels need to be masked */
-        if (ps->ch_lineart)
-        {
-            if (ps->ch_past_init)
-            {
-                if (ps->ch_shift_even)
-                {
-                    /* Even columns need to be shifted, i.e. bits 1,3,5,7 -> 0xaa */
-                    /* use valid pixels from this line and shifted pixels from ch_size lines back */
-                    *pbuf = (ps->ch_buf[ps->ch_pos] & 0x55) |
-                            (ps->ch_buf[(ps->ch_pos + (ps->ch_line_size)) % ps->ch_size] & 0xaa);
-                }
-                else
-                {
-                    /* Odd columns need to be shifted, i.e. bits 0,2,4,6 -> 0x55 */
-                    *pbuf = (ps->ch_buf[ps->ch_pos] & 0xaa) |
-                            (ps->ch_buf[(ps->ch_pos + (ps->ch_line_size)) % ps->ch_size] & 0x55);
-                }
-            }
-            else
-            {
-                /* not enough data. duplicate pixel values from previous column */
-                if (ps->ch_shift_even)
-                {
-                    /* bits 0,2,4,6 contain valid data -> 0x55 */
-                    SANE_Byte valid_pixel = ps->ch_buf[ps->ch_pos] & 0x55;
-                    *pbuf = valid_pixel | (valid_pixel >> 1);
-                }
-                else
-                {
+	DBG(DL_DATA_TRACE,
+	    "%s: remaining=%d, pself->remaining=%d, ch_ndata=%d, ch_pos=%d\n",
+	    me, remaining, pself->remaining(pself), ps->ch_ndata, ps->ch_pos);
 
-                    /* bits 1,3,5,7 contain valid data -> 0xaa */
-                    SANE_Byte valid_pixel = ps->ch_buf[ps->ch_pos] & 0xaa;
-                    *pbuf = valid_pixel | (valid_pixel << 1);
-                }
-            }
-        }
-        else /* colour / grayscale mode */
-        {
-            if ((ps->ch_shift_even && ((ps->ch_pos/ps->ch_bytes_per_pixel) % 2 == 0)) ||
-                (!ps->ch_shift_even && ((ps->ch_pos/ps->ch_bytes_per_pixel) % 2 == 1)))
-            {
-                /* the even indexed pixels need to be shifted down */
-                if (ps->ch_past_init){
-                    /* We need to use data 4 lines back */
-                    /* So we just go one forward and it will wrap around to 4 back. */
-                    *pbuf = ps->ch_buf[(ps->ch_pos + (ps->ch_line_size)) % ps->ch_size];
-                }else{
-                    /* Use data from the next pixel for even indexed pixels
-                      if we are on the first few lines. 
-                      TODO: also we will overread the buffer if the buffer read ended 
-                      on the first pixel. */
-                    if (ps->ch_pos % (ps->ch_line_size) == 0 )
-                        *pbuf = ps->ch_buf[ps->ch_pos+ps->ch_bytes_per_pixel];
-                    else
-                        *pbuf = ps->ch_buf[ps->ch_pos-ps->ch_bytes_per_pixel];
-                }
-            }else{
-                /* odd indexed pixels are okay */
-                *pbuf = ps->ch_buf[ps->ch_pos];
-            }
-        }
-	/* set the flag so we know we have enough data to start shifting columns */
-	if (ps->ch_pos >= ps->ch_line_size * ps->ch_offset)
-	   ps->ch_past_init = SANE_TRUE;
+	while (remaining > 0 && pself->remaining(pself) > 0 && !cancelRead) {
+		if (ps->ch_pos % (ps->ch_line_size) ==
+		    ps->ch_ndata % (ps->ch_line_size)) {
+			/* we need more data; try to get the remainder of the current
+			   line, or else the next line */
+			SANE_Int ndata =
+				(ps->ch_line_size) -
+				ps->ch_ndata % (ps->ch_line_size);
+			if (ps->ch_pos >= ps->ch_size) {
+				/* wrap to the beginning of the buffer if we need to */
+				ps->ch_ndata = 0;
+				ps->ch_pos = 0;
+				ndata = ps->ch_line_size;
+			}
+			status = TxSource_get(pself, ps->ch_buf + ps->ch_pos,
+					      &ndata);
+			if (status != SANE_STATUS_GOOD)
+				break;
+			if (ndata == 0)
+				break;
+			ps->ch_ndata += ndata;
+		}
+		/* Handle special lineart mode: Valid pixels need to be masked */
+		if (ps->ch_lineart) {
+			if (ps->ch_past_init) {
+				if (ps->ch_shift_even) {
+					/* Even columns need to be shifted, i.e. bits 1,3,5,7 -> 0xaa */
+					/* use valid pixels from this line and shifted pixels from ch_size lines back */
+					*pbuf = (ps->
+						 ch_buf[ps->
+							ch_pos] & 0x55) |
+						(ps->
+						 ch_buf[(ps->ch_pos +
+							 (ps->ch_line_size)) %
+							ps->ch_size] & 0xaa);
+				} else {
+					/* Odd columns need to be shifted, i.e. bits 0,2,4,6 -> 0x55 */
+					*pbuf = (ps->
+						 ch_buf[ps->
+							ch_pos] & 0xaa) |
+						(ps->
+						 ch_buf[(ps->ch_pos +
+							 (ps->ch_line_size)) %
+							ps->ch_size] & 0x55);
+				}
+			} else {
+				/* not enough data. duplicate pixel values from previous column */
+				if (ps->ch_shift_even) {
+					/* bits 0,2,4,6 contain valid data -> 0x55 */
+					SANE_Byte valid_pixel =
+						ps->ch_buf[ps->ch_pos] & 0x55;
+					*pbuf = valid_pixel | (valid_pixel >>
+							       1);
+				} else {
 
-        pbuf++;
-        remaining--;
-        ps->ch_pos++;
-    }
+					/* bits 1,3,5,7 contain valid data -> 0xaa */
+					SANE_Byte valid_pixel =
+						ps->ch_buf[ps->ch_pos] & 0xaa;
+					*pbuf = valid_pixel | (valid_pixel <<
+							       1);
+				}
+			}
+		} else {	/* colour / grayscale mode */
 
-    *plen -= remaining;
-    
-    DBG(DL_DATA_TRACE,
-        "%s: Request=%d, remaining=%d, read=%d, TXSource_rem=%d, bytes_rem=%lu\n",
-        me,
-        org_len,
-        pself->remaining(pself),
-        *plen,
-        TxSource_remaining(pself),
-        (u_long) ps->pss->bytes_remaining);    
-    return status;
+			if ((ps->ch_shift_even
+			     && ((ps->ch_pos / ps->ch_bytes_per_pixel) % 2 ==
+				 0)) || (!ps->ch_shift_even
+					 &&
+					 ((ps->ch_pos /
+					   ps->ch_bytes_per_pixel) % 2 ==
+					  1))) {
+				/* the even indexed pixels need to be shifted down */
+				if (ps->ch_past_init) {
+					/* We need to use data 4 lines back */
+					/* So we just go one forward and it will wrap around to 4 back. */
+					*pbuf = ps->
+						ch_buf[(ps->ch_pos +
+							(ps->ch_line_size)) %
+						       ps->ch_size];
+				} else {
+					/* Use data from the next pixel for even indexed pixels
+					   if we are on the first few lines. 
+					   TODO: also we will overread the buffer if the buffer read ended 
+					   on the first pixel. */
+					if (ps->ch_pos % (ps->ch_line_size) ==
+					    0)
+						*pbuf = ps->ch_buf[ps->
+								   ch_pos +
+								   ps->
+								   ch_bytes_per_pixel];
+					else
+						*pbuf = ps->ch_buf[ps->
+								   ch_pos -
+								   ps->
+								   ch_bytes_per_pixel];
+				}
+			} else {
+				/* odd indexed pixels are okay */
+				*pbuf = ps->ch_buf[ps->ch_pos];
+			}
+		}
+		/* set the flag so we know we have enough data to start shifting columns */
+		if (ps->ch_pos >= ps->ch_line_size * ps->ch_offset)
+			ps->ch_past_init = SANE_TRUE;
+
+		pbuf++;
+		remaining--;
+		ps->ch_pos++;
+	}
+
+	*plen -= remaining;
+
+	DBG(DL_DATA_TRACE,
+	    "%s: Request=%d, remaining=%d, read=%d, TXSource_rem=%d, bytes_rem=%lu\n",
+	    me,
+	    org_len,
+	    pself->remaining(pself),
+	    *plen,
+	    TxSource_remaining(pself), (u_long) ps->pss->bytes_remaining);
+	return status;
 }
 
-static SANE_Status Deinterlacer_done (Source *pself)
+static SANE_Status
+Deinterlacer_done(Source * pself)
 {
-    Deinterlacer *ps = (Deinterlacer *) pself;
-    SANE_Status status = TxSource_done(pself);
-    free(ps->ch_buf);
-    ps->ch_buf = NULL;
-    ps->ch_size = 0;
-    ps->ch_line_size = 0;
-    ps->ch_pos = 0;
-    return status;
+	Deinterlacer *ps = (Deinterlacer *) pself;
+	SANE_Status status = TxSource_done(pself);
+	free(ps->ch_buf);
+	ps->ch_buf = NULL;
+	ps->ch_size = 0;
+	ps->ch_line_size = 0;
+	ps->ch_pos = 0;
+	return status;
 }
 
-static SANE_Status Deinterlacer_init (Deinterlacer *pself,
-                  SnapScan_Scanner *pss,
-                                  Source *psub)
+static SANE_Status
+Deinterlacer_init(Deinterlacer * pself, SnapScan_Scanner * pss, Source * psub)
 {
-    SANE_Status status = TxSource_init((TxSource *) pself,
-                                       pss,
-                                       Deinterlacer_remaining,
-                                       TxSource_bytesPerLine,
-                                       TxSource_pixelsPerLine,
-                                       Deinterlacer_get,
-                                       Deinterlacer_done,
-                                       psub);
-    if (status == SANE_STATUS_GOOD)
-    {
-        pself->ch_shift_even = SANE_TRUE;
-        switch (pss->pdev->model)
-        {
-        case PERFECTION3490:
-            pself->ch_offset = 8;
-            if ((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
-                 pself->ch_shift_even = SANE_FALSE;
-            break;
-        case PERFECTION2480:
-        default:
-            pself->ch_offset = 4;
-            break;
-        }
-        pself->ch_line_size = TxSource_bytesPerLine((Source *) pself);
-        /* We need at least ch_offset+1 lines of buffer in order 
-           to shift up ch_offset pixels. */
-        pself->ch_size = pself->ch_line_size * (pself->ch_offset + 1);
-        pself->ch_buf = (SANE_Byte *) malloc(pself->ch_size);
-        if (pself->ch_buf == NULL)
-        {
-            DBG (DL_MAJOR_ERROR,
-                 "%s: couldn't allocate channel buffer.\n",
-                 __FUNCTION__);
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            pself->ch_ndata = 0;
-            pself->ch_pos = 0;
-            pself->ch_past_init = SANE_FALSE;
-	    if ((actual_mode(pss) == MD_GREYSCALE) || (actual_mode(pss) == MD_LINEART))
-	    	pself->ch_bytes_per_pixel = 1;
-	    else
-	    	pself->ch_bytes_per_pixel = 3;
-	    if (pss->bpp_scan == 16)
-		pself->ch_bytes_per_pixel *= 2;
-        }
-        pself->ch_lineart = (actual_mode(pss) == MD_LINEART);
-    }
-    return status;
+	SANE_Status status = TxSource_init((TxSource *) pself,
+					   pss,
+					   Deinterlacer_remaining,
+					   TxSource_bytesPerLine,
+					   TxSource_pixelsPerLine,
+					   Deinterlacer_get,
+					   Deinterlacer_done,
+					   psub);
+	if (status == SANE_STATUS_GOOD) {
+		pself->ch_shift_even = SANE_TRUE;
+		switch (pss->pdev->model) {
+		case PERFECTION3490:
+			pself->ch_offset = 8;
+			if ((actual_mode(pss) == MD_GREYSCALE)
+			    || (actual_mode(pss) == MD_LINEART))
+				pself->ch_shift_even = SANE_FALSE;
+			break;
+		case PERFECTION2480:
+		default:
+			pself->ch_offset = 4;
+			break;
+		}
+		pself->ch_line_size = TxSource_bytesPerLine((Source *) pself);
+		/* We need at least ch_offset+1 lines of buffer in order 
+		   to shift up ch_offset pixels. */
+		pself->ch_size = pself->ch_line_size * (pself->ch_offset + 1);
+		pself->ch_buf = (SANE_Byte *) malloc(pself->ch_size);
+		if (pself->ch_buf == NULL) {
+			DBG(DL_MAJOR_ERROR,
+			    "%s: couldn't allocate channel buffer.\n",
+			    __FUNCTION__);
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			pself->ch_ndata = 0;
+			pself->ch_pos = 0;
+			pself->ch_past_init = SANE_FALSE;
+			if ((actual_mode(pss) == MD_GREYSCALE)
+			    || (actual_mode(pss) == MD_LINEART))
+				pself->ch_bytes_per_pixel = 1;
+			else
+				pself->ch_bytes_per_pixel = 3;
+			if (pss->bpp_scan == 16)
+				pself->ch_bytes_per_pixel *= 2;
+		}
+		pself->ch_lineart = (actual_mode(pss) == MD_LINEART);
+	}
+	return status;
 }
 
-static SANE_Status create_Deinterlacer (SnapScan_Scanner *pss,
-                                    Source *psub,
-                                    Source **pps)
+static SANE_Status
+create_Deinterlacer(SnapScan_Scanner * pss, Source * psub, Source ** pps)
 {
-    SANE_Status status = SANE_STATUS_GOOD;
-    *pps = (Source *) malloc(sizeof(Deinterlacer));
-    if (*pps == NULL)
-    {
-        DBG (DL_MAJOR_ERROR,
-             "%s: failed to allocate Deinterlacer.\n",
-             __FUNCTION__);
-        status = SANE_STATUS_NO_MEM;
-    }
-    else
-    {
-        status = Deinterlacer_init ((Deinterlacer *) *pps, pss, psub);
-    }
-    return status;
+	SANE_Status status = SANE_STATUS_GOOD;
+	*pps = (Source *) malloc(sizeof(Deinterlacer));
+	if (*pps == NULL) {
+		DBG(DL_MAJOR_ERROR,
+		    "%s: failed to allocate Deinterlacer.\n", __FUNCTION__);
+		status = SANE_STATUS_NO_MEM;
+	} else {
+		status = Deinterlacer_init((Deinterlacer *) * pps, pss, psub);
+	}
+	return status;
 }
 
 /* ----------------------------------------------------- */
@@ -919,326 +906,323 @@ static SANE_Status create_Deinterlacer (SnapScan_Scanner *pss,
 
 typedef struct
 {
-    TX_SOURCE_GUTS;
-    SANE_Byte *cbuf;            /* circular line buffer */
-    SANE_Byte *xbuf;            /* single line buffer */
-    SANE_Int pos;                    /* current position in xbuf */
-    SANE_Int cb_size;            /* size of the circular buffer */
-    SANE_Int cb_line_size;/* size of a line in the circular buffer */
-    SANE_Int cb_start;        /* start of valid data in the circular buffer */
-    SANE_Int cb_finish;        /* finish of valid data, for next read */
-    SANE_Int ch_offset[3];/* offset in cbuf */
-    SANE_Int round_req;
-    SANE_Int round_read;
+	TX_SOURCE_GUTS;
+	SANE_Byte *cbuf;	/* circular line buffer */
+	SANE_Byte *xbuf;	/* single line buffer */
+	SANE_Int pos;		/* current position in xbuf */
+	SANE_Int cb_size;	/* size of the circular buffer */
+	SANE_Int cb_line_size;	/* size of a line in the circular buffer */
+	SANE_Int cb_start;	/* start of valid data in the circular buffer */
+	SANE_Int cb_finish;	/* finish of valid data, for next read */
+	SANE_Int ch_offset[3];	/* offset in cbuf */
+	SANE_Int round_req;
+	SANE_Int round_read;
 } RGBRouter;
 
-static SANE_Int RGBRouter_remaining (Source *pself)
+static SANE_Int
+RGBRouter_remaining(Source * pself)
 {
-    RGBRouter *ps = (RGBRouter *) pself;
-   SANE_Int remaining;
-    if (ps->round_req == ps->cb_size)
-        remaining = TxSource_remaining(pself) - ps->cb_size + ps->cb_line_size;
-    else
-      remaining = TxSource_remaining(pself) + ps->cb_line_size - ps->pos;
-   return (remaining);
+	RGBRouter *ps = (RGBRouter *) pself;
+	SANE_Int remaining;
+	if (ps->round_req == ps->cb_size)
+		remaining =
+			TxSource_remaining(pself) - ps->cb_size +
+			ps->cb_line_size;
+	else
+		remaining =
+			TxSource_remaining(pself) + ps->cb_line_size -
+			ps->pos;
+	return (remaining);
 }
 
-static SANE_Status RGBRouter_get (Source *pself,
-                                  SANE_Byte *pbuf,
-                                  SANE_Int *plen)
+static SANE_Status
+RGBRouter_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    RGBRouter *ps = (RGBRouter *) pself;
-    SANE_Status status = SANE_STATUS_GOOD;
-    SANE_Int remaining = *plen;
-    SANE_Byte *s;
-    SANE_Int i;
-    SANE_Int r, g, b;
-    SANE_Int run_req;
-    SANE_Int org_len = *plen;
-    char *me = "RGBRouter_get";
+	RGBRouter *ps = (RGBRouter *) pself;
+	SANE_Status status = SANE_STATUS_GOOD;
+	SANE_Int remaining = *plen;
+	SANE_Byte *s;
+	SANE_Int i;
+	SANE_Int r, g, b;
+	SANE_Int run_req;
+	SANE_Int org_len = *plen;
+	char *me = "RGBRouter_get";
 
-    while (remaining > 0  &&  pself->remaining(pself) > 0 && !cancelRead)
-    {
-        DBG(DL_DATA_TRACE, "%s: remaining=%d, pself->remaining=%d, round_req=%d, cb_size=%d\n",
-            me, remaining, pself->remaining(pself), ps->round_req, ps->cb_size);
-        /* Check if there is no valid data left from previous get */
-        if (ps->pos >= ps->cb_line_size)
-        {
-            /* Try to get more data. either one line or
-               full buffer (first time) */
-            do
-            {
-                run_req = ps->round_req - ps->round_read;
-                status = TxSource_get (pself,
-                                       ps->cbuf + ps->cb_start + ps->round_read,
-                                       &run_req);
-                if (status != SANE_STATUS_GOOD || run_req==0)
-                {
-                    *plen -= remaining;
-                    if ( *plen > 0 )
-                        DBG(DL_DATA_TRACE, "%s: request=%d, read=%d\n",
-                            me, org_len, *plen);
-                    return status;
-                }
-                ps->round_read += run_req;
-            }
-            while ((ps->round_req > ps->round_read) && !cancelRead);
+	while (remaining > 0 && pself->remaining(pself) > 0 && !cancelRead) {
+		DBG(DL_DATA_TRACE,
+		    "%s: remaining=%d, pself->remaining=%d, round_req=%d, cb_size=%d\n",
+		    me, remaining, pself->remaining(pself), ps->round_req,
+		    ps->cb_size);
+		/* Check if there is no valid data left from previous get */
+		if (ps->pos >= ps->cb_line_size) {
+			/* Try to get more data. either one line or
+			   full buffer (first time) */
+			do {
+				run_req = ps->round_req - ps->round_read;
+				status = TxSource_get(pself,
+						      ps->cbuf +
+						      ps->cb_start +
+						      ps->round_read,
+						      &run_req);
+				if (status != SANE_STATUS_GOOD
+				    || run_req == 0) {
+					*plen -= remaining;
+					if (*plen > 0)
+						DBG(DL_DATA_TRACE,
+						    "%s: request=%d, read=%d\n",
+						    me, org_len, *plen);
+					return status;
+				}
+				ps->round_read += run_req;
+			}
+			while ((ps->round_req > ps->round_read)
+			       && !cancelRead);
 
-            /* route RGB */
-            ps->cb_start = (ps->cb_start + ps->round_read)%ps->cb_size;
-            s = ps->xbuf;
-            r = (ps->cb_start + ps->ch_offset[0])%ps->cb_size;
-            g = (ps->cb_start + ps->ch_offset[1])%ps->cb_size;
-            b = (ps->cb_start + ps->ch_offset[2])%ps->cb_size;
-            for (i = 0;  i < ps->cb_line_size/3;  i++)
-            {
-                if (pself->pss->bpp_scan == 8)
-                {
-                    *s++ = ps->cbuf[r++];
-                    *s++ = ps->cbuf[g++];
-                    *s++ = ps->cbuf[b++];
-                }
-                else
-                {
-                    *s++ = ps->cbuf[r++];
-                    *s++ = ps->cbuf[r++];
-                    *s++ = ps->cbuf[g++];
-                    *s++ = ps->cbuf[g++];
-                    *s++ = ps->cbuf[b++];
-                    *s++ = ps->cbuf[b++];
-                    i++;
-                }
-            }
+			/* route RGB */
+			ps->cb_start =
+				(ps->cb_start + ps->round_read) % ps->cb_size;
+			s = ps->xbuf;
+			r = (ps->cb_start + ps->ch_offset[0]) % ps->cb_size;
+			g = (ps->cb_start + ps->ch_offset[1]) % ps->cb_size;
+			b = (ps->cb_start + ps->ch_offset[2]) % ps->cb_size;
+			for (i = 0; i < ps->cb_line_size / 3; i++) {
+				if (pself->pss->bpp_scan == 8) {
+					*s++ = ps->cbuf[r++];
+					*s++ = ps->cbuf[g++];
+					*s++ = ps->cbuf[b++];
+				} else {
+					*s++ = ps->cbuf[r++];
+					*s++ = ps->cbuf[r++];
+					*s++ = ps->cbuf[g++];
+					*s++ = ps->cbuf[g++];
+					*s++ = ps->cbuf[b++];
+					*s++ = ps->cbuf[b++];
+					i++;
+				}
+			}
 
-            /* end of reading & offsetiing whole line data;
-               reset valid position */
-            ps->pos = 0;
+			/* end of reading & offsetiing whole line data;
+			   reset valid position */
+			ps->pos = 0;
 
-            /* prepare for next round */
-            ps->round_req = ps->cb_line_size;
-            ps->round_read =0;
-        }
+			/* prepare for next round */
+			ps->round_req = ps->cb_line_size;
+			ps->round_read = 0;
+		}
 
-        /* Repack the whole scan line and copy to caller's buffer */
-        while (remaining > 0  &&  ps->pos < ps->cb_line_size)
-        {
-            *pbuf++ = ps->xbuf[ps->pos++];
-            remaining--;
-        }
-    }
-    *plen -= remaining;
-    DBG(DL_DATA_TRACE,
-        "%s: Request=%d, remaining=%d, read=%d, TXSource_rem=%d, bytes_rem=%lu\n",
-        me,
-        org_len,
-        pself->remaining(pself),
-        *plen,
-        TxSource_remaining(pself),
-        (u_long) ps->pss->bytes_remaining);
-    return status;
+		/* Repack the whole scan line and copy to caller's buffer */
+		while (remaining > 0 && ps->pos < ps->cb_line_size) {
+			*pbuf++ = ps->xbuf[ps->pos++];
+			remaining--;
+		}
+	}
+	*plen -= remaining;
+	DBG(DL_DATA_TRACE,
+	    "%s: Request=%d, remaining=%d, read=%d, TXSource_rem=%d, bytes_rem=%lu\n",
+	    me,
+	    org_len,
+	    pself->remaining(pself),
+	    *plen,
+	    TxSource_remaining(pself), (u_long) ps->pss->bytes_remaining);
+	return status;
 }
 
-static SANE_Status RGBRouter_done (Source *pself)
+static SANE_Status
+RGBRouter_done(Source * pself)
 {
-    RGBRouter *ps = (RGBRouter *) pself;
-    SANE_Status status = TxSource_done(pself);
+	RGBRouter *ps = (RGBRouter *) pself;
+	SANE_Status status = TxSource_done(pself);
 
-    free(ps->cbuf);
-    free(ps->xbuf);
-    ps->cbuf = NULL;
-    ps->cb_start = -1;
-    ps->pos = 0;
-    return status;
+	free(ps->cbuf);
+	free(ps->xbuf);
+	ps->cbuf = NULL;
+	ps->cb_start = -1;
+	ps->pos = 0;
+	return status;
 }
 
-static SANE_Status RGBRouter_init (RGBRouter *pself,
-                           SnapScan_Scanner *pss,
-                                   Source *psub)
+static SANE_Status
+RGBRouter_init(RGBRouter * pself, SnapScan_Scanner * pss, Source * psub)
 {
-    SANE_Status status = TxSource_init((TxSource *) pself,
-                                       pss,
-                                       RGBRouter_remaining,
-                                       TxSource_bytesPerLine,
-                                       TxSource_pixelsPerLine,
-                                       RGBRouter_get,
-                                       RGBRouter_done,
-                                       psub);
-    if (status == SANE_STATUS_GOOD)
-    {
-        SANE_Int lines_in_buffer = 0;
+	SANE_Status status = TxSource_init((TxSource *) pself,
+					   pss,
+					   RGBRouter_remaining,
+					   TxSource_bytesPerLine,
+					   TxSource_pixelsPerLine,
+					   RGBRouter_get,
+					   RGBRouter_done,
+					   psub);
+	if (status == SANE_STATUS_GOOD) {
+		SANE_Int lines_in_buffer = 0;
 
-        /* Size the buffer to accomodate the necessary number of scan
-           lines to cater for the offset between R, G and B */
-        lines_in_buffer = pss->chroma + 1;
-        pself->cb_line_size = pself->bytesPerLine((Source *) pself);
-        pself->cb_size = pself->cb_line_size*lines_in_buffer;
-        pself->pos = pself->cb_line_size;
+		/* Size the buffer to accomodate the necessary number of scan
+		   lines to cater for the offset between R, G and B */
+		lines_in_buffer = pss->chroma + 1;
+		pself->cb_line_size = pself->bytesPerLine((Source *) pself);
+		pself->cb_size = pself->cb_line_size * lines_in_buffer;
+		pself->pos = pself->cb_line_size;
 
-        pself->round_req = pself->cb_size;
-        pself->round_read = 0;
+		pself->round_req = pself->cb_size;
+		pself->round_read = 0;
 
-        pself->cbuf = (SANE_Byte *) malloc(pself->cb_size);
-        pself->xbuf = (SANE_Byte *) malloc(pself->cb_line_size);
-        if (pself->cbuf == NULL  ||  pself->xbuf == NULL)
-        {
-            DBG (DL_MAJOR_ERROR,
-                 "%s: failed to allocate circular buffer.\n",
-                 __FUNCTION__);
-            status = SANE_STATUS_NO_MEM;
-        }
-        else
-        {
-            SANE_Int ch;
+		pself->cbuf = (SANE_Byte *) malloc(pself->cb_size);
+		pself->xbuf = (SANE_Byte *) malloc(pself->cb_line_size);
+		if (pself->cbuf == NULL || pself->xbuf == NULL) {
+			DBG(DL_MAJOR_ERROR,
+			    "%s: failed to allocate circular buffer.\n",
+			    __FUNCTION__);
+			status = SANE_STATUS_NO_MEM;
+		} else {
+			SANE_Int ch;
 
-            pself->cb_start = 0;
-            for (ch = 0;  ch < 3;  ch++)
-            {
-                pself->ch_offset[ch] =
-                        pss->chroma_offset[ch] * pself->cb_line_size
-                        + ch * (pself->cb_line_size / 3);
-            }
-        }
-        DBG(DL_MINOR_INFO, "RGBRouter_init: buf_size: %d x %d = %d\n",
-            pself->cb_line_size, lines_in_buffer, pself->cb_size);
-        DBG(DL_MINOR_INFO, "RGBRouter_init: buf offset R:%d G:%d B:%d\n",
-            pself->ch_offset[0], pself->ch_offset[1],pself->ch_offset[2]);
-    }
-    return status;
+			pself->cb_start = 0;
+			for (ch = 0; ch < 3; ch++) {
+				pself->ch_offset[ch] =
+					pss->chroma_offset[ch] *
+					pself->cb_line_size +
+					ch * (pself->cb_line_size / 3);
+			}
+		}
+		DBG(DL_MINOR_INFO, "RGBRouter_init: buf_size: %d x %d = %d\n",
+		    pself->cb_line_size, lines_in_buffer, pself->cb_size);
+		DBG(DL_MINOR_INFO,
+		    "RGBRouter_init: buf offset R:%d G:%d B:%d\n",
+		    pself->ch_offset[0], pself->ch_offset[1],
+		    pself->ch_offset[2]);
+	}
+	return status;
 }
 
-static SANE_Status create_RGBRouter (SnapScan_Scanner *pss,
-                                     Source *psub,
-                                     Source **pps)
+static SANE_Status
+create_RGBRouter(SnapScan_Scanner * pss, Source * psub, Source ** pps)
 {
-    static char me[] = "create_RGBRouter";
-    SANE_Status status = SANE_STATUS_GOOD;
+	static char me[] = "create_RGBRouter";
+	SANE_Status status = SANE_STATUS_GOOD;
 
-    DBG (DL_CALL_TRACE, "%s\n", me);
-    *pps = (Source *) malloc(sizeof(RGBRouter));
-    if (*pps == NULL)
-    {
-        DBG (DL_MAJOR_ERROR, "%s: failed to allocate RGBRouter.\n",
-             __FUNCTION__);
-        status = SANE_STATUS_NO_MEM;
-    }
-    else
-    {
-        status = RGBRouter_init ((RGBRouter *) *pps, pss, psub);
-    }
-    return status;
+	DBG(DL_CALL_TRACE, "%s\n", me);
+	*pps = (Source *) malloc(sizeof(RGBRouter));
+	if (*pps == NULL) {
+		DBG(DL_MAJOR_ERROR, "%s: failed to allocate RGBRouter.\n",
+		    __FUNCTION__);
+		status = SANE_STATUS_NO_MEM;
+	} else {
+		status = RGBRouter_init((RGBRouter *) * pps, pss, psub);
+	}
+	return status;
 }
 
 /* An Inverter is used to invert the bits in a lineart image */
 
 typedef struct
 {
-    TX_SOURCE_GUTS;
+	TX_SOURCE_GUTS;
 } Inverter;
 
-static SANE_Status Inverter_get (Source *pself, SANE_Byte *pbuf, SANE_Int *plen)
+static SANE_Status
+Inverter_get(Source * pself, SANE_Byte * pbuf, SANE_Int * plen)
 {
-    SANE_Status status = TxSource_get (pself, pbuf, plen);
-    if (status == SANE_STATUS_GOOD)
-    {
-        int i;
-        for (i = 0;  i < *plen;  i++)
-            pbuf[i] ^= 0xFF;
-    }
-    return status;
+	SANE_Status status = TxSource_get(pself, pbuf, plen);
+	if (status == SANE_STATUS_GOOD) {
+		int i;
+		for (i = 0; i < *plen; i++)
+			pbuf[i] ^= 0xFF;
+	}
+	return status;
 }
 
-static SANE_Status Inverter_init (Inverter *pself,
-                                  SnapScan_Scanner *pss,
-                                  Source *psub)
+static SANE_Status
+Inverter_init(Inverter * pself, SnapScan_Scanner * pss, Source * psub)
 {
-    return  TxSource_init ((TxSource *) pself,
-                           pss,
-                           TxSource_remaining,
-                           TxSource_bytesPerLine,
-                           TxSource_pixelsPerLine,
-                           Inverter_get,
-                           TxSource_done,
-                           psub);
+	return TxSource_init((TxSource *) pself,
+			     pss,
+			     TxSource_remaining,
+			     TxSource_bytesPerLine,
+			     TxSource_pixelsPerLine,
+			     Inverter_get, TxSource_done, psub);
 }
 
-static SANE_Status create_Inverter (SnapScan_Scanner *pss,
-                                    Source *psub,
-                                    Source **pps)
+static SANE_Status
+create_Inverter(SnapScan_Scanner * pss, Source * psub, Source ** pps)
 {
-    SANE_Status status = SANE_STATUS_GOOD;
-    *pps = (Source *) malloc(sizeof(Inverter));
-    if (*pps == NULL)
-    {
-        DBG (DL_MAJOR_ERROR, "%s: failed to allocate Inverter.\n",
-                 __FUNCTION__);
-        status = SANE_STATUS_NO_MEM;
-    }
-    else
-    {
-        status = Inverter_init ((Inverter *) *pps, pss, psub);
-    }
-    return status;
+	SANE_Status status = SANE_STATUS_GOOD;
+	*pps = (Source *) malloc(sizeof(Inverter));
+	if (*pps == NULL) {
+		DBG(DL_MAJOR_ERROR, "%s: failed to allocate Inverter.\n",
+		    __FUNCTION__);
+		status = SANE_STATUS_NO_MEM;
+	} else {
+		status = Inverter_init((Inverter *) * pps, pss, psub);
+	}
+	return status;
 }
 
 /* Source chain creation */
 
-static SANE_Status create_source_chain (SnapScan_Scanner *pss,
-                                        BaseSourceType bst,
-                                        Source **pps)
+static SANE_Status
+create_source_chain(SnapScan_Scanner * pss, BaseSourceType bst, Source ** pps)
 {
-   static char me[] = "create_source_chain";
-    SANE_Status status = create_base_source (pss, bst, pps);
+	static char me[] = "create_source_chain";
+	SANE_Status status = create_base_source(pss, bst, pps);
 
-   DBG (DL_CALL_TRACE, "%s\n", me);
-    if (status == SANE_STATUS_GOOD)
-    {
-        SnapScan_Mode mode = actual_mode(pss);
-        switch (mode)
-        {
-        case MD_COLOUR:
-            status = create_RGBRouter (pss, *pps, pps);
-            /* We only have the interlace probelms on 
-               some scanners like the Epson Perfection 2480/2580 
-               at 2400 dpi. */
-            if (status == SANE_STATUS_GOOD && 
-                ((pss->pdev->model == PERFECTION2480 && pss->res == 2400) ||
-                (pss->pdev->model == PERFECTION3490 && pss->res == 3200) ||
-                (pss->pdev->model == PRISA5000E && pss->res == 1200)))
-                status = create_Deinterlacer (pss, *pps, pps);
-            break;
-        case MD_BILEVELCOLOUR:
-            status = create_Expander (pss, *pps, pps);
-            if (status == SANE_STATUS_GOOD)
-                status = create_RGBRouter (pss, *pps, pps);
-            if (status == SANE_STATUS_GOOD && 
-                ((pss->pdev->model == PERFECTION2480 && pss->res == 2400) ||
-                (pss->pdev->model == PERFECTION3490 && pss->res == 3200) ||
-                (pss->pdev->model == PRISA5000E && pss->res == 1200)))
-                status = create_Deinterlacer (pss, *pps, pps);
-            break;
-        case MD_GREYSCALE:
-            if ((pss->pdev->model == PERFECTION2480 && pss->res == 2400) ||
-                (pss->pdev->model == PERFECTION3490 && pss->res == 3200) ||
-                (pss->pdev->model == PRISA5000E && pss->res == 1200))
-                status = create_Deinterlacer (pss, *pps, pps);
-            break;
-        case MD_LINEART:
-            /* The SnapScan creates a negative image by
-               default... so for the user interface to make sense,
-               the internal meaning of "negative" is reversed */
-            if (pss->negative == SANE_FALSE)
-                status = create_Inverter (pss, *pps, pps);
-            if (pss->pdev->model == PERFECTION3490 && pss->res == 3200)
-                status = create_Deinterlacer (pss, *pps, pps);
-            break;
-        default:
-            DBG (DL_MAJOR_ERROR, "%s: bad mode value %d (internal error)\n",
-                 __FUNCTION__, mode);
-            status = SANE_STATUS_INVAL;
-            break;
-        }
-    }
-    return status;
+	DBG(DL_CALL_TRACE, "%s\n", me);
+	if (status == SANE_STATUS_GOOD) {
+		SnapScan_Mode mode = actual_mode(pss);
+		switch (mode) {
+		case MD_COLOUR:
+			status = create_RGBRouter(pss, *pps, pps);
+			/* We only have the interlace probelms on 
+			   some scanners like the Epson Perfection 2480/2580 
+			   at 2400 dpi. */
+			if (status == SANE_STATUS_GOOD &&
+			    ((pss->pdev->model == PERFECTION2480
+			      && pss->res == 2400)
+			     || (pss->pdev->model == PERFECTION3490
+				 && pss->res == 3200)
+			     || (pss->pdev->model == PRISA5000E
+				 && pss->res == 1200)))
+				status = create_Deinterlacer(pss, *pps, pps);
+			break;
+		case MD_BILEVELCOLOUR:
+			status = create_Expander(pss, *pps, pps);
+			if (status == SANE_STATUS_GOOD)
+				status = create_RGBRouter(pss, *pps, pps);
+			if (status == SANE_STATUS_GOOD &&
+			    ((pss->pdev->model == PERFECTION2480
+			      && pss->res == 2400)
+			     || (pss->pdev->model == PERFECTION3490
+				 && pss->res == 3200)
+			     || (pss->pdev->model == PRISA5000E
+				 && pss->res == 1200)))
+				status = create_Deinterlacer(pss, *pps, pps);
+			break;
+		case MD_GREYSCALE:
+			if ((pss->pdev->model == PERFECTION2480
+			     && pss->res == 2400)
+			    || (pss->pdev->model == PERFECTION3490
+				&& pss->res == 3200)
+			    || (pss->pdev->model == PRISA5000E
+				&& pss->res == 1200))
+				status = create_Deinterlacer(pss, *pps, pps);
+			break;
+		case MD_LINEART:
+			/* The SnapScan creates a negative image by
+			   default... so for the user interface to make sense,
+			   the internal meaning of "negative" is reversed */
+			if (pss->negative == SANE_FALSE)
+				status = create_Inverter(pss, *pps, pps);
+			if (pss->pdev->model == PERFECTION3490
+			    && pss->res == 3200)
+				status = create_Deinterlacer(pss, *pps, pps);
+			break;
+		default:
+			DBG(DL_MAJOR_ERROR,
+			    "%s: bad mode value %d (internal error)\n",
+			    __FUNCTION__, mode);
+			status = SANE_STATUS_INVAL;
+			break;
+		}
+	}
+	return status;
 }
 
 /*

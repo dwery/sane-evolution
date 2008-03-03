@@ -117,34 +117,35 @@
 static int port[_MAX_PTDEVS] = { 0x378, 0, 0, 0 };
 
 #ifdef __KERNEL__
-static pScanData PtDrvDevices[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = NULL};
+static pScanData PtDrvDevices[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = NULL
+};
 
 /* default is 180 secs for lamp switch off */
-static int lampoff[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 180 };
+static int lampoff[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = 180 };
 
 /* warmup period for lamp (30 secs) */
-static int warmup[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 30 };
+static int warmup[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = 30 };
 
 /* switch lamp off on unload (default = no)*/
-static int lOffonEnd[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 };
+static int lOffonEnd[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = 0 };
 
 /* model override (0-->none) */
-static UShort mov[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 };
+static UShort mov[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = 0 };
 
 /* forceMode (0--> auto, 1: SPP, 2:EPP, others: auto) */
-static UShort forceMode[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = 0 };
+static UShort forceMode[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = 0 };
 
 /* to use delayed I/O for each device */
-static Bool slowIO[_MAX_PTDEVS] = { [0 ... (_MAX_PTDEVS-1)] = _FALSE };
+static Bool slowIO[_MAX_PTDEVS] = {[0...(_MAX_PTDEVS - 1)] = _FALSE };
 
 #else
 
-static pScanData PtDrvDevices[_MAX_PTDEVS]= { NULL,   NULL,   NULL,   NULL   };
-static int       lampoff[_MAX_PTDEVS]     = { 180,    180,    180,    180    };
-static int       warmup[_MAX_PTDEVS]      = { 30,     30,     30,     30     };
-static int       lOffonEnd[_MAX_PTDEVS]   = { 0,      0,      0,      0      };
-static UShort    mov[_MAX_PTDEVS]         = { 0,      0,      0,      0      };
-static UShort    forceMode[_MAX_PTDEVS]   = { 0,      0,      0,      0      };
+static pScanData PtDrvDevices[_MAX_PTDEVS] = { NULL, NULL, NULL, NULL };
+static int lampoff[_MAX_PTDEVS] = { 180, 180, 180, 180 };
+static int warmup[_MAX_PTDEVS] = { 30, 30, 30, 30 };
+static int lOffonEnd[_MAX_PTDEVS] = { 0, 0, 0, 0 };
+static UShort mov[_MAX_PTDEVS] = { 0, 0, 0, 0 };
+static UShort forceMode[_MAX_PTDEVS] = { 0, 0, 0, 0 };
 
 #endif
 
@@ -152,7 +153,7 @@ static UShort    forceMode[_MAX_PTDEVS]   = { 0,      0,      0,      0      };
 static TimerDef toTimer[_MAX_PTDEVS];
 
 #ifndef __KERNEL__
-static Bool	PtDrvInitialized = _FALSE;
+static Bool PtDrvInitialized = _FALSE;
 #ifdef HAVE_SETITIMER
 static struct itimerval saveSettings;
 #endif
@@ -162,7 +163,7 @@ static Bool deviceScanning = _FALSE;
 static struct timer_list tl[_MAX_PTDEVS];
 
 /* for calculation of the timer expiration */
-extern volatile ULong jiffies;	
+extern volatile ULong jiffies;
 
 /* the parameter interface
  */
@@ -178,22 +179,22 @@ MODULE_LICENSE("GPL");
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,13))
 MODULE_PARM(port, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
 MODULE_PARM(lampoff, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
-MODULE_PARM(warmup,"1-" __MODULE_STRING(_MAX_PTDEVS) "i");
+MODULE_PARM(warmup, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
 MODULE_PARM(lOffonEnd, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
 MODULE_PARM(mov, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
-MODULE_PARM(slowIO,"1-" __MODULE_STRING(_MAX_PTDEVS) "i");
-MODULE_PARM(forceMode,"1-" __MODULE_STRING(_MAX_PTDEVS) "i");
+MODULE_PARM(slowIO, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
+MODULE_PARM(forceMode, "1-" __MODULE_STRING(_MAX_PTDEVS) "i");
 
 #else
 
 static int array_len = _MAX_PTDEVS;
 
-module_param_array(port,      int, &array_len, 0);
-module_param_array(lampoff,   int, &array_len, 0);
-module_param_array(warmup,    int, &array_len, 0);
+module_param_array(port, int, &array_len, 0);
+module_param_array(lampoff, int, &array_len, 0);
+module_param_array(warmup, int, &array_len, 0);
 module_param_array(lOffonEnd, int, &array_len, 0);
-module_param_array(mov,       int, &array_len, 0);
-module_param_array(slowIO,    int, &array_len, 0);
+module_param_array(mov, int, &array_len, 0);
+module_param_array(slowIO, int, &array_len, 0);
 module_param_array(forceMode, int, &array_len, 0);
 
 #endif
@@ -206,34 +207,34 @@ MODULE_PARM_DESC(lOffonEnd, "1 - switchoff lamp on unload");
 MODULE_PARM_DESC(mov, "Modell-override switch");
 MODULE_PARM_DESC(slowIO, "0 = Fast I/O, 1 = Delayed I/O");
 MODULE_PARM_DESC(forceMode, "0 = use auto detection, "
-                            "1 = use SPP mode, 2 = use EPP mode");
+		 "1 = use SPP mode, 2 = use EPP mode");
 #endif
 
 #if defined (CONFIG_DEVFS_FS)
 # ifndef (DEVFS_26_STYLE)
-	static devfs_handle_t devfs_handle = NULL;
+static devfs_handle_t devfs_handle = NULL;
 # endif
 #else
 # ifdef LINUX_26
-	static class_t *ptdrv_class;
+static class_t *ptdrv_class;
 # endif
 #endif
 
 /*
  * the module interface
  */
-static int 		 pt_drv_open ( struct inode *, struct file *);
-static CLOSETYPE pt_drv_close( struct inode *, struct file *);
-static int 		 pt_drv_ioctl( struct inode *, struct file *, UInt, ULong );
+static int pt_drv_open(struct inode *, struct file *);
+static CLOSETYPE pt_drv_close(struct inode *, struct file *);
+static int pt_drv_ioctl(struct inode *, struct file *, UInt, ULong);
 
 #ifdef LINUX_20
-  static int pt_drv_read(  struct inode*, struct file*, char*, int );
-  static int pt_drv_write( struct inode*, struct file*, const char*, int );
+static int pt_drv_read(struct inode *, struct file *, char *, int);
+static int pt_drv_write(struct inode *, struct file *, const char *, int);
 #else
-  static ssize_t pt_drv_read ( struct file *file,
-							 char *buffer, size_t count, loff_t *);
-  static ssize_t pt_drv_write( struct file *file,
-							 const char *buffer, size_t tmp,loff_t *count);
+static ssize_t pt_drv_read(struct file *file,
+			   char *buffer, size_t count, loff_t *);
+static ssize_t pt_drv_write(struct file *file,
+			    const char *buffer, size_t tmp, loff_t * count);
 #endif
 
 /*
@@ -241,71 +242,72 @@ static int 		 pt_drv_ioctl( struct inode *, struct file *, UInt, ULong );
  */
 #ifdef LINUX_20
 
-static struct file_operations pt_drv_fops =
-{
-	NULL,			/* seek 				*/
-	pt_drv_read,	/* read 				*/
-	pt_drv_write,	/* write 				*/
-	NULL,			/* readdir 				*/
-	NULL,			/* select 				*/
-	pt_drv_ioctl,  	/* ioctl 				*/
-	NULL,   		/* mmap 				*/
-	pt_drv_open,    /* open 				*/
-	pt_drv_close,	/* release 				*/
-	NULL,			/* fsync 				*/
-	NULL,			/* fasync 				*/
-	NULL,			/* check_media_change 	*/
-	NULL			/* revalidate 			*/
+static struct file_operations pt_drv_fops = {
+	NULL,			/* seek                                 */
+	pt_drv_read,		/* read                                 */
+	pt_drv_write,		/* write                                */
+	NULL,			/* readdir                              */
+	NULL,			/* select                               */
+	pt_drv_ioctl,		/* ioctl                                */
+	NULL,			/* mmap                                 */
+	pt_drv_open,		/* open                                 */
+	pt_drv_close,		/* release                              */
+	NULL,			/* fsync                                */
+	NULL,			/* fasync                               */
+	NULL,			/* check_media_change   */
+	NULL			/* revalidate                   */
 };
 
-#else	/* 2.2.x and higher stuff */
+#else /* 2.2.x and higher stuff */
 
 static struct file_operations pt_drv_fops = {
 #ifdef LINUX_24
-	owner:		THIS_MODULE,
+      owner:THIS_MODULE,
 #endif
-	read:		pt_drv_read,
-	write:		pt_drv_write,
-	ioctl:		pt_drv_ioctl,
-	open:		pt_drv_open,
-	release:	pt_drv_close,
+      read:pt_drv_read,
+      write:pt_drv_write,
+      ioctl:pt_drv_ioctl,
+      open:pt_drv_open,
+      release:pt_drv_close,
 };
 
 #endif
 
-#endif	/* guard __KERNEL */
+#endif /* guard __KERNEL */
 
 /****************************** some prototypes ******************************/
 
-static void ptdrvStartLampTimer( pScanData ps );
+static void ptdrvStartLampTimer(pScanData ps);
 
 /****************************** local functions ******************************/
 
 #ifdef __KERNEL__
 /** depending on the device, return the data structure
  */
-static pScanData get_pt_from_inode(struct inode *ip)
+static pScanData
+get_pt_from_inode(struct inode *ip)
 {
-    int minor = _MINOR(ip);
+	int minor = _MINOR(ip);
 
-    /*
-     * unit out of range
-     */
-    if (minor >=  _MAX_PTDEVS )	
-        return NULL;
+	/*
+	 * unit out of range
+	 */
+	if (minor >= _MAX_PTDEVS)
+		return NULL;
 
-    return( PtDrvDevices[minor] );
+	return (PtDrvDevices[minor]);
 }
 #endif
 
 /** copy user-space data into kernel memory
  */
-static int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
+static int
+getUserPtr(const pVoid useraddr, pVoid where, UInt size)
 {
 	int err = _OK;
 
 	/* do parameter checks */
-	if((NULL == useraddr) || ( 0 == size))
+	if ((NULL == useraddr) || (0 == size))
 		return _E_INVALID;
 
 #ifdef __KERNEL__
@@ -316,15 +318,16 @@ static int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
 	switch (size) {
 #ifdef __KERNEL__
 	case sizeof(u_char):
-		GET_USER_RET(*(u_char *)where, (u_char *) useraddr, -EFAULT);
+		GET_USER_RET(*(u_char *) where, (u_char *) useraddr, -EFAULT);
 		break;
 
 	case sizeof(u_short):
-		GET_USER_RET(*(u_short *)where, (u_short *) useraddr, -EFAULT);
+		GET_USER_RET(*(u_short *) where, (u_short *) useraddr,
+			     -EFAULT);
 		break;
 
 	case sizeof(u_long):
-		GET_USER_RET(*(u_long *)where, (u_long *) useraddr, -EFAULT);
+		GET_USER_RET(*(u_long *) where, (u_long *) useraddr, -EFAULT);
 		break;
 
 	default:
@@ -332,19 +335,19 @@ static int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
 			return -EFAULT;
 #else
 	case sizeof(UChar):
-		*(pUChar)where = *(pUChar)useraddr;
+		*(pUChar) where = *(pUChar) useraddr;
 		break;
 
 	case sizeof(UShort):
-		*(pUShort)where = *(pUShort)useraddr;
+		*(pUShort) where = *(pUShort) useraddr;
 		break;
 
 	case sizeof(ULong):
-		*(pULong)where = *(pULong)useraddr;
+		*(pULong) where = *(pULong) useraddr;
 		break;
 
 	default:
-		memcpy( where, useraddr, size );
+		memcpy(where, useraddr, size);
 #endif
 	}
 	return err;
@@ -352,115 +355,122 @@ static int getUserPtr(const pVoid useraddr, pVoid where, UInt size )
 
 /** copy kernel data into user mode address space
  */
-static int putUserPtr( const pVoid ptr, pVoid useraddr, UInt size )
+static int
+putUserPtr(const pVoid ptr, pVoid useraddr, UInt size)
 {
 	int err = _OK;
 
 	if (NULL == useraddr)
-    	return _E_INVALID;
+		return _E_INVALID;
 
 #ifdef __KERNEL__
 	if ((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
 		return err;
 
-	if (copy_to_user(useraddr, ptr, size ))
+	if (copy_to_user(useraddr, ptr, size))
 		return -EFAULT;
 #else
-	memcpy( useraddr, ptr, size );
+	memcpy(useraddr, ptr, size);
 #endif
 
 	return err;
 }
 
 #ifndef __KERNEL__
-static unsigned long copy_from_user( pVoid dest, pVoid src, unsigned long len )
+static unsigned long
+copy_from_user(pVoid dest, pVoid src, unsigned long len)
 {
-	memcpy( dest, src, len );
+	memcpy(dest, src, len);
 	return 0;
 }
 
-static unsigned long copy_to_user( pVoid dest, pVoid src, unsigned long len )
+static unsigned long
+copy_to_user(pVoid dest, pVoid src, unsigned long len)
 {
-	memcpy( dest, src, len );
+	memcpy(dest, src, len);
 	return 0;
 }
 #endif
 
 /**
  */
-static int putUserVal(const ULong value, pVoid useraddr, UInt size)
+static int
+putUserVal(const ULong value, pVoid useraddr, UInt size)
 {
 #ifdef __KERNEL__
 	int err;
 #endif
 
 	if (NULL == useraddr)
-    	return _E_INVALID;
+		return _E_INVALID;
 
 #ifdef __KERNEL__
 	if ((err = verify_area_20(VERIFY_WRITE, useraddr, size)))
-    	return err;
+		return err;
 #endif
 
 	switch (size) {
 
 #ifdef __KERNEL__
 	case sizeof(u_char):
-    	PUT_USER_RET((u_char)value, (u_char *) useraddr, -EFAULT);
-    	break;
-  	case sizeof(u_short):
-    	PUT_USER_RET((u_short)value, (u_short *) useraddr, -EFAULT);
-    	break;
-  	case sizeof(u_long):
-    	PUT_USER_RET((u_long)value, (u_long *) useraddr, -EFAULT);
-    	break;
+		PUT_USER_RET((u_char) value, (u_char *) useraddr, -EFAULT);
+		break;
+	case sizeof(u_short):
+		PUT_USER_RET((u_short) value, (u_short *) useraddr, -EFAULT);
+		break;
+	case sizeof(u_long):
+		PUT_USER_RET((u_long) value, (u_long *) useraddr, -EFAULT);
+		break;
 #else
 	case sizeof(UChar):
-		*(pUChar)useraddr = (UChar)value;
+		*(pUChar) useraddr = (UChar) value;
 		break;
 	case sizeof(UShort):
-		*(pUShort)useraddr = (UShort)value;
+		*(pUShort) useraddr = (UShort) value;
 		break;
 	case sizeof(ULong):
-		*(pULong)useraddr = (ULong)value;
+		*(pULong) useraddr = (ULong) value;
 		break;
 
 #endif
-  	default:
-    	return _E_INVALID;
+	default:
+		return _E_INVALID;
 	}
 	return 0;
 }
 
 /** switch lamp 0 on
  */
-static void ptDrvSwitchLampOn( pScanData ps )
+static void
+ptDrvSwitchLampOn(pScanData ps)
 {
-	DBG( DBG_LOW, "Switching lamp 0 on.\n" );
+	DBG(DBG_LOW, "Switching lamp 0 on.\n");
 
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
 
 		ps->AsicReg.RD_ScanControl |= _SCAN_NORMALLAMP_ON;
 
 		ps->bLastLampStatus = _SCAN_NORMALLAMP_ON;
 
 	} else {
-		
+
 		ps->AsicReg.RD_ScanControl |= ps->bLampOn;
 		ps->bLastLampStatus = ps->bLampOn;
 	}
 
-	IOCmdRegisterToScanner(ps, ps->RegScanControl, ps->AsicReg.RD_ScanControl);
+	IOCmdRegisterToScanner(ps, ps->RegScanControl,
+			       ps->AsicReg.RD_ScanControl);
 }
 
 /** check the lamp warmup
  */
-static void ptdrvLampWarmup( pScanData ps )
+static void
+ptdrvLampWarmup(pScanData ps)
 {
-	Bool	 warmupNeeded;
+	Bool warmupNeeded;
 	TimerDef timer;
 
-	if( 0 == ps->warmup )
+	if (0 == ps->warmup)
 		return;
 
 	warmupNeeded = _FALSE;
@@ -468,37 +478,38 @@ static void ptdrvLampWarmup( pScanData ps )
 	/*
 	 * do we have to warmup again ? Timer has not elapsed...
 	 */
-	if( _OK == MiscCheckTimer( &toTimer[ps->devno] )) {
+	if (_OK == MiscCheckTimer(&toTimer[ps->devno])) {
 
-		DBG( DBG_LOW, "Startup warmup needed!\n" );
+		DBG(DBG_LOW, "Startup warmup needed!\n");
 		warmupNeeded = _TRUE;
 	} else {
 
 		warmupNeeded = ps->fWarmupNeeded;
 	}
 
-	if( warmupNeeded ) {
+	if (warmupNeeded) {
 
 		/*
 		 * correct lamp should have been switched on but
 		 * before doing anything else wait until warmup has been done
 		 */
-		DBG( DBG_LOW, "Waiting on warmup - %u s\n", ps->warmup );
+		DBG(DBG_LOW, "Waiting on warmup - %u s\n", ps->warmup);
 
-		MiscStartTimer( &timer, _SECOND * ps->warmup );
-		while( !MiscCheckTimer( &timer )) {
-		
+		MiscStartTimer(&timer, _SECOND * ps->warmup);
+		while (!MiscCheckTimer(&timer)) {
+
 			/* on break, we setup the initial timer again... */
-			if( _FALSE == ps->fScanningStatus ) {
-				MiscStartTimer( &toTimer[ps->devno], (_SECOND * ps->warmup));
-				return;		
-			}	
+			if (_FALSE == ps->fScanningStatus) {
+				MiscStartTimer(&toTimer[ps->devno],
+					       (_SECOND * ps->warmup));
+				return;
+			}
 		};
 
 	}
 #ifdef DEBUG
 	else {
-		DBG( DBG_LOW, "No warm-up needed \n" );
+		DBG(DBG_LOW, "No warm-up needed \n");
 	}
 #endif
 
@@ -506,151 +517,157 @@ static void ptdrvLampWarmup( pScanData ps )
 	 * start a timer here again with only a second timeout
 	 * because we need this one only for startup (Force timeout!!)
 	 */
-	MiscStartTimer( &toTimer[ps->devno], _SECOND );
+	MiscStartTimer(&toTimer[ps->devno], _SECOND);
 }
 
 /**
  */
 #ifdef __KERNEL__
-static void ptdrvLampTimerIrq( ULong ptr )
+static void
+ptdrvLampTimerIrq(ULong ptr)
 #else
-static void ptdrvLampTimerIrq( int sig_num )
+static void
+ptdrvLampTimerIrq(int sig_num)
 #endif
 {
 	pScanData ps;
 
-	DBG( DBG_HIGH, "!! IRQ !! Lamp-Timer stopped.\n" );
-	
+	DBG(DBG_HIGH, "!! IRQ !! Lamp-Timer stopped.\n");
+
 #ifdef __KERNEL__
-	ps = (pScanData)ptr;
+	ps = (pScanData) ptr;
 #else
-    _VAR_NOT_USED( sig_num );
+	_VAR_NOT_USED(sig_num);
 	ps = PtDrvDevices[0];
 #endif
 
 	/*
 	 * paranoia check!
 	 */
-	if( NULL == ps )
+	if (NULL == ps)
 		return;
 
-	if( _NO_BASE == ps->sCaps.wIOBase )
+	if (_NO_BASE == ps->sCaps.wIOBase)
 		return;
 
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
-	    ps->AsicReg.RD_ScanControl &= ~_SCAN_LAMPS_ON;
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
+		ps->AsicReg.RD_ScanControl &= ~_SCAN_LAMPS_ON;
 	} else {
 		ps->AsicReg.RD_ScanControl &= ~_SCAN_LAMP_ON;
 	}
-	
+
 	/* force warmup... */
 	ps->bLastLampStatus = 0xFF;
-	
+
 	/*
 	 * claim parallel port if necessary...
 	 * if the port is busy, restart the timer
 	 */
-	if( _OK != MiscClaimPort(ps)) {
-		ptdrvStartLampTimer( ps );
+	if (_OK != MiscClaimPort(ps)) {
+		ptdrvStartLampTimer(ps);
 		return;
 	}
 
-	IOCmdRegisterToScanner( ps, ps->RegScanControl,
-							    ps->AsicReg.RD_ScanControl );
+	IOCmdRegisterToScanner(ps, ps->RegScanControl,
+			       ps->AsicReg.RD_ScanControl);
 	MiscReleasePort(ps);
 }
 
 /**
  */
-static void ptdrvStartLampTimer( pScanData ps )
+static void
+ptdrvStartLampTimer(pScanData ps)
 {
 #ifndef __KERNEL__
-	sigset_t 		 block, pause_mask;
+	sigset_t block, pause_mask;
 	struct sigaction s;
 #ifdef HAVE_SETITIMER
 	struct itimerval interval;
 #endif
 
 	/* block SIGALRM */
-	sigemptyset( &block );
-	sigaddset  ( &block, SIGALRM );
-	sigprocmask( SIG_BLOCK, &block, &pause_mask );
+	sigemptyset(&block);
+	sigaddset(&block, SIGALRM);
+	sigprocmask(SIG_BLOCK, &block, &pause_mask);
 
 	/* setup handler */
-	sigemptyset( &s.sa_mask );
-	sigaddset  (  &s.sa_mask, SIGINT );
-	s.sa_flags   = 0;
+	sigemptyset(&s.sa_mask);
+	sigaddset(&s.sa_mask, SIGINT);
+	s.sa_flags = 0;
 	s.sa_handler = ptdrvLampTimerIrq;
 
-	if(	sigaction( SIGALRM, &s, NULL ) < 0 ) {
-		DBG(DBG_HIGH,"pt_drv%lu: Can't setup timer-irq handler\n",ps->devno);
+	if (sigaction(SIGALRM, &s, NULL) < 0) {
+		DBG(DBG_HIGH, "pt_drv%lu: Can't setup timer-irq handler\n",
+		    ps->devno);
 	}
 
-	sigprocmask( SIG_UNBLOCK, &block, &pause_mask );
+	sigprocmask(SIG_UNBLOCK, &block, &pause_mask);
 
 #ifdef HAVE_SETITIMER
 	/*
 	 * define a one-shot timer
 	 */
 	interval.it_value.tv_usec = 0;
-	interval.it_value.tv_sec  = ps->lampoff;
+	interval.it_value.tv_sec = ps->lampoff;
 	interval.it_interval.tv_usec = 0;
-	interval.it_interval.tv_sec  = 0;
+	interval.it_interval.tv_sec = 0;
 
-	if( 0 != ps->lampoff )
-		setitimer( ITIMER_REAL, &interval, &saveSettings );
+	if (0 != ps->lampoff)
+		setitimer(ITIMER_REAL, &interval, &saveSettings);
 #else
-	alarm( ps->lampoff );
+	alarm(ps->lampoff);
 #endif
 #else
-	init_timer( &tl[ps->devno] );
+	init_timer(&tl[ps->devno]);
 
 	/* timeout val in seconds */
-	tl[ps->devno].expires  =  jiffies + ps->lampoff * HZ;
-	tl[ps->devno].data     = (ULong)ps;
+	tl[ps->devno].expires = jiffies + ps->lampoff * HZ;
+	tl[ps->devno].data = (ULong) ps;
 	tl[ps->devno].function = ptdrvLampTimerIrq;
 
-	if( 0 != ps->lampoff )
-		add_timer( &tl[ps->devno] );
+	if (0 != ps->lampoff)
+		add_timer(&tl[ps->devno]);
 #endif
 
-	DBG( DBG_HIGH, "Lamp-Timer started!\n" );
+	DBG(DBG_HIGH, "Lamp-Timer started!\n");
 }
 
 /**
  */
-static void ptdrvStopLampTimer( pScanData ps )
+static void
+ptdrvStopLampTimer(pScanData ps)
 {
 #ifndef __KERNEL__
 	sigset_t block, pause_mask;
 
 	/* block SIGALRM */
-	sigemptyset( &block );
-	sigaddset  ( &block, SIGALRM );
-	sigprocmask( SIG_BLOCK, &block, &pause_mask );
+	sigemptyset(&block);
+	sigaddset(&block, SIGALRM);
+	sigprocmask(SIG_BLOCK, &block, &pause_mask);
 #ifdef HAVE_SETITIMER
-	if( 0 != ps->lampoff )
-		setitimer( ITIMER_REAL, &saveSettings, NULL );
+	if (0 != ps->lampoff)
+		setitimer(ITIMER_REAL, &saveSettings, NULL);
 #else
-	_VAR_NOT_USED( ps );
+	_VAR_NOT_USED(ps);
 	alarm(0);
 #endif
 #else
-	if( 0 != ps->lampoff )
-		del_timer( &tl[ps->devno] );
+	if (0 != ps->lampoff)
+		del_timer(&tl[ps->devno]);
 #endif
 
-	DBG( DBG_HIGH, "Lamp-Timer stopped!\n" );
+	DBG(DBG_HIGH, "Lamp-Timer stopped!\n");
 }
 
 /** claim and initialize the requested port
  */
-static int ptdrvOpen( pScanData ps, int portBase )
+static int
+ptdrvOpen(pScanData ps, int portBase)
 {
 	int retval;
 
-	DBG( DBG_HIGH, "ptdrvOpen(port=0x%lx)\n", (ULong)portBase );
-	if( NULL == ps )
+	DBG(DBG_HIGH, "ptdrvOpen(port=0x%lx)\n", (ULong) portBase);
+	if (NULL == ps)
 		return _E_NULLPTR;
 
 	/*
@@ -658,125 +675,127 @@ static int ptdrvOpen( pScanData ps, int portBase )
 	 */
 	retval = MiscClaimPort(ps);
 
-	if( _OK != retval )
+	if (_OK != retval)
 		return retval;
 
-	return MiscInitPorts( ps, portBase );
+	return MiscInitPorts(ps, portBase);
 }
 
 /** free used memory (if necessary)
  * restore the parallel port settings and release the port
  */
-static int ptdrvClose( pScanData ps )
+static int
+ptdrvClose(pScanData ps)
 {
-	DBG( DBG_HIGH, "ptdrvClose()\n" );
-	if( NULL == ps )
+	DBG(DBG_HIGH, "ptdrvClose()\n");
+	if (NULL == ps)
 		return _E_NULLPTR;
 
 	/*
 	 * should be cleared by ioctl(close)
 	 */
-    if ( NULL != ps->driverbuf ) {
-		DBG( DBG_LOW, "*** cleanup buffers ***\n" );
-        _VFREE( ps->driverbuf );
-        ps->driverbuf = NULL;
-    }
+	if (NULL != ps->driverbuf) {
+		DBG(DBG_LOW, "*** cleanup buffers ***\n");
+		_VFREE(ps->driverbuf);
+		ps->driverbuf = NULL;
+	}
 
-    if ( NULL != ps->Shade.pHilight ) {
-        _VFREE( ps->Shade.pHilight );
-        ps->Shade.pHilight = NULL;
-    }
+	if (NULL != ps->Shade.pHilight) {
+		_VFREE(ps->Shade.pHilight);
+		ps->Shade.pHilight = NULL;
+	}
 
 	/*
 	 * restore/release port resources...
 	 */
-	MiscRestorePort( ps );
-	MiscReleasePort( ps );
+	MiscRestorePort(ps);
+	MiscReleasePort(ps);
 
 	return _OK;
 }
 
 /** will be called during OPEN_DEVICE ioctl call
  */
-static int ptdrvOpenDevice( pScanData ps )
+static int
+ptdrvOpenDevice(pScanData ps)
 {
-	int    retval, iobase;
+	int retval, iobase;
 	UShort asic;
-	UChar  lastStat;
+	UChar lastStat;
 	UShort lastMode;
-	ULong  devno;
+	ULong devno;
 
 #ifdef __KERNEL__
-	UShort            flags;
+	UShort flags;
 	struct pardevice *pd;
-	struct parport   *pp;
-	ProcDirDef        procDir;
+	struct parport *pp;
+	ProcDirDef procDir;
 #else
-    int pd;
+	int pd;
 #endif
 
 	/*
 	 * push some values from the struct
-     */
+	 */
 #ifdef __KERNEL__
-	flags    = ps->flags;
-	pp       = ps->pp;
-	procDir  = ps->procDir;
+	flags = ps->flags;
+	pp = ps->pp;
+	procDir = ps->procDir;
 #endif
-	pd       = ps->pardev;
-	iobase   = ps->sCaps.wIOBase;
-	asic     = ps->sCaps.AsicID;
+	pd = ps->pardev;
+	iobase = ps->sCaps.wIOBase;
+	asic = ps->sCaps.AsicID;
 	lastStat = ps->bLastLampStatus;
 	lastMode = ps->IO.lastPortMode;
-	devno    = ps->devno;
+	devno = ps->devno;
 
 	/*
 	 * reinit the show
 	 */
-	ptdrvStopLampTimer( ps );
-	MiscReinitStruct  ( ps );
+	ptdrvStopLampTimer(ps);
+	MiscReinitStruct(ps);
 
 	/*
 	 * pop the val(s)
 	 */
 #ifdef __KERNEL__
-	ps->flags   = flags;
-	ps->pp      = pp;
+	ps->flags = flags;
+	ps->pp = pp;
 	ps->procDir = procDir;
 #endif
-	ps->pardev          = pd;
+	ps->pardev = pd;
 	ps->bLastLampStatus = lastStat;
 	ps->IO.lastPortMode = lastMode;
-	ps->devno           = devno;
+	ps->devno = devno;
 
 #ifdef __KERNEL__
-	if( _TRUE == slowIO[devno] ) {
-		DBG( DBG_LOW, "Using slow I/O\n" );
+	if (_TRUE == slowIO[devno]) {
+		DBG(DBG_LOW, "Using slow I/O\n");
 		ps->IO.slowIO = _TRUE;
-		ps->IO.fnOut  = IOOutDelayed;
-		ps->IO.fnIn   = IOInDelayed;
+		ps->IO.fnOut = IOOutDelayed;
+		ps->IO.fnIn = IOInDelayed;
 	} else {
-		DBG( DBG_LOW, "Using fast I/O\n" );
+		DBG(DBG_LOW, "Using fast I/O\n");
 		ps->IO.slowIO = _FALSE;
-		ps->IO.fnOut  = IOOut;
-		ps->IO.fnIn   = IOIn;
+		ps->IO.fnOut = IOOut;
+		ps->IO.fnIn = IOIn;
 	}
 #endif
 	ps->ModelOverride = mov[devno];
-	ps->warmup        = warmup[devno];
-	ps->lampoff		  = lampoff[devno];
-	ps->lOffonEnd	  = lOffonEnd[devno];
-	ps->IO.forceMode  = forceMode[devno];
+	ps->warmup = warmup[devno];
+	ps->lampoff = lampoff[devno];
+	ps->lOffonEnd = lOffonEnd[devno];
+	ps->IO.forceMode = forceMode[devno];
 
 	/*
 	 * try to find scanner again
 	 */
-	retval = ptdrvOpen( ps, iobase );
+	retval = ptdrvOpen(ps, iobase);
 
-	if( _OK == retval )
-		retval = DetectScanner( ps, asic );
+	if (_OK == retval)
+		retval = DetectScanner(ps, asic);
 	else
-		ptdrvStartLampTimer( ps );
+		ptdrvStartLampTimer(ps);
 
 	return retval;
 }
@@ -785,43 +804,43 @@ static int ptdrvOpenDevice( pScanData ps )
  * initialize the driver
  * allocate memory for the ScanData structure and do some presets
  */
-static int ptdrvInit( int devno )
+static int
+ptdrvInit(int devno)
 {
-	int       retval;
+	int retval;
 	pScanData ps;
 
-	DBG( DBG_HIGH, "ptdrvInit(%u)\n", devno );
+	DBG(DBG_HIGH, "ptdrvInit(%u)\n", devno);
 
-	if( devno >= _MAX_PTDEVS )
+	if (devno >= _MAX_PTDEVS)
 		return _E_NO_DEV;
 
 	/*
 	 * allocate memory for our large ScanData-structure
 	 */
 	ps = MiscAllocAndInitStruct();
-	if( NULL == ps ) {
+	if (NULL == ps) {
 		return _E_ALLOC;
 	}
-
 #ifdef __KERNEL__
-	if( _TRUE == slowIO[devno] ) {
-		DBG( DBG_LOW, "Using slow I/O\n" );
+	if (_TRUE == slowIO[devno]) {
+		DBG(DBG_LOW, "Using slow I/O\n");
 		ps->IO.slowIO = _TRUE;
-		ps->IO.fnOut  = IOOutDelayed;
-		ps->IO.fnIn   = IOInDelayed;
+		ps->IO.fnOut = IOOutDelayed;
+		ps->IO.fnIn = IOInDelayed;
 	} else {
-		DBG( DBG_LOW, "Using fast I/O\n" );
+		DBG(DBG_LOW, "Using fast I/O\n");
 		ps->IO.slowIO = _FALSE;
-		ps->IO.fnOut  = IOOut;
-		ps->IO.fnIn   = IOIn;
+		ps->IO.fnOut = IOOut;
+		ps->IO.fnIn = IOIn;
 	}
 #endif
 	ps->ModelOverride = mov[devno];
-	ps->warmup        = warmup[devno];
-	ps->lampoff       = lampoff[devno];
-	ps->lOffonEnd     = lOffonEnd[devno];
-	ps->IO.forceMode  = forceMode[devno];
-	ps->devno         = devno;
+	ps->warmup = warmup[devno];
+	ps->lampoff = lampoff[devno];
+	ps->lOffonEnd = lOffonEnd[devno];
+	ps->IO.forceMode = forceMode[devno];
+	ps->devno = devno;
 
 	/* assign it right here, to allow correct shutdown */
 	PtDrvDevices[devno] = ps;
@@ -829,82 +848,85 @@ static int ptdrvInit( int devno )
 	/*
 	 * try to register the port
 	 */
-	retval = MiscRegisterPort( ps, port[devno] );
+	retval = MiscRegisterPort(ps, port[devno]);
 
-	if( _OK == retval ) {
-		retval = ptdrvOpen( ps, port[devno] );
+	if (_OK == retval) {
+		retval = ptdrvOpen(ps, port[devno]);
 	}
 
 	/*
 	 * try to detect a scanner...
 	 */
-	if( _OK == retval ) {
-		retval = DetectScanner( ps, 0 );
+	if (_OK == retval) {
+		retval = DetectScanner(ps, 0);
 
 		/* do this here before releasing the port */
-		if( _OK == retval ) {
-			ptDrvSwitchLampOn( ps );
+		if (_OK == retval) {
+			ptDrvSwitchLampOn(ps);
 		}
-		ptdrvClose( ps );
+		ptdrvClose(ps);
 	}
 
-	if( _OK == retval ) {
+	if (_OK == retval) {
 
-#ifdef __KERNEL__	
-		_PRINT( "pt_drv%u: %s found on port 0x%04x\n",
-			 devno, MiscGetModelName(ps->sCaps.Model), ps->IO.pbSppDataPort );
+#ifdef __KERNEL__
+		_PRINT("pt_drv%u: %s found on port 0x%04x\n",
+		       devno, MiscGetModelName(ps->sCaps.Model),
+		       ps->IO.pbSppDataPort);
 #else
-		DBG( DBG_LOW, "pt_drv%u: %s found\n",
-									 devno, MiscGetModelName(ps->sCaps.Model));
+		DBG(DBG_LOW, "pt_drv%u: %s found\n",
+		    devno, MiscGetModelName(ps->sCaps.Model));
 #endif
 
 		/*
 		 * initialize the timespan timer
-	     */
-		MiscStartTimer( &toTimer[ps->devno], (_SECOND * ps->warmup));
+		 */
+		MiscStartTimer(&toTimer[ps->devno], (_SECOND * ps->warmup));
 
-		if( 0 == ps->lampoff )
+		if (0 == ps->lampoff)
 #ifdef __KERNEL__
-		_PRINT(
+			_PRINT(
 #else
-		DBG( DBG_LOW,
+			DBG(DBG_LOW,
 #endif
-					"pt_drv%u: Lamp-Timer switched off.\n", devno );
+			    "pt_drv%u: Lamp-Timer switched off.\n", devno);
 		else {
 #ifdef __KERNEL__
-		_PRINT(
+			_PRINT(
 #else
-		DBG( DBG_LOW,
+			DBG(DBG_LOW,
 #endif
-					"pt_drv%u: Lamp-Timer set to %u seconds.\n",
-														devno, ps->lampoff );
+			    "pt_drv%u: Lamp-Timer set to %u seconds.\n",
+			    devno, ps->lampoff);
 		}
 
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_LOW,
+		DBG(DBG_LOW,
 #endif
-				"pt_drv%u: WarmUp period set to %u seconds.\n",
-														devno, ps->warmup );
+		    "pt_drv%u: WarmUp period set to %u seconds.\n",
+		    devno, ps->warmup);
 
-		if( 0 == ps->lOffonEnd ) {
+		if (0 == ps->lOffonEnd) {
 #ifdef __KERNEL__
-		_PRINT(
+			_PRINT(
 #else
-		DBG( DBG_LOW,
+			DBG(DBG_LOW,
 #endif
-				"pt_drv%u: Lamp untouched on driver unload.\n", devno );
+			    "pt_drv%u: Lamp untouched on driver unload.\n",
+			    devno);
 		} else {
 #ifdef __KERNEL__
-		_PRINT(
+			_PRINT(
 #else
-		DBG( DBG_LOW,
+			DBG(DBG_LOW,
 #endif
-				"pt_drv%u: Lamp switch-off on driver unload.\n", devno );
+			    "pt_drv%u: Lamp switch-off on driver unload.\n",
+			    devno);
 		}
 
-		ptdrvStartLampTimer( ps );
+		ptdrvStartLampTimer(ps);
 	}
 
 	return retval;
@@ -916,46 +938,50 @@ static int ptdrvInit( int devno )
  * stop the motor
  * free memory
  */
-static int ptdrvShutdown( pScanData ps )
+static int
+ptdrvShutdown(pScanData ps)
 {
 	int devno;
 
-	DBG( DBG_HIGH, "ptdrvShutdown()\n" );
+	DBG(DBG_HIGH, "ptdrvShutdown()\n");
 
-	if( NULL == ps )
+	if (NULL == ps)
 		return _E_NULLPTR;
 
 	devno = ps->devno;
 
-	DBG( DBG_HIGH, "cleanup device %u\n", devno );
+	DBG(DBG_HIGH, "cleanup device %u\n", devno);
 
-	if( _NO_BASE != ps->sCaps.wIOBase ) {
+	if (_NO_BASE != ps->sCaps.wIOBase) {
 
-		ptdrvStopLampTimer( ps );
+		ptdrvStopLampTimer(ps);
 
-		if( _OK == MiscClaimPort(ps)) {
+		if (_OK == MiscClaimPort(ps)) {
 
-			ps->PutToIdleMode( ps );
+			ps->PutToIdleMode(ps);
 
-			if( 0 != ps->lOffonEnd ) {
-				if( _IS_ASIC98(ps->sCaps.AsicID)) {
-		            ps->AsicReg.RD_ScanControl &= ~_SCAN_LAMPS_ON;
+			if (0 != ps->lOffonEnd) {
+				if (_IS_ASIC98(ps->sCaps.AsicID)) {
+					ps->AsicReg.RD_ScanControl &=
+						~_SCAN_LAMPS_ON;
 				} else {
-					ps->AsicReg.RD_ScanControl &= ~_SCAN_LAMP_ON;
-	        	}
-				IOCmdRegisterToScanner( ps, ps->RegScanControl,
-											  ps->AsicReg.RD_ScanControl );
+					ps->AsicReg.RD_ScanControl &=
+						~_SCAN_LAMP_ON;
+				}
+				IOCmdRegisterToScanner(ps, ps->RegScanControl,
+						       ps->AsicReg.
+						       RD_ScanControl);
 			}
 		}
-		MiscReleasePort( ps );
+		MiscReleasePort(ps);
 	}
 
 	/* unregister the driver
 	 */
-	MiscUnregisterPort( ps );
+	MiscUnregisterPort(ps);
 
-	_KFREE( ps );
-	if( devno < _MAX_PTDEVS )
+	_KFREE(ps);
+	if (devno < _MAX_PTDEVS)
 		PtDrvDevices[devno] = NULL;
 
 	return _OK;
@@ -964,280 +990,291 @@ static int ptdrvShutdown( pScanData ps )
 /*.............................................................................
  * the IOCTL interface
  */
-static int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
+static int
+ptdrvIoctl(pScanData ps, UInt cmd, pVoid arg)
 {
-	UChar  val;
+	UChar val;
 	UShort dir;
 	UShort version;
-	UInt   size;
-	ULong  argVal;
-	int    cancel;
-	int    retval;
+	UInt size;
+	ULong argVal;
+	int cancel;
+	int retval;
 
 	/*
- 	 * do the preliminary stuff here
+	 * do the preliminary stuff here
 	 */
-	if( NULL == ps )
+	if (NULL == ps)
 		return _E_NULLPTR;
 
 	retval = _OK;
 
-	dir  = _IOC_DIR(cmd);
+	dir = _IOC_DIR(cmd);
 	size = _IOC_SIZE(cmd);
 
 	if ((_IOC_WRITE == dir) && size && (size <= sizeof(ULong))) {
 
-    	if (( retval = getUserPtr( arg, &argVal, size))) {
-			DBG( DBG_HIGH, "ioctl() failed - result = %i\n", retval );
-      		return retval;
+		if ((retval = getUserPtr(arg, &argVal, size))) {
+			DBG(DBG_HIGH, "ioctl() failed - result = %i\n",
+			    retval);
+			return retval;
 		}
 	}
 
-	switch( cmd ) {
+	switch (cmd) {
 
-	/* open */
-    case _PTDRV_OPEN_DEVICE:
-		DBG( DBG_LOW, "ioctl(_PTDRV_OPEN_DEVICE)\n" );
-   	  	if (copy_from_user(&version, arg, sizeof(UShort)))
+		/* open */
+	case _PTDRV_OPEN_DEVICE:
+		DBG(DBG_LOW, "ioctl(_PTDRV_OPEN_DEVICE)\n");
+		if (copy_from_user(&version, arg, sizeof(UShort)))
 			return _E_FAULT;
 
-		if( _PTDRV_IOCTL_VERSION != version ) {
-			DBG( DBG_HIGH, "Version mismatch: Backend=0x%04X(0x%04X)",
-							version, _PTDRV_IOCTL_VERSION );
+		if (_PTDRV_IOCTL_VERSION != version) {
+			DBG(DBG_HIGH,
+			    "Version mismatch: Backend=0x%04X(0x%04X)",
+			    version, _PTDRV_IOCTL_VERSION);
 			return _E_VERSION;
 		}
 
-		retval = ptdrvOpenDevice( ps );
-      	break;
+		retval = ptdrvOpenDevice(ps);
+		break;
 
-	/* close */
+		/* close */
 	case _PTDRV_CLOSE_DEVICE:
-		DBG( DBG_LOW,  "ioctl(_PTDRV_CLOSE_DEVICE)\n" );
+		DBG(DBG_LOW, "ioctl(_PTDRV_CLOSE_DEVICE)\n");
 
-	    if ( NULL != ps->driverbuf ) {
-			DBG( DBG_LOW, "*** cleanup buffers ***\n" );
-	        _VFREE( ps->driverbuf );
-    	    ps->driverbuf = NULL;
-	    }
-
-    	if ( NULL != ps->Shade.pHilight ) {
-        	_VFREE( ps->Shade.pHilight );
-	        ps->Shade.pHilight = NULL;
-    	}
-
-		ps->PutToIdleMode( ps );
-		ptdrvStartLampTimer( ps );
-      	break;
-
-	/* get caps - no scanner connection necessary */
-    case _PTDRV_GET_CAPABILITIES:
-		DBG( DBG_LOW, "ioctl(_PTDRV_GET_CAPABILITES)\n" );
-
-    	return putUserPtr( &ps->sCaps, arg, size);
-      	break;
-
-	/* get lens-info - no scanner connection necessary */
-    case _PTDRV_GET_LENSINFO:
-		DBG( DBG_LOW, "ioctl(_PTDRV_GET_LENSINFO)\n" );
-
-      	return putUserPtr( &ps->LensInf, arg, size);
-      	break;
-
-	/* put the image info - no scanner connection necessary */
-    case _PTDRV_PUT_IMAGEINFO:
-      	{
-            short  tmpcx, tmpcy;
-      		ImgDef img;
-
-			DBG( DBG_LOW, "ioctl(_PTDRV_PUT_IMAGEINFO)\n" );
-			if (copy_from_user( &img, (pImgDef)arg, size))
-				return _E_FAULT;
-
-            tmpcx = (short)img.crArea.cx;
-            tmpcy = (short)img.crArea.cy;
-
-			if(( 0 >= tmpcx ) || ( 0 >= tmpcy )) {
-				DBG( DBG_LOW, "CX or CY <= 0!!\n" );
-				return _E_INVALID;
-			}
-
-			_ASSERT( ps->GetImageInfo );
-	      	ps->GetImageInfo( ps, &img );
+		if (NULL != ps->driverbuf) {
+			DBG(DBG_LOW, "*** cleanup buffers ***\n");
+			_VFREE(ps->driverbuf);
+			ps->driverbuf = NULL;
 		}
-      	break;
 
-	/* get crop area - no scanner connection necessary */
-    case _PTDRV_GET_CROPINFO:
-    	{
-      		CropInfo	outBuffer;
-      		pCropInfo	pcInf = &outBuffer;
+		if (NULL != ps->Shade.pHilight) {
+			_VFREE(ps->Shade.pHilight);
+			ps->Shade.pHilight = NULL;
+		}
 
-			DBG( DBG_LOW, "ioctl(_PTDRV_GET_CROPINFO)\n" );
+		ps->PutToIdleMode(ps);
+		ptdrvStartLampTimer(ps);
+		break;
 
-			memset( pcInf, 0, sizeof(CropInfo));
+		/* get caps - no scanner connection necessary */
+	case _PTDRV_GET_CAPABILITIES:
+		DBG(DBG_LOW, "ioctl(_PTDRV_GET_CAPABILITES)\n");
 
-	      	pcInf->dwPixelsPerLine = ps->DataInf.dwAppPixelsPerLine;
-    	  	pcInf->dwBytesPerLine  = ps->DataInf.dwAppBytesPerLine;
-      		pcInf->dwLinesPerArea  = ps->DataInf.dwAppLinesPerArea;
-      		return putUserPtr( pcInf, arg, size );
-      	}
-      	break;
+		return putUserPtr(&ps->sCaps, arg, size);
+		break;
 
-	/* adjust the driver settings */
+		/* get lens-info - no scanner connection necessary */
+	case _PTDRV_GET_LENSINFO:
+		DBG(DBG_LOW, "ioctl(_PTDRV_GET_LENSINFO)\n");
+
+		return putUserPtr(&ps->LensInf, arg, size);
+		break;
+
+		/* put the image info - no scanner connection necessary */
+	case _PTDRV_PUT_IMAGEINFO:
+	{
+		short tmpcx, tmpcy;
+		ImgDef img;
+
+		DBG(DBG_LOW, "ioctl(_PTDRV_PUT_IMAGEINFO)\n");
+		if (copy_from_user(&img, (pImgDef) arg, size))
+			return _E_FAULT;
+
+		tmpcx = (short) img.crArea.cx;
+		tmpcy = (short) img.crArea.cy;
+
+		if ((0 >= tmpcx) || (0 >= tmpcy)) {
+			DBG(DBG_LOW, "CX or CY <= 0!!\n");
+			return _E_INVALID;
+		}
+
+		_ASSERT(ps->GetImageInfo);
+		ps->GetImageInfo(ps, &img);
+	}
+		break;
+
+		/* get crop area - no scanner connection necessary */
+	case _PTDRV_GET_CROPINFO:
+	{
+		CropInfo outBuffer;
+		pCropInfo pcInf = &outBuffer;
+
+		DBG(DBG_LOW, "ioctl(_PTDRV_GET_CROPINFO)\n");
+
+		memset(pcInf, 0, sizeof(CropInfo));
+
+		pcInf->dwPixelsPerLine = ps->DataInf.dwAppPixelsPerLine;
+		pcInf->dwBytesPerLine = ps->DataInf.dwAppBytesPerLine;
+		pcInf->dwLinesPerArea = ps->DataInf.dwAppLinesPerArea;
+		return putUserPtr(pcInf, arg, size);
+	}
+		break;
+
+		/* adjust the driver settings */
 	case _PTDRV_ADJUST:
-		{
-			PPAdjDef adj;
+	{
+		PPAdjDef adj;
 
-			DBG( DBG_LOW, "ioctl(_PTDRV_ADJUST)\n" );
+		DBG(DBG_LOW, "ioctl(_PTDRV_ADJUST)\n");
 
-			if (copy_from_user(&adj, (pPPAdjDef)arg, sizeof(PPAdjDef)))
-				return _E_FAULT;
+		if (copy_from_user(&adj, (pPPAdjDef) arg, sizeof(PPAdjDef)))
+			return _E_FAULT;
 
-			DBG( DBG_LOW, "Adjusting device %lu\n", ps->devno );
-			DBG( DBG_LOW, "warmup:       %i\n", adj.warmup );
-			DBG( DBG_LOW, "lampOff:      %i\n", adj.lampOff );
-			DBG( DBG_LOW, "lampOffOnEnd: %i\n", adj.lampOffOnEnd );
+		DBG(DBG_LOW, "Adjusting device %lu\n", ps->devno);
+		DBG(DBG_LOW, "warmup:       %i\n", adj.warmup);
+		DBG(DBG_LOW, "lampOff:      %i\n", adj.lampOff);
+		DBG(DBG_LOW, "lampOffOnEnd: %i\n", adj.lampOffOnEnd);
 
-			if( ps->devno < _MAX_PTDEVS ) {
+		if (ps->devno < _MAX_PTDEVS) {
 
-				if( adj.warmup >= 0 ) {
-					warmup[ps->devno] = adj.warmup;	
-					ps->warmup        = adj.warmup;	
-				}					
+			if (adj.warmup >= 0) {
+				warmup[ps->devno] = adj.warmup;
+				ps->warmup = adj.warmup;
+			}
 
-				if( adj.lampOff >= 0 ) {
-					lampoff[ps->devno] = adj.lampOff;
-					ps->lampoff        = adj.lampOff;
-				}					
+			if (adj.lampOff >= 0) {
+				lampoff[ps->devno] = adj.lampOff;
+				ps->lampoff = adj.lampOff;
+			}
 
-				if( adj.lampOffOnEnd >= 0 ) {
-					lOffonEnd[ps->devno] = adj.lampOffOnEnd;
-					ps->lOffonEnd        = adj.lampOffOnEnd;
-				}					
+			if (adj.lampOffOnEnd >= 0) {
+				lOffonEnd[ps->devno] = adj.lampOffOnEnd;
+				ps->lOffonEnd = adj.lampOffOnEnd;
 			}
 		}
+	}
 		break;
 
-	/* set a specific map (r,g,b or gray) */
+		/* set a specific map (r,g,b or gray) */
 	case _PTDRV_SETMAP:
-		{
-			int     i, x_len;
-			MapDef  map;
+	{
+		int i, x_len;
+		MapDef map;
 
-			DBG( DBG_LOW, "ioctl(_PTDRV_SETMAP)\n" );
+		DBG(DBG_LOW, "ioctl(_PTDRV_SETMAP)\n");
 
-			if (copy_from_user( &map, (pMapDef)arg, sizeof(MapDef)))
-				return _E_FAULT;
+		if (copy_from_user(&map, (pMapDef) arg, sizeof(MapDef)))
+			return _E_FAULT;
 
-			DBG( DBG_LOW, "maplen=%u, mapid=%u, addr=0x%08lx\n",
-							map.len, map.map_id, (u_long)map.map );
+		DBG(DBG_LOW, "maplen=%u, mapid=%u, addr=0x%08lx\n",
+		    map.len, map.map_id, (u_long) map.map);
 
-			x_len = 256;
-			if( _IS_ASIC98(ps->sCaps.AsicID))
-				x_len = 4096;
-			
-			/* check for 0 pointer and len */
-			if((NULL == map.map) || (x_len != map.len)) {
-				DBG( DBG_LOW, "map pointer == 0, or map len invalid!!\n" );
-				return _E_INVALID;
-			}	
-			
-    		if( _MAP_MASTER == map.map_id ) {
+		x_len = 256;
+		if (_IS_ASIC98(ps->sCaps.AsicID))
+			x_len = 4096;
 
-				for( i = 0; i < 3; i++ ) {
-					if (copy_from_user((pVoid)&ps->a_bMapTable[x_len * i],
-					                    map.map, x_len )) {
-						return _E_FAULT;
-					}
-				}
-			} else {
-
-				u_long idx = 0;
-				if( map.map_id == _MAP_GREEN )
-					idx = 1;
-				if( map.map_id == _MAP_BLUE )
-					idx = 2;
-
-				if (copy_from_user((pVoid)&ps->a_bMapTable[x_len * idx],
-				                   map.map, x_len )) {
-						return _E_FAULT;
-				}
-			}
-			
-			/* here we adjust the maps according to
-			 * the brightness and contrast settings
-			 */
-			MapAdjust( ps, map.map_id );
+		/* check for 0 pointer and len */
+		if ((NULL == map.map) || (x_len != map.len)) {
+			DBG(DBG_LOW,
+			    "map pointer == 0, or map len invalid!!\n");
+			return _E_INVALID;
 		}
-		break;
 
-	/* set environment - no scanner connection necessary */
-    case _PTDRV_SET_ENV:
-      	{
-			ScanInfo sInf;
+		if (_MAP_MASTER == map.map_id) {
 
-			DBG( DBG_LOW, "ioctl(_PTDRV_SET_ENV)\n" );
-
-			if (copy_from_user(&sInf, (pScanInfo)arg, sizeof(ScanInfo)))
-				return _E_FAULT;
-
-			/*
-			 * to make the OpticPro 4800P work, we need to invert the
-			 * Inverse flag
-			 */
-			if( _ASIC_IS_96001 == ps->sCaps.AsicID ) {
-				if( SCANDEF_Inverse & sInf.ImgDef.dwFlag )
-					sInf.ImgDef.dwFlag &= ~SCANDEF_Inverse;
-				else
-					sInf.ImgDef.dwFlag |= SCANDEF_Inverse;
-			}
-
-			_ASSERT( ps->SetupScanSettings );
-      		retval = ps->SetupScanSettings( ps, &sInf );
-
-			/* CHANGE preset map here */
-			if( _OK == retval ) {
-				MapInitialize ( ps );
-				MapSetupDither( ps );
-
-				ps->DataInf.dwVxdFlag |= _VF_ENVIRONMENT_READY;
-
-				if (copy_to_user((pScanInfo)arg, &sInf, sizeof(ScanInfo)))
+			for (i = 0; i < 3; i++) {
+				if (copy_from_user
+				    ((pVoid) & ps->a_bMapTable[x_len * i],
+				     map.map, x_len)) {
 					return _E_FAULT;
+				}
+			}
+		} else {
+
+			u_long idx = 0;
+			if (map.map_id == _MAP_GREEN)
+				idx = 1;
+			if (map.map_id == _MAP_BLUE)
+				idx = 2;
+
+			if (copy_from_user
+			    ((pVoid) & ps->a_bMapTable[x_len * idx], map.map,
+			     x_len)) {
+				return _E_FAULT;
 			}
 		}
+
+		/* here we adjust the maps according to
+		 * the brightness and contrast settings
+		 */
+		MapAdjust(ps, map.map_id);
+	}
 		break;
 
-	/* start scan */
+		/* set environment - no scanner connection necessary */
+	case _PTDRV_SET_ENV:
+	{
+		ScanInfo sInf;
+
+		DBG(DBG_LOW, "ioctl(_PTDRV_SET_ENV)\n");
+
+		if (copy_from_user(&sInf, (pScanInfo) arg, sizeof(ScanInfo)))
+			return _E_FAULT;
+
+		/*
+		 * to make the OpticPro 4800P work, we need to invert the
+		 * Inverse flag
+		 */
+		if (_ASIC_IS_96001 == ps->sCaps.AsicID) {
+			if (SCANDEF_Inverse & sInf.ImgDef.dwFlag)
+				sInf.ImgDef.dwFlag &= ~SCANDEF_Inverse;
+			else
+				sInf.ImgDef.dwFlag |= SCANDEF_Inverse;
+		}
+
+		_ASSERT(ps->SetupScanSettings);
+		retval = ps->SetupScanSettings(ps, &sInf);
+
+		/* CHANGE preset map here */
+		if (_OK == retval) {
+			MapInitialize(ps);
+			MapSetupDither(ps);
+
+			ps->DataInf.dwVxdFlag |= _VF_ENVIRONMENT_READY;
+
+			if (copy_to_user
+			    ((pScanInfo) arg, &sInf, sizeof(ScanInfo)))
+				return _E_FAULT;
+		}
+	}
+		break;
+
+		/* start scan */
 	case _PTDRV_START_SCAN:
-		{
-			StartScan  outBuffer;
-			pStartScan pstart = (pStartScan)&outBuffer;
+	{
+		StartScan outBuffer;
+		pStartScan pstart = (pStartScan) & outBuffer;
 
-			DBG( DBG_LOW, "ioctl(_PTDRV_START_SCAN)\n" );
+		DBG(DBG_LOW, "ioctl(_PTDRV_START_SCAN)\n");
 
-			retval = IOIsReadyForScan( ps );
-			if( _OK == retval ) {
+		retval = IOIsReadyForScan(ps);
+		if (_OK == retval) {
 
-				ps->dwDitherIndex      = 0;
-				ps->fScanningStatus    = _TRUE;
-				pstart->dwBytesPerLine = ps->DataInf.dwAppBytesPerLine;
-				pstart->dwLinesPerScan = ps->DataInf.dwAppLinesPerArea;
-				pstart->dwFlag 		   = ps->DataInf.dwScanFlag;
+			ps->dwDitherIndex = 0;
+			ps->fScanningStatus = _TRUE;
+			pstart->dwBytesPerLine =
+				ps->DataInf.dwAppBytesPerLine;
+			pstart->dwLinesPerScan =
+				ps->DataInf.dwAppLinesPerArea;
+			pstart->dwFlag = ps->DataInf.dwScanFlag;
 
-				ps->DataInf.dwVxdFlag |= _VF_FIRSTSCANLINE;
-				ps->DataInf.dwScanFlag&=~(_SCANNER_SCANNING|_SCANNER_PAPEROUT);
+			ps->DataInf.dwVxdFlag |= _VF_FIRSTSCANLINE;
+			ps->DataInf.dwScanFlag &=
+				~(_SCANNER_SCANNING | _SCANNER_PAPEROUT);
 
-				if (copy_to_user((pStartScan)arg, pstart, sizeof(StartScan)))
-					return _E_FAULT;
-			}
+			if (copy_to_user
+			    ((pStartScan) arg, pstart, sizeof(StartScan)))
+				return _E_FAULT;
 		}
+	}
 		break;
 
-	/* stop scan */
-    case _PTDRV_STOP_SCAN:
+		/* stop scan */
+	case _PTDRV_STOP_SCAN:
 
-		DBG( DBG_LOW, "ioctl(_PTDRV_STOP_SCAN)\n" );
+		DBG(DBG_LOW, "ioctl(_PTDRV_STOP_SCAN)\n");
 
 		if (copy_from_user(&cancel, arg, sizeof(short)))
 			return _E_FAULT;
@@ -1246,38 +1283,38 @@ static int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 		ps->fScanningStatus = _FALSE;
 
 		/* when using this to cancel, then that's all */
-		if( _FALSE == cancel ) {
+		if (_FALSE == cancel) {
 
-			MotorToHomePosition( ps );
+			MotorToHomePosition(ps);
 
-    		ps->DataInf.dwAppLinesPerArea = 0;
-      		ps->DataInf.dwScanFlag &= ~_SCANNER_SCANNING;
+			ps->DataInf.dwAppLinesPerArea = 0;
+			ps->DataInf.dwScanFlag &= ~_SCANNER_SCANNING;
 
 			/* if environment was never set */
-    	  	if (!(ps->DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY))
-        		retval = _E_SEQUENCE;
+			if (!(ps->DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY))
+				retval = _E_SEQUENCE;
 
-	      	ps->DataInf.dwVxdFlag &= ~_VF_ENVIRONMENT_READY;
-		
+			ps->DataInf.dwVxdFlag &= ~_VF_ENVIRONMENT_READY;
+
 		} else {
-			DBG( DBG_LOW, "CANCEL Mode set\n" );
+			DBG(DBG_LOW, "CANCEL Mode set\n");
 		}
 		retval = putUserVal(retval, arg, size);
-      	break;
+		break;
 
-	/* read the flag status register, when reading the action button, you must
-	 * only do this call and none of the other ioctl's
-     * like open, etc or it will always show up as "1"
-	 */
+		/* read the flag status register, when reading the action button, you must
+		 * only do this call and none of the other ioctl's
+		 * like open, etc or it will always show up as "1"
+		 */
 	case _PTDRV_ACTION_BUTTON:
-		DBG( DBG_LOW, "ioctl(_PTDRV_ACTION_BUTTON)\n" );
-		val    = IODataRegisterFromScanner( ps, ps->RegStatus );
-      	retval = putUserVal( argVal, arg, size );
+		DBG(DBG_LOW, "ioctl(_PTDRV_ACTION_BUTTON)\n");
+		val = IODataRegisterFromScanner(ps, ps->RegStatus);
+		retval = putUserVal(argVal, arg, size);
 		break;
 
 	default:
 		retval = _E_NOSUPP;
-      	break;
+		break;
 	}
 
 	return retval;
@@ -1286,166 +1323,173 @@ static int ptdrvIoctl( pScanData ps, UInt cmd, pVoid arg )
 /*.............................................................................
  * read the data
  */
-static int ptdrvRead( pScanData ps, pUChar buffer, int count )
+static int
+ptdrvRead(pScanData ps, pUChar buffer, int count)
 {
-	pUChar	scaleBuf;
-	ULong	dwLinesRead = 0;
-	int 	retval      = _OK;
+	pUChar scaleBuf;
+	ULong dwLinesRead = 0;
+	int retval = _OK;
 
 #ifdef _ASIC_98001_SIM
 #ifdef __KERNEL__
-		_PRINT(
+	_PRINT(
 #else
-		DBG( DBG_LOW,
+	DBG(DBG_LOW,
 #endif
-					"pt_drv : Software-Emulation active, can't read!\n" );
+	    "pt_drv : Software-Emulation active, can't read!\n");
 	return _E_INVALID;
 #endif
 
-	if((NULL == buffer) || (NULL == ps)) {
+	if ((NULL == buffer) || (NULL == ps)) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_HIGH,
+		DBG(DBG_HIGH,
 #endif
-						"pt_drv :  Internal NULL-pointer!\n" );
+		    "pt_drv :  Internal NULL-pointer!\n");
 		return _E_NULLPTR;
 	}
 
-	if( 0 == count ) {
+	if (0 == count) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_HIGH,
+		DBG(DBG_HIGH,
 #endif
-			"pt_drv%lu: reading 0 bytes makes no sense!\n", ps->devno );
+		    "pt_drv%lu: reading 0 bytes makes no sense!\n",
+		    ps->devno);
 		return _E_INVALID;
 	}
 
-	if( _FALSE == ps->fScanningStatus )
+	if (_FALSE == ps->fScanningStatus)
 		return _E_ABORT;
-		
+
 	/*
 	 * has the environment been set ?
 	 * this should prevent the driver from causing a seg-fault
 	 * when using the cat /dev/pt_drv command!
 	 */
-   	if (!(ps->DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY)) {
+	if (!(ps->DataInf.dwVxdFlag & _VF_ENVIRONMENT_READY)) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_HIGH,
+		DBG(DBG_HIGH,
 #endif
-			"pt_drv%lu:  Cannot read, driver not initialized!\n",ps->devno);
+		    "pt_drv%lu:  Cannot read, driver not initialized!\n",
+		    ps->devno);
 		return _E_SEQUENCE;
 	}
 
 	/*
 	 * get some memory
 	 */
-	ps->Scan.bp.pMonoBuf = _KALLOC( ps->DataInf.dwAppPhyBytesPerLine, GFP_KERNEL);
+	ps->Scan.bp.pMonoBuf =
+		_KALLOC(ps->DataInf.dwAppPhyBytesPerLine, GFP_KERNEL);
 
-	if ( NULL == ps->Scan.bp.pMonoBuf ) {
+	if (NULL == ps->Scan.bp.pMonoBuf) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_HIGH,
+		DBG(DBG_HIGH,
 #endif
-			"pt_drv%lu:  Not enough memory available!\n", ps->devno );
-    	return _E_ALLOC;
+		    "pt_drv%lu:  Not enough memory available!\n", ps->devno);
+		return _E_ALLOC;
 	}
 
 	/* if we have to do some scaling, we need another buffer... */
-	if( ps->DataInf.XYRatio > 1000 ) {
+	if (ps->DataInf.XYRatio > 1000) {
 
-		scaleBuf = _KALLOC( ps->DataInf.dwAppPhyBytesPerLine, GFP_KERNEL);
-		if ( NULL == scaleBuf ) {
-			_KFREE( ps->Scan.bp.pMonoBuf );
+		scaleBuf =
+			_KALLOC(ps->DataInf.dwAppPhyBytesPerLine, GFP_KERNEL);
+		if (NULL == scaleBuf) {
+			_KFREE(ps->Scan.bp.pMonoBuf);
 #ifdef __KERNEL__
-		_PRINT(
+			_PRINT(
 #else
-		DBG( DBG_HIGH,
+			DBG(DBG_HIGH,
 #endif
-			"pt_drv%lu:  Not enough memory available!\n", ps->devno );
-    		return _E_ALLOC;
+			    "pt_drv%lu:  Not enough memory available!\n",
+			    ps->devno);
+			return _E_ALLOC;
 		}
 	} else {
 		scaleBuf = NULL;
 	}
 
-	DBG( DBG_LOW, "PtDrvRead(%u bytes)*****************\n", count );
-	DBG( DBG_LOW, "MonoBuf = 0x%08lx[%lu], scaleBuf = 0x%lx\n",
-			(ULong)ps->Scan.bp.pMonoBuf,
-            ps->DataInf.dwAppPhyBytesPerLine, (ULong)scaleBuf );
+	DBG(DBG_LOW, "PtDrvRead(%u bytes)*****************\n", count);
+	DBG(DBG_LOW, "MonoBuf = 0x%08lx[%lu], scaleBuf = 0x%lx\n",
+	    (ULong) ps->Scan.bp.pMonoBuf,
+	    ps->DataInf.dwAppPhyBytesPerLine, (ULong) scaleBuf);
 
-	/*	
+	/*      
 	 * in case of a previous problem, move the sensor back home
 	 */
-  	MotorToHomePosition( ps );
+	MotorToHomePosition(ps);
 
-	if( _FALSE == ps->fScanningStatus ) {
+	if (_FALSE == ps->fScanningStatus) {
 		retval = _E_ABORT;
 		goto ReadFinished;
-	}	
-  	
+	}
+
 	dwLinesRead = 0;
 
 	/*
 	 * first of all calibrate the show
 	 */
-	ps->bMoveDataOutFlag   = _DataInNormalState;
-   	ps->fHalfStepTableFlag = _FALSE;
-    ps->fReshaded          = _FALSE;
-   	ps->fScanningStatus    = _TRUE;
+	ps->bMoveDataOutFlag = _DataInNormalState;
+	ps->fHalfStepTableFlag = _FALSE;
+	ps->fReshaded = _FALSE;
+	ps->fScanningStatus = _TRUE;
 
-    if( _ASIC_IS_98003 == ps->sCaps.AsicID )
-        ps->Scan.fRefreshState = _FALSE;
-    else
-        ps->Scan.fRefreshState = _TRUE;
+	if (_ASIC_IS_98003 == ps->sCaps.AsicID)
+		ps->Scan.fRefreshState = _FALSE;
+	else
+		ps->Scan.fRefreshState = _TRUE;
 
-	ptdrvLampWarmup( ps );
+	ptdrvLampWarmup(ps);
 
-	if( _FALSE == ps->fScanningStatus ) {
+	if (_FALSE == ps->fScanningStatus) {
 		retval = _E_ABORT;
 		goto ReadFinished;
 	}
 
-    retval = ps->Calibration( ps );
-	if( _OK != retval ) {
+	retval = ps->Calibration(ps);
+	if (_OK != retval) {
 #ifdef __KERNEL__
 		_PRINT(
 #else
-		DBG( DBG_HIGH,
+		DBG(DBG_HIGH,
 #endif
-			"pt_drv%lu: calibration failed, result = %i\n",
-														ps->devno, retval );
+		    "pt_drv%lu: calibration failed, result = %i\n",
+		    ps->devno, retval);
 		goto ReadFinished;
 	}
 
-    if( _ASIC_IS_98003 == ps->sCaps.AsicID ) {
+	if (_ASIC_IS_98003 == ps->sCaps.AsicID) {
 
-        ps->OpenScanPath( ps );
+		ps->OpenScanPath(ps);
 
-    	MotorP98003ForceToLeaveHomePos( ps );
-    }
+		MotorP98003ForceToLeaveHomePos(ps);
+	}
 
 	_ASSERT(ps->SetupScanningCondition);
-  	ps->SetupScanningCondition(ps);
+	ps->SetupScanningCondition(ps);
 
-    if( _ASIC_IS_98003 != ps->sCaps.AsicID ) {
-    	ps->SetMotorSpeed( ps, ps->bCurrentSpeed, _TRUE );
-        IOSetToMotorRegister( ps );
-    } else {
+	if (_ASIC_IS_98003 != ps->sCaps.AsicID) {
+		ps->SetMotorSpeed(ps, ps->bCurrentSpeed, _TRUE);
+		IOSetToMotorRegister(ps);
+	} else {
 
-        ps->WaitForPositionY( ps );
-    	_DODELAY( 70 );
-    	ps->Scan.bOldScanState = IOGetScanState( ps, _TRUE ) & _SCANSTATE_MASK;
-    }
+		ps->WaitForPositionY(ps);
+		_DODELAY(70);
+		ps->Scan.bOldScanState =
+			IOGetScanState(ps, _TRUE) & _SCANSTATE_MASK;
+	}
 
-    ps->DataInf.dwScanFlag |= _SCANNER_SCANNING;
+	ps->DataInf.dwScanFlag |= _SCANNER_SCANNING;
 
-	if( _FALSE == ps->fScanningStatus ) {
-		DBG( DBG_HIGH, "read aborted!\n" );
+	if (_FALSE == ps->fScanningStatus) {
+		DBG(DBG_HIGH, "read aborted!\n");
 		retval = _E_ABORT;
 		goto ReadFinished;
 	}
@@ -1453,39 +1497,48 @@ static int ptdrvRead( pScanData ps, pUChar buffer, int count )
 	/*
 	 * now get the picture data
 	 */
-	DBG( DBG_HIGH, "dwAppLinesPerArea = %ld\n", ps->DataInf.dwAppLinesPerArea);
-	DBG( DBG_HIGH, "dwAppBytesPerLine = %ld\n", ps->DataInf.dwAppBytesPerLine);
+	DBG(DBG_HIGH, "dwAppLinesPerArea = %ld\n",
+	    ps->DataInf.dwAppLinesPerArea);
+	DBG(DBG_HIGH, "dwAppBytesPerLine = %ld\n",
+	    ps->DataInf.dwAppBytesPerLine);
 
 /* HEINER: A3I
 	ps->bMoveDataOutFlag = _DataFromStopState;
 */
-  	if ( 0 != ps->DataInf.dwAppLinesPerArea ) {
+	if (0 != ps->DataInf.dwAppLinesPerArea) {
 
-	   	ps->Scan.dwLinesToRead = count / ps->DataInf.dwAppBytesPerLine;
+		ps->Scan.dwLinesToRead =
+			count / ps->DataInf.dwAppBytesPerLine;
 
-    	if( ps->Scan.dwLinesToRead ) {
+		if (ps->Scan.dwLinesToRead) {
 
-        	DBG( DBG_HIGH, "dwLinesToRead = %ld\n", ps->Scan.dwLinesToRead );
+			DBG(DBG_HIGH, "dwLinesToRead = %ld\n",
+			    ps->Scan.dwLinesToRead);
 
-      		if( ps->Scan.dwLinesToRead > ps->DataInf.dwAppLinesPerArea )
-        		ps->Scan.dwLinesToRead = ps->DataInf.dwAppLinesPerArea;
-      	
-			ps->DataInf.dwAppLinesPerArea -= ps->Scan.dwLinesToRead;
+			if (ps->Scan.dwLinesToRead >
+			    ps->DataInf.dwAppLinesPerArea)
+				ps->Scan.dwLinesToRead =
+					ps->DataInf.dwAppLinesPerArea;
 
-      		if (ps->DataInf.dwScanFlag & SCANDEF_BmpStyle)
-        		buffer += ((ps->Scan.dwLinesToRead - 1) *
-                   				ps->DataInf.dwAppBytesPerLine);
+			ps->DataInf.dwAppLinesPerArea -=
+				ps->Scan.dwLinesToRead;
+
+			if (ps->DataInf.dwScanFlag & SCANDEF_BmpStyle)
+				buffer += ((ps->Scan.dwLinesToRead - 1) *
+					   ps->DataInf.dwAppBytesPerLine);
 
 			if (ps->DataInf.dwVxdFlag & _VF_DATATOUSERBUFFER)
-        		ps->DataInf.pCurrentBuffer = ps->Scan.bp.pMonoBuf;
+				ps->DataInf.pCurrentBuffer =
+					ps->Scan.bp.pMonoBuf;
 
-			while(ps->fScanningStatus && ps->Scan.dwLinesToRead) {
+			while (ps->fScanningStatus && ps->Scan.dwLinesToRead) {
 
-        		_ASSERT(ps->ReadOneImageLine);
-		   		if (!ps->ReadOneImageLine(ps)) {
-        			ps->fScanningStatus = _FALSE;
-            		DBG( DBG_HIGH, "ReadOneImageLine() failed at line %lu!\n",
-                                    dwLinesRead );
+				_ASSERT(ps->ReadOneImageLine);
+				if (!ps->ReadOneImageLine(ps)) {
+					ps->fScanningStatus = _FALSE;
+					DBG(DBG_HIGH,
+					    "ReadOneImageLine() failed at line %lu!\n",
+					    dwLinesRead);
 					break;
 				}
 
@@ -1495,15 +1548,20 @@ static int ptdrvRead( pScanData ps, pUChar buffer, int count )
 				 * i.e.: scanning at 1200dpi generates on a P9636 600 dpi in
 				 *       x-direction but 1200dpi in y-direction...
 				 */
-				if( NULL != scaleBuf ) {
-					ScaleX( ps, ps->Scan.bp.pMonoBuf, scaleBuf );
-	    	    	if (copy_to_user( buffer, scaleBuf,
-									ps->DataInf.dwAppPhyBytesPerLine)) {
+				if (NULL != scaleBuf) {
+					ScaleX(ps, ps->Scan.bp.pMonoBuf,
+					       scaleBuf);
+					if (copy_to_user
+					    (buffer, scaleBuf,
+					     ps->DataInf.
+					     dwAppPhyBytesPerLine)) {
 						return _E_FAULT;
 					}
 				} else {
-	    	    	if (copy_to_user( buffer, ps->Scan.bp.pMonoBuf,
-								  ps->DataInf.dwAppPhyBytesPerLine)) {
+					if (copy_to_user
+					    (buffer, ps->Scan.bp.pMonoBuf,
+					     ps->DataInf.
+					     dwAppPhyBytesPerLine)) {
 						return _E_FAULT;
 					}
 				}
@@ -1519,56 +1577,62 @@ static int ptdrvRead( pScanData ps, pUChar buffer, int count )
 				sched_yield();
 */
 #endif
-        	}
+			}
 
 			if (ps->fScanningStatus) {
 
-            	if( _IS_ASIC96(ps->sCaps.AsicID))
-          			MotorP96SetSpeedToStopProc(ps);
+				if (_IS_ASIC96(ps->sCaps.AsicID))
+					MotorP96SetSpeedToStopProc(ps);
 
 			} else {
-        		if (ps->DataInf.dwScanFlag & (SCANDEF_StopWhenPaperOut |
-                    	                         SCANDEF_UnlimitLength)) {
-          			ps->DataInf.dwAppLinesPerArea = 0;
+				if (ps->DataInf.
+				    dwScanFlag & (SCANDEF_StopWhenPaperOut |
+						  SCANDEF_UnlimitLength)) {
+					ps->DataInf.dwAppLinesPerArea = 0;
 				} else {
-        			if (ps->DataInf.dwScanFlag & SCANDEF_BmpStyle)
-            			buffer -= (ps->DataInf.dwAppBytesPerLine *
-                	    		   (ps->Scan.dwLinesToRead - 1));
-          			memset( buffer, 0xff,
-          		   			ps->Scan.dwLinesToRead * ps->DataInf.dwAppBytesPerLine );
-        	  		dwLinesRead += ps->Scan.dwLinesToRead;
-    	    	}
-	        }
+					if (ps->DataInf.
+					    dwScanFlag & SCANDEF_BmpStyle)
+						buffer -=
+							(ps->DataInf.
+							 dwAppBytesPerLine *
+							 (ps->Scan.
+							  dwLinesToRead - 1));
+					memset(buffer, 0xff,
+					       ps->Scan.dwLinesToRead *
+					       ps->DataInf.dwAppBytesPerLine);
+					dwLinesRead += ps->Scan.dwLinesToRead;
+				}
+			}
 
-      	} else {
-      		retval = _E_INTERNAL;
+		} else {
+			retval = _E_INTERNAL;
 		}
 	}
 
-	if( _FALSE == ps->fScanningStatus ) {
-		DBG( DBG_HIGH, "read aborted!\n" );
+	if (_FALSE == ps->fScanningStatus) {
+		DBG(DBG_HIGH, "read aborted!\n");
 		retval = _E_ABORT;
 	}
 
-ReadFinished:
+      ReadFinished:
 
 
-    if( _ASIC_IS_98003 == ps->sCaps.AsicID )
-        ps->CloseScanPath( ps );
+	if (_ASIC_IS_98003 == ps->sCaps.AsicID)
+		ps->CloseScanPath(ps);
 
-	if( NULL != ps->Scan.bp.pMonoBuf )
-		_KFREE( ps->Scan.bp.pMonoBuf );
+	if (NULL != ps->Scan.bp.pMonoBuf)
+		_KFREE(ps->Scan.bp.pMonoBuf);
 
-	if( NULL != scaleBuf )
-		_KFREE( scaleBuf );
+	if (NULL != scaleBuf)
+		_KFREE(scaleBuf);
 
 	/*
 	 * on success return number of bytes red
 	 */
-	if ( _OK == retval )
-    	return (ps->DataInf.dwAppPhyBytesPerLine * dwLinesRead);
+	if (_OK == retval)
+		return (ps->DataInf.dwAppPhyBytesPerLine * dwLinesRead);
 
-   	return retval;
+	return retval;
 }
 
 /*************************** the module interface ****************************/
@@ -1582,34 +1646,37 @@ ReadFinished:
  * gets called upon module initialization
  */
 #ifdef LINUX_26
-static int __init ptdrv_init( void )
+static int __init
+ptdrv_init(void)
 #else
-int init_module( void )
+int
+init_module(void)
 #endif
 {
-    UInt devCount;
-    UInt i;
-    int  retval = _OK;
-    int  result = _OK;
+	UInt devCount;
+	UInt i;
+	int retval = _OK;
+	int result = _OK;
 #if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
-    char controlname[24];
+	char controlname[24];
 #endif
 
-    DBG( DBG_HIGH, "*********************************************\n" );
-    DBG( DBG_HIGH, "pt_drv: init_module()\n" );
+	DBG(DBG_HIGH, "*********************************************\n");
+	DBG(DBG_HIGH, "pt_drv: init_module()\n");
 
 #if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
 	devfs_handle = devfs_mk_dir(NULL, "scanner", NULL);
-	if( devfs_register_chrdev(_PTDRV_MAJOR, _DRV_NAME, &pt_drv_fops)) {
+	if (devfs_register_chrdev(_PTDRV_MAJOR, _DRV_NAME, &pt_drv_fops)) {
 #else
-	if( register_chrdev(_PTDRV_MAJOR, _DRV_NAME, &pt_drv_fops)) {
+	if (register_chrdev(_PTDRV_MAJOR, _DRV_NAME, &pt_drv_fops)) {
 #endif
 
-		_PRINT(KERN_INFO "pt_drv: unable to get major %d for pt_drv devices\n",
+		_PRINT(KERN_INFO
+		       "pt_drv: unable to get major %d for pt_drv devices\n",
 		       _PTDRV_MAJOR);
 		return -EIO;
 	}
-	printk( KERN_INFO "pt_drv : driver version "_PTDRV_VERSTR"\n" );
+	printk(KERN_INFO "pt_drv : driver version " _PTDRV_VERSTR "\n");
 
 #if !defined (CONFIG_DEVFS_FS) && defined (LINUX_26)
 	ptdrv_class = class_create(THIS_MODULE, "scanner");
@@ -1623,69 +1690,75 @@ int init_module( void )
 	/* go through the list of defined ports and try to find a device
 	 */
 	devCount = 0;
-	for( i = 0; i < _MAX_PTDEVS; i++ ) {
+	for (i = 0; i < _MAX_PTDEVS; i++) {
 
-		if( 0 != port[i] ) {
-			result = ptdrvInit( i );
+		if (0 != port[i]) {
+			result = ptdrvInit(i);
 
-			if ( _OK == result ) {
-		    	PtDrvDevices[i]->flags |= _PTDRV_INITALIZED;
+			if (_OK == result) {
+				PtDrvDevices[i]->flags |= _PTDRV_INITALIZED;
 
 #ifdef CONFIG_DEVFS_FS
 # ifndef DEVFS_26_STYLE
-				sprintf( controlname, "scanner/pt_drv%d", devCount );
-				devfs_register( NULL, controlname,
-				                DEVFS_FL_DEFAULT, _PTDRV_MAJOR, 0,
-			                    (S_IFCHR | S_IRUGO | S_IWUGO | S_IFCHR),
-				                &pt_drv_fops, NULL );
+				sprintf(controlname, "scanner/pt_drv%d",
+					devCount);
+				devfs_register(NULL, controlname,
+					       DEVFS_FL_DEFAULT, _PTDRV_MAJOR,
+					       0,
+					       (S_IFCHR | S_IRUGO | S_IWUGO |
+						S_IFCHR), &pt_drv_fops, NULL);
 # else /* DEVFS_26_STYLE */
-				devfs_mk_cdev(MKDEV(_PTDRV_MAJOR, devCount), 
-				    (S_IFCHR | S_IRUGO | S_IWUGO | S_IFCHR),
-				    "scanner/pt_drv%d", devCount);
+				devfs_mk_cdev(MKDEV(_PTDRV_MAJOR, devCount),
+					      (S_IFCHR | S_IRUGO | S_IWUGO |
+					       S_IFCHR), "scanner/pt_drv%d",
+					      devCount);
 # endif
 #else
 # ifdef LINUX_26
 				CLASS_DEVICE_CREATE(ptdrv_class,
-				                    MKDEV(_PTDRV_MAJOR, devCount), NULL,
-				                    "pt_drv%d", devCount);
+						    MKDEV(_PTDRV_MAJOR,
+							  devCount), NULL,
+						    "pt_drv%d", devCount);
 
-# endif /* LINUX_26 */
+# endif	/* LINUX_26 */
 #endif /* CONFIG_DEVFS_FS */
-				ProcFsRegisterDevice( PtDrvDevices[i] );
+				ProcFsRegisterDevice(PtDrvDevices[i]);
 				devCount++;
 			} else {
 				retval = result;
-				ptdrvShutdown( PtDrvDevices[i] );
+				ptdrvShutdown(PtDrvDevices[i]);
 				PtDrvDevices[i] = NULL;
 			}
 		}
 	}
 
 	/* * if something went wrong, shutdown all... */
-	if( devCount == 0 ) {
+	if (devCount == 0) {
 
 #if !defined (CONFIG_DEVFS_FS) && defined (LINUX_26)
-out_devfs:
+	      out_devfs:
 		class_destroy(ptdrv_class);
 #endif
 
 #if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
-		devfs_unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME );
+		devfs_unregister_chrdev(_PTDRV_MAJOR, _DRV_NAME);
 #else
-		unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME );
+		unregister_chrdev(_PTDRV_MAJOR, _DRV_NAME);
 #endif
 		ProcFsShutdown();
 
 #ifdef __KERNEL__
-		_PRINT( KERN_INFO "pt_drv : no device(s) detected, (%i)\n", retval );
+		_PRINT(KERN_INFO "pt_drv : no device(s) detected, (%i)\n",
+		       retval);
 #endif
 
 	} else {
 
-		DBG( DBG_HIGH, "pt_drv : init done, %u device(s) found\n", devCount );
+		DBG(DBG_HIGH, "pt_drv : init done, %u device(s) found\n",
+		    devCount);
 		retval = _OK;
 	}
-	DBG( DBG_HIGH, "---------------------------------------------\n" );
+	DBG(DBG_HIGH, "---------------------------------------------\n");
 
 	deviceScanning = _FALSE;
 	return retval;
@@ -1695,49 +1768,52 @@ out_devfs:
  * cleanup the show
  */
 #ifdef LINUX_26
-static void __exit ptdrv_exit( void )
+static void __exit
+ptdrv_exit(void)
 #else
-void cleanup_module( void )
+void
+cleanup_module(void)
 #endif
 {
-	UInt      i;
+	UInt i;
 	pScanData ps;
 #if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
-	char           controlname[24];
+	char controlname[24];
 	devfs_handle_t master;
 #endif
 
-	DBG( DBG_HIGH, "pt_drv: cleanup_module()\n" );
+	DBG(DBG_HIGH, "pt_drv: cleanup_module()\n");
 
-	for ( i = 0; i < _MAX_PTDEVS; i++ ) {
+	for (i = 0; i < _MAX_PTDEVS; i++) {
 
 		ps = PtDrvDevices[i];
 		PtDrvDevices[i] = NULL;
 
-		if ( NULL != ps ) {
+		if (NULL != ps) {
 #ifdef CONFIG_DEVFS_FS
 # ifndef DEVFS_26_STYLE
-			sprintf( controlname, "scanner/pt_drv%d", i );
-			master = devfs_find_handle( NULL,controlname, 0, 0,
-			                            DEVFS_SPECIAL_CHR, 0 );
-			devfs_unregister( master );
+			sprintf(controlname, "scanner/pt_drv%d", i);
+			master = devfs_find_handle(NULL, controlname, 0, 0,
+						   DEVFS_SPECIAL_CHR, 0);
+			devfs_unregister(master);
 # else
 			devfs_remove("scanner/pt_drv%d", i);
 # endif
 #else
 # ifdef LINUX_26
-			class_device_destroy(ptdrv_class, MKDEV(_PTDRV_MAJOR, i));
-# endif /* LINUX_26 */
+			class_device_destroy(ptdrv_class,
+					     MKDEV(_PTDRV_MAJOR, i));
+# endif	/* LINUX_26 */
 #endif /* CONFIG_DEVFS_FS */
-			ptdrvShutdown( ps );
-			ProcFsUnregisterDevice( ps );
+			ptdrvShutdown(ps);
+			ProcFsUnregisterDevice(ps);
 		}
 	}
 
 #if (defined(CONFIG_DEVFS_FS) && !defined(DEVFS_26_STYLE))
-	devfs_unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME );
+	devfs_unregister_chrdev(_PTDRV_MAJOR, _DRV_NAME);
 #else
-	unregister_chrdev( _PTDRV_MAJOR, _DRV_NAME );
+	unregister_chrdev(_PTDRV_MAJOR, _DRV_NAME);
 #endif
 	ProcFsShutdown();
 
@@ -1745,8 +1821,8 @@ void cleanup_module( void )
 	class_destroy(ptdrv_class);
 #endif
 
-	DBG( DBG_HIGH, "pt_drv: cleanup done.\n" );
-	DBG( DBG_HIGH, "*********************************************\n" );
+	DBG(DBG_HIGH, "pt_drv: cleanup done.\n");
+	DBG(DBG_HIGH, "*********************************************\n");
 }
 
 #ifdef LINUX_26
@@ -1755,39 +1831,37 @@ module_exit(ptdrv_exit);
 #endif
 
 #endif /*MODULE*/
-
-
 /*.............................................................................
  * device open...
  */
-static int pt_drv_open(struct inode *inode, struct file *file)
+	static int
+pt_drv_open(struct inode *inode, struct file *file)
 {
 	pScanData ps;
 
-	DBG( DBG_HIGH, "pt_drv_open()\n" );
+	DBG(DBG_HIGH, "pt_drv_open()\n");
 
 	ps = get_pt_from_inode(inode);
 
-	if ( NULL == ps ) {
-		return(-ENXIO);
+	if (NULL == ps) {
+		return (-ENXIO);
 	}
 
 	/* device not found ? */
 	if (!(ps->flags & _PTDRV_INITALIZED)) {
-		return(-ENXIO);
+		return (-ENXIO);
 	}
 
 	/* device is busy ? */
 	if (ps->flags & _PTDRV_OPEN) {
-		return(-EBUSY);
+		return (-EBUSY);
 	}
-
 #ifdef LINUX_26
 	if (!try_module_get(THIS_MODULE))
 		return -EAGAIN;
 #else
 	MOD_INC_USE_COUNT;
-#endif    
+#endif
 	ps->flags |= _PTDRV_OPEN;
 
 	return _OK;
@@ -1796,26 +1870,27 @@ static int pt_drv_open(struct inode *inode, struct file *file)
 /*.............................................................................
  * device close...
  */
-static CLOSETYPE pt_drv_close(struct inode * inode, struct file * file)
+static CLOSETYPE
+pt_drv_close(struct inode *inode, struct file *file)
 {
 	pScanData ps;
 
-	DBG( DBG_HIGH, "pt_drv_close()\n" );
+	DBG(DBG_HIGH, "pt_drv_close()\n");
 
-	if ((ps = get_pt_from_inode(inode)) ) {
+	if ((ps = get_pt_from_inode(inode))) {
 
-		ptdrvClose( ps );
+		ptdrvClose(ps);
 
-    	ps->flags &= ~_PTDRV_OPEN;
+		ps->flags &= ~_PTDRV_OPEN;
 #ifdef LINUX_26
 		module_put(THIS_MODULE);
 #else
-    	MOD_DEC_USE_COUNT;
-#endif     
-	    CLOSERETURN(0);
+		MOD_DEC_USE_COUNT;
+#endif
+		CLOSERETURN(0);
 	} else {
 
-		DBG( DBG_HIGH, "pt_drv: - close failed!\n" );
+		DBG(DBG_HIGH, "pt_drv: - close failed!\n");
 		CLOSERETURN(-ENXIO);
 	}
 }
@@ -1824,23 +1899,23 @@ static CLOSETYPE pt_drv_close(struct inode * inode, struct file * file)
  * read data from device
  */
 #ifdef LINUX_20
-static int pt_drv_read(struct inode *inode, struct file *file,
-                       char *buffer, int count)
+static int
+pt_drv_read(struct inode *inode, struct file *file, char *buffer, int count)
 {
-	int		  result;
+	int result;
 	pScanData ps;
 
-	if ( !(ps = get_pt_from_inode(inode)))
-    	return(-ENXIO);
+	if (!(ps = get_pt_from_inode(inode)))
+		return (-ENXIO);
 #else
-static ssize_t pt_drv_read( struct file *file,
-                             char *buffer, size_t count, loff_t *tmp )
+static ssize_t
+pt_drv_read(struct file *file, char *buffer, size_t count, loff_t * tmp)
 {
-	int       result;
+	int result;
 	pScanData ps;
 
-	if ( !(ps = get_pt_from_inode(file->f_dentry->d_inode)) )
-		return(-ENXIO);
+	if (!(ps = get_pt_from_inode(file->f_dentry->d_inode)))
+		return (-ENXIO);
 #endif
 	if ((result = verify_area_20(VERIFY_WRITE, buffer, count)))
 		return result;
@@ -1849,14 +1924,14 @@ static ssize_t pt_drv_read( struct file *file,
 	 * as the driver contains some global vars, it is not
 	 * possible to scan simultaenously with two or more devices
 	 */
-	if( _TRUE == deviceScanning ) {
-	    printk( KERN_INFO "pt_drv: device %lu busy!!!\n", ps->devno );
-		return(-EBUSY);		
+	if (_TRUE == deviceScanning) {
+		printk(KERN_INFO "pt_drv: device %lu busy!!!\n", ps->devno);
+		return (-EBUSY);
 	}
 
 	deviceScanning = _TRUE;
 
-	result = ptdrvRead( ps, buffer, count );
+	result = ptdrvRead(ps, buffer, count);
 
 	deviceScanning = _FALSE;
 	return result;
@@ -1866,108 +1941,116 @@ static ssize_t pt_drv_read( struct file *file,
  * writing makes no sense
  */
 #ifdef LINUX_20
-static int pt_drv_write(struct inode * inode, struct file * file,
-                        const char * buffer, int count)
+static int
+pt_drv_write(struct inode *inode, struct file *file,
+	     const char *buffer, int count)
 {
-  return -EPERM;
+	return -EPERM;
 }
 #else
- static ssize_t pt_drv_write( struct file * file,const char * buffer,
-                              size_t tmp,loff_t* count)
+static ssize_t
+pt_drv_write(struct file *file, const char *buffer,
+	     size_t tmp, loff_t * count)
 {
-  return -EPERM;
+	return -EPERM;
 }
 #endif
 
 /*.............................................................................
  * the ioctl interface
  */
-static int pt_drv_ioctl( struct inode *inode, struct file *file,
-                         UInt cmd, ULong arg )
+static int
+pt_drv_ioctl(struct inode *inode, struct file *file, UInt cmd, ULong arg)
 {
 	pScanData ps;
 
-	if ( !(ps = get_pt_from_inode(inode)) )
-    	return(-ENXIO);
+	if (!(ps = get_pt_from_inode(inode)))
+		return (-ENXIO);
 
-  	return ptdrvIoctl( ps, cmd, (pVoid)arg);
+	return ptdrvIoctl(ps, cmd, (pVoid) arg);
 }
 
-#else	/* the user-mode interface */
+#else /* the user-mode interface */
 
 /*.............................................................................
  * here we only have wrapper functions
  */
-static int PtDrvInit( const char *dev_name, UShort model_override )
+static int
+PtDrvInit(const char *dev_name, UShort model_override)
 {
 	int fd;
 	int result = _OK;
 
-	if( _TRUE == PtDrvInitialized )
+	if (_TRUE == PtDrvInitialized)
 		return _OK;
 
-	result = sanei_pp_open( dev_name, &fd );
-	if( SANE_STATUS_GOOD != result )
+	result = sanei_pp_open(dev_name, &fd);
+	if (SANE_STATUS_GOOD != result)
 		return result;
 
 	port[0] = fd;
-	mov[0]  = model_override;
-	
-	result = ptdrvInit( 0 );
+	mov[0] = model_override;
 
-	if( _OK == result ) {
+	result = ptdrvInit(0);
+
+	if (_OK == result) {
 		PtDrvInitialized = _TRUE;
 	} else {
-		ptdrvShutdown( PtDrvDevices[0] );
+		ptdrvShutdown(PtDrvDevices[0]);
 	}
 
 	return result;
 }
 
-static int PtDrvShutdown( void )
+static int
+PtDrvShutdown(void)
 {
 	int result;
 
-	if( _FALSE == PtDrvInitialized )
+	if (_FALSE == PtDrvInitialized)
 		return _E_NOT_INIT;
 
-	result = ptdrvShutdown( PtDrvDevices[0] );
+	result = ptdrvShutdown(PtDrvDevices[0]);
 
 	PtDrvInitialized = _FALSE;
 
 	return result;
 }
 
-static int PtDrvOpen( void )
+static int
+PtDrvOpen(void)
 {
-	if( _FALSE == PtDrvInitialized )
+	if (_FALSE == PtDrvInitialized)
 		return _E_NOT_INIT;
 
 	return _OK;
 }
 
-static int PtDrvClose( void )
+static int
+PtDrvClose(void)
 {
-	if( _FALSE == PtDrvInitialized )
+	if (_FALSE == PtDrvInitialized)
 		return _E_NOT_INIT;
 
-	return ptdrvClose( PtDrvDevices[0] );
+	return ptdrvClose(PtDrvDevices[0]);
 }
 
-static int PtDrvIoctl( UInt cmd, pVoid arg )
+static int
+PtDrvIoctl(UInt cmd, pVoid arg)
 {
-	if( _FALSE == PtDrvInitialized )
+	if (_FALSE == PtDrvInitialized)
 		return _E_NOT_INIT;
 
-	return ptdrvIoctl( PtDrvDevices[0], cmd, arg);
+	return ptdrvIoctl(PtDrvDevices[0], cmd, arg);
 }
 
-static int PtDrvRead ( pUChar buffer, int count )
+static int
+PtDrvRead(pUChar buffer, int count)
 {
-	if( _FALSE == PtDrvInitialized )
+	if (_FALSE == PtDrvInitialized)
 		return _E_NOT_INIT;
 
-	return ptdrvRead( PtDrvDevices[0], buffer, count );
+	return ptdrvRead(PtDrvDevices[0], buffer, count);
 }
 
 #endif /* guard __KERNEL__ */

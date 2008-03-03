@@ -56,46 +56,52 @@
 /******************* wrapper functions for parport device ********************/
 
 #ifndef _BACKEND_ENABLED
-  
-static int PtDrvInit( char *dev_name, unsigned short model_override )
+
+static int
+PtDrvInit(char *dev_name, unsigned short model_override)
 {
-	_VAR_NOT_USED( dev_name );
-	_VAR_NOT_USED( model_override );
-	DBG( _DBG_ERROR, "Backend does not support direct I/O!\n" );
+	_VAR_NOT_USED(dev_name);
+	_VAR_NOT_USED(model_override);
+	DBG(_DBG_ERROR, "Backend does not support direct I/O!\n");
 	return -1;
 }
 
-static int PtDrvShutdown( void )
+static int
+PtDrvShutdown(void)
 {
 	return 0;
 }
 
-static int PtDrvOpen( void )
+static int
+PtDrvOpen(void)
 {
-	DBG( _DBG_ERROR, "Backend does not support direct I/O!\n" );
+	DBG(_DBG_ERROR, "Backend does not support direct I/O!\n");
 	return -1;
 }
 
-static int PtDrvClose( void )
+static int
+PtDrvClose(void)
 {
-	DBG( _DBG_ERROR, "Backend does not support direct I/O!\n" );
+	DBG(_DBG_ERROR, "Backend does not support direct I/O!\n");
 	return 0;
 }
 
-static int PtDrvIoctl( unsigned int cmd, void *arg )
+static int
+PtDrvIoctl(unsigned int cmd, void *arg)
 {
-	DBG( _DBG_ERROR, "Backend does not support direct I/O!\n" );
-	_VAR_NOT_USED( cmd );
-	if( arg == NULL )
+	DBG(_DBG_ERROR, "Backend does not support direct I/O!\n");
+	_VAR_NOT_USED(cmd);
+	if (arg == NULL)
 		return -2;
 	return -1;
 }
 
-static int PtDrvRead( unsigned char *buffer, int count )
+static int
+PtDrvRead(unsigned char *buffer, int count)
 {
-	DBG( _DBG_ERROR, "Backend does not support direct I/O!\n" );
-	_VAR_NOT_USED( count );
-	if( buffer == NULL )
+	DBG(_DBG_ERROR, "Backend does not support direct I/O!\n");
+	_VAR_NOT_USED(count);
+	if (buffer == NULL)
 		return -2;
 	return -1;
 }
@@ -103,108 +109,121 @@ static int PtDrvRead( unsigned char *buffer, int count )
 
 /**
  */
-static int ppDev_open( const char *dev_name, void *misc )
+static int
+ppDev_open(const char *dev_name, void *misc)
 {
-	int 		    result;
-	int			    handle;
-	CompatAdjDef    compatAdj;
-	PPAdjDef        adj;
-	unsigned short  version = _PTDRV_IOCTL_VERSION;
-	Plustek_Device *dev     = (Plustek_Device *)misc;
+	int result;
+	int handle;
+	CompatAdjDef compatAdj;
+	PPAdjDef adj;
+	unsigned short version = _PTDRV_IOCTL_VERSION;
+	Plustek_Device *dev = (Plustek_Device *) misc;
 
-	if( dev->adj.direct_io ) {
-		result = PtDrvInit( dev_name, dev->adj.mov );
-		if( 0 != result ) {
-			DBG( _DBG_ERROR, "open: PtDrvInit failed: %d\n", result );
+	if (dev->adj.direct_io) {
+		result = PtDrvInit(dev_name, dev->adj.mov);
+		if (0 != result) {
+			DBG(_DBG_ERROR, "open: PtDrvInit failed: %d\n",
+			    result);
 			return -1;
 		}
 	}
 
-	if( dev->adj.direct_io )
+	if (dev->adj.direct_io)
 		handle = PtDrvOpen();
 	else
-		handle = open( dev_name, O_RDONLY );
-	
-	if ( handle  < 0 ) {
-	    DBG( _DBG_ERROR, "open: can't open %s as a device\n", dev_name );
-    	return handle;
+		handle = open(dev_name, O_RDONLY);
+
+	if (handle < 0) {
+		DBG(_DBG_ERROR, "open: can't open %s as a device\n",
+		    dev_name);
+		return handle;
 	}
 
-	if( dev->adj.direct_io )
-		result = PtDrvIoctl( _PTDRV_OPEN_DEVICE, &version );
+	if (dev->adj.direct_io)
+		result = PtDrvIoctl(_PTDRV_OPEN_DEVICE, &version);
 	else
-		result = ioctl( handle, _PTDRV_OPEN_DEVICE, &version );
-		
-	if( result < 0 ) {
+		result = ioctl(handle, _PTDRV_OPEN_DEVICE, &version);
 
-        if( -9019 == result ) {
+	if (result < 0) {
 
-			DBG( _DBG_INFO, "Version 0x%04x not supported, trying "
-                            "compatibility version 0x%04x\n",
-                            _PTDRV_IOCTL_VERSION, _PTDRV_COMPAT_IOCTL_VERSION);
+		if (-9019 == result) {
+
+			DBG(_DBG_INFO, "Version 0x%04x not supported, trying "
+			    "compatibility version 0x%04x\n",
+			    _PTDRV_IOCTL_VERSION,
+			    _PTDRV_COMPAT_IOCTL_VERSION);
 
 			version = _PTDRV_COMPAT_IOCTL_VERSION;
 
-			if( dev->adj.direct_io )
-				result = PtDrvIoctl( _PTDRV_OPEN_DEVICE, &version );
+			if (dev->adj.direct_io)
+				result = PtDrvIoctl(_PTDRV_OPEN_DEVICE,
+						    &version);
 			else
-				result = ioctl( handle, _PTDRV_OPEN_DEVICE, &version );
-			
-			if( result < 0 ) {
-				
-				if( dev->adj.direct_io )
+				result = ioctl(handle, _PTDRV_OPEN_DEVICE,
+					       &version);
+
+			if (result < 0) {
+
+				if (dev->adj.direct_io)
 					PtDrvClose();
 				else
-					close( dev->fd );
-					
-				DBG( _DBG_ERROR,
-					 "ioctl PT_DRV_OPEN_DEVICE failed(%d)\n", result );
+					close(dev->fd);
 
-		        if( -9019 == result ) {
-	    			DBG( _DBG_ERROR,
-						 "Version problem, please recompile driver!\n" );
+				DBG(_DBG_ERROR,
+				    "ioctl PT_DRV_OPEN_DEVICE failed(%d)\n",
+				    result);
+
+				if (-9019 == result) {
+					DBG(_DBG_ERROR,
+					    "Version problem, please recompile driver!\n");
 				}
 			} else {
 
-				DBG( _DBG_INFO, "Using compatibility version\n" );
+				DBG(_DBG_INFO,
+				    "Using compatibility version\n");
 
-				compatAdj.lampOff      = dev->adj.lampOff;
-				compatAdj.lampOffOnEnd = dev->adj.lampOffOnEnd;
-				compatAdj.warmup       = dev->adj.warmup;
+				compatAdj.lampOff = dev->adj.lampOff;
+				compatAdj.lampOffOnEnd =
+					dev->adj.lampOffOnEnd;
+				compatAdj.warmup = dev->adj.warmup;
 
-				memcpy( &compatAdj.pos, &dev->adj.pos, sizeof(OffsDef));
-				memcpy( &compatAdj.neg, &dev->adj.neg, sizeof(OffsDef));
-				memcpy( &compatAdj.tpa, &dev->adj.tpa, sizeof(OffsDef));
+				memcpy(&compatAdj.pos, &dev->adj.pos,
+				       sizeof(OffsDef));
+				memcpy(&compatAdj.neg, &dev->adj.neg,
+				       sizeof(OffsDef));
+				memcpy(&compatAdj.tpa, &dev->adj.tpa,
+				       sizeof(OffsDef));
 
-				if( dev->adj.direct_io )
-					PtDrvIoctl( _PTDRV_ADJUST, &compatAdj );
+				if (dev->adj.direct_io)
+					PtDrvIoctl(_PTDRV_ADJUST, &compatAdj);
 				else
-					ioctl( handle, _PTDRV_ADJUST, &compatAdj );
+					ioctl(handle, _PTDRV_ADJUST,
+					      &compatAdj);
 				return handle;
 			}
 		}
 		return result;
-    }
+	}
 
-	memset( &adj, 0, sizeof(PPAdjDef));
+	memset(&adj, 0, sizeof(PPAdjDef));
 
-	adj.lampOff      = dev->adj.lampOff;
+	adj.lampOff = dev->adj.lampOff;
 	adj.lampOffOnEnd = dev->adj.lampOffOnEnd;
-	adj.warmup       = dev->adj.warmup;
+	adj.warmup = dev->adj.warmup;
 
-	memcpy( &adj.pos, &dev->adj.pos, sizeof(OffsDef));
-	memcpy( &adj.neg, &dev->adj.neg, sizeof(OffsDef));
-	memcpy( &adj.tpa, &dev->adj.tpa, sizeof(OffsDef));
+	memcpy(&adj.pos, &dev->adj.pos, sizeof(OffsDef));
+	memcpy(&adj.neg, &dev->adj.neg, sizeof(OffsDef));
+	memcpy(&adj.tpa, &dev->adj.tpa, sizeof(OffsDef));
 
-	adj.rgamma    = dev->adj.rgamma;
-	adj.ggamma    = dev->adj.ggamma;
-	adj.bgamma    = dev->adj.bgamma;
+	adj.rgamma = dev->adj.rgamma;
+	adj.ggamma = dev->adj.ggamma;
+	adj.bgamma = dev->adj.bgamma;
 	adj.graygamma = dev->adj.graygamma;
 
-	if( dev->adj.direct_io )
-		PtDrvIoctl( _PTDRV_ADJUST, &adj );
+	if (dev->adj.direct_io)
+		PtDrvIoctl(_PTDRV_ADJUST, &adj);
 	else
-		ioctl( handle, _PTDRV_ADJUST, &adj );
+		ioctl(handle, _PTDRV_ADJUST, &adj);
 
 	dev->initialized = SANE_TRUE;
 	return handle;
@@ -212,150 +231,161 @@ static int ppDev_open( const char *dev_name, void *misc )
 
 /**
  */
-static int ppDev_close( Plustek_Device *dev )
+static int
+ppDev_close(Plustek_Device * dev)
 {
-	if( dev->adj.direct_io )
+	if (dev->adj.direct_io)
 		return PtDrvClose();
 	else
-		return close( dev->fd );
+		return close(dev->fd);
 }
 
 /**
  */
-static int ppDev_getCaps( Plustek_Device *dev )
+static int
+ppDev_getCaps(Plustek_Device * dev)
 {
-	if( dev->adj.direct_io )
-		return PtDrvIoctl( _PTDRV_GET_CAPABILITIES, &dev->caps );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_GET_CAPABILITIES, &dev->caps);
 	else
-		return ioctl( dev->fd, _PTDRV_GET_CAPABILITIES, &dev->caps );
+		return ioctl(dev->fd, _PTDRV_GET_CAPABILITIES, &dev->caps);
 }
 
 /**
  */
-static int ppDev_getLensInfo( Plustek_Device *dev, pLensInfo lens )
+static int
+ppDev_getLensInfo(Plustek_Device * dev, pLensInfo lens)
 {
-	if( dev->adj.direct_io )
-		return  PtDrvIoctl( _PTDRV_GET_LENSINFO, lens );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_GET_LENSINFO, lens);
 	else
-		return ioctl( dev->fd, _PTDRV_GET_LENSINFO, lens );
+		return ioctl(dev->fd, _PTDRV_GET_LENSINFO, lens);
 }
 
 /**
  */
-static int ppDev_getCropInfo( Plustek_Device *dev, pCropInfo crop )
+static int
+ppDev_getCropInfo(Plustek_Device * dev, pCropInfo crop)
 {
-	if( dev->adj.direct_io )
-		return PtDrvIoctl( _PTDRV_GET_CROPINFO, crop );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_GET_CROPINFO, crop);
 	else
-		return ioctl( dev->fd, _PTDRV_GET_CROPINFO, crop );
+		return ioctl(dev->fd, _PTDRV_GET_CROPINFO, crop);
 }
 
 /**
  */
-static int ppDev_putImgInfo( Plustek_Device *dev, pImgDef img )
+static int
+ppDev_putImgInfo(Plustek_Device * dev, pImgDef img)
 {
-	if( dev->adj.direct_io )
-		return PtDrvIoctl( _PTDRV_PUT_IMAGEINFO, img );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_PUT_IMAGEINFO, img);
 	else
-		return ioctl( dev->fd, _PTDRV_PUT_IMAGEINFO, img );
+		return ioctl(dev->fd, _PTDRV_PUT_IMAGEINFO, img);
 }
 
 /**
  */
-static int ppDev_setScanEnv( Plustek_Device *dev, pScanInfo sinfo )
+static int
+ppDev_setScanEnv(Plustek_Device * dev, pScanInfo sinfo)
 {
-	if( dev->adj.direct_io )
-		return PtDrvIoctl( _PTDRV_SET_ENV, sinfo );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_SET_ENV, sinfo);
 	else
-		return ioctl( dev->fd, _PTDRV_SET_ENV, sinfo );
+		return ioctl(dev->fd, _PTDRV_SET_ENV, sinfo);
 }
 
 /**
  */
-static int ppDev_startScan( Plustek_Device *dev, pStartScan start )
+static int
+ppDev_startScan(Plustek_Device * dev, pStartScan start)
 {
-	if( dev->adj.direct_io )
-		return PtDrvIoctl( _PTDRV_START_SCAN, start );
+	if (dev->adj.direct_io)
+		return PtDrvIoctl(_PTDRV_START_SCAN, start);
 	else
-		return ioctl( dev->fd, _PTDRV_START_SCAN, start );
+		return ioctl(dev->fd, _PTDRV_START_SCAN, start);
 }
 
 /** function to send a gamma table to the kernel module. As the default table
  *  entry is 16-bit, but the maps are 8-bit, we have to copy the values...
  */
-static int ppDev_setMap( Plustek_Device *dev, SANE_Word *map,
-						 SANE_Word length, SANE_Word channel )
+static int
+ppDev_setMap(Plustek_Device * dev, SANE_Word * map,
+	     SANE_Word length, SANE_Word channel)
 {
 	SANE_Byte *buf;
-	SANE_Word  i;
-	MapDef     m;
+	SANE_Word i;
+	MapDef m;
 
-	m.len    = length;
+	m.len = length;
 	m.map_id = channel;
 
-	m.map = (void *)map;
-		
-	DBG(_DBG_INFO,"Setting map[%u] at 0x%08lx\n", channel, (unsigned long)map);
+	m.map = (void *) map;
 
-	buf = (SANE_Byte*)malloc( m.len );
-	
-	if( !buf )
+	DBG(_DBG_INFO, "Setting map[%u] at 0x%08lx\n", channel,
+	    (unsigned long) map);
+
+	buf = (SANE_Byte *) malloc(m.len);
+
+	if (!buf)
 		return _E_ALLOC;
-	
-	for( i = 0; i < m.len; i++ ) {
-		buf[i] = (SANE_Byte)map[i];
-		
-		if( map[i] > 0xFF )
+
+	for (i = 0; i < m.len; i++) {
+		buf[i] = (SANE_Byte) map[i];
+
+		if (map[i] > 0xFF)
 			buf[i] = 0xFF;
 	}
-	
+
 	m.map = buf;
-	
-	if( dev->adj.direct_io )
-		PtDrvIoctl( _PTDRV_SETMAP, &m );
+
+	if (dev->adj.direct_io)
+		PtDrvIoctl(_PTDRV_SETMAP, &m);
 	else
-		ioctl( dev->fd, _PTDRV_SETMAP, &m );
+		ioctl(dev->fd, _PTDRV_SETMAP, &m);
 
 	/* we ignore the return values */
-	free( buf );
+	free(buf);
 	return 0;
 }
 
 /**
  */
-static int ppDev_stopScan( Plustek_Device *dev, short *mode )
+static int
+ppDev_stopScan(Plustek_Device * dev, short *mode)
 {
 	int retval, tmp;
 
 	/* save this one... */
 	tmp = *mode;
 
-	if( dev->adj.direct_io )
-		retval = PtDrvIoctl( _PTDRV_STOP_SCAN, mode );
+	if (dev->adj.direct_io)
+		retval = PtDrvIoctl(_PTDRV_STOP_SCAN, mode);
 	else
-		retval = ioctl( dev->fd, _PTDRV_STOP_SCAN, mode );
-	
+		retval = ioctl(dev->fd, _PTDRV_STOP_SCAN, mode);
+
 	/* ... and use it here */
-	if( 0 == tmp ) {
-		if( dev->adj.direct_io )
-			PtDrvIoctl( _PTDRV_CLOSE_DEVICE, 0 );
+	if (0 == tmp) {
+		if (dev->adj.direct_io)
+			PtDrvIoctl(_PTDRV_CLOSE_DEVICE, 0);
 		else
-			ioctl( dev->fd, _PTDRV_CLOSE_DEVICE, 0);
-	}else
-		sleep( 1 );
+			ioctl(dev->fd, _PTDRV_CLOSE_DEVICE, 0);
+	} else
+		sleep(1);
 
 	return retval;
 }
 
 /**
  */
-static int ppDev_readImage( Plustek_Device *dev,
-                            SANE_Byte *buf, unsigned long data_length )
+static int
+ppDev_readImage(Plustek_Device * dev,
+		SANE_Byte * buf, unsigned long data_length)
 {
-	if( dev->adj.direct_io )
-		return PtDrvRead( buf, data_length );
+	if (dev->adj.direct_io)
+		return PtDrvRead(buf, data_length);
 	else
-		return read( dev->fd, buf, data_length );
+		return read(dev->fd, buf, data_length);
 }
 
 /* END PLUSTEK-PP_WRAPPER.C .................................................*/

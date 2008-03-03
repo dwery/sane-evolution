@@ -829,7 +829,7 @@ e2_add_depth(Epson_Device * dev, SANE_Word depth)
 }
 
 static SANE_Status
-e2_discover_capabilities(Epson_Scanner *s)
+e2_discover_capabilities(Epson_Scanner * s)
 {
 	SANE_Status status;
 
@@ -1058,7 +1058,7 @@ e2_discover_capabilities(Epson_Scanner *s)
 	}
 
 
-	*source_list_add = NULL;        /* add end marker to source list */
+	*source_list_add = NULL;	/* add end marker to source list */
 
 	/*
 	 * request identity 2 (ESC i), if available will
@@ -3245,7 +3245,9 @@ e2_set_scanning_parameters(Epson_Scanner * s)
 
 	/* ESC K, set data order */
 	if (SANE_OPTION_IS_ACTIVE(s->opt[OPT_MIRROR].cap)) {
-		status = esci_mirror_image(s, mirror_params[s->val[OPT_MIRROR].w]);
+		status = esci_mirror_image(s,
+					   mirror_params[s->val[OPT_MIRROR].
+							 w]);
 		if (status != SANE_STATUS_GOOD)
 			return status;
 	}

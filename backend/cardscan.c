@@ -219,7 +219,7 @@ four times {
 #include <sys/types.h>
 #include <unistd.h>
 #ifdef HAVE_LIBC_H
-# include <libc.h>              /* NeXTStep/OpenStep */
+# include <libc.h>		/* NeXTStep/OpenStep */
 #endif
 
 #include "sane/sanei_backend.h"
@@ -230,7 +230,7 @@ four times {
 #include "cardscan.h"
 
 #define DEBUG 1
-#define BUILD 0 
+#define BUILD 0
 
 /* values for SANE_DEBUG_CARDSCAN env var:
  - errors           5
@@ -272,24 +272,24 @@ static struct scanner *scanner_devList = NULL;
  * not support authentication.
  */
 SANE_Status
-sane_init (SANE_Int * version_code, SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
-    authorize = authorize;        /* get rid of compiler warning */
-  
-    DBG_INIT ();
-    DBG (10, "sane_init: start\n");
-  
-    sanei_usb_init();
-  
-    if (version_code)
-      *version_code = SANE_VERSION_CODE (V_MAJOR, V_MINOR, BUILD);
-  
-    DBG (5, "sane_init: cardscan backend %d.%d.%d, from %s\n",
-      V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);
-  
-    DBG (10, "sane_init: finish\n");
-  
-    return SANE_STATUS_GOOD;
+	authorize = authorize;	/* get rid of compiler warning */
+
+	DBG_INIT();
+	DBG(10, "sane_init: start\n");
+
+	sanei_usb_init();
+
+	if (version_code)
+		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+
+	DBG(5, "sane_init: cardscan backend %d.%d.%d, from %s\n",
+	    V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);
+
+	DBG(10, "sane_init: finish\n");
+
+	return SANE_STATUS_GOOD;
 }
 
 /*
@@ -317,78 +317,87 @@ sane_init (SANE_Int * version_code, SANE_Auth_Callback authorize)
  * store in global device structs
  */
 SANE_Status
-sane_get_devices (const SANE_Device *** device_list, SANE_Bool local_only)
+sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 {
-    struct scanner *dev;
-    char line[PATH_MAX];
-    const char *lp;
-    FILE *fp;
-    int num_devices=0;
-    int i=0;
-  
-    local_only = local_only;        /* get rid of compiler warning */
-  
-    DBG (10, "sane_get_devices: start\n");
-  
-    fp = sanei_config_open (CONFIG_FILE);
-  
-    if (fp) {
-  
-        DBG (15, "sane_get_devices: reading config file %s\n", CONFIG_FILE);
-  
-        while (sanei_config_read (line, PATH_MAX, fp)) {
-      
-            lp = line;
+	struct scanner *dev;
+	char line[PATH_MAX];
+	const char *lp;
+	FILE *fp;
+	int num_devices = 0;
+	int i = 0;
 
-            /* ignore comments */
-            if (*lp == '#')
-                continue;
-      
-            /* skip empty lines */
-            if (*lp == 0)
-                continue;
-      
-            if ((strncmp ("usb", lp, 3) == 0) && isspace (lp[3])) {
-                DBG (15, "sane_get_devices: looking for '%s'\n", lp);
-                sanei_usb_attach_matching_devices(lp, attach_one);
-            }
-            else{
-                DBG (5, "sane_get_devices: config line \"%s\" ignored.\n", lp);
-            }
-        }
-        fclose (fp);
-    }
-  
-    else {
-        DBG (5, "sane_get_devices: no config file '%s', using defaults\n",
-          CONFIG_FILE);
-  
-        DBG (15, "sane_get_devices: looking for 'usb 0x08F0 0x0005'\n");
-        sanei_usb_attach_matching_devices("usb 0x08F0 0x0005", attach_one);
-    }
-  
-    for (dev = scanner_devList; dev; dev=dev->next) {
-        DBG (15, "sane_get_devices: found scanner %s\n",dev->device_name);
-        num_devices++;
-    }
-  
-    DBG (15, "sane_get_devices: found %d scanner(s)\n",num_devices);
-  
-    sane_devArray = calloc (num_devices + 1, sizeof (SANE_Device*));
-    if (!sane_devArray)
-        return SANE_STATUS_NO_MEM;
-  
-    for (dev = scanner_devList; dev; dev=dev->next) {
-        sane_devArray[i++] = (SANE_Device *)&dev->sane;
-    }
-  
-    sane_devArray[i] = 0;
-  
-    *device_list = sane_devArray;
-  
-    DBG (10, "sane_get_devices: finish\n");
-  
-    return SANE_STATUS_GOOD;
+	local_only = local_only;	/* get rid of compiler warning */
+
+	DBG(10, "sane_get_devices: start\n");
+
+	fp = sanei_config_open(CONFIG_FILE);
+
+	if (fp) {
+
+		DBG(15, "sane_get_devices: reading config file %s\n",
+		    CONFIG_FILE);
+
+		while (sanei_config_read(line, PATH_MAX, fp)) {
+
+			lp = line;
+
+			/* ignore comments */
+			if (*lp == '#')
+				continue;
+
+			/* skip empty lines */
+			if (*lp == 0)
+				continue;
+
+			if ((strncmp("usb", lp, 3) == 0) && isspace(lp[3])) {
+				DBG(15,
+				    "sane_get_devices: looking for '%s'\n",
+				    lp);
+				sanei_usb_attach_matching_devices(lp,
+								  attach_one);
+			} else {
+				DBG(5,
+				    "sane_get_devices: config line \"%s\" ignored.\n",
+				    lp);
+			}
+		}
+		fclose(fp);
+	}
+
+	else {
+		DBG(5,
+		    "sane_get_devices: no config file '%s', using defaults\n",
+		    CONFIG_FILE);
+
+		DBG(15,
+		    "sane_get_devices: looking for 'usb 0x08F0 0x0005'\n");
+		sanei_usb_attach_matching_devices("usb 0x08F0 0x0005",
+						  attach_one);
+	}
+
+	for (dev = scanner_devList; dev; dev = dev->next) {
+		DBG(15, "sane_get_devices: found scanner %s\n",
+		    dev->device_name);
+		num_devices++;
+	}
+
+	DBG(15, "sane_get_devices: found %d scanner(s)\n", num_devices);
+
+	sane_devArray = calloc(num_devices + 1, sizeof(SANE_Device *));
+	if (!sane_devArray)
+		return SANE_STATUS_NO_MEM;
+
+	for (dev = scanner_devList; dev; dev = dev->next) {
+		sane_devArray[i++] = (SANE_Device *) & dev->sane;
+	}
+
+	sane_devArray[i] = 0;
+
+	*device_list = sane_devArray;
+
+	DBG(10, "sane_get_devices: finish\n");
+
+	return SANE_STATUS_GOOD;
 }
 
 /* callback used by sane_get_devices
@@ -396,226 +405,227 @@ sane_get_devices (const SANE_Device *** device_list, SANE_Bool local_only)
  * unless struct is already loaded, then pretend 
  */
 static SANE_Status
-attach_one (const char *device_name)
+attach_one(const char *device_name)
 {
-    struct scanner *s;
-    int ret, i;
-    SANE_Word vid, pid;
-  
-    DBG (10, "attach_one: start '%s'\n", device_name);
-  
-    for (s = scanner_devList; s; s = s->next) {
-        if (strcmp (s->sane.name, device_name) == 0) {
-            DBG (10, "attach_one: already attached!\n");
-            return SANE_STATUS_GOOD;
-        }
-    }
-  
-    /* build a scanner struct to hold it */
-    DBG (15, "attach_one: init struct\n");
-  
-    if ((s = calloc (sizeof (*s), 1)) == NULL)
-        return SANE_STATUS_NO_MEM;
-  
-    /* copy the device name */
-    s->device_name = strdup (device_name);
-    if (!s->device_name){
-        free (s);
-        return SANE_STATUS_NO_MEM;
-    }
-  
-    /* connect the fd */
-    DBG (15, "attach_one: connect fd\n");
-  
-    s->fd = -1;
-    ret = connect_fd(s);
-    if(ret != SANE_STATUS_GOOD){
-        free (s->device_name);
-        free (s);
-        return ret;
-    }
-  
-    /* clean up the scanner struct based on model */
-    /* this is the only piece of model specific code */
-    sanei_usb_get_vendor_product(s->fd,&vid,&pid);
-  
-    if(vid == 0x08f0){
-        s->vendor_name = "CardScan";
-        if(pid == 0x0005){
-            s->product_name = "800c";
-        }
-        else{
-            DBG (5, "Unknown product, using default settings\n");
-            s->product_name = "Unknown";
-        }
-    }
-    else{
-        DBG (5, "Unknown vendor/product, using default settings\n");
-        s->vendor_name = "Unknown";
-        s->product_name = "Unknown";
-    }
-  
-    DBG (15, "attach_one: Found %s scanner %s at %s\n",
-      s->vendor_name, s->product_name, s->device_name);
-  
-    /* try to get calibration */
-    DBG (15, "attach_one: scanner calibration\n");
-  
-    ret = load_calibration(s);
-    if (ret != SANE_STATUS_GOOD) {
-        DBG (5, "sane_start: ERROR: cannot calibrate, incompatible?\n");
-        free (s->device_name);
-        free (s);
-        return ret;
-    }
-  
-    /* set SANE option 'values' to good defaults */
-    DBG (15, "attach_one: init options\n");
-  
-    /* go ahead and setup the first opt, because 
-     * frontend may call control_option on it 
-     * before calling get_option_descriptor 
-     */
-    memset (s->opt, 0, sizeof (s->opt));
-    for (i = 0; i < NUM_OPTIONS; ++i) {
-        s->opt[i].name = "filler";
-        s->opt[i].size = sizeof (SANE_Word);
-        s->opt[i].cap = SANE_CAP_INACTIVE;
-    }
-  
-    s->opt[OPT_NUM_OPTS].name = SANE_NAME_NUM_OPTIONS;
-    s->opt[OPT_NUM_OPTS].title = SANE_TITLE_NUM_OPTIONS;
-    s->opt[OPT_NUM_OPTS].desc = SANE_DESC_NUM_OPTIONS;
-    s->opt[OPT_NUM_OPTS].type = SANE_TYPE_INT;
-    s->opt[OPT_NUM_OPTS].cap = SANE_CAP_SOFT_DETECT;
-  
-    DBG (15, "attach_one: init settings\n");
-  
-    /* we close the connection, so that another backend can talk to scanner */
-    disconnect_fd(s);
-  
-    /* load info into sane_device struct */
-    s->sane.name = s->device_name;
-    s->sane.vendor = s->vendor_name;
-    s->sane.model = s->product_name;
-    s->sane.type = "scanner";
-  
-    s->next = scanner_devList;
-    scanner_devList = s;
-  
-    DBG (10, "attach_one: finish\n");
-  
-    return SANE_STATUS_GOOD;
+	struct scanner *s;
+	int ret, i;
+	SANE_Word vid, pid;
+
+	DBG(10, "attach_one: start '%s'\n", device_name);
+
+	for (s = scanner_devList; s; s = s->next) {
+		if (strcmp(s->sane.name, device_name) == 0) {
+			DBG(10, "attach_one: already attached!\n");
+			return SANE_STATUS_GOOD;
+		}
+	}
+
+	/* build a scanner struct to hold it */
+	DBG(15, "attach_one: init struct\n");
+
+	if ((s = calloc(sizeof(*s), 1)) == NULL)
+		return SANE_STATUS_NO_MEM;
+
+	/* copy the device name */
+	s->device_name = strdup(device_name);
+	if (!s->device_name) {
+		free(s);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	/* connect the fd */
+	DBG(15, "attach_one: connect fd\n");
+
+	s->fd = -1;
+	ret = connect_fd(s);
+	if (ret != SANE_STATUS_GOOD) {
+		free(s->device_name);
+		free(s);
+		return ret;
+	}
+
+	/* clean up the scanner struct based on model */
+	/* this is the only piece of model specific code */
+	sanei_usb_get_vendor_product(s->fd, &vid, &pid);
+
+	if (vid == 0x08f0) {
+		s->vendor_name = "CardScan";
+		if (pid == 0x0005) {
+			s->product_name = "800c";
+		} else {
+			DBG(5, "Unknown product, using default settings\n");
+			s->product_name = "Unknown";
+		}
+	} else {
+		DBG(5, "Unknown vendor/product, using default settings\n");
+		s->vendor_name = "Unknown";
+		s->product_name = "Unknown";
+	}
+
+	DBG(15, "attach_one: Found %s scanner %s at %s\n",
+	    s->vendor_name, s->product_name, s->device_name);
+
+	/* try to get calibration */
+	DBG(15, "attach_one: scanner calibration\n");
+
+	ret = load_calibration(s);
+	if (ret != SANE_STATUS_GOOD) {
+		DBG(5,
+		    "sane_start: ERROR: cannot calibrate, incompatible?\n");
+		free(s->device_name);
+		free(s);
+		return ret;
+	}
+
+	/* set SANE option 'values' to good defaults */
+	DBG(15, "attach_one: init options\n");
+
+	/* go ahead and setup the first opt, because 
+	 * frontend may call control_option on it 
+	 * before calling get_option_descriptor 
+	 */
+	memset(s->opt, 0, sizeof(s->opt));
+	for (i = 0; i < NUM_OPTIONS; ++i) {
+		s->opt[i].name = "filler";
+		s->opt[i].size = sizeof(SANE_Word);
+		s->opt[i].cap = SANE_CAP_INACTIVE;
+	}
+
+	s->opt[OPT_NUM_OPTS].name = SANE_NAME_NUM_OPTIONS;
+	s->opt[OPT_NUM_OPTS].title = SANE_TITLE_NUM_OPTIONS;
+	s->opt[OPT_NUM_OPTS].desc = SANE_DESC_NUM_OPTIONS;
+	s->opt[OPT_NUM_OPTS].type = SANE_TYPE_INT;
+	s->opt[OPT_NUM_OPTS].cap = SANE_CAP_SOFT_DETECT;
+
+	DBG(15, "attach_one: init settings\n");
+
+	/* we close the connection, so that another backend can talk to scanner */
+	disconnect_fd(s);
+
+	/* load info into sane_device struct */
+	s->sane.name = s->device_name;
+	s->sane.vendor = s->vendor_name;
+	s->sane.model = s->product_name;
+	s->sane.type = "scanner";
+
+	s->next = scanner_devList;
+	scanner_devList = s;
+
+	DBG(10, "attach_one: finish\n");
+
+	return SANE_STATUS_GOOD;
 }
 
 /*
  * connect the fd in the scanner struct
  */
 static SANE_Status
-connect_fd (struct scanner *s)
+connect_fd(struct scanner *s)
 {
-    SANE_Status ret;
-  
-    DBG (10, "connect_fd: start\n");
-  
-    if(s->fd > -1){
-        DBG (5, "connect_fd: already open\n");
-        ret = SANE_STATUS_GOOD;
-    }
-    else {
-        DBG (15, "connect_fd: opening USB device\n");
-        ret = sanei_usb_open (s->device_name, &(s->fd));
-    }
-  
-    if(ret != SANE_STATUS_GOOD){
-        DBG (5, "connect_fd: could not open device: %d\n", ret);
-    }
-  
-    DBG (10, "connect_fd: finish\n");
-  
-    return ret;
+	SANE_Status ret;
+
+	DBG(10, "connect_fd: start\n");
+
+	if (s->fd > -1) {
+		DBG(5, "connect_fd: already open\n");
+		ret = SANE_STATUS_GOOD;
+	} else {
+		DBG(15, "connect_fd: opening USB device\n");
+		ret = sanei_usb_open(s->device_name, &(s->fd));
+	}
+
+	if (ret != SANE_STATUS_GOOD) {
+		DBG(5, "connect_fd: could not open device: %d\n", ret);
+	}
+
+	DBG(10, "connect_fd: finish\n");
+
+	return ret;
 }
 
 static SANE_Status
 load_calibration(struct scanner *s)
 {
-    SANE_Status ret=SANE_STATUS_GOOD;
-    unsigned char cmd[] = {0x45, 0x00, 0x00};
-    unsigned char * buf;
-    size_t bytes = HEADER_SIZE + CAL_COLOR_SIZE*2 + CAL_GRAY_SIZE*2;
-    int j;
-  
-    DBG (10, "load_calibration: start\n");
-  
-    buf = malloc(bytes);
-    if(!buf){
-      DBG(5, "load_calibration: not enough mem for buffer: %ld\n",(long)bytes);
-      return SANE_STATUS_NO_MEM;
-    }
-  
-    ret = do_cmd(
-      s, 0,
-      cmd, sizeof(cmd),
-      NULL, 0,
-      buf, &bytes
-    );
-  
-    if (ret == SANE_STATUS_GOOD) {
-        DBG(15, "load_calibration: got GOOD\n");
-    
-        /*
-         * color cal data comes from scaner like:
-         * bbbbbbbBBBBBBBgggggggGGGGGGGrrrrrrrRRRRRRR
-         * where b=darkblue, B=lightblue, etc
-         * reorder the data into two buffers
-         * bbbbbbbgggggggrrrrrrr and BBBBBBBGGGGGGGRRRRRRR
-         */
-    
-        /*dark/light blue*/
-        memcpy(s->cal_color_b, buf+HEADER_SIZE, PIXELS_PER_LINE);
-        memcpy(s->cal_color_w,
-          buf+HEADER_SIZE+PIXELS_PER_LINE, PIXELS_PER_LINE);
-    
-        /*dark/light green*/
-        memcpy(s->cal_color_b+PIXELS_PER_LINE,
-          buf+HEADER_SIZE+(PIXELS_PER_LINE*2), PIXELS_PER_LINE);
-        memcpy(s->cal_color_w+PIXELS_PER_LINE,
-          buf+HEADER_SIZE+(PIXELS_PER_LINE*3), PIXELS_PER_LINE);
-    
-        /*dark/light red*/
-        memcpy(s->cal_color_b+(PIXELS_PER_LINE*2),
-          buf+HEADER_SIZE+(PIXELS_PER_LINE*4), PIXELS_PER_LINE);
-        memcpy(s->cal_color_w+(PIXELS_PER_LINE*2),
-          buf+HEADER_SIZE+(PIXELS_PER_LINE*5), PIXELS_PER_LINE);
-    
-        /* then slide the light data down using the dark offset */
-        for(j=0;j<CAL_COLOR_SIZE;j++){
-            s->cal_color_w[j] -= s->cal_color_b[j];
-        }
-    
-        /*dark/light gray*/
-        memcpy(s->cal_gray_b,
-          buf+HEADER_SIZE+(CAL_COLOR_SIZE*2), PIXELS_PER_LINE);
-        memcpy(s->cal_gray_w,
-          buf+HEADER_SIZE+(CAL_COLOR_SIZE*2)+PIXELS_PER_LINE, PIXELS_PER_LINE);
-    
-        /* then slide the light data down using the dark offset */
-        for(j=0;j<CAL_GRAY_SIZE;j++){
-            s->cal_gray_w[j] -= s->cal_gray_b[j];
-        }
-    
-        hexdump(35, "cal_color_b:", s->cal_color_b, CAL_COLOR_SIZE);
-        hexdump(35, "cal_color_w:", s->cal_color_w, CAL_COLOR_SIZE);
-        hexdump(35, "cal_gray_b:", s->cal_gray_b, CAL_GRAY_SIZE);
-        hexdump(35, "cal_gray_w:", s->cal_gray_w, CAL_GRAY_SIZE);
-    }
-    else {
-        DBG(5, "load_calibration: error reading data block status = %d\n", ret);
-    }
-  
-    DBG (10, "load_calibration: finish\n");
-  
-    return ret;
+	SANE_Status ret = SANE_STATUS_GOOD;
+	unsigned char cmd[] = { 0x45, 0x00, 0x00 };
+	unsigned char *buf;
+	size_t bytes = HEADER_SIZE + CAL_COLOR_SIZE * 2 + CAL_GRAY_SIZE * 2;
+	int j;
+
+	DBG(10, "load_calibration: start\n");
+
+	buf = malloc(bytes);
+	if (!buf) {
+		DBG(5, "load_calibration: not enough mem for buffer: %ld\n",
+		    (long) bytes);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	ret = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+	if (ret == SANE_STATUS_GOOD) {
+		DBG(15, "load_calibration: got GOOD\n");
+
+		/*
+		 * color cal data comes from scaner like:
+		 * bbbbbbbBBBBBBBgggggggGGGGGGGrrrrrrrRRRRRRR
+		 * where b=darkblue, B=lightblue, etc
+		 * reorder the data into two buffers
+		 * bbbbbbbgggggggrrrrrrr and BBBBBBBGGGGGGGRRRRRRR
+		 */
+
+		/*dark/light blue */
+		memcpy(s->cal_color_b, buf + HEADER_SIZE, PIXELS_PER_LINE);
+		memcpy(s->cal_color_w,
+		       buf + HEADER_SIZE + PIXELS_PER_LINE, PIXELS_PER_LINE);
+
+		/*dark/light green */
+		memcpy(s->cal_color_b + PIXELS_PER_LINE,
+		       buf + HEADER_SIZE + (PIXELS_PER_LINE * 2),
+		       PIXELS_PER_LINE);
+		memcpy(s->cal_color_w + PIXELS_PER_LINE,
+		       buf + HEADER_SIZE + (PIXELS_PER_LINE * 3),
+		       PIXELS_PER_LINE);
+
+		/*dark/light red */
+		memcpy(s->cal_color_b + (PIXELS_PER_LINE * 2),
+		       buf + HEADER_SIZE + (PIXELS_PER_LINE * 4),
+		       PIXELS_PER_LINE);
+		memcpy(s->cal_color_w + (PIXELS_PER_LINE * 2),
+		       buf + HEADER_SIZE + (PIXELS_PER_LINE * 5),
+		       PIXELS_PER_LINE);
+
+		/* then slide the light data down using the dark offset */
+		for (j = 0; j < CAL_COLOR_SIZE; j++) {
+			s->cal_color_w[j] -= s->cal_color_b[j];
+		}
+
+		/*dark/light gray */
+		memcpy(s->cal_gray_b,
+		       buf + HEADER_SIZE + (CAL_COLOR_SIZE * 2),
+		       PIXELS_PER_LINE);
+		memcpy(s->cal_gray_w,
+		       buf + HEADER_SIZE + (CAL_COLOR_SIZE * 2) +
+		       PIXELS_PER_LINE, PIXELS_PER_LINE);
+
+		/* then slide the light data down using the dark offset */
+		for (j = 0; j < CAL_GRAY_SIZE; j++) {
+			s->cal_gray_w[j] -= s->cal_gray_b[j];
+		}
+
+		hexdump(35, "cal_color_b:", s->cal_color_b, CAL_COLOR_SIZE);
+		hexdump(35, "cal_color_w:", s->cal_color_w, CAL_COLOR_SIZE);
+		hexdump(35, "cal_gray_b:", s->cal_gray_b, CAL_GRAY_SIZE);
+		hexdump(35, "cal_gray_w:", s->cal_gray_w, CAL_GRAY_SIZE);
+	} else {
+		DBG(5,
+		    "load_calibration: error reading data block status = %d\n",
+		    ret);
+	}
+
+	DBG(10, "load_calibration: finish\n");
+
+	return ret;
 }
 
 /*
@@ -628,58 +638,58 @@ load_calibration(struct scanner *s)
  * (if there is such a device).
  */
 SANE_Status
-sane_open (SANE_String_Const name, SANE_Handle * handle)
+sane_open(SANE_String_Const name, SANE_Handle * handle)
 {
-    struct scanner *dev = NULL;
-    struct scanner *s = NULL;
-    SANE_Status ret;
-   
-    DBG (10, "sane_open: start\n");
-  
-    if(name[0] == 0){
-        if(scanner_devList){
-            DBG (15, "sane_open: no device requested, using first\n");
-            s = scanner_devList;
-        }
-        else{
-            DBG (15, "sane_open: no device requested, none found\n");
-        }
-    }
-    else{
-        DBG (15, "sane_open: device %s requested, attaching\n", name);
+	struct scanner *dev = NULL;
+	struct scanner *s = NULL;
+	SANE_Status ret;
 
-        ret = attach_one(name);
-        if(ret){
-            DBG (5, "sane_open: attach error %d\n",ret);
-            return ret;
-        }
+	DBG(10, "sane_open: start\n");
 
-        for (dev = scanner_devList; dev; dev = dev->next) {
-            if (strcmp (dev->sane.name, name) == 0) {
-                s = dev;
-                break;
-            }
-        }
-    }
-  
-    if (!s) {
-        DBG (5, "sane_open: no device found\n");
-        return SANE_STATUS_INVAL;
-    }
-  
-    DBG (15, "sane_open: device %s found\n", s->sane.name);
-  
-    *handle = s;
-  
-    /* connect the fd so we can talk to scanner */
-    ret = connect_fd(s);
-    if(ret != SANE_STATUS_GOOD){
-        return ret;
-    }
-  
-    DBG (10, "sane_open: finish\n");
-  
-    return SANE_STATUS_GOOD;
+	if (name[0] == 0) {
+		if (scanner_devList) {
+			DBG(15,
+			    "sane_open: no device requested, using first\n");
+			s = scanner_devList;
+		} else {
+			DBG(15,
+			    "sane_open: no device requested, none found\n");
+		}
+	} else {
+		DBG(15, "sane_open: device %s requested, attaching\n", name);
+
+		ret = attach_one(name);
+		if (ret) {
+			DBG(5, "sane_open: attach error %d\n", ret);
+			return ret;
+		}
+
+		for (dev = scanner_devList; dev; dev = dev->next) {
+			if (strcmp(dev->sane.name, name) == 0) {
+				s = dev;
+				break;
+			}
+		}
+	}
+
+	if (!s) {
+		DBG(5, "sane_open: no device found\n");
+		return SANE_STATUS_INVAL;
+	}
+
+	DBG(15, "sane_open: device %s found\n", s->sane.name);
+
+	*handle = s;
+
+	/* connect the fd so we can talk to scanner */
+	ret = connect_fd(s);
+	if (ret != SANE_STATUS_GOOD) {
+		return ret;
+	}
+
+	DBG(10, "sane_open: finish\n");
+
+	return SANE_STATUS_GOOD;
 }
 
 /*
@@ -700,43 +710,43 @@ sane_open (SANE_String_Const name, SANE_Handle * handle)
  * (and at the returned address) until the device is closed.
  */
 const SANE_Option_Descriptor *
-sane_get_option_descriptor (SANE_Handle handle, SANE_Int option)
+sane_get_option_descriptor(SANE_Handle handle, SANE_Int option)
 {
-  struct scanner *s = handle;
-  int i;
-  SANE_Option_Descriptor *opt = &s->opt[option];
+	struct scanner *s = handle;
+	int i;
+	SANE_Option_Descriptor *opt = &s->opt[option];
 
-  DBG (20, "sane_get_option_descriptor: %d\n", option);
+	DBG(20, "sane_get_option_descriptor: %d\n", option);
 
-  if ((unsigned) option >= NUM_OPTIONS)
-    return NULL;
+	if ((unsigned) option >= NUM_OPTIONS)
+		return NULL;
 
-  /* "Mode" group -------------------------------------------------------- */
-  if(option==OPT_MODE_GROUP){
-    opt->title = "Scan Mode";
-    opt->desc = "";
-    opt->type = SANE_TYPE_GROUP;
-    opt->constraint_type = SANE_CONSTRAINT_NONE;
-  }
+	/* "Mode" group -------------------------------------------------------- */
+	if (option == OPT_MODE_GROUP) {
+		opt->title = "Scan Mode";
+		opt->desc = "";
+		opt->type = SANE_TYPE_GROUP;
+		opt->constraint_type = SANE_CONSTRAINT_NONE;
+	}
 
-  /* scan mode */
-  else if(option==OPT_MODE){
-    i=0;
-    s->mode_list[i++]=string_Grayscale;
-    s->mode_list[i++]=string_Color;
-    s->mode_list[i]=NULL;
-  
-    opt->name = SANE_NAME_SCAN_MODE;
-    opt->title = SANE_TITLE_SCAN_MODE;
-    opt->desc = SANE_DESC_SCAN_MODE;
-    opt->type = SANE_TYPE_STRING;
-    opt->constraint_type = SANE_CONSTRAINT_STRING_LIST;
-    opt->constraint.string_list = s->mode_list;
-    opt->size = maxStringSize (opt->constraint.string_list);
-    opt->cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
-  }
+	/* scan mode */
+	else if (option == OPT_MODE) {
+		i = 0;
+		s->mode_list[i++] = string_Grayscale;
+		s->mode_list[i++] = string_Color;
+		s->mode_list[i] = NULL;
 
-  return opt;
+		opt->name = SANE_NAME_SCAN_MODE;
+		opt->title = SANE_TITLE_SCAN_MODE;
+		opt->desc = SANE_DESC_SCAN_MODE;
+		opt->type = SANE_TYPE_STRING;
+		opt->constraint_type = SANE_CONSTRAINT_STRING_LIST;
+		opt->constraint.string_list = s->mode_list;
+		opt->size = maxStringSize(opt->constraint.string_list);
+		opt->cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
+	}
+
+	return opt;
 }
 
 /**
@@ -761,108 +771,109 @@ sane_get_option_descriptor (SANE_Handle handle, SANE_Int option)
  * well the request has been met.
  */
 SANE_Status
-sane_control_option (SANE_Handle handle, SANE_Int option,
-                     SANE_Action action, void *val, SANE_Int * info)
+sane_control_option(SANE_Handle handle, SANE_Int option,
+		    SANE_Action action, void *val, SANE_Int * info)
 {
-  struct scanner *s = (struct scanner *) handle;
-  SANE_Int dummy = 0;
+	struct scanner *s = (struct scanner *) handle;
+	SANE_Int dummy = 0;
 
-  /* Make sure that all those statements involving *info cannot break (better
-   * than having to do "if (info) ..." everywhere!)
-   */
-  if (info == 0)
-    info = &dummy;
+	/* Make sure that all those statements involving *info cannot break (better
+	 * than having to do "if (info) ..." everywhere!)
+	 */
+	if (info == 0)
+		info = &dummy;
 
-  if (option >= NUM_OPTIONS) {
-    DBG (5, "sane_control_option: %d too big\n", option);
-    return SANE_STATUS_INVAL;
-  }
+	if (option >= NUM_OPTIONS) {
+		DBG(5, "sane_control_option: %d too big\n", option);
+		return SANE_STATUS_INVAL;
+	}
 
-  if (!SANE_OPTION_IS_ACTIVE (s->opt[option].cap)) {
-    DBG (5, "sane_control_option: %d inactive\n", option);
-    return SANE_STATUS_INVAL;
-  }
+	if (!SANE_OPTION_IS_ACTIVE(s->opt[option].cap)) {
+		DBG(5, "sane_control_option: %d inactive\n", option);
+		return SANE_STATUS_INVAL;
+	}
 
-  /*
-   * SANE_ACTION_GET_VALUE: We have to find out the current setting and
-   * return it in a human-readable form (often, text).
-   */
-  if (action == SANE_ACTION_GET_VALUE) {
-      SANE_Word * val_p = (SANE_Word *) val;
+	/*
+	 * SANE_ACTION_GET_VALUE: We have to find out the current setting and
+	 * return it in a human-readable form (often, text).
+	 */
+	if (action == SANE_ACTION_GET_VALUE) {
+		SANE_Word *val_p = (SANE_Word *) val;
 
-      DBG (20, "sane_control_option: get value for '%s' (%d)\n", s->opt[option].name,option);
+		DBG(20, "sane_control_option: get value for '%s' (%d)\n",
+		    s->opt[option].name, option);
 
-      switch (option) {
+		switch (option) {
 
-        case OPT_NUM_OPTS:
-          *val_p = NUM_OPTIONS;
-          return SANE_STATUS_GOOD;
+		case OPT_NUM_OPTS:
+			*val_p = NUM_OPTIONS;
+			return SANE_STATUS_GOOD;
 
-        case OPT_MODE:
-          if(s->mode == MODE_GRAYSCALE){
-            strcpy (val, string_Grayscale);
-          }
-          else if(s->mode == MODE_COLOR){
-            strcpy (val, string_Color);
-          }
-          return SANE_STATUS_GOOD;
-      }
-  }
-  else if (action == SANE_ACTION_SET_VALUE) {
-      int tmp;
-      SANE_Word val_c;
-      SANE_Status status;
+		case OPT_MODE:
+			if (s->mode == MODE_GRAYSCALE) {
+				strcpy(val, string_Grayscale);
+			} else if (s->mode == MODE_COLOR) {
+				strcpy(val, string_Color);
+			}
+			return SANE_STATUS_GOOD;
+		}
+	} else if (action == SANE_ACTION_SET_VALUE) {
+		int tmp;
+		SANE_Word val_c;
+		SANE_Status status;
 
-      DBG (20, "sane_control_option: set value for '%s' (%d)\n", s->opt[option].name,option);
+		DBG(20, "sane_control_option: set value for '%s' (%d)\n",
+		    s->opt[option].name, option);
 
-      if ( s->started ) {
-        DBG (5, "sane_control_option: cant set, device busy\n");
-        return SANE_STATUS_DEVICE_BUSY;
-      }
+		if (s->started) {
+			DBG(5,
+			    "sane_control_option: cant set, device busy\n");
+			return SANE_STATUS_DEVICE_BUSY;
+		}
 
-      if (!SANE_OPTION_IS_SETTABLE (s->opt[option].cap)) {
-        DBG (5, "sane_control_option: not settable\n");
-        return SANE_STATUS_INVAL;
-      }
+		if (!SANE_OPTION_IS_SETTABLE(s->opt[option].cap)) {
+			DBG(5, "sane_control_option: not settable\n");
+			return SANE_STATUS_INVAL;
+		}
 
-      status = sanei_constrain_value (s->opt + option, val, info);
-      if (status != SANE_STATUS_GOOD) {
-        DBG (5, "sane_control_option: bad value\n");
-        return status;
-      }
+		status = sanei_constrain_value(s->opt + option, val, info);
+		if (status != SANE_STATUS_GOOD) {
+			DBG(5, "sane_control_option: bad value\n");
+			return status;
+		}
 
-      /* may have been changed by constrain, so dont copy until now */
-      val_c = *(SANE_Word *)val;
+		/* may have been changed by constrain, so dont copy until now */
+		val_c = *(SANE_Word *) val;
 
-      /*
-       * Note - for those options which can assume one of a list of
-       * valid values, we can safely assume that they will have
-       * exactly one of those values because that's what
-       * sanei_constrain_value does. Hence no "else: invalid" branches
-       * below.
-       */
-      switch (option) {
- 
-        /* Mode Group */
-        case OPT_MODE:
-          if (!strcmp (val, string_Grayscale)) {
-            tmp = MODE_GRAYSCALE;
-          }
-          else{
-            tmp = MODE_COLOR;
-          }
+		/*
+		 * Note - for those options which can assume one of a list of
+		 * valid values, we can safely assume that they will have
+		 * exactly one of those values because that's what
+		 * sanei_constrain_value does. Hence no "else: invalid" branches
+		 * below.
+		 */
+		switch (option) {
 
-          if (tmp == s->mode)
-              return SANE_STATUS_GOOD;
+			/* Mode Group */
+		case OPT_MODE:
+			if (!strcmp(val, string_Grayscale)) {
+				tmp = MODE_GRAYSCALE;
+			} else {
+				tmp = MODE_COLOR;
+			}
 
-          s->mode = tmp;
-          *info |= SANE_INFO_RELOAD_PARAMS | SANE_INFO_RELOAD_OPTIONS;
-          return SANE_STATUS_GOOD;
+			if (tmp == s->mode)
+				return SANE_STATUS_GOOD;
 
-      }                       /* switch */
-  }                           /* else */
+			s->mode = tmp;
+			*info |= SANE_INFO_RELOAD_PARAMS |
+				SANE_INFO_RELOAD_OPTIONS;
+			return SANE_STATUS_GOOD;
 
-  return SANE_STATUS_INVAL;
+		}		/* switch */
+	}
+	/* else */
+	return SANE_STATUS_INVAL;
 }
 
 /*
@@ -887,205 +898,194 @@ sane_control_option (SANE_Handle handle, SANE_Int option,
  * to a parameter structure.
  */
 SANE_Status
-sane_get_parameters (SANE_Handle handle, SANE_Parameters * params)
+sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 {
-  struct scanner *s = (struct scanner *) handle;
+	struct scanner *s = (struct scanner *) handle;
 
-  DBG (10, "sane_get_parameters: start\n");
+	DBG(10, "sane_get_parameters: start\n");
 
-  params->pixels_per_line = PIXELS_PER_LINE;
-  params->lines = -1;
-  params->last_frame = 1;
+	params->pixels_per_line = PIXELS_PER_LINE;
+	params->lines = -1;
+	params->last_frame = 1;
 
-  if (s->mode == MODE_COLOR) {
-    params->format = SANE_FRAME_RGB;
-    params->depth = 8;
-    params->bytes_per_line = params->pixels_per_line * 3;
-  }
-  else if (s->mode == MODE_GRAYSCALE) {
-    params->format = SANE_FRAME_GRAY;
-    params->depth = 8;
-    params->bytes_per_line = params->pixels_per_line;
-  }
+	if (s->mode == MODE_COLOR) {
+		params->format = SANE_FRAME_RGB;
+		params->depth = 8;
+		params->bytes_per_line = params->pixels_per_line * 3;
+	} else if (s->mode == MODE_GRAYSCALE) {
+		params->format = SANE_FRAME_GRAY;
+		params->depth = 8;
+		params->bytes_per_line = params->pixels_per_line;
+	}
 
-  DBG (15, "\tdepth %d\n", params->depth);
-  DBG (15, "\tlines %d\n", params->lines);
-  DBG (15, "\tpixels_per_line %d\n", params->pixels_per_line);
-  DBG (15, "\tbytes_per_line %d\n", params->bytes_per_line);
+	DBG(15, "\tdepth %d\n", params->depth);
+	DBG(15, "\tlines %d\n", params->lines);
+	DBG(15, "\tpixels_per_line %d\n", params->pixels_per_line);
+	DBG(15, "\tbytes_per_line %d\n", params->bytes_per_line);
 
-  DBG (10, "sane_get_parameters: finish\n");
+	DBG(10, "sane_get_parameters: finish\n");
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 /*
  * Called by SANE when a page acquisition operation is to be started.
  */
 SANE_Status
-sane_start (SANE_Handle handle)
+sane_start(SANE_Handle handle)
 {
-    struct scanner *s = handle;
-    SANE_Status ret;
-  
-    DBG (10, "sane_start: start\n");
-  
-    /* first page of batch */
-    if(s->started){
-        DBG(5,"sane_start: previous transfer not finished?");
-        sane_cancel((SANE_Handle)s);
-        return SANE_STATUS_CANCELLED;
-    }
-  
-    /* set clean defaults */
-    s->started=1;
-    s->bytes_rx=0;
-    s->bytes_tx=0;
-    s->paperless_lines=0;
-  
-    /* heat up the lamp */ 
-    if(s->mode == MODE_COLOR){
-        ret = heat_lamp_color(s);
-    }
-    else{
-        ret = heat_lamp_gray(s);
-    }
-  
-    if (ret != SANE_STATUS_GOOD) {
-        DBG (5, "sane_start: ERROR: failed to heat lamp\n");
-        sane_cancel((SANE_Handle)s);
-        return ret;
-    }
-  
-    DBG (10, "sane_start: finish\n");
-  
-    return SANE_STATUS_GOOD;
+	struct scanner *s = handle;
+	SANE_Status ret;
+
+	DBG(10, "sane_start: start\n");
+
+	/* first page of batch */
+	if (s->started) {
+		DBG(5, "sane_start: previous transfer not finished?");
+		sane_cancel((SANE_Handle) s);
+		return SANE_STATUS_CANCELLED;
+	}
+
+	/* set clean defaults */
+	s->started = 1;
+	s->bytes_rx = 0;
+	s->bytes_tx = 0;
+	s->paperless_lines = 0;
+
+	/* heat up the lamp */
+	if (s->mode == MODE_COLOR) {
+		ret = heat_lamp_color(s);
+	} else {
+		ret = heat_lamp_gray(s);
+	}
+
+	if (ret != SANE_STATUS_GOOD) {
+		DBG(5, "sane_start: ERROR: failed to heat lamp\n");
+		sane_cancel((SANE_Handle) s);
+		return ret;
+	}
+
+	DBG(10, "sane_start: finish\n");
+
+	return SANE_STATUS_GOOD;
 }
 
 static SANE_Status
 heat_lamp_gray(struct scanner *s)
 {
-    SANE_Status ret = SANE_STATUS_GOOD;
-    SANE_Status ret2 = SANE_STATUS_GOOD;
-    unsigned char cmd[] =
-      {0x12, 0x06, 0x00, 0x00, 0x01, 0x60, 0x00, 0x61, 0x00};
-    size_t bytes = HEADER_SIZE + 1;
-    unsigned char * buf;
-    int i;
-  
-    DBG (10, "heat_lamp_gray: start\n");
-  
-    buf = malloc(bytes);
-    if(!buf){
-        DBG(5, "heat_lamp_gray: not enough mem for buffer: %lu\n",
-          (long unsigned)bytes);
-        return SANE_STATUS_NO_MEM;
-    }
+	SANE_Status ret = SANE_STATUS_GOOD;
+	SANE_Status ret2 = SANE_STATUS_GOOD;
+	unsigned char cmd[] =
+		{ 0x12, 0x06, 0x00, 0x00, 0x01, 0x60, 0x00, 0x61, 0x00 };
+	size_t bytes = HEADER_SIZE + 1;
+	unsigned char *buf;
+	int i;
 
-    for(i=0;i<10;i++){
-    
-        ret2 = do_cmd(
-          s, 0,
-          cmd, sizeof(cmd),
-          NULL, 0,
-          buf, &bytes
-        );
-      
-        if (ret2 != SANE_STATUS_GOOD) {
-            DBG(5, "heat_lamp_gray: %d error\n",i);
-            ret = ret2;
-            break;
-        }
-    
-        if(!buf[1]){
-            DBG(5, "heat_lamp_gray: %d got no docs\n",i);
-            ret = SANE_STATUS_NO_DOCS;
-            break;
-        }
-    
-        DBG(15, "heat_lamp_gray: %d got: %d %d\n",i,
-          buf[HEADER_SIZE],s->cal_gray_b[0]);
+	DBG(10, "heat_lamp_gray: start\n");
 
-        if(buf[HEADER_SIZE] < 0x20){
-            DBG(15, "heat_lamp_gray: hot\n");
-            ret = SANE_STATUS_GOOD;
-            break;
-        }
-        else{
-            DBG(15, "heat_lamp_gray: cold\n");
-            ret = SANE_STATUS_DEVICE_BUSY;
-        }
-    }
-  
-    free(buf);
-  
-    DBG (10, "heat_lamp_gray: finish %d\n",ret);
-  
-    return ret;
+	buf = malloc(bytes);
+	if (!buf) {
+		DBG(5, "heat_lamp_gray: not enough mem for buffer: %lu\n",
+		    (long unsigned) bytes);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	for (i = 0; i < 10; i++) {
+
+		ret2 = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+		if (ret2 != SANE_STATUS_GOOD) {
+			DBG(5, "heat_lamp_gray: %d error\n", i);
+			ret = ret2;
+			break;
+		}
+
+		if (!buf[1]) {
+			DBG(5, "heat_lamp_gray: %d got no docs\n", i);
+			ret = SANE_STATUS_NO_DOCS;
+			break;
+		}
+
+		DBG(15, "heat_lamp_gray: %d got: %d %d\n", i,
+		    buf[HEADER_SIZE], s->cal_gray_b[0]);
+
+		if (buf[HEADER_SIZE] < 0x20) {
+			DBG(15, "heat_lamp_gray: hot\n");
+			ret = SANE_STATUS_GOOD;
+			break;
+		} else {
+			DBG(15, "heat_lamp_gray: cold\n");
+			ret = SANE_STATUS_DEVICE_BUSY;
+		}
+	}
+
+	free(buf);
+
+	DBG(10, "heat_lamp_gray: finish %d\n", ret);
+
+	return ret;
 }
 
 static SANE_Status
 heat_lamp_color(struct scanner *s)
 {
-    SANE_Status ret = SANE_STATUS_GOOD;
-    SANE_Status ret2 = SANE_STATUS_GOOD;
-    unsigned char cmd[] =
-      {0x18, 0x07, 0x00, 0x00, 0x01, 0x60, 0x00, 0x61, 0x00, 0x07};
-    size_t bytes = HEADER_SIZE + 3;
-    unsigned char * buf;
-    int i;
-  
-    DBG (10, "heat_lamp_color: start\n");
-  
-    buf = malloc(bytes);
-    if(!buf){
-        DBG(5, "heat_lamp_color: not enough mem for buffer: %lu\n",
-          (long unsigned)bytes);
-        return SANE_STATUS_NO_MEM;
-    }
+	SANE_Status ret = SANE_STATUS_GOOD;
+	SANE_Status ret2 = SANE_STATUS_GOOD;
+	unsigned char cmd[] =
+		{ 0x18, 0x07, 0x00, 0x00, 0x01, 0x60, 0x00, 0x61, 0x00,
+		0x07
+	};
+	size_t bytes = HEADER_SIZE + 3;
+	unsigned char *buf;
+	int i;
 
-    for(i=0;i<10;i++){
-    
-        ret2 = do_cmd(
-          s, 0,
-          cmd, sizeof(cmd),
-          NULL, 0,
-          buf, &bytes
-        );
-      
-        if (ret2 != SANE_STATUS_GOOD) {
-            DBG(5, "heat_lamp_color: %d error\n",i);
-            ret = ret2;
-            break;
-        }
-    
-        if(!buf[1]){
-            DBG(5, "heat_lamp_color: %d got no docs\n",i);
-            ret = SANE_STATUS_NO_DOCS;
-            break;
-        }
-    
-        DBG(15, "heat_lamp_color: %d got: %d,%d,%d %d,%d,%d\n",i,
-          buf[HEADER_SIZE],buf[HEADER_SIZE+1],buf[HEADER_SIZE+2],
-          s->cal_color_b[0],s->cal_color_b[1],s->cal_color_b[2]);
+	DBG(10, "heat_lamp_color: start\n");
 
-        if(buf[HEADER_SIZE] < 0x20
-         && buf[HEADER_SIZE+1] < 0x20
-         && buf[HEADER_SIZE+2] < 0x20){
-            DBG(15, "heat_lamp_color: hot\n");
-            ret = SANE_STATUS_GOOD;
-            break;
-        }
-        else{
-            DBG(15, "heat_lamp_color: cold\n");
-            ret = SANE_STATUS_DEVICE_BUSY;
-        }
-    }
-  
-    free(buf);
-  
-    DBG (10, "heat_lamp_color: finish %d\n",ret);
-  
-    return ret;
+	buf = malloc(bytes);
+	if (!buf) {
+		DBG(5, "heat_lamp_color: not enough mem for buffer: %lu\n",
+		    (long unsigned) bytes);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	for (i = 0; i < 10; i++) {
+
+		ret2 = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+		if (ret2 != SANE_STATUS_GOOD) {
+			DBG(5, "heat_lamp_color: %d error\n", i);
+			ret = ret2;
+			break;
+		}
+
+		if (!buf[1]) {
+			DBG(5, "heat_lamp_color: %d got no docs\n", i);
+			ret = SANE_STATUS_NO_DOCS;
+			break;
+		}
+
+		DBG(15, "heat_lamp_color: %d got: %d,%d,%d %d,%d,%d\n", i,
+		    buf[HEADER_SIZE], buf[HEADER_SIZE + 1],
+		    buf[HEADER_SIZE + 2], s->cal_color_b[0],
+		    s->cal_color_b[1], s->cal_color_b[2]);
+
+		if (buf[HEADER_SIZE] < 0x20
+		    && buf[HEADER_SIZE + 1] < 0x20
+		    && buf[HEADER_SIZE + 2] < 0x20) {
+			DBG(15, "heat_lamp_color: hot\n");
+			ret = SANE_STATUS_GOOD;
+			break;
+		} else {
+			DBG(15, "heat_lamp_color: cold\n");
+			ret = SANE_STATUS_DEVICE_BUSY;
+		}
+	}
+
+	free(buf);
+
+	DBG(10, "heat_lamp_color: finish %d\n", ret);
+
+	return ret;
 }
 
 /*
@@ -1103,190 +1103,193 @@ heat_lamp_color(struct scanner *s)
  * anywhere in the range from 0 to maxlen bytes.
  */
 SANE_Status
-sane_read (SANE_Handle handle, SANE_Byte * buf, SANE_Int max_len, SANE_Int * len)
+sane_read(SANE_Handle handle, SANE_Byte * buf, SANE_Int max_len,
+	  SANE_Int * len)
 {
-    struct scanner *s = (struct scanner *) handle;
-    SANE_Status ret=SANE_STATUS_GOOD;
-  
-    DBG (10, "sane_read: start\n");
-  
-    *len = 0;
-  
-    /* cancelled? */
-    if(!s->started){
-        DBG (5, "sane_read: call sane_start first\n");
-        return SANE_STATUS_CANCELLED;
-    }
-  
-    /* have sent all of current buffer */
-    if(s->bytes_tx == s->bytes_rx){
-  
-        /* at end of data, stop */
-        if(s->paperless_lines >= MAX_PAPERLESS_LINES){
-            DBG (15, "sane_read: returning eof\n");
-            power_down(s);
-            return SANE_STATUS_EOF;
-        }
-  
-        /* more to get, reset and go */
-        s->bytes_tx = 0;
-        s->bytes_rx = 0;
-  
-        if(s->mode == MODE_COLOR){
-            ret = read_from_scanner_color(s);
-        }
-        else{
-            ret = read_from_scanner_gray(s);
-        }
-  
-        if(ret){
-            DBG(5,"sane_read: returning %d\n",ret);
-            return ret;
-        }
-    }
-  
-    /* data in current buffer, send some of it */
-    *len = s->bytes_rx - s->bytes_tx;
-    if(*len > max_len){
-        *len = max_len;
-    }
-  
-    memcpy(buf,s->buffer+s->bytes_tx,*len);
-    s->bytes_tx += *len;
-  
-    DBG (10, "sane_read: %d,%d,%d finish\n", *len,s->bytes_rx,s->bytes_tx);
-  
-    return ret;
+	struct scanner *s = (struct scanner *) handle;
+	SANE_Status ret = SANE_STATUS_GOOD;
+
+	DBG(10, "sane_read: start\n");
+
+	*len = 0;
+
+	/* cancelled? */
+	if (!s->started) {
+		DBG(5, "sane_read: call sane_start first\n");
+		return SANE_STATUS_CANCELLED;
+	}
+
+	/* have sent all of current buffer */
+	if (s->bytes_tx == s->bytes_rx) {
+
+		/* at end of data, stop */
+		if (s->paperless_lines >= MAX_PAPERLESS_LINES) {
+			DBG(15, "sane_read: returning eof\n");
+			power_down(s);
+			return SANE_STATUS_EOF;
+		}
+
+		/* more to get, reset and go */
+		s->bytes_tx = 0;
+		s->bytes_rx = 0;
+
+		if (s->mode == MODE_COLOR) {
+			ret = read_from_scanner_color(s);
+		} else {
+			ret = read_from_scanner_gray(s);
+		}
+
+		if (ret) {
+			DBG(5, "sane_read: returning %d\n", ret);
+			return ret;
+		}
+	}
+
+	/* data in current buffer, send some of it */
+	*len = s->bytes_rx - s->bytes_tx;
+	if (*len > max_len) {
+		*len = max_len;
+	}
+
+	memcpy(buf, s->buffer + s->bytes_tx, *len);
+	s->bytes_tx += *len;
+
+	DBG(10, "sane_read: %d,%d,%d finish\n", *len, s->bytes_rx,
+	    s->bytes_tx);
+
+	return ret;
 }
 
 static SANE_Status
 read_from_scanner_gray(struct scanner *s)
 {
-    SANE_Status ret=SANE_STATUS_GOOD;
-    /*cmd    len-le16    move  lines  ???   ???   ???   ???*/
-    unsigned char cmd[] =
-      {0x12, 0x06, 0x00, 0x01, 0x10, 0x60, 0x00, 0x18, 0x05};
-    size_t bytes = HEADER_SIZE + GRAY_BLOCK_SIZE;
-    unsigned char * buf;
-    int i,j;
-  
-    DBG (10, "read_from_scanner_gray: start\n");
-  
-    buf = malloc(bytes);
-    if(!buf){
-        DBG(5, "read_from_scanner_gray: not enough mem for buffer: %lu\n",
-          (long unsigned)bytes);
-        return SANE_STATUS_NO_MEM;
-    }
-  
-    ret = do_cmd(
-      s, 0,
-      cmd, sizeof(cmd),
-      NULL, 0,
-      buf, &bytes
-    );
-  
-    if (ret == SANE_STATUS_GOOD) {
+	SANE_Status ret = SANE_STATUS_GOOD;
+	/*cmd    len-le16    move  lines  ???   ???   ???   ??? */
+	unsigned char cmd[] =
+		{ 0x12, 0x06, 0x00, 0x01, 0x10, 0x60, 0x00, 0x18, 0x05 };
+	size_t bytes = HEADER_SIZE + GRAY_BLOCK_SIZE;
+	unsigned char *buf;
+	int i, j;
 
-        DBG(15, "read_from_scanner_gray: got GOOD\n");
+	DBG(10, "read_from_scanner_gray: start\n");
 
-        if(!buf[1]){
-          s->paperless_lines += LINES_PER_PASS;
-        }
-    
-        s->bytes_rx = GRAY_BLOCK_SIZE;
-    
-        /*memcpy(s->buffer,buf+HEADER_SIZE,GRAY_BLOCK_SIZE);*/
-  
-        /* reorder the gray data into the struct's buffer */
-        for(i=0;i<GRAY_BLOCK_SIZE;i+=PIXELS_PER_LINE){
-            for(j=0;j<PIXELS_PER_LINE;j++){
-      
-                unsigned char byte = buf[ HEADER_SIZE + i + j ];
-                unsigned char bcal = s->cal_gray_b[j];
-                unsigned char wcal = s->cal_gray_w[j];
-        
-                byte = (byte <= bcal)?0:(byte-bcal);
-                byte = (byte >= wcal)?255:(byte*255/wcal);
-                s->buffer[i+j] = byte;
-            }
-        }
-    }
-    else {
-        DBG(5, "read_from_scanner_gray: error reading status = %d\n", ret);
-    }
-  
-    free(buf);
-  
-    DBG (10, "read_from_scanner_gray: finish\n");
-  
-    return ret;
+	buf = malloc(bytes);
+	if (!buf) {
+		DBG(5,
+		    "read_from_scanner_gray: not enough mem for buffer: %lu\n",
+		    (long unsigned) bytes);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	ret = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+	if (ret == SANE_STATUS_GOOD) {
+
+		DBG(15, "read_from_scanner_gray: got GOOD\n");
+
+		if (!buf[1]) {
+			s->paperless_lines += LINES_PER_PASS;
+		}
+
+		s->bytes_rx = GRAY_BLOCK_SIZE;
+
+		/*memcpy(s->buffer,buf+HEADER_SIZE,GRAY_BLOCK_SIZE); */
+
+		/* reorder the gray data into the struct's buffer */
+		for (i = 0; i < GRAY_BLOCK_SIZE; i += PIXELS_PER_LINE) {
+			for (j = 0; j < PIXELS_PER_LINE; j++) {
+
+				unsigned char byte = buf[HEADER_SIZE + i + j];
+				unsigned char bcal = s->cal_gray_b[j];
+				unsigned char wcal = s->cal_gray_w[j];
+
+				byte = (byte <= bcal) ? 0 : (byte - bcal);
+				byte = (byte >=
+					wcal) ? 255 : (byte * 255 / wcal);
+				s->buffer[i + j] = byte;
+			}
+		}
+	} else {
+		DBG(5, "read_from_scanner_gray: error reading status = %d\n",
+		    ret);
+	}
+
+	free(buf);
+
+	DBG(10, "read_from_scanner_gray: finish\n");
+
+	return ret;
 }
 
 static SANE_Status
 read_from_scanner_color(struct scanner *s)
 {
-    SANE_Status ret=SANE_STATUS_GOOD;
-    unsigned char cmd[] =
-      {0x18, 0x07, 0x00, 0x01, 0x10, 0x60, 0x00, 0x18, 0x05, 0x07};
-    size_t bytes = HEADER_SIZE + COLOR_BLOCK_SIZE;
-    unsigned char * buf;
-    int i,j,k;
-  
-    DBG (10, "read_from_scanner_color: start\n");
-  
-    buf = malloc(bytes);
-    if(!buf){
-        DBG(5, "read_from_scanner_color: not enough mem for buffer: %lu\n",
-          (long unsigned)bytes);
-        return SANE_STATUS_NO_MEM;
-    }
-  
-    ret = do_cmd(
-      s, 0,
-      cmd, sizeof(cmd),
-      NULL, 0,
-      buf, &bytes
-    );
-  
-    if (ret == SANE_STATUS_GOOD) {
+	SANE_Status ret = SANE_STATUS_GOOD;
+	unsigned char cmd[] =
+		{ 0x18, 0x07, 0x00, 0x01, 0x10, 0x60, 0x00, 0x18, 0x05,
+		0x07
+	};
+	size_t bytes = HEADER_SIZE + COLOR_BLOCK_SIZE;
+	unsigned char *buf;
+	int i, j, k;
 
-        DBG(15, "read_from_scanner_color: got GOOD\n");
+	DBG(10, "read_from_scanner_color: start\n");
 
-        if(!buf[1]){
-          s->paperless_lines += LINES_PER_PASS;
-        }
-    
-        s->bytes_rx = COLOR_BLOCK_SIZE;
-    
-        /*memcpy(s->buffer,buf+HEADER_SIZE,COLOR_BLOCK_SIZE);*/
-  
-        /* reorder the color data into the struct's buffer */
-        for(i=0;i<COLOR_BLOCK_SIZE;i+=PIXELS_PER_LINE*3){
-            for(j=0;j<PIXELS_PER_LINE;j++){
-                for(k=0;k<3;k++){
-      
-                    int offset = PIXELS_PER_LINE*(2-k) + j;
-                    unsigned char byte = buf[ HEADER_SIZE + i + offset ];
-                    unsigned char bcal = s->cal_color_b[offset];
-                    unsigned char wcal = s->cal_color_w[offset];
-            
-                    byte = (byte <= bcal)?0:(byte-bcal);
-                    byte = (byte >= wcal)?255:(byte*255/wcal);
-                    s->buffer[i+j*3+k] = byte;
-                }
-            }
-        }
-    }
-    else {
-        DBG(5, "read_from_scanner_color: error reading status = %d\n", ret);
-    }
-  
-    free(buf);
-  
-    DBG (10, "read_from_scanner_color: finish\n");
-  
-    return ret;
+	buf = malloc(bytes);
+	if (!buf) {
+		DBG(5,
+		    "read_from_scanner_color: not enough mem for buffer: %lu\n",
+		    (long unsigned) bytes);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	ret = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+	if (ret == SANE_STATUS_GOOD) {
+
+		DBG(15, "read_from_scanner_color: got GOOD\n");
+
+		if (!buf[1]) {
+			s->paperless_lines += LINES_PER_PASS;
+		}
+
+		s->bytes_rx = COLOR_BLOCK_SIZE;
+
+		/*memcpy(s->buffer,buf+HEADER_SIZE,COLOR_BLOCK_SIZE); */
+
+		/* reorder the color data into the struct's buffer */
+		for (i = 0; i < COLOR_BLOCK_SIZE; i += PIXELS_PER_LINE * 3) {
+			for (j = 0; j < PIXELS_PER_LINE; j++) {
+				for (k = 0; k < 3; k++) {
+
+					int offset =
+						PIXELS_PER_LINE * (2 - k) + j;
+					unsigned char byte =
+						buf[HEADER_SIZE + i + offset];
+					unsigned char bcal =
+						s->cal_color_b[offset];
+					unsigned char wcal =
+						s->cal_color_w[offset];
+
+					byte = (byte <=
+						bcal) ? 0 : (byte - bcal);
+					byte = (byte >=
+						wcal) ? 255 : (byte * 255 /
+							       wcal);
+					s->buffer[i + j * 3 + k] = byte;
+				}
+			}
+		}
+	} else {
+		DBG(5, "read_from_scanner_color: error reading status = %d\n",
+		    ret);
+	}
+
+	free(buf);
+
+	DBG(10, "read_from_scanner_color: finish\n");
+
+	return ret;
 }
 
 /*
@@ -1312,57 +1315,47 @@ read_from_scanner_color(struct scanner *s)
  * cancelled operation has returned.
  */
 void
-sane_cancel (SANE_Handle handle)
+sane_cancel(SANE_Handle handle)
 {
-  struct scanner * s = (struct scanner *) handle;
-  DBG (10, "sane_cancel: start\n");
-  s->started = 0;
-  DBG (10, "sane_cancel: finish\n");
+	struct scanner *s = (struct scanner *) handle;
+	DBG(10, "sane_cancel: start\n");
+	s->started = 0;
+	DBG(10, "sane_cancel: finish\n");
 }
 
 static SANE_Status
 power_down(struct scanner *s)
 {
-    SANE_Status ret = SANE_STATUS_GOOD;
+	SANE_Status ret = SANE_STATUS_GOOD;
 
-    unsigned char cmd[] = {0x21, 0x02, 0x00, 0x0a, 0x00};
-    unsigned char buf[6];
-    size_t bytes = sizeof(buf);
-    int i;
-  
-    DBG (10, "power_down: start\n");
+	unsigned char cmd[] = { 0x21, 0x02, 0x00, 0x0a, 0x00 };
+	unsigned char buf[6];
+	size_t bytes = sizeof(buf);
+	int i;
 
-    for(i=0;i<5;i++){
-        ret = do_cmd(
-          s, 0,
-          cmd, sizeof(cmd),
-          NULL, 0,
-          buf, &bytes
-        );
+	DBG(10, "power_down: start\n");
 
-        if(ret != SANE_STATUS_GOOD){
-            break;
-        }
-    }
+	for (i = 0; i < 5; i++) {
+		ret = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
+
+		if (ret != SANE_STATUS_GOOD) {
+			break;
+		}
+	}
 
 #if 0
-    unsigned char cmd[] = {0x35, 0x01, 0x00, 0xff};
-    unsigned char buf[5];
-    size_t bytes = sizeof(buf);
-  
-    DBG (10, "power_down: start\n");
-  
-    ret = do_cmd(
-      s, 0,
-      cmd, sizeof(cmd),
-      NULL, 0,
-      buf, &bytes
-    );
+	unsigned char cmd[] = { 0x35, 0x01, 0x00, 0xff };
+	unsigned char buf[5];
+	size_t bytes = sizeof(buf);
+
+	DBG(10, "power_down: start\n");
+
+	ret = do_cmd(s, 0, cmd, sizeof(cmd), NULL, 0, buf, &bytes);
 #endif
-      
-    DBG (10, "power_down: finish %d\n",ret);
-  
-    return ret;
+
+	DBG(10, "power_down: finish %d\n", ret);
+
+	return ret;
 }
 
 /*
@@ -1375,30 +1368,30 @@ power_down(struct scanner *s)
  * this function returns, handle h must not be used anymore.
  */
 void
-sane_close (SANE_Handle handle)
+sane_close(SANE_Handle handle)
 {
-  DBG (10, "sane_close: start\n");
+	DBG(10, "sane_close: start\n");
 
-  sane_cancel(handle);
-  disconnect_fd((struct scanner *) handle);
+	sane_cancel(handle);
+	disconnect_fd((struct scanner *) handle);
 
-  DBG (10, "sane_close: finish\n");
+	DBG(10, "sane_close: finish\n");
 }
 
 static SANE_Status
-disconnect_fd (struct scanner *s)
+disconnect_fd(struct scanner *s)
 {
-  DBG (10, "disconnect_fd: start\n");
+	DBG(10, "disconnect_fd: start\n");
 
-  if(s->fd > -1){
-    DBG (15, "disconnecting usb device\n");
-    sanei_usb_close (s->fd);
-    s->fd = -1;
-  }
+	if (s->fd > -1) {
+		DBG(15, "disconnecting usb device\n");
+		sanei_usb_close(s->fd);
+		s->fd = -1;
+	}
 
-  DBG (10, "disconnect_fd: finish\n");
+	DBG(10, "disconnect_fd: finish\n");
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 /*
@@ -1416,26 +1409,26 @@ disconnect_fd (struct scanner *s)
  * released properly.
  */
 void
-sane_exit (void)
+sane_exit(void)
 {
-  struct scanner *dev, *next;
+	struct scanner *dev, *next;
 
-  DBG (10, "sane_exit: start\n");
+	DBG(10, "sane_exit: start\n");
 
-  for (dev = scanner_devList; dev; dev = next) {
-      disconnect_fd(dev);
-      next = dev->next;
-      free (dev->device_name);
-      free (dev);
-  }
+	for (dev = scanner_devList; dev; dev = next) {
+		disconnect_fd(dev);
+		next = dev->next;
+		free(dev->device_name);
+		free(dev);
+	}
 
-  if (sane_devArray)
-    free (sane_devArray);
+	if (sane_devArray)
+		free(sane_devArray);
 
-  scanner_devList = NULL;
-  sane_devArray = NULL;
+	scanner_devList = NULL;
+	sane_devArray = NULL;
 
-  DBG (10, "sane_exit: finish\n");
+	DBG(10, "sane_exit: finish\n");
 }
 
 
@@ -1447,184 +1440,188 @@ sane_exit (void)
  */
 static SANE_Status
 do_cmd(struct scanner *s, int shortTime,
- unsigned char * cmdBuff, size_t cmdLen,
- unsigned char * outBuff, size_t outLen,
- unsigned char * inBuff, size_t * inLen
-)
+       unsigned char *cmdBuff, size_t cmdLen,
+       unsigned char *outBuff, size_t outLen,
+       unsigned char *inBuff, size_t * inLen)
 {
-    /* sanei_usb overwrites the transfer size, so make some local copies */
-    size_t loc_cmdLen = cmdLen;
-    size_t loc_outLen = outLen;
-    size_t loc_inLen = *inLen;
+	/* sanei_usb overwrites the transfer size, so make some local copies */
+	size_t loc_cmdLen = cmdLen;
+	size_t loc_outLen = outLen;
+	size_t loc_inLen = *inLen;
 
-    int cmdTime = USB_COMMAND_TIME;
-    int outTime = USB_DATA_TIME;
-    int inTime = USB_DATA_TIME;
+	int cmdTime = USB_COMMAND_TIME;
+	int outTime = USB_DATA_TIME;
+	int inTime = USB_DATA_TIME;
 
-    int ret = 0;
+	int ret = 0;
 
-    DBG (10, "do_cmd: start\n");
+	DBG(10, "do_cmd: start\n");
 
-    if(shortTime){
-        cmdTime /= 20;
-        outTime /= 20;
-        inTime /= 20;
-    }
+	if (shortTime) {
+		cmdTime /= 20;
+		outTime /= 20;
+		inTime /= 20;
+	}
 
-    /* change timeout */
-    sanei_usb_set_timeout(cmdTime);
+	/* change timeout */
+	sanei_usb_set_timeout(cmdTime);
 
-    /* write the command out */
-    DBG(25, "cmd: writing %ld bytes, timeout %d\n", (long)cmdLen, cmdTime);
-    hexdump(30, "cmd: >>", cmdBuff, cmdLen);
-    ret = sanei_usb_write_bulk(s->fd, cmdBuff, &cmdLen);
-    DBG(25, "cmd: wrote %ld bytes, retVal %d\n", (long)cmdLen, ret);
+	/* write the command out */
+	DBG(25, "cmd: writing %ld bytes, timeout %d\n", (long) cmdLen,
+	    cmdTime);
+	hexdump(30, "cmd: >>", cmdBuff, cmdLen);
+	ret = sanei_usb_write_bulk(s->fd, cmdBuff, &cmdLen);
+	DBG(25, "cmd: wrote %ld bytes, retVal %d\n", (long) cmdLen, ret);
 
-    if(ret == SANE_STATUS_EOF){
-        DBG(5,"cmd: got EOF, returning IO_ERROR\n");
-        return SANE_STATUS_IO_ERROR;
-    }
-    if(ret != SANE_STATUS_GOOD){
-        DBG(5,"cmd: return error '%s'\n",sane_strstatus(ret));
-        return ret;
-    }
-    if(loc_cmdLen != cmdLen){
-        DBG(5,"cmd: wrong size %ld/%ld\n", (long)loc_cmdLen, (long)cmdLen);
-        return SANE_STATUS_IO_ERROR;
-    }
+	if (ret == SANE_STATUS_EOF) {
+		DBG(5, "cmd: got EOF, returning IO_ERROR\n");
+		return SANE_STATUS_IO_ERROR;
+	}
+	if (ret != SANE_STATUS_GOOD) {
+		DBG(5, "cmd: return error '%s'\n", sane_strstatus(ret));
+		return ret;
+	}
+	if (loc_cmdLen != cmdLen) {
+		DBG(5, "cmd: wrong size %ld/%ld\n", (long) loc_cmdLen,
+		    (long) cmdLen);
+		return SANE_STATUS_IO_ERROR;
+	}
 
-    /* this command has a write component, and a place to get it */
-    if(outBuff && outLen && outTime){
+	/* this command has a write component, and a place to get it */
+	if (outBuff && outLen && outTime) {
 
-        /* change timeout */
-        sanei_usb_set_timeout(outTime);
+		/* change timeout */
+		sanei_usb_set_timeout(outTime);
 
-        DBG(25, "out: writing %ld bytes, timeout %d\n", (long)outLen, outTime);
-        hexdump(30, "out: >>", outBuff, outLen);
-        ret = sanei_usb_write_bulk(s->fd, outBuff, &outLen);
-        DBG(25, "out: wrote %ld bytes, retVal %d\n", (long)outLen, ret);
+		DBG(25, "out: writing %ld bytes, timeout %d\n", (long) outLen,
+		    outTime);
+		hexdump(30, "out: >>", outBuff, outLen);
+		ret = sanei_usb_write_bulk(s->fd, outBuff, &outLen);
+		DBG(25, "out: wrote %ld bytes, retVal %d\n", (long) outLen,
+		    ret);
 
-        if(ret == SANE_STATUS_EOF){
-            DBG(5,"out: got EOF, returning IO_ERROR\n");
-            return SANE_STATUS_IO_ERROR;
-        }
-        if(ret != SANE_STATUS_GOOD){
-            DBG(5,"out: return error '%s'\n",sane_strstatus(ret));
-            return ret;
-        }
-        if(loc_outLen != outLen){
-            DBG(5,"out: wrong size %ld/%ld\n", (long)loc_outLen, (long)outLen);
-            return SANE_STATUS_IO_ERROR;
-        }
-    }
+		if (ret == SANE_STATUS_EOF) {
+			DBG(5, "out: got EOF, returning IO_ERROR\n");
+			return SANE_STATUS_IO_ERROR;
+		}
+		if (ret != SANE_STATUS_GOOD) {
+			DBG(5, "out: return error '%s'\n",
+			    sane_strstatus(ret));
+			return ret;
+		}
+		if (loc_outLen != outLen) {
+			DBG(5, "out: wrong size %ld/%ld\n", (long) loc_outLen,
+			    (long) outLen);
+			return SANE_STATUS_IO_ERROR;
+		}
+	}
 
-    /* this command has a read component, and a place to put it */
-    if(inBuff && inLen && inTime){
+	/* this command has a read component, and a place to put it */
+	if (inBuff && inLen && inTime) {
 
-        memset(inBuff,0,*inLen);
+		memset(inBuff, 0, *inLen);
 
-        /* change timeout */
-        sanei_usb_set_timeout(inTime);
+		/* change timeout */
+		sanei_usb_set_timeout(inTime);
 
-        DBG(25, "in: reading %ld bytes, timeout %d\n", (long)*inLen, inTime);
-        ret = sanei_usb_read_bulk(s->fd, inBuff, inLen);
-        DBG(25, "in: retVal %d\n", ret);
+		DBG(25, "in: reading %ld bytes, timeout %d\n", (long) *inLen,
+		    inTime);
+		ret = sanei_usb_read_bulk(s->fd, inBuff, inLen);
+		DBG(25, "in: retVal %d\n", ret);
 
-        if(ret == SANE_STATUS_EOF){
-            DBG(5,"in: got EOF, continuing\n");
-        }
-        else if(ret != SANE_STATUS_GOOD){
-            DBG(5,"in: return error '%s'\n",sane_strstatus(ret));
-            return ret;
-        }
+		if (ret == SANE_STATUS_EOF) {
+			DBG(5, "in: got EOF, continuing\n");
+		} else if (ret != SANE_STATUS_GOOD) {
+			DBG(5, "in: return error '%s'\n",
+			    sane_strstatus(ret));
+			return ret;
+		}
 
-        DBG(25, "in: read %ld bytes\n", (long)*inLen);
-        if(*inLen){
-            hexdump(30, "in: <<", inBuff, *inLen);
-        }
+		DBG(25, "in: read %ld bytes\n", (long) *inLen);
+		if (*inLen) {
+			hexdump(30, "in: <<", inBuff, *inLen);
+		}
 
-        if(loc_inLen != *inLen){
-            ret = SANE_STATUS_EOF;
-            DBG(5,"in: short read %ld/%ld\n", (long)loc_inLen, (long)*inLen);
-        }
-    }
+		if (loc_inLen != *inLen) {
+			ret = SANE_STATUS_EOF;
+			DBG(5, "in: short read %ld/%ld\n", (long) loc_inLen,
+			    (long) *inLen);
+		}
+	}
 
-    DBG (10, "do_cmd: finish\n");
+	DBG(10, "do_cmd: finish\n");
 
-    return ret;
+	return ret;
 }
 
 /**
  * Convenience method to determine longest string size in a list.
  */
 static size_t
-maxStringSize (const SANE_String_Const strings[])
+maxStringSize(const SANE_String_Const strings[])
 {
-  size_t size, max_size = 0;
-  int i;
+	size_t size, max_size = 0;
+	int i;
 
-  for (i = 0; strings[i]; ++i) {
-    size = strlen (strings[i]) + 1;
-    if (size > max_size)
-      max_size = size;
-  }
+	for (i = 0; strings[i]; ++i) {
+		size = strlen(strings[i]) + 1;
+		if (size > max_size)
+			max_size = size;
+	}
 
-  return max_size;
+	return max_size;
 }
 
 /**
  * Prints a hex dump of the given buffer onto the debug output stream.
  */
 static void
-hexdump (int level, char *comment, unsigned char *p, int l)
+hexdump(int level, char *comment, unsigned char *p, int l)
 {
-  int i;
-  char line[128];
-  char *ptr;
+	int i;
+	char line[128];
+	char *ptr;
 
-  if(DBG_LEVEL < level)
-    return;
+	if (DBG_LEVEL < level)
+		return;
 
-  DBG (level, "%s\n", comment);
-  ptr = line;
-  for (i = 0; i < l; i++, p++)
-    {
-      if ((i % 16) == 0)
-        {
-          if (ptr != line)
-            {
-              *ptr = '\0';
-              DBG (level, "%s\n", line);
-              ptr = line;
-            }
-          sprintf (ptr, "%3.3x:", i);
-          ptr += 4;
-        }
-      sprintf (ptr, " %2.2x", *p);
-      ptr += 3;
-    }
-  *ptr = '\0';
-  DBG (level, "%s\n", line);
+	DBG(level, "%s\n", comment);
+	ptr = line;
+	for (i = 0; i < l; i++, p++) {
+		if ((i % 16) == 0) {
+			if (ptr != line) {
+				*ptr = '\0';
+				DBG(level, "%s\n", line);
+				ptr = line;
+			}
+			sprintf(ptr, "%3.3x:", i);
+			ptr += 4;
+		}
+		sprintf(ptr, " %2.2x", *p);
+		ptr += 3;
+	}
+	*ptr = '\0';
+	DBG(level, "%s\n", line);
 }
 
 /**
  * An advanced method we don't support but have to define.
  */
 SANE_Status
-sane_set_io_mode (SANE_Handle h, SANE_Bool non_blocking)
+sane_set_io_mode(SANE_Handle h, SANE_Bool non_blocking)
 {
-  DBG (10, "sane_set_io_mode\n");
-  DBG (15, "%d %p\n", non_blocking, h);
-  return SANE_STATUS_UNSUPPORTED;
+	DBG(10, "sane_set_io_mode\n");
+	DBG(15, "%d %p\n", non_blocking, h);
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 /**
  * An advanced method we don't support but have to define.
  */
 SANE_Status
-sane_get_select_fd (SANE_Handle h, SANE_Int *fdp)
+sane_get_select_fd(SANE_Handle h, SANE_Int * fdp)
 {
-  DBG (10, "sane_get_select_fd\n");
-  DBG (15, "%p %d\n", h, *fdp);
-  return SANE_STATUS_UNSUPPORTED;
+	DBG(10, "sane_get_select_fd\n");
+	DBG(15, "%p %d\n", h, *fdp);
+	return SANE_STATUS_UNSUPPORTED;
 }

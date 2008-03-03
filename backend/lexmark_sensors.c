@@ -42,81 +42,76 @@
 */
 
 static Lexmark_Sensor sensor_list[] = {
-  {
-   X1100_B2_SENSOR,
-   /* start x, end x and target average for offset calibration */
-   48,80,6,
-   /* usable pixel sensor startx */
-   106,
-   /* default gain */
-   16,
-   /* gain calibration targets */
-   180, 180, 180, 180,
-   /* shading correction targets */
-   260, 260, 260, 260,
-   /* offset and gain fallback */
-   0x70, 17
-  },
-  {
-   X1100_2C_SENSOR,
-   /* start x, end x and target average for offset calibration */
-   48,80,12,
-   /* usable pixel sensor startx */
-   106,
-   /* default gain */
-   10,
-   /* gain calibration */
-   140, 150, 150, 150,
-   /* shading correction */
-   260, 260, 260, 260,
-   /* offset and gain fallback */
-   0x70, 11
-  },
-  { /* USB 1.1 settings */
-   X1200_SENSOR,
-   /* start x, end x and target average for offset calibration */
-   32,64,15,
-   /* usable pixel sensor startx */
-   136,
-   /* default gain */
-   16,
-   /* gain calibration */
-   180, 180, 180, 180,
-   /* shading correction */
-   260, 260, 260, 260,
-   /* offset and gain fallback */
-   0x86, 16
-   },
-  { /* this one is a 1200 on USB2.0 */
-   X1200_USB2_SENSOR,
-   /* start x, end x and target average for offset calibration */
-   32,64,12,
-   /* usable pixel sensor startx */
-   136,
-   /* default gain */
-   16,
-   /* gain calibration */
-   180, 180, 180, 180,
-   /* shading correction */
-   260, 260, 260, 260,
-   /* offset and gain fallback */
-   0x86, 16
-   },
-  {
-   A920_SENSOR,
-   /* start x, end x and target average for offset calibration */
-   48,80,6,
-   /* usable pixel sensor startx */
-   106,
-   /* default gain */
-   12,
-   /* gain calibration target */
-   130, 145, 150, 145,
-   /* gain calibration target */
-   260, 260, 260, 260,
-   /* offset and gain fallback */
-   0x70, 13
-  },
-  /* termination list sensor, must be last */
-  {0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+	{
+	 X1100_B2_SENSOR,
+	 /* start x, end x and target average for offset calibration */
+	 48, 80, 6,
+	 /* usable pixel sensor startx */
+	 106,
+	 /* default gain */
+	 16,
+	 /* gain calibration targets */
+	 180, 180, 180, 180,
+	 /* shading correction targets */
+	 260, 260, 260, 260,
+	 /* offset and gain fallback */
+	 0x70, 17},
+	{
+	 X1100_2C_SENSOR,
+	 /* start x, end x and target average for offset calibration */
+	 48, 80, 12,
+	 /* usable pixel sensor startx */
+	 106,
+	 /* default gain */
+	 10,
+	 /* gain calibration */
+	 140, 150, 150, 150,
+	 /* shading correction */
+	 260, 260, 260, 260,
+	 /* offset and gain fallback */
+	 0x70, 11},
+	{			/* USB 1.1 settings */
+	 X1200_SENSOR,
+	 /* start x, end x and target average for offset calibration */
+	 32, 64, 15,
+	 /* usable pixel sensor startx */
+	 136,
+	 /* default gain */
+	 16,
+	 /* gain calibration */
+	 180, 180, 180, 180,
+	 /* shading correction */
+	 260, 260, 260, 260,
+	 /* offset and gain fallback */
+	 0x86, 16},
+	{			/* this one is a 1200 on USB2.0 */
+	 X1200_USB2_SENSOR,
+	 /* start x, end x and target average for offset calibration */
+	 32, 64, 12,
+	 /* usable pixel sensor startx */
+	 136,
+	 /* default gain */
+	 16,
+	 /* gain calibration */
+	 180, 180, 180, 180,
+	 /* shading correction */
+	 260, 260, 260, 260,
+	 /* offset and gain fallback */
+	 0x86, 16},
+	{
+	 A920_SENSOR,
+	 /* start x, end x and target average for offset calibration */
+	 48, 80, 6,
+	 /* usable pixel sensor startx */
+	 106,
+	 /* default gain */
+	 12,
+	 /* gain calibration target */
+	 130, 145, 150, 145,
+	 /* gain calibration target */
+	 260, 260, 260, 260,
+	 /* offset and gain fallback */
+	 0x70, 13},
+	/* termination list sensor, must be last */
+	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };

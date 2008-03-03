@@ -76,13 +76,14 @@ static SANE_Byte cacheLen[13];
  * @return the function returns SANE_TRUE if a cancel condition has been
  *  detected, if not, it returns SANE_FALSE
  */
-static SANE_Bool u12io_IsEscPressed( void )
+static SANE_Bool
+u12io_IsEscPressed(void)
 {
 	sigset_t sigs;
 
-	sigpending( &sigs );
-	if( sigismember( &sigs, SIGUSR1 )) {
-		DBG( _DBG_INFO, "SIGUSR1 is pending --> Cancel detected\n" );
+	sigpending(&sigs);
+	if (sigismember(&sigs, SIGUSR1)) {
+		DBG(_DBG_INFO, "SIGUSR1 is pending --> Cancel detected\n");
 		return SANE_TRUE;
 	}
 
@@ -91,33 +92,36 @@ static SANE_Bool u12io_IsEscPressed( void )
 
 /** fall asleep for some micro-seconds...
  */
-static void u12io_udelay( unsigned long usec )
+static void
+u12io_udelay(unsigned long usec)
 {
 	struct timeval now, deadline;
 
-	if( usec == 0 )
+	if (usec == 0)
 		return;
 
-	gettimeofday( &deadline, NULL );
+	gettimeofday(&deadline, NULL);
 	deadline.tv_usec += usec;
-	deadline.tv_sec  += deadline.tv_usec / 1000000;
+	deadline.tv_sec += deadline.tv_usec / 1000000;
 	deadline.tv_usec %= 1000000;
 
 	do {
-		gettimeofday( &now, NULL );
+		gettimeofday(&now, NULL);
 	} while ((now.tv_sec < deadline.tv_sec) ||
-		(now.tv_sec == deadline.tv_sec && now.tv_usec < deadline.tv_usec));
+		 (now.tv_sec == deadline.tv_sec
+		  && now.tv_usec < deadline.tv_usec));
 }
 
 /** Initializes a timer.
  * @param timer - pointer to the timer to start
  * @param us    - timeout value in micro-seconds
  */
-static void u12io_StartTimer( TimerDef *timer , unsigned long us )
+static void
+u12io_StartTimer(TimerDef * timer, unsigned long us)
 {
 	struct timeval start_time;
 
-	gettimeofday( &start_time, NULL );
+	gettimeofday(&start_time, NULL);
 	*timer = start_time.tv_sec * 1e6 + start_time.tv_usec + us;
 }
 
@@ -126,13 +130,14 @@ static void u12io_StartTimer( TimerDef *timer , unsigned long us )
  * @return Function returns  SANE_TRUE when the timer has been expired,
  *         otherwise SANE_FALSE
  */
-static SANE_Bool u12io_CheckTimer( TimerDef *timer )
+static SANE_Bool
+u12io_CheckTimer(TimerDef * timer)
 {
 	struct timeval current_time;
 
 	gettimeofday(&current_time, NULL);
 
-	if((current_time.tv_sec * 1e6 + current_time.tv_usec) > *timer )
+	if ((current_time.tv_sec * 1e6 + current_time.tv_usec) > *timer)
 		return SANE_TRUE;
 
 	return SANE_FALSE;
@@ -152,16 +157,16 @@ static SANE_Bool u12io_CheckTimer( TimerDef *timer )
  */
 typedef enum
 {
-	GL640_BULK_SETUP     = 0x82,
-	GL640_EPP_ADDR       = 0x83,
-	GL640_EPP_DATA_READ  = 0x84,
+	GL640_BULK_SETUP = 0x82,
+	GL640_EPP_ADDR = 0x83,
+	GL640_EPP_DATA_READ = 0x84,
 	GL640_EPP_DATA_WRITE = 0x85,
-	GL640_SPP_STATUS     = 0x86,
-	GL640_SPP_CONTROL    = 0x87,
-	GL640_SPP_DATA       = 0x88,
-	GL640_GPIO_OE        = 0x89,
-	GL640_GPIO_READ      = 0x8a,
-	GL640_GPIO_WRITE     = 0x8b
+	GL640_SPP_STATUS = 0x86,
+	GL640_SPP_CONTROL = 0x87,
+	GL640_SPP_DATA = 0x88,
+	GL640_GPIO_OE = 0x89,
+	GL640_GPIO_READ = 0x8a,
+	GL640_GPIO_WRITE = 0x8b
 } GL640_Request;
 
 /** for setting up bulk transfers */
@@ -174,17 +179,18 @@ gl640WriteControl(int fd, GL640_Request req, u_char * data, unsigned int size)
 {
 	SANE_Status status;
 
-	status = sanei_usb_control_msg( fd,
-				  /* rqttype */ USB_TYPE_VENDOR |
-				  USB_RECIP_DEVICE | USB_DIR_OUT /*0x40 */ ,
-				  /* rqt */ (size > 1) ? 0x04 : 0x0C,
-				  /* val */ (SANE_Int) req,
-				  /* ind */ 0,
-				  /* len */ size,
-				  /* dat */ data);
-	
-	if( status != SANE_STATUS_GOOD ) {
-		DBG( _DBG_ERROR, "gl640WriteControl error\n");
+	status = sanei_usb_control_msg(fd,
+				       /* rqttype */ USB_TYPE_VENDOR |
+				       USB_RECIP_DEVICE | USB_DIR_OUT
+				       /*0x40 */ ,
+				       /* rqt */ (size > 1) ? 0x04 : 0x0C,
+				       /* val */ (SANE_Int) req,
+				       /* ind */ 0,
+				       /* len */ size,
+				       /* dat */ data);
+
+	if (status != SANE_STATUS_GOOD) {
+		DBG(_DBG_ERROR, "gl640WriteControl error\n");
 	}
 	return status;
 }
@@ -192,37 +198,38 @@ gl640WriteControl(int fd, GL640_Request req, u_char * data, unsigned int size)
 /** Read from the usb-parallel port bridge.
  */
 static SANE_Status
-gl640ReadControl( int fd, GL640_Request req, u_char *data, unsigned int size )
+gl640ReadControl(int fd, GL640_Request req, u_char * data, unsigned int size)
 {
 	SANE_Status status;
 
-	status = sanei_usb_control_msg( fd,
-				  /* rqttype */ USB_TYPE_VENDOR |
-				  USB_RECIP_DEVICE | USB_DIR_IN /*0xc0 */ ,
-				  /* rqt */ (size > 1) ? 0x04 : 0x0C,
-				  /* val */ (SANE_Int) req,
-				  /* ind */ 0,
-				  /* len */ size,
-				  /* dat */ data);
+	status = sanei_usb_control_msg(fd,
+				       /* rqttype */ USB_TYPE_VENDOR |
+				       USB_RECIP_DEVICE | USB_DIR_IN	/*0xc0 */
+				       ,
+				       /* rqt */ (size > 1) ? 0x04 : 0x0C,
+				       /* val */ (SANE_Int) req,
+				       /* ind */ 0,
+				       /* len */ size,
+				       /* dat */ data);
 
-	if( status != SANE_STATUS_GOOD ) {
-		DBG( _DBG_ERROR, "gl640ReadControl error\n");
+	if (status != SANE_STATUS_GOOD) {
+		DBG(_DBG_ERROR, "gl640ReadControl error\n");
 	}
 	return status;
 }
 
 /** Wrappers to write a single byte to the bridge */
 static inline SANE_Status
-gl640WriteReq( int fd, GL640_Request req, u_char data )
+gl640WriteReq(int fd, GL640_Request req, u_char data)
 {
-	return gl640WriteControl( fd, req, &data, 1);
+	return gl640WriteControl(fd, req, &data, 1);
 }
 
 /** Wrappers to read a single byte from the bridge */
 static inline SANE_Status
-gl640ReadReq( int fd, GL640_Request req, u_char *data )
+gl640ReadReq(int fd, GL640_Request req, u_char * data)
 {
-	return gl640ReadControl( fd, req, data, 1 );
+	return gl640ReadControl(fd, req, data, 1);
 }
 
 /** Write USB bulk data
@@ -232,7 +239,7 @@ gl640ReadReq( int fd, GL640_Request req, u_char *data )
  * setup[1] = 0x01 --> data to scanner memory
  */
 static SANE_Status
-gl640WriteBulk( int fd, u_char *setup, u_char *data, size_t size )
+gl640WriteBulk(int fd, u_char * setup, u_char * data, size_t size)
 {
 	SANE_Status status;
 
@@ -241,11 +248,11 @@ gl640WriteBulk( int fd, u_char *setup, u_char *data, size_t size )
 	setup[5] = (size >> 8) & 0xFF;
 	setup[6] = 0;
 
-	CHK (gl640WriteControl (fd, GL640_BULK_SETUP, setup, 8));
+	CHK(gl640WriteControl(fd, GL640_BULK_SETUP, setup, 8));
 
-	status = sanei_usb_write_bulk (fd, data, &size);
-	if( status != SANE_STATUS_GOOD ) {
-		DBG( _DBG_ERROR, "gl640WriteBulk error\n");
+	status = sanei_usb_write_bulk(fd, data, &size);
+	if (status != SANE_STATUS_GOOD) {
+		DBG(_DBG_ERROR, "gl640WriteBulk error\n");
 	}
 	return status;
 }
@@ -257,10 +264,10 @@ gl640WriteBulk( int fd, u_char *setup, u_char *data, size_t size )
  * setup[1] = 0x0c --> data from scanner fifo?
  */
 static SANE_Status
-gl640ReadBulk( int fd, u_char *setup, u_char *data, size_t size, int mod )
+gl640ReadBulk(int fd, u_char * setup, u_char * data, size_t size, int mod)
 {
-	SANE_Byte  *len_info;
-	size_t      complete, current, toget;
+	SANE_Byte *len_info;
+	size_t complete, current, toget;
 	SANE_Status status;
 
 	setup[0] = 0;
@@ -268,29 +275,29 @@ gl640ReadBulk( int fd, u_char *setup, u_char *data, size_t size, int mod )
 	setup[5] = (size >> 8) & 0xFF;
 	setup[6] = mod;
 
-	CHK (gl640WriteControl (fd, GL640_BULK_SETUP, setup, 8));
+	CHK(gl640WriteControl(fd, GL640_BULK_SETUP, setup, 8));
 
 	len_info = NULL;
-	toget    = size;
-	if( mod ) {
-		toget   *= mod;
+	toget = size;
+	if (mod) {
+		toget *= mod;
 		len_info = data + toget;
-		toget   += 13;
+		toget += 13;
 	}
 
-	for( complete = 0; complete < toget; ) {
+	for (complete = 0; complete < toget;) {
 
 		current = toget - complete;
-		status = sanei_usb_read_bulk( fd, data, &current );
-		if( status != SANE_STATUS_GOOD ) {
-			DBG( _DBG_ERROR, "gl640ReadBulk error\n");
+		status = sanei_usb_read_bulk(fd, data, &current);
+		if (status != SANE_STATUS_GOOD) {
+			DBG(_DBG_ERROR, "gl640ReadBulk error\n");
 			break;
 		}
-		data     += current;
+		data += current;
 		complete += current;
 	}
-	if( len_info ) {
-		memcpy( cacheLen, len_info, 13 );
+	if (len_info) {
+		memcpy(cacheLen, len_info, 13);
 	}
 	return status;
 }
@@ -299,80 +306,84 @@ gl640ReadBulk( int fd, u_char *setup, u_char *data, size_t size, int mod )
 
 /** read the contents of the status register */
 static SANE_Byte
-inb_status( int fd )
+inb_status(int fd)
 {
 	u_char data = 0xff;
 
-	gl640ReadReq( fd, GL640_SPP_STATUS, &data );
+	gl640ReadReq(fd, GL640_SPP_STATUS, &data);
 	return data;
 }
 
 /** write a byte to the SPP data port */
 static SANE_Status
-outb_data( int fd, u_char data )
+outb_data(int fd, u_char data)
 {
-	return gl640WriteReq( fd, GL640_SPP_DATA, data);
+	return gl640WriteReq(fd, GL640_SPP_DATA, data);
 }
 
 /** write to the parport control register */
 static SANE_Status
-outb_ctrl( int fd, u_char data )
+outb_ctrl(int fd, u_char data)
 {
-	return gl640WriteReq( fd, GL640_SPP_CONTROL, data);
+	return gl640WriteReq(fd, GL640_SPP_CONTROL, data);
 }
 
 /************************* ASIC access stuff *********************************/
 
 /** write a register number to the ASIC
  */
-static void u12io_RegisterToScanner( U12_Device *dev, SANE_Byte reg )
+static void
+u12io_RegisterToScanner(U12_Device * dev, SANE_Byte reg)
 {
-	if( dev->mode == _PP_MODE_EPP ) {
+	if (dev->mode == _PP_MODE_EPP) {
 
-		gl640WriteReq( dev->fd, GL640_EPP_ADDR, reg );
+		gl640WriteReq(dev->fd, GL640_EPP_ADDR, reg);
 
 	} else {
 
 		/* write register number to read from to SPP data-port
 		 */
-		outb_data( dev->fd, reg );
+		outb_data(dev->fd, reg);
 
 		/* signal that to the ASIC */
-		outb_ctrl( dev->fd, _CTRL_SIGNAL_REGWRITE );
+		outb_ctrl(dev->fd, _CTRL_SIGNAL_REGWRITE);
 		_DODELAY(20);
-		outb_ctrl( dev->fd, _CTRL_END_REGWRITE );
+		outb_ctrl(dev->fd, _CTRL_END_REGWRITE);
 	}
 }
 
 /** as the name says, we switch to SPP mode
  */
-static void u12io_SwitchToSPPMode( U12_Device *dev )
+static void
+u12io_SwitchToSPPMode(U12_Device * dev)
 {
 	dev->mode = _PP_MODE_SPP;
-	outb_ctrl( dev->fd, _CTRL_GENSIGNAL );
+	outb_ctrl(dev->fd, _CTRL_GENSIGNAL);
 }
 
 /** as the name says, we switch to SPP mode
  */
-static void u12io_SwitchToEPPMode( U12_Device *dev )
+static void
+u12io_SwitchToEPPMode(U12_Device * dev)
 {
-	u12io_RegisterToScanner( dev, REG_EPPENABLE );
+	u12io_RegisterToScanner(dev, REG_EPPENABLE);
 	dev->mode = _PP_MODE_EPP;
 }
 
 /** read data from SPP status port
  */
-static SANE_Byte u12io_DataFromSPP( U12_Device *dev )
+static SANE_Byte
+u12io_DataFromSPP(U12_Device * dev)
 {
 	SANE_Byte data, tmp;
 
 	/* read low nibble */
-	tmp = inb_status( dev->fd );
+	tmp = inb_status(dev->fd);
 
-	outb_ctrl( dev->fd, (_CTRL_GENSIGNAL + _CTRL_STROBE));
+	outb_ctrl(dev->fd, (_CTRL_GENSIGNAL + _CTRL_STROBE));
 
 	/* read high nibble */
-	data  = inb_status( dev->fd );
+	data = inb_status(dev->fd);
 	data &= 0xf0;
 
 	/* combine with low nibble */
@@ -382,109 +393,113 @@ static SANE_Byte u12io_DataFromSPP( U12_Device *dev )
 
 /** Read the content of specific ASIC register
  */
-static SANE_Byte u12io_DataFromRegister( U12_Device *dev, SANE_Byte reg )
+static SANE_Byte
+u12io_DataFromRegister(U12_Device * dev, SANE_Byte reg)
 {
 	SANE_Byte val;
 
-	if( dev->mode == _PP_MODE_EPP ) {
-		gl640WriteReq( dev->fd, GL640_EPP_ADDR, reg );
-		gl640ReadReq ( dev->fd, GL640_EPP_DATA_READ, &val );
+	if (dev->mode == _PP_MODE_EPP) {
+		gl640WriteReq(dev->fd, GL640_EPP_ADDR, reg);
+		gl640ReadReq(dev->fd, GL640_EPP_DATA_READ, &val);
 	} else {
 
-		u12io_RegisterToScanner( dev, reg );
-		val = u12io_DataFromSPP( dev );
+		u12io_RegisterToScanner(dev, reg);
+		val = u12io_DataFromSPP(dev);
 	}
 	return val;
 }
 
 /**
  */
-static void u12io_CloseScanPath( U12_Device *dev )
+static void
+u12io_CloseScanPath(U12_Device * dev)
 {
-	DBG( _DBG_INFO, "u12io_CloseScanPath()\n" );
+	DBG(_DBG_INFO, "u12io_CloseScanPath()\n");
 /* FIXME: Probaly not needed */
 #if 0
-	u12io_RegisterToScanner( dev, 0xff );
+	u12io_RegisterToScanner(dev, 0xff);
 #endif
-	u12io_RegisterToScanner( dev, REG_SWITCHBUS );
+	u12io_RegisterToScanner(dev, REG_SWITCHBUS);
 
 	dev->mode = _PP_MODE_SPP;
 }
 
 /** try to connect to scanner
  */
-static SANE_Bool u12io_OpenScanPath( U12_Device *dev )
+static SANE_Bool
+u12io_OpenScanPath(U12_Device * dev)
 {
 	u_char tmp;
 
-	DBG( _DBG_INFO, "u12io_OpenScanPath()\n" );
+	DBG(_DBG_INFO, "u12io_OpenScanPath()\n");
 
-	u12io_SwitchToSPPMode( dev );
+	u12io_SwitchToSPPMode(dev);
 
-	outb_data( dev->fd, _ID_TO_PRINTER );
+	outb_data(dev->fd, _ID_TO_PRINTER);
 	_DODELAY(20);
 
-	outb_data( dev->fd, _ID1ST );
+	outb_data(dev->fd, _ID1ST);
 	_DODELAY(5);
 
-	outb_data( dev->fd, _ID2ND );
+	outb_data(dev->fd, _ID2ND);
 	_DODELAY(5);
 
-	outb_data( dev->fd, _ID3RD );
+	outb_data(dev->fd, _ID3RD);
 	_DODELAY(5);
 
-	outb_data( dev->fd, _ID4TH );
+	outb_data(dev->fd, _ID4TH);
 	_DODELAY(5);
 
-	tmp = u12io_DataFromRegister( dev, REG_ASICID );
-	if( ASIC_ID == tmp ) {
-		u12io_SwitchToEPPMode( dev );
+	tmp = u12io_DataFromRegister(dev, REG_ASICID);
+	if (ASIC_ID == tmp) {
+		u12io_SwitchToEPPMode(dev);
 		return SANE_TRUE;
 	}
 
-	DBG( _DBG_ERROR, "u12io_OpenScanPath() failed!\n" );
+	DBG(_DBG_ERROR, "u12io_OpenScanPath() failed!\n");
 	return SANE_FALSE;
 }
 
 /** Write data to asic (SPP mode only)
  */
-static void u12io_DataToScanner( U12_Device *dev , SANE_Byte bValue )
+static void
+u12io_DataToScanner(U12_Device * dev, SANE_Byte bValue)
 {
-	if( dev->mode != _PP_MODE_SPP ) {
-		DBG( _DBG_ERROR, "u12io_DataToScanner() in wrong mode!\n" );
+	if (dev->mode != _PP_MODE_SPP) {
+		DBG(_DBG_ERROR, "u12io_DataToScanner() in wrong mode!\n");
 		return;
 	}
 
-    /* output data */
-	outb_data( dev->fd, bValue );
+	/* output data */
+	outb_data(dev->fd, bValue);
 
 	/* notify asic there is data */
-	outb_ctrl( dev->fd, _CTRL_SIGNAL_DATAWRITE );
+	outb_ctrl(dev->fd, _CTRL_SIGNAL_DATAWRITE);
 
 	/* end write cycle */
-	outb_ctrl( dev->fd, _CTRL_END_DATAWRITE );
+	outb_ctrl(dev->fd, _CTRL_END_DATAWRITE);
 }
 
 /** Write data to specific ASIC's register
  */
-static SANE_Status u12io_DataToRegister( U12_Device *dev,
-                                         SANE_Byte reg, SANE_Byte data )
+static SANE_Status
+u12io_DataToRegister(U12_Device * dev, SANE_Byte reg, SANE_Byte data)
 {
 	SANE_Status status;
-	SANE_Byte   buf[2];
+	SANE_Byte buf[2];
 
-	if( dev->mode == _PP_MODE_EPP ) {
+	if (dev->mode == _PP_MODE_EPP) {
 
 		buf[0] = reg;
 		buf[1] = data;
 
 		bulk_setup_data[1] = 0x11;
-		CHK( gl640WriteBulk ( dev->fd, bulk_setup_data, buf, 2 ));
+		CHK(gl640WriteBulk(dev->fd, bulk_setup_data, buf, 2));
 
 	} else {
 
-		u12io_RegisterToScanner( dev, reg );
-		u12io_DataToScanner( dev, data );
+		u12io_RegisterToScanner(dev, reg);
+		u12io_DataToScanner(dev, data);
 	}
 	return SANE_STATUS_GOOD;
 }
@@ -493,24 +508,25 @@ static SANE_Status u12io_DataToRegister( U12_Device *dev,
  *  The format in the buffer is
  *  reg(0),val(0),reg(1),val(1),..., reg(len-1),val(len-1)
  */
-static SANE_Status u12io_DataToRegs( U12_Device *dev, SANE_Byte *buf, int len )
+static SANE_Status
+u12io_DataToRegs(U12_Device * dev, SANE_Byte * buf, int len)
 {
 	SANE_Status status;
 
-	if( dev->mode != _PP_MODE_EPP ) {
-		DBG( _DBG_ERROR, "u12io_DataToRegs() in wrong mode!\n" );
+	if (dev->mode != _PP_MODE_EPP) {
+		DBG(_DBG_ERROR, "u12io_DataToRegs() in wrong mode!\n");
 		return SANE_STATUS_IO_ERROR;
 	}
 
 	bulk_setup_data[1] = 0x11;
-	CHK( gl640WriteBulk ( dev->fd, bulk_setup_data, buf, len*2 ));
+	CHK(gl640WriteBulk(dev->fd, bulk_setup_data, buf, len * 2));
 	return SANE_STATUS_GOOD;
 }
 
 /** write data to the DAC 
  */
 static void
-u12io_DataRegisterToDAC( U12_Device *dev, SANE_Byte reg, SANE_Byte val )
+u12io_DataRegisterToDAC(U12_Device * dev, SANE_Byte reg, SANE_Byte val)
 {
 	SANE_Byte buf[6];
 
@@ -519,38 +535,39 @@ u12io_DataRegisterToDAC( U12_Device *dev, SANE_Byte reg, SANE_Byte val )
 	buf[2] = REG_ADCDATA;
 	buf[3] = val;
 	buf[4] = REG_ADCSERIALOUT;
- 	buf[5] = val;
+	buf[5] = val;
 
-	u12io_DataToRegs( dev, buf, 3 );
+	u12io_DataToRegs(dev, buf, 3);
 }
 
 /** write data block to scanner
  */
-static SANE_Status u12io_MoveDataToScanner( U12_Device *dev,
-                                            SANE_Byte *buf, int len )
+static SANE_Status
+u12io_MoveDataToScanner(U12_Device * dev, SANE_Byte * buf, int len)
 {
 	SANE_Status status;
 
 /*	u12io_RegisterToScanner( dev, REG_INITDATAFIFO ); */
-	u12io_RegisterToScanner( dev, REG_WRITEDATAMODE );
+	u12io_RegisterToScanner(dev, REG_WRITEDATAMODE);
 
 	bulk_setup_data[1] = 0x01;
-	CHK( gl640WriteBulk( dev->fd, bulk_setup_data, buf, len ));
+	CHK(gl640WriteBulk(dev->fd, bulk_setup_data, buf, len));
 	bulk_setup_data[1] = 0x11;
 
 	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status u12io_ReadData( U12_Device *dev, SANE_Byte *buf, int len )
+static SANE_Status
+u12io_ReadData(U12_Device * dev, SANE_Byte * buf, int len)
 {
 	SANE_Status status;
 
-	u12io_DataToRegister( dev, REG_MODECONTROL, dev->regs.RD_ModeControl );
+	u12io_DataToRegister(dev, REG_MODECONTROL, dev->regs.RD_ModeControl);
 /*	u12io_RegisterToScanner( dev, REG_INITDATAFIFO ); */
-	u12io_RegisterToScanner( dev, REG_READDATAMODE );
+	u12io_RegisterToScanner(dev, REG_READDATAMODE);
 
 	bulk_setup_data[1] = 0x00;
-	CHK (gl640ReadBulk( dev->fd, bulk_setup_data, buf, len, 0 ));
+	CHK(gl640ReadBulk(dev->fd, bulk_setup_data, buf, len, 0));
 	bulk_setup_data[1] = 0x11;
 
 	return SANE_STATUS_GOOD;
@@ -558,96 +575,100 @@ static SANE_Status u12io_ReadData( U12_Device *dev, SANE_Byte *buf, int len )
 
 /** perform a SW reset of ASIC P98003
  */
-static void u12io_SoftwareReset( U12_Device *dev )
+static void
+u12io_SoftwareReset(U12_Device * dev)
 {
-	DBG( _DBG_INFO, "Device reset (%i)!!!\n", dev->fd );
+	DBG(_DBG_INFO, "Device reset (%i)!!!\n", dev->fd);
 
-	u12io_DataToRegister( dev, REG_TESTMODE, _SW_TESTMODE );
+	u12io_DataToRegister(dev, REG_TESTMODE, _SW_TESTMODE);
 
-	outb_data( dev->fd, _ID_TO_PRINTER );
+	outb_data(dev->fd, _ID_TO_PRINTER);
 	_DODELAY(20);
 
-	outb_data( dev->fd, _RESET1ST );
+	outb_data(dev->fd, _RESET1ST);
 	_DODELAY(5);
-	outb_data( dev->fd, _RESET2ND );
+	outb_data(dev->fd, _RESET2ND);
 	_DODELAY(5);
-	outb_data( dev->fd, _RESET3RD );
+	outb_data(dev->fd, _RESET3RD);
 	_DODELAY(5);
-	outb_data( dev->fd, _RESET4TH );
+	outb_data(dev->fd, _RESET4TH);
 	_DODELAY(250);
 }
 
 /**
  */
-static SANE_Bool u12io_IsConnected( U12_Device *dev )
+static SANE_Bool
+u12io_IsConnected(U12_Device * dev)
 {
-	int       c, mode;
+	int c, mode;
 	SANE_Byte tmp, rb[6];
 
-	DBG( _DBG_INFO, "u12io_IsConnected()\n" );
-	tmp = inb_status( dev->fd );
-	DBG( _DBG_INFO, "* tmp1 = 0x%02x\n", tmp );
+	DBG(_DBG_INFO, "u12io_IsConnected()\n");
+	tmp = inb_status(dev->fd);
+	DBG(_DBG_INFO, "* tmp1 = 0x%02x\n", tmp);
 
-	gl640WriteReq( dev->fd, GL640_EPP_ADDR, REG_ASICID );
-	gl640ReadReq ( dev->fd, GL640_EPP_DATA_READ, &tmp );
-	DBG( _DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp );
+	gl640WriteReq(dev->fd, GL640_EPP_ADDR, REG_ASICID);
+	gl640ReadReq(dev->fd, GL640_EPP_DATA_READ, &tmp);
+	DBG(_DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp);
 
-	if( tmp != ASIC_ID ) {
+	if (tmp != ASIC_ID) {
 
-		DBG( _DBG_INFO, "* Scanner is NOT connected!\n" );
+		DBG(_DBG_INFO, "* Scanner is NOT connected!\n");
 
-		tmp = inb_status( dev->fd );
-		DBG( _DBG_INFO, "* tmp2 = 0x%02x\n", tmp );
+		tmp = inb_status(dev->fd);
+		DBG(_DBG_INFO, "* tmp2 = 0x%02x\n", tmp);
 
-		gl640WriteReq( dev->fd, GL640_EPP_ADDR, REG_ASICID );
-		gl640ReadReq ( dev->fd, GL640_EPP_DATA_READ, &tmp );
-		DBG( _DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp );
+		gl640WriteReq(dev->fd, GL640_EPP_ADDR, REG_ASICID);
+		gl640ReadReq(dev->fd, GL640_EPP_DATA_READ, &tmp);
+		DBG(_DBG_INFO, "* REG_ASICID = 0x%02x\n", tmp);
 
-		if( tmp == 0x02 ) {
+		if (tmp == 0x02) {
 
 			mode = dev->mode;
 			dev->mode = _PP_MODE_EPP;
-			u12io_DataToRegister( dev, REG_ADCADDR, 0x01 );
-			u12io_DataToRegister( dev, REG_ADCDATA, 0x00 );
-			u12io_DataToRegister( dev, REG_ADCSERIALOUT, 0x00 );
+			u12io_DataToRegister(dev, REG_ADCADDR, 0x01);
+			u12io_DataToRegister(dev, REG_ADCDATA, 0x00);
+			u12io_DataToRegister(dev, REG_ADCSERIALOUT, 0x00);
 
 			c = 0;
-			_SET_REG( rb, c, REG_MODECONTROL, 0x19 );
-			_SET_REG( rb, c, REG_STEPCONTROL, 0xff );
-			_SET_REG( rb, c, REG_MOTOR0CONTROL, 0 );
-			u12io_DataToRegs( dev, rb, c );
-			dev->mode = mode ;
+			_SET_REG(rb, c, REG_MODECONTROL, 0x19);
+			_SET_REG(rb, c, REG_STEPCONTROL, 0xff);
+			_SET_REG(rb, c, REG_MOTOR0CONTROL, 0);
+			u12io_DataToRegs(dev, rb, c);
+			dev->mode = mode;
 		}
 		return SANE_FALSE;
-	} 
+	}
 
-	u12io_SwitchToEPPMode( dev );
-	DBG( _DBG_INFO, "* Scanner is connected!\n" );
+	u12io_SwitchToEPPMode(dev);
+	DBG(_DBG_INFO, "* Scanner is connected!\n");
 	return SANE_TRUE;
 }
 
 /**
  */
-static SANE_Byte u12io_GetExtendedStatus( U12_Device *dev )
+static SANE_Byte
+u12io_GetExtendedStatus(U12_Device * dev)
 {
 	SANE_Byte b;
 
-	b = u12io_DataFromRegister( dev, REG_STATUS2 );
-	if( b == 0xff )
+	b = u12io_DataFromRegister(dev, REG_STATUS2);
+	if (b == 0xff)
 		return 0;
 	return b;
 }
 
 /**
  */
-static SANE_Status u12io_ReadMonoData( U12_Device *dev, SANE_Byte *buf, u_long len )
+static SANE_Status
+u12io_ReadMonoData(U12_Device * dev, SANE_Byte * buf, u_long len)
 {
 	SANE_Status status;
 
 	bulk_setup_data[1] = 0x0c;
 	bulk_setup_data[2] = ((dev->regs.RD_ModeControl >> 3) + 1);
 
-	CHK (gl640ReadBulk( dev->fd, bulk_setup_data, buf, len, 1 ));
+	CHK(gl640ReadBulk(dev->fd, bulk_setup_data, buf, len, 1));
 	bulk_setup_data[1] = 0x11;
 	bulk_setup_data[2] = 0;
 
@@ -657,54 +678,57 @@ static SANE_Status u12io_ReadMonoData( U12_Device *dev, SANE_Byte *buf, u_long l
 /**
  */
 static SANE_Status
-u12io_ReadColorData( U12_Device *dev, SANE_Byte *buf, u_long len )
+u12io_ReadColorData(U12_Device * dev, SANE_Byte * buf, u_long len)
 {
 	SANE_Status status;
 
 	bulk_setup_data[1] = 0x0c;
 
-	CHK (gl640ReadBulk( dev->fd, bulk_setup_data, buf, len, 3 ));
+	CHK(gl640ReadBulk(dev->fd, bulk_setup_data, buf, len, 3));
 	bulk_setup_data[1] = 0x11;
 	return SANE_STATUS_GOOD;
 }
 
 /** read the recent state count
  */
-static SANE_Byte u12io_GetScanState( U12_Device *dev )
+static SANE_Byte
+u12io_GetScanState(U12_Device * dev)
 {
-	if( cacheLen[0] == 0x83 ) {
-		DBG( _DBG_READ, "u12io_GetScanState(cached) = 0x%02x\n", cacheLen[1] );
+	if (cacheLen[0] == 0x83) {
+		DBG(_DBG_READ, "u12io_GetScanState(cached) = 0x%02x\n",
+		    cacheLen[1]);
 		return cacheLen[1];
-    }
-	return u12io_DataFromRegister( dev, REG_GETSCANSTATE );
+	}
+	return u12io_DataFromRegister(dev, REG_GETSCANSTATE);
 }
 
 /** download a scanstate-table
  */
-static SANE_Status u12io_DownloadScanStates( U12_Device *dev )
+static SANE_Status
+u12io_DownloadScanStates(U12_Device * dev)
 {
 	SANE_Status status;
-	TimerDef    timer;
+	TimerDef timer;
 
-	u12io_RegisterToScanner( dev, REG_SCANSTATECONTROL );
+	u12io_RegisterToScanner(dev, REG_SCANSTATECONTROL);
 
 	bulk_setup_data[1] = 0x01;
-	CHK( gl640WriteBulk( dev->fd, bulk_setup_data,
-	                     dev->scanStates, _SCANSTATE_BYTES ));
+	CHK(gl640WriteBulk(dev->fd, bulk_setup_data,
+			   dev->scanStates, _SCANSTATE_BYTES));
 	bulk_setup_data[1] = 0x11;
 
-/* FIXME: refreshState probably always FALSE */	
-	if( dev->scan.refreshState ) {
+/* FIXME: refreshState probably always FALSE */
+	if (dev->scan.refreshState) {
 
-		u12io_RegisterToScanner( dev, REG_REFRESHSCANSTATE );
+		u12io_RegisterToScanner(dev, REG_REFRESHSCANSTATE);
 
-		u12io_StartTimer( &timer, (_SECOND/2));
+		u12io_StartTimer(&timer, (_SECOND / 2));
 		do {
 
-			if (!( u12io_GetScanState( dev ) & _SCANSTATE_STOP))
+			if (!(u12io_GetScanState(dev) & _SCANSTATE_STOP))
 				break;
 		}
-		while( !u12io_CheckTimer(&timer));
+		while (!u12io_CheckTimer(&timer));
 	}
 	return SANE_STATUS_GOOD;
 }
@@ -713,18 +737,19 @@ static SANE_Status u12io_DownloadScanStates( U12_Device *dev )
  *  - sets all necessary registers
  * FIXME: first copy to buffer, then use u12io_DataToRegs()
  */
-static void u12io_PutOnAllRegisters( U12_Device *dev )
+static void
+u12io_PutOnAllRegisters(U12_Device * dev)
 {
 	SANE_Byte *val, reg;
 	SANE_Byte *rb, buf[100];
-	int        c;
+	int c;
 
 	/* setup scan states */
-	u12io_DownloadScanStates( dev );
+	u12io_DownloadScanStates(dev);
 
-	c  = 0;
+	c = 0;
 	rb = buf;
-    
+
 	*(rb++) = REG_MODECONTROL;
 	*(rb++) = dev->regs.RD_ModeControl;
 	c++;
@@ -741,110 +766,114 @@ static void u12io_PutOnAllRegisters( U12_Device *dev )
 	*(rb++) = dev->regs.RD_XStepTime;
 	c++;
 	*(rb++) = REG_MODELCONTROL;
-	*(rb++) =  dev->regs.RD_ModelControl;
+	*(rb++) = dev->regs.RD_ModelControl;
 	c++;
 	/* the 1st register to write */
-	val = (SANE_Byte*)&dev->regs.RD_Dpi;
+	val = (SANE_Byte *) & dev->regs.RD_Dpi;
 
 	/* 0x21 - 0x28 */
-	for( reg = REG_DPILO; reg <= REG_THRESHOLDHI; reg++, val++ ) {
+	for (reg = REG_DPILO; reg <= REG_THRESHOLDHI; reg++, val++) {
 		*(rb++) = reg;
 		*(rb++) = *val;
 		c++;
 	}
 
-	u12io_DataToRegs( dev, buf, c );
+	u12io_DataToRegs(dev, buf, c);
 
-	u12io_RegisterToScanner( dev, REG_INITDATAFIFO );
-	u12io_DataToRegister( dev, REG_MODECONTROL, _ModeScan );
+	u12io_RegisterToScanner(dev, REG_INITDATAFIFO);
+	u12io_DataToRegister(dev, REG_MODECONTROL, _ModeScan);
 }
 
 /**
  */
-static void u12io_ResetFifoLen( void )
+static void
+u12io_ResetFifoLen(void)
 {
-	memset( cacheLen, 0, 13 );
+	memset(cacheLen, 0, 13);
 }
 
 /**
  */
-static u_long u12io_GetFifoLength( U12_Device *dev )
+static u_long
+u12io_GetFifoLength(U12_Device * dev)
 {
 	SANE_Status status;
-	size_t      toget;
-	SANE_Byte   data[64];
-	u_long      len, len_r, len_g, len_b;
+	size_t toget;
+	SANE_Byte data[64];
+	u_long len, len_r, len_g, len_b;
 
-	if( cacheLen[0] == 0x83 ) {
+	if (cacheLen[0] == 0x83) {
 
-		DBG( _DBG_READ, "Using cached FIFO len\n" );
-		memcpy( data, cacheLen, 13 );
+		DBG(_DBG_READ, "Using cached FIFO len\n");
+		memcpy(data, cacheLen, 13);
 		u12io_ResetFifoLen();
-		
+
 	} else {
 
-		memset( bulk_setup_data, 0, 8 );
+		memset(bulk_setup_data, 0, 8);
 		bulk_setup_data[1] = 0x0c;
 
-		CHK (gl640WriteControl(dev->fd, GL640_BULK_SETUP, bulk_setup_data, 8));
+		CHK(gl640WriteControl
+		    (dev->fd, GL640_BULK_SETUP, bulk_setup_data, 8));
 
 		toget = 13;
-		status = sanei_usb_read_bulk( dev->fd, data, &toget );
-		if( status != SANE_STATUS_GOOD ) {
-			DBG( _DBG_ERROR, "ReadBulk error\n");
+		status = sanei_usb_read_bulk(dev->fd, data, &toget);
+		if (status != SANE_STATUS_GOOD) {
+			DBG(_DBG_ERROR, "ReadBulk error\n");
 			return SANE_FALSE;
 		}
 		bulk_setup_data[1] = 0x11;
 
-		memcpy( cacheLen, data, 13 );
+		memcpy(cacheLen, data, 13);
 	}
-	len_r = (u_long)data[5]  * 256 + (u_long)data[4];
-	len_g = (u_long)data[8]  * 256 + (u_long)data[7];
-	len_b = (u_long)data[11] * 256 + (u_long)data[10];
+	len_r = (u_long) data[5] * 256 + (u_long) data[4];
+	len_g = (u_long) data[8] * 256 + (u_long) data[7];
+	len_b = (u_long) data[11] * 256 + (u_long) data[10];
 
-	if( dev->DataInf.wPhyDataType < COLOR_TRUE24 ) {
+	if (dev->DataInf.wPhyDataType < COLOR_TRUE24) {
 		len = len_g;
 	} else {
 
 		len = len_r;
-		if( len_g < len )
+		if (len_g < len)
 			len = len_g;
-		if( len_b < len )
+		if (len_b < len)
 			len = len_b;
 	}
 
-	DBG( _DBG_READ, "FIFO-LEN: %lu %lu %lu = %lu\n", len_r, len_g, len_b, len );
+	DBG(_DBG_READ, "FIFO-LEN: %lu %lu %lu = %lu\n", len_r, len_g, len_b,
+	    len);
 	return len;
 }
 
 /**
  */
 static SANE_Bool
-u12io_ReadOneShadingLine( U12_Device *dev, SANE_Byte *buf, u_long len )
+u12io_ReadOneShadingLine(U12_Device * dev, SANE_Byte * buf, u_long len)
 {
-	TimerDef    timer;
+	TimerDef timer;
 	SANE_Status status;
 
-	DBG( _DBG_READ, "u12io_ReadOneShadingLine()\n" );
-	u12io_StartTimer( &timer, _SECOND );
+	DBG(_DBG_READ, "u12io_ReadOneShadingLine()\n");
+	u12io_StartTimer(&timer, _SECOND);
 
 	dev->scan.bFifoSelect = REG_GFIFOOFFSET;
 
 	do {
 		u12io_ResetFifoLen();
-		if( u12io_GetFifoLength( dev ) >= dev->regs.RD_Pixels ) {
+		if (u12io_GetFifoLength(dev) >= dev->regs.RD_Pixels) {
 
-			status = u12io_ReadColorData( dev, buf, len );
-			if( status != SANE_STATUS_GOOD ) {
-				DBG( _DBG_ERROR, "ReadColorData error\n");
+			status = u12io_ReadColorData(dev, buf, len);
+			if (status != SANE_STATUS_GOOD) {
+				DBG(_DBG_ERROR, "ReadColorData error\n");
 				return SANE_FALSE;
 			}
-			DBG( _DBG_READ, "* done\n" );
+			DBG(_DBG_READ, "* done\n");
 			return SANE_TRUE;
 		}
-	} while( !u12io_CheckTimer( &timer ));
+	} while (!u12io_CheckTimer(&timer));
 
-	DBG( _DBG_ERROR, "u12io_ReadOneShadingLine() failed!\n" );
+	DBG(_DBG_ERROR, "u12io_ReadOneShadingLine() failed!\n");
 	return SANE_FALSE;
 }
 

@@ -51,205 +51,207 @@
 SANE_Int dataline_count = 0;
 
 /* USB layer commands */
-static SANE_Int usb_ctl_write (USB_Handle usb_handle, SANE_Int address,
-			       SANE_Byte * buffer, SANE_Int size,
-			       SANE_Int index);
-static SANE_Int usb_ctl_read (USB_Handle usb_handle, SANE_Int address,
+static SANE_Int usb_ctl_write(USB_Handle usb_handle, SANE_Int address,
 			      SANE_Byte * buffer, SANE_Int size,
 			      SANE_Int index);
+static SANE_Int usb_ctl_read(USB_Handle usb_handle, SANE_Int address,
+			     SANE_Byte * buffer, SANE_Int size,
+			     SANE_Int index);
 
 /* Higher level commands*/
 
-static SANE_Int IRead_Byte (USB_Handle usb_handle, SANE_Int address,
-			    SANE_Byte * data, SANE_Int index);
-static SANE_Int IRead_Word (USB_Handle usb_handle, SANE_Int address,
-			    SANE_Int * data, SANE_Int index);
-static SANE_Int IRead_Integer (USB_Handle usb_handle, SANE_Int address,
-			       SANE_Int * data, SANE_Int index);
-static SANE_Int IRead_Buffer (USB_Handle usb_handle, SANE_Int address,
+static SANE_Int IRead_Byte(USB_Handle usb_handle, SANE_Int address,
+			   SANE_Byte * data, SANE_Int index);
+static SANE_Int IRead_Word(USB_Handle usb_handle, SANE_Int address,
+			   SANE_Int * data, SANE_Int index);
+static SANE_Int IRead_Integer(USB_Handle usb_handle, SANE_Int address,
+			      SANE_Int * data, SANE_Int index);
+static SANE_Int IRead_Buffer(USB_Handle usb_handle, SANE_Int address,
+			     SANE_Byte * buffer, SANE_Int size,
+			     SANE_Int index);
+static SANE_Int IWrite_Byte(USB_Handle usb_handle, SANE_Int address,
+			    SANE_Byte data, SANE_Int index1, SANE_Int index2);
+static SANE_Int IWrite_Word(USB_Handle usb_handle, SANE_Int address,
+			    SANE_Int data, SANE_Int index);
+static SANE_Int IWrite_Integer(USB_Handle usb_handle, SANE_Int address,
+			       SANE_Int data, SANE_Int index);
+static SANE_Int IWrite_Buffer(USB_Handle usb_handle, SANE_Int address,
 			      SANE_Byte * buffer, SANE_Int size,
 			      SANE_Int index);
-static SANE_Int IWrite_Byte (USB_Handle usb_handle, SANE_Int address,
-			     SANE_Byte data, SANE_Int index1,
-			     SANE_Int index2);
-static SANE_Int IWrite_Word (USB_Handle usb_handle, SANE_Int address,
-			     SANE_Int data, SANE_Int index);
-static SANE_Int IWrite_Integer (USB_Handle usb_handle, SANE_Int address,
-				SANE_Int data, SANE_Int index);
-static SANE_Int IWrite_Buffer (USB_Handle usb_handle, SANE_Int address,
-			       SANE_Byte * buffer, SANE_Int size,
-			       SANE_Int index);
 
-static SANE_Int Read_Byte (USB_Handle usb_handle, SANE_Int address,
-			   SANE_Byte * data);
-static SANE_Int Read_Word (USB_Handle usb_handle, SANE_Int address,
-			   SANE_Int * data);
-static SANE_Int Read_Integer (USB_Handle usb_handle, SANE_Int address,
-			      SANE_Int * data);
-static SANE_Int Read_Buffer (USB_Handle usb_handle, SANE_Int address,
-			     SANE_Byte * buffer, SANE_Int size);
-static SANE_Int Read_Bulk (USB_Handle usb_handle, SANE_Byte * buffer,
-			   size_t size);
-static SANE_Int Write_Byte (USB_Handle usb_handle, SANE_Int address,
-			    SANE_Byte data);
-static SANE_Int Write_Word (USB_Handle usb_handle, SANE_Int address,
-			    SANE_Int data);
+static SANE_Int Read_Byte(USB_Handle usb_handle, SANE_Int address,
+			  SANE_Byte * data);
+static SANE_Int Read_Word(USB_Handle usb_handle, SANE_Int address,
+			  SANE_Int * data);
+static SANE_Int Read_Integer(USB_Handle usb_handle, SANE_Int address,
+			     SANE_Int * data);
+static SANE_Int Read_Buffer(USB_Handle usb_handle, SANE_Int address,
+			    SANE_Byte * buffer, SANE_Int size);
+static SANE_Int Read_Bulk(USB_Handle usb_handle, SANE_Byte * buffer,
+			  size_t size);
+static SANE_Int Write_Byte(USB_Handle usb_handle, SANE_Int address,
+			   SANE_Byte data);
+static SANE_Int Write_Word(USB_Handle usb_handle, SANE_Int address,
+			   SANE_Int data);
 /*static SANE_Int  Write_Integer  (USB_Handle usb_handle, SANE_Int address, SANE_Int data);*/
-static SANE_Int Write_Buffer (USB_Handle usb_handle, SANE_Int address,
-			      SANE_Byte * buffer, SANE_Int size);
-static SANE_Int Write_Bulk (USB_Handle usb_handle, SANE_Byte * buffer,
-			    SANE_Int size);
+static SANE_Int Write_Buffer(USB_Handle usb_handle, SANE_Int address,
+			     SANE_Byte * buffer, SANE_Int size);
+static SANE_Int Write_Bulk(USB_Handle usb_handle, SANE_Byte * buffer,
+			   SANE_Int size);
 
-static SANE_Int show_buffer (SANE_Int level, SANE_Byte * buffer,
-			     SANE_Int size);
+static SANE_Int show_buffer(SANE_Int level, SANE_Byte * buffer,
+			    SANE_Int size);
 
 /* Implementation */
 
 static SANE_Int
-IWrite_Byte (USB_Handle usb_handle, SANE_Int address, SANE_Byte data,
-	     SANE_Int index1, SANE_Int index2)
+IWrite_Byte(USB_Handle usb_handle, SANE_Int address, SANE_Byte data,
+	    SANE_Int index1, SANE_Int index2)
 {
-  SANE_Int rst = ERROR;
-  SANE_Byte buffer[2] = { 0x00, 0x00 };
+	SANE_Int rst = ERROR;
+	SANE_Byte buffer[2] = { 0x00, 0x00 };
 
-  if (usb_ctl_read (usb_handle, address + 1, buffer, 0x02, index1) == 2)
-    {
-      buffer[1] = (buffer[0] & 0xff);
-      buffer[0] = (data & 0xff);
+	if (usb_ctl_read(usb_handle, address + 1, buffer, 0x02, index1) == 2) {
+		buffer[1] = (buffer[0] & 0xff);
+		buffer[0] = (data & 0xff);
 
-      if (usb_ctl_write (usb_handle, address, buffer, 0x02, index2) == 2)
-	rst = OK;
-    }
+		if (usb_ctl_write(usb_handle, address, buffer, 0x02, index2)
+		    == 2)
+			rst = OK;
+	}
 
-  return rst;
+	return rst;
 }
 
 static SANE_Int
-IWrite_Word (USB_Handle usb_handle, SANE_Int address, SANE_Int data,
-	     SANE_Int index)
-{
-  SANE_Int rst = ERROR;
-  SANE_Byte buffer[2];
-
-  buffer[0] = (data & 0xff);
-  buffer[1] = ((data >> 8) & 0xff);
-
-  if (usb_ctl_write (usb_handle, address, buffer, 0x02, index) == 2)
-    rst = OK;
-
-  return rst;
-}
-
-static SANE_Int
-IWrite_Integer (USB_Handle usb_handle, SANE_Int address, SANE_Int data,
-		SANE_Int index)
-{
-  SANE_Int rst = ERROR;
-  SANE_Byte buffer[4];
-
-  buffer[0] = (data & 0xff);
-  buffer[1] = ((data >> 8) & 0xff);
-  buffer[2] = ((data >> 16) & 0xff);
-  buffer[3] = ((data >> 24) & 0xff);
-
-  if (usb_ctl_write (usb_handle, address, buffer, 0x04, index) == 4)
-    rst = OK;
-
-  return rst;
-}
-
-static SANE_Int
-IWrite_Buffer (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
-	       SANE_Int size, SANE_Int index)
-{
-  SANE_Int ret = ERROR;
-
-  if (!((buffer == NULL) && (size > 0)))
-    if (usb_ctl_write (usb_handle, address, buffer, size, index) == size)
-      ret = OK;
-
-  return ret;
-}
-
-static SANE_Int
-IRead_Byte (USB_Handle usb_handle, SANE_Int address, SANE_Byte * data,
+IWrite_Word(USB_Handle usb_handle, SANE_Int address, SANE_Int data,
 	    SANE_Int index)
 {
-  SANE_Byte buffer[2] = { 0x00, 0x00 };
-  SANE_Int ret = ERROR;
+	SANE_Int rst = ERROR;
+	SANE_Byte buffer[2];
 
-  if (data != NULL)
-    if (usb_ctl_read (usb_handle, address, buffer, 0x02, index) == 2)
-      {
-	*data = (SANE_Byte) (buffer[0] & 0xff);
-	ret = OK;
-      }
+	buffer[0] = (data & 0xff);
+	buffer[1] = ((data >> 8) & 0xff);
 
-  return ret;
+	if (usb_ctl_write(usb_handle, address, buffer, 0x02, index) == 2)
+		rst = OK;
+
+	return rst;
 }
 
 static SANE_Int
-IRead_Word (USB_Handle usb_handle, SANE_Int address, SANE_Int * data,
-	    SANE_Int index)
-{
-  SANE_Byte buffer[2] = { 0x00, 0x00 };
-  SANE_Int ret = ERROR;
-
-  if (data != NULL)
-    if (usb_ctl_read (usb_handle, address, buffer, 0x02, index) == 2)
-      {
-	*data = ((buffer[1] << 8) & 0xffff) + (buffer[0] & 0xff);
-	ret = OK;
-      }
-
-  return ret;
-}
-
-static SANE_Int
-IRead_Integer (USB_Handle usb_handle, SANE_Int address, SANE_Int * data,
+IWrite_Integer(USB_Handle usb_handle, SANE_Int address, SANE_Int data,
 	       SANE_Int index)
 {
-  SANE_Byte buffer[4] = { 0x00, 0x00, 0x00, 0x00 };
-  SANE_Int ret = ERROR;
+	SANE_Int rst = ERROR;
+	SANE_Byte buffer[4];
 
-  if (data != NULL)
-    {
-      *data = 0;
-      if (usb_ctl_read (usb_handle, address, buffer, 0x04, index) == 4)
-	{
-	  SANE_Int C;
-	  for (C = 3; C >= 0; C--)
-	    *data = ((*data << 8) + (buffer[C] & 0xff)) & 0xffffffff;
-	  ret = OK;
-	}
-    }
+	buffer[0] = (data & 0xff);
+	buffer[1] = ((data >> 8) & 0xff);
+	buffer[2] = ((data >> 16) & 0xff);
+	buffer[3] = ((data >> 24) & 0xff);
 
-  return ret;
+	if (usb_ctl_write(usb_handle, address, buffer, 0x04, index) == 4)
+		rst = OK;
+
+	return rst;
 }
 
 static SANE_Int
-IRead_Buffer (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+IWrite_Buffer(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
 	      SANE_Int size, SANE_Int index)
 {
-  SANE_Int ret = ERROR;
+	SANE_Int ret = ERROR;
 
-  if (buffer != NULL)
-    if (usb_ctl_read (usb_handle, address, buffer, size, index) == size)
-      ret = OK;
+	if (!((buffer == NULL) && (size > 0)))
+		if (usb_ctl_write(usb_handle, address, buffer, size, index) ==
+		    size)
+			ret = OK;
 
-  return ret;
+	return ret;
 }
 
 static SANE_Int
-Write_Byte (USB_Handle usb_handle, SANE_Int address, SANE_Byte data)
+IRead_Byte(USB_Handle usb_handle, SANE_Int address, SANE_Byte * data,
+	   SANE_Int index)
 {
-  return IWrite_Byte (usb_handle, address, data, 0x100, 0);
+	SANE_Byte buffer[2] = { 0x00, 0x00 };
+	SANE_Int ret = ERROR;
+
+	if (data != NULL)
+		if (usb_ctl_read(usb_handle, address, buffer, 0x02, index) ==
+		    2) {
+			*data = (SANE_Byte) (buffer[0] & 0xff);
+			ret = OK;
+		}
+
+	return ret;
 }
 
 static SANE_Int
-Write_Word (USB_Handle usb_handle, SANE_Int address, SANE_Int data)
+IRead_Word(USB_Handle usb_handle, SANE_Int address, SANE_Int * data,
+	   SANE_Int index)
 {
-  return IWrite_Word (usb_handle, address, data, 0);
+	SANE_Byte buffer[2] = { 0x00, 0x00 };
+	SANE_Int ret = ERROR;
+
+	if (data != NULL)
+		if (usb_ctl_read(usb_handle, address, buffer, 0x02, index) ==
+		    2) {
+			*data = ((buffer[1] << 8) & 0xffff) +
+				(buffer[0] & 0xff);
+			ret = OK;
+		}
+
+	return ret;
+}
+
+static SANE_Int
+IRead_Integer(USB_Handle usb_handle, SANE_Int address, SANE_Int * data,
+	      SANE_Int index)
+{
+	SANE_Byte buffer[4] = { 0x00, 0x00, 0x00, 0x00 };
+	SANE_Int ret = ERROR;
+
+	if (data != NULL) {
+		*data = 0;
+		if (usb_ctl_read(usb_handle, address, buffer, 0x04, index) ==
+		    4) {
+			SANE_Int C;
+			for (C = 3; C >= 0; C--)
+				*data = ((*data << 8) +
+					 (buffer[C] & 0xff)) & 0xffffffff;
+			ret = OK;
+		}
+	}
+
+	return ret;
+}
+
+static SANE_Int
+IRead_Buffer(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+	     SANE_Int size, SANE_Int index)
+{
+	SANE_Int ret = ERROR;
+
+	if (buffer != NULL)
+		if (usb_ctl_read(usb_handle, address, buffer, size, index) ==
+		    size)
+			ret = OK;
+
+	return ret;
+}
+
+static SANE_Int
+Write_Byte(USB_Handle usb_handle, SANE_Int address, SANE_Byte data)
+{
+	return IWrite_Byte(usb_handle, address, data, 0x100, 0);
+}
+
+static SANE_Int
+Write_Word(USB_Handle usb_handle, SANE_Int address, SANE_Int data)
+{
+	return IWrite_Word(usb_handle, address, data, 0);
 }
 
 /*static SANE_Int Write_Integer(USB_Handle usb_handle, SANE_Int address, SANE_Int data)
@@ -258,252 +260,247 @@ Write_Word (USB_Handle usb_handle, SANE_Int address, SANE_Int data)
 }*/
 
 static SANE_Int
-Write_Buffer (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
-	      SANE_Int size)
-{
-  return IWrite_Buffer (usb_handle, address, buffer, size, 0);
-}
-
-static SANE_Int
-Read_Byte (USB_Handle usb_handle, SANE_Int address, SANE_Byte * data)
-{
-  return IRead_Byte (usb_handle, address, data, 0x100);
-}
-
-static SANE_Int
-Read_Word (USB_Handle usb_handle, SANE_Int address, SANE_Int * data)
-{
-  return IRead_Word (usb_handle, address, data, 0x100);
-}
-
-static SANE_Int
-Read_Integer (USB_Handle usb_handle, SANE_Int address, SANE_Int * data)
-{
-  return IRead_Integer (usb_handle, address, data, 0x100);
-}
-
-static SANE_Int
-Read_Buffer (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+Write_Buffer(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
 	     SANE_Int size)
 {
-  return IRead_Buffer (usb_handle, address, buffer, size, 0x100);
+	return IWrite_Buffer(usb_handle, address, buffer, size, 0);
 }
 
 static SANE_Int
-Write_Bulk (USB_Handle usb_handle, SANE_Byte * buffer, SANE_Int size)
+Read_Byte(USB_Handle usb_handle, SANE_Int address, SANE_Byte * data)
 {
-  SANE_Int rst = ERROR;
+	return IRead_Byte(usb_handle, address, data, 0x100);
+}
 
-  if (buffer != NULL)
-    {
-      dataline_count++;
-      DBG (DBG_CTL, "%06i BLK DO: %i. bytes\n", dataline_count, size);
-      show_buffer (4, buffer, size);
+static SANE_Int
+Read_Word(USB_Handle usb_handle, SANE_Int address, SANE_Int * data)
+{
+	return IRead_Word(usb_handle, address, data, 0x100);
+}
+
+static SANE_Int
+Read_Integer(USB_Handle usb_handle, SANE_Int address, SANE_Int * data)
+{
+	return IRead_Integer(usb_handle, address, data, 0x100);
+}
+
+static SANE_Int
+Read_Buffer(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+	    SANE_Int size)
+{
+	return IRead_Buffer(usb_handle, address, buffer, size, 0x100);
+}
+
+static SANE_Int
+Write_Bulk(USB_Handle usb_handle, SANE_Byte * buffer, SANE_Int size)
+{
+	SANE_Int rst = ERROR;
+
+	if (buffer != NULL) {
+		dataline_count++;
+		DBG(DBG_CTL, "%06i BLK DO: %i. bytes\n", dataline_count,
+		    size);
+		show_buffer(4, buffer, size);
 
 #ifdef STANDALONE
-      if (usb_handle != NULL)
-	if (usb_bulk_write
-	    (usb_handle, BLK_WRITE_EP, (char *) buffer, size,
-	     TIMEOUT) == size)
-	  rst = OK;
+		if (usb_handle != NULL)
+			if (usb_bulk_write
+			    (usb_handle, BLK_WRITE_EP, (char *) buffer, size,
+			     TIMEOUT) == size)
+				rst = OK;
 #else
-      if (usb_handle != -1)
-	{
-	  size_t mysize = size;
-	  if (sanei_usb_write_bulk (usb_handle, buffer, &mysize) ==
-	      SANE_STATUS_GOOD)
-	    rst = OK;
+		if (usb_handle != -1) {
+			size_t mysize = size;
+			if (sanei_usb_write_bulk(usb_handle, buffer, &mysize)
+			    == SANE_STATUS_GOOD)
+				rst = OK;
+		}
+#endif
 	}
-#endif
-    }
 
-  if (rst != OK)
-    DBG (DBG_CTL, "             : Write_Bulk error\n");
+	if (rst != OK)
+		DBG(DBG_CTL, "             : Write_Bulk error\n");
 
-  return rst;
+	return rst;
 }
 
 static SANE_Int
-Read_Bulk (USB_Handle usb_handle, SANE_Byte * buffer, size_t size)
+Read_Bulk(USB_Handle usb_handle, SANE_Byte * buffer, size_t size)
 {
-  SANE_Int rst = ERROR;
+	SANE_Int rst = ERROR;
 
-  if (buffer != NULL)
-    {
-      dataline_count++;
-      DBG (DBG_CTL, "%06i BLK DI: Buffer length = %lu. bytes\n",
-	   dataline_count, (u_long) size);
+	if (buffer != NULL) {
+		dataline_count++;
+		DBG(DBG_CTL, "%06i BLK DI: Buffer length = %lu. bytes\n",
+		    dataline_count, (u_long) size);
 
 #ifdef STANDALONE
-      if (usb_handle != NULL)
-	rst =
-	  usb_bulk_read (usb_handle, BLK_READ_EP, (char *) buffer, size,
-			 TIMEOUT);
+		if (usb_handle != NULL)
+			rst = usb_bulk_read(usb_handle, BLK_READ_EP,
+					    (char *) buffer, size, TIMEOUT);
 #else
-      if (usb_handle != -1)
-	if (sanei_usb_read_bulk (usb_handle, buffer, &size) ==
-	    SANE_STATUS_GOOD)
-	  rst = size;
+		if (usb_handle != -1)
+			if (sanei_usb_read_bulk(usb_handle, buffer, &size) ==
+			    SANE_STATUS_GOOD)
+				rst = size;
 #endif
-    }
+	}
 
-  if (rst < 0)
-    DBG (DBG_CTL, "             : Read_Bulk error\n");
-  else
-    show_buffer (4, buffer, rst);
+	if (rst < 0)
+		DBG(DBG_CTL, "             : Read_Bulk error\n");
+	else
+		show_buffer(4, buffer, rst);
 
-  return rst;
+	return rst;
 }
 
 static SANE_Int
-usb_ctl_write (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
-	       SANE_Int size, SANE_Int index)
-{
-  SANE_Int rst = ERROR;
-
-  dataline_count++;
-  DBG (DBG_CTL, "%06i CTL DO: 40 04 %04x %04x %04x\n",
-       dataline_count, address & 0xffff, index, size);
-  show_buffer (DBG_CTL, buffer, size);
-
-#ifdef STANDALONE
-  if (usb_handle != NULL)
-    rst = usb_control_msg (usb_handle, 0x40,	/* Request type */
-			   0x04,	/* Request      */
-			   address,	/* Value        */
-			   index,	/* Index        */
-			   (char *) buffer,	/* Buffer       */
-			   size,	/* Size         */
-			   TIMEOUT);
-#else
-  if (usb_handle != -1)
-    {
-      if (sanei_usb_control_msg (usb_handle, 0x40,	/* Request type */
-				 0x04,	/* Request      */
-				 address,	/* Value        */
-				 index,	/* Index        */
-				 size,	/* Size         */
-				 buffer)	/* Buffer       */
-	  == SANE_STATUS_GOOD)
-	rst = size;
-      else
-	rst = -1;
-    }
-#endif
-
-  if (rst < 0)
-    DBG (DBG_CTL, "             : Error, returned %i\n", rst);
-
-  return rst;
-}
-
-static SANE_Int
-usb_ctl_read (USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+usb_ctl_write(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
 	      SANE_Int size, SANE_Int index)
 {
-  SANE_Int rst;
+	SANE_Int rst = ERROR;
 
-  rst = ERROR;
-
-  dataline_count++;
-  DBG (DBG_CTL, "%06i CTL DI: c0 04 %04x %04x %04x\n",
-       dataline_count, address & 0xffff, index, size);
+	dataline_count++;
+	DBG(DBG_CTL, "%06i CTL DO: 40 04 %04x %04x %04x\n",
+	    dataline_count, address & 0xffff, index, size);
+	show_buffer(DBG_CTL, buffer, size);
 
 #ifdef STANDALONE
-  if (usb_handle != NULL)
-    rst = usb_control_msg (usb_handle, 0xc0,	/* Request type */
-			   0x04,	/* Request      */
-			   address,	/* Value        */
-			   index,	/* Index        */
-			   (char *) buffer,	/* Buffer       */
-			   size,	/* Size         */
-			   TIMEOUT);
+	if (usb_handle != NULL)
+		rst = usb_control_msg(usb_handle, 0x40,	/* Request type */
+				      0x04,	/* Request      */
+				      address,	/* Value        */
+				      index,	/* Index        */
+				      (char *) buffer,	/* Buffer       */
+				      size,	/* Size         */
+				      TIMEOUT);
 #else
-  if (usb_handle != -1)
-    {
-      if (sanei_usb_control_msg (usb_handle, 0xc0,	/* Request type */
-				 0x04,	/* Request      */
-				 address,	/* Value        */
-				 index,	/* Index        */
-				 size,	/* Size         */
-				 buffer)	/* Buffer       */
-	  == SANE_STATUS_GOOD)
-	rst = size;
-      else
-	rst = -1;
-    }
+	if (usb_handle != -1) {
+		if (sanei_usb_control_msg(usb_handle, 0x40,	/* Request type */
+					  0x04,	/* Request      */
+					  address,	/* Value        */
+					  index,	/* Index        */
+					  size,	/* Size         */
+					  buffer)	/* Buffer       */
+		    == SANE_STATUS_GOOD)
+			rst = size;
+		else
+			rst = -1;
+	}
 #endif
 
-  if (rst < 0)
-    DBG (DBG_CTL, "             : Error, returned %i\n", rst);
-  else
-    show_buffer (DBG_CTL, buffer, rst);
+	if (rst < 0)
+		DBG(DBG_CTL, "             : Error, returned %i\n", rst);
 
-  return rst;
+	return rst;
 }
 
 static SANE_Int
-show_buffer (SANE_Int level, SANE_Byte * buffer, SANE_Int size)
+usb_ctl_read(USB_Handle usb_handle, SANE_Int address, SANE_Byte * buffer,
+	     SANE_Int size, SANE_Int index)
 {
-  if (DBG_LEVEL >= level)
-    {
-      char *sline = NULL;
-      char *sdata = NULL;
-      SANE_Int cont, data, offset = 0, col = 0;
+	SANE_Int rst;
 
-      if ((size > 0) && (buffer != NULL))
-	{
-	  sline = (char *) malloc (256);
-	  if (sline != NULL)
-	    {
-	      sdata = (char *) malloc (256);
-	      if (sdata != NULL)
-		{
-		  bzero (sline, 256);
-		  for (cont = 0; cont < size; cont++)
-		    {
-		      if (col == 0)
-			{
-			  if (cont == 0)
-			    snprintf (sline, 255, "           BF: ");
-			  else
-			    snprintf (sline, 255, "               ");
-			}
-		      data = (buffer[cont] & 0xff);
-		      snprintf (sdata, 255, "%02x ", data);
-		      sline = strcat (sline, sdata);
-		      col++;
-		      offset++;
-		      if (col == 8)
-			{
-			  col = 0;
-			  snprintf (sdata, 255, " : %i\n", offset - 8);
-			  sline = strcat (sline, sdata);
-			  DBG (level, "%s", sline);
-			  bzero (sline, 256);
-			}
-		    }
-		  if (col > 0)
-		    {
-		      for (cont = col; cont < 8; cont++)
-			{
-			  snprintf (sdata, 255, "-- ");
-			  sline = strcat (sline, sdata);
-			  offset++;
-			}
-		      snprintf (sdata, 255, " : %i\n", offset - 8);
-		      sline = strcat (sline, sdata);
-		      DBG (level, "%s", sline);
-		      bzero (sline, 256);
-		    }
-		  free (sdata);
-		}
-	      free (sline);
-	    }
+	rst = ERROR;
+
+	dataline_count++;
+	DBG(DBG_CTL, "%06i CTL DI: c0 04 %04x %04x %04x\n",
+	    dataline_count, address & 0xffff, index, size);
+
+#ifdef STANDALONE
+	if (usb_handle != NULL)
+		rst = usb_control_msg(usb_handle, 0xc0,	/* Request type */
+				      0x04,	/* Request      */
+				      address,	/* Value        */
+				      index,	/* Index        */
+				      (char *) buffer,	/* Buffer       */
+				      size,	/* Size         */
+				      TIMEOUT);
+#else
+	if (usb_handle != -1) {
+		if (sanei_usb_control_msg(usb_handle, 0xc0,	/* Request type */
+					  0x04,	/* Request      */
+					  address,	/* Value        */
+					  index,	/* Index        */
+					  size,	/* Size         */
+					  buffer)	/* Buffer       */
+		    == SANE_STATUS_GOOD)
+			rst = size;
+		else
+			rst = -1;
 	}
-      else
-	DBG (level, "           BF: Empty buffer\n");
-    }
-  return OK;
+#endif
+
+	if (rst < 0)
+		DBG(DBG_CTL, "             : Error, returned %i\n", rst);
+	else
+		show_buffer(DBG_CTL, buffer, rst);
+
+	return rst;
+}
+
+static SANE_Int
+show_buffer(SANE_Int level, SANE_Byte * buffer, SANE_Int size)
+{
+	if (DBG_LEVEL >= level) {
+		char *sline = NULL;
+		char *sdata = NULL;
+		SANE_Int cont, data, offset = 0, col = 0;
+
+		if ((size > 0) && (buffer != NULL)) {
+			sline = (char *) malloc(256);
+			if (sline != NULL) {
+				sdata = (char *) malloc(256);
+				if (sdata != NULL) {
+					bzero(sline, 256);
+					for (cont = 0; cont < size; cont++) {
+						if (col == 0) {
+							if (cont == 0)
+								snprintf(sline, 255, "           BF: ");
+							else
+								snprintf(sline, 255, "               ");
+						}
+						data = (buffer[cont] & 0xff);
+						snprintf(sdata, 255, "%02x ",
+							 data);
+						sline = strcat(sline, sdata);
+						col++;
+						offset++;
+						if (col == 8) {
+							col = 0;
+							snprintf(sdata, 255,
+								 " : %i\n",
+								 offset - 8);
+							sline = strcat(sline,
+								       sdata);
+							DBG(level, "%s",
+							    sline);
+							bzero(sline, 256);
+						}
+					}
+					if (col > 0) {
+						for (cont = col; cont < 8;
+						     cont++) {
+							snprintf(sdata, 255,
+								 "-- ");
+							sline = strcat(sline,
+								       sdata);
+							offset++;
+						}
+						snprintf(sdata, 255,
+							 " : %i\n",
+							 offset - 8);
+						sline = strcat(sline, sdata);
+						DBG(level, "%s", sline);
+						bzero(sline, 256);
+					}
+					free(sdata);
+				}
+				free(sline);
+			}
+		} else
+			DBG(level, "           BF: Empty buffer\n");
+	}
+	return OK;
 }
 #endif /*USBLAYER*/

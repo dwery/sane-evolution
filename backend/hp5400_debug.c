@@ -55,10 +55,12 @@ FILE *DBG_ASSERT = NULL;
 FILE *DBG_ERR = NULL;
 FILE *DBG_MSG = NULL;
 
-void  hp5400_dbg_start() {
-  DBG_MSG = stdout;
-  DBG_ERR = stderr;
-  DBG_ASSERT = stderr;
+void
+hp5400_dbg_start()
+{
+	DBG_MSG = stdout;
+	DBG_ERR = stderr;
+	DBG_ASSERT = stderr;
 }
 
 #else
@@ -69,5 +71,3 @@ void  hp5400_dbg_start() {
 #include "../include/sane/sanei_debug.h"
 
 #endif
-
-

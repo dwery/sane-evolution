@@ -74,113 +74,116 @@
 /*WORK:
  *    create other thresholds for the dither maps
  */
-static Byte mapDitherMatrix0[_DITHERSIZE] =
-{
-     0, 32, 8,  40, 2,  34, 10, 42,
-    48, 16, 56, 24, 50, 18, 58, 26,
-    12, 44, 4,  36, 14, 46, 6,  38,
-    60, 28, 52, 20, 62, 30, 54, 22,
-     3, 35, 11, 43, 1,  33, 9,  41,
-    51, 19, 59, 27, 49, 17, 57, 25,
-    15, 47, 7,  39, 13, 45, 5,  37,
+static Byte mapDitherMatrix0[_DITHERSIZE] = {
+	0, 32, 8, 40, 2, 34, 10, 42,
+	48, 16, 56, 24, 50, 18, 58, 26,
+	12, 44, 4, 36, 14, 46, 6, 38,
+	60, 28, 52, 20, 62, 30, 54, 22,
+	3, 35, 11, 43, 1, 33, 9, 41,
+	51, 19, 59, 27, 49, 17, 57, 25,
+	15, 47, 7, 39, 13, 45, 5, 37,
 	63, 31, 55, 23, 61, 29, 53, 21
 };
 
-static Byte mapDitherMatrix1[_DITHERSIZE] =
-{
-     2, 60, 16, 56,  3, 57, 13, 53,
-    34, 18, 48, 32, 35, 19, 45, 29,
-    10, 50,  6, 63, 11, 51,  7, 61,
-    42, 26, 38, 22, 43, 27, 39, 23,
-     4, 58, 14, 54,  1, 59, 15, 55,
-    36, 20, 46, 30, 33, 17, 47, 31,
-    12, 52,  8, 62,  9, 49,  5, 63,
-    44, 28, 40, 24, 41, 25, 37, 21
+static Byte mapDitherMatrix1[_DITHERSIZE] = {
+	2, 60, 16, 56, 3, 57, 13, 53,
+	34, 18, 48, 32, 35, 19, 45, 29,
+	10, 50, 6, 63, 11, 51, 7, 61,
+	42, 26, 38, 22, 43, 27, 39, 23,
+	4, 58, 14, 54, 1, 59, 15, 55,
+	36, 20, 46, 30, 33, 17, 47, 31,
+	12, 52, 8, 62, 9, 49, 5, 63,
+	44, 28, 40, 24, 41, 25, 37, 21
 };
 
 /*************************** local functions *********************************/
 
 /** set the selected dither maps...
  */
-static void mapSetDitherMap( pScanData ps )
+static void
+mapSetDitherMap(pScanData ps)
 {
-	ULong  i;
+	ULong i;
 	pUChar pDitherSource;
 	pUChar pDither = ps->a_bDitherPattern;
 
-	if( 0 == ps->DataInf.wDither ) {
-		DBG( DBG_LOW, "Using Dithermatrix 0\n" );
+	if (0 == ps->DataInf.wDither) {
+		DBG(DBG_LOW, "Using Dithermatrix 0\n");
 		pDitherSource = mapDitherMatrix0;
 	} else {
-		DBG( DBG_LOW, "Using Dithermatrix 1\n" );
+		DBG(DBG_LOW, "Using Dithermatrix 1\n");
 		pDitherSource = mapDitherMatrix1;
 	}
 
-	for( i = 0; i < _DITHERSIZE; i++ ) {
+	for (i = 0; i < _DITHERSIZE; i++) {
 		pDither[i] = pDitherSource[i];
 	}
 }
 
 /** nothing more to say
  */
-static void mapInvertMap( pScanData ps )
+static void
+mapInvertMap(pScanData ps)
 {
 	pULong pdw;
-    ULong  dw, size;
+	ULong dw, size;
 
-	DBG( DBG_LOW, "mapInvertMap()\n" );
+	DBG(DBG_LOW, "mapInvertMap()\n");
 
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
 		size = 4096;
 	} else {
 		size = 256;
-    }
+	}
 
-    for (pdw = (pULong)ps->a_bMapTable, dw = size * 3 / 4; dw; dw--, pdw++) {
+	for (pdw = (pULong) ps->a_bMapTable, dw = size * 3 / 4; dw;
+	     dw--, pdw++) {
 		*pdw = ~(*pdw);
 	}
 }
 
 /** as the name says...
  */
-static void mapInvertDitherMap( pScanData ps )
+static void
+mapInvertDitherMap(pScanData ps)
 {
-	if( ps->DataInf.dwScanFlag & SCANDEF_Inverse ) {
+	if (ps->DataInf.dwScanFlag & SCANDEF_Inverse) {
 
-		ULong  dw;
-		pULong pDither = (pULong)ps->a_bDitherPattern;
+		ULong dw;
+		pULong pDither = (pULong) ps->a_bDitherPattern;
 
-		DBG( DBG_LOW, "mapInvertDitherMap()\n" );
+		DBG(DBG_LOW, "mapInvertDitherMap()\n");
 
-		mapInvertMap( ps );
+		mapInvertMap(ps);
 		for (dw = 0; dw < 16; dw++) {
-	    	pDither[dw] = ~pDither[dw];
+			pDither[dw] = ~pDither[dw];
 		}
-    }
+	}
 }
 
 /** build linear map...
  */
-static void mapBuildLinearMap( pScanData ps )
+static void
+mapBuildLinearMap(pScanData ps)
 {
 	ULong i;
-		
-	DBG( DBG_LOW, "mapBuildLinearMap()\n" );
 
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
+	DBG(DBG_LOW, "mapBuildLinearMap()\n");
 
-		for( i = 0; i < 4096; i++ ) {
-			ps->a_bMapTable[i] 	    = (UChar)(i >> 4);		
-			ps->a_bMapTable[4096+i] = (UChar)(i >> 4);		
-			ps->a_bMapTable[8192+i] = (UChar)(i >> 4);		
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
+
+		for (i = 0; i < 4096; i++) {
+			ps->a_bMapTable[i] = (UChar) (i >> 4);
+			ps->a_bMapTable[4096 + i] = (UChar) (i >> 4);
+			ps->a_bMapTable[8192 + i] = (UChar) (i >> 4);
 		}
 
 	} else {
 
-		for( i = 0; i < 256; i++ ) {
-			ps->a_bMapTable[i] 	   = (UChar)(i & 0xff);		
-			ps->a_bMapTable[256+i] = (UChar)(i & 0xff);		
-			ps->a_bMapTable[512+i] = (UChar)(i & 0xff);	
+		for (i = 0; i < 256; i++) {
+			ps->a_bMapTable[i] = (UChar) (i & 0xff);
+			ps->a_bMapTable[256 + i] = (UChar) (i & 0xff);
+			ps->a_bMapTable[512 + i] = (UChar) (i & 0xff);
 		}
 	}
 }
@@ -192,37 +195,40 @@ static void mapBuildLinearMap( pScanData ps )
  *  and the is being downloaded to the driver, as I don't have the code
  *  we have to try to build up such a table here
  */
-_LOC void MapInitialize( pScanData ps )
+_LOC void
+MapInitialize(pScanData ps)
 {
-	mapBuildLinearMap( ps );
-	MapAdjust( ps, _MAP_MASTER );
+	mapBuildLinearMap(ps);
+	MapAdjust(ps, _MAP_MASTER);
 }
 
 /** setup dither maps
  */
-_LOC void MapSetupDither( pScanData ps )
+_LOC void
+MapSetupDither(pScanData ps)
 {
-	DBG( DBG_LOW, "MapSetupDither() - %u\n", ps->DataInf.wAppDataType );
+	DBG(DBG_LOW, "MapSetupDither() - %u\n", ps->DataInf.wAppDataType);
 
-	if( COLOR_HALFTONE == ps->DataInf.wAppDataType ) {
+	if (COLOR_HALFTONE == ps->DataInf.wAppDataType) {
 
-		mapSetDitherMap( ps );
-	    if (ps->DataInf.dwScanFlag & SCANDEF_Inverse)
-			mapInvertDitherMap( ps );
+		mapSetDitherMap(ps);
+		if (ps->DataInf.dwScanFlag & SCANDEF_Inverse)
+			mapInvertDitherMap(ps);
 	}
 }
 
 /** adjust acording to brightness and contrast
  */
-_LOC void MapAdjust( pScanData ps, int which )
+_LOC void
+MapAdjust(pScanData ps, int which)
 {
-	ULong  i, tabLen, dw;
+	ULong i, tabLen, dw;
 	ULong *pdw;
-	long   b, c, tmp;
+	long b, c, tmp;
 
-	DBG( DBG_LOW, "MapAdjust(%u)\n", which );
-		
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
+	DBG(DBG_LOW, "MapAdjust(%u)\n", which);
+
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
 		tabLen = 4096;
 	} else {
 		tabLen = 256;
@@ -237,67 +243,77 @@ _LOC void MapAdjust( pScanData ps, int which )
 	/* scale brightness and contrast...
 	 */
 	b = ps->wBrightness * 192;
-	c = ps->wContrast   + 100;
+	c = ps->wContrast + 100;
 
-	DBG( DBG_LOW, "brightness   = %i -> %i\n", ps->wBrightness, (UChar)(b/100));
-	DBG( DBG_LOW, "contrast*100 = %i -> %i\n", ps->wContrast, (int)(c));
+	DBG(DBG_LOW, "brightness   = %i -> %i\n", ps->wBrightness,
+	    (UChar) (b / 100));
+	DBG(DBG_LOW, "contrast*100 = %i -> %i\n", ps->wContrast, (int) (c));
 
-	for( i = 0; i < tabLen; i++ ) {
+	for (i = 0; i < tabLen; i++) {
 
-		if((_MAP_MASTER == which) || (_MAP_RED == which)) {
-			tmp = ((((long)ps->a_bMapTable[i] * 100) + b) *c ) / 10000;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			ps->a_bMapTable[i] = (UChar)tmp;
+		if ((_MAP_MASTER == which) || (_MAP_RED == which)) {
+			tmp = ((((long) ps->a_bMapTable[i] * 100) +
+				b) * c) / 10000;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			ps->a_bMapTable[i] = (UChar) tmp;
 		}
 
-		if((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
-			tmp = ((((long)ps->a_bMapTable[tabLen+i] * 100) + b) * c) / 10000;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			ps->a_bMapTable[tabLen+i] = (UChar)tmp;
-    	}
-    	
-		if((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
-			tmp = ((((long)ps->a_bMapTable[tabLen*2+i] * 100) + b) * c) / 10000;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			ps->a_bMapTable[tabLen*2+i] = (UChar)tmp;
+		if ((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
+			tmp = ((((long) ps->a_bMapTable[tabLen + i] * 100) +
+				b) * c) / 10000;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			ps->a_bMapTable[tabLen + i] = (UChar) tmp;
+		}
+
+		if ((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
+			tmp = ((((long) ps->a_bMapTable[tabLen * 2 + i] *
+				 100) + b) * c) / 10000;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			ps->a_bMapTable[tabLen * 2 + i] = (UChar) tmp;
 		}
 	}
 
-    if( ps->DataInf.dwScanFlag & SCANDEF_Negative ) {
-		DBG( DBG_LOW, "inverting...\n" );
-		
-		if((_MAP_MASTER == which) || (_MAP_RED == which)) {
-	
-			DBG( DBG_LOW, "inverting RED map\n" );
-			
-			pdw = (pULong)ps->a_bMapTable;
-			
-		    for( dw = tabLen / 4; dw; dw--, pdw++ )
+	if (ps->DataInf.dwScanFlag & SCANDEF_Negative) {
+		DBG(DBG_LOW, "inverting...\n");
+
+		if ((_MAP_MASTER == which) || (_MAP_RED == which)) {
+
+			DBG(DBG_LOW, "inverting RED map\n");
+
+			pdw = (pULong) ps->a_bMapTable;
+
+			for (dw = tabLen / 4; dw; dw--, pdw++)
 				*pdw = ~(*pdw);
-    	}
-	
-		if((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
-			
-			DBG( DBG_LOW, "inverting GREEN map\n" );
-			
-			pdw = (pULong)&ps->a_bMapTable[tabLen];
-			
-		    for( dw = tabLen / 4; dw; dw--, pdw++ )
+		}
+
+		if ((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
+
+			DBG(DBG_LOW, "inverting GREEN map\n");
+
+			pdw = (pULong) & ps->a_bMapTable[tabLen];
+
+			for (dw = tabLen / 4; dw; dw--, pdw++)
 				*pdw = ~(*pdw);
-    	}
-		
-		if((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
-			
-			DBG( DBG_LOW, "inverting BLUE map\n" );
-			
-			pdw = (pULong)&ps->a_bMapTable[tabLen*2];
-			
-		    for( dw = tabLen / 4; dw; dw--, pdw++ )
+		}
+
+		if ((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
+
+			DBG(DBG_LOW, "inverting BLUE map\n");
+
+			pdw = (pULong) & ps->a_bMapTable[tabLen * 2];
+
+			for (dw = tabLen / 4; dw; dw--, pdw++)
 				*pdw = ~(*pdw);
-    	}
+		}
 	}
 }
 

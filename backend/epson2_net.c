@@ -45,8 +45,8 @@
 #include <stdio.h>
 
 int
-sanei_epson_net_read_raw(Epson_Scanner *s, unsigned char *buf, size_t wanted,
-		       SANE_Status * status)
+sanei_epson_net_read_raw(Epson_Scanner * s, unsigned char *buf, size_t wanted,
+			 SANE_Status * status)
 {
 	size_t size, read = 0;
 
@@ -69,8 +69,8 @@ sanei_epson_net_read_raw(Epson_Scanner *s, unsigned char *buf, size_t wanted,
 }
 
 int
-sanei_epson_net_read(Epson_Scanner *s, unsigned char *buf, size_t wanted,
-		       SANE_Status * status)
+sanei_epson_net_read(Epson_Scanner * s, unsigned char *buf, size_t wanted,
+		     SANE_Status * status)
 {
 	size_t size, read = 0;
 	unsigned char header[12];
@@ -78,7 +78,7 @@ sanei_epson_net_read(Epson_Scanner *s, unsigned char *buf, size_t wanted,
 	/* read from buffer, if available */
 	if (s->netptr != s->netbuf) {
 		DBG(4, "reading %lu from buffer at %p, %lu available\n",
-			(u_long) wanted, s->netptr, (u_long) s->netlen);
+		    (u_long) wanted, s->netptr, (u_long) s->netlen);
 
 		memcpy(buf, s->netptr, wanted);
 		read = wanted;
@@ -106,7 +106,7 @@ sanei_epson_net_read(Epson_Scanner *s, unsigned char *buf, size_t wanted,
 	size = be32atoh(&header[6]);
 
 	DBG(4, "%s: wanted = %lu, available = %lu\n", __FUNCTION__,
-		(u_long) wanted, (u_long) size);
+	    (u_long) wanted, (u_long) size);
 
 	*status = SANE_STATUS_GOOD;
 
@@ -129,8 +129,9 @@ sanei_epson_net_read(Epson_Scanner *s, unsigned char *buf, size_t wanted,
 		read = wanted;
 
 		DBG(4, "0,4 %02x %02x\n", s->netbuf[0], s->netbuf[4]);
-		DBG(4, "storing %lu to buffer at %p, next read at %p, %lu bytes left\n",
-			(u_long) size, s->netbuf, s->netptr, (u_long) s->netlen);
+		DBG(4,
+		    "storing %lu to buffer at %p, next read at %p, %lu bytes left\n",
+		    (u_long) size, s->netbuf, s->netptr, (u_long) s->netlen);
 
 		memcpy(buf, s->netbuf, wanted);
 	}
@@ -140,8 +141,9 @@ sanei_epson_net_read(Epson_Scanner *s, unsigned char *buf, size_t wanted,
 
 
 int
-sanei_epson_net_write(Epson_Scanner *s, unsigned int cmd, const unsigned char *buf,
-			size_t buf_size, size_t reply_len, SANE_Status *status)
+sanei_epson_net_write(Epson_Scanner * s, unsigned int cmd,
+		      const unsigned char *buf, size_t buf_size,
+		      size_t reply_len, SANE_Status * status)
 {
 	unsigned char *h1, *h2, *payload;
 	unsigned char *packet = malloc(12 + 8 + buf_size);
@@ -156,11 +158,11 @@ sanei_epson_net_write(Epson_Scanner *s, unsigned int cmd, const unsigned char *b
 		s->netbuf = s->netptr = malloc(reply_len);
 		s->netlen = reply_len;
 		DBG(8, "allocated %lu bytes at %p\n",
-			(u_long) reply_len, s->netbuf);
+		    (u_long) reply_len, s->netbuf);
 	}
 
 	DBG(2, "%s: cmd = %04x, buf = %p, buf_size = %lu, reply_len = %lu\n",
-		__FUNCTION__, cmd, buf, (u_long) buf_size, (u_long) reply_len);
+	    __FUNCTION__, cmd, buf, (u_long) buf_size, (u_long) reply_len);
 
 	memset(h1, 0x00, 12);
 	memset(h2, 0x00, 8);
@@ -172,19 +174,22 @@ sanei_epson_net_write(Epson_Scanner *s, unsigned int cmd, const unsigned char *b
 	h1[3] = cmd;
 
 	h1[4] = 0x00;
-	h1[5] = 0x0C; /* Don't know what's that */
+	h1[5] = 0x0C;		/* Don't know what's that */
 
 	DBG(9, "H1[0]: %02x %02x %02x %02x\n", h1[0], h1[1], h1[2], h1[3]);
 
-	if((cmd >> 8) == 0x20) {
-		htobe32a(&h1[6], buf_size + 8);		
+	if ((cmd >> 8) == 0x20) {
+		htobe32a(&h1[6], buf_size + 8);
 
 		htobe32a(&h2[0], buf_size);
 		htobe32a(&h2[4], reply_len);
 
-		DBG(9, "H1[6]: %02x %02x %02x %02x (%lu)\n", h1[6], h1[7], h1[8], h1[9], (u_long) (buf_size + 8));
-		DBG(9, "H2[0]: %02x %02x %02x %02x (%lu)\n", h2[0], h2[1], h2[2], h2[3], (u_long) buf_size);
-		DBG(9, "H2[4]: %02x %02x %02x %02x (%lu)\n", h2[4], h2[5], h2[6], h2[7], (u_long) reply_len);
+		DBG(9, "H1[6]: %02x %02x %02x %02x (%lu)\n", h1[6], h1[7],
+		    h1[8], h1[9], (u_long) (buf_size + 8));
+		DBG(9, "H2[0]: %02x %02x %02x %02x (%lu)\n", h2[0], h2[1],
+		    h2[2], h2[3], (u_long) buf_size);
+		DBG(9, "H2[4]: %02x %02x %02x %02x (%lu)\n", h2[4], h2[5],
+		    h2[6], h2[7], (u_long) reply_len);
 	}
 
 	if ((cmd >> 8) == 0x20 && (buf_size || reply_len)) {
@@ -192,8 +197,7 @@ sanei_epson_net_write(Epson_Scanner *s, unsigned int cmd, const unsigned char *b
 			memcpy(payload, buf, buf_size);
 
 		sanei_tcp_write(s->fd, packet, 12 + 8 + buf_size);
-	}
-	else
+	} else
 		sanei_tcp_write(s->fd, packet, 12);
 
 	free(packet);
@@ -203,7 +207,7 @@ sanei_epson_net_write(Epson_Scanner *s, unsigned int cmd, const unsigned char *b
 }
 
 SANE_Status
-sanei_epson_net_lock(struct Epson_Scanner *s)
+sanei_epson_net_lock(struct Epson_Scanner * s)
 {
 	SANE_Status status;
 	unsigned char buf[1];
@@ -216,7 +220,7 @@ sanei_epson_net_lock(struct Epson_Scanner *s)
 }
 
 SANE_Status
-sanei_epson_net_unlock(struct Epson_Scanner *s)
+sanei_epson_net_unlock(struct Epson_Scanner * s)
 {
 	SANE_Status status;
 

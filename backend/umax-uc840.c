@@ -46,11 +46,10 @@
 #include "umax-scanner.h"
 /* ------------------------------------------------------------------------- */
 
-static unsigned char UC840_INQUIRY[] =
-{
+static unsigned char UC840_INQUIRY[] = {
 #define UC840_INQUIRY_LEN 0x94
 /* 24 F/W support function */
-	0x00, /* ? */
+	0x00,			/* ? */
 
 /* 25 -27 exposure-times */
 	0x00, 0x00, 0x00,
@@ -58,13 +57,13 @@ static unsigned char UC840_INQUIRY[] =
 /* 28 - 29 reserved */
 	0x00, 0x00,
 
-/* 2a - 35 exposure times */	
+/* 2a - 35 exposure times */
 	0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00,
 
-/* 36 - 37 reserved */	
+/* 36 - 37 reserved */
 	0x00, 0x00,
 
 /* 38 - 5f scsi reserved */
@@ -76,14 +75,14 @@ static unsigned char UC840_INQUIRY[] =
 
 /* 60 -62 scanner capability*/
 	0xfd,
-	0x8c, /* 0xbc ? */
-	0x03, 
+	0x8c,			/* 0xbc ? */
+	0x03,
 
 /* 63 reserved */
 	0x00,
 
 /* 64 gamma */
-	0xa1, 
+	0xa1,
 
 /* 65 reserved */
 	0x00,
@@ -150,7 +149,7 @@ static unsigned char UC840_INQUIRY[] =
 
 /* 8a-8b dor max scan width in 0.01 inch */
 	0x00, 0x00,
-	
+
 /* 8c-8d dor max scan length in 0.01 inch */
 	0x00, 0x00,
 
@@ -188,8 +187,6 @@ static unsigned char UC840_INQUIRY[] =
 	0x00
 };
 
-static inquiry_blk inquiry_uc840 =
-{
-  "UC840 ", UC840_INQUIRY, UC840_INQUIRY_LEN
+static inquiry_blk inquiry_uc840 = {
+	"UC840 ", UC840_INQUIRY, UC840_INQUIRY_LEN
 };
-

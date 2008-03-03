@@ -64,59 +64,77 @@
 /** scaling picture data in x-direction, using a DDA algo
  *  (digital differential analyzer).
  */
-_LOC void ScaleX( pScanData ps, pUChar inBuf, pUChar outBuf )
+_LOC void
+ScaleX(pScanData ps, pUChar inBuf, pUChar outBuf)
 {
 	UChar tmp;
-	int   step;
-	int   izoom;
-	int   ddax;
+	int step;
+	int izoom;
+	int ddax;
 	register ULong i, j, x;
 
 #ifdef DEBUG
-	_VAR_NOT_USED( dbg_level );
+	_VAR_NOT_USED(dbg_level);
 #endif
 
 	/* scale... */
-	izoom = (int)(1000000/ps->DataInf.XYRatio);
+	izoom = (int) (1000000 / ps->DataInf.XYRatio);
 
-	switch( ps->DataInf.wAppDataType ) {
+	switch (ps->DataInf.wAppDataType) {
 
-	case COLOR_BW      : step = 0;  break;
-	case COLOR_HALFTONE: step = 0;  break;
-	case COLOR_256GRAY : step = 1;  break;
-	case COLOR_TRUE24  : step = 3;  break; /*NOTE: COLOR_TRUE32 is the same !*/
-	case COLOR_TRUE48  : step = 6;  break;
-	default            : step = 99; break;
+	case COLOR_BW:
+		step = 0;
+		break;
+	case COLOR_HALFTONE:
+		step = 0;
+		break;
+	case COLOR_256GRAY:
+		step = 1;
+		break;
+	case COLOR_TRUE24:
+		step = 3;
+		break;		/*NOTE: COLOR_TRUE32 is the same ! */
+	case COLOR_TRUE48:
+		step = 6;
+		break;
+	default:
+		step = 99;
+		break;
 	}
 
 	/* when not supported, only copy the data
 	 */
-	if( 99 == step ) {
-		memcpy( outBuf, inBuf, ps->DataInf.dwAppBytesPerLine );
+	if (99 == step) {
+		memcpy(outBuf, inBuf, ps->DataInf.dwAppBytesPerLine);
 		return;
 	}
 
 	/* now scale...
 	 */
 	ddax = 0;
-	x    = 0;
-	if( 0 == step ) {
-	
+	x = 0;
+	if (0 == step) {
+
 		/* binary scaling
 		 */
-		memset( outBuf, 0, ps->DataInf.dwAppBytesPerLine );
+		memset(outBuf, 0, ps->DataInf.dwAppBytesPerLine);
 
-		for( i = 0; i < ps->DataInf.dwPhysBytesPerLine*8; i++ ) {
+		for (i = 0; i < ps->DataInf.dwPhysBytesPerLine * 8; i++) {
 
 			ddax -= 1000;
 
-			while( ddax < 0 ) {
+			while (ddax < 0) {
 
-				tmp = inBuf[(i>>3)];
+				tmp = inBuf[(i >> 3)];
 
-				if((x>>3) < ps->DataInf.dwAppBytesPerLine ) {
-					if( 0 != (tmp &= (1 << ((~(i & 0x7))&0x7))))
-						outBuf[x>>3] |= (1 << ((~(x & 0x7))&0x7));
+				if ((x >> 3) < ps->DataInf.dwAppBytesPerLine) {
+					if (0 !=
+					    (tmp &=
+					     (1 << ((~(i & 0x7)) & 0x7))))
+						outBuf[x >> 3] |=
+							(1 <<
+							 ((~(x & 0x7)) &
+							  0x7));
 				}
 				x++;
 				ddax += izoom;
@@ -127,19 +145,21 @@ _LOC void ScaleX( pScanData ps, pUChar inBuf, pUChar outBuf )
 
 		/* color and gray scaling
 		 */
-		for( i = 0; i < ps->DataInf.dwPhysBytesPerLine*step; i+=step ) {
+		for (i = 0; i < ps->DataInf.dwPhysBytesPerLine * step;
+		     i += step) {
 
 			ddax -= 1000;
 
-			while( ddax < 0 ) {
+			while (ddax < 0) {
 
-				for( j = 0; j < (ULong)step; j++ ) {
-        	
-					if((x+j) < ps->DataInf.dwAppBytesPerLine ) {
-						outBuf[x+j] = inBuf[i+j];
+				for (j = 0; j < (ULong) step; j++) {
+
+					if ((x + j) <
+					    ps->DataInf.dwAppBytesPerLine) {
+						outBuf[x + j] = inBuf[i + j];
 					}
 				}
-				x    += step;
+				x += step;
 				ddax += izoom;
 			}
 		}

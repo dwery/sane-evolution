@@ -71,11 +71,12 @@ static SANE_Byte a_bMap[_MAP_SIZE * 3];
 
 /** adjust acording to brightness and contrast
  */
-static void usb_MapAdjust( Plustek_Device *dev )
+static void
+usb_MapAdjust(Plustek_Device * dev)
 {
-	int    i, tabLen;
+	int i, tabLen;
 	double b, c, tmp;
-	
+
 	tabLen = _MAP_SIZE;
 
 	/* adjust brightness (b) and contrast (c) using the function:
@@ -84,92 +85,101 @@ static void usb_MapAdjust( Plustek_Device *dev )
 	 * b = [-127, 127]
 	 * c = [0,2]
 	 */
-	b = ((double)dev->scanning.sParam.brightness * 192.0)/100.0;
-	c = ((double)dev->scanning.sParam.contrast   + 100.0)/100.0;
+	b = ((double) dev->scanning.sParam.brightness * 192.0) / 100.0;
+	c = ((double) dev->scanning.sParam.contrast + 100.0) / 100.0;
 
-	DBG( _DBG_INFO, "* brightness = %i -> %i\n",
-	                dev->scanning.sParam.brightness, (u_char)b);
-	DBG( _DBG_INFO, "* contrast   = %i -> %.3f\n",
-	                dev->scanning.sParam.contrast, c);
+	DBG(_DBG_INFO, "* brightness = %i -> %i\n",
+	    dev->scanning.sParam.brightness, (u_char) b);
+	DBG(_DBG_INFO, "* contrast   = %i -> %.3f\n",
+	    dev->scanning.sParam.contrast, c);
 
-	if( dev->scanning.sParam.brightness == 0 && dev->scanning.sParam.contrast )
+	if (dev->scanning.sParam.brightness == 0
+	    && dev->scanning.sParam.contrast)
 		return;
 
-	for( i = 0; i < tabLen; i++ ) {
+	for (i = 0; i < tabLen; i++) {
 
-		tmp = ((double)(a_bMap[i] + b)) * c;
-		if( tmp < 0 )   tmp = 0;
-		if( tmp > 255 ) tmp = 255;
-		a_bMap[i] = (u_char)tmp;
+		tmp = ((double) (a_bMap[i] + b)) * c;
+		if (tmp < 0)
+			tmp = 0;
+		if (tmp > 255)
+			tmp = 255;
+		a_bMap[i] = (u_char) tmp;
 
-		tmp = ((double)(a_bMap[tabLen+i] + b)) * c;
-		if( tmp < 0 )   tmp = 0;
-		if( tmp > 255 ) tmp = 255;
-		a_bMap[tabLen+i] = (u_char)tmp;
+		tmp = ((double) (a_bMap[tabLen + i] + b)) * c;
+		if (tmp < 0)
+			tmp = 0;
+		if (tmp > 255)
+			tmp = 255;
+		a_bMap[tabLen + i] = (u_char) tmp;
 
-		tmp = ((double)(a_bMap[tabLen*2+i] + b)) * c;
-		if( tmp < 0 )   tmp = 0;
-		if( tmp > 255 ) tmp = 255;
-		a_bMap[tabLen*2+i] = (u_char)tmp;
+		tmp = ((double) (a_bMap[tabLen * 2 + i] + b)) * c;
+		if (tmp < 0)
+			tmp = 0;
+		if (tmp > 255)
+			tmp = 255;
+		a_bMap[tabLen * 2 + i] = (u_char) tmp;
 	}
 }
 
 /**
  */
-static SANE_Bool usb_MapDownload( Plustek_Device *dev )
+static SANE_Bool
+usb_MapDownload(Plustek_Device * dev)
 {
-	ScanDef  *scanning = &dev->scanning;
-	DCapsDef *sc       = &dev->usbDev.Caps;
+	ScanDef *scanning = &dev->scanning;
+	DCapsDef *sc = &dev->usbDev.Caps;
 
-	int       color;
-	int       i, threshold;
+	int color;
+	int i, threshold;
 	SANE_Byte value;
 	SANE_Bool fInverse = 0;
-	
-	DBG( _DBG_INFO, "usb_MapDownload()\n" );
+
+	DBG(_DBG_INFO, "usb_MapDownload()\n");
 
 	/* the maps are have been already set */
-	
-	/* do the brightness and contrast adjustment ... */
-	if( scanning->sParam.bDataType != SCANDATATYPE_BW )
-		usb_MapAdjust( dev );
 
-	if( !usbio_WriteReg( dev->fd, 7, 0))
+	/* do the brightness and contrast adjustment ... */
+	if (scanning->sParam.bDataType != SCANDATATYPE_BW)
+		usb_MapAdjust(dev);
+
+	if (!usbio_WriteReg(dev->fd, 7, 0))
 		return SANE_FALSE;
 
 	/* we download all the time all three color maps, as we run
 	 * into trouble elsewhere on CanoScan models using gray mode
 	 */
-	for( color = 0; color < 3; color++) {
-	
+	for (color = 0; color < 3; color++) {
+
 		/* select color */
-		value = (color << 2)+2;
+		value = (color << 2) + 2;
 
 		/* set gamma color selector */
-		usbio_WriteReg( dev->fd, 0x03, value );
-		usbio_WriteReg( dev->fd, 0x04, 0 );
-		usbio_WriteReg( dev->fd, 0x05, 0 );
+		usbio_WriteReg(dev->fd, 0x03, value);
+		usbio_WriteReg(dev->fd, 0x04, 0);
+		usbio_WriteReg(dev->fd, 0x05, 0);
 
 		/* write the gamma table entry to merlin */
-		if((scanning->sParam.bDataType == SCANDATATYPE_BW) ||
-		   (scanning->fGrayFromColor > 7 )) {
+		if ((scanning->sParam.bDataType == SCANDATATYPE_BW) ||
+		    (scanning->fGrayFromColor > 7)) {
 
-			threshold = (int)((double)scanning->sParam.brightness *
-			                                (_MAP_SIZE/200.0)) + (_MAP_SIZE/2);
+			threshold =
+				(int) ((double) scanning->sParam.brightness *
+				       (_MAP_SIZE / 200.0)) + (_MAP_SIZE / 2);
 			threshold = _MAP_SIZE - threshold;
-			if(threshold < 0)
+			if (threshold < 0)
 				threshold = 0;
-			if(threshold > (int)_MAP_SIZE)
+			if (threshold > (int) _MAP_SIZE)
 				threshold = _MAP_SIZE;
-	
-			DBG(_DBG_INFO, "* Threshold is at %u brightness=%i\n",
-			               threshold, scanning->sParam.brightness );
 
-			for(i = 0; i < threshold; i++)
-				a_bMap[color*_MAP_SIZE + i] = 0;
-				
-			for(i = threshold; i < _MAP_SIZE; i++)
-				a_bMap[color*_MAP_SIZE + i] = 255;
+			DBG(_DBG_INFO, "* Threshold is at %u brightness=%i\n",
+			    threshold, scanning->sParam.brightness);
+
+			for (i = 0; i < threshold; i++)
+				a_bMap[color * _MAP_SIZE + i] = 0;
+
+			for (i = threshold; i < _MAP_SIZE; i++)
+				a_bMap[color * _MAP_SIZE + i] = 255;
 
 			fInverse = 1;
 
@@ -177,33 +187,35 @@ static SANE_Bool usb_MapDownload( Plustek_Device *dev )
 			fInverse = 0;
 		}
 
-		if( /*scanning->dwFlag & SCANFLAG_Pseudo48 && */
-			(scanning->sParam.bSource == SOURCE_Negative) &&
-			(sc->workaroundFlag &_WAF_INV_NEGATIVE_MAP)) {
+		if (		/*scanning->dwFlag & SCANFLAG_Pseudo48 && */
+			   (scanning->sParam.bSource == SOURCE_Negative) &&
+			   (sc->workaroundFlag & _WAF_INV_NEGATIVE_MAP)) {
 			fInverse ^= 1;
 		}
 
-		if( fInverse ) {
-		
-			u_char  map[_MAP_SIZE];
-			u_char *pMap = a_bMap+color*_MAP_SIZE;
-			
-			DBG( _DBG_INFO, "* Inverting Map\n" );
-			
-			for( i = 0; i < _MAP_SIZE; i++, pMap++ )
-				map[i] = ~*pMap;
-			
-			sanei_lm983x_write( dev->fd,  0x06, map, _MAP_SIZE, SANE_FALSE );
-			
-		} else {
-			DBG( _DBG_INFO, "* downloading map %u...\n", color );
-			sanei_lm983x_write( dev->fd, 0x06, a_bMap+color*_MAP_SIZE,
-			                    _MAP_SIZE, SANE_FALSE );
-		}
-	
-	} /* for each color */
+		if (fInverse) {
 
-	DBG( _DBG_INFO, "usb_MapDownload() done.\n" );
+			u_char map[_MAP_SIZE];
+			u_char *pMap = a_bMap + color * _MAP_SIZE;
+
+			DBG(_DBG_INFO, "* Inverting Map\n");
+
+			for (i = 0; i < _MAP_SIZE; i++, pMap++)
+				map[i] = ~*pMap;
+
+			sanei_lm983x_write(dev->fd, 0x06, map, _MAP_SIZE,
+					   SANE_FALSE);
+
+		} else {
+			DBG(_DBG_INFO, "* downloading map %u...\n", color);
+			sanei_lm983x_write(dev->fd, 0x06,
+					   a_bMap + color * _MAP_SIZE,
+					   _MAP_SIZE, SANE_FALSE);
+		}
+
+	}			/* for each color */
+
+	DBG(_DBG_INFO, "usb_MapDownload() done.\n");
 	return SANE_TRUE;
 }
 

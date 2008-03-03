@@ -77,101 +77,93 @@
 #undef DOUBLE_BYTE
 
 static SANE_Status
-genesys_reverse_bits(
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    size_t bytes) 
+genesys_reverse_bits(u_int8_t * src_data, u_int8_t * dst_data, size_t bytes)
 {
-    size_t i;
-    for(i = 0; i < bytes; i++) {
-	*dst_data++ = ~ *src_data++;
-    }
-    return SANE_STATUS_GOOD;
+	size_t i;
+	for (i = 0; i < bytes; i++) {
+		*dst_data++ = ~*src_data++;
+	}
+	return SANE_STATUS_GOOD;
 }
 
 static SANE_Status
-genesys_gray_lineart(
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    size_t pixels,
-    size_t channels,
-    size_t lines,
-    u_int8_t threshold)
+genesys_gray_lineart(u_int8_t * src_data,
+		     u_int8_t * dst_data,
+		     size_t pixels,
+		     size_t channels, size_t lines, u_int8_t threshold)
 {
-    size_t x,y,c,b;
-    for(y = 0; y < lines; y++) {
- 	for(x = 0; x < pixels; x+=8) {
-	    for(c = 0; c < channels; c++) 
-		*(dst_data + c) = 0;
-	    for(b = 0; b < 8 && x+b < pixels; b++) {
-		for(c = 0; c < channels; c++) {
-		    if (*src_data++ < threshold) 
-			*(dst_data + c) |= (0x80 >> b);
+	size_t x, y, c, b;
+	for (y = 0; y < lines; y++) {
+		for (x = 0; x < pixels; x += 8) {
+			for (c = 0; c < channels; c++)
+				*(dst_data + c) = 0;
+			for (b = 0; b < 8 && x + b < pixels; b++) {
+				for (c = 0; c < channels; c++) {
+					if (*src_data++ < threshold)
+						*(dst_data + c) |=
+							(0x80 >> b);
+				}
+			}
+			dst_data += channels;
 		}
-	    }
-	    dst_data += channels;
 	}
-    }
-    return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status 
-genesys_shrink_lines_1 (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int src_pixels,
-    unsigned int dst_pixels, 
-    unsigned int channels) 
+static SANE_Status
+genesys_shrink_lines_1(u_int8_t * src_data,
+		       u_int8_t * dst_data,
+		       unsigned int lines,
+		       unsigned int src_pixels,
+		       unsigned int dst_pixels, unsigned int channels)
 {
 /*in search for a correct implementation*/
-    unsigned int dst_x, src_x, y, c, cnt;
-    unsigned int avg[3];
-    u_int8_t *src = (u_int8_t *)src_data;
-    u_int8_t *dst = (u_int8_t *)dst_data;
+	unsigned int dst_x, src_x, y, c, cnt;
+	unsigned int avg[3];
+	u_int8_t *src = (u_int8_t *) src_data;
+	u_int8_t *dst = (u_int8_t *) dst_data;
 
-    src_pixels /= 8;
-    dst_pixels /= 8;
+	src_pixels /= 8;
+	dst_pixels /= 8;
 
-    if (src_pixels > dst_pixels) {
+	if (src_pixels > dst_pixels) {
 /*take first _byte_*/
-	for(y = 0; y < lines; y++) {
-	    cnt = src_pixels / 2;
-	    src_x = 0;
-	    for (dst_x = 0; dst_x < dst_pixels; dst_x++) {
-		while (cnt < src_pixels && src_x < src_pixels) {
-		    cnt += dst_pixels;
+		for (y = 0; y < lines; y++) {
+			cnt = src_pixels / 2;
+			src_x = 0;
+			for (dst_x = 0; dst_x < dst_pixels; dst_x++) {
+				while (cnt < src_pixels && src_x < src_pixels) {
+					cnt += dst_pixels;
 
-		    for (c = 0; c < channels; c++)
-			avg[c] = *src++;
-		    src_x++;
+					for (c = 0; c < channels; c++)
+						avg[c] = *src++;
+					src_x++;
+				}
+				cnt -= src_pixels;
+
+				for (c = 0; c < channels; c++)
+					*dst++ = avg[c];
+			}
 		}
-		cnt -= src_pixels;
-
-		for (c = 0; c < channels; c++) 
-		    *dst++ = avg[c];
-	    }
-	}
-    } else {
+	} else {
 /*interpolate. copy pixels*/
-	for(y = 0; y < lines; y++) {
-	    cnt = dst_pixels / 2;
-	    dst_x = 0;
-	    for (src_x = 0; src_x < src_pixels; src_x++) {
-		for (c = 0; c < channels; c++) 
-		    avg[c] = *src++;
-		while (cnt < dst_pixels && dst_x < dst_pixels) {
-		    cnt += src_pixels;
+		for (y = 0; y < lines; y++) {
+			cnt = dst_pixels / 2;
+			dst_x = 0;
+			for (src_x = 0; src_x < src_pixels; src_x++) {
+				for (c = 0; c < channels; c++)
+					avg[c] = *src++;
+				while (cnt < dst_pixels && dst_x < dst_pixels) {
+					cnt += src_pixels;
 
-		    for (c = 0; c < channels; c++) 
-			*dst++ = avg[c];
-		    dst_x++;
+					for (c = 0; c < channels; c++)
+						*dst++ = avg[c];
+					dst_x++;
+				}
+				cnt -= dst_pixels;
+			}
 		}
-		cnt -= dst_pixels;
-	    }
 	}
-    }
 
-    return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
-

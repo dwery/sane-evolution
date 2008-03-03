@@ -46,8 +46,7 @@
 #include "umax-scanner.h"
 /* ------------------------------------------------------------------------- */
 
-static unsigned char UC1260_INQUIRY[] =
-{
+static unsigned char UC1260_INQUIRY[] = {
 #define UC1260_INQUIRY_LEN 0x9d
 /* 24 F/W support function */
 	0x03,
@@ -58,13 +57,13 @@ static unsigned char UC1260_INQUIRY[] =
 /* 28 - 29 reserved */
 	0x00, 0x00,
 
-/* 2a - 35 exposure times */	
+/* 2a - 35 exposure times */
 	0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00,
 
-/* 36 - 37 reserved */	
+/* 36 - 37 reserved */
 	0x00, 0x00,
 
 /* 38 - 5f scsi reserved */
@@ -75,9 +74,9 @@ static unsigned char UC1260_INQUIRY[] =
 	00, 00, 00, 00, 00, 00, 00, 00,
 
 /* 60 -62 scanner capability*/
-	0x31, 
+	0x31,
 	0x0c,
-	0x07, 
+	0x07,
 
 /* 63 reserved */
 	0x00,
@@ -151,7 +150,7 @@ static unsigned char UC1260_INQUIRY[] =
 
 /* 8a-8b dor max scan width in 0.01 inch */
 	0x00, 0x00,
-	
+
 /* 8c-8d dor max scan length in 0.01 inch */
 	0x00, 0x00,
 
@@ -198,7 +197,6 @@ static unsigned char UC1260_INQUIRY[] =
 	0x08
 };
 
-static inquiry_blk inquiry_uc1260 =
-{
-  "UC1260 ",UC1260_INQUIRY, UC1260_INQUIRY_LEN
+static inquiry_blk inquiry_uc1260 = {
+	"UC1260 ", UC1260_INQUIRY, UC1260_INQUIRY_LEN
 };

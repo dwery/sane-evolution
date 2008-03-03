@@ -47,82 +47,81 @@
 #include "hp4200_lm9830.h"
 
 static SANE_Status
-lm9830_read_register (int fd, unsigned char reg, unsigned char *data)
+lm9830_read_register(int fd, unsigned char reg, unsigned char *data)
 {
-  SANE_Status retval;
+	SANE_Status retval;
 
-  if (!data)
-    return -SANE_STATUS_INVAL;
-  retval = sanei_pv8630_write_byte (fd, PV8630_REPPADDRESS, reg);
-  if (retval != SANE_STATUS_GOOD)
-    return retval;
-  return sanei_pv8630_read_byte (fd, PV8630_RDATA, data);
+	if (!data)
+		return -SANE_STATUS_INVAL;
+	retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg);
+	if (retval != SANE_STATUS_GOOD)
+		return retval;
+	return sanei_pv8630_read_byte(fd, PV8630_RDATA, data);
 }
 
 static SANE_Status
-lm9830_write_register (int fd, unsigned char reg, unsigned char value)
+lm9830_write_register(int fd, unsigned char reg, unsigned char value)
 {
-  SANE_Status retval;
+	SANE_Status retval;
 
-  retval = sanei_pv8630_write_byte (fd, PV8630_REPPADDRESS, reg);
-  if (retval != SANE_STATUS_GOOD)
-    return retval;
+	retval = sanei_pv8630_write_byte(fd, PV8630_REPPADDRESS, reg);
+	if (retval != SANE_STATUS_GOOD)
+		return retval;
 
-  return sanei_pv8630_write_byte (fd, PV8630_RDATA, value);
+	return sanei_pv8630_write_byte(fd, PV8630_RDATA, value);
 }
 
 #ifdef DEBUG
 static int
-lm9830_dump_registers (int fd)
+lm9830_dump_registers(int fd)
 {
-  int i;
-  unsigned char value = 0;
+	int i;
+	unsigned char value = 0;
 
-  for (i = 0; i < 0x80; i++)
-    {
-      lm9830_read_register (fd, i, &value);
-      printf ("%.2x:0x%.2x", i, value);
-      if ((i + 1) % 8)
-	printf (", ");
-      else
-	printf ("\n");
-    }
-  puts ("");
-  return 0;
+	for (i = 0; i < 0x80; i++) {
+		lm9830_read_register(fd, i, &value);
+		printf("%.2x:0x%.2x", i, value);
+		if ((i + 1) % 8)
+			printf(", ");
+		else
+			printf("\n");
+	}
+	puts("");
+	return 0;
 }
 #endif
 
 #if 0
 static int
-pv8630_reset_buttons (int fd)
+pv8630_reset_buttons(int fd)
 {
-  lm9830_write_register (fd, 0x59, 0x10);
-  lm9830_write_register (fd, 0x59, 0x90);
-  return 0;
+	lm9830_write_register(fd, 0x59, 0x10);
+	lm9830_write_register(fd, 0x59, 0x90);
+	return 0;
 }
 #endif
 
 #if 0
 static int
-lm9830_lamp_off (int fd)
+lm9830_lamp_off(int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x00);
-  lm9830_write_register (fd, 0x2c, 0x00);
-  lm9830_write_register (fd, 0x2d, 0x01);
-  lm9830_write_register (fd, 0x2e, 0x3f);
-  lm9830_write_register (fd, 0x2f, 0xff);
-  return 0;
+	lm9830_write_register(fd, 0x07, 0x00);
+	lm9830_write_register(fd, 0x2c, 0x00);
+	lm9830_write_register(fd, 0x2d, 0x01);
+	lm9830_write_register(fd, 0x2e, 0x3f);
+	lm9830_write_register(fd, 0x2f, 0xff);
+	return 0;
 }
 
 static int
-lm9830_lamp_on (int fd)
+lm9830_lamp_on(int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x00);
-  lm9830_write_register (fd, 0x2c, 0x3f);
-  lm9830_write_register (fd, 0x2d, 0xff);
-  lm9830_write_register (fd, 0x2e, 0x00);
-  lm9830_write_register (fd, 0x2f, 0x01);
-  return 0;
+	lm9830_write_register(fd, 0x07, 0x00);
+	lm9830_write_register(fd, 0x2c, 0x3f);
+	lm9830_write_register(fd, 0x2d, 0xff);
+	lm9830_write_register(fd, 0x2e, 0x00);
+	lm9830_write_register(fd, 0x2f, 0x01);
+	return 0;
 }
 #endif
 
@@ -133,87 +132,83 @@ lm9830_lamp_on (int fd)
  */
 
 static int
-hp4200c_what_button (int fd)
+hp4200c_what_button(int fd)
 {
-  unsigned char button;
+	unsigned char button;
 
-  pv8630_read_buttons (fd, &button);
+	pv8630_read_buttons(fd, &button);
 
-  if (button & 0x08)
-    puts ("Scan");
-  if (button & 0x10)
-    puts ("Copy");
-  if (button & 0x20)
-    puts ("E-mail");
-  if ((button & 0x38) == 0)
-    puts ("None");
+	if (button & 0x08)
+		puts("Scan");
+	if (button & 0x10)
+		puts("Copy");
+	if (button & 0x20)
+		puts("E-mail");
+	if ((button & 0x38) == 0)
+		puts("None");
 
-  pv8630_reset_buttons (fd);
-  return 0;
+	pv8630_reset_buttons(fd);
+	return 0;
 }
 #endif
 
 static int
-lm9830_ini_scanner (int fd, unsigned char *regs)
+lm9830_ini_scanner(int fd, unsigned char *regs)
 {
 #ifdef unused
-  unsigned char inittable[] = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x02, 0x1A, 0x00, 0x0A, 0x60, 0x2F, 0x13, 0x06,
-    0x17, 0x01, 0x03, 0x03, 0x05, 0x00, 0x00, 0x0B,
-    0x00, 0x00, 0x00, 0x00, 0x0D, 0x21, 0x00, 0x40,
-    0x15, 0x18, 0x00, 0x40, 0x02, 0x98, 0x00, 0x00,
-    0x00, 0x01, 0x00, 0x00, 0x3F, 0xFF, 0x00, 0x01,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x30,
-    0x25, 0x25, 0x24, 0x28, 0x24, 0x28, 0x00, 0x00,
-    0x00, 0x00, 0x06, 0x1D, 0x00, 0x13, 0x05, 0x48,
-    0x01, 0xC2, 0x00, 0x00, 0x00, 0x00, 0x5E, 0x02,
-    0x00, 0x15, 0x00, 0x45, 0x00, 0x10, 0x08, 0x17,
-    0x2B, 0x90, 0x00, 0x00, 0x01, 0x00, 0x80, 0x00
-  };
+	unsigned char inittable[] = {
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x02, 0x1A, 0x00, 0x0A, 0x60, 0x2F, 0x13, 0x06,
+		0x17, 0x01, 0x03, 0x03, 0x05, 0x00, 0x00, 0x0B,
+		0x00, 0x00, 0x00, 0x00, 0x0D, 0x21, 0x00, 0x40,
+		0x15, 0x18, 0x00, 0x40, 0x02, 0x98, 0x00, 0x00,
+		0x00, 0x01, 0x00, 0x00, 0x3F, 0xFF, 0x00, 0x01,
+		0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x00, 0x30,
+		0x25, 0x25, 0x24, 0x28, 0x24, 0x28, 0x00, 0x00,
+		0x00, 0x00, 0x06, 0x1D, 0x00, 0x13, 0x05, 0x48,
+		0x01, 0xC2, 0x00, 0x00, 0x00, 0x00, 0x5E, 0x02,
+		0x00, 0x15, 0x00, 0x45, 0x00, 0x10, 0x08, 0x17,
+		0x2B, 0x90, 0x00, 0x00, 0x01, 0x00, 0x80, 0x00
+	};
 #endif
 
-  unsigned char daisy[] = { 0x99, 0x66, 0xcc, 0x33 };
-  unsigned char *regdata;
-  unsigned int i;
+	unsigned char daisy[] = { 0x99, 0x66, 0xcc, 0x33 };
+	unsigned char *regdata;
+	unsigned int i;
 
-  sanei_pv8630_write_byte (fd, PV8630_RMODE, 0x02);
-  for (i = 0; i < sizeof (daisy); i++)
-    {
-      sanei_pv8630_write_byte (fd, PV8630_RDATA, daisy[i]);
-    }
-  sanei_pv8630_write_byte (fd, PV8630_RMODE, 0x16);
-  lm9830_write_register (fd, 0x42, 0x06);
+	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02);
+	for (i = 0; i < sizeof(daisy); i++) {
+		sanei_pv8630_write_byte(fd, PV8630_RDATA, daisy[i]);
+	}
+	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x16);
+	lm9830_write_register(fd, 0x42, 0x06);
 
-  if (!regs)
-    return 0;
-  /*    regdata = inittable; */
-  else
-    regdata = regs;
+	if (!regs)
+		return 0;
+	/*    regdata = inittable; */
+	else
+		regdata = regs;
 
-  for (i = 8; i < 0x60; i++)
-    {
-      lm9830_write_register (fd, i, regdata[i]);
-    }
-  for (i = 0x60; i < 0x70; i++)
-    {
-      lm9830_write_register (fd, i, 0);
-    }
-  lm9830_write_register (fd, 0x70, 0x70);
-  for (i = 0x71; i < 0x80; i++)
-    {
-      lm9830_write_register (fd, i, 0);
-    }
-  return 0;
+	for (i = 8; i < 0x60; i++) {
+		lm9830_write_register(fd, i, regdata[i]);
+	}
+	for (i = 0x60; i < 0x70; i++) {
+		lm9830_write_register(fd, i, 0);
+	}
+	lm9830_write_register(fd, 0x70, 0x70);
+	for (i = 0x71; i < 0x80; i++) {
+		lm9830_write_register(fd, i, 0);
+	}
+	return 0;
 }
 
 static int
-lm9830_reset (int fd)
+lm9830_reset(int fd)
 {
-  lm9830_write_register (fd, 0x07, 0x08);
-  usleep (100);
-  lm9830_write_register (fd, 0x07, 0x00);
-  usleep (100);
+	lm9830_write_register(fd, 0x07, 0x08);
+	usleep(100);
+	lm9830_write_register(fd, 0x07, 0x00);
+	usleep(100);
 
-  return 0;
+	return 0;
 }

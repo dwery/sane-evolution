@@ -45,193 +45,188 @@
  * Conversion filters for genesys backend
  */
 
-static SANE_Status 
-FUNC_NAME(genesys_reorder_components_cis) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int pixels) 
+static SANE_Status
+FUNC_NAME(genesys_reorder_components_cis) (u_int8_t * src_data,
+					   u_int8_t * dst_data,
+					   unsigned int lines,
+					   unsigned int pixels)
 {
-    unsigned int x, y;
-    u_int8_t *src[3];
-    u_int8_t *dst = dst_data;
-    unsigned int rest = pixels * 2 * BYTES_PER_COMPONENT;
+	unsigned int x, y;
+	u_int8_t *src[3];
+	u_int8_t *dst = dst_data;
+	unsigned int rest = pixels * 2 * BYTES_PER_COMPONENT;
 
-    src[0] = src_data + pixels * BYTES_PER_COMPONENT * 0;
-    src[1] = src_data + pixels * BYTES_PER_COMPONENT * 1;
-    src[2] = src_data + pixels * BYTES_PER_COMPONENT * 2;
+	src[0] = src_data + pixels * BYTES_PER_COMPONENT * 0;
+	src[1] = src_data + pixels * BYTES_PER_COMPONENT * 1;
+	src[2] = src_data + pixels * BYTES_PER_COMPONENT * 2;
 
-    for(y = 0; y < lines; y++) {
-	for(x = 0; x < pixels; x++) {
+	for (y = 0; y < lines; y++) {
+		for (x = 0; x < pixels; x++) {
 
 #ifndef DOUBLE_BYTE
-	    *dst++ = *src[0]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[2]++;
+			*dst++ = *src[0]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[2]++;
 #else
 #  ifndef WORDS_BIGENDIAN
-	    *dst++ = *src[0]++;
-	    *dst++ = *src[0]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[2]++;
-	    *dst++ = *src[2]++;
+			*dst++ = *src[0]++;
+			*dst++ = *src[0]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[2]++;
+			*dst++ = *src[2]++;
 #  else
-	    *dst++ = src[0][1];
-	    *dst++ = src[0][0];
-	    *dst++ = src[1][1];
-	    *dst++ = src[1][0];
-	    *dst++ = src[2][1];
-	    *dst++ = src[2][0];
-	    src[0] += 2;
-	    src[1] += 2;
-	    src[2] += 2;
+			*dst++ = src[0][1];
+			*dst++ = src[0][0];
+			*dst++ = src[1][1];
+			*dst++ = src[1][0];
+			*dst++ = src[2][1];
+			*dst++ = src[2][0];
+			src[0] += 2;
+			src[1] += 2;
+			src[2] += 2;
 #  endif
 #endif
-	}
+		}
 
-	src[0] += rest;
-	src[1] += rest;
-	src[2] += rest;
-    }
-    return SANE_STATUS_GOOD;
+		src[0] += rest;
+		src[1] += rest;
+		src[2] += rest;
+	}
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status 
-FUNC_NAME(genesys_reorder_components_cis_bgr) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int pixels) 
+static SANE_Status
+FUNC_NAME(genesys_reorder_components_cis_bgr) (u_int8_t * src_data,
+					       u_int8_t * dst_data,
+					       unsigned int lines,
+					       unsigned int pixels)
 {
-    unsigned int x, y;
-    u_int8_t *src[3];
-    u_int8_t *dst = dst_data;
-    unsigned int rest = pixels * 2 * BYTES_PER_COMPONENT;
+	unsigned int x, y;
+	u_int8_t *src[3];
+	u_int8_t *dst = dst_data;
+	unsigned int rest = pixels * 2 * BYTES_PER_COMPONENT;
 
-    src[0] = src_data + pixels * BYTES_PER_COMPONENT * 0;
-    src[1] = src_data + pixels * BYTES_PER_COMPONENT * 1;
-    src[2] = src_data + pixels * BYTES_PER_COMPONENT * 2;
+	src[0] = src_data + pixels * BYTES_PER_COMPONENT * 0;
+	src[1] = src_data + pixels * BYTES_PER_COMPONENT * 1;
+	src[2] = src_data + pixels * BYTES_PER_COMPONENT * 2;
 
-    for(y = 0; y < lines; y++) {
-	for(x = 0; x < pixels; x++) {
+	for (y = 0; y < lines; y++) {
+		for (x = 0; x < pixels; x++) {
 #ifndef DOUBLE_BYTE
-	    *dst++ = *src[2]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[0]++;
+			*dst++ = *src[2]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[0]++;
 #else
 #  ifndef WORDS_BIGENDIAN
-	    *dst++ = *src[2]++;
-	    *dst++ = *src[2]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[1]++;
-	    *dst++ = *src[0]++;
-	    *dst++ = *src[0]++;
+			*dst++ = *src[2]++;
+			*dst++ = *src[2]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[1]++;
+			*dst++ = *src[0]++;
+			*dst++ = *src[0]++;
 #  else
-	    *dst++ = src[2][1];
-	    *dst++ = src[2][0];
-	    *dst++ = src[1][1];
-	    *dst++ = src[1][0];
-	    *dst++ = src[0][1];
-	    *dst++ = src[0][0];
-	    src[0] += 2;
-	    src[1] += 2;
-	    src[2] += 2;
+			*dst++ = src[2][1];
+			*dst++ = src[2][0];
+			*dst++ = src[1][1];
+			*dst++ = src[1][0];
+			*dst++ = src[0][1];
+			*dst++ = src[0][0];
+			src[0] += 2;
+			src[1] += 2;
+			src[2] += 2;
 #  endif
 #endif
-	}
+		}
 
-	src[0] += rest;
-	src[1] += rest;
-	src[2] += rest;
-    }
-    return SANE_STATUS_GOOD;
+		src[0] += rest;
+		src[1] += rest;
+		src[2] += rest;
+	}
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status 
-FUNC_NAME(genesys_reorder_components_bgr) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int pixels) 
+static SANE_Status
+FUNC_NAME(genesys_reorder_components_bgr) (u_int8_t * src_data,
+					   u_int8_t * dst_data,
+					   unsigned int lines,
+					   unsigned int pixels)
 {
-    unsigned int c;
-    u_int8_t *src = src_data;
-    u_int8_t *dst = dst_data;
+	unsigned int c;
+	u_int8_t *src = src_data;
+	u_int8_t *dst = dst_data;
 
-    for(c = 0; c < lines * pixels; c++) {
+	for (c = 0; c < lines * pixels; c++) {
 
 #ifndef DOUBLE_BYTE
-	*dst++ = src[2];
-	*dst++ = src[1];
-	*dst++ = src[0];
-	src += 3;
+		*dst++ = src[2];
+		*dst++ = src[1];
+		*dst++ = src[0];
+		src += 3;
 #else
 #  ifndef WORDS_BIGENDIAN
-	*dst++ = src[2 * 2 + 0];
-	*dst++ = src[2 * 2 + 1];
-	*dst++ = src[1 * 2 + 0];
-	*dst++ = src[1 * 2 + 1];
-	*dst++ = src[0 * 2 + 0];
-	*dst++ = src[0 * 2 + 1];
+		*dst++ = src[2 * 2 + 0];
+		*dst++ = src[2 * 2 + 1];
+		*dst++ = src[1 * 2 + 0];
+		*dst++ = src[1 * 2 + 1];
+		*dst++ = src[0 * 2 + 0];
+		*dst++ = src[0 * 2 + 1];
 #  else
-	*dst++ = src[2 * 2 + 1];
-	*dst++ = src[2 * 2 + 0];
-	*dst++ = src[1 * 2 + 1];
-	*dst++ = src[1 * 2 + 0];
-	*dst++ = src[0 * 2 + 1];
-	*dst++ = src[0 * 2 + 0];
+		*dst++ = src[2 * 2 + 1];
+		*dst++ = src[2 * 2 + 0];
+		*dst++ = src[1 * 2 + 1];
+		*dst++ = src[1 * 2 + 0];
+		*dst++ = src[0 * 2 + 1];
+		*dst++ = src[0 * 2 + 0];
 #  endif
-	src += 3 * 2;
+		src += 3 * 2;
 #endif
 
-    }
-    return SANE_STATUS_GOOD;
+	}
+	return SANE_STATUS_GOOD;
 }
 
 #if defined(DOUBLE_BYTE) && defined(WORDS_BIGENDIAN)
-static SANE_Status 
-FUNC_NAME(genesys_reorder_components_endian) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int pixels,
-    unsigned int channels) 
+static SANE_Status
+FUNC_NAME(genesys_reorder_components_endian) (u_int8_t * src_data,
+					      u_int8_t * dst_data,
+					      unsigned int lines,
+					      unsigned int pixels,
+					      unsigned int channels)
 {
-    unsigned int c;
-    u_int8_t *src = src_data;
-    u_int8_t *dst = dst_data;
+	unsigned int c;
+	u_int8_t *src = src_data;
+	u_int8_t *dst = dst_data;
 
-    for(c = 0; c < lines * pixels * channels; c++) {
-	*dst++ = src[1];
-	*dst++ = src[0];
-	src += 2;
-    }
-return SANE_STATUS_GOOD;
+	for (c = 0; c < lines * pixels * channels; c++) {
+		*dst++ = src[1];
+		*dst++ = src[0];
+		src += 2;
+	}
+	return SANE_STATUS_GOOD;
 }
-#endif /*defined(DOUBLE_BYTE) && defined(WORDS_BIGENDIAN)*/
+#endif /*defined(DOUBLE_BYTE) && defined(WORDS_BIGENDIAN) */
 
 
-static SANE_Status 
-FUNC_NAME(genesys_reverse_ccd) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int components_per_line,
-    unsigned int *ccd_shift,
-    unsigned int component_count) 
+static SANE_Status
+FUNC_NAME(genesys_reverse_ccd) (u_int8_t * src_data,
+				u_int8_t * dst_data,
+				unsigned int lines,
+				unsigned int components_per_line,
+				unsigned int *ccd_shift,
+				unsigned int component_count)
 {
-    unsigned int x, y, c;
-    COMPONENT_TYPE *src = (COMPONENT_TYPE *)src_data;
-    COMPONENT_TYPE *dst = (COMPONENT_TYPE *)dst_data;
-    COMPONENT_TYPE *srcp;
-    COMPONENT_TYPE *dstp;
-    unsigned int pitch = components_per_line;
-    unsigned int ccd_shift_pitch[12];
-    unsigned int *csp;
-    
-    for (c = 0; c < component_count; c++) 
-	ccd_shift_pitch[c] = ccd_shift[c] * pitch;
+	unsigned int x, y, c;
+	COMPONENT_TYPE *src = (COMPONENT_TYPE *) src_data;
+	COMPONENT_TYPE *dst = (COMPONENT_TYPE *) dst_data;
+	COMPONENT_TYPE *srcp;
+	COMPONENT_TYPE *dstp;
+	unsigned int pitch = components_per_line;
+	unsigned int ccd_shift_pitch[12];
+	unsigned int *csp;
+
+	for (c = 0; c < component_count; c++)
+		ccd_shift_pitch[c] = ccd_shift[c] * pitch;
 
 /*
  * cache efficiency:
@@ -266,80 +261,80 @@ FUNC_NAME(genesys_reverse_ccd) (
    2 dereference and 1 indexed dereference.
    the enclosing loop is long running, consisting of 1 add, 1 compare.
  */
-    srcp = src;
-    dstp = dst;
-    for (y = 0; y < lines; y++) {
-	for (x = 0; x < pitch; x += component_count) {
-	    csp = ccd_shift_pitch;
-	    for (c = 0; c < component_count && c + x < pitch; c++) {
-		*dstp = srcp[*csp++];
-		dstp++;
-		srcp++;
-	    }
+	srcp = src;
+	dstp = dst;
+	for (y = 0; y < lines; y++) {
+		for (x = 0; x < pitch; x += component_count) {
+			csp = ccd_shift_pitch;
+			for (c = 0; c < component_count && c + x < pitch; c++) {
+				*dstp = srcp[*csp++];
+				dstp++;
+				srcp++;
+			}
+		}
 	}
-    }
-    return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
-static SANE_Status 
-FUNC_NAME(genesys_shrink_lines) (
-    u_int8_t *src_data, 
-    u_int8_t *dst_data, 
-    unsigned int lines, 
-    unsigned int src_pixels,
-    unsigned int dst_pixels, 
-    unsigned int channels) 
+static SANE_Status
+FUNC_NAME(genesys_shrink_lines) (u_int8_t * src_data,
+				 u_int8_t * dst_data,
+				 unsigned int lines,
+				 unsigned int src_pixels,
+				 unsigned int dst_pixels,
+				 unsigned int channels)
 {
-    unsigned int dst_x, src_x, y, c, cnt;
-    unsigned int avg[3];
-    unsigned int count;
-    COMPONENT_TYPE *src = (COMPONENT_TYPE *)src_data;
-    COMPONENT_TYPE *dst = (COMPONENT_TYPE *)dst_data;
+	unsigned int dst_x, src_x, y, c, cnt;
+	unsigned int avg[3];
+	unsigned int count;
+	COMPONENT_TYPE *src = (COMPONENT_TYPE *) src_data;
+	COMPONENT_TYPE *dst = (COMPONENT_TYPE *) dst_data;
 
-    if (src_pixels > dst_pixels) {
+	if (src_pixels > dst_pixels) {
 /*average*/
-	for (c = 0; c < channels; c++)
-	    avg[c] = 0;
-	for(y = 0; y < lines; y++) {
-	    cnt = src_pixels / 2;
-	    src_x = 0;
-	    for (dst_x = 0; dst_x < dst_pixels; dst_x++) {
-		count = 0;
-		while (cnt < src_pixels && src_x < src_pixels) {
-		    cnt += dst_pixels;
-
-		    for (c = 0; c < channels; c++)
-			avg[c] += *src++;
-		    src_x++;
-		    count++;
-		}
-		cnt -= src_pixels;
-
-		for (c = 0; c < channels; c++) {
-		    *dst++ = avg[c] / count;
-		    avg[c] = 0;
-		}
-	    }
-	}
-    } else {
-/*interpolate. copy pixels*/
-	for(y = 0; y < lines; y++) {
-	    cnt = dst_pixels / 2;
-	    dst_x = 0;
-	    for (src_x = 0; src_x < src_pixels; src_x++) {
 		for (c = 0; c < channels; c++)
-		    avg[c] = *src++;
-		while ((cnt < dst_pixels || src_x + 1 == src_pixels) && 
-		       dst_x < dst_pixels) {
-		    cnt += src_pixels;
+			avg[c] = 0;
+		for (y = 0; y < lines; y++) {
+			cnt = src_pixels / 2;
+			src_x = 0;
+			for (dst_x = 0; dst_x < dst_pixels; dst_x++) {
+				count = 0;
+				while (cnt < src_pixels && src_x < src_pixels) {
+					cnt += dst_pixels;
 
-		    for (c = 0; c < channels; c++) 
-			*dst++ = avg[c];
-		    dst_x++;
+					for (c = 0; c < channels; c++)
+						avg[c] += *src++;
+					src_x++;
+					count++;
+				}
+				cnt -= src_pixels;
+
+				for (c = 0; c < channels; c++) {
+					*dst++ = avg[c] / count;
+					avg[c] = 0;
+				}
+			}
 		}
-		cnt -= dst_pixels;
-	    }
+	} else {
+/*interpolate. copy pixels*/
+		for (y = 0; y < lines; y++) {
+			cnt = dst_pixels / 2;
+			dst_x = 0;
+			for (src_x = 0; src_x < src_pixels; src_x++) {
+				for (c = 0; c < channels; c++)
+					avg[c] = *src++;
+				while ((cnt < dst_pixels
+					|| src_x + 1 == src_pixels)
+				       && dst_x < dst_pixels) {
+					cnt += src_pixels;
+
+					for (c = 0; c < channels; c++)
+						*dst++ = avg[c];
+					dst_x++;
+				}
+				cnt -= dst_pixels;
+			}
+		}
 	}
-    }
-    return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }

@@ -15,21 +15,19 @@
 #include <sys/types.h>
 #endif
 
-#include <string.h> /* for memset and memcpy */
+#include <string.h>		/* for memset and memcpy */
 #include <stdio.h>
 
 /* sense handler for the sanei_scsi_xxx comands */
 SANE_Status
-sanei_epson2_scsi_sense_handler(int scsi_fd,
-	unsigned char *result, void *arg)
+sanei_epson2_scsi_sense_handler(int scsi_fd, unsigned char *result, void *arg)
 {
 	/* to get rid of warnings */
 	scsi_fd = scsi_fd;
 	arg = arg;
 
 	if (result[0] && result[0] != 0x70) {
-		DBG(2, "%s: sense code = 0x%02x\n",
-			__FUNCTION__, result[0]);
+		DBG(2, "%s: sense code = 0x%02x\n", __FUNCTION__, result[0]);
 		return SANE_STATUS_IO_ERROR;
 	} else {
 		return SANE_STATUS_GOOD;
@@ -37,7 +35,7 @@ sanei_epson2_scsi_sense_handler(int scsi_fd,
 }
 
 SANE_Status
-sanei_epson2_scsi_inquiry(int fd, void *buf, size_t *buf_size)
+sanei_epson2_scsi_inquiry(int fd, void *buf, size_t * buf_size)
 {
 	unsigned char cmd[6];
 	int status;
@@ -63,7 +61,7 @@ sanei_epson2_scsi_test_unit_ready(int fd)
 
 int
 sanei_epson2_scsi_read(int fd, void *buf, size_t buf_size,
-		      SANE_Status *status)
+		       SANE_Status * status)
 {
 	unsigned char cmd[6];
 
@@ -73,7 +71,9 @@ sanei_epson2_scsi_read(int fd, void *buf, size_t buf_size,
 	cmd[3] = buf_size >> 8;
 	cmd[4] = buf_size;
 
-	*status = sanei_scsi_cmd2(fd, cmd, sizeof(cmd), NULL, 0, buf, &buf_size);
+	*status =
+		sanei_scsi_cmd2(fd, cmd, sizeof(cmd), NULL, 0, buf,
+				&buf_size);
 	if (*status == SANE_STATUS_GOOD)
 		return buf_size;
 
@@ -82,7 +82,7 @@ sanei_epson2_scsi_read(int fd, void *buf, size_t buf_size,
 
 int
 sanei_epson2_scsi_write(int fd, const void *buf, size_t buf_size,
-		       SANE_Status *status)
+			SANE_Status * status)
 {
 	unsigned char cmd[6];
 
@@ -92,7 +92,9 @@ sanei_epson2_scsi_write(int fd, const void *buf, size_t buf_size,
 	cmd[3] = buf_size >> 8;
 	cmd[4] = buf_size;
 
-	*status = sanei_scsi_cmd2(fd, cmd, sizeof(cmd), buf, buf_size, NULL, NULL);
+	*status =
+		sanei_scsi_cmd2(fd, cmd, sizeof(cmd), buf, buf_size, NULL,
+				NULL);
 	if (*status == SANE_STATUS_GOOD)
 		return buf_size;
 

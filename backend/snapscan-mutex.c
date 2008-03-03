@@ -38,31 +38,35 @@
   If you write modifications of your own for SANE, it is your choice
   whether to permit this exception to apply to your modifications.
   If you do not wish that, delete this exception notice.*/
-  
+
 #if defined __BEOS__
 
 #include <OS.h>
 #define snapscan_mutex_t sem_id
 
-static int snapscani_mutex_open(snapscan_mutex_t* a_sem, const char* dev UNUSEDARG)
+static int
+snapscani_mutex_open(snapscan_mutex_t * a_sem, const char *dev UNUSEDARG)
 {
-    *a_sem = create_sem(1, "snapscan_mutex");
-    return 1;
+	*a_sem = create_sem(1, "snapscan_mutex");
+	return 1;
 }
 
-static void snapscani_mutex_close(snapscan_mutex_t* a_sem)
+static void
+snapscani_mutex_close(snapscan_mutex_t * a_sem)
 {
-    delete_sem(*a_sem);
+	delete_sem(*a_sem);
 }
 
-static void snapscani_mutex_lock(snapscan_mutex_t* a_sem)
+static void
+snapscani_mutex_lock(snapscan_mutex_t * a_sem)
 {
-    acquire_sem(*a_sem);
+	acquire_sem(*a_sem);
 }
 
-static void snapscani_mutex_unlock(snapscan_mutex_t* a_sem)
+static void
+snapscani_mutex_unlock(snapscan_mutex_t * a_sem)
 {
-    release_sem(*a_sem);
+	release_sem(*a_sem);
 }
 
 
@@ -72,25 +76,29 @@ static void snapscani_mutex_unlock(snapscan_mutex_t* a_sem)
 #include <pthread.h>
 #define snapscan_mutex_t pthread_mutex_t
 
-static int snapscani_mutex_open(snapscan_mutex_t* sem_id, const char* dev UNUSEDARG)
+static int
+snapscani_mutex_open(snapscan_mutex_t * sem_id, const char *dev UNUSEDARG)
 {
-    pthread_mutex_init(sem_id, NULL);
-    return 1;
+	pthread_mutex_init(sem_id, NULL);
+	return 1;
 }
 
-static void snapscani_mutex_close(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_close(snapscan_mutex_t * sem_id)
 {
-    pthread_mutex_destroy(sem_id);
+	pthread_mutex_destroy(sem_id);
 }
 
-static void snapscani_mutex_lock(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_lock(snapscan_mutex_t * sem_id)
 {
-    pthread_mutex_lock(sem_id);
+	pthread_mutex_lock(sem_id);
 }
 
-static void snapscani_mutex_unlock(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_unlock(snapscan_mutex_t * sem_id)
 {
-    pthread_mutex_unlock(sem_id);
+	pthread_mutex_unlock(sem_id);
 }
 
 #else /* defined USE_PTHREAD || defined HAVE_OS2_H */
@@ -105,42 +113,46 @@ static void snapscani_mutex_unlock(snapscan_mutex_t* sem_id)
 /* union semun is defined by including <sys/sem.h> */
 #else
 /* according to X/OPEN we have to define it ourselves */
-union semun {
-   int val;                    /* value for SETVAL */
-   struct semid_ds *buf;       /* buffer for IPC_STAT, IPC_SET */
-   unsigned short int *array;  /* array for GETALL, SETALL */
-   struct seminfo *__buf;      /* buffer for IPC_INFO */
+union semun
+{
+	int val;		/* value for SETVAL */
+	struct semid_ds *buf;	/* buffer for IPC_STAT, IPC_SET */
+	unsigned short int *array;	/* array for GETALL, SETALL */
+	struct seminfo *__buf;	/* buffer for IPC_INFO */
 };
 #endif /* defined HAVE_UNION_SEMUN */
 
 static struct sembuf sem_wait = { 0, -1, 0 };
 static struct sembuf sem_signal = { 0, 1, 0 };
 
-static int snapscani_mutex_open(snapscan_mutex_t* sem_id, const char* dev)
+static int
+snapscani_mutex_open(snapscan_mutex_t * sem_id, const char *dev)
 {
-    *sem_id = semget( ftok(dev,0x12), 1, IPC_CREAT | 0660 );
-    if (*sem_id != -1)
-    {
-        semop(*sem_id, &sem_signal, 1);
-        return 1;
-    }
-    return 0;
+	*sem_id = semget(ftok(dev, 0x12), 1, IPC_CREAT | 0660);
+	if (*sem_id != -1) {
+		semop(*sem_id, &sem_signal, 1);
+		return 1;
+	}
+	return 0;
 }
 
-static void snapscani_mutex_close(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_close(snapscan_mutex_t * sem_id)
 {
-    static union semun dummy_semun_arg;
-    semctl(*sem_id, 0, IPC_RMID, dummy_semun_arg);
+	static union semun dummy_semun_arg;
+	semctl(*sem_id, 0, IPC_RMID, dummy_semun_arg);
 }
 
-static void snapscani_mutex_lock(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_lock(snapscan_mutex_t * sem_id)
 {
-    semop(*sem_id, &sem_wait, 1);
+	semop(*sem_id, &sem_wait, 1);
 }
 
-static void snapscani_mutex_unlock(snapscan_mutex_t* sem_id)
+static void
+snapscani_mutex_unlock(snapscan_mutex_t * sem_id)
 {
-    semop(*sem_id, &sem_signal, 1);
+	semop(*sem_id, &sem_signal, 1);
 }
 
 #endif /* defined USE_PTHREAD || defined HAVE_OS2_H */

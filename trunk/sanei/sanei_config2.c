@@ -61,94 +61,78 @@
    uses sanei_config() wants to depend on this function.  */
 
 void
-sanei_config_attach_matching_devices (const char *name,
-				      SANE_Status (*attach) (const char *dev))
+sanei_config_attach_matching_devices(const char *name,
+				     SANE_Status(*attach) (const char *dev))
 {
-  int bus = -1, channel = -1, id = -1, lun = -1;
-  char *vendor = 0, *model = 0, *type = 0, *end;
+	int bus = -1, channel = -1, id = -1, lun = -1;
+	char *vendor = 0, *model = 0, *type = 0, *end;
 
-  if (strncmp (name, "scsi", 4) == 0)
-    {
-      name += 4;
+	if (strncmp(name, "scsi", 4) == 0) {
+		name += 4;
 
-      name = sanei_config_skip_whitespace (name);
-      if (*name)
-	{
-	  name = sanei_config_get_string (name, &vendor);
-	  if (vendor && strcmp (vendor, "*") == 0)
-	    {
-	      free (vendor);
-	      vendor = 0;
-	    }
-	  name = sanei_config_skip_whitespace (name);
-	}
+		name = sanei_config_skip_whitespace(name);
+		if (*name) {
+			name = sanei_config_get_string(name, &vendor);
+			if (vendor && strcmp(vendor, "*") == 0) {
+				free(vendor);
+				vendor = 0;
+			}
+			name = sanei_config_skip_whitespace(name);
+		}
 
-      name = sanei_config_skip_whitespace (name);
-      if (*name)
-	{
-	  name = sanei_config_get_string (name, &model);
-	  if (model && strcmp (model, "*") == 0)
-	    {
-	      free (model);
-	      model = 0;
-	    }
-	  name = sanei_config_skip_whitespace (name);
-	}
+		name = sanei_config_skip_whitespace(name);
+		if (*name) {
+			name = sanei_config_get_string(name, &model);
+			if (model && strcmp(model, "*") == 0) {
+				free(model);
+				model = 0;
+			}
+			name = sanei_config_skip_whitespace(name);
+		}
 
-      name = sanei_config_skip_whitespace (name);
-      if (*name)
-	{
-	  name = sanei_config_get_string (name, &type);
-	  if (type && strcmp (type, "*") == 0)
-	    {
-	      free (type);
-	      type = 0;
-	    }
-	  name = sanei_config_skip_whitespace (name);
-	}
+		name = sanei_config_skip_whitespace(name);
+		if (*name) {
+			name = sanei_config_get_string(name, &type);
+			if (type && strcmp(type, "*") == 0) {
+				free(type);
+				type = 0;
+			}
+			name = sanei_config_skip_whitespace(name);
+		}
 
-      if (isdigit (*name))
-	{
-	  bus = strtol (name, &end, 10);
-	  name = sanei_config_skip_whitespace (end);
-	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name);
+		if (isdigit(*name)) {
+			bus = strtol(name, &end, 10);
+			name = sanei_config_skip_whitespace(end);
+		} else if (*name == '*')
+			name = sanei_config_skip_whitespace(++name);
 
-      if (isdigit (*name))
-	{
-	  channel = strtol (name, &end, 10);
-	  name = sanei_config_skip_whitespace (end);
-	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name);
+		if (isdigit(*name)) {
+			channel = strtol(name, &end, 10);
+			name = sanei_config_skip_whitespace(end);
+		} else if (*name == '*')
+			name = sanei_config_skip_whitespace(++name);
 
-      if (isdigit (*name))
-	{
-	  id = strtol (name, &end, 10);
-	  name = sanei_config_skip_whitespace (end);
-	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name);
+		if (isdigit(*name)) {
+			id = strtol(name, &end, 10);
+			name = sanei_config_skip_whitespace(end);
+		} else if (*name == '*')
+			name = sanei_config_skip_whitespace(++name);
 
-      if (isdigit (*name))
-	{
-	  lun = strtol (name, &end, 10);
-	  name = sanei_config_skip_whitespace (end);
-	}
-      else if (*name == '*')
-	name = sanei_config_skip_whitespace (++name);
+		if (isdigit(*name)) {
+			lun = strtol(name, &end, 10);
+			name = sanei_config_skip_whitespace(end);
+		} else if (*name == '*')
+			name = sanei_config_skip_whitespace(++name);
 
-      sanei_scsi_find_devices (vendor, model, type, bus, channel, id, lun,
-			       attach);
+		sanei_scsi_find_devices(vendor, model, type, bus, channel, id,
+					lun, attach);
 
-      if (vendor)
-	free (vendor);
-      if (model)
-	free (model);
-      if (type)
-	free (type);
-    }
-  else 
-    (*attach) (name);
+		if (vendor)
+			free(vendor);
+		if (model)
+			free(model);
+		if (type)
+			free(type);
+	} else
+		(*attach) (name);
 }

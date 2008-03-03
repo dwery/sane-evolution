@@ -761,11 +761,11 @@ e2_set_fbf_area(Epson_Scanner * s, int x, int y, int unit)
 		return;
 
 	dev->fbf_x_range.min = 0;
-	dev->fbf_x_range.max = SANE_FIX(x * MM_PER_INCH / unit);
+	dev->fbf_x_range.max = SANE_FIX(x * SANE_MM_PER_INCH / unit);
 	dev->fbf_x_range.quant = 0;
 
 	dev->fbf_y_range.min = 0;
-	dev->fbf_y_range.max = SANE_FIX(y * MM_PER_INCH / unit);
+	dev->fbf_y_range.max = SANE_FIX(y * SANE_MM_PER_INCH / unit);
 	dev->fbf_y_range.quant = 0;
 
 	DBG(5, "%s: %f,%f %f,%f %d [mm]\n",
@@ -782,11 +782,11 @@ e2_set_adf_area(struct Epson_Scanner *s, int x, int y, int unit)
 	struct Epson_Device *dev = s->hw;
 
 	dev->adf_x_range.min = 0;
-	dev->adf_x_range.max = SANE_FIX(x * MM_PER_INCH / unit);
+	dev->adf_x_range.max = SANE_FIX(x * SANE_MM_PER_INCH / unit);
 	dev->adf_x_range.quant = 0;
 
 	dev->adf_y_range.min = 0;
-	dev->adf_y_range.max = SANE_FIX(y * MM_PER_INCH / unit);
+	dev->adf_y_range.max = SANE_FIX(y * SANE_MM_PER_INCH / unit);
 	dev->adf_y_range.quant = 0;
 
 	DBG(5, "%s: %f,%f %f,%f %d [mm]\n",
@@ -803,11 +803,11 @@ e2_set_tpu_area(struct Epson_Scanner *s, int x, int y, int unit)
 	struct Epson_Device *dev = s->hw;
 
 	dev->tpu_x_range.min = 0;
-	dev->tpu_x_range.max = SANE_FIX(x * MM_PER_INCH / unit);
+	dev->tpu_x_range.max = SANE_FIX(x * SANE_MM_PER_INCH / unit);
 	dev->tpu_x_range.quant = 0;
 
 	dev->tpu_y_range.min = 0;
-	dev->tpu_y_range.max = SANE_FIX(y * MM_PER_INCH / unit);
+	dev->tpu_y_range.max = SANE_FIX(y * SANE_MM_PER_INCH / unit);
 	dev->tpu_y_range.quant = 0;
 
 	DBG(5, "%s: %f,%f %f,%f %d [mm]\n",
@@ -3336,10 +3336,10 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 	/* XXX check this */
 	s->params.pixels_per_line =
 		(SANE_UNFIX(s->val[OPT_BR_X].w -
-			    s->val[OPT_TL_X].w) / (MM_PER_INCH * dpi)) + 0.5;
+			    s->val[OPT_TL_X].w) / (SANE_MM_PER_INCH * dpi)) + 0.5;
 	s->params.lines =
 		(SANE_UNFIX(s->val[OPT_BR_Y].w -
-			    s->val[OPT_TL_Y].w) / (MM_PER_INCH * dpi)) + 0.5;
+			    s->val[OPT_TL_Y].w) / (SANE_MM_PER_INCH * dpi)) + 0.5;
 
 	/*
 	 * Make sure that the number of lines is correct for color shuffling:
@@ -3472,19 +3472,19 @@ e2_init_parameters(Epson_Scanner * s)
 
 	mparam = &mode_params[s->val[OPT_MODE].w];
 
-	s->left = SANE_UNFIX(s->val[OPT_TL_X].w) / MM_PER_INCH *
+	s->left = SANE_UNFIX(s->val[OPT_TL_X].w) / SANE_MM_PER_INCH *
 		s->val[OPT_RESOLUTION].w + 0.5;
 
-	s->top = SANE_UNFIX(s->val[OPT_TL_Y].w) / MM_PER_INCH *
+	s->top = SANE_UNFIX(s->val[OPT_TL_Y].w) / SANE_MM_PER_INCH *
 		s->val[OPT_RESOLUTION].w + 0.5;
 
 	/* XXX check this */
 	s->params.pixels_per_line =
 		SANE_UNFIX(s->val[OPT_BR_X].w -
-			   s->val[OPT_TL_X].w) / MM_PER_INCH * dpi + 0.5;
+			   s->val[OPT_TL_X].w) / SANE_MM_PER_INCH * dpi + 0.5;
 	s->params.lines =
 		SANE_UNFIX(s->val[OPT_BR_Y].w -
-			   s->val[OPT_TL_Y].w) / MM_PER_INCH * dpi + 0.5;
+			   s->val[OPT_TL_Y].w) / SANE_MM_PER_INCH * dpi + 0.5;
 
 	/*
 	 * Make sure that the number of lines is correct for color shuffling:
@@ -3600,10 +3600,10 @@ e2_init_parameters(Epson_Scanner * s)
 	 * If (s->top + s->params.lines) is larger than the max scan area, reset
 	 * the number of scan lines:
 	 */
-	if (SANE_UNFIX(s->val[OPT_BR_Y].w) / MM_PER_INCH * dpi <
+	if (SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH * dpi <
 	    (s->params.lines + s->top)) {
 		s->params.lines =
-			((int) SANE_UNFIX(s->val[OPT_BR_Y].w) / MM_PER_INCH *
+			((int) SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH *
 			 dpi + 0.5) - s->top;
 	}
 

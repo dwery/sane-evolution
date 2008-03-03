@@ -131,7 +131,6 @@
 
 #include "apple.h"
 
-#define MM_PER_INCH	25.4
 
 static int num_devices;
 static Apple_Device *first_dev;
@@ -554,11 +553,11 @@ attach(const char *devname, Apple_Device ** devp, int may_wait)
 	dev->sane.type = "flatbed scanner";
 
 	dev->x_range.min = 0;
-	dev->x_range.max = SANE_FIX(8.51 * MM_PER_INCH);
+	dev->x_range.max = SANE_FIX(8.51 * SANE_MM_PER_INCH);
 	dev->x_range.quant = 0;
 
 	dev->y_range.min = 0;
-	dev->y_range.max = SANE_FIX(14.0 * MM_PER_INCH);
+	dev->y_range.max = SANE_FIX(14.0 * SANE_MM_PER_INCH);
 	dev->y_range.quant = 0;
 
 	dev->MaxHeight = 16800;
@@ -898,10 +897,10 @@ calc_parameters(Apple_Scanner * s)
 		status = SANE_STATUS_INVAL;
 	}
 
-	s->ulx = SANE_UNFIX(s->val[OPT_TL_X].w) / MM_PER_INCH;
-	s->uly = SANE_UNFIX(s->val[OPT_TL_Y].w) / MM_PER_INCH;
-	s->wx = SANE_UNFIX(s->val[OPT_BR_X].w) / MM_PER_INCH - s->ulx;
-	s->wy = SANE_UNFIX(s->val[OPT_BR_Y].w) / MM_PER_INCH - s->uly;
+	s->ulx = SANE_UNFIX(s->val[OPT_TL_X].w) / SANE_MM_PER_INCH;
+	s->uly = SANE_UNFIX(s->val[OPT_TL_Y].w) / SANE_MM_PER_INCH;
+	s->wx = SANE_UNFIX(s->val[OPT_BR_X].w) / SANE_MM_PER_INCH - s->ulx;
+	s->wy = SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH - s->uly;
 
 	DBG(VARIABLE_CONTROL, "Desired [%g,%g] to +[%g,%g]\n",
 	    s->ulx, s->uly, s->wx, s->wy);
@@ -985,10 +984,10 @@ calc_parameters(Apple_Scanner * s)
  */
 
 	if (!Protect) {
-		s->val[OPT_TL_X].w = SANE_FIX(s->ulx * MM_PER_INCH);
-		s->val[OPT_TL_Y].w = SANE_FIX(s->uly * MM_PER_INCH);
-		s->val[OPT_BR_X].w = SANE_FIX((s->ulx + s->wx) * MM_PER_INCH);
-		s->val[OPT_BR_Y].w = SANE_FIX((s->uly + s->wy) * MM_PER_INCH);
+		s->val[OPT_TL_X].w = SANE_FIX(s->ulx * SANE_MM_PER_INCH);
+		s->val[OPT_TL_Y].w = SANE_FIX(s->uly * SANE_MM_PER_INCH);
+		s->val[OPT_BR_X].w = SANE_FIX((s->ulx + s->wx) * SANE_MM_PER_INCH);
+		s->val[OPT_BR_Y].w = SANE_FIX((s->uly + s->wy) * SANE_MM_PER_INCH);
 	} else
 		DBG(VARIABLE_CONTROL, "Not adapted. Protecting\n");
 

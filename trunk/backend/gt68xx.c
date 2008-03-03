@@ -322,12 +322,12 @@ setup_scan_request(GT68xx_Scanner * s, GT68xx_Scan_Request * scan_request)
 	if (strcmp(s->val[OPT_MODE].s, SANE_VALUE_SCAN_MODE_LINEART) == 0) {
 		SANE_Int xs =
 			SANE_UNFIX(scan_request->xs) * scan_request->xdpi /
-			MM_PER_INCH + 0.5;
+			SANE_MM_PER_INCH + 0.5;
 
 		if (xs % 8) {
 			scan_request->xs =
 				SANE_FIX((xs -
-					  (xs % 8)) * MM_PER_INCH /
+					  (xs % 8)) * SANE_MM_PER_INCH /
 					 scan_request->xdpi);
 			DBG(5,
 			    "setup_scan_request: lineart mode, %d pixels %% 8 = %d\n",

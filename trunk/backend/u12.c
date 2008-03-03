@@ -1570,11 +1570,11 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 
 		s->params.pixels_per_line = SANE_UNFIX(s->val[OPT_BR_X].w -
 						       s->val[OPT_TL_X].w) /
-			_MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		s->params.lines = SANE_UNFIX(s->val[OPT_BR_Y].w -
 					     s->val[OPT_TL_Y].w) /
-			_MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		/* pixels_per_line seems to be 8 * n.  */
 		/* s->params.pixels_per_line = s->params.pixels_per_line & ~7; debug only */
@@ -1695,13 +1695,13 @@ sane_start(SANE_Handle handle)
 	dpi_y = (double) dev->dpi_max_y;
 
 	left = (int) (SANE_UNFIX(s->val[OPT_TL_X].w) * dpi_x /
-		      (_MM_PER_INCH * (dpi_x / _MEASURE_BASE)));
+		      (SANE_MM_PER_INCH * (dpi_x / _MEASURE_BASE)));
 	top = (int) (SANE_UNFIX(s->val[OPT_TL_Y].w) * dpi_y /
-		     (_MM_PER_INCH * (dpi_y / _MEASURE_BASE)));
+		     (SANE_MM_PER_INCH * (dpi_y / _MEASURE_BASE)));
 	width = (int) (SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w) *
-		       dpi_x / (_MM_PER_INCH * (dpi_x / _MEASURE_BASE)));
+		       dpi_x / (SANE_MM_PER_INCH * (dpi_x / _MEASURE_BASE)));
 	height = (int) (SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w) *
-			dpi_y / (_MM_PER_INCH * (dpi_y / _MEASURE_BASE)));
+			dpi_y / (SANE_MM_PER_INCH * (dpi_y / _MEASURE_BASE)));
 
 	if ((width == 0) || (height == 0)) {
 		DBG(_DBG_ERROR, "invalid width or height!\n");

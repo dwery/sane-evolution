@@ -40,6 +40,8 @@
 #define SANE_FALSE	0
 #define SANE_TRUE	1
 
+#define SANE_MM_PER_INCH 25.4
+
 typedef unsigned char SANE_Byte;
 typedef int SANE_Word;
 typedef SANE_Word SANE_Bool;

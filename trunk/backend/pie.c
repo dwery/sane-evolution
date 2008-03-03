@@ -115,7 +115,6 @@
 #define BUILD 9
 	
 #define PIE_CONFIG_FILE "pie.conf"
-#define MM_PER_INCH	 25.4
 	
 #define LINEART_STR         "Lineart"
 #define HALFTONE_STR        "Halftone"
@@ -1126,10 +1125,10 @@ attach_scanner(const char *devicename, Pie_Device ** devp)
 	dev->sane.type = "flatbed scanner";
 	dev->x_range.min = SANE_FIX(0);
 	dev->x_range.quant = SANE_FIX(0);
-	dev->x_range.max = SANE_FIX(dev->inquiry_fb_width * MM_PER_INCH);
+	dev->x_range.max = SANE_FIX(dev->inquiry_fb_width * SANE_MM_PER_INCH);
 	dev->y_range.min = SANE_FIX(0);
 	dev->y_range.quant = SANE_FIX(0);
-	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * MM_PER_INCH);
+	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
 	dev->dpi_range.min = SANE_FIX(25);
 	dev->dpi_range.quant = SANE_FIX(1);
 	dev->dpi_range.max =
@@ -1970,7 +1969,7 @@ pie_set_window(Pie_Scanner * scanner)
 	if (scanner->colormode == HALFTONE)
 		data[4] |= 0x40;
 	dpmm = (double) scanner->device->inquiry_pixel_resolution /
-		MM_PER_INCH;
+		SANE_MM_PER_INCH;
 	x = SANE_UNFIX(scanner->val[OPT_TL_X].w) * dpmm;
 	set_data(data, 6, (int) x, 2);
 	DBG(DBG_info, "TL_X: %d\n", (int) x);
@@ -3215,8 +3214,8 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 			if (x_dpi > 0.0 && y_dpi > 0.0 && width > 0.0
 			    && length > 0.0)
 			 {
-			double x_dots_per_mm = x_dpi / MM_PER_INCH;
-			double y_dots_per_mm = y_dpi / MM_PER_INCH;
+			double x_dots_per_mm = x_dpi / SANE_MM_PER_INCH;
+			double y_dots_per_mm = y_dpi / SANE_MM_PER_INCH;
 			scanner->params.pixels_per_line =
 				width * x_dots_per_mm;
 			scanner->params.lines = length * y_dots_per_mm;

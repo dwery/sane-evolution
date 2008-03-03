@@ -63,9 +63,8 @@ extern int errno;
 
 #include "pint.h"
 
-#define MM_PER_INCH		25.4
-#define DECIPOINTS_PER_MM	(720.0 / MM_PER_INCH)
-#define TWELVEHUNDS_PER_MM	(1200.0 / MM_PER_INCH)
+#define DECIPOINTS_PER_MM	(720.0 / SANE_MM_PER_INCH)
+#define TWELVEHUNDS_PER_MM	(1200.0 / SANE_MM_PER_INCH)
 
 
 static int num_devices;

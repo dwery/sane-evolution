@@ -447,8 +447,8 @@ u12if_getCaps(U12_Device * dev)
 	dev->dpi_max_y = 1200;
 
 	/* A4 devices */
-	dev->max_x = 8.5 * (double) _MM_PER_INCH;
-	dev->max_y = 11.6934 * (double) _MM_PER_INCH;
+	dev->max_x = 8.5 * (double) SANE_MM_PER_INCH;
+	dev->max_y = 11.6934 * (double) SANE_MM_PER_INCH;
 
 	/* limit the range */
 	dev->dpi_range.min = _DEF_DPI;

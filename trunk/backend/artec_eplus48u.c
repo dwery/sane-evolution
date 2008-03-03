@@ -1206,10 +1206,10 @@ artec48u_setup_scan(Artec48U_Scanner * s,
 		if ((ydpi == 1200) && (s->dev->is_epro == 0))
 			xdpi = 600;
 		y0 = request->y0 + s->dev->ydpi_offset;
-		pixel_ys = SANE_UNFIX(request->ys) * ydpi / MM_PER_INCH + 0.5;
-		pixel_x0 = SANE_UNFIX(x0) * xdpi / MM_PER_INCH + 0.5;
-		pixel_y0 = SANE_UNFIX(y0) * ydpi / MM_PER_INCH + 0.5;
-		pixel_xs = SANE_UNFIX(request->xs) * xdpi / MM_PER_INCH + 0.5;
+		pixel_ys = SANE_UNFIX(request->ys) * ydpi / SANE_MM_PER_INCH + 0.5;
+		pixel_x0 = SANE_UNFIX(x0) * xdpi / SANE_MM_PER_INCH + 0.5;
+		pixel_y0 = SANE_UNFIX(y0) * ydpi / SANE_MM_PER_INCH + 0.5;
+		pixel_xs = SANE_UNFIX(request->xs) * xdpi / SANE_MM_PER_INCH + 0.5;
 		break;
 	}
 
@@ -1538,9 +1538,9 @@ artec48u_device_activate(Artec48U_Device * dev)
 	XDBG((7, "%s: model \"%s\"\n", function_name, dev->sane.model));
 
 	dev->xdpi_offset = SANE_FIX(dev->xdpi_offset *
-				    MM_PER_INCH / dev->optical_xdpi);
+				    SANE_MM_PER_INCH / dev->optical_xdpi);
 	dev->ydpi_offset = SANE_FIX(dev->ydpi_offset *
-				    MM_PER_INCH / dev->optical_ydpi);
+				    SANE_MM_PER_INCH / dev->optical_ydpi);
 
 	dev->active = SANE_TRUE;
 

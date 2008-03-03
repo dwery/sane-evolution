@@ -2450,7 +2450,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		br_y = 170.0;
 		p->lines = -1;
 		test_device->lines =
-			(SANE_Word) (res * (br_y - tl_y) / MM_PER_INCH);
+			(SANE_Word) (res * (br_y - tl_y) / SANE_MM_PER_INCH);
 	} else {
 		tl_x = SANE_UNFIX(test_device->val[opt_tl_x].w);
 		tl_y = SANE_UNFIX(test_device->val[opt_tl_y].w);
@@ -2461,7 +2461,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		if (tl_y > br_y)
 			swap_double(&tl_y, &br_y);
 		test_device->lines =
-			(SANE_Word) (res * (br_y - tl_y) / MM_PER_INCH);
+			(SANE_Word) (res * (br_y - tl_y) / SANE_MM_PER_INCH);
 		if (test_device->lines < 1)
 			test_device->lines = 1;
 		p->lines = test_device->lines;
@@ -2496,7 +2496,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		}
 	}
 
-	p->pixels_per_line = (SANE_Int) (res * (br_x - tl_x) / MM_PER_INCH);
+	p->pixels_per_line = (SANE_Int) (res * (br_x - tl_x) / SANE_MM_PER_INCH);
 	if (test_device->val[opt_fuzzy_parameters].w == SANE_TRUE
 	    && test_device->scanning == SANE_FALSE)
 		p->pixels_per_line *= random_factor;

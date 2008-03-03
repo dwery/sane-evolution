@@ -1387,8 +1387,8 @@ attach(const char *dev_name, CnfDef * cnf, Plustek_Device ** devp)
 	DBG(_DBG_INFO, "Model  : %s\n", dev->sane.model);
 	DBG(_DBG_INFO, "Flags  : 0x%08lx\n", dev->caps.dwFlag);
 
-	dev->max_x = dev->caps.wMaxExtentX * MM_PER_INCH / _MEASURE_BASE;
-	dev->max_y = dev->caps.wMaxExtentY * MM_PER_INCH / _MEASURE_BASE;
+	dev->max_x = dev->caps.wMaxExtentX * SANE_MM_PER_INCH / _MEASURE_BASE;
+	dev->max_y = dev->caps.wMaxExtentY * SANE_MM_PER_INCH / _MEASURE_BASE;
 
 	/* calculate the size of the resolution list +
 	 * one more to avoid a buffer overflow, then allocate it...
@@ -2464,11 +2464,11 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 
 		s->params.pixels_per_line = SANE_UNFIX(s->val[OPT_BR_X].w -
 						       s->val[OPT_TL_X].w) /
-			MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		s->params.lines = SANE_UNFIX(s->val[OPT_BR_Y].w -
 					     s->val[OPT_TL_Y].w) /
-			MM_PER_INCH * ndpi;
+			SANE_MM_PER_INCH * ndpi;
 
 		/* pixels_per_line seems to be 8 * n.  */
 		/* s->params.pixels_per_line = s->params.pixels_per_line & ~7; debug only */
@@ -2572,13 +2572,13 @@ local_sane_start(Plustek_Scanner * s, int scanmode)
 	dpi_y = (double) dev->usbDev.Caps.OpticDpi.x * 2;
 
 	left = (int) (SANE_UNFIX(s->val[OPT_TL_X].w) * dpi_x /
-		      (MM_PER_INCH * (dpi_x / 300.0)));
+		      (SANE_MM_PER_INCH * (dpi_x / 300.0)));
 	top = (int) (SANE_UNFIX(s->val[OPT_TL_Y].w) * dpi_y /
-		     (MM_PER_INCH * (dpi_y / 300.0)));
+		     (SANE_MM_PER_INCH * (dpi_y / 300.0)));
 	width = (int) (SANE_UNFIX(s->val[OPT_BR_X].w - s->val[OPT_TL_X].w) *
-		       dpi_x / (MM_PER_INCH * (dpi_x / 300.0)));
+		       dpi_x / (SANE_MM_PER_INCH * (dpi_x / 300.0)));
 	height = (int) (SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w) *
-			dpi_y / (MM_PER_INCH * (dpi_y / 300.0)));
+			dpi_y / (SANE_MM_PER_INCH * (dpi_y / 300.0)));
 
 	/* adjust mode list according to the model we use and the
 	 * source we have

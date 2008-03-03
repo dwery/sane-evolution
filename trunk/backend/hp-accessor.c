@@ -857,7 +857,7 @@ hp_accessor_geometry_getint(HpAccessor _this, HpData data)
 	SANE_Fixed this_val, other_val;
 	int res = sanei_hp_accessor_getint(this->resolution,
 					   data);
-	SANE_Fixed mm_per_pix = (SANE_FIX(MM_PER_INCH) + res / 2) / res;
+	SANE_Fixed mm_per_pix = (SANE_FIX(SANE_MM_PER_INCH) + res / 2) / res;
 
 	assert(res > 0);
 	sanei_hp_accessor_get(this->this, data, &this_val);

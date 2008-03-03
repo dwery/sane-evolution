@@ -117,9 +117,8 @@
 typedef int (*rts8801_callback) (void *param, unsigned bytes, void *data);
 
 #define DEBUG 1
-#define MM_PER_INCH 25.4
-#define SCANNER_UNIT_TO_FIXED_MM(number) SANE_FIX(number * MM_PER_INCH / 1200)
-#define FIXED_MM_TO_SCANNER_UNIT(number) SANE_UNFIX(number) * 1200 / MM_PER_INCH
+#define SCANNER_UNIT_TO_FIXED_MM(number) SANE_FIX(number * SANE_MM_PER_INCH / 1200)
+#define FIXED_MM_TO_SCANNER_UNIT(number) SANE_UNFIX(number) * 1200 / SANE_MM_PER_INCH
 
 #define MSG_ERR         1
 #define MSG_USER        5
@@ -207,9 +206,9 @@ static int num_devices = 0;
 static SANE_Int res_list[] =
 	{ 9, 50, 75, 100, 150, 200, 300, 400, 600, 1200 };
 static const SANE_Range range_x =
-	{ 0, SANE_FIX(215.9), SANE_FIX(MM_PER_INCH / 1200) };
+	{ 0, SANE_FIX(215.9), SANE_FIX(SANE_MM_PER_INCH / 1200) };
 static const SANE_Range range_y =
-	{ 0, SANE_FIX(298.7), SANE_FIX(MM_PER_INCH / 1200) };
+	{ 0, SANE_FIX(298.7), SANE_FIX(SANE_MM_PER_INCH / 1200) };
 
 #define HP3500_COLOR_SCAN 0
 #define HP3500_GRAY_SCAN 1

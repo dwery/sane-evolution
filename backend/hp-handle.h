@@ -46,20 +46,21 @@
 #define HP_HANDLE_INCLUDED
 #include "hp.h"
 
-HpHandle sanei_hp_handle_new (HpDevice dev);
+HpHandle sanei_hp_handle_new(HpDevice dev);
 
-void sanei_hp_handle_destroy (HpHandle this);
-const SANE_Option_Descriptor * sanei_hp_handle_saneoption (HpHandle this,
-                         SANE_Int optnum);
+void sanei_hp_handle_destroy(HpHandle this);
+const SANE_Option_Descriptor *sanei_hp_handle_saneoption(HpHandle this,
+							 SANE_Int optnum);
 SANE_Status sanei_hp_handle_control(HpHandle this, SANE_Int optnum,
-                         SANE_Action action, void *valp, SANE_Int *info);
-SANE_Status sanei_hp_handle_getParameters (HpHandle this,
-                         SANE_Parameters *params);
-SANE_Status sanei_hp_handle_startScan (HpHandle this);
-SANE_Status sanei_hp_handle_read (HpHandle this, void * buf, size_t *lengthp);
-void        sanei_hp_handle_cancel (HpHandle this);
-SANE_Status sanei_hp_handle_setNonblocking (HpHandle this,
-                         hp_bool_t non_blocking);
-SANE_Status sanei_hp_handle_getPipefd (HpHandle this, SANE_Int *fd);
+				    SANE_Action action, void *valp,
+				    SANE_Int * info);
+SANE_Status sanei_hp_handle_getParameters(HpHandle this,
+					  SANE_Parameters * params);
+SANE_Status sanei_hp_handle_startScan(HpHandle this);
+SANE_Status sanei_hp_handle_read(HpHandle this, void *buf, size_t * lengthp);
+void sanei_hp_handle_cancel(HpHandle this);
+SANE_Status sanei_hp_handle_setNonblocking(HpHandle this,
+					   hp_bool_t non_blocking);
+SANE_Status sanei_hp_handle_getPipefd(HpHandle this, SANE_Int * fd);
 
 #endif /*  HP_HANDLE_INCLUDED */

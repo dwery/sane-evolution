@@ -167,18 +167,18 @@
 /*
  * generic equates
  */
-#define _DEF_BW_THRESHOLD	  111		/* default B/W mode threshold value	*/
-#define _NUMBER_OF_SCANSTEPS   64		/* Asic spec.: up to 64 scan steps 	*/
+#define _DEF_BW_THRESHOLD	  111	/* default B/W mode threshold value     */
+#define _NUMBER_OF_SCANSTEPS   64	/* Asic spec.: up to 64 scan steps      */
 #define _SCANSTATE_BYTES      (_NUMBER_OF_SCANSTEPS/2)
 
 /* CHECK: Play around with the P98003/1
  * gain values - maybe we get a brighter picture...
  */
-#define _GAIN_P98_HIGH		  225		/* Volt. max. value, Asic 98001		*/
-#define _GAIN_P98003_HIGH	  240		/* Volt. max. value, Asic 98003		*/
-#define _GAIN_P96_HIGH		  240		/* Volt. max. value, Asic 96001/3	*/
-#define _GAIN_LOW			  210		/* Volt. min. value					*/
-#define _GAIN_P98003_LOW	  220		/* Volt. min. value, Asic 98003 	*/
+#define _GAIN_P98_HIGH		  225	/* Volt. max. value, Asic 98001         */
+#define _GAIN_P98003_HIGH	  240	/* Volt. max. value, Asic 98003         */
+#define _GAIN_P96_HIGH		  240	/* Volt. max. value, Asic 96001/3       */
+#define _GAIN_LOW			  210	/* Volt. min. value                                     */
+#define _GAIN_P98003_LOW	  220	/* Volt. min. value, Asic 98003         */
 #define _MOTOR_ONE_LINE_TIME    4
 
 /* for ASIC 98001/3 shading */
@@ -186,7 +186,7 @@
 #define _DEF_DARKEST_SKIP		5
 
 #define _BUF_SIZE_BASE_CONST 	1280
-#define _SCANSTATE_TABLE_SIZE	250		/* was 200 for 4830 */
+#define _SCANSTATE_TABLE_SIZE	250	/* was 200 for 4830 */
 #define _P98_OFFSET70			60
 
 /* for Data channel (BYTE) */
@@ -201,91 +201,98 @@
 /*
  * for Asic I/O signal control
  */
-#define _CTRL_GENSIGNAL         (_CTRL_RESERVED + _CTRL_NOT_INIT)   /* 0xc4 */
+#define _CTRL_GENSIGNAL         (_CTRL_RESERVED + _CTRL_NOT_INIT)	/* 0xc4 */
 
-#define _CTRL_START_REGWRITE    (_CTRL_GENSIGNAL + _CTRL_SELECT_IN) /* 0xcc */
-#define _CTRL_END_REGWRITE      (_CTRL_GENSIGNAL)                   /* 0xc4 */
+#define _CTRL_START_REGWRITE    (_CTRL_GENSIGNAL + _CTRL_SELECT_IN)	/* 0xcc */
+#define _CTRL_END_REGWRITE      (_CTRL_GENSIGNAL)	/* 0xc4 */
 
-#define _CTRL_START_DATAWRITE   (_CTRL_GENSIGNAL + _CTRL_AUTOLF)    /* 0xc6 */
-#define _CTRL_END_DATAWRITE     (_CTRL_GENSIGNAL)                   /* 0xc4 */
+#define _CTRL_START_DATAWRITE   (_CTRL_GENSIGNAL + _CTRL_AUTOLF)	/* 0xc6 */
+#define _CTRL_END_DATAWRITE     (_CTRL_GENSIGNAL)	/* 0xc4 */
 
-#define _CTRL_EPPSIGNAL_WRITE   (_CTRL_GENSIGNAL + _CTRL_STROBE)    /* 0xc5 */
+#define _CTRL_EPPSIGNAL_WRITE   (_CTRL_GENSIGNAL + _CTRL_STROBE)	/* 0xc5 */
 #define _CTRL_EPPTRIG_REGWRITE  (_CTRL_GENSIGNAL + _CTRL_SELECT_IN + _CTRL_STROBE)
 
 #define _CTRL_START_BIDIREAD    (_CTRL_GENSIGNAL + _CTRL_DIRECTION + _CTRL_AUTOLF)
-#define _CTRL_END_BIDIREAD      (_CTRL_GENSIGNAL + _CTRL_DIRECTION) /* 0xe4 */
+#define _CTRL_END_BIDIREAD      (_CTRL_GENSIGNAL + _CTRL_DIRECTION)	/* 0xe4 */
 
 
 typedef struct
 {
-    ULong	dwFullSpeed;
-    Byte	bCurrentSpeed;
-    Byte	bStepSpeed;
+	ULong dwFullSpeed;
+	Byte bCurrentSpeed;
+	Byte bStepSpeed;
 } DiffModeVar, *pDiffModeVar;
 
 typedef struct
 {
-    UShort wHomePos;		/* scanner's scanning home position	*/
-    UShort wMaxSteps;		/* maximum steps for this scan		*/
-    Byte   bExposureTime;	/* exposure time for one line		*/
-    Byte   bMotorStep;
-    Byte   bFlagScanMode;	/* see below	*/
-    Byte   bTimesShading;	/* see below	*/
+	UShort wHomePos;	/* scanner's scanning home position     */
+	UShort wMaxSteps;	/* maximum steps for this scan          */
+	Byte bExposureTime;	/* exposure time for one line           */
+	Byte bMotorStep;
+	Byte bFlagScanMode;	/* see below    */
+	Byte bTimesShading;	/* see below    */
 } ModeTypeVar, *pModeTypeVar;
 
-typedef struct {
-	Byte	bStep;
-	Byte	bStatus;
+typedef struct
+{
+	Byte bStep;
+	Byte bStatus;
 } ScanState, *pScanState;
 
-typedef struct {
-    Byte    bReg;
-    Byte    bParam;
+typedef struct
+{
+	Byte bReg;
+	Byte bParam;
 } RegDef, *pRegDef;
 
-typedef union {
-   	RGBByteDef	Colors;
-    UChar		bColors[3];
+typedef union
+{
+	RGBByteDef Colors;
+	UChar bColors[3];
 } ColorByte, *pColorByte;
 
-typedef union {
-    RGBUShortDef Colors;
-    UShort		 wColors[3];
+typedef union
+{
+	RGBUShortDef Colors;
+	UShort wColors[3];
 } ColorWord, *pColorWord;
 
-typedef struct {
-    UShort exposureTime;
-    UShort xStepTime;
+typedef struct
+{
+	UShort exposureTime;
+	UShort xStepTime;
 } ExpXStepDef, *pExtXStepDef;
 
-typedef struct {
-    UShort  thresholdBW;
-    UShort  thresholdGray;
-    UShort  thresholdColor;
+typedef struct
+{
+	UShort thresholdBW;
+	UShort thresholdGray;
+	UShort thresholdColor;
 } ThreshDef, *pThreshDef;
 
 /* for decription of the DAC specific stuff*/
-typedef struct {
-    ColorWord	GainResize;
-    ColorWord   DarkCmpHi;
-    ColorWord   DarkCmpLo;
-    ColorWord   DarkOffSub;
-    ColorByte   DarkDAC;
-    UChar		Reserved;
+typedef struct
+{
+	ColorWord GainResize;
+	ColorWord DarkCmpHi;
+	ColorWord DarkCmpLo;
+	ColorWord DarkOffSub;
+	ColorByte DarkDAC;
+	UChar Reserved;
 } DACTblDef, *pDACTblDef;
 
 /*
  * some function types
  */
 typedef struct scandata *pScanData;
-typedef void (*pFnDataProcess)(pScanData, pVoid, pVoid, ULong);
-typedef Bool (*pFnReadData)(pScanData, pUChar, ULong);
-typedef void (*pFnVoid)(pScanData);
-typedef Bool (*pFnBool)(pScanData);
-typedef void (*pFnDACOffs)(pScanData, pDACTblDef, ULong);
-typedef void (*pFnDACDark)(pScanData, pDACTblDef, ULong, UShort);
-typedef void (*pFnOut)(Byte,UShort);
-typedef Byte (*pFnIn)(UShort);
+typedef void (*pFnDataProcess) (pScanData, pVoid, pVoid, ULong);
+typedef Bool(*pFnReadData) (pScanData, pUChar, ULong);
+typedef void (*pFnVoid) (pScanData);
+typedef Bool(*pFnBool) (pScanData);
+typedef void (*pFnDACOffs) (pScanData, pDACTblDef, ULong);
+typedef void (*pFnDACDark) (pScanData, pDACTblDef, ULong, UShort);
+typedef void (*pFnOut) (Byte, UShort);
+typedef Byte(*pFnIn) (UShort);
 
 /*
  * For Motor step control
@@ -342,45 +349,45 @@ typedef Byte (*pFnIn)(UShort);
 
 
 /* home positions */
-#define _Home_CE50		0x1f	/* 0x1d     1b	*/
-#define _Home_CE100		0x27	/* 0x34     23	*/
-#define _Home_CE150		0x29	/* 0x23     25	*/
-#define _Home_CE300		0x34	/* 0x2e     30	*/
-#define _Home_CE600		0x3a	/* 0x35     36	*/
-#define _Home_CB50		0x20	/* 0x22     1c	*/
-#define _Home_CB100		0x41	/* 0x42     3d	*/
-#define _Home_CB150		0x41	/* 0x3f     3d	*/
-#define _Home_CB300		0x4c	/* 0x4a     48	*/
-#define _Home_CB600		0x53	/* 0x54     4f	*/
-#define _Home_CS50		0x20	/* 0x1b     1c	*/
-#define _Home_CS100		0x41	/* 0x40     3d	*/
-#define _Home_CS150		0x41	/* 0x3e     3d	*/
-#define _Home_CS300		0x4c	/* 0x4b     48	*/
-#define _Home_CS600		0x53	/* 0x4f     4f	*/
-#define _Home_GE75		0x08	/* 7-14-98  00	*/
-#define _Home_GE150		0x04	/* 0x22     00	*/
-#define _Home_GE300		0x12	/* 0x2d     0e	*/
-#define _Home_GE600		0x19	/* 0x33     15	*/
-#define _Home_GB75		0x40	/* 7-14-98  3e	*/
-#define _Home_GB150		0x40	/* 0x3f     3e	*/
-#define _Home_GB300		0x4e	/* 0x4c     4a	*/
-#define _Home_GB600		0x53	/* 0x51     4f	*/
-#define _Home_GS75		0x40	/* 7-14-98  3c	*/
-#define _Home_GS150		0x40	/* 0x3f     3c	*/
-#define _Home_GS300		0x4e	/* 0x4d     4a	*/
-#define _Home_GS600		0x53	/* 0x51     4f	*/
-#define _Home_BE75		0x30	/* 7-14-98  20	*/
-#define _Home_BE150		0x30	/* 0x3c     20	*/
-#define _Home_BE300		0x32	/* 0x48     2e	*/
-#define _Home_BE600		0x37	/* 0x35     33	*/
-#define _Home_BB75		0x42	/* 7-14-98  3e	*/
-#define _Home_BB150		0x42	/* 0x47     3e 	*/
-#define _Home_BB300		0x50	/* 0x51     4c	*/
-#define _Home_BB600		0x53	/* 0x51     4f	*/
-#define _Home_BS75		0x42	/* 7-14-98  3e	*/
-#define _Home_BS150		0x42	/* 0x46     3e	*/
-#define _Home_BS300		0x50	/* 0x4f     4c	*/
-#define _Home_BS600		0x53	/* 0x55     4f	*/
+#define _Home_CE50		0x1f	/* 0x1d     1b  */
+#define _Home_CE100		0x27	/* 0x34     23  */
+#define _Home_CE150		0x29	/* 0x23     25  */
+#define _Home_CE300		0x34	/* 0x2e     30  */
+#define _Home_CE600		0x3a	/* 0x35     36  */
+#define _Home_CB50		0x20	/* 0x22     1c  */
+#define _Home_CB100		0x41	/* 0x42     3d  */
+#define _Home_CB150		0x41	/* 0x3f     3d  */
+#define _Home_CB300		0x4c	/* 0x4a     48  */
+#define _Home_CB600		0x53	/* 0x54     4f  */
+#define _Home_CS50		0x20	/* 0x1b     1c  */
+#define _Home_CS100		0x41	/* 0x40     3d  */
+#define _Home_CS150		0x41	/* 0x3e     3d  */
+#define _Home_CS300		0x4c	/* 0x4b     48  */
+#define _Home_CS600		0x53	/* 0x4f     4f  */
+#define _Home_GE75		0x08	/* 7-14-98  00  */
+#define _Home_GE150		0x04	/* 0x22     00  */
+#define _Home_GE300		0x12	/* 0x2d     0e  */
+#define _Home_GE600		0x19	/* 0x33     15  */
+#define _Home_GB75		0x40	/* 7-14-98  3e  */
+#define _Home_GB150		0x40	/* 0x3f     3e  */
+#define _Home_GB300		0x4e	/* 0x4c     4a  */
+#define _Home_GB600		0x53	/* 0x51     4f  */
+#define _Home_GS75		0x40	/* 7-14-98  3c  */
+#define _Home_GS150		0x40	/* 0x3f     3c  */
+#define _Home_GS300		0x4e	/* 0x4d     4a  */
+#define _Home_GS600		0x53	/* 0x51     4f  */
+#define _Home_BE75		0x30	/* 7-14-98  20  */
+#define _Home_BE150		0x30	/* 0x3c     20  */
+#define _Home_BE300		0x32	/* 0x48     2e  */
+#define _Home_BE600		0x37	/* 0x35     33  */
+#define _Home_BB75		0x42	/* 7-14-98  3e  */
+#define _Home_BB150		0x42	/* 0x47     3e  */
+#define _Home_BB300		0x50	/* 0x51     4c  */
+#define _Home_BB600		0x53	/* 0x51     4f  */
+#define _Home_BS75		0x42	/* 7-14-98  3e  */
+#define _Home_BS150		0x42	/* 0x46     3e  */
+#define _Home_BS300		0x50	/* 0x4f     4c  */
+#define _Home_BS600		0x53	/* 0x55     4f  */
 
 /*
  * for ModeTypeVar indexes
@@ -416,7 +423,7 @@ typedef Byte (*pFnIn)(UShort);
 #define _GrayEpp150		    6
 #define _GrayEpp300		    7
 #define _GrayEpp600		    8
-#define _GrayEpp600_3000	9	    /* > 3000 pixels per channel */
+#define _GrayEpp600_3000	9	/* > 3000 pixels per channel */
 #define _GrayBpp150		    10
 #define _GrayBpp300		    11
 #define _GrayBpp300_1600	12
@@ -503,32 +510,33 @@ typedef Byte (*pFnIn)(UShort);
 /*
  * for mirroring parts of the 98001/3 asic register set
  */
-typedef struct {
-    Byte	RD_Motor1Control;		/* 0x0b             	*/
-    Byte	RD_StepControl; 		/* 0x14					*/
-    Byte	RD_Motor0Control;		/* 0x15					*/
-    Byte	RD_XStepTime;			/* 0x16					*/
-    Byte	RD_ModeControl; 		/* 0x1b					*/
-    Byte	RD_LineControl; 		/* 0x1c					*/
-    Byte	RD_ScanControl; 		/* 0x1d, init = 5		*/
-    Byte	RD_ModelControl;		/* 0x1f					*/
-    Byte	RD_Model1Control;		/* 0x20					*/
-    UShort	RD_Dpi; 			    /* 0x21					*/
-    UShort	RD_Origin;			    /* 0x23					*/
-    UShort	RD_Pixels;			    /* 0x25					*/
-    UShort	RD_ThresholdControl;	/* 0x27					*/
-    Byte	RD_ThresholdGapCtrl;	/* 0x29					*/
-    UShort	RD_RedDarkOff;			/* 0x33					*/
-    UShort	RD_GreenDarkOff;		/* 0x35					*/
-    UShort	RD_BlueDarkOff; 		/* 0x37					*/
+typedef struct
+{
+	Byte RD_Motor1Control;	/* 0x0b                 */
+	Byte RD_StepControl;	/* 0x14                                 */
+	Byte RD_Motor0Control;	/* 0x15                                 */
+	Byte RD_XStepTime;	/* 0x16                                 */
+	Byte RD_ModeControl;	/* 0x1b                                 */
+	Byte RD_LineControl;	/* 0x1c                                 */
+	Byte RD_ScanControl;	/* 0x1d, init = 5               */
+	Byte RD_ModelControl;	/* 0x1f                                 */
+	Byte RD_Model1Control;	/* 0x20                                 */
+	UShort RD_Dpi;		/* 0x21                                     */
+	UShort RD_Origin;	/* 0x23                                     */
+	UShort RD_Pixels;	/* 0x25                                     */
+	UShort RD_ThresholdControl;	/* 0x27                                 */
+	Byte RD_ThresholdGapCtrl;	/* 0x29                                 */
+	UShort RD_RedDarkOff;	/* 0x33                                 */
+	UShort RD_GreenDarkOff;	/* 0x35                                 */
+	UShort RD_BlueDarkOff;	/* 0x37                                 */
 
-    ULong   RD_BufFullSize;         /* 0x54, ASIC 98003     */
-    UShort  RD_MotorTotalSteps;     /* 0x57, ASIC 98003     */
+	ULong RD_BufFullSize;	/* 0x54, ASIC 98003     */
+	UShort RD_MotorTotalSteps;	/* 0x57, ASIC 98003     */
 
-    Byte    RD_ScanControl1;        /* 0x5b, ASIC 98003     */
-    Byte    RD_MotorDriverType;     /* 0x64, ASIC 98003     */
-    Byte    RD_ExtLineControl;      /* 0x6d, ASIC 98003     */
-    Byte    RD_ExtXStepTime;        /* 0x6e, ASIC 98003     */
+	Byte RD_ScanControl1;	/* 0x5b, ASIC 98003     */
+	Byte RD_MotorDriverType;	/* 0x64, ASIC 98003     */
+	Byte RD_ExtLineControl;	/* 0x6d, ASIC 98003     */
+	Byte RD_ExtXStepTime;	/* 0x6e, ASIC 98003     */
 
 } RegData, *pRegData;
 
@@ -537,36 +545,39 @@ typedef struct {
  */
 typedef struct
 {
-    Byte	RD_MotorControl;			/* 0x1b, init = 3		*/
-    Byte	RD_MemAccessControl;		/* 0x1d					*/
-    Byte	RD_WatchDogControl;			/* 0x25, init = 0x8f	*/
+	Byte RD_MotorControl;	/* 0x1b, init = 3               */
+	Byte RD_MemAccessControl;	/* 0x1d                                 */
+	Byte RD_WatchDogControl;	/* 0x25, init = 0x8f    */
 
-    union {
-		Byte	RD_ModelControl2;		/* 0x26, P96003 		*/
-    } u26;
+	union
+	{
+		Byte RD_ModelControl2;	/* 0x26, P96003                 */
+	} u26;
 
-	union {
-		Byte	RD_RedChShadingOff;		/* 0x28, P96003			*/
-    } u28;
-    union {
-		Byte	RD_GreenChShadingOff;	/* 0x29, P96003			*/
-    } u29;
-	Byte	RD_BlueChShadingOff;		/* 0x2a, P96003			*/
-    Byte	RD_RedChDarkOff;			/* 0x2b, P96003			*/
-    Byte	RD_GreenChDarkOff;			/* 0x2c, P96003			*/
-    Byte	RD_BlueChDarkOff;			/* 0x2d, P96003			*/
+	union
+	{
+		Byte RD_RedChShadingOff;	/* 0x28, P96003                 */
+	} u28;
+	union
+	{
+		Byte RD_GreenChShadingOff;	/* 0x29, P96003                 */
+	} u29;
+	Byte RD_BlueChShadingOff;	/* 0x2a, P96003                 */
+	Byte RD_RedChDarkOff;	/* 0x2b, P96003                 */
+	Byte RD_GreenChDarkOff;	/* 0x2c, P96003                 */
+	Byte RD_BlueChDarkOff;	/* 0x2d, P96003                 */
 
-    Byte	RD_RedChEvenOff;			/* 0x31, P96003			*/
-    Byte	RD_GreenChEvenOff;			/* 0x32, P96003			*/
-    Byte	RD_BlueChEvenOff;			/* 0x33, P96003			*/
-    Byte	RD_RedChOddOff; 			/* 0x34, P96003			*/
-    Byte	RD_GreenChOddOff;			/* 0x35, P96003			*/
-    Byte	RD_BlueChOddOff;			/* 0x36, P96003			*/
-    Byte	RD_RedGainOut;				/* 0x37, P96003			*/
-    Byte	RD_GreenGainOut;			/* 0x38, P96003			*/
-    Byte	RD_BlueGainOut; 			/* 0x39, P96003			*/
-    Byte	RD_LedControl;				/* 0x3a, P96003			*/
-    Byte	RD_ShadingCorrectCtrl;		/* 0x3b, P96003			*/
+	Byte RD_RedChEvenOff;	/* 0x31, P96003                 */
+	Byte RD_GreenChEvenOff;	/* 0x32, P96003                 */
+	Byte RD_BlueChEvenOff;	/* 0x33, P96003                 */
+	Byte RD_RedChOddOff;	/* 0x34, P96003                 */
+	Byte RD_GreenChOddOff;	/* 0x35, P96003                 */
+	Byte RD_BlueChOddOff;	/* 0x36, P96003                 */
+	Byte RD_RedGainOut;	/* 0x37, P96003                 */
+	Byte RD_GreenGainOut;	/* 0x38, P96003                 */
+	Byte RD_BlueGainOut;	/* 0x39, P96003                 */
+	Byte RD_LedControl;	/* 0x3a, P96003                 */
+	Byte RD_ShadingCorrectCtrl;	/* 0x3b, P96003                 */
 
 } Reg96, *pReg96;
 
@@ -574,24 +585,25 @@ typedef struct
  * model override defines
  */
 #define _OVR_NONE				0
-#define _OVR_PLUSTEK_9630PL		1	/* for legal version of the OP9630	*/
-#define _OVR_PRIMAX_4800D		2	/* for the Primax 4800 Direct		*/
-#define _OVR_PLUSTEK_9636		3	/* for 9636T/P+/Turbo				*/
-#define _OVR_PLUSTEK_9636P		4	/* for 9636P						*/
-#define _OVR_PLUSTEK_A3I		5	/* for A3I  						*/
-#define _OVR_PLUSTEK_4800P		6	/* for OpticPro4800					*/
-#define _OVR_PRIMAX_4800D30		7	/* for the Primax 4800 Direct 30bit	*/
+#define _OVR_PLUSTEK_9630PL		1	/* for legal version of the OP9630      */
+#define _OVR_PRIMAX_4800D		2	/* for the Primax 4800 Direct           */
+#define _OVR_PLUSTEK_9636		3	/* for 9636T/P+/Turbo                           */
+#define _OVR_PLUSTEK_9636P		4	/* for 9636P                                            */
+#define _OVR_PLUSTEK_A3I		5	/* for A3I                                              */
+#define _OVR_PLUSTEK_4800P		6	/* for OpticPro4800                                     */
+#define _OVR_PRIMAX_4800D30		7	/* for the Primax 4800 Direct 30bit     */
 
 /* CHECK: THIS has to be changed and merged with the old code */
 
 /*
  * structure to hold IO port specific stuff
  */
-typedef struct {
+typedef struct
+{
 
 #ifdef __KERNEL__
 	pFnOut fnOut;
-	pFnIn  fnIn;
+	pFnIn fnIn;
 
 	UShort pbSppDataPort;
 	UShort pbEppDataPort;
@@ -605,14 +617,14 @@ typedef struct {
 	UShort portMode;
 	UShort lastPortMode;
 
-	Byte   bOldControlValue;
-	Byte   bOldDataValue;
-	Byte   bOpenCount;
-	Byte   delay;           /* to allow various delay on port operations    */
+	Byte bOldControlValue;
+	Byte bOldDataValue;
+	Byte bOpenCount;
+	Byte delay;		/* to allow various delay on port operations    */
 
-	Bool   slowIO;
+	Bool slowIO;
 	UShort forceMode;
-	Bool   useEPPCmdMode;
+	Bool useEPPCmdMode;
 
 } IODef, *pIODef;
 
@@ -623,56 +635,56 @@ typedef struct {
 typedef struct
 {
 #if 0
-    PFNVOID			pfnIOWrite;
-    PFNVOID			pfnCCDInit;
-    DWORD			dwLampOnTicks;
-    DWORD			dwLampOnBegin;
-    LONG			lLeftPositive;
-    LONG			lLeftNegative;
-    UCHAR			bLampOnMinutes;
-    DRVBOOL			fButton;
-    DRVBOOL			fSoftReset;
-    UCHAR			bStatusLamp;
+	PFNVOID pfnIOWrite;
+	PFNVOID pfnCCDInit;
+	DWORD dwLampOnTicks;
+	DWORD dwLampOnBegin;
+	LONG lLeftPositive;
+	LONG lLeftNegative;
+	UCHAR bLampOnMinutes;
+	DRVBOOL fButton;
+	DRVBOOL fSoftReset;
+	UCHAR bStatusLamp;
 #endif
 
-	pFnReadData     ReadData;       /* read function, portmode specific */
+	pFnReadData ReadData;	/* read function, portmode specific */
 
-    ULong   		dwModelOriginY;
-    Bool			f0_8_16;
-    Bool            fTpa;           /* transparency adapter ?           */
-    Bool			f2003;          /* has 2003 motor driver ?          */
+	ULong dwModelOriginY;
+	Bool f0_8_16;
+	Bool fTpa;		/* transparency adapter ?           */
+	Bool f2003;		/* has 2003 motor driver ?          */
 
-    UChar			bMotorID;       /* the type of the motor drivers    */
-    UChar			bPCBID;         /* which version of the PCB         */
+	UChar bMotorID;		/* the type of the motor drivers    */
+	UChar bPCBID;		/* which version of the PCB         */
 
-    UChar			bCCDID;         /* what CCD do we have              */
-    pRegDef         pCCDRegisters;  /* pointer to the register descr    */
-    UShort			wNumCCDRegs;    /* number of values to write        */
-    UShort   		DataOriginX;
+	UChar bCCDID;		/* what CCD do we have              */
+	pRegDef pCCDRegisters;	/* pointer to the register descr    */
+	UShort wNumCCDRegs;	/* number of values to write        */
+	UShort DataOriginX;
 
-    UChar   		bDACType;       /* what DAC do we have              */
-    pRegDef			pDACRegisters;  /* pointer to DAC reg descr.        */
-    UShort			wNumDACRegs;    /* number of values to write        */
-    pFnDACOffs		fnDarkOffset;   /* func-ptr to func for DAC         */
-    pFnDACDark		fnDACDark;      /* adjustments                      */
+	UChar bDACType;		/* what DAC do we have              */
+	pRegDef pDACRegisters;	/* pointer to DAC reg descr.        */
+	UShort wNumDACRegs;	/* number of values to write        */
+	pFnDACOffs fnDarkOffset;	/* func-ptr to func for DAC         */
+	pFnDACDark fnDACDark;	/* adjustments                      */
 
-    RGBByteDef		RegDACOffset;
-    RGBByteDef		RegDACGain;
+	RGBByteDef RegDACOffset;
+	RGBByteDef RegDACGain;
 
-    UChar			buttons;        /* Number of buttons                */
+	UChar buttons;		/* Number of buttons                */
 
-    UChar			ModelCtrl;      /* contents of the model control reg*/
-    UChar			Model1Mono;     /* for model control 1 in mono mode */
-    UChar			Model1Color;    /* for model control 1 in color mode*/
+	UChar ModelCtrl;	/* contents of the model control reg */
+	UChar Model1Mono;	/* for model control 1 in mono mode */
+	UChar Model1Color;	/* for model control 1 in color mode */
 
-    UChar			XStepMono;
-    UChar			XStepColor;
-    UChar			XStepBack;
+	UChar XStepMono;
+	UChar XStepColor;
+	UChar XStepBack;
 
-    long			lUpNormal;      /* device specific offsets */
-    long			lUpPositive;
-    long			lUpNegative;
-    long			lLeftNormal;
+	long lUpNormal;		/* device specific offsets */
+	long lUpPositive;
+	long lUpNegative;
+	long lLeftNormal;
 
 } DeviceDef, *pDeviceDef;
 
@@ -681,31 +693,31 @@ typedef struct
  */
 typedef struct
 {
-    pRGBUShortDef	pHilight;
-    ColorByte		Hilight;
-    ULong   		dwDiv;
-    UShort			wExposure;
-    UShort  		wXStep;
+	pRGBUShortDef pHilight;
+	ColorByte Hilight;
+	ULong dwDiv;
+	UShort wExposure;
+	UShort wXStep;
 
-    UChar			skipHilight;
-    UChar			skipShadow;
-    ULong			shadingBytes;
+	UChar skipHilight;
+	UChar skipShadow;
+	ULong shadingBytes;
 
-    pDACTblDef		pCcdDac;
-    ColorByte		DarkDAC;
-    ColorWord		DarkOffset;
-    UShort			wDarkLevels;
-    UChar			bIntermediate;
+	pDACTblDef pCcdDac;
+	ColorByte DarkDAC;
+	ColorWord DarkOffset;
+	UShort wDarkLevels;
+	UChar bIntermediate;
 
-    ColorByte		Gain;
-    UChar			bGainDouble;
-    UChar			bUniGain;
-    Byte			bMinGain;
-    Byte			bMaxGain;
-    Byte			bGainHigh;
-    Byte			bGainLow;
+	ColorByte Gain;
+	UChar bGainDouble;
+	UChar bUniGain;
+	Byte bMinGain;
+	Byte bMaxGain;
+	Byte bGainHigh;
+	Byte bGainLow;
 
-    Bool			fStop;
+	Bool fStop;
 
 } ShadingDef, *pShadingDef;
 
@@ -716,86 +728,92 @@ typedef struct
 typedef struct _SCANDEF
 {
 #if 0
-    DWORD			dwLinesRead;
-    LONG			lBufAdjust;
-    DRVBOOL			fBackmove;
-    DRVBOOL			fEsc;
-    UCHAR			Reserved;
+	DWORD dwLinesRead;
+	LONG lBufAdjust;
+	DRVBOOL fBackmove;
+	DRVBOOL fEsc;
+	UCHAR Reserved;
 #endif
 
-    pFnBool			DoSample;
-    pFnDataProcess	DataProcess;    /* to convert RGB buffers to RGB pixels */
-    pFnBool			DataRead;       /* function to get data from scanner    */
+	pFnBool DoSample;
+	pFnDataProcess DataProcess;	/* to convert RGB buffers to RGB pixels */
+	pFnBool DataRead;	/* function to get data from scanner    */
 
-    ULong			dwLinesToRead;  /* number of images lines to read       */
-    Long	    	lBufferAdjust;
+	ULong dwLinesToRead;	/* number of images lines to read       */
+	Long lBufferAdjust;
 
-    ULong			dwScanOrigin;   /* where to start the scan              */
-    Bool			fRefreshState;  /* refresh ?                            */
-    Bool			fMotorBackward;
-    UChar			motorPower;     /* how to drive the motor               */
+	ULong dwScanOrigin;	/* where to start the scan              */
+	Bool fRefreshState;	/* refresh ?                            */
+	Bool fMotorBackward;
+	UChar motorPower;	/* how to drive the motor               */
 
-    ULong			dwMinReadFifo;
-    ULong			dwMaxReadFifo;
-    Byte            bFifoSelect;    /* defines which FIFO to use            */
+	ULong dwMinReadFifo;
+	ULong dwMaxReadFifo;
+	Byte bFifoSelect;	/* defines which FIFO to use            */
 
-    UChar			bDiscardAll;
-    ULong			dwInterval;
-    ULong			dwInterlace;    /* CHECK: here always 0 - remove ?     */
+	UChar bDiscardAll;
+	ULong dwInterval;
+	ULong dwInterlace;	/* CHECK: here always 0 - remove ?     */
 
-    union {
-        UShort		wGreenDiscard;
-        UShort  	wGreenKeep;
-    } gd_gk;
-    union {
-        UShort		wBlueDiscard;
-        UShort  	wRedKeep;
-    } bd_rk;
+	union
+	{
+		UShort wGreenDiscard;
+		UShort wGreenKeep;
+	} gd_gk;
+	union
+	{
+		UShort wBlueDiscard;
+		UShort wRedKeep;
+	} bd_rk;
 
-    UChar			bRefresh;       /* for controlling the movement         */
-    UChar			bOldScanState;
-    UChar   		bNowScanState;
-    UChar			bModuleState;
+	UChar bRefresh;		/* for controlling the movement         */
+	UChar bOldScanState;
+	UChar bNowScanState;
+	UChar bModuleState;
 
-    DataPointer 	p48BitBuf;      /* for handling 48-bit data             */
-    union {
-        pUChar  	pMonoBuf;
-        DataPointer ColorBuf;
-    } bp;
+	DataPointer p48BitBuf;	/* for handling 48-bit data             */
+	union
+	{
+		pUChar pMonoBuf;
+		DataPointer ColorBuf;
+	} bp;
 
-    RBGPtrDef       BufBegin;       /* for reading/writing the scan-data    */
-    RBGPtrDef       BufEnd;
-    RBGPtrDef       BufGet;
-    RBGPtrDef       BufData;
-    RBGPtrDef       BufPut;
+	RBGPtrDef BufBegin;	/* for reading/writing the scan-data    */
+	RBGPtrDef BufEnd;
+	RBGPtrDef BufGet;
+	RBGPtrDef BufData;
+	RBGPtrDef BufPut;
 
-    ULong           negBegin;       /* used while scanning in TPA modes     */
-    ULong           posBegin;
+	ULong negBegin;		/* used while scanning in TPA modes     */
+	ULong posBegin;
 
-    ULong           dpiIdx;         /* index to get/set values in the table */
-    pExtXStepDef    negScan;        /* reference to exposure/xtep table     */
+	ULong dpiIdx;		/* index to get/set values in the table */
+	pExtXStepDef negScan;	/* reference to exposure/xtep table     */
 
 } ScanDef, *pScanDef;
 
 /*
  * structure to hold buffer pointers
  */
-typedef struct {
+typedef struct
+{
 
-    union {
-    	pUChar		pReadBuf;
-    	pUChar		pShadingMap;
-    	pUChar		pRWTestBuffer;
-    	pUShort		pShadingRam;
-    	DataPointer	Buf;
-    } b1;
+	union
+	{
+		pUChar pReadBuf;
+		pUChar pShadingMap;
+		pUChar pRWTestBuffer;
+		pUShort pShadingRam;
+		DataPointer Buf;
+	} b1;
 
-    union {
-        pUChar        pSumBuf;
-	    pRGBUShortDef pSumRGB;
-	    pUChar		  pRWTestBuffer1;
-    } b2;
-    DataPointer TpaBuf;
+	union
+	{
+		pUChar pSumBuf;
+		pRGBUShortDef pSumRGB;
+		pUChar pRWTestBuffer1;
+	} b2;
+	DataPointer TpaBuf;
 
 } BufferDef, *pBufferDef;
 
@@ -825,9 +843,9 @@ typedef struct {
 #define _MAP_ADDR_SIZE	        0x40	/* 0x4000 */
 
 /* Register RegModeControl (Addr: 0x1b, 0x18 on 9600x) - all ASICs*/
-#define _ModeScan		        0x00    /* all ASICs       */
-#define _ModeProgram	        0x01    /* 9600x def       */
-#define _ModeIdle		        0x01    /* 9800x defs      */
+#define _ModeScan		        0x00	/* all ASICs       */
+#define _ModeProgram	        0x01	/* 9600x def       */
+#define _ModeIdle		        0x01	/* 9800x defs      */
 #define _ModeShadingMem	        0x02
 #define _ModeMappingMem	        0x03
 #define _ModeReadMappingMem     0x07
@@ -852,7 +870,7 @@ typedef struct {
 
 /* ASIC 9800x section */
 #define _SCAN_12BITMODE         0x02
-#define _SCAN_NORMALLAMP_ON     0x10    /* normal Lamp  */
+#define _SCAN_NORMALLAMP_ON     0x10	/* normal Lamp  */
 #define _SCAN_TPALAMP_ON        0x20
 #define _P98_SCANDATA_INVERT    0x40
 #define _BITALIGN_LEFT	        0x80
@@ -867,7 +885,7 @@ typedef struct {
 #define _MotorHHalfStep	        0x04
 #define _MotorHQuarterStep	    0x08
 #define _MotorHEightStep	    0x08	/* for 2916 driver      */
-#define _MotorPowerEnable	    0x40    /* ASIC 98003 specific  */
+#define _MotorPowerEnable	    0x40	/* ASIC 98003 specific  */
 #define _MotorHHomeStop	        0x80
 
 #define _FORWARD_MOTOR			(_MotorDirForward + _MotorOn + \
@@ -880,13 +898,13 @@ typedef struct {
 
 #define _CCD_3797		        0
 #define _CCD_3717		        1
-#define _CCD_3799	            1   /* new for 98003     */
+#define _CCD_3799	            1	/* new for 98003     */
 #define _CCD_535		        2
 #define _CCD_2556		        3
 #define _CCD_518		        4
 #define _CCD_539		        5	/* default for 98001 */
-#define _CCD_3777	            6   /* new for 98003     */
-#define _CCD_548 	            7   /* new for 98003     */
+#define _CCD_3777	            6	/* new for 98003     */
+#define _CCD_548 	            7	/* new for 98003     */
 
 /* ASIC 98003 section */
 #define _OPTICWORKS2000         0x00
@@ -916,13 +934,13 @@ typedef struct {
 #define _ModelMemSize64k4	    0x60	/* 64k for 400/600 dpi color    */
 #define _ModelMemSize128k4	    0x80	/* 128k for 400/600 dpi color   */
 
-#define _ModelMemSize8k	           0    /* for 96001 */
+#define _ModelMemSize8k	           0	/* for 96001 */
 #define _ModelMemSize8k3	    0x20
 #define _ModelMemSize32k96001   0x40
 #define _ModelMemSize128k396001 0x60
 #define _ModelMemSize128k696001 0x80
 
-#define _HOME_SENSOR_POLARITY   0x01    /* 9800x */
+#define _HOME_SENSOR_POLARITY   0x01	/* 9800x */
 #define _LED_CONTROL 	        0x02
 #define _LED_ACTIVITY	        0x04
 #define _MODEL_DPI800	        0x20
@@ -1029,6 +1047,6 @@ typedef struct {
 #define _CHANNEL_GREEN	        1
 #define _CHANNEL_BLUE	        2
 
-#endif	/* guard __HWDEFS_H__ */
+#endif /* guard __HWDEFS_H__ */
 
 /* END PLUSTEK-PP_HWDEFS.H ..................................................*/

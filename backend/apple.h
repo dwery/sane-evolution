@@ -83,188 +83,188 @@ part of the backend without actually has the scanner.
 
 /* mode values: */
 enum Apple_Modes
-  {
-  APPLE_MODE_LINEART=0,
-  APPLE_MODE_HALFTONE,
-  APPLE_MODE_GRAY,
-  APPLE_MODE_BICOLOR,
-  EMPTY_DONT_USE_IT,
-  APPLE_MODE_COLOR
-  };
-  
+{
+	APPLE_MODE_LINEART = 0,
+	APPLE_MODE_HALFTONE,
+	APPLE_MODE_GRAY,
+	APPLE_MODE_BICOLOR,
+	EMPTY_DONT_USE_IT,
+	APPLE_MODE_COLOR
+};
+
 enum Apple_Option
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_HWDETECT_GROUP,
-    OPT_MODEL,
+	OPT_HWDETECT_GROUP,
+	OPT_MODEL,
 
-    OPT_MODE_GROUP,
-    OPT_MODE,
-    OPT_RESOLUTION,
-    OPT_PREVIEW,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_RESOLUTION,
+	OPT_PREVIEW,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
 
-    OPT_ENHANCEMENT_GROUP,
-    /* COMMON				*/
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
-    OPT_THRESHOLD,
-    
-    /* AppleScanner only		*/
-    OPT_GRAYMAP,
-    OPT_AUTOBACKGROUND,
-    OPT_AUTOBACKGROUND_THRESHOLD,
+	OPT_ENHANCEMENT_GROUP,
+	/* COMMON                           */
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_THRESHOLD,
 
-    /* AppleScanner & OneScanner	*/
-    OPT_HALFTONE_PATTERN,
-    OPT_HALFTONE_FILE,
+	/* AppleScanner only                */
+	OPT_GRAYMAP,
+	OPT_AUTOBACKGROUND,
+	OPT_AUTOBACKGROUND_THRESHOLD,
 
-    /* ColorOneScanner Only		*/
-    OPT_VOLT_REF,
-    OPT_VOLT_REF_TOP,
-    OPT_VOLT_REF_BOTTOM,
+	/* AppleScanner & OneScanner        */
+	OPT_HALFTONE_PATTERN,
+	OPT_HALFTONE_FILE,
 
-    /* misc : advanced			*/
-    OPT_MISC_GROUP,
+	/* ColorOneScanner Only             */
+	OPT_VOLT_REF,
+	OPT_VOLT_REF_TOP,
+	OPT_VOLT_REF_BOTTOM,
 
-    /* all				*/
-    OPT_LAMP,
+	/* misc : advanced                  */
+	OPT_MISC_GROUP,
 
-    /* AppleScanner Only		*/
-    OPT_WAIT,
+	/* all                              */
+	OPT_LAMP,
 
-    /* OneScanner only			*/
-    OPT_CALIBRATE,
-    OPT_SPEED,
+	/* AppleScanner Only                */
+	OPT_WAIT,
 
-    /* OneScanner && ColorOneScanner	*/
-    OPT_LED,
-    OPT_CCD,
-    
-    /* ColorOneScanner only		*/
+	/* OneScanner only                  */
+	OPT_CALIBRATE,
+	OPT_SPEED,
 
-    OPT_MTF_CIRCUIT,
-    OPT_ICP,
-    OPT_POLARITY,
+	/* OneScanner && ColorOneScanner    */
+	OPT_LED,
+	OPT_CCD,
 
-    /* color group : advanced		*/
+	/* ColorOneScanner only             */
 
-    OPT_COLOR_GROUP,
+	OPT_MTF_CIRCUIT,
+	OPT_ICP,
+	OPT_POLARITY,
+
+	/* color group : advanced           */
+
+	OPT_COLOR_GROUP,
 
 
 #ifdef CALIBRATION_FUNCTIONALITY
 
-    /* OneScanner			*/
-    OPT_CALIBRATION_VECTOR,
+	/* OneScanner                       */
+	OPT_CALIBRATION_VECTOR,
 
-    /* ColorOneScanner			*/
+	/* ColorOneScanner                  */
 
-    OPT_CALIBRATION_VECTOR_RED,
-    OPT_CALIBRATION_VECTOR_GREEN,
-    OPT_CALIBRATION_VECTOR_BLUE,
+	OPT_CALIBRATION_VECTOR_RED,
+	OPT_CALIBRATION_VECTOR_GREEN,
+	OPT_CALIBRATION_VECTOR_BLUE,
 #endif
 
 
-    /* OneScanner && ColorOneScanner	*/
-    OPT_DOWNLOAD_CALIBRATION_VECTOR,
+	/* OneScanner && ColorOneScanner    */
+	OPT_DOWNLOAD_CALIBRATION_VECTOR,
 
-    /* ColorOneScanner			*/
+	/* ColorOneScanner                  */
 
-    OPT_CUSTOM_CCT,
-    OPT_CCT,
-    OPT_DOWNLOAD_CCT,
+	OPT_CUSTOM_CCT,
+	OPT_CCT,
+	OPT_DOWNLOAD_CCT,
 
-    OPT_CUSTOM_GAMMA,
+	OPT_CUSTOM_GAMMA,
 
-    OPT_GAMMA_VECTOR_R,
-    OPT_GAMMA_VECTOR_G,
-    OPT_GAMMA_VECTOR_B,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
 
-    OPT_DOWNLOAD_GAMMA,
-    OPT_COLOR_SENSOR,
+	OPT_DOWNLOAD_GAMMA,
+	OPT_COLOR_SENSOR,
 
-    /* must come last: */
-    NUM_OPTIONS
-  };
+	/* must come last: */
+	NUM_OPTIONS
+};
 
 
 /* This is a hack to get fast the model of the Attached Scanner	*/
 /* But it Works well and I am not considering in "fix" it	*/
 enum SCANNERMODEL
-  {
-    OPT_NUM_SCANNERS = 0,
+{
+	OPT_NUM_SCANNERS = 0,
 
-    APPLESCANNER, ONESCANNER, COLORONESCANNER,
-    NUM_SCANNERS
-  };
+	APPLESCANNER, ONESCANNER, COLORONESCANNER,
+	NUM_SCANNERS
+};
 
 typedef struct Apple_Device
-  {
-    struct Apple_Device *next;
-    SANE_Int ScannerModel;
-    SANE_Device sane;
-    SANE_Range dpi_range;
-    SANE_Range x_range;
-    SANE_Range y_range;
-    SANE_Int MaxWidth;
-    SANE_Int MaxHeight;
-    unsigned flags;
-  }
+{
+	struct Apple_Device *next;
+	SANE_Int ScannerModel;
+	SANE_Device sane;
+	SANE_Range dpi_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	SANE_Int MaxWidth;
+	SANE_Int MaxHeight;
+	unsigned flags;
+}
 Apple_Device;
 
 typedef struct Apple_Scanner
-  {
-    /* all the state needed to define a scan request: */
-    struct Apple_Scanner *next;
+{
+	/* all the state needed to define a scan request: */
+	struct Apple_Scanner *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-    /* First we put here all the scan variables */
+	/* First we put here all the scan variables */
 
-    /* These are needed for converting back and forth the scan area */
+	/* These are needed for converting back and forth the scan area */
 
-    SANE_Int bpp;	/* The actual bpp, before scaling */
+	SANE_Int bpp;		/* The actual bpp, before scaling */
 
-    double ulx;
-    double uly;
-    double wx;
-    double wy;
-    SANE_Int ULx;
-    SANE_Int ULy;
-    SANE_Int Width;
-    SANE_Int Height;
+	double ulx;
+	double uly;
+	double wx;
+	double wy;
+	SANE_Int ULx;
+	SANE_Int ULy;
+	SANE_Int Width;
+	SANE_Int Height;
 
 /*
 TODO: Initialize this beasts with malloc instead of statically allocation.
 */
-    SANE_Int calibration_vector[2550];
-    SANE_Int calibration_vector_red[2700];
-    SANE_Int calibration_vector_green[2700];
-    SANE_Int calibration_vector_blue[2700];
-    SANE_Fixed cct3x3[9];
-    SANE_Int gamma_table[3][256];
-    SANE_Int halftone_pattern[64];
+	SANE_Int calibration_vector[2550];
+	SANE_Int calibration_vector_red[2700];
+	SANE_Int calibration_vector_green[2700];
+	SANE_Int calibration_vector_blue[2700];
+	SANE_Fixed cct3x3[9];
+	SANE_Int gamma_table[3][256];
+	SANE_Int halftone_pattern[64];
 
-    SANE_Bool scanning;
-    SANE_Bool AbortedByUser;
- 
-    int pass;			/* pass number */
-    SANE_Parameters params;
+	SANE_Bool scanning;
+	SANE_Bool AbortedByUser;
 
-    int fd;			/* SCSI filedescriptor */
+	int pass;		/* pass number */
+	SANE_Parameters params;
 
-    /* scanner dependent/low-level state: */
-    Apple_Device *hw;
+	int fd;			/* SCSI filedescriptor */
 
-  }
+	/* scanner dependent/low-level state: */
+	Apple_Device *hw;
+
+}
 Apple_Scanner;
 
 #endif /* apple_h */

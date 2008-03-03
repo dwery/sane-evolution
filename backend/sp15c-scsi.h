@@ -1,7 +1,8 @@
 #ifndef SP15C_SCSI_H
 #define SP15C_SCSI_H
 
-static const char RCSid_sh[] = "$Header: /cvsroot/sane/sane-backends/backend/sp15c-scsi.h,v 1.6 2005-09-19 19:57:48 fzago-guest Exp $";
+static const char RCSid_sh[] =
+	"$Header: /cvsroot/sane/sane-backends/backend/sp15c-scsi.h,v 1.6 2005-09-19 19:57:48 fzago-guest Exp $";
 /* sane - Scanner Access Now Easy.
 
    This file is part of the SANE package.
@@ -96,59 +97,59 @@ static const char RCSid_sh[] = "$Header: /cvsroot/sane/sane-backends/backend/sp1
 /****************************************************/
 
 static inline void
-setbitfield (unsigned char *pageaddr, int mask, int shift, int val) \
+setbitfield(unsigned char *pageaddr, int mask, int shift, int val)
 {
-  *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift);
+	*pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline void
-resetbitfield (unsigned char *pageaddr, int mask, int shift, int val) \
+resetbitfield(unsigned char *pageaddr, int mask, int shift, int val)
 {
-  *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift);
+	*pageaddr =
+		(*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline int
-getbitfield (unsigned char *pageaddr, int mask, int shift) \
+getbitfield(unsigned char *pageaddr, int mask, int shift)
 {
-  return ((*pageaddr >> shift) & mask);
+	return ((*pageaddr >> shift) & mask);
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline int
-getnbyte (unsigned char *pnt, int nbytes) \
+getnbyte(unsigned char *pnt, int nbytes)
 {
-  unsigned int result = 0;
-  int i;
+	unsigned int result = 0;
+	int i;
 
 #ifdef DEBUG
-  assert (nbytes < 5);
+	assert(nbytes < 5);
 #endif
-  for (i = 0; i < nbytes; i++)
-    result = (result << 8) | (pnt[i] & 0xff);
-  return result;
+	for (i = 0; i < nbytes; i++)
+		result = (result << 8) | (pnt[i] & 0xff);
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */
 
 static inline void
-putnbyte (unsigned char *pnt, unsigned int value, unsigned int nbytes) \
+putnbyte(unsigned char *pnt, unsigned int value, unsigned int nbytes)
 {
-  int i;
+	int i;
 
 #ifdef DEBUG
-  assert (nbytes < 5);
+	assert(nbytes < 5);
 #endif
-  for (i = nbytes - 1; i >= 0; i--)
-    \
-    {
-      pnt[i] = value & 0xff;
-      value = value >> 8;
-    }
+	for (i = nbytes - 1; i >= 0; i--)
+	{
+		pnt[i] = value & 0xff;
+		value = value >> 8;
+	}
 }
 
 
@@ -157,8 +158,8 @@ putnbyte (unsigned char *pnt, unsigned int value, unsigned int nbytes) \
 
 typedef struct
 {
-  unsigned char *cmd;
-  unsigned int size;
+	unsigned char *cmd;
+	unsigned int size;
 }
 scsiblk;
 
@@ -183,23 +184,19 @@ scsiblk;
 /* ==================================================================== */
 
 static unsigned char reserve_unitC[] =
-{RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00};
-static scsiblk reserve_unitB =
-{reserve_unitC, sizeof (reserve_unitC)};
+	{ RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk reserve_unitB = { reserve_unitC, sizeof(reserve_unitC) };
 
 /* ==================================================================== */
 
 static unsigned char release_unitC[] =
-{RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00};
-static scsiblk release_unitB =
-{release_unitC, sizeof (release_unitC)};
+	{ RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk release_unitB = { release_unitC, sizeof(release_unitC) };
 
 /* ==================================================================== */
 
-static unsigned char inquiryC[] =
-{INQUIRY, 0x00, 0x00, 0x00, 0x1f, 0x00};
-static scsiblk inquiryB =
-{inquiryC, sizeof (inquiryC)};
+static unsigned char inquiryC[] = { INQUIRY, 0x00, 0x00, 0x00, 0x1f, 0x00 };
+static scsiblk inquiryB = { inquiryC, sizeof(inquiryC) };
 
 #define set_IN_return_size(icb,val)        icb[0x04]=val
 #define set_IN_length(out,n)               out[0x04]=n-5
@@ -223,9 +220,8 @@ static scsiblk inquiryB =
 /* ==================================================================== */
 
 static unsigned char request_senseC[] =
-{REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00};
-static scsiblk request_senseB =
-{request_senseC, sizeof (request_senseC)};
+	{ REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk request_senseB = { request_senseC, sizeof(request_senseC) };
 
 #define set_RS_allocation_length(sb,val) sb[0x04] = (unsigned char)val
 /* defines for request sense return block */
@@ -246,41 +242,40 @@ static scsiblk request_senseB =
 /* ==================================================================== */
 
 static unsigned char send_diagnosticC[] =
-{SEND_DIAGNOSTIC, 0x04, 0x00, 0x00, 0x00, 0x00};
+	{ SEND_DIAGNOSTIC, 0x04, 0x00, 0x00, 0x00, 0x00 };
 static scsiblk send_diagnosticB =
-{send_diagnosticC, sizeof (send_diagnosticC)};
+	{ send_diagnosticC, sizeof(send_diagnosticC) };
 
 /* ==================================================================== */
 
 static unsigned char test_unit_readyC[] =
-{TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00};
+	{ TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00 };
 static scsiblk test_unit_readyB =
-{test_unit_readyC, sizeof (test_unit_readyC)};
+	{ test_unit_readyC, sizeof(test_unit_readyC) };
 
 /* ==================================================================== */
 
 static unsigned char set_windowC[] =
-{SET_WINDOW, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,};
+	{ SET_WINDOW, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
       /* opcode,  lun,  _____4 X reserved____,  _transfer length,  ctl */
-static scsiblk set_windowB =
-{set_windowC, sizeof (set_windowC)};
+static scsiblk set_windowB = { set_windowC, sizeof(set_windowC) };
+
 #define set_SW_xferlen(sb, len) putnbyte(sb + 0x06, len, 3)
 #define get_SW_xferlen(sb) getnbyte(sb + 0x06, 3)
 
 /* ==================================================================== */
 
-static unsigned char set_subwindowC[] =
-{SET_SUBWINDOW};
-static scsiblk set_subwindowB =
-{set_subwindowC, sizeof (set_subwindowC)};
+static unsigned char set_subwindowC[] = { SET_SUBWINDOW };
+static scsiblk set_subwindowB = { set_subwindowC, sizeof(set_subwindowC) };
 
 /* ==================================================================== */
 
 static unsigned char object_positionC[] =
-{OBJECT_POSITION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	{ OBJECT_POSITION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00 };
 					 /* ADF, _____Count_____,  ________Reserved______, Ctl */
 static scsiblk object_positionB =
-{object_positionC, sizeof (object_positionC)};
+	{ object_positionC, sizeof(object_positionC) };
 
 #define set_OP_autofeed(b,val) setbitfield(b+0x01, 0x07, 0, val)
 #define OP_Discharge	0x00
@@ -288,28 +283,25 @@ static scsiblk object_positionB =
 /* ==================================================================== */
 
 static unsigned char media_checkC[] =
-{MEDIA_CHECK, 0x00, 0x00, 0x00, 0x00, 0x00};
+	{ MEDIA_CHECK, 0x00, 0x00, 0x00, 0x00, 0x00 };
 				 /* ADF, _Reserved_, Len,  Ctl */
-static scsiblk media_checkB =
-{media_checkC, sizeof (media_checkC)};
+static scsiblk media_checkB = { media_checkC, sizeof(media_checkC) };
 
 #define set_MC_return_size(sb,val)   sb[0x04]=val
 #define get_MC_adf_status(sb)     sb[0x00]
 #define MC_ADF_OK	0x01
 
 /* ==================================================================== */
-static unsigned char media_parameter_data_blockC[] =
-{
-  0x00
+static unsigned char media_parameter_data_blockC[] = {
+	0x00
 };
 static scsiblk media_parameter_data_blockB =
-{media_parameter_data_blockC, sizeof (media_parameter_data_blockC)};
+	{ media_parameter_data_blockC, sizeof(media_parameter_data_blockC) };
 /* ==================================================================== */
 
 static unsigned char sendC[] =
-{SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-static scsiblk sendB =
-{sendC, sizeof (sendC)};
+	{ SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk sendB = { sendC, sizeof(sendC) };
 
 #define set_S_datatype_code(sb, val) sb[0x02] = (unsigned char)val
 #define S_datatype_imagedatai		0x00
@@ -337,10 +329,9 @@ static scsiblk sendB =
 /* ==================================================================== */
 
 static unsigned char readC[] =
-{READ, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	{ READ, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 	 /* Type, rsvd, type qual, __xfer length__, Ctl */
-static scsiblk readB =
-{readC, sizeof (readC)};
+static scsiblk readB = { readC, sizeof(readC) };
 
 #define set_R_datatype_code(sb, val) sb[0x02] = val
 #define R_datatype_imagedata		0x00
@@ -350,16 +341,15 @@ static scsiblk readB =
 /* ==================================================================== */
 
 static unsigned char mode_selectC[] =
-{MODE_SELECT, 0x10, 0x00, 0x00, 0x00, 0x00};
-static scsiblk mode_selectB =
-{mode_selectC, sizeof (mode_selectC)};
+	{ MODE_SELECT, 0x10, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk mode_selectB = { mode_selectC, sizeof(mode_selectC) };
 
 /* ==================================================================== */
 
 static unsigned char mode_senseC[] =
-{MODE_SENSE, 0x18, 0x03, 0x00, 0x00, 0x00, /* PF set, page type 03 */ };
-static scsiblk mode_senseB =
-{mode_senseC, sizeof (mode_senseC)};
+	{ MODE_SENSE, 0x18, 0x03, 0x00, 0x00, 0x00, /* PF set, page type 03 */
+ };
+static scsiblk mode_senseB = { mode_senseC, sizeof(mode_senseC) };
 
 #define set_MS_DBD(b, val)  setbitfield(b, 0x01, 3, (val?1:0))
 #define set_MS_len(b, val)	putnbyte(b+0x04, val, 1)
@@ -367,24 +357,22 @@ static scsiblk mode_senseB =
 
 /* ==================================================================== */
 
-static unsigned char scanC[] =
-{SCAN, 0x00, 0x00, 0x00, 0x00, 0x00};
-static scsiblk scanB =
-{scanC, sizeof (scanC)};
+static unsigned char scanC[] = { SCAN, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static scsiblk scanB = { scanC, sizeof(scanC) };
 
 #define set_SC_xfer_length(sb, val) sb[0x04] = (unsigned char)val
 
 /* ==================================================================== */
 
 /* We use the same structure for both SET WINDOW and GET WINDOW. */
-static unsigned char window_parameter_data_blockC[] =
-{
-  0x00, 0x00, 0x00,
-  0x00, 0x00, 0x00,		/* reserved */
-  0x00, 0x00,			/* Window Descriptor Length */
+static unsigned char window_parameter_data_blockC[] = {
+	0x00, 0x00, 0x00,
+	0x00, 0x00, 0x00,	/* reserved */
+	0x00, 0x00,		/* Window Descriptor Length */
 };
 static scsiblk window_parameter_data_blockB =
-{window_parameter_data_blockC, sizeof (window_parameter_data_blockC)};
+	{ window_parameter_data_blockC,
+sizeof(window_parameter_data_blockC) };
 
 #define set_WDPB_wdblen(sb, len) putnbyte(sb + 0x06, len, 2)
 #define get_WDPB_wdblen(sb) getnbyte(sb + 0x06, 2)
@@ -396,50 +384,49 @@ static scsiblk window_parameter_data_blockB =
 
 /* ==================================================================== */
 
-static unsigned char window_descriptor_blockC[] =
-{
-  0x00,				/* 0x00 *//* Window Identifier */
+static unsigned char window_descriptor_blockC[] = {
+	0x00,			/* 0x00 *//* Window Identifier */
 #define set_WD_wid(sb, val) sb[0] = val
 #define WD_wid_all 0x00		/* Only one supported */
-  0x00,				/* 0x01 *//* reserved, AUTO */
+	0x00,			/* 0x01 *//* reserved, AUTO */
 #define set_WD_auto(sb, val) setbitfield(sb + 0x01, 1, 0, val)
 #define get_WD_auto(sb)	getbitfield(sb + 0x01, 1, 0)
-  0x00, 0x00,			/* 0x02 *//* X resolution in dpi, 0 => 400 */
+	0x00, 0x00,		/* 0x02 *//* X resolution in dpi, 0 => 400 */
 #define set_WD_Xres(sb, val) putnbyte(sb + 0x02, val, 2)
 #define get_WD_Xres(sb)	getnbyte(sb + 0x02, 2)
-  0x00, 0x00,			/* 0x04 *//* Y resolution in dpi, 0 => 400 */
+	0x00, 0x00,		/* 0x04 *//* Y resolution in dpi, 0 => 400 */
 #define set_WD_Yres(sb, val) putnbyte(sb + 0x04, val, 2)
 #define get_WD_Yres(sb)	getnbyte(sb + 0x04, 2)
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x06 *//* Upper Left X in inch/1200 */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x06 *//* Upper Left X in inch/1200 */
 #define set_WD_ULX(sb, val) putnbyte(sb + 0x06, val, 4)
 #define get_WD_ULX(sb) getnbyte(sb + 0x06, 4)
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x0a *//* Upper Left Y in inch/1200 */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x0a *//* Upper Left Y in inch/1200 */
 #define set_WD_ULY(sb, val) putnbyte(sb + 0x0a, val, 4)
 #define get_WD_ULY(sb) getnbyte(sb + 0x0a, 4)
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x0e *//* Width */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x0e *//* Width */
 #define set_WD_width(sb, val) putnbyte(sb + 0x0e, val, 4)
 #define get_WD_width(sb) getnbyte(sb + 0x0e, 4)
 #define WD_width 10200
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x12 *//* Length */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x12 *//* Length */
 #define set_WD_length(sb, val) putnbyte(sb + 0x12, val, 4)
 #define get_WD_length(sb) getnbyte(sb + 0x12, 4)
 #define WD_length 13200
-  0x00,				/* 0x16 *//* Brightness */
+	0x00,			/* 0x16 *//* Brightness */
 #define set_WD_brightness(sb, val) sb[0x16] = val
 #define get_WD_brightness(sb)  sb[0x16]
 #define WD_brightness 0x80
-  0x00,				/* 0x17 *//* Threshold */
+	0x00,			/* 0x17 *//* Threshold */
 #define set_WD_threshold(sb, val) sb[0x17] = val
 #define get_WD_threshold(sb)  sb[0x17]
 #define WD_threshold 0x80
-  0x00,				/* 0x18 *//* Contrast */
+	0x00,			/* 0x18 *//* Contrast */
 #define set_WD_contrast(sb, val) sb[0x18] = val
 #define get_WD_contrast(sb) sb[0x18]
-  0x05,				/* 0x19 *//* Image composition */
+	0x05,			/* 0x19 *//* Image composition */
 #define set_WD_composition(sb, val)  sb[0x19] = val
 #define get_WD_composition(sb) sb[0x19]
 /* lineart, halftone, greyscale, binary color, dither color, multi-color */
@@ -451,39 +438,39 @@ static unsigned char window_descriptor_blockC[] =
 #define WD_comp_MC 5
 #define WD_comp_G4 10
 #define WD_comp_G8 11
-  0x08,				/* 0x1a *//* Bits/Pixel */
+	0x08,			/* 0x1a *//* Bits/Pixel */
 #define set_WD_bitsperpixel(sb, val) sb[0x1a] = val
 #define get_WD_bitsperpixel(sb)	sb[0x1a]
-  0x00, 0x00,			/* 0x1b *//* Halftone pattern */
+	0x00, 0x00,		/* 0x1b *//* Halftone pattern */
 #define set_WD_halftone(sb, val) putnbyte(sb + 0x1b, val, 2)
 #define get_WD_halftone(sb)	getnbyte(sb + 0x1b, 2)
-  0x00,
-/* 0x1d *//*************** STUFF ***************/
+	0x00,
+	  /* 0x1d *//*************** STUFF ***************/
 #define set_WD_rif(sb, val) setbitfield(sb + 0x1d, 1, 7, val)
 #define get_WD_rif(sb)	getbitfield(sb + 0x1d, 1, 7)
 #define set_WD_pad(sb, val) setbitfield(sb + 0x1d, 7, 0, val)
 #define get_WD_pad(sb)	getbitfield(sb + 0x1d, 7, 0)
-  0x00, 0x00,			/* 0x1e *//* bit ordering */
+	0x00, 0x00,		/* 0x1e *//* bit ordering */
 #define set_WD_bitorder(sb, val) putnbyte(sb + 0x1e, val, 2)
 #define get_WD_bitorder(sb)	getnbyte(sb + 0x1e, 2)
-  0x00,				/* 0x20 *//* compression type */
+	0x00,			/* 0x20 *//* compression type */
 #define set_WD_compress_type(sb, val)  sb[0x20] = val
 #define get_WD_compress_type(sb) sb[0x20]
-  0x00,				/* 0x21 *//* compression argument */
+	0x00,			/* 0x21 *//* compression argument */
 #define set_WD_compress_arg(sb, val)  sb[0x21] = val
 #define get_WD_compress_arg(sb) sb[0x21]
-  0x00, 0x00,
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x22 *//* reserved */
-  0x00,				/* 0x28 *//* vendor id code */
+	0x00, 0x00,
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x22 *//* reserved */
+	0x00,			/* 0x28 *//* vendor id code */
 #define set_WD_vendor_id_code(sb, val)  sb[0x28] = val
 #define get_WD_vendor_id_code(sb) sb[0x28]
 #define WD_bw 0x00
 #define WD_color 0xFF
-  0x00,				/* 0x29 C *//* parm length */
+	0x00,			/* 0x29 C *//* parm length */
 #define set_WD_parm_length(sb, val)  sb[0x29] = val
 #define get_WD_parm_length(sb) sb[0x29]
-  0x00,				/* 0x2a C *//* ADF, source, Color */
+	0x00,			/* 0x2a C *//* ADF, source, Color */
 #define set_WD_adf(sb, val) setbitfield(sb + 0x2a, 1, 7, val)
 #define get_WD_adf(sb)	getbitfield(sb + 0x2a, 1, 7)
 #define set_WD_source(sb, val) setbitfield(sb + 0x2a, 1, 6, val)
@@ -495,40 +482,40 @@ static unsigned char window_descriptor_blockC[] =
 #define WD_color_greenx 2
 #define WD_color_blue 3
 #define WD_color_rgb 4
-  0x00,				/* 0x2b C *//* highlight color */
+	0x00,			/* 0x2b C *//* highlight color */
 #define set_WD_highlight_color(sb, val)  sb[0x2b] = val
 #define get_WD_highlight_color(sb) sb[0x2b]
-  0x00,				/* 0x2c C *//* shadow value */
+	0x00,			/* 0x2c C *//* shadow value */
 #define set_WD_shadow_value(sb, val)  sb[0x2c] = val
 #define get_WD_shadow_value(sb) sb[0x2c]
-  0x00, 0x00,			/* 0x2d C *//* line width */
+	0x00, 0x00,		/* 0x2d C *//* line width */
 #define set_WD_line_width(sb, val) putnbyte(sb + 0x2d, val, 2)
 #define get_WD_line_width(sb)	getnbyte(sb + 0x2d, 2)
-  0x00, 0x00,			/* 0x2f C *//* line count */
+	0x00, 0x00,		/* 0x2f C *//* line count */
 #define set_WD_line_count(sb, val) putnbyte(sb + 0x2f, val, 2)
 #define get_WD_line_count(sb)	getnbyte(sb + 0x2f, 2)
-  0x00,				/* 0x31 *//* reserved */
-  0x00,				/* 0x32 *//* reserved */
-  0x00,				/* 0x33 *//* reserved */
-  0x00,				/* 0x34 *//* reserved */
-  0x00,				/* 0x35 *//* paper size */
+	0x00,			/* 0x31 *//* reserved */
+	0x00,			/* 0x32 *//* reserved */
+	0x00,			/* 0x33 *//* reserved */
+	0x00,			/* 0x34 *//* reserved */
+	0x00,			/* 0x35 *//* paper size */
 #define set_WD_paper_size(sb, val)  sb[0x35] = val
 #define get_WD_paper_size(sb) sb[0x35]
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x36 BW *//* paper width X */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x36 BW *//* paper width X */
 #define set_WD_paper_width_X(sb, val) putnbyte(sb + 0x36, val, 4)
 #define get_WD_paper_width_X(sb)	getnbyte(sb + 0x36, 4)
-  0x00, 0x00,
-  0x00, 0x00,			/* 0x3a BW *//* paper length Y */
+	0x00, 0x00,
+	0x00, 0x00,		/* 0x3a BW *//* paper length Y */
 #define set_WD_paper_length_Y(sb, val) putnbyte(sb+0x3a, val, 4)
 #define get_WD_paper_length_Y(sb)	getnbyte(sb + 0x3a, 4)
-  0x00,				/* 0x3e *//* reserved */
-  0x00,				/* 0x3f *//* reserved */
-		/* 0x40 (last) */
+	0x00,			/* 0x3e *//* reserved */
+	0x00,			/* 0x3f *//* reserved */
+	/* 0x40 (last) */
 };
 
 static scsiblk window_descriptor_blockB =
-{window_descriptor_blockC, sizeof (window_descriptor_blockC)};
+	{ window_descriptor_blockC, sizeof(window_descriptor_blockC) };
 
 /* ==================================================================== */
 
@@ -543,24 +530,24 @@ static scsiblk window_descriptor_blockB =
 
 /* ==================================================================== */
 
-static scsiblk __sane_unused__ *lint_catcher[] =
-{&reserve_unitB,
- &release_unitB,
- &inquiryB,
- &request_senseB,
- &send_diagnosticB,
- &test_unit_readyB,
- &set_windowB,
- &set_subwindowB,
- &object_positionB,
- &media_checkB,
- &media_parameter_data_blockB,
- &sendB,
- &readB,
- &mode_selectB,
- &mode_senseB,
- &scanB,
- &window_parameter_data_blockB,
- &window_descriptor_blockB};
+static scsiblk __sane_unused__ *lint_catcher[] = { &reserve_unitB,
+	&release_unitB,
+	&inquiryB,
+	&request_senseB,
+	&send_diagnosticB,
+	&test_unit_readyB,
+	&set_windowB,
+	&set_subwindowB,
+	&object_positionB,
+	&media_checkB,
+	&media_parameter_data_blockB,
+	&sendB,
+	&readB,
+	&mode_selectB,
+	&mode_senseB,
+	&scanB,
+	&window_parameter_data_blockB,
+	&window_descriptor_blockB
+};
 
 #endif /* SP15C_SCSI_H */

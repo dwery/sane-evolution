@@ -70,89 +70,90 @@ return status;} while (SANE_FALSE)
 
 enum Mustek_Usb_Option
 {
-  OPT_NUM_OPTS = 0,
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_SOURCE,
-  OPT_RESOLUTION,
-  OPT_PREVIEW,
+	OPT_NUM_OPTS = 0,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_SOURCE,
+	OPT_RESOLUTION,
+	OPT_PREVIEW,
 
-  OPT_DEBUG_GROUP,
-  OPT_AUTO_WARMUP,
+	OPT_DEBUG_GROUP,
+	OPT_AUTO_WARMUP,
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_THRESHOLD,
-  OPT_GAMMA_VALUE,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_THRESHOLD,
+	OPT_GAMMA_VALUE,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
-  /* must come last: */
-  NUM_OPTIONS
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 
 typedef struct Scanner_Model
 {
   /** @name Identification */
-  /*@{ */
+	/*@{ */
 
   /** A single lowercase word to be used in the configuration file. */
-  SANE_String_Const name;
+	SANE_String_Const name;
 
   /** Device vendor string. */
-  SANE_String_Const vendor;
+	SANE_String_Const vendor;
 
   /** Device model name. */
-  SANE_String_Const model;
+	SANE_String_Const model;
 
   /** Name of the firmware file. */
-  SANE_String_Const firmware_name;
+	SANE_String_Const firmware_name;
 
   /** @name Scanner model parameters */
-  /*@{ */
+	/*@{ */
 
-  SANE_Int dpi_values[MAX_RESOLUTIONS];	/* possible resolutions */
-  SANE_Fixed x_offset;		/* Start of scan area in mm */
-  SANE_Fixed y_offset;		/* Start of scan area in mm */
-  SANE_Fixed x_size;		/* Size of scan area in mm */
-  SANE_Fixed y_size;		/* Size of scan area in mm */
+	SANE_Int dpi_values[MAX_RESOLUTIONS];	/* possible resolutions */
+	SANE_Fixed x_offset;	/* Start of scan area in mm */
+	SANE_Fixed y_offset;	/* Start of scan area in mm */
+	SANE_Fixed x_size;	/* Size of scan area in mm */
+	SANE_Fixed y_size;	/* Size of scan area in mm */
 
-  SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed x_size_ta;		/* Size of scan area in TA mode in mm */
-  SANE_Fixed y_size_ta;		/* Size of scan area in TA mode in mm */
+	SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed x_size_ta;	/* Size of scan area in TA mode in mm */
+	SANE_Fixed y_size_ta;	/* Size of scan area in TA mode in mm */
 
 
-  RGBORDER line_mode_color_order;	/* Order of the CCD/CIS colors */
-  SANE_Fixed default_gamma_value;	/* Default gamma value */
+	RGBORDER line_mode_color_order;	/* Order of the CCD/CIS colors */
+	SANE_Fixed default_gamma_value;	/* Default gamma value */
 
-  SANE_Bool is_cis;		/* Is this a CIS or CCD scanner? */
+	SANE_Bool is_cis;	/* Is this a CIS or CCD scanner? */
 
-  SANE_Word flags;		/* Which hacks are needed for this scanner? */
-  /*@} */
+	SANE_Word flags;	/* Which hacks are needed for this scanner? */
+	/*@} */
 } Scanner_Model;
 
 typedef struct Mustek_Scanner
 {
-  /* all the state needed to define a scan request: */
-  struct Mustek_Scanner *next;
+	/* all the state needed to define a scan request: */
+	struct Mustek_Scanner *next;
 
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
-  unsigned short *gamma_table;
-  SANE_Parameters params;   /**< SANE Parameters */
-  Scanner_Model model;
-  SETPARAMETERS setpara;
-  GETPARAMETERS getpara;
-  SANE_Bool bIsScanning;
-  SANE_Bool bIsReading;
-  SANE_Word read_rows;		/* transfer image's lines */
-  SANE_Byte *Scan_data_buf;	/*store Scanned data for transfer */
-  SANE_Byte *Scan_data_buf_start;	/*point to data need to transfer */
-  size_t scan_buffer_len;	/* length of data buf */
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	unsigned short *gamma_table;
+	SANE_Parameters params;
+			    /**< SANE Parameters */
+	Scanner_Model model;
+	SETPARAMETERS setpara;
+	GETPARAMETERS getpara;
+	SANE_Bool bIsScanning;
+	SANE_Bool bIsReading;
+	SANE_Word read_rows;	/* transfer image's lines */
+	SANE_Byte *Scan_data_buf;	/*store Scanned data for transfer */
+	SANE_Byte *Scan_data_buf_start;	/*point to data need to transfer */
+	size_t scan_buffer_len;	/* length of data buf */
 }
 Mustek_Scanner;
 

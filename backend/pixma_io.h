@@ -75,10 +75,10 @@ typedef struct pixma_io_t pixma_io_t;
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_EACCES
  *   - \c PIXMA_EIO */
-int pixma_io_init (void);
+int pixma_io_init(void);
 
 /** Shutdown all connections and free resources allocated in this module. */
-void pixma_io_cleanup (void);
+void pixma_io_cleanup(void);
 
 /** Find devices currently connected to the computer.
  *  \c devnr passed to functions
@@ -91,14 +91,14 @@ void pixma_io_cleanup (void);
  *             array of pixma_config_t which is terminated by setting
  *             pixma_config_t::name to \c NULL.
  *  \return Number of devices found */
-unsigned pixma_collect_devices (const struct pixma_config_t *const
-				pixma_devices[]);
+unsigned pixma_collect_devices(const struct pixma_config_t *const
+			       pixma_devices[]);
 
 /** Get device configuration. */
-const struct pixma_config_t *pixma_get_device_config (unsigned devnr);
+const struct pixma_config_t *pixma_get_device_config(unsigned devnr);
 
 /** Get a unique ID of the device \a devnr. */
-const char *pixma_get_device_id (unsigned devnr);
+const char *pixma_get_device_id(unsigned devnr);
 
 /** Connect to the device and claim the scanner interface.
  *  \param[in] devnr
@@ -110,13 +110,13 @@ const char *pixma_get_device_id (unsigned devnr);
  *   - \c PIXMA_EACCES
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_EIO */
-int pixma_connect (unsigned devnr, pixma_io_t ** handle);
+int pixma_connect(unsigned devnr, pixma_io_t ** handle);
 
 /** Release the scanner interface and disconnect from the device. */
-void pixma_disconnect (pixma_io_t *);
+void pixma_disconnect(pixma_io_t *);
 
 /** Reset the USB interface. \warning Use with care! */
-int pixma_reset_device (pixma_io_t *);
+int pixma_reset_device(pixma_io_t *);
 
 /** Write data to the device. This function may not be interrupted by signals.
  *  It will return iff
@@ -133,7 +133,7 @@ int pixma_reset_device (pixma_io_t *);
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *  \see #PIXMA_BULKOUT_TIMEOUT */
-int pixma_write (pixma_io_t *, const void *cmd, unsigned len);
+int pixma_write(pixma_io_t *, const void *cmd, unsigned len);
 
 /** Read data from the device. This function may not be interrupted by signals.
  *  It will return iff
@@ -149,7 +149,7 @@ int pixma_write (pixma_io_t *, const void *cmd, unsigned len);
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *  \see #PIXMA_BULKIN_TIMEOUT */
-int pixma_read (pixma_io_t *, void *buf, unsigned size);
+int pixma_read(pixma_io_t *, void *buf, unsigned size);
 
 /** Wait for an interrupt. This function can be interrupted by signals.
  *  \a size should be less than or equal to the maximum packet size.
@@ -161,8 +161,7 @@ int pixma_read (pixma_io_t *, void *buf, unsigned size);
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM
  *   - \c PIXMA_ECANCELED if it was interrupted by a signal. */
-int pixma_wait_interrupt (pixma_io_t *, void *buf, unsigned size,
-			  int timeout);
+int pixma_wait_interrupt(pixma_io_t *, void *buf, unsigned size, int timeout);
 
 /** Enable or disable background interrupt monitoring.
  *  Background mode is enabled by default.
@@ -172,7 +171,7 @@ int pixma_wait_interrupt (pixma_io_t *, void *buf, unsigned size,
  *   - \c PIXMA_ENOTSUP
  *   - \c PIXMA_EIO
  *   - \c PIXMA_ENOMEM */
-int pixma_set_interrupt_mode (pixma_io_t *, int background);
+int pixma_set_interrupt_mode(pixma_io_t *, int background);
 
 /** @} end of IO group */
 

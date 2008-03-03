@@ -62,8 +62,8 @@
 
 typedef struct
 {
-  unsigned char data[16];
-  int len;
+	unsigned char data[16];
+	int len;
 }
 CDB;
 
@@ -208,9 +208,9 @@ CDB;
 /*--------------------------------------------------------------------------*/
 
 static inline int
-getbitfield (unsigned char *pageaddr, int mask, int shift)
+getbitfield(unsigned char *pageaddr, int mask, int shift)
 {
-  return ((*pageaddr >> shift) & mask);
+	return ((*pageaddr >> shift) & mask);
 }
 
 /* defines for request sense return block */
@@ -240,30 +240,30 @@ getbitfield (unsigned char *pageaddr, int mask, int shift)
 
 enum Teco_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,			/* scanner modes */
-  OPT_RESOLUTION,		/* X and Y resolution */
+	OPT_MODE_GROUP,
+	OPT_MODE,		/* scanner modes */
+	OPT_RESOLUTION,		/* X and Y resolution */
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* upper left X */
-  OPT_TL_Y,			/* upper left Y */
-  OPT_BR_X,			/* bottom right X */
-  OPT_BR_Y,			/* bottom right Y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* upper left X */
+	OPT_TL_Y,		/* upper left Y */
+	OPT_BR_X,		/* bottom right X */
+	OPT_BR_Y,		/* bottom right Y */
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_CUSTOM_GAMMA,		/* Use the custom gamma tables */
-  OPT_GAMMA_VECTOR_R,		/* Custom Red gamma table */
-  OPT_GAMMA_VECTOR_G,		/* Custom Green Gamma table */
-  OPT_GAMMA_VECTOR_B,		/* Custom Blue Gamma table */
-  OPT_GAMMA_VECTOR_GRAY,	/* Custom Grayscale Gamma table */
-  OPT_THRESHOLD,		/* Threshold */
-  OPT_DITHER,
-  OPT_PREVIEW,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_CUSTOM_GAMMA,	/* Use the custom gamma tables */
+	OPT_GAMMA_VECTOR_R,	/* Custom Red gamma table */
+	OPT_GAMMA_VECTOR_G,	/* Custom Green Gamma table */
+	OPT_GAMMA_VECTOR_B,	/* Custom Blue Gamma table */
+	OPT_GAMMA_VECTOR_GRAY,	/* Custom Grayscale Gamma table */
+	OPT_THRESHOLD,		/* Threshold */
+	OPT_DITHER,
+	OPT_PREVIEW,
 
-  /* must come last: */
-  OPT_NUM_OPTIONS
+	/* must come last: */
+	OPT_NUM_OPTIONS
 };
 
 /*--------------------------------------------------------------------------*/
@@ -273,20 +273,20 @@ enum Teco_Option
  */
 struct scanners_supported
 {
-  int scsi_type;
-  char scsi_teco_name[12];	/* real name of the scanner */
-  enum
-  {
-    TECO_VM3552
-  }
-  tecoref;
-  char *real_vendor;		/* brand on the box */
-  char *real_product;		/* name on the box */
+	int scsi_type;
+	char scsi_teco_name[12];	/* real name of the scanner */
+	enum
+	{
+		TECO_VM3552
+	}
+	tecoref;
+	char *real_vendor;	/* brand on the box */
+	char *real_product;	/* name on the box */
 
-  SANE_Range res_range;
+	SANE_Range res_range;
 
-  int x_resolution_max;		/* maximum X dpi */
-  int y_resolution_max;		/* maximum Y dpi */
+	int x_resolution_max;	/* maximum X dpi */
+	int y_resolution_max;	/* maximum Y dpi */
 };
 
 /*--------------------------------------------------------------------------*/
@@ -300,93 +300,93 @@ struct scanners_supported
 /* Define a scanner occurence. */
 typedef struct Teco_Scanner
 {
-  struct Teco_Scanner *next;
-  SANE_Device sane;
+	struct Teco_Scanner *next;
+	SANE_Device sane;
 
-  char *devicename;
-  int sfd;			/* device handle */
+	char *devicename;
+	int sfd;		/* device handle */
 
-  /* Infos from inquiry. */
-  char scsi_type;
-  char scsi_vendor[9];
-  char scsi_product[17];
-  char scsi_version[5];
-  char scsi_teco_name[12];	/* real name of the scanner */
+	/* Infos from inquiry. */
+	char scsi_type;
+	char scsi_vendor[9];
+	char scsi_product[17];
+	char scsi_version[5];
+	char scsi_teco_name[12];	/* real name of the scanner */
 
-  /* SCSI handling */
-  size_t buffer_size;		/* size of the buffer */
-  SANE_Byte *buffer;		/* for SCSI transfer. */
+	/* SCSI handling */
+	size_t buffer_size;	/* size of the buffer */
+	SANE_Byte *buffer;	/* for SCSI transfer. */
 
-  /* Scanner infos. */
-  const struct scanners_supported *def;	/* default options for that scanner */
+	/* Scanner infos. */
+	const struct scanners_supported *def;	/* default options for that scanner */
 
-  /* Scanning handling. */
-  int scanning;			/* TRUE if a scan is running. */
-  int x_resolution;		/* X resolution in DPI */
-  int y_resolution;		/* Y resolution in DPI */
-  int x_tl;			/* X top left */
-  int y_tl;			/* Y top left */
-  int x_br;			/* X bottom right */
-  int y_br;			/* Y bottom right */
-  int width;			/* width of the scan area in mm */
-  int length;			/* length of the scan area in mm */
+	/* Scanning handling. */
+	int scanning;		/* TRUE if a scan is running. */
+	int x_resolution;	/* X resolution in DPI */
+	int y_resolution;	/* Y resolution in DPI */
+	int x_tl;		/* X top left */
+	int y_tl;		/* Y top left */
+	int x_br;		/* X bottom right */
+	int y_br;		/* Y bottom right */
+	int width;		/* width of the scan area in mm */
+	int length;		/* length of the scan area in mm */
 
-  enum
-  {
-    TECO_BW,
-    TECO_GRAYSCALE,
-    TECO_COLOR
-  }
-  scan_mode;
+	enum
+	{
+		TECO_BW,
+		TECO_GRAYSCALE,
+		TECO_COLOR
+	}
+	scan_mode;
 
-  int depth;			/* depth per color */
+	int depth;		/* depth per color */
 
-  size_t bytes_left;		/* number of bytes left to give to the backend */
+	size_t bytes_left;	/* number of bytes left to give to the backend */
 
-  size_t real_bytes_left;	/* number of bytes left the scanner will return. */
-  size_t bytes_per_raster;	/* bytes per raster. In B&W and Gray,
-				   that the same as
-				   param.bytes_per_lines. In Color,
-				   it's a third.
-				 */
+	size_t real_bytes_left;	/* number of bytes left the scanner will return. */
+	size_t bytes_per_raster;	/* bytes per raster. In B&W and Gray,
+					   that the same as
+					   param.bytes_per_lines. In Color,
+					   it's a third.
+					 */
 
-  SANE_Byte *image;		/* keep the raw image here */
-  size_t image_size;		/* allocated size of image */
-  size_t image_begin;		/* first significant byte in image */
-  size_t image_end;		/* first free byte in image */
+	SANE_Byte *image;	/* keep the raw image here */
+	size_t image_size;	/* allocated size of image */
+	size_t image_begin;	/* first significant byte in image */
+	size_t image_end;	/* first free byte in image */
 
-  int does_color_shift;		/* in color mode only, do we need to
-				   * apply the color shifting algorithm?
-				   * It is necessary for the VM3552
-				   * without a RAM extension. With the
-				   * RAM extension, the scanner does
-				   * it. */
+	int does_color_shift;	/* in color mode only, do we need to
+				 * apply the color shifting algorithm?
+				 * It is necessary for the VM3552
+				 * without a RAM extension. With the
+				 * RAM extension, the scanner does
+				 * it. */
 
-  int color_shift;		/* for color scan: number of lines to
-				   * shift the colors. The higher the
-				   * resolution, the higher this
-				   * number. */
+	int color_shift;	/* for color scan: number of lines to
+				 * shift the colors. The higher the
+				 * resolution, the higher this
+				 * number. */
 
-  int raster_size;		/* size of a raster */
-  int raster_num;		/* for color scan, current raster read */
-  int raster_real;		/* real number of raster in the
-				   * scan. This is necessary since I
-				   * don't know how to reliably compute
-				   * the number of lines */
-  int raster_ahead;		/* max size of the incomplete lines */
-  int line;			/* current line of the scan */
+	int raster_size;	/* size of a raster */
+	int raster_num;		/* for color scan, current raster read */
+	int raster_real;	/* real number of raster in the
+				 * scan. This is necessary since I
+				 * don't know how to reliably compute
+				 * the number of lines */
+	int raster_ahead;	/* max size of the incomplete lines */
+	int line;		/* current line of the scan */
 
-  SANE_Parameters params;
+	SANE_Parameters params;
 
-  /* Options */
-  SANE_Option_Descriptor opt[OPT_NUM_OPTIONS];
-  Option_Value val[OPT_NUM_OPTIONS];
+	/* Options */
+	SANE_Option_Descriptor opt[OPT_NUM_OPTIONS];
+	Option_Value val[OPT_NUM_OPTIONS];
 
-  /* Gamma table. 1 array per colour. */
-  SANE_Word gamma_GRAY[GAMMA_LENGTH];
-  SANE_Word gamma_R[GAMMA_LENGTH];
-  SANE_Word gamma_G[GAMMA_LENGTH];
-  SANE_Word gamma_B[GAMMA_LENGTH];
+	/* Gamma table. 1 array per colour. */
+	SANE_Word gamma_GRAY[GAMMA_LENGTH];
+	SANE_Word gamma_R[GAMMA_LENGTH];
+	SANE_Word gamma_G[GAMMA_LENGTH];
+	SANE_Word gamma_B[GAMMA_LENGTH];
 }
 Teco_Scanner;
 

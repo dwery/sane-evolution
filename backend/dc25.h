@@ -97,7 +97,7 @@
 #include <string.h>
 
 #ifndef TRUE
-#define TRUE	(1==1)  
+#define TRUE	(1==1)
 #endif
 
 #ifndef FALSE
@@ -108,19 +108,21 @@
 #define NULL	0L
 #endif
 
-typedef struct dc20_info_s {
+typedef struct dc20_info_s
+{
 	unsigned char model;
 	unsigned char ver_major;
 	unsigned char ver_minor;
 	int pic_taken;
 	int pic_left;
-	struct {
+	struct
+	{
 		unsigned int low_res:1;
 		unsigned int low_batt:1;
 	} flags;
 } Dc20Info, *Dc20InfoPtr;
 
-static Dc20Info *get_info (int);
+static Dc20Info *get_info(int);
 
 #define INIT_PCK	{0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1A}
 /*                               ^^^^^^^^^^
@@ -147,9 +149,10 @@ static Dc20Info *get_info (int);
  *                                     Picture number
  */
 
-struct pkt_speed {
-	speed_t          baud;
-	unsigned char    pkt_code[2];
+struct pkt_speed
+{
+	speed_t baud;
+	unsigned char pkt_code[2];
 };
 
 #define DEFAULT_TTY_BAUD B38400
@@ -204,11 +207,12 @@ struct pkt_speed {
  *	Pixmap structure
  */
 
-struct pixmap {
-	int				 width;
-	int				 height;
-	int				 components;
-	unsigned char	*planes;
+struct pixmap
+{
+	int width;
+	int height;
+	int components;
+	unsigned char *planes;
 };
 
 #ifdef __GNUC__
@@ -243,34 +247,33 @@ struct pixmap {
  *	External definitions
  */
 
-extern char		*__progname;		/* Defined in /usr/lib/crt0.o */
+extern char *__progname;	/* Defined in /usr/lib/crt0.o */
 
 
 
 #include <sys/types.h>
 
-FILE * sanei_config_open (const char *filename);
+FILE *sanei_config_open(const char *filename);
 
-char *sanei_config_read (char *str, int n, FILE * stream);
+char *sanei_config_read(char *str, int n, FILE * stream);
 
-static int init_dc20 (char *, speed_t);
+static int init_dc20(char *, speed_t);
 
-static void close_dc20 (int);
+static void close_dc20(int);
 
-static int read_data (int fd, unsigned char *buf, int sz);
+static int read_data(int fd, unsigned char *buf, int sz);
 
-static int end_of_data (int fd);
+static int end_of_data(int fd);
 
-static int set_pixel_rgb (struct pixmap *, int, int, unsigned char, unsigned char, unsigned char); 
+static int set_pixel_rgb(struct pixmap *, int, int, unsigned char,
+			 unsigned char, unsigned char);
 
-static struct pixmap *alloc_pixmap (int x, int y, int d);
+static struct pixmap *alloc_pixmap(int x, int y, int d);
 
-static void free_pixmap (struct pixmap *p);
+static void free_pixmap(struct pixmap *p);
 
-static int zoom_x (struct pixmap *source, struct pixmap *dest);
+static int zoom_x(struct pixmap *source, struct pixmap *dest);
 
-static int zoom_y (struct pixmap *source, struct pixmap *dest);
+static int zoom_y(struct pixmap *source, struct pixmap *dest);
 
-static int comet_to_pixmap (unsigned char *, struct pixmap *);
-
-
+static int comet_to_pixmap(unsigned char *, struct pixmap *);

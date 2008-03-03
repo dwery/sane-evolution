@@ -45,7 +45,7 @@
 #ifndef mustek_scsi_pp_h
 #define mustek_scsi_pp_h
 
-static int mustek_scsi_pp_get_time (void);
+static int mustek_scsi_pp_get_time(void);
 
 /**
  * Open the connection to a Mustek SCSI-over-pp device.
@@ -59,7 +59,7 @@ static int mustek_scsi_pp_get_time (void);
  * - SANE_STATUS_INVAL - if the port address can't be interpreted
  * - SANE_STATUS_IO_ERROR - if the device file for a port couldn't be accessed
  */
-static SANE_Status mustek_scsi_pp_open (const char *dev, int *fd);
+static SANE_Status mustek_scsi_pp_open(const char *dev, int *fd);
 
 /**
  * Close the connection to a Mustek SCSI-over-PP device.
@@ -67,12 +67,12 @@ static SANE_Status mustek_scsi_pp_open (const char *dev, int *fd);
  * @param fd  Information about port address and I/O method.
  *
  */
-static void mustek_scsi_pp_close (int fd);
+static void mustek_scsi_pp_close(int fd);
 
 /**
  * Exit Mustek SCSI-over-PP.
  */
-static void mustek_scsi_pp_exit (void);
+static void mustek_scsi_pp_exit(void);
 
 /**
  * Find out if the device is ready to accept new commands.
@@ -83,7 +83,7 @@ static void mustek_scsi_pp_exit (void);
  * - SANE_STATUS_GOOD - if the device is ready
  * - SANE_STATUS_DEVICE_BUSY if the device is still busy (try again later)
  */
-static SANE_Status mustek_scsi_pp_test_ready (int fd);
+static SANE_Status mustek_scsi_pp_test_ready(int fd);
 
 /**
  * Send a command to the Mustek SCSI-over-pp device.
@@ -99,8 +99,9 @@ static SANE_Status mustek_scsi_pp_test_ready (int fd);
  * - SANE_STATUS_IO_ERROR - if an error occured during the dialog with the
  *   device
  */
-static SANE_Status mustek_scsi_pp_cmd (int fd, const void *src, size_t src_size,
-				       void *dst, size_t * dst_size);
+static SANE_Status mustek_scsi_pp_cmd(int fd, const void *src,
+				      size_t src_size, void *dst,
+				      size_t * dst_size);
 
 /**
  * Read scanned image data.
@@ -116,8 +117,8 @@ static SANE_Status mustek_scsi_pp_cmd (int fd, const void *src, size_t src_size,
  * - SANE_STATUS_IO_ERROR - if an error occured during the dialog with the 
  *   device
  */
-static SANE_Status mustek_scsi_pp_rdata (int fd, int planes,
-					 SANE_Byte * buf, int lines, int bpl);
+static SANE_Status mustek_scsi_pp_rdata(int fd, int planes,
+					SANE_Byte * buf, int lines, int bpl);
 
 
 #endif /* mustek_scsi_pp_h */

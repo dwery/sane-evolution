@@ -120,20 +120,20 @@
 
 /** the default image size
  */
-#define _DEFAULT_TLX          0     /* 0..216 mm */
-#define _DEFAULT_TLY          0     /* 0..297 mm */
-#define _DEFAULT_BRX        103     /* 0..216 mm */
-#define _DEFAULT_BRY         76.21  /* 0..297 mm */
+#define _DEFAULT_TLX          0	/* 0..216 mm */
+#define _DEFAULT_TLY          0	/* 0..297 mm */
+#define _DEFAULT_BRX        103	/* 0..216 mm */
+#define _DEFAULT_BRY         76.21	/* 0..297 mm */
 
-#define _DEFAULT_TP_TLX      3.5    /* 0..42.3 mm */
-#define _DEFAULT_TP_TLY     10.5    /* 0..43.1 mm */
-#define _DEFAULT_TP_BRX     38.5    /* 0..42.3 mm */
-#define _DEFAULT_TP_BRY     33.5    /* 0..43.1 mm */
+#define _DEFAULT_TP_TLX      3.5	/* 0..42.3 mm */
+#define _DEFAULT_TP_TLY     10.5	/* 0..43.1 mm */
+#define _DEFAULT_TP_BRX     38.5	/* 0..42.3 mm */
+#define _DEFAULT_TP_BRY     33.5	/* 0..43.1 mm */
 
-#define _DEFAULT_NEG_TLX     1.5    /* 0..38.9 mm */
-#define _DEFAULT_NEG_TLY     1.5    /* 0..29.6 mm */
-#define _DEFAULT_NEG_BRX    37.5    /* 0..38.9 mm */
-#define _DEFAULT_NEG_BRY    25.5    /* 0..29.6 mm */
+#define _DEFAULT_NEG_TLX     1.5	/* 0..38.9 mm */
+#define _DEFAULT_NEG_TLY     1.5	/* 0..29.6 mm */
+#define _DEFAULT_NEG_BRX    37.5	/* 0..38.9 mm */
+#define _DEFAULT_NEG_BRY    25.5	/* 0..29.6 mm */
 
 /** image sizes for normal, transparent and negative modes
  */
@@ -164,8 +164,8 @@
 
 /**
  */
-#define SFLAG_ADF   0x00000010  /* Automatic document feeder    */
-#define SFLAG_TPA   0x00000080  /* has transparency adapter     */
+#define SFLAG_ADF   0x00000010	/* Automatic document feeder    */
+#define SFLAG_TPA   0x00000080	/* has transparency adapter     */
 
 /**
  */
@@ -201,7 +201,8 @@
 #define _ENABLE(option)  s->opt[option].cap &= ~SANE_CAP_INACTIVE
 #define _DISABLE(option) s->opt[option].cap |=  SANE_CAP_INACTIVE
 
-enum {
+enum
+{
 	OPT_NUM_OPTS = 0,
 	OPT_MODE_GROUP,
 	OPT_MODE,
@@ -253,30 +254,32 @@ enum {
 
 /**
  */
-typedef struct {
+typedef struct
+{
 	int x;
 	int y;
 } OffsDef, *pOffsDef;
 
 /** for adjusting the scanner settings
  */
-typedef struct {
-	int     mov;                /**< model override */
-	int     lampOff;
-	int     lampOffOnEnd;
-	int     warmup;
-	int     enableTpa;
-	int     skipCalibration;  /**< skip entire calibration */
-	int     skipFine;
-	int     skipFineWhite;
-	int     skipDarkStrip;
-	int     incDarkTgt;
-	int     disableSpeedup;
-	int     invertNegatives;
-	int     cacheCalData;
-	int     altCalibrate;  /* force use of the alternate canoscan autocal;
-	                          perhaps other Canon scanners require the
-	                          alternate autocalibration as well */
+typedef struct
+{
+	int mov;		    /**< model override */
+	int lampOff;
+	int lampOffOnEnd;
+	int warmup;
+	int enableTpa;
+	int skipCalibration;	  /**< skip entire calibration */
+	int skipFine;
+	int skipFineWhite;
+	int skipDarkStrip;
+	int incDarkTgt;
+	int disableSpeedup;
+	int invertNegatives;
+	int cacheCalData;
+	int altCalibrate;	/* force use of the alternate canoscan autocal;
+				   perhaps other Canon scanners require the
+				   alternate autocalibration as well */
 	/* AFE adjustemnts, gain and offset */
 	int rgain;
 	int ggain;
@@ -284,88 +287,93 @@ typedef struct {
 	int rofs;
 	int gofs;
 	int bofs;
-	
-	int rlampoff;   /* for red lamp off setting (CIS-scanner)   */
-	int glampoff;   /* for green lamp off setting (CIS-scanner) */
-	int blampoff;   /* for blue lamp off setting (CIS-scanner)  */
 
-	OffsDef pos;    /* for adjusting normal scan area       */
-	OffsDef tpa;    /* for adjusting transparency scan area */
-	OffsDef neg;    /* for adjusting negative scan area     */
+	int rlampoff;		/* for red lamp off setting (CIS-scanner)   */
+	int glampoff;		/* for green lamp off setting (CIS-scanner) */
+	int blampoff;		/* for blue lamp off setting (CIS-scanner)  */
 
-	int     posShadingY;
-	int     tpaShadingY;
-	int     negShadingY;
+	OffsDef pos;		/* for adjusting normal scan area       */
+	OffsDef tpa;		/* for adjusting transparency scan area */
+	OffsDef neg;		/* for adjusting negative scan area     */
+
+	int posShadingY;
+	int tpaShadingY;
+	int negShadingY;
 
 	/* for adjusting the default gamma settings */
-	double  rgamma;
-	double  ggamma;
-	double  bgamma;
+	double rgamma;
+	double ggamma;
+	double bgamma;
 
-	double  graygamma;
+	double graygamma;
 
 } AdjDef;
 
-typedef struct {
+typedef struct
+{
 	unsigned short x;
 	unsigned short y;
 	unsigned short cx;
 	unsigned short cy;
 } CropRect;
 
-typedef struct image {
-	unsigned long  dwFlag;
-	CropRect       crArea;
-	XY             xyDpi;
+typedef struct image
+{
+	unsigned long dwFlag;
+	CropRect crArea;
+	XY xyDpi;
 	unsigned short wDataType;
 } ImgDef;
 
-typedef struct {
+typedef struct
+{
 	unsigned long dwPixelsPerLine;
 	unsigned long dwBytesPerLine;
 	unsigned long dwLinesPerArea;
-	ImgDef        ImgDef;
+	ImgDef ImgDef;
 } CropInfo;
 
-typedef struct {
+typedef struct
+{
 	ImgDef ImgDef;
-	short  siBrightness;
-	short  siContrast;
+	short siBrightness;
+	short siContrast;
 } ScanInfo;
 
-typedef struct {
-	unsigned long  dwFlag;
+typedef struct
+{
+	unsigned long dwFlag;
 	unsigned short wMaxExtentX; /**< scanarea width  */
 	unsigned short wMaxExtentY; /**< scanarea height */
 } ScannerCaps;
 
 typedef struct Plustek_Device
 {
-	SANE_Int               initialized;      /* device already initialized?  */
-	struct Plustek_Device *next;             /* pointer to next dev in list  */
-	int                    fd;               /* device handle                */
-	char                  *name;             /* (to avoid compiler warnings!)*/
-	char                  *calFile;          /* for saving calibration data  */
-	unsigned long          transferRate;     /* detected USB-Speed in Bytes/s*/
-	SANE_Device            sane;             /* info struct                  */
-	SANE_Int               max_x;            /* max XY-extension of the scan-*/
-	SANE_Int               max_y;            /* area                         */
-	SANE_Range             dpi_range;        /* resolution range             */
-	SANE_Range             x_range;          /* x-range of the scan-area     */
-	SANE_Range             y_range;          /* y-range of the scan-area     */
-	SANE_Int              *res_list;         /* to hold the available phys.  */
-	SANE_Int               res_list_size;    /* resolution values            */
-	ScannerCaps            caps;             /* caps reported by the driver  */
-	AdjDef                 adj;              /* for driver adjustment        */
+	SANE_Int initialized;	/* device already initialized?  */
+	struct Plustek_Device *next;	/* pointer to next dev in list  */
+	int fd;			/* device handle                */
+	char *name;		/* (to avoid compiler warnings!) */
+	char *calFile;		/* for saving calibration data  */
+	unsigned long transferRate;	/* detected USB-Speed in Bytes/s */
+	SANE_Device sane;	/* info struct                  */
+	SANE_Int max_x;		/* max XY-extension of the scan- */
+	SANE_Int max_y;		/* area                         */
+	SANE_Range dpi_range;	/* resolution range             */
+	SANE_Range x_range;	/* x-range of the scan-area     */
+	SANE_Range y_range;	/* y-range of the scan-area     */
+	SANE_Int *res_list;	/* to hold the available phys.  */
+	SANE_Int res_list_size;	/* resolution values            */
+	ScannerCaps caps;	/* caps reported by the driver  */
+	AdjDef adj;		/* for driver adjustment        */
 
 	/**************************** USB-stuff **********************************/
-	char                   usbId[_MAX_ID_LEN];/* to keep Vendor and product  */
-	                                         /* ID string (from conf) file   */
-	struct ScanDef         scanning;         /* here we hold all stuff for   */
-	                                         /* the USB-scanner              */
-	struct DeviceDef       usbDev;
+	char usbId[_MAX_ID_LEN];	/* to keep Vendor and product  */
+	/* ID string (from conf) file   */
+	struct ScanDef scanning;	/* here we hold all stuff for   */
+	/* the USB-scanner              */
+	struct DeviceDef usbDev;
 #ifdef HAVE_SETITIMER
-	struct itimerval       saveSettings;     /* for lamp timer               */
+	struct itimerval saveSettings;	/* for lamp timer               */
 #endif
 
 } Plustek_Device;
@@ -374,8 +382,8 @@ typedef struct Plustek_Device
 /* for compatibility with older versions */
 typedef union
 {
-	SANE_Word   w;
-	SANE_Word  *wa;
+	SANE_Word w;
+	SANE_Word *wa;
 	SANE_String s;
 } Option_Value;
 #endif
@@ -383,24 +391,24 @@ typedef union
 typedef struct Plustek_Scanner
 {
 	struct Plustek_Scanner *next;
-	pid_t                   reader_pid;     /* process id of reader          */
-	SANE_Status             exit_code;      /* status of the reader process  */
-	int                     r_pipe;         /* pipe to reader process        */
-	int                     w_pipe;         /* pipe from reader process      */
-	unsigned long           bytes_read;     /* number of bytes currently read*/
-	Plustek_Device         *hw;             /* pointer to current device     */
-	Option_Value            val[NUM_OPTIONS];
-	SANE_Byte              *buf;            /* the image buffer              */
-	SANE_Bool               scanning;       /* TRUE during scan-process      */
-	SANE_Bool               calibrating;    /* TRUE during calibration       */
-	SANE_Bool               ipc_read_done;  /* TRUE after ipc has been red   */
-	SANE_Parameters         params;         /* for keeping the parameter     */
+	pid_t reader_pid;	/* process id of reader          */
+	SANE_Status exit_code;	/* status of the reader process  */
+	int r_pipe;		/* pipe to reader process        */
+	int w_pipe;		/* pipe from reader process      */
+	unsigned long bytes_read;	/* number of bytes currently read */
+	Plustek_Device *hw;	/* pointer to current device     */
+	Option_Value val[NUM_OPTIONS];
+	SANE_Byte *buf;		/* the image buffer              */
+	SANE_Bool scanning;	/* TRUE during scan-process      */
+	SANE_Bool calibrating;	/* TRUE during calibration       */
+	SANE_Bool ipc_read_done;	/* TRUE after ipc has been red   */
+	SANE_Parameters params;	/* for keeping the parameter     */
 
 	/************************** gamma tables *********************************/
 
-	SANE_Word   gamma_table[4][4096];
-	SANE_Range  gamma_range;
-	int         gamma_length;
+	SANE_Word gamma_table[4][4096];
+	SANE_Range gamma_range;
+	int gamma_length;
 
 	SANE_Option_Descriptor opt[NUM_OPTIONS];
 
@@ -408,25 +416,27 @@ typedef struct Plustek_Scanner
 
 /** for collecting configuration info...
  */
-typedef struct {
-	
-	char     devName[PATH_MAX];
-	char     usbId[_MAX_ID_LEN];
+typedef struct
+{
+
+	char devName[PATH_MAX];
+	char usbId[_MAX_ID_LEN];
 
 	/* contains the stuff to adjust... */
-	AdjDef   adj;
+	AdjDef adj;
 
 } CnfDef;
 
 /** for supported device list
  */
-typedef struct DevList {
-	SANE_Word       vendor_id;
-	SANE_Word       device_id;
-	SANE_Bool       attached;
-	SANE_Char      *dev_name;
+typedef struct DevList
+{
+	SANE_Word vendor_id;
+	SANE_Word device_id;
+	SANE_Bool attached;
+	SANE_Char *dev_name;
 	struct DevList *next;
 } DevList;
-#endif	/* guard __PLUSTEK_H__ */
+#endif /* guard __PLUSTEK_H__ */
 
 /* END PLUSTEK.H.............................................................*/

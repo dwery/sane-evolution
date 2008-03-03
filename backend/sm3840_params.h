@@ -46,29 +46,29 @@
 #define _SM3840_Params
 typedef struct SM3840_Params
 {
-  int gray;			/* 0, 1 */
-  int halftone;			/* 0, 1 (also set gray=1) */
-  int lineart;			/* 0, 1 (also set gray=1) */
+	int gray;		/* 0, 1 */
+	int halftone;		/* 0, 1 (also set gray=1) */
+	int lineart;		/* 0, 1 (also set gray=1) */
 
-  int dpi;			/* 150, 300, 600, 1200 */
-  int bpp;			/* 8, 16 */
+	int dpi;		/* 150, 300, 600, 1200 */
+	int bpp;		/* 8, 16 */
 
-  double gain;			/* 0.01...9.9 */
-  int offset;			/* 0..4095 */
+	double gain;		/* 0.01...9.9 */
+	int offset;		/* 0..4095 */
 
-  int lamp;			/* 1..15 mins */
+	int lamp;		/* 1..15 mins */
 
-  int threshold;		/* 0...255 luminosity */
+	int threshold;		/* 0...255 luminosity */
 
-  /* Input to configure(), in inches */
-  double top, left;
-  double width, height;
+	/* Input to configure(), in inches */
+	double top, left;
+	double width, height;
 
-  /* Output from configure(), in pixels */
-  int topline;
-  int scanlines;
-  int leftpix;
-  int scanpix;
-  int linelen;			/* bytes per line */
+	/* Output from configure(), in pixels */
+	int topline;
+	int scanlines;
+	int leftpix;
+	int scanpix;
+	int linelen;		/* bytes per line */
 } SM3840_Params;
 #endif

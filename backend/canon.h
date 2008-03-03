@@ -110,10 +110,10 @@
 
 typedef struct
 {
-  SANE_Int Status;		/* Auto Document Feeder Unit Status */
-  SANE_Int Problem;		/* ADF Problems list */
-  SANE_Int Priority;		/* ADF Priority setting */
-  SANE_Int Feeder;		/* ADF Feeder setting */
+	SANE_Int Status;	/* Auto Document Feeder Unit Status */
+	SANE_Int Problem;	/* ADF Problems list */
+	SANE_Int Priority;	/* ADF Priority setting */
+	SANE_Int Feeder;	/* ADF Feeder setting */
 
 }
 CANON_ADF;
@@ -121,11 +121,11 @@ CANON_ADF;
 
 typedef struct
 {
-  SANE_Int Status;		/* Transparency Unit Status */
-  SANE_Bool PosNeg;		/* Negative/Positive Film */
-  SANE_Int Transparency;	/* TPU Transparency */
-  SANE_Int ControlMode;		/* TPU Density Control Mode */
-  SANE_Int FilmType;		/* TPU Film Type */
+	SANE_Int Status;	/* Transparency Unit Status */
+	SANE_Bool PosNeg;	/* Negative/Positive Film */
+	SANE_Int Transparency;	/* TPU Transparency */
+	SANE_Int ControlMode;	/* TPU Density Control Mode */
+	SANE_Int FilmType;	/* TPU Film Type */
 
 }
 CANON_TPU;
@@ -133,272 +133,272 @@ CANON_TPU;
 
 typedef enum
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_NEGATIVE,			/* Reverse image format */
-  OPT_NEGATIVE_TYPE,		/* Negative film type */
-  OPT_SCANNING_SPEED,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_NEGATIVE,		/* Reverse image format */
+	OPT_NEGATIVE_TYPE,	/* Negative film type */
+	OPT_SCANNING_SPEED,
 
-  OPT_RESOLUTION_GROUP,
-  OPT_RESOLUTION_BIND,
-  OPT_HW_RESOLUTION_ONLY,
-  OPT_X_RESOLUTION,
-  OPT_Y_RESOLUTION,
+	OPT_RESOLUTION_GROUP,
+	OPT_RESOLUTION_BIND,
+	OPT_HW_RESOLUTION_ONLY,
+	OPT_X_RESOLUTION,
+	OPT_Y_RESOLUTION,
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_BRIGHTNESS,
-  OPT_CONTRAST,
-  OPT_THRESHOLD,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_THRESHOLD,
 
-  OPT_MIRROR,
+	OPT_MIRROR,
 
-  OPT_CUSTOM_GAMMA,		/* use custom gamma tables? */
-  OPT_CUSTOM_GAMMA_BIND,
-  /* The gamma vectors MUST appear in the order gray, red, green, blue. */
-  OPT_GAMMA_VECTOR,
-  OPT_GAMMA_VECTOR_R,
-  OPT_GAMMA_VECTOR_G,
-  OPT_GAMMA_VECTOR_B,
-  OPT_AE,			/* Auto Exposure */
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables? */
+	OPT_CUSTOM_GAMMA_BIND,
+	/* The gamma vectors MUST appear in the order gray, red, green, blue. */
+	OPT_GAMMA_VECTOR,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
+	OPT_AE,			/* Auto Exposure */
 
-  OPT_CALIBRATION_GROUP,	/* Calibration for FB620S */
-  OPT_CALIBRATION_NOW,		/* Execute Calibration now for FB620S */
-  OPT_SCANNER_SELF_DIAGNOSTIC,	/* Self diagnostic for FB620S */
-  OPT_RESET_SCANNER,		/* Reset scanner for FB620S */
+	OPT_CALIBRATION_GROUP,	/* Calibration for FB620S */
+	OPT_CALIBRATION_NOW,	/* Execute Calibration now for FB620S */
+	OPT_SCANNER_SELF_DIAGNOSTIC,	/* Self diagnostic for FB620S */
+	OPT_RESET_SCANNER,	/* Reset scanner for FB620S */
 
-  OPT_EJECT_GROUP,
-  OPT_EJECT_AFTERSCAN,
-  OPT_EJECT_BEFOREEXIT,
-  OPT_EJECT_NOW,
+	OPT_EJECT_GROUP,
+	OPT_EJECT_AFTERSCAN,
+	OPT_EJECT_BEFOREEXIT,
+	OPT_EJECT_NOW,
 
-  OPT_FOCUS_GROUP,
-  OPT_AF,			/* Auto Focus */
-  OPT_AF_ONCE,			/* Auto Focus only once between ejects */
-  OPT_FOCUS,			/* Manual focus position */
+	OPT_FOCUS_GROUP,
+	OPT_AF,			/* Auto Focus */
+	OPT_AF_ONCE,		/* Auto Focus only once between ejects */
+	OPT_FOCUS,		/* Manual focus position */
 
-  OPT_MARGINS_GROUP,		/* scan margins */
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_MARGINS_GROUP,	/* scan margins */
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_COLORS_GROUP,
-  OPT_HNEGATIVE,		/* Reverse image format */
-  OPT_BIND_HILO,		/* Same values vor highlight and shadow
+	OPT_COLORS_GROUP,
+	OPT_HNEGATIVE,		/* Reverse image format */
+	OPT_BIND_HILO,		/* Same values vor highlight and shadow
 				   points for red, green, blue */
-  OPT_HILITE_R,			/* highlight point for red   */
-  OPT_SHADOW_R,			/* shadow    point for red   */
-  OPT_HILITE_G,			/* highlight point for green */
-  OPT_SHADOW_G,			/* shadow    point for green */
-  OPT_HILITE_B,			/* highlight point for blue  */
-  OPT_SHADOW_B,			/* shadow    point for blue  */
+	OPT_HILITE_R,		/* highlight point for red   */
+	OPT_SHADOW_R,		/* shadow    point for red   */
+	OPT_HILITE_G,		/* highlight point for green */
+	OPT_SHADOW_G,		/* shadow    point for green */
+	OPT_HILITE_B,		/* highlight point for blue  */
+	OPT_SHADOW_B,		/* shadow    point for blue  */
 
-  OPT_ADF_GROUP,		/* to allow display of options. */
-  OPT_FLATBED_ONLY,		/* in case you have a sheetfeeder
+	OPT_ADF_GROUP,		/* to allow display of options. */
+	OPT_FLATBED_ONLY,	/* in case you have a sheetfeeder
 				   but don't want to use it. */
 
-  OPT_TPU_GROUP,
-  OPT_TPU_ON,
-  OPT_TPU_PN,
-  OPT_TPU_DCM,
-  OPT_TPU_TRANSPARENCY,
-  OPT_TPU_FILMTYPE,
+	OPT_TPU_GROUP,
+	OPT_TPU_ON,
+	OPT_TPU_PN,
+	OPT_TPU_DCM,
+	OPT_TPU_TRANSPARENCY,
+	OPT_TPU_FILMTYPE,
 
-  OPT_PREVIEW,
+	OPT_PREVIEW,
 
-  /* must come last: */
-  NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 }
 CANON_Option;
 
 
 typedef struct CANON_Info
 {
-  int model;
+	int model;
 
-  SANE_Range xres_range;
-  SANE_Range yres_range;
-  SANE_Range x_range;
-  SANE_Range y_range;
-  SANE_Range brightness_range;
-  SANE_Range contrast_range;
-  SANE_Range threshold_range;
-  SANE_Range HiliteR_range;
-  SANE_Range ShadowR_range;
-  SANE_Range HiliteG_range;
-  SANE_Range ShadowG_range;
-  SANE_Range HiliteB_range;
-  SANE_Range ShadowB_range;
-  SANE_Range focus_range;
+	SANE_Range xres_range;
+	SANE_Range yres_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	SANE_Range brightness_range;
+	SANE_Range contrast_range;
+	SANE_Range threshold_range;
+	SANE_Range HiliteR_range;
+	SANE_Range ShadowR_range;
+	SANE_Range HiliteG_range;
+	SANE_Range ShadowG_range;
+	SANE_Range HiliteB_range;
+	SANE_Range ShadowB_range;
+	SANE_Range focus_range;
 
-  SANE_Range x_adf_range;
-  SANE_Range y_adf_range;
-  SANE_Int xres_default;
-  SANE_Int yres_default;
-  SANE_Int bmu;
-  SANE_Int mud;
-  SANE_Range TPU_Transparency_range;
-  SANE_Int TPU_Stat;
+	SANE_Range x_adf_range;
+	SANE_Range y_adf_range;
+	SANE_Int xres_default;
+	SANE_Int yres_default;
+	SANE_Int bmu;
+	SANE_Int mud;
+	SANE_Range TPU_Transparency_range;
+	SANE_Int TPU_Stat;
 
-  SANE_Bool can_focus;			/* has got focus control */
-  SANE_Bool can_autoexpose;		/* can do autoexposure by hardware */
-  SANE_Bool can_calibrate;		/* has got calibration control */
-  SANE_Bool can_eject;			/* can eject medium */
-  SANE_Bool can_mirror;			/* can mirror image by hardware */
-  SANE_Bool is_scsi2;			/* is an SCSI-2 device */
-  SANE_Bool is_filmscanner;
-  SANE_Bool has_fixed_resolutions;	/* only a finite number possible */
+	SANE_Bool can_focus;	/* has got focus control */
+	SANE_Bool can_autoexpose;	/* can do autoexposure by hardware */
+	SANE_Bool can_calibrate;	/* has got calibration control */
+	SANE_Bool can_eject;	/* can eject medium */
+	SANE_Bool can_mirror;	/* can mirror image by hardware */
+	SANE_Bool is_scsi2;	/* is an SCSI-2 device */
+	SANE_Bool is_filmscanner;
+	SANE_Bool has_fixed_resolutions;	/* only a finite number possible */
 }
 CANON_Info;
 
 typedef struct CANON_Device
 {
-  struct CANON_Device *next;
-  SANE_Device sane;
-  CANON_Info info;
-  CANON_ADF adf;
-  CANON_TPU tpu;
+	struct CANON_Device *next;
+	SANE_Device sane;
+	CANON_Info info;
+	CANON_ADF adf;
+	CANON_TPU tpu;
 }
 CANON_Device;
 
 typedef struct CANON_Scanner
 {
-  struct CANON_Scanner *next;
-  int fd;
-  CANON_Device *hw;
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
-  char *sense_str;		/* sense string */
-  SANE_Int gamma_table[4][256];
-  SANE_Parameters params;
-  SANE_Bool AF_NOW;		/* To keep track of when to do AF */
+	struct CANON_Scanner *next;
+	int fd;
+	CANON_Device *hw;
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	char *sense_str;	/* sense string */
+	SANE_Int gamma_table[4][256];
+	SANE_Parameters params;
+	SANE_Bool AF_NOW;	/* To keep track of when to do AF */
 
-  SANE_Int xres;
-  SANE_Int yres;
-  SANE_Int ulx;
-  SANE_Int uly;
-  SANE_Int width;
-  SANE_Int length;
-  SANE_Int brightness;
-  SANE_Int contrast;
-  SANE_Int threshold;
-  SANE_Int image_composition;
-  SANE_Int bpp;
-  SANE_Bool RIF;		/* Reverse Image Format */
-  SANE_Int negative_filmtype;
-  SANE_Int scanning_speed;
-  SANE_Bool GRC;		/* Gray Response Curve  */
-  SANE_Bool Mirror;
-  SANE_Bool AE;			/* Auto Exposure */
-  SANE_Int HiliteR;
-  SANE_Int ShadowR;
-  SANE_Int HiliteG;
-  SANE_Int ShadowG;
-  SANE_Int HiliteB;
-  SANE_Int ShadowB;
+	SANE_Int xres;
+	SANE_Int yres;
+	SANE_Int ulx;
+	SANE_Int uly;
+	SANE_Int width;
+	SANE_Int length;
+	SANE_Int brightness;
+	SANE_Int contrast;
+	SANE_Int threshold;
+	SANE_Int image_composition;
+	SANE_Int bpp;
+	SANE_Bool RIF;		/* Reverse Image Format */
+	SANE_Int negative_filmtype;
+	SANE_Int scanning_speed;
+	SANE_Bool GRC;		/* Gray Response Curve  */
+	SANE_Bool Mirror;
+	SANE_Bool AE;		/* Auto Exposure */
+	SANE_Int HiliteR;
+	SANE_Int ShadowR;
+	SANE_Int HiliteG;
+	SANE_Int ShadowG;
+	SANE_Int HiliteB;
+	SANE_Int ShadowB;
 
-  /* 990320, ss: array for fixed resolutions */
-  SANE_Word xres_word_list[16];
-  SANE_Word yres_word_list[16];
+	/* 990320, ss: array for fixed resolutions */
+	SANE_Word xres_word_list[16];
+	SANE_Word yres_word_list[16];
 
-  SANE_Byte *inbuffer;		/* modification for FB620S */
-  SANE_Byte *outbuffer;		/* modification for FB620S */
-  SANE_Int buf_used;		/* modification for FB620S */
-  SANE_Int buf_pos;		/* modification for FB620S */
-  time_t time0;			/* modification for FB620S */
-  time_t time1;			/* modification for FB620S */
-  int switch_preview;		/* modification for FB620S */
-  int reset_flag;		/* modification for FB620S */
+	SANE_Byte *inbuffer;	/* modification for FB620S */
+	SANE_Byte *outbuffer;	/* modification for FB620S */
+	SANE_Int buf_used;	/* modification for FB620S */
+	SANE_Int buf_pos;	/* modification for FB620S */
+	time_t time0;		/* modification for FB620S */
+	time_t time1;		/* modification for FB620S */
+	int switch_preview;	/* modification for FB620S */
+	int reset_flag;		/* modification for FB620S */
 
-  int tmpfile;		        /* modification for FB1200S */
+	int tmpfile;		/* modification for FB1200S */
 
-  size_t bytes_to_read;
-  int scanning;
+	size_t bytes_to_read;
+	int scanning;
 
-  u_char gamma_map[4][4096];	/* for FS2710S: */
-  int colour;			/* index to gamma_map */
-  int auxbuf_len;		/* size of auxiliary buffer */
-  u_char *auxbuf;
+	u_char gamma_map[4][4096];	/* for FS2710S: */
+	int colour;		/* index to gamma_map */
+	int auxbuf_len;		/* size of auxiliary buffer */
+	u_char *auxbuf;
 }
 CANON_Scanner;
 
 static char *option_name[] = {
-  "OPT_NUM_OPTS",
+	"OPT_NUM_OPTS",
 
-  "OPT_MODE_GROUP",
-  "OPT_MODE",
-  "OPT_NEGATIVE",
-  "OPT_NEGATIVE_TYPE",
-  "OPT_SCANNING_SPEED",
+	"OPT_MODE_GROUP",
+	"OPT_MODE",
+	"OPT_NEGATIVE",
+	"OPT_NEGATIVE_TYPE",
+	"OPT_SCANNING_SPEED",
 
-  "OPT_RESOLUTION_GROUP",
-  "OPT_RESOLUTION_BIND",
-  "OPT_HW_RESOLUTION_ONLY",
-  "OPT_X_RESOLUTION",
-  "OPT_Y_RESOLUTION",
+	"OPT_RESOLUTION_GROUP",
+	"OPT_RESOLUTION_BIND",
+	"OPT_HW_RESOLUTION_ONLY",
+	"OPT_X_RESOLUTION",
+	"OPT_Y_RESOLUTION",
 
-  "OPT_ENHANCEMENT_GROUP",
-  "OPT_BRIGHTNESS",
-  "OPT_CONTRAST",
-  "OPT_THRESHOLD",
+	"OPT_ENHANCEMENT_GROUP",
+	"OPT_BRIGHTNESS",
+	"OPT_CONTRAST",
+	"OPT_THRESHOLD",
 
-  "OPT_MIRROR",
+	"OPT_MIRROR",
 
-  "OPT_CUSTOM_GAMMA",
-  "OPT_CUSTOM_GAMMA_BIND",
-  "OPT_GAMMA_VECTOR",
-  "OPT_GAMMA_VECTOR_R",
-  "OPT_GAMMA_VECTOR_G",
-  "OPT_GAMMA_VECTOR_B",
-  "OPT_AE",
+	"OPT_CUSTOM_GAMMA",
+	"OPT_CUSTOM_GAMMA_BIND",
+	"OPT_GAMMA_VECTOR",
+	"OPT_GAMMA_VECTOR_R",
+	"OPT_GAMMA_VECTOR_G",
+	"OPT_GAMMA_VECTOR_B",
+	"OPT_AE",
 
-  "OPT_CALIBRATION_GROUP",
-  "OPT_CALIBRATION_NOW",
-  "OPT_SCANNER_SELF_DIAGNOSTIC",
-  "OPT_RESET_SCANNER",
+	"OPT_CALIBRATION_GROUP",
+	"OPT_CALIBRATION_NOW",
+	"OPT_SCANNER_SELF_DIAGNOSTIC",
+	"OPT_RESET_SCANNER",
 
-  "OPT_EJECT_GROUP",
-  "OPT_EJECT_AFTERSCAN",
-  "OPT_EJECT_BEFOREEXIT",
-  "OPT_EJECT_NOW",
+	"OPT_EJECT_GROUP",
+	"OPT_EJECT_AFTERSCAN",
+	"OPT_EJECT_BEFOREEXIT",
+	"OPT_EJECT_NOW",
 
-  "OPT_FOCUS_GROUP",
-  "OPT_AF",
-  "OPT_AF_ONCE",
-  "OPT_FOCUS",
+	"OPT_FOCUS_GROUP",
+	"OPT_AF",
+	"OPT_AF_ONCE",
+	"OPT_FOCUS",
 
-  "OPT_MARGINS_GROUP",
-  "OPT_TL_X",
-  "OPT_TL_Y",
-  "OPT_BR_X",
-  "OPT_BR_Y",
+	"OPT_MARGINS_GROUP",
+	"OPT_TL_X",
+	"OPT_TL_Y",
+	"OPT_BR_X",
+	"OPT_BR_Y",
 
-  "OPT_COLORS_GROUP",
-  "OPT_HNEGATIVE",
-  "OPT_BIND_HILO",
+	"OPT_COLORS_GROUP",
+	"OPT_HNEGATIVE",
+	"OPT_BIND_HILO",
 
-  "OPT_HILITE_R",
-  "OPT_SHADOW_R",
-  "OPT_HILITE_G",
-  "OPT_SHADOW_G",
-  "OPT_HILITE_B",
-  "OPT_SHADOW_B",
+	"OPT_HILITE_R",
+	"OPT_SHADOW_R",
+	"OPT_HILITE_G",
+	"OPT_SHADOW_G",
+	"OPT_HILITE_B",
+	"OPT_SHADOW_B",
 
-  "OPT_ADF_GROUP",
-  "OPT_FLATBED_ONLY",
+	"OPT_ADF_GROUP",
+	"OPT_FLATBED_ONLY",
 
-  "OPT_TPU_GROUP",
-  "OPT_TPU_ON",
-  "OPT_TPU_PN",
-  "OPT_TPU_DCM",
-  "OPT_TPU_TRANSPARENCY",
-  "OPT_TPU_FILMTYPE",
+	"OPT_TPU_GROUP",
+	"OPT_TPU_ON",
+	"OPT_TPU_PN",
+	"OPT_TPU_DCM",
+	"OPT_TPU_TRANSPARENCY",
+	"OPT_TPU_FILMTYPE",
 
-  "OPT_PREVIEW",
+	"OPT_PREVIEW",
 
-  "NUM_OPTIONS"
+	"NUM_OPTIONS"
 };
 
 

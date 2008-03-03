@@ -90,15 +90,15 @@
 
 struct CHANLIST
 {
-  char *name;
-  int freq;
+	char *name;
+	int freq;
 };
 
 struct CHANLISTS
 {
-  char *name;
-  struct CHANLIST *list;
-  int count;
+	char *name;
+	struct CHANLIST *list;
+	int count;
 };
 
 #define CHAN_COUNT(x) (sizeof(x)/sizeof(struct CHANLIST))

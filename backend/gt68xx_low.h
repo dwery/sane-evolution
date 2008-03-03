@@ -127,8 +127,8 @@ typedef struct GT68xx_Exposure_Parameters GT68xx_Exposure_Parameters;
 
 typedef enum GT68xx_Color_Order
 {
-  COLOR_ORDER_RGB,
-  COLOR_ORDER_BGR
+	COLOR_ORDER_RGB,
+	COLOR_ORDER_BGR
 }
 GT68xx_Color_Order;
 
@@ -143,19 +143,19 @@ GT68xx_Color_Order;
  */
 typedef enum GT68xx_Scan_Action
 {
-  SA_CALIBRATE,			/**< Calibration scan, no offsets, no LD
+	SA_CALIBRATE,		/**< Calibration scan, no offsets, no LD
 				   correction */
-  SA_CALIBRATE_ONE_LINE,	/**< Same, but only one line for auto AFE */
-  SA_SCAN			/**< Normal scan */
+	SA_CALIBRATE_ONE_LINE,	/**< Same, but only one line for auto AFE */
+	SA_SCAN			/**< Normal scan */
 }
 GT68xx_Scan_Action;
 
 /** USB device list entry. */
 struct GT68xx_USB_Device_Entry
 {
-  SANE_Word vendor;			/**< USB vendor identifier */
-  SANE_Word product;			/**< USB product identifier */
-  GT68xx_Model *model;			/**< Scanner model information */
+	SANE_Word vendor;		/**< USB vendor identifier */
+	SANE_Word product;		/**< USB product identifier */
+	GT68xx_Model *model;		/**< Scanner model information */
 };
 
 #define MAX_SCANNERS 50
@@ -175,21 +175,27 @@ static GT68xx_USB_Device_Entry gt68xx_usb_device_list[MAX_SCANNERS];
  */
 struct GT68xx_AFE_Parameters
 {
-  SANE_Byte r_offset;	/**< Red channel offset */
-  SANE_Byte r_pga;	/**< Red channel PGA gain */
-  SANE_Byte g_offset;	/**< Green channel offset (also used for mono) */
-  SANE_Byte g_pga;	/**< Green channel PGA gain (also used for mono) */
-  SANE_Byte b_offset;	/**< Blue channel offset */
-  SANE_Byte b_pga;	/**< Blue channel PGA gain */
+	SANE_Byte r_offset;
+			/**< Red channel offset */
+	SANE_Byte r_pga;/**< Red channel PGA gain */
+	SANE_Byte g_offset;
+			/**< Green channel offset (also used for mono) */
+	SANE_Byte g_pga;/**< Green channel PGA gain (also used for mono) */
+	SANE_Byte b_offset;
+			/**< Blue channel offset */
+	SANE_Byte b_pga;/**< Blue channel PGA gain */
 };
 
 /** GT68xx exposure time parameters.
  */
 struct GT68xx_Exposure_Parameters
 {
-  SANE_Int r_time;     /**< Red exposure time */
-  SANE_Int g_time;     /**< Red exposure time */
-  SANE_Int b_time;     /**< Red exposure time */
+	SANE_Int r_time;
+		       /**< Red exposure time */
+	SANE_Int g_time;
+		       /**< Red exposure time */
+	SANE_Int b_time;
+		       /**< Red exposure time */
 };
 
 
@@ -203,48 +209,48 @@ struct GT68xx_Exposure_Parameters
 struct GT68xx_Command_Set
 {
   /** @name Identification */
-  /*@{ */
+	/*@{ */
 
   /** Name of this command set */
-  SANE_String_Const name;
+	SANE_String_Const name;
 
-  /*@} */
+	/*@} */
 
   /** @name USB request parameters
    *
    * These values are used in the USB control transfer parameters (wValue and
    * wIndex fields, as in the USB specification).
    */
-  /*@{ */
+	/*@{ */
 
-  SANE_Byte request_type;		/**< Request type (should be 0x40, vendor spec) */
-  SANE_Byte request;			/**< Vendor spec resquest (0x01 or 0x04) */
-  SANE_Word memory_read_value;		/**< Memory read - wValue */
-  SANE_Word memory_write_value;		/**< Memory write - wValue */
-  SANE_Word send_cmd_value;		/**< Send normal command - wValue */
-  SANE_Word send_cmd_index;		/**< Send normal command - wIndex */
-  SANE_Word recv_res_value;		/**< Receive normal result - wValue */
-  SANE_Word recv_res_index;		/**< Receive normal result - wIndex */
-  SANE_Word send_small_cmd_value;	/**< Send small command - wValue */
-  SANE_Word send_small_cmd_index;	/**< Send small command - wIndex */
-  SANE_Word recv_small_res_value;	/**< Receive small result - wValue */
-  SANE_Word recv_small_res_index;	/**< Receive small result - wIndex */
+	SANE_Byte request_type;		/**< Request type (should be 0x40, vendor spec) */
+	SANE_Byte request;		/**< Vendor spec resquest (0x01 or 0x04) */
+	SANE_Word memory_read_value;	/**< Memory read - wValue */
+	SANE_Word memory_write_value;	/**< Memory write - wValue */
+	SANE_Word send_cmd_value;	/**< Send normal command - wValue */
+	SANE_Word send_cmd_index;	/**< Send normal command - wIndex */
+	SANE_Word recv_res_value;	/**< Receive normal result - wValue */
+	SANE_Word recv_res_index;	/**< Receive normal result - wIndex */
+	SANE_Word send_small_cmd_value;	/**< Send small command - wValue */
+	SANE_Word send_small_cmd_index;	/**< Send small command - wIndex */
+	SANE_Word recv_small_res_value;	/**< Receive small result - wValue */
+	SANE_Word recv_small_res_index;	/**< Receive small result - wIndex */
 
-  /*@} */
+	/*@} */
 
   /** @name Activation/deactivation hooks
    *
    * These hooks can be used to perform additional actions when the device is
    * activated and deactivated.
    */
-  /*@{ */
+	/*@{ */
 
   /** Activate the device.
    *
    * This function may allocate a command-set-specific data structure and place
    * the pointer to it into the GT68xx_Device::command_set_private field.
    */
-    SANE_Status (*activate) (GT68xx_Device * dev);
+	  SANE_Status(*activate) (GT68xx_Device * dev);
 
   /** Deactivate the device.
    *
@@ -252,9 +258,9 @@ struct GT68xx_Command_Set
    * structure, this function must free all corresponding resources and set the
    * GT68xx_Device::command_set_private pointer to #NULL.
    */
-    SANE_Status (*deactivate) (GT68xx_Device * dev);
+	  SANE_Status(*deactivate) (GT68xx_Device * dev);
 
-  /*@} */
+	/*@} */
 
   /** @name Low-level command implementation functions
    *
@@ -264,7 +270,7 @@ struct GT68xx_Command_Set
    * should be set to #NULL; the wrapper will return #SANE_STATUS_UNSUPPORTED
    * in this case.
    */
-  /*@{ */
+	/*@{ */
 
   /** Check whether the firmware is already downloaded.
    *
@@ -273,11 +279,12 @@ struct GT68xx_Command_Set
    * - #SANE_TRUE - the firmware is already loaded.
    * - #SANE_FALSE - the firmware is not loaded.
    */
-    SANE_Status (*check_firmware) (GT68xx_Device * dev, SANE_Bool * loaded);
+	  SANE_Status(*check_firmware) (GT68xx_Device * dev,
+					SANE_Bool * loaded);
 
   /** Download the firmware */
-    SANE_Status (*download_firmware) (GT68xx_Device * dev,
-				      SANE_Byte * data, SANE_Word size);
+	  SANE_Status(*download_firmware) (GT68xx_Device * dev,
+					   SANE_Byte * data, SANE_Word size);
 
   /** Check whether the external power supply is connected.
    *
@@ -288,8 +295,8 @@ struct GT68xx_Command_Set
    * - #SANE_FALSE - the external power supply is not connected, so the scanner
    *   will not work.
    */
-    SANE_Status (*get_power_status) (GT68xx_Device * dev,
-				     SANE_Bool * power_ok);
+	  SANE_Status(*get_power_status) (GT68xx_Device * dev,
+					  SANE_Bool * power_ok);
 
   /** Check whether a transparency adapter is attached to the scanner.
    *
@@ -304,8 +311,8 @@ struct GT68xx_Command_Set
    * - #SANE_STATUS_UNSUPPORTED - this scanner model does not support the
    *   transparency adapter.
    * */
-    SANE_Status (*get_ta_status) (GT68xx_Device * dev,
-				  SANE_Bool * ta_attached);
+	  SANE_Status(*get_ta_status) (GT68xx_Device * dev,
+				       SANE_Bool * ta_attached);
 
   /** Turn the lamps in the scanner and/or the transparency adapter on or off.
    *
@@ -318,8 +325,8 @@ struct GT68xx_Command_Set
    * - #SANE_STATUS_UNSUPPORTED - unsupported request was made (like attempt to
    *   turn on the TA lamp on a scanner which does not support TA).
    */
-    SANE_Status (*lamp_control) (GT68xx_Device * dev, SANE_Bool fb_lamp,
-				 SANE_Bool ta_lamp);
+	  SANE_Status(*lamp_control) (GT68xx_Device * dev, SANE_Bool fb_lamp,
+				      SANE_Bool ta_lamp);
 
   /** Check whether the scanner carriage is still moving. 
    *
@@ -332,7 +339,7 @@ struct GT68xx_Command_Set
    * - #SANE_STATUS_GOOD - the command completed successfully, the status in @a
    *   *moving is valid.
    */
-    SANE_Status (*is_moving) (GT68xx_Device * dev, SANE_Bool * moving);
+	  SANE_Status(*is_moving) (GT68xx_Device * dev, SANE_Bool * moving);
 
 
   /** Move the scanner carriage by the specified number of steps.
@@ -347,50 +354,53 @@ struct GT68xx_Command_Set
    *   started.  Call gt68xx_device_is_moving() periodically to determine when
    *   the movement is complete.
    */
-    SANE_Status (*move_relative) (GT68xx_Device * dev, SANE_Int distance);
+	  SANE_Status(*move_relative) (GT68xx_Device * dev,
+				       SANE_Int distance);
 
   /** Move the scanner carriage to the home position.
    *
    * @param dev Device object.
    */
-    SANE_Status (*carriage_home) (GT68xx_Device * dev);
+	  SANE_Status(*carriage_home) (GT68xx_Device * dev);
 
   /** Eject the paper at the end of the scan.
    *
    * @param dev Device object.
    */
-    SANE_Status (*paperfeed) (GT68xx_Device * dev);
+	  SANE_Status(*paperfeed) (GT68xx_Device * dev);
 
   /** Start scanning the image.
    *
    * @param dev Device object.
    */
-    SANE_Status (*start_scan) (GT68xx_Device * dev);
+	  SANE_Status(*start_scan) (GT68xx_Device * dev);
 
   /** Start reading the scanned image data from the scanner.
    *
    * @param dev Device object.
    * */
-    SANE_Status (*read_scanned_data) (GT68xx_Device * dev, SANE_Bool * ready);
+	  SANE_Status(*read_scanned_data) (GT68xx_Device * dev,
+					   SANE_Bool * ready);
 
   /** Stop scanning the image and reading the data. */
-    SANE_Status (*stop_scan) (GT68xx_Device * dev);
+	  SANE_Status(*stop_scan) (GT68xx_Device * dev);
 
   /** Set parameters for the next scan. */
-    SANE_Status (*setup_scan) (GT68xx_Device * dev,
-			       GT68xx_Scan_Request * request,
-			       GT68xx_Scan_Action action,
-			       GT68xx_Scan_Parameters * params);
+	  SANE_Status(*setup_scan) (GT68xx_Device * dev,
+				    GT68xx_Scan_Request * request,
+				    GT68xx_Scan_Action action,
+				    GT68xx_Scan_Parameters * params);
 
-    SANE_Status (*set_afe) (GT68xx_Device * dev,
-			    GT68xx_AFE_Parameters * params);
+	  SANE_Status(*set_afe) (GT68xx_Device * dev,
+				 GT68xx_AFE_Parameters * params);
 
-    SANE_Status (*set_exposure_time) (GT68xx_Device * dev,
-				      GT68xx_Exposure_Parameters * params);
+	  SANE_Status(*set_exposure_time) (GT68xx_Device * dev,
+					   GT68xx_Exposure_Parameters *
+					   params);
 
   /** Get the vendor, product and some more ids from the scanner */
-    SANE_Status (*get_id) (GT68xx_Device * dev);
-  /*@} */
+	  SANE_Status(*get_id) (GT68xx_Device * dev);
+	/*@} */
 };
 
 #define MAX_RESOLUTIONS 12
@@ -401,19 +411,19 @@ struct GT68xx_Command_Set
 struct GT68xx_Model
 {
   /** @name Identification */
-  /*@{ */
+	/*@{ */
 
   /** A single lowercase word to be used in the configuration file. */
-  SANE_String_Const name;
+	SANE_String_Const name;
 
   /** Device vendor string. */
-  SANE_String_Const vendor;
+	SANE_String_Const vendor;
 
   /** Device model name. */
-  SANE_String_Const model;
+	SANE_String_Const model;
 
   /** Name of the firmware file. */
-  SANE_String_Const firmware_name;
+	SANE_String_Const firmware_name;
 
   /** Dynamic allocation flag.
    *
@@ -421,58 +431,58 @@ struct GT68xx_Model
    * allocated; in this case the structure will be freed when the GT68xx_Device
    * is freed.
    */
-  SANE_Bool allocated;
-  /*@} */
+	SANE_Bool allocated;
+	/*@} */
 
   /** @name Scanner model parameters */
-  /*@{ */
+	/*@{ */
 
-  GT68xx_Command_Set *command_set;
+	GT68xx_Command_Set *command_set;
 
-  SANE_Int optical_xdpi;	/* maximum resolution in x-direction */
-  SANE_Int optical_ydpi;	/* maximum resolution in y-direction */
-  SANE_Int base_xdpi;		/* x-resolution used to calculate geometry */
-  SANE_Int base_ydpi;		/* y-resolution used to calculate geometry */
-  SANE_Int ydpi_no_backtrack;	/* if ydpi is equal or higher, disable backtracking */
-  SANE_Bool constant_ydpi;	/* Use base_ydpi for all resolutions        */
+	SANE_Int optical_xdpi;	/* maximum resolution in x-direction */
+	SANE_Int optical_ydpi;	/* maximum resolution in y-direction */
+	SANE_Int base_xdpi;	/* x-resolution used to calculate geometry */
+	SANE_Int base_ydpi;	/* y-resolution used to calculate geometry */
+	SANE_Int ydpi_no_backtrack;	/* if ydpi is equal or higher, disable backtracking */
+	SANE_Bool constant_ydpi;	/* Use base_ydpi for all resolutions        */
 
-  SANE_Int xdpi_values[MAX_RESOLUTIONS];	/* possible x resolutions */
-  SANE_Int ydpi_values[MAX_RESOLUTIONS];	/* possible y resolutions */
-  SANE_Int bpp_gray_values[MAX_DPI];	/* possible depths in gray mode */
-  SANE_Int bpp_color_values[MAX_DPI];	/* possible depths in color mode */
+	SANE_Int xdpi_values[MAX_RESOLUTIONS];	/* possible x resolutions */
+	SANE_Int ydpi_values[MAX_RESOLUTIONS];	/* possible y resolutions */
+	SANE_Int bpp_gray_values[MAX_DPI];	/* possible depths in gray mode */
+	SANE_Int bpp_color_values[MAX_DPI];	/* possible depths in color mode */
 
-  SANE_Fixed x_offset;		/* Start of scan area in mm */
-  SANE_Fixed y_offset;		/* Start of scan area in mm */
-  SANE_Fixed x_size;		/* Size of scan area in mm */
-  SANE_Fixed y_size;		/* Size of scan area in mm */
+	SANE_Fixed x_offset;	/* Start of scan area in mm */
+	SANE_Fixed y_offset;	/* Start of scan area in mm */
+	SANE_Fixed x_size;	/* Size of scan area in mm */
+	SANE_Fixed y_size;	/* Size of scan area in mm */
 
-  SANE_Fixed y_offset_calib;	/* Start of white strip in mm */
-  SANE_Fixed x_offset_mark;	/* Start of black mark in mm */
+	SANE_Fixed y_offset_calib;	/* Start of white strip in mm */
+	SANE_Fixed x_offset_mark;	/* Start of black mark in mm */
 
-  SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed x_size_ta;		/* Size of scan area in TA mode in mm */
-  SANE_Fixed y_size_ta;		/* Size of scan area in TA mode in mm */
+	SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed x_size_ta;	/* Size of scan area in TA mode in mm */
+	SANE_Fixed y_size_ta;	/* Size of scan area in TA mode in mm */
 
-  SANE_Fixed y_offset_calib_ta;	/* Start of white strip in TA mode in mm */
+	SANE_Fixed y_offset_calib_ta;	/* Start of white strip in TA mode in mm */
 
-  /* Line-distance correction (in pixel at optical_ydpi) for CCD scanners */
-  SANE_Int ld_shift_r;		/* red */
-  SANE_Int ld_shift_g;		/* green */
-  SANE_Int ld_shift_b;		/* blue */
-  SANE_Int ld_shift_double;	/* distance between two CCD lines of one color
-				   (only applicable for CCD with 6 lines) */
+	/* Line-distance correction (in pixel at optical_ydpi) for CCD scanners */
+	SANE_Int ld_shift_r;	/* red */
+	SANE_Int ld_shift_g;	/* green */
+	SANE_Int ld_shift_b;	/* blue */
+	SANE_Int ld_shift_double;	/* distance between two CCD lines of one color
+					   (only applicable for CCD with 6 lines) */
 
-  GT68xx_Color_Order line_mode_color_order;	/* Order of the CCD/CIS colors */
+	GT68xx_Color_Order line_mode_color_order;	/* Order of the CCD/CIS colors */
 
-  GT68xx_AFE_Parameters afe_params;	/* Default offset/gain */
-  GT68xx_Exposure_Parameters exposure;	/* Default exposure parameters */
-  SANE_Fixed default_gamma_value;	/* Default gamma value */
+	GT68xx_AFE_Parameters afe_params;	/* Default offset/gain */
+	GT68xx_Exposure_Parameters exposure;	/* Default exposure parameters */
+	SANE_Fixed default_gamma_value;	/* Default gamma value */
 
-  SANE_Bool is_cis;		/* Is this a CIS or CCD scanner? */
+	SANE_Bool is_cis;	/* Is this a CIS or CCD scanner? */
 
-  SANE_Word flags;		/* Which hacks are needed for this scanner? */
-  /*@} */
+	SANE_Word flags;	/* Which hacks are needed for this scanner? */
+	/*@} */
 };
 
 /** GT68xx device instance.
@@ -481,41 +491,41 @@ struct GT68xx_Model
 struct GT68xx_Device
 {
   /** Device file descriptor. */
-  int fd;
+	int fd;
 
   /** Device activation flag. */
-  SANE_Bool active;
+	SANE_Bool active;
 
   /** Scanner model data. */
-  GT68xx_Model *model;
+	GT68xx_Model *model;
 
   /** Pointer to command-set-specific data. */
-  void *command_set_private;
+	void *command_set_private;
 
-  GT68xx_AFE_Parameters *afe;
-  GT68xx_Exposure_Parameters *exposure;
-  SANE_Fixed gamma_value;
+	GT68xx_AFE_Parameters *afe;
+	GT68xx_Exposure_Parameters *exposure;
+	SANE_Fixed gamma_value;
 
-  SANE_Bool read_active;
-  SANE_Bool final_scan;
-  SANE_Byte *read_buffer;
-  size_t requested_buffer_size;
-  size_t read_buffer_size;
-  size_t read_pos;
-  size_t read_bytes_in_buffer;
-  size_t read_bytes_left;
-  SANE_Byte gray_mode_color;
-  SANE_Bool manual_selection;
+	SANE_Bool read_active;
+	SANE_Bool final_scan;
+	SANE_Byte *read_buffer;
+	size_t requested_buffer_size;
+	size_t read_buffer_size;
+	size_t read_pos;
+	size_t read_bytes_in_buffer;
+	size_t read_bytes_left;
+	SANE_Byte gray_mode_color;
+	SANE_Bool manual_selection;
 #ifdef USE_FORK
-  Shm_Channel *shm_channel;
-  pid_t reader_pid;
+	Shm_Channel *shm_channel;
+	pid_t reader_pid;
 #endif				/* USE_FORK */
 
   /** Pointer to next device */
-  struct GT68xx_Device *next;
+	struct GT68xx_Device *next;
 
   /** Device file name */
-  SANE_String file_name;
+	SANE_String file_name;
 };
 
 /** Parameters for the high-level scan request.
@@ -524,22 +534,26 @@ struct GT68xx_Device
  */
 struct GT68xx_Scan_Request
 {
-  SANE_Fixed x0;	/**< Left boundary  */
-  SANE_Fixed y0;	/**< Top boundary */
-  SANE_Fixed xs;	/**< Width */
-  SANE_Fixed ys;	/**< Height */
-  SANE_Int xdpi;	/**< Horizontal resolution */
-  SANE_Int ydpi;	/**< Vertical resolution */
-  SANE_Int depth;	/**< Number of bits per channel */
-  SANE_Bool color;	/**< Color mode flag */
-  SANE_Bool mbs;	/**< Move before scan */
-  SANE_Bool mds;	/**< Move during scan */
-  SANE_Bool mas;	/**< Move after scan */
-  SANE_Bool lamp;	/**< Lamp on/off */
-  SANE_Bool calculate;	/**< Don't scan, only calculate parameters */
-  SANE_Bool use_ta;	/**< Use the tansparency adapter */
-  SANE_Bool backtrack;	/**< Enable backtracking */
-  SANE_Bool backtrack_lines;  /**< How many lines to backtrack */
+	SANE_Fixed x0;	/**< Left boundary  */
+	SANE_Fixed y0;	/**< Top boundary */
+	SANE_Fixed xs;	/**< Width */
+	SANE_Fixed ys;	/**< Height */
+	SANE_Int xdpi;	/**< Horizontal resolution */
+	SANE_Int ydpi;	/**< Vertical resolution */
+	SANE_Int depth;	/**< Number of bits per channel */
+	SANE_Bool color;/**< Color mode flag */
+	SANE_Bool mbs;	/**< Move before scan */
+	SANE_Bool mds;	/**< Move during scan */
+	SANE_Bool mas;	/**< Move after scan */
+	SANE_Bool lamp;	/**< Lamp on/off */
+	SANE_Bool calculate;
+			/**< Don't scan, only calculate parameters */
+	SANE_Bool use_ta;
+			/**< Use the tansparency adapter */
+	SANE_Bool backtrack;
+			/**< Enable backtracking */
+	SANE_Bool backtrack_lines;
+			      /**< How many lines to backtrack */
 };
 
 /** Scan parameters for gt68xx_device_setup_scan().
@@ -550,23 +564,23 @@ struct GT68xx_Scan_Request
  */
 struct GT68xx_Scan_Parameters
 {
-  SANE_Int xdpi;	/**< Horizontal resolution */
-  SANE_Int ydpi;	/**< Vertical resolution */
-  SANE_Int depth;	/**< Number of bits per channel */
-  SANE_Bool color;	/**< Color mode flag */
+	SANE_Int xdpi;	/**< Horizontal resolution */
+	SANE_Int ydpi;	/**< Vertical resolution */
+	SANE_Int depth;	/**< Number of bits per channel */
+	SANE_Bool color;/**< Color mode flag */
 
-  SANE_Int pixel_xs;		/**< Logical width in pixels */
-  SANE_Int pixel_ys;		/**< Logical height in pixels */
-  SANE_Int scan_xs;		/**< Physical width in pixels */
-  SANE_Int scan_ys;		/**< Physical height in pixels */
-  SANE_Int scan_bpl;		/**< Number of bytes per scan line */
-  SANE_Bool line_mode;		/**< Use line mode instead of pixel mode */
-  SANE_Int overscan_lines;	/**< Number of extra scan lines */
-  SANE_Int ld_shift_r;
-  SANE_Int ld_shift_g;
-  SANE_Int ld_shift_b;
-  SANE_Int ld_shift_double;
-  SANE_Int double_column;
+	SANE_Int pixel_xs;	/**< Logical width in pixels */
+	SANE_Int pixel_ys;	/**< Logical height in pixels */
+	SANE_Int scan_xs;	/**< Physical width in pixels */
+	SANE_Int scan_ys;	/**< Physical height in pixels */
+	SANE_Int scan_bpl;	/**< Number of bytes per scan line */
+	SANE_Bool line_mode;	/**< Use line mode instead of pixel mode */
+	SANE_Int overscan_lines;/**< Number of extra scan lines */
+	SANE_Int ld_shift_r;
+	SANE_Int ld_shift_g;
+	SANE_Int ld_shift_b;
+	SANE_Int ld_shift_double;
+	SANE_Int double_column;
 };
 
 
@@ -584,7 +598,7 @@ typedef SANE_Byte GT68xx_Packet[GT68XX_PACKET_SIZE];
  * - #SANE_STATUS_GOOD   - the device object was created.
  * - #SANE_STATUS_NO_MEM - not enough system resources to create the object.
  */
-static SANE_Status gt68xx_device_new (GT68xx_Device ** dev_return);
+static SANE_Status gt68xx_device_new(GT68xx_Device ** dev_return);
 
 /** Destroy the device object and release all associated resources.
  *
@@ -596,7 +610,7 @@ static SANE_Status gt68xx_device_new (GT68xx_Device ** dev_return);
  * @return
  * - #SANE_STATUS_GOOD  - success.
  */
-static SANE_Status gt68xx_device_free (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_free(GT68xx_Device * dev);
 
 /** Open the scanner device.
  *
@@ -619,13 +633,13 @@ static SANE_Status gt68xx_device_free (GT68xx_Device * dev);
  *   unconfigured).
  */
 static SANE_Status
-gt68xx_device_open (GT68xx_Device * dev, const char *dev_name);
+gt68xx_device_open(GT68xx_Device * dev, const char *dev_name);
 
 /** Close the scanner device.
  *
  * @param dev Device object.
  */
-static SANE_Status gt68xx_device_close (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_close(GT68xx_Device * dev);
 
 /** Check if the device is configured.
  *
@@ -642,7 +656,7 @@ static SANE_Status gt68xx_device_close (GT68xx_Device * dev);
  * - #SANE_TRUE  - device is configured and can be activated.
  * - #SANE_FALSE - device is not configured; attempt to activate it will fail.
  */
-static SANE_Bool gt68xx_device_is_configured (GT68xx_Device * dev);
+static SANE_Bool gt68xx_device_is_configured(GT68xx_Device * dev);
 
 /** Change the device model structure.
  *
@@ -666,7 +680,7 @@ static SANE_Bool gt68xx_device_is_configured (GT68xx_Device * dev);
  *   device is already active, or not yet opened).
  */
 static SANE_Status
-gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model);
+gt68xx_device_set_model(GT68xx_Device * dev, GT68xx_Model * model);
 
 /** Get model by name.
  *
@@ -680,7 +694,7 @@ gt68xx_device_set_model (GT68xx_Device * dev, GT68xx_Model * model);
  * - #SANE_FALSE - model not found.
  */
 static SANE_Bool
-gt68xx_device_get_model (SANE_String name, GT68xx_Model ** model);
+gt68xx_device_get_model(SANE_String name, GT68xx_Model ** model);
 
 #if 0
 /** Create a new private copy of the model data for this device.
@@ -698,7 +712,7 @@ gt68xx_device_get_model (SANE_String name, GT68xx_Model ** model);
  *   not yet opened).
  * - #SANE_STATUS_NO_MEM - not enough memory for copy of the model parameters.
  */
-static SANE_Status gt68xx_device_unshare_model (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_unshare_model(GT68xx_Device * dev);
 #endif
 
 /** Activate the device.
@@ -718,7 +732,7 @@ static SANE_Status gt68xx_device_unshare_model (GT68xx_Device * dev);
  * - #SANE_STATUS_INVAL - invalid request (attempt to activate a closed or
  *   unconfigured device).
  */
-static SANE_Status gt68xx_device_activate (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_activate(GT68xx_Device * dev);
 
 /** Deactivate the device.
  *
@@ -730,7 +744,7 @@ static SANE_Status gt68xx_device_activate (GT68xx_Device * dev);
  * - #SANE_STATUS_GOOD  - device deactivated successfully.
  * - #SANE_STATUS_INVAL - invalid request (the device was not activated).
  */
-static SANE_Status gt68xx_device_deactivate (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_deactivate(GT68xx_Device * dev);
 
 /** Write a data block to the GT68xx memory.
  *
@@ -748,8 +762,8 @@ static SANE_Status gt68xx_device_deactivate (GT68xx_Device * dev);
  * scanner (and possibly the entire USB bus) will lock up.
  */
 static SANE_Status
-gt68xx_device_memory_write (GT68xx_Device * dev, SANE_Word addr,
-			    SANE_Word size, SANE_Byte * data);
+gt68xx_device_memory_write(GT68xx_Device * dev, SANE_Word addr,
+			   SANE_Word size, SANE_Byte * data);
 
 /** Read a data block from the GT68xx memory.
  *
@@ -767,8 +781,8 @@ gt68xx_device_memory_write (GT68xx_Device * dev, SANE_Word addr,
  * scanner (and possibly the entire USB bus) will lock up.
  */
 static SANE_Status
-gt68xx_device_memory_read (GT68xx_Device * dev, SANE_Word addr,
-			   SANE_Word size, SANE_Byte * data);
+gt68xx_device_memory_read(GT68xx_Device * dev, SANE_Word addr,
+			  SANE_Word size, SANE_Byte * data);
 
 /** Execute a control command.
  *
@@ -781,7 +795,7 @@ gt68xx_device_memory_read (GT68xx_Device * dev, SANE_Word addr,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_req (GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res);
+gt68xx_device_req(GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res);
 
 /** Execute a "small" control command.
  *
@@ -794,8 +808,8 @@ gt68xx_device_req (GT68xx_Device * dev, GT68xx_Packet cmd, GT68xx_Packet res);
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
-			 GT68xx_Packet res);
+gt68xx_device_small_req(GT68xx_Device * dev, GT68xx_Packet cmd,
+			GT68xx_Packet res);
 
 #if 0
 /** Check whether the firmware is downloaded into the scanner.
@@ -810,12 +824,12 @@ gt68xx_device_small_req (GT68xx_Device * dev, GT68xx_Packet cmd,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_check_firmware (GT68xx_Device * dev, SANE_Bool * loaded);
+gt68xx_device_check_firmware(GT68xx_Device * dev, SANE_Bool * loaded);
 #endif
 
 static SANE_Status
-gt68xx_device_download_firmware (GT68xx_Device * dev,
-				 SANE_Byte * data, SANE_Word size);
+gt68xx_device_download_firmware(GT68xx_Device * dev,
+				SANE_Byte * data, SANE_Word size);
 
 /** Check whether the external power supply is connected.
  *
@@ -831,7 +845,7 @@ gt68xx_device_download_firmware (GT68xx_Device * dev,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_get_power_status (GT68xx_Device * dev, SANE_Bool * power_ok);
+gt68xx_device_get_power_status(GT68xx_Device * dev, SANE_Bool * power_ok);
 
 /** Check whether the transparency adapter is connected.
  *
@@ -846,7 +860,7 @@ gt68xx_device_get_power_status (GT68xx_Device * dev, SANE_Bool * power_ok);
  * - #SANE_STATUS_IO_ERROR    - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_get_ta_status (GT68xx_Device * dev, SANE_Bool * ta_attached);
+gt68xx_device_get_ta_status(GT68xx_Device * dev, SANE_Bool * ta_attached);
 
 /** Turn the lamps in the scanner and/or the transparency adapter on or off.
  *
@@ -861,8 +875,8 @@ gt68xx_device_get_ta_status (GT68xx_Device * dev, SANE_Bool * ta_attached);
  *   turn on the TA lamp on a scanner which does not support TA).
  */
 static SANE_Status
-gt68xx_device_lamp_control (GT68xx_Device * dev, SANE_Bool fb_lamp,
-			    SANE_Bool ta_lamp);
+gt68xx_device_lamp_control(GT68xx_Device * dev, SANE_Bool fb_lamp,
+			   SANE_Bool ta_lamp);
 
 /** Check whether the scanner carriage is still moving. 
  *
@@ -876,7 +890,7 @@ gt68xx_device_lamp_control (GT68xx_Device * dev, SANE_Bool fb_lamp,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_is_moving (GT68xx_Device * dev, SANE_Bool * moving);
+gt68xx_device_is_moving(GT68xx_Device * dev, SANE_Bool * moving);
 
 #if 0
 /** Move the scanner carriage by the specified number of steps.
@@ -893,7 +907,7 @@ gt68xx_device_is_moving (GT68xx_Device * dev, SANE_Bool * moving);
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_move_relative (GT68xx_Device * dev, SANE_Int distance);
+gt68xx_device_move_relative(GT68xx_Device * dev, SANE_Int distance);
 #endif
 
 /** Move the scanner carriage to the home position.
@@ -909,7 +923,7 @@ gt68xx_device_move_relative (GT68xx_Device * dev, SANE_Int distance);
  * - #SANE_STATUS_GOOD - success; the movement is started.
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
-static SANE_Status gt68xx_device_carriage_home (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_carriage_home(GT68xx_Device * dev);
 
 /** Eject the paper after the end of scanning.
  *
@@ -920,7 +934,7 @@ static SANE_Status gt68xx_device_carriage_home (GT68xx_Device * dev);
  * - #SANE_STATUS_GOOD - success; the movement is started.
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
-static SANE_Status gt68xx_device_paperfeed (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_paperfeed(GT68xx_Device * dev);
 
 /** Start scanning the image.
  *
@@ -938,7 +952,7 @@ static SANE_Status gt68xx_device_paperfeed (GT68xx_Device * dev);
  * - #SANE_STATUS_GOOD - success.
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
-static SANE_Status gt68xx_device_start_scan (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_start_scan(GT68xx_Device * dev);
 
 /** Start reading the scanned image data.
  *
@@ -958,7 +972,7 @@ static SANE_Status gt68xx_device_start_scan (GT68xx_Device * dev);
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_read_scanned_data (GT68xx_Device * dev, SANE_Bool * ready);
+gt68xx_device_read_scanned_data(GT68xx_Device * dev, SANE_Bool * ready);
 
 /** Stop scanning the image.
  *
@@ -971,7 +985,7 @@ gt68xx_device_read_scanned_data (GT68xx_Device * dev, SANE_Bool * ready);
  * - #SANE_STATUS_GOOD - success.
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
-static SANE_Status gt68xx_device_stop_scan (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_stop_scan(GT68xx_Device * dev);
 
 /** Set parameters for the next scan.
  *
@@ -995,10 +1009,10 @@ static SANE_Status gt68xx_device_stop_scan (GT68xx_Device * dev);
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_setup_scan (GT68xx_Device * dev,
-			  GT68xx_Scan_Request * request,
-			  GT68xx_Scan_Action action,
-			  GT68xx_Scan_Parameters * params);
+gt68xx_device_setup_scan(GT68xx_Device * dev,
+			 GT68xx_Scan_Request * request,
+			 GT68xx_Scan_Action action,
+			 GT68xx_Scan_Parameters * params);
 
 /** Configure the analog front-end (AFE) of the GT68xx.
  *
@@ -1010,11 +1024,11 @@ gt68xx_device_setup_scan (GT68xx_Device * dev,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_set_afe (GT68xx_Device * dev, GT68xx_AFE_Parameters * params);
+gt68xx_device_set_afe(GT68xx_Device * dev, GT68xx_AFE_Parameters * params);
 
 static SANE_Status
-gt68xx_device_set_exposure_time (GT68xx_Device * dev,
-				 GT68xx_Exposure_Parameters * params);
+gt68xx_device_set_exposure_time(GT68xx_Device * dev,
+				GT68xx_Exposure_Parameters * params);
 
 /** Read raw data from the bulk-in scanner pipe.
  *
@@ -1029,20 +1043,20 @@ gt68xx_device_set_exposure_time (GT68xx_Device * dev,
  * - #SANE_STATUS_IO_ERROR - a communication error occured.
  */
 static SANE_Status
-gt68xx_device_read_raw (GT68xx_Device * dev, SANE_Byte * buffer,
-			size_t * size);
+gt68xx_device_read_raw(GT68xx_Device * dev, SANE_Byte * buffer,
+		       size_t * size);
 
 static SANE_Status
-gt68xx_device_set_read_buffer_size (GT68xx_Device * dev, size_t buffer_size);
+gt68xx_device_set_read_buffer_size(GT68xx_Device * dev, size_t buffer_size);
 
 static SANE_Status
-gt68xx_device_read_prepare (GT68xx_Device * dev, size_t expected_count,
-			    SANE_Bool final_scan);
+gt68xx_device_read_prepare(GT68xx_Device * dev, size_t expected_count,
+			   SANE_Bool final_scan);
 
 static SANE_Status
-gt68xx_device_read (GT68xx_Device * dev, SANE_Byte * buffer, size_t * size);
+gt68xx_device_read(GT68xx_Device * dev, SANE_Byte * buffer, size_t * size);
 
-static SANE_Status gt68xx_device_read_finish (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_read_finish(GT68xx_Device * dev);
 
 /** Make sure that the result of a command is ok.
  *
@@ -1054,11 +1068,10 @@ static SANE_Status gt68xx_device_read_finish (GT68xx_Device * dev);
  * - #SANE_STATUS_IO_ERROR - the command wasn't successful
 */
 static SANE_Status
-gt68xx_device_check_result (GT68xx_Packet res, SANE_Byte command);
+gt68xx_device_check_result(GT68xx_Packet res, SANE_Byte command);
 
 
-static SANE_Status 
-gt68xx_device_get_id (GT68xx_Device * dev);
+static SANE_Status gt68xx_device_get_id(GT68xx_Device * dev);
 
 /** Read the device descriptor of the scanner.
  *
@@ -1069,8 +1082,7 @@ gt68xx_device_get_id (GT68xx_Device * dev);
  *
  * @param dev device
 */
-static void 
-gt68xx_device_fix_descriptor (GT68xx_Device * dev);
+static void gt68xx_device_fix_descriptor(GT68xx_Device * dev);
 
 #endif /* not GT68XX_LOW_H */
 

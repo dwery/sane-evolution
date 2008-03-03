@@ -53,138 +53,138 @@
 #include <sane/sane.h>
 
 typedef enum
-  {
-    QC_MONO	= 0x01,
-    QC_COLOR	= 0x10
-  }
+{
+	QC_MONO = 0x01,
+	QC_COLOR = 0x10
+}
 QC_Model;
 
 typedef enum
-  {
-    QC_RES_LOW = 0,
-    QC_RES_HIGH
-  }
+{
+	QC_RES_LOW = 0,
+	QC_RES_HIGH
+}
 QC_Resolution;
 
 /* commands common to all quick-cameras: */
 typedef enum
-  {
-    QC_SEND_VIDEO_FRAME		=  7,
-    QC_SET_BRIGHTNESS		= 11,
-    QC_SET_TOP			= 13,
-    QC_SET_LEFT			= 15,
-    QC_SET_NUM_V		= 17,
-    QC_SET_NUM_H		= 19,
-    QC_SEND_VERSION		= 23,
-    QC_SET_BLACK		= 29,
-    QC_SET_WHITE		= 31,
-    QC_SET_SATURATION		= 35,
-    QC_SEND_STATUS		= 41,
-    QC_SET_SPEED		= 45
-  }
+{
+	QC_SEND_VIDEO_FRAME = 7,
+	QC_SET_BRIGHTNESS = 11,
+	QC_SET_TOP = 13,
+	QC_SET_LEFT = 15,
+	QC_SET_NUM_V = 17,
+	QC_SET_NUM_H = 19,
+	QC_SEND_VERSION = 23,
+	QC_SET_BLACK = 29,
+	QC_SET_WHITE = 31,
+	QC_SET_SATURATION = 35,
+	QC_SEND_STATUS = 41,
+	QC_SET_SPEED = 45
+}
 QC_Command;
 
 /* commands for grayscale camera: */
 typedef enum
-  {
-    QC_MONO_SET_CONTRAST	= 25,
-    QC_MONO_AUTO_ADJUST_OFFSET	= 27,
-    QC_MONO_GET_OFFSET		= 33
-  }
+{
+	QC_MONO_SET_CONTRAST = 25,
+	QC_MONO_AUTO_ADJUST_OFFSET = 27,
+	QC_MONO_GET_OFFSET = 33
+}
 QC_Mono_Command;
 
 /* commands for color camera: */
 typedef enum
-  {
-    QC_COL_LOAD_RAM		= 27,
-    QC_COL_SET_HUE		= 33,
-    QC_COL_SET_CONTRAST		= 37
-  }
+{
+	QC_COL_LOAD_RAM = 27,
+	QC_COL_SET_HUE = 33,
+	QC_COL_SET_CONTRAST = 37
+}
 QC_Col_Command;
 
 typedef enum
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_DEPTH,			/* 4 or 6 (b&w) or 24 (color) */
-    OPT_RESOLUTION,		/* resolution in pixels */
-    OPT_XFER_SCALE,		/* transfer-scale */
-    OPT_DESPECKLE,		/* turn on despeckling? */
-    OPT_TEST,			/* test image */
+	OPT_MODE_GROUP,
+	OPT_DEPTH,		/* 4 or 6 (b&w) or 24 (color) */
+	OPT_RESOLUTION,		/* resolution in pixels */
+	OPT_XFER_SCALE,		/* transfer-scale */
+	OPT_DESPECKLE,		/* turn on despeckling? */
+	OPT_TEST,		/* test image */
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
-    OPT_BLACK_LEVEL,
-    OPT_WHITE_LEVEL,
-    OPT_HUE,
-    OPT_SATURATION,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_BLACK_LEVEL,
+	OPT_WHITE_LEVEL,
+	OPT_HUE,
+	OPT_SATURATION,
 
-    /* must come last: */
-    NUM_OPTIONS
-  }
+	/* must come last: */
+	NUM_OPTIONS
+}
 QC_Option;
 
 typedef enum
-  {
-    QC_UNIDIR,
-    QC_BIDIR
-  } QC_Port_Mode;
+{
+	QC_UNIDIR,
+	QC_BIDIR
+} QC_Port_Mode;
 
 typedef struct
-  {
-    size_t num_bytes;		/* # of bytes to read */
-    QC_Resolution resolution;	/* high-resolution? */
-    SANE_Parameters params;	/* other parameters */
-    u_int mode;			/* qcam scan code (get video data command) */
-    int despeckle;		/* apply despeckling filter? */
-  }
+{
+	size_t num_bytes;	/* # of bytes to read */
+	QC_Resolution resolution;	/* high-resolution? */
+	SANE_Parameters params;	/* other parameters */
+	u_int mode;		/* qcam scan code (get video data command) */
+	int despeckle;		/* apply despeckling filter? */
+}
 QC_Scan_Request;
 
 typedef struct QC_Device
-  {
-    struct QC_Device * next;
-    SANE_Device sane;
-    QC_Port_Mode port_mode;
-    int port;			/* i/o port address */
-    int version;		/* camera version */
-    int lock_fd;		/* used for locking protocol */
-  }
+{
+	struct QC_Device *next;
+	SANE_Device sane;
+	QC_Port_Mode port_mode;
+	int port;		/* i/o port address */
+	int version;		/* camera version */
+	int lock_fd;		/* used for locking protocol */
+}
 QC_Device;
 
 typedef struct QC_Scanner
-  {
-    struct QC_Scanner *next;
+{
+	struct QC_Scanner *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
-    QC_Resolution resolution;
-    SANE_Parameters params;
-    QC_Device *hw;
-    SANE_Int user_corner;	/* bitmask of user-selected coordinates */
-    SANE_Int value_changed;	/* bitmask of options that were set */
-    SANE_Bool scanning;
-    SANE_Bool deliver_eof;
-    SANE_Bool holding_lock;	/* are we holding the lock? */
-    /* state for reading a frame: */
-    size_t num_bytes;		/* # of bytes read so far */
-    size_t bytes_per_frame;	/* total number of bytes in frame */
-    /* state relating to the reader-process */
-    int reader_pid;		/* -1 if there is no reader process (yet) */
-    int from_child;		/* fd to read from child process*/
-    int to_child;		/* fd to write to child */
-    int read_fd;		/* used to read data */
-    /* internal state for qc_readbytes(): */
-    int readbytes_state;
-    unsigned int saved_bits;
-  }
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	QC_Resolution resolution;
+	SANE_Parameters params;
+	QC_Device *hw;
+	SANE_Int user_corner;	/* bitmask of user-selected coordinates */
+	SANE_Int value_changed;	/* bitmask of options that were set */
+	SANE_Bool scanning;
+	SANE_Bool deliver_eof;
+	SANE_Bool holding_lock;	/* are we holding the lock? */
+	/* state for reading a frame: */
+	size_t num_bytes;	/* # of bytes read so far */
+	size_t bytes_per_frame;	/* total number of bytes in frame */
+	/* state relating to the reader-process */
+	int reader_pid;		/* -1 if there is no reader process (yet) */
+	int from_child;		/* fd to read from child process */
+	int to_child;		/* fd to write to child */
+	int read_fd;		/* used to read data */
+	/* internal state for qc_readbytes(): */
+	int readbytes_state;
+	unsigned int saved_bits;
+}
 QC_Scanner;
 
 #endif /* qcam_h */

@@ -59,19 +59,18 @@
 #define CORE_BULK_OUT		1 << 2	/* CORE bulk operation - prepare for bulk OUT
 					 * transfer
 					 */
-static SANE_Status hp5590_cmd (SANE_Int dn,
-			unsigned int flags,
-			unsigned int cmd, unsigned char *data,
-			unsigned int size, unsigned int core_flags);
-static SANE_Status hp5590_bulk_read (SANE_Int dn,
-			      unsigned char *bytes,
-			      unsigned int size, void *state);
-static SANE_Status hp5590_bulk_write (SANE_Int dn, int cmd,
-			       unsigned char *bytes,
-			       unsigned int size);
-static SANE_Status hp5590_get_status (SANE_Int dn);
-static SANE_Status hp5590_low_init_bulk_read_state (void **state);
-static SANE_Status hp5590_low_free_bulk_read_state (void **state);
+static SANE_Status hp5590_cmd(SANE_Int dn,
+			      unsigned int flags,
+			      unsigned int cmd, unsigned char *data,
+			      unsigned int size, unsigned int core_flags);
+static SANE_Status hp5590_bulk_read(SANE_Int dn,
+				    unsigned char *bytes,
+				    unsigned int size, void *state);
+static SANE_Status hp5590_bulk_write(SANE_Int dn, int cmd,
+				     unsigned char *bytes, unsigned int size);
+static SANE_Status hp5590_get_status(SANE_Int dn);
+static SANE_Status hp5590_low_init_bulk_read_state(void **state);
+static SANE_Status hp5590_low_free_bulk_read_state(void **state);
 #endif /* HP5590_LOW_H */
 /* vim: sw=2 ts=8
  */

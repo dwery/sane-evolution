@@ -53,52 +53,52 @@
 typedef struct Shm_Channel Shm_Channel;
 
 static SANE_Status
-shm_channel_new (SANE_Int buf_size,
-		 SANE_Int buf_count, Shm_Channel ** shm_channel_return);
+shm_channel_new(SANE_Int buf_size,
+		SANE_Int buf_count, Shm_Channel ** shm_channel_return);
 
-static SANE_Status shm_channel_free (Shm_Channel * shm_channel);
+static SANE_Status shm_channel_free(Shm_Channel * shm_channel);
 
 
-static SANE_Status shm_channel_writer_init (Shm_Channel * shm_channel);
-
-static SANE_Status
-shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
-			       SANE_Int * buffer_id_return,
-			       SANE_Byte ** buffer_addr_return);
+static SANE_Status shm_channel_writer_init(Shm_Channel * shm_channel);
 
 static SANE_Status
-shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
-			       SANE_Int buffer_id, SANE_Int buffer_bytes);
+shm_channel_writer_get_buffer(Shm_Channel * shm_channel,
+			      SANE_Int * buffer_id_return,
+			      SANE_Byte ** buffer_addr_return);
 
-static SANE_Status shm_channel_writer_close (Shm_Channel * shm_channel);
+static SANE_Status
+shm_channel_writer_put_buffer(Shm_Channel * shm_channel,
+			      SANE_Int buffer_id, SANE_Int buffer_bytes);
+
+static SANE_Status shm_channel_writer_close(Shm_Channel * shm_channel);
 
 
-static SANE_Status shm_channel_reader_init (Shm_Channel * shm_channel);
+static SANE_Status shm_channel_reader_init(Shm_Channel * shm_channel);
 
 #if 0
 static SANE_Status
-shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
-				SANE_Bool non_blocking);
+shm_channel_reader_set_io_mode(Shm_Channel * shm_channel,
+			       SANE_Bool non_blocking);
 
 static SANE_Status
-shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
-				  SANE_Int * fd_return);
+shm_channel_reader_get_select_fd(Shm_Channel * shm_channel,
+				 SANE_Int * fd_return);
 
 #endif
 
-static SANE_Status shm_channel_reader_start (Shm_Channel * shm_channel);
+static SANE_Status shm_channel_reader_start(Shm_Channel * shm_channel);
 
 static SANE_Status
-shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
-			       SANE_Int * buffer_id_return,
-			       SANE_Byte ** buffer_addr_return,
-			       SANE_Int * buffer_bytes_return);
+shm_channel_reader_get_buffer(Shm_Channel * shm_channel,
+			      SANE_Int * buffer_id_return,
+			      SANE_Byte ** buffer_addr_return,
+			      SANE_Int * buffer_bytes_return);
 
 static SANE_Status
-shm_channel_reader_put_buffer (Shm_Channel * shm_channel, SANE_Int buffer_id);
+shm_channel_reader_put_buffer(Shm_Channel * shm_channel, SANE_Int buffer_id);
 
 #if 0
-static SANE_Status shm_channel_reader_close (Shm_Channel * shm_channel);
+static SANE_Status shm_channel_reader_close(Shm_Channel * shm_channel);
 #endif
 
 #endif /* not GT68XX_SHM_CHANNEL_H */

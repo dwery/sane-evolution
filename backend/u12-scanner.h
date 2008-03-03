@@ -53,7 +53,7 @@
 /* definitions for the timer functions
  */
 typedef double TimerDef;
-#define _MSECOND    1000             /* based on 1 us */
+#define _MSECOND    1000	/* based on 1 us */
 #define _SECOND     (1000*_MSECOND)
 
 #if 1
@@ -61,7 +61,7 @@ typedef double TimerDef;
 #define _DODELAY(msecs)     u12io_udelay(1000*msecs)
 /*{ int i; for( i = msecs; i--; ) _DO_UDELAY(1000); }*/
 #else
-#define _DODELAY(msecs) 
+#define _DODELAY(msecs)
 #endif
 
 /* ModuleStates */
@@ -75,129 +75,147 @@ typedef double TimerDef;
 /** some function types
  */
 typedef struct u12d *pU12_Device;
-typedef struct svd  *pShadingVarDef;
-typedef void      (*pFnVoid)(pU12_Device);
-typedef void      (*pFnDACOffs)(pU12_Device, pShadingVarDef, u_long);
-typedef void      (*pFnDACDark)(pU12_Device, pShadingVarDef, u_long, u_short);
-typedef void      (*pFnDataProcess)(pU12_Device, void*, void*, u_long);
-typedef SANE_Bool (*pFnBool)(pU12_Device);
+typedef struct svd *pShadingVarDef;
+typedef void (*pFnVoid) (pU12_Device);
+typedef void (*pFnDACOffs) (pU12_Device, pShadingVarDef, u_long);
+typedef void (*pFnDACDark) (pU12_Device, pShadingVarDef, u_long, u_short);
+typedef void (*pFnDataProcess) (pU12_Device, void *, void *, u_long);
+typedef SANE_Bool(*pFnBool) (pU12_Device);
 
 
 /* useful for RGB-values */
-typedef struct {
+typedef struct
+{
 	SANE_Byte Red;
 	SANE_Byte Green;
 	SANE_Byte Blue;
 } RGBByteDef;
 
-typedef struct {
+typedef struct
+{
 	u_short Red;
 	u_short Green;
 	u_short Blue;
 } RGBUShortDef;
 
-typedef struct {
+typedef struct
+{
 	u_long Red;
 	u_long Green;
 	u_long Blue;
 } RGBULongDef;
 
-typedef union {
+typedef union
+{
 	RGBByteDef Colors;
-	SANE_Byte  bColors[3];
+	SANE_Byte bColors[3];
 } ColorByte;
 
-typedef union {
+typedef union
+{
 	RGBUShortDef Colors;
-	u_short      wColors[3];
+	u_short wColors[3];
 } ColorWord;
 
-typedef union {
-	SANE_Byte     *pb;
-	u_short       *pw;
-	u_long        *pdw;
-	RGBUShortDef  *pusrgb;
-	RGBULongDef   *pulrgb;
-	RGBByteDef    *pbrgb;
+typedef union
+{
+	SANE_Byte *pb;
+	u_short *pw;
+	u_long *pdw;
+	RGBUShortDef *pusrgb;
+	RGBULongDef *pulrgb;
+	RGBByteDef *pbrgb;
 } DataPointer;
 
 typedef struct
 {
-	union {
+	union
+	{
 		SANE_Byte *bp;
-		u_short   *usp;
-		u_long    *ulp;
+		u_short *usp;
+		u_long *ulp;
 	} red;
-	union {
+	union
+	{
 		SANE_Byte *bp;
-		u_short   *usp;
-		u_long    *ulp;
+		u_short *usp;
+		u_long *ulp;
 	} green;
-	union {
+	union
+	{
 		SANE_Byte *bp;
-		u_short   *usp;
-		u_long    *ulp;
+		u_short *usp;
+		u_long *ulp;
 	} blue;
 
 } RBGPtrDef;
 
-typedef struct {
+typedef struct
+{
 	SANE_Byte b1st;
 	SANE_Byte b2nd;
 } WordVal;
 
-typedef struct {
+typedef struct
+{
 	WordVal w1st;
 	WordVal w2nd;
 } DWordVal;
 
 
-typedef union {
-	WordVal   wOverlap;
-	DWordVal  dwOverlap;
-	u_long    dwValue;
-	u_short   wValue;
+typedef union
+{
+	WordVal wOverlap;
+	DWordVal dwOverlap;
+	u_long dwValue;
+	u_short wValue;
 	SANE_Byte bValue;
 } DataType;
 
-typedef struct {
+typedef struct
+{
 	u_short exposureTime;
 	u_short xStepTime;
 } ExpXStepDef;
 
-typedef struct {
+typedef struct
+{
 	SANE_Byte reg;
 	SANE_Byte val;
 } RegDef;
 
 /** for defining a point
  */
-typedef struct {
+typedef struct
+{
 	u_short x;
 	u_short y;
 } XY;
 
 /** for defining a crop area, all is 300DPI based
  */
-typedef struct {
-	u_short x;      /**< x-pos of top-left corner */
-	u_short y;      /**< y-pos of top-left corner */
-	u_short cx;     /**< width                    */
-	u_short cy;     /**< height                   */
+typedef struct
+{
+	u_short x;	/**< x-pos of top-left corner */
+	u_short y;	/**< y-pos of top-left corner */
+	u_short cx;	/**< width                    */
+	u_short cy;	/**< height                   */
 } CropRect;
 
 /** for defining an image
  */
-typedef struct {
-	u_long   dwFlag;      /**< i.e. image source           */
+typedef struct
+{
+	u_long dwFlag;	      /**< i.e. image source           */
 	CropRect crArea;      /**< the image size and position */
-	XY       xyDpi;       /**< the resolution              */
-	u_short  wDataType;   /**< and the data type           */
+	XY xyDpi;	      /**< the resolution              */
+	u_short wDataType;    /**< and the data type           */
 } ImgDef;
 
 /**
  */
-typedef struct {
+typedef struct
+{
 	u_long dwPixelsPerLine;
 	u_long dwBytesPerLine;
 	u_long dwLinesPerArea;
@@ -208,27 +226,27 @@ typedef struct {
  */
 typedef struct
 {
-	u_long  dwScanFlag;
-	double  xyRatio;  /**< for scaling */
+	u_long dwScanFlag;
+	double xyRatio;	  /**< for scaling */
 	u_short wYSum;
 
-	XY      xyPhyDpi; /**< physical resolution of a scan */
-	u_long  dwPhysBytesPerLine;
-	u_long  wPhyDataType;         /**< how the scanner should scan */
+	XY xyPhyDpi;	  /**< physical resolution of a scan */
+	u_long dwPhysBytesPerLine;
+	u_long wPhyDataType;	      /**< how the scanner should scan */
 
-	u_long  dwAsicPixelsPerPlane;
-	u_long  dwAsicBytesPerPlane;
-	u_long  dwAsicBytesPerLine;
+	u_long dwAsicPixelsPerPlane;
+	u_long dwAsicBytesPerPlane;
+	u_long dwAsicBytesPerLine;
 
-	XY      xyAppDpi;
-	u_long  dwAppLinesPerArea;
-	u_long  dwAppPixelsPerLine;
-	u_long  dwAppPhyBytesPerLine;
-	u_long  dwAppBytesPerLine;
+	XY xyAppDpi;
+	u_long dwAppLinesPerArea;
+	u_long dwAppPixelsPerLine;
+	u_long dwAppPhyBytesPerLine;
+	u_long dwAppBytesPerLine;
 	u_short wAppDataType;
 
-	short   siBrightness;
-	short   siContrast;
+	short siBrightness;
+	short siContrast;
 
 	CropRect crImage;
 } DataInfo;
@@ -237,48 +255,50 @@ typedef struct
  */
 typedef struct
 {
-	pFnDataProcess  DataProcess;    /* to convert RGB buffers to RGB pixels */
-	pFnBool         DoSample;
-	pFnBool         DataRead;       /* function to get data from scanner    */
+	pFnDataProcess DataProcess;	/* to convert RGB buffers to RGB pixels */
+	pFnBool DoSample;
+	pFnBool DataRead;	/* function to get data from scanner    */
 
-	long            lBufferAdjust;
-	u_long          dwScanOrigin;   /* where to start the scan              */
-	u_long          negBegin;       /* used while scanning in TPA modes     */
-	u_long          posBegin;
-	SANE_Byte       bDiscardAll;
+	long lBufferAdjust;
+	u_long dwScanOrigin;	/* where to start the scan              */
+	u_long negBegin;	/* used while scanning in TPA modes     */
+	u_long posBegin;
+	SANE_Byte bDiscardAll;
 
-	union {
-		u_short     wGreenDiscard;
-		u_short     wGreenKeep;
+	union
+	{
+		u_short wGreenDiscard;
+		u_short wGreenKeep;
 	} gd_gk;
-	union {
-		u_short     wBlueDiscard;
-		u_short     wRedKeep;
+	union
+	{
+		u_short wBlueDiscard;
+		u_short wRedKeep;
 	} bd_rk;
 
-	u_long          dpiIdx;         /* index to get/set values in the table */
-	ExpXStepDef    *negScan;        /* reference to exposure/xtep table     */
+	u_long dpiIdx;		/* index to get/set values in the table */
+	ExpXStepDef *negScan;	/* reference to exposure/xtep table     */
 
-	DataPointer     p48BitBuf;      /* for handling 48-bit data             */
-	RBGPtrDef       BufBegin;       /* for reading/writing the scan-data    */
-	RBGPtrDef       BufEnd;
-	RBGPtrDef       BufGet;
-	RBGPtrDef       BufData;
-	RBGPtrDef       BufPut;
+	DataPointer p48BitBuf;	/* for handling 48-bit data             */
+	RBGPtrDef BufBegin;	/* for reading/writing the scan-data    */
+	RBGPtrDef BufEnd;
+	RBGPtrDef BufGet;
+	RBGPtrDef BufData;
+	RBGPtrDef BufPut;
 
 	/* motor movement stuff */
-	u_long          dwInterval;
-	SANE_Bool       refreshState;
-	SANE_Bool       motorBackward;
-	SANE_Byte       oldScanState;
-	SANE_Byte       bRefresh;
-	SANE_Byte       bModuleState;
-	SANE_Byte       bNowScanState;
+	u_long dwInterval;
+	SANE_Bool refreshState;
+	SANE_Bool motorBackward;
+	SANE_Byte oldScanState;
+	SANE_Byte bRefresh;
+	SANE_Byte bModuleState;
+	SANE_Byte bNowScanState;
 
 	/* internal FIFO management */
-	u_long          dwMinReadFifo;
-	u_long          dwMaxReadFifo;
-	SANE_Byte       bFifoSelect;    /* defines which FIFO to use            */
+	u_long dwMinReadFifo;
+	u_long dwMaxReadFifo;
+	SANE_Byte bFifoSelect;	/* defines which FIFO to use            */
 
 } ScanInfo;
 
@@ -286,21 +306,23 @@ typedef struct
  */
 typedef struct
 {
-	union {
-		SANE_Byte   *pReadBuf;
-		SANE_Byte   *pShadingMap;
-		u_short     *pShadingRam;
-		DataPointer  Buf;
+	union
+	{
+		SANE_Byte *pReadBuf;
+		SANE_Byte *pShadingMap;
+		u_short *pShadingRam;
+		DataPointer Buf;
 	} b1;
 
-	union {
-		SANE_Byte    *pSumBuf;
+	union
+	{
+		SANE_Byte *pSumBuf;
 		RGBUShortDef *pSumRGB;
 	} b2;
 
 	DataPointer TpaBuf;
 } BufferDef;
 
-#endif	/* guard __U12_SCANNER_H__ */
+#endif /* guard __U12_SCANNER_H__ */
 
 /* END U12-SCANNER.H ........................................................*/

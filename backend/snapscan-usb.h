@@ -51,12 +51,13 @@
 #ifndef snapscan_usb_h
 #define snapscan_usb_h
 
-typedef SANE_Status (*sense_handler_type)(int fd, u_char *sense_buffer, void *arg);
+typedef SANE_Status(*sense_handler_type) (int fd, u_char * sense_buffer,
+					  void *arg);
 
 static SANE_Status snapscani_usb_cmd(int fd, const void *src, size_t src_size,
-                         void *dst, size_t * dst_size);
+				     void *dst, size_t * dst_size);
 static SANE_Status snapscani_usb_open(const char *dev, int *fdp,
-    sense_handler_type, void*);
+				      sense_handler_type, void *);
 static void snapscani_usb_close(int fd);
 
 /*
@@ -77,29 +78,30 @@ static void snapscani_usb_close(int fd);
 /*
  *  USB transaction status
  */
-#define TRANSACTION_COMPLETED 0xfb   /* Scanner considers the transaction done */
-#define TRANSACTION_READ 0xf9        /* Scanner has data to deliver */
-#define TRANSACTION_WRITE 0xf8       /* Scanner is expecting more data */
+#define TRANSACTION_COMPLETED 0xfb	/* Scanner considers the transaction done */
+#define TRANSACTION_READ 0xf9	/* Scanner has data to deliver */
+#define TRANSACTION_WRITE 0xf8	/* Scanner is expecting more data */
 
 /*
  *  Busy queue data structure and prototypes
  */
-struct usb_busy_queue {
-    int fd;
-    void *src;
-    size_t src_size;
-    struct usb_busy_queue *next;
+struct usb_busy_queue
+{
+	int fd;
+	void *src;
+	size_t src_size;
+	struct usb_busy_queue *next;
 };
 
-static struct usb_busy_queue *bqhead,*bqtail;
-static int enqueue_bq(int fd,const void *src, size_t src_size);
+static struct usb_busy_queue *bqhead, *bqtail;
+static int enqueue_bq(int fd, const void *src, size_t src_size);
 static void dequeue_bq(void);
 static int is_queueable(const char *src);
 
 static SANE_Status atomic_usb_cmd(int fd, const void *src, size_t src_size,
-                    void *dst, size_t * dst_size);
+				  void *dst, size_t * dst_size);
 static SANE_Status usb_cmd(int fd, const void *src, size_t src_size,
-                    void *dst, size_t * dst_size);
+			   void *dst, size_t * dst_size);
 
 #endif
 

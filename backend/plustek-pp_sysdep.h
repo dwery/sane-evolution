@@ -82,7 +82,7 @@
 # include <linux/device.h>
 #endif
 
-#include <linux/types.h> /* used later in this header */
+#include <linux/types.h>	/* used later in this header */
 
 
 /* Modularization issues */
@@ -91,16 +91,16 @@
 #  define EXPORT_NO_SYMBOLS register_symtab(NULL);
 #  define REGISTER_SYMTAB(tab) register_symtab(tab)
 #else
-#  define REGISTER_SYMTAB(tab) /* nothing */
+#  define REGISTER_SYMTAB(tab)	/* nothing */
 #endif
 
 #ifdef __USE_OLD_SYMTAB__
-#  define __MODULE_STRING(s)         /* nothing */
-#  define MODULE_PARM(v,t)           /* nothing */
-#  define MODULE_PARM_DESC(v,t)      /* nothing */
-#  define MODULE_AUTHOR(n)           /* nothing */
-#  define MODULE_DESCRIPTION(d)      /* nothing */
-#  define MODULE_SUPPORTED_DEVICE(n) /* nothing */
+#  define __MODULE_STRING(s)	/* nothing */
+#  define MODULE_PARM(v,t)	/* nothing */
+#  define MODULE_PARM_DESC(v,t)	/* nothing */
+#  define MODULE_AUTHOR(n)	/* nothing */
+#  define MODULE_DESCRIPTION(d)	/* nothing */
+#  define MODULE_SUPPORTED_DEVICE(n)	/* nothing */
 #endif
 
 #if LINUX_VERSION_CODE < VERSION_CODE(2,1,31)
@@ -172,7 +172,7 @@
 #else
 #  include <asm/uaccess.h>
 #  include <asm/io.h>
-#  define verify_area_20(t,a,sz) (0) /* == success */
+#  define verify_area_20(t,a,sz) (0)	/* == success */
 #  define PUT_USER put_user
 #  define __PUT_USER __put_user
 #  define PUT_USER_RET put_user_ret
@@ -243,9 +243,17 @@
 #  else
 #    define cpu_to_be16(x) (x)
 #    define cpu_to_be32(x) (x)
-     extern inline __u16 cpu_to_le16(__u16 x) { return (x<<8) | (x>>8);}
-     extern inline __u32 cpu_to_le32(__u32 x) { return((x>>24) |
-             ((x>>8)&0xff00) | ((x<<8)&0xff0000) | (x<<24));}
+extern inline __u16
+cpu_to_le16(__u16 x)
+{
+	return (x << 8) | (x >> 8);
+}
+extern inline __u32
+cpu_to_le32(__u32 x)
+{
+	return ((x >> 24) |
+		((x >> 8) & 0xff00) | ((x << 8) & 0xff0000) | (x << 24));
+}
 #  endif
 
 #  define le16_to_cpu(x)  cpu_to_le16(x)
@@ -261,10 +269,26 @@
 #  define cpu_to_be16p(addr) (cpu_to_be16(*(addr)))
 #  define cpu_to_be32p(addr) (cpu_to_be32(*(addr)))
 
-   extern inline void cpu_to_le16s(__u16 *a) {*a = cpu_to_le16(*a);}
-   extern inline void cpu_to_le32s(__u16 *a) {*a = cpu_to_le32(*a);}
-   extern inline void cpu_to_be16s(__u16 *a) {*a = cpu_to_be16(*a);}
-   extern inline void cpu_to_be32s(__u16 *a) {*a = cpu_to_be32(*a);}
+extern inline void
+cpu_to_le16s(__u16 * a)
+{
+	*a = cpu_to_le16(*a);
+}
+extern inline void
+cpu_to_le32s(__u16 * a)
+{
+	*a = cpu_to_le32(*a);
+}
+extern inline void
+cpu_to_be16s(__u16 * a)
+{
+	*a = cpu_to_be16(*a);
+}
+extern inline void
+cpu_to_be32s(__u16 * a)
+{
+	*a = cpu_to_be32(*a);
+}
 
 #  define le16_to_cpup(x) cpu_to_le16p(x)
 #  define le32_to_cpup(x) cpu_to_le32p(x)
@@ -312,7 +336,7 @@ typedef struct class class_t;
 
 #else /* LINUX 2.6.0 - 2.6.14 */
 
-#if LINUX_VERSION_CODE >= VERSION_CODE(2,6,13) /* LINUX 2.6.13 - 2.6.14 */
+#if LINUX_VERSION_CODE >= VERSION_CODE(2,6,13)	/* LINUX 2.6.13 - 2.6.14 */
 typedef struct class class_t;
 #define CLASS_DEVICE_CREATE class_device_create
 

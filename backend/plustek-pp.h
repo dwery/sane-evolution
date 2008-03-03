@@ -60,52 +60,59 @@
 /*.............................................................................
  * the structures for driver communication
  */
-typedef struct {
+typedef struct
+{
 	unsigned short x;
 	unsigned short y;
 } XY, *pXY;
 
-typedef struct {
+typedef struct
+{
 	unsigned short x;
-    unsigned short y;
-    unsigned short cx;
-    unsigned short cy;
+	unsigned short y;
+	unsigned short cx;
+	unsigned short cy;
 } CropRect, *pCropRect;
 
-typedef struct image {
-	unsigned long	dwFlag;
-    CropRect 		crArea;
-    XY		 		xyDpi;
-    unsigned short	wDataType;
+typedef struct image
+{
+	unsigned long dwFlag;
+	CropRect crArea;
+	XY xyDpi;
+	unsigned short wDataType;
 } ImgDef, *pImgDef;
 
-typedef struct {
-    unsigned long dwPixelsPerLine;
-    unsigned long dwBytesPerLine;
-    unsigned long dwLinesPerArea;
-    struct image  ImgDef;
+typedef struct
+{
+	unsigned long dwPixelsPerLine;
+	unsigned long dwBytesPerLine;
+	unsigned long dwLinesPerArea;
+	struct image ImgDef;
 } CropInfo, *pCropInfo;
 
 /** definition of gamma maps
  */
-typedef struct {
-	int   len;      /**< gamma table len  */
-	int   depth;    /**< entry bit depth  */
-	int   map_id;   /**< what map         */
-	void *map;      /**< pointer for map  */
+typedef struct
+{
+	int len;	/**< gamma table len  */
+	int depth;	/**< entry bit depth  */
+	int map_id;	/**< what map         */
+	void *map;	/**< pointer for map  */
 } MapDef, *pMapDef;
 
 /** for offset stuff
  */
-typedef struct {
+typedef struct
+{
 	int x;
 	int y;
 } OffsDef, *pOffsDef;
 
 /** useful for description tables
  */
-typedef struct {
-	int	  id;
+typedef struct
+{
+	int id;
 	char *desc;
 } TabDef, *pTabDef;
 
@@ -120,11 +127,11 @@ typedef const struct mode_param
 
 /**
  */
-#define SFLAG_ADF               0x00000010  /* Automatic document feeder    */
-#define SFLAG_MFP               0x00000020  /* MF-Keypad support            */
-#define SFLAG_SheetFed          0x00000040  /* Sheetfed support             */
-#define SFLAG_TPA               0x00000080  /* has transparency adapter     */
-#define SFLAG_CUSTOM_GAMMA      0x00000200  /* driver supports custom gamma */
+#define SFLAG_ADF               0x00000010	/* Automatic document feeder    */
+#define SFLAG_MFP               0x00000020	/* MF-Keypad support            */
+#define SFLAG_SheetFed          0x00000040	/* Sheetfed support             */
+#define SFLAG_TPA               0x00000080	/* has transparency adapter     */
+#define SFLAG_CUSTOM_GAMMA      0x00000200	/* driver supports custom gamma */
 
 /**
  */
@@ -135,21 +142,21 @@ typedef const struct mode_param
 #define SCANDEF_ColorBGROrder	    0x00000010
 #define SCANDEF_BmpStyle	    	0x00000020
 #define SCANDEF_BoundaryWORD		0x00000040
-#define SCANDEF_NoMap		    	0x00000080	/* specified this flag will	 */
-												/* cause system ignores the	 */
+#define SCANDEF_NoMap		    	0x00000080	/* specified this flag will      */
+												/* cause system ignores the      */
 												/* siBrightness & siContrast */
-#define SCANDEF_Transparency	    0x00000100	/* Scanning from transparency*/
+#define SCANDEF_Transparency	    0x00000100	/* Scanning from transparency */
 #define SCANDEF_Negative	    	0x00000200	/* Scanning from negative    */
 #define SCANDEF_QualityScan	    	0x00000400	/* Scanning in quality mode  */
-#define SCANDEF_BuildBwMap	    	0x00000800	/* Set default map			 */
+#define SCANDEF_BuildBwMap	    	0x00000800	/* Set default map                       */
 #define SCANDEF_ContinuousScan      0x00001000
-#define SCANDEF_DontBackModule      0x00002000  /* module will not back to   */
+#define SCANDEF_DontBackModule      0x00002000	/* module will not back to   */
 												/* home after image scanned  */
-#define SCANDEF_RightAlign	    	0x00008000	/* 12-bit					 */
+#define SCANDEF_RightAlign	    	0x00008000	/* 12-bit                                        */
 
 #define SCANDEF_TPA                 (SCANDEF_Transparency | SCANDEF_Negative)
 
-#define SCANDEF_Adf                 0x00020000  /* Scan from ADF tray        */
+#define SCANDEF_Adf                 0x00020000	/* Scan from ADF tray        */
 
 /* these values will be combined with ScannerInfo.dwFlag */
 #define _SCANNER_SCANNING	    	0x8000000
@@ -173,7 +180,7 @@ typedef const struct mode_param
 #define COLOR_256GRAY		2
 #define COLOR_TRUE24		3
 #define COLOR_TRUE32		4
-#define COLOR_TRUE48		4  /* not sure if this should be the same as 32 */
+#define COLOR_TRUE48		4	/* not sure if this should be the same as 32 */
 #define COLOR_TRUE36		5
 
 /* We don't support halftone mode now --> Plustek statement for USB */
@@ -183,8 +190,8 @@ typedef const struct mode_param
 
 /** transparency/negative mode set ranges
  */
-#define _TPAPageWidth		500U			/* org. was 450 = 38.1 mm */
-#define _TPAPageHeight		510U 			/* org. was 460 = 38.9 mm */
+#define _TPAPageWidth		500U	/* org. was 450 = 38.1 mm */
+#define _TPAPageHeight		510U	/* org. was 460 = 38.9 mm */
 #define _TPAModeSupportMin	COLOR_TRUE24
 #define _TPAModeSupportMax	COLOR_TRUE48
 #define _TPAModeSupportDef	COLOR_TRUE24
@@ -215,31 +222,31 @@ typedef const struct mode_param
 
 #define _FIRST_ERR	-9000
 
-#define _E_INIT	 	  (_FIRST_ERR-1)	/* already initialized				*/
-#define _E_NOT_INIT	  (_FIRST_ERR-2)	/* not initialized					*/
-#define _E_NULLPTR	  (_FIRST_ERR-3)	/* internal NULL-PTR detected		*/
-#define _E_ALLOC	  (_FIRST_ERR-4)	/* error allocating memory			*/
-#define _E_TIMEOUT	  (_FIRST_ERR-5)	/* signals a timeout condition		*/
-#define _E_INVALID	  (_FIRST_ERR-6)	/* invalid parameter detected		*/
-#define _E_INTERNAL	  (_FIRST_ERR-7)	/* internal error					*/
-#define _E_BUSY		  (_FIRST_ERR-8)	/* device is already in use			*/
-#define _E_ABORT	  (_FIRST_ERR-9)	/* operation aborted				*/
-#define	_E_LOCK		  (_FIRST_ERR-10)	/* can't lock resource				*/
+#define _E_INIT	 	  (_FIRST_ERR-1)	/* already initialized                          */
+#define _E_NOT_INIT	  (_FIRST_ERR-2)	/* not initialized                                      */
+#define _E_NULLPTR	  (_FIRST_ERR-3)	/* internal NULL-PTR detected           */
+#define _E_ALLOC	  (_FIRST_ERR-4)	/* error allocating memory                      */
+#define _E_TIMEOUT	  (_FIRST_ERR-5)	/* signals a timeout condition          */
+#define _E_INVALID	  (_FIRST_ERR-6)	/* invalid parameter detected           */
+#define _E_INTERNAL	  (_FIRST_ERR-7)	/* internal error                                       */
+#define _E_BUSY		  (_FIRST_ERR-8)	/* device is already in use                     */
+#define _E_ABORT	  (_FIRST_ERR-9)	/* operation aborted                            */
+#define	_E_LOCK		  (_FIRST_ERR-10)	/* can't lock resource                          */
 #define _E_NOSUPP	  (_FIRST_ERR-11)	/* feature or device not supported  */
 #define _E_NORESOURCE (_FIRST_ERR-12)	/* out of memo, resource busy...    */
-#define _E_VERSION	  (_FIRST_ERR-19)	/* version conflict					*/
-#define _E_NO_DEV	  (_FIRST_ERR-20)	/* device does not exist			*/
-#define _E_NO_CONN	  (_FIRST_ERR-21)	/* nothing connected				*/
-#define _E_PORTSEARCH (_FIRST_ERR-22)	/* parport_enumerate failed			*/
-#define _E_NO_PORT	  (_FIRST_ERR-23)	/* requested port does not exist	*/
-#define _E_REGISTER	  (_FIRST_ERR-24)	/* cannot register this device		*/
-#define _E_SEQUENCE	  (_FIRST_ERR-30)	/* caller sequence does not match	*/
-#define _E_NO_ASIC	  (_FIRST_ERR-31)	/* can't detect ASIC            	*/
+#define _E_VERSION	  (_FIRST_ERR-19)	/* version conflict                                     */
+#define _E_NO_DEV	  (_FIRST_ERR-20)	/* device does not exist                        */
+#define _E_NO_CONN	  (_FIRST_ERR-21)	/* nothing connected                            */
+#define _E_PORTSEARCH (_FIRST_ERR-22)	/* parport_enumerate failed                     */
+#define _E_NO_PORT	  (_FIRST_ERR-23)	/* requested port does not exist        */
+#define _E_REGISTER	  (_FIRST_ERR-24)	/* cannot register this device          */
+#define _E_SEQUENCE	  (_FIRST_ERR-30)	/* caller sequence does not match       */
+#define _E_NO_ASIC	  (_FIRST_ERR-31)	/* can't detect ASIC                    */
 
 #ifdef __KERNEL__
 # define _E_FAULT     (-EFAULT)
 #else
-# define _E_FAULT     (_E_INTERNAL)    /* should never happen in userspace  */
+# define _E_FAULT     (_E_INTERNAL)	/* should never happen in userspace  */
 #endif
 
 #define _E_LAMP_NOT_IN_POS	(_FIRST_ERR-40)
@@ -278,26 +285,26 @@ typedef const struct mode_param
 
 /* the models */
 #define MODEL_OP_UNKNOWN  0	/* unknown */
-#define MODEL_PMX_4800	  1 /* Primax Colorado 4800 like OP 4800 			 */
-#define MODEL_PMX_4800D   2 /* Primax Compact 4800 Direct, OP 600 R->G, G->R */
-#define MODEL_PMX_4800D3  3 /* Primax Compact 4800 Direct 30                 */
-#define MODEL_PMX_9600D3  4 /* Primax Compact 9600 Direct 30                 */
-#define MODEL_OP_4800P 	  5 /* 32k,  96001 ASIC, 24 bit, 300x600, 8.5x11.69  */
-#define MODEL_OP_4830P 	  6 /* 32k,  96003 ASIC, 30 bit, 300x600, 8.5x11.69  */
+#define MODEL_PMX_4800	  1	/* Primax Colorado 4800 like OP 4800                         */
+#define MODEL_PMX_4800D   2	/* Primax Compact 4800 Direct, OP 600 R->G, G->R */
+#define MODEL_PMX_4800D3  3	/* Primax Compact 4800 Direct 30                 */
+#define MODEL_PMX_9600D3  4	/* Primax Compact 9600 Direct 30                 */
+#define MODEL_OP_4800P 	  5	/* 32k,  96001 ASIC, 24 bit, 300x600, 8.5x11.69  */
+#define MODEL_OP_4830P 	  6	/* 32k,  96003 ASIC, 30 bit, 300x600, 8.5x11.69  */
 #define MODEL_OP_600P 	  7	/* 32k,  96003 ASIC, 30 bit, 300x600, 8.5x11.69  */
-#define MODEL_OP_4831P 	  8 /* 128k, 96003 ASIC, 30 bit, 300x600, 8.5x11.69  */
+#define MODEL_OP_4831P 	  8	/* 128k, 96003 ASIC, 30 bit, 300x600, 8.5x11.69  */
 #define MODEL_OP_9630P 	  9	/* 128k, 96003 ASIC, 30 bit, 600x1200, 8.5x11.69 */
-#define MODEL_OP_9630PL	 10	/* 128k, 96003 ASIC, 30 bit, 600x1200, 8.5x14	 */
+#define MODEL_OP_9630PL	 10	/* 128k, 96003 ASIC, 30 bit, 600x1200, 8.5x14    */
 #define MODEL_OP_9636P 	 11	/* 512k, 98001 ASIC, 36 bit, 600x1200, 8.5x11.69 */
 #define MODEL_OP_A3I 	 12	/* 128k, 96003 ASIC, 30 bit, 400x800,  11.69x17  */
 #define MODEL_OP_12000P  13	/* 128k, 96003 ASIC, 30 bit, 600x1200, 8.5x11.69 */
 #define MODEL_OP_9636PP  14	/* 512k, 98001 ASIC, 36 bit, 600x1200, 8.5x11.69 */
-#define MODEL_OP_9636T 	 15	/* like OP_9636PP + transparency 				 */
-#define MODEL_OP_P8      16 /* 512k, 98003 ASIC, 36 bit,  300x600, 8.5x11.69 */
-#define MODEL_OP_P12     17 /* 512k, 98003 ASIC, 36 bit, 600x1200, 8.5x11.69 */
-#define MODEL_OP_PT12    18 /* like OP_P12 + transparency 					 */
-#define MODEL_GEN_CPV2   19 /* Genius Colorpage Vivid III V2, ASIC 98003     */
-#define MODEL_UNKNOWN	 20 /* not known/supported                           */
+#define MODEL_OP_9636T 	 15	/* like OP_9636PP + transparency                                 */
+#define MODEL_OP_P8      16	/* 512k, 98003 ASIC, 36 bit,  300x600, 8.5x11.69 */
+#define MODEL_OP_P12     17	/* 512k, 98003 ASIC, 36 bit, 600x1200, 8.5x11.69 */
+#define MODEL_OP_PT12    18	/* like OP_P12 + transparency                                        */
+#define MODEL_GEN_CPV2   19	/* Genius Colorpage Vivid III V2, ASIC 98003     */
+#define MODEL_UNKNOWN	 20	/* not known/supported                           */
 
 #define _NO_BASE	0xFFFF
 
@@ -345,18 +352,18 @@ typedef const struct mode_param
 /*.............................................................................
  * the ioctl interface
  */
-#define _PTDRV_OPEN_DEVICE 	    _IOW('x', 1, unsigned short)/* open			 */
-#define _PTDRV_GET_CAPABILITIES _IOR('x', 2, ScannerCaps)	/* get caps		 */
-#define _PTDRV_GET_LENSINFO 	_IOR('x', 3, LensInfo)		/* get lenscaps	 */
-#define _PTDRV_PUT_IMAGEINFO 	_IOW('x', 4, ImgDef)		/* put image info*/
-#define _PTDRV_GET_CROPINFO 	_IOR('x', 5, CropInfo)		/* get crop		 */
-#define _PTDRV_SET_ENV 			_IOWR('x',6, ScanInfo)		/* set env.		 */
-#define _PTDRV_START_SCAN 		_IOR('x', 7, StartScan)		/* start scan 	 */
-#define _PTDRV_STOP_SCAN 		_IOWR('x', 8, short)		/* stop scan 	 */
-#define _PTDRV_CLOSE_DEVICE 	_IO('x',  9)				/* close 		 */
-#define _PTDRV_ACTION_BUTTON	_IOR('x', 10, unsigned char)/* rd act. button*/
-#define _PTDRV_ADJUST           _IOR('x', 11, AdjDef)		/* adjust driver */
-#define _PTDRV_SETMAP           _IOR('x', 12, MapDef)		/* download gamma*/
+#define _PTDRV_OPEN_DEVICE 	    _IOW('x', 1, unsigned short)	/* open                  */
+#define _PTDRV_GET_CAPABILITIES _IOR('x', 2, ScannerCaps)	/* get caps              */
+#define _PTDRV_GET_LENSINFO 	_IOR('x', 3, LensInfo)	/* get lenscaps  */
+#define _PTDRV_PUT_IMAGEINFO 	_IOW('x', 4, ImgDef)	/* put image info */
+#define _PTDRV_GET_CROPINFO 	_IOR('x', 5, CropInfo)	/* get crop              */
+#define _PTDRV_SET_ENV 			_IOWR('x',6, ScanInfo)	/* set env.              */
+#define _PTDRV_START_SCAN 		_IOR('x', 7, StartScan)	/* start scan    */
+#define _PTDRV_STOP_SCAN 		_IOWR('x', 8, short)	/* stop scan     */
+#define _PTDRV_CLOSE_DEVICE 	_IO('x',  9)	/* close                 */
+#define _PTDRV_ACTION_BUTTON	_IOR('x', 10, unsigned char)	/* rd act. button */
+#define _PTDRV_ADJUST           _IOR('x', 11, AdjDef)	/* adjust driver */
+#define _PTDRV_SETMAP           _IOR('x', 12, MapDef)	/* download gamma */
 
 /*
  * this version MUST match the one inside the driver to make sure, that
@@ -368,109 +375,116 @@ typedef const struct mode_param
 
 /** for adjusting the parport stuff
  */
-typedef struct {
-	int     lampOff;
-	int     lampOffOnEnd;
-	int     warmup;
-	int     enableTpa;
+typedef struct
+{
+	int lampOff;
+	int lampOffOnEnd;
+	int warmup;
+	int enableTpa;
 
-	OffsDef pos; 	/* for adjusting normal scan area       */
-	OffsDef tpa; 	/* for adjusting transparency scan area */
-	OffsDef neg; 	/* for adjusting negative scan area     */
+	OffsDef pos;		/* for adjusting normal scan area       */
+	OffsDef tpa;		/* for adjusting transparency scan area */
+	OffsDef neg;		/* for adjusting negative scan area     */
 
 	/* for adjusting the default gamma settings */
-	double  rgamma;
-	double  ggamma;
-	double  bgamma;
+	double rgamma;
+	double ggamma;
+	double bgamma;
 
-	double  graygamma;
+	double graygamma;
 
 } PPAdjDef, *pPPAdjDef;
 
 /** for adjusting the scanner settings
  */
-typedef struct {
+typedef struct
+{
 
-	int 	direct_io;
-	int     mov;
+	int direct_io;
+	int mov;
 
-	int     lampOff;
-	int     lampOffOnEnd;
-	int     warmup;
+	int lampOff;
+	int lampOffOnEnd;
+	int warmup;
 
-	OffsDef pos; 	/* for adjusting normal scan area       */
-	OffsDef tpa; 	/* for adjusting transparency scan area */
-	OffsDef neg; 	/* for adjusting negative scan area     */
+	OffsDef pos;		/* for adjusting normal scan area       */
+	OffsDef tpa;		/* for adjusting transparency scan area */
+	OffsDef neg;		/* for adjusting negative scan area     */
 
 	/* for adjusting the default gamma settings */
-	double  rgamma;
-	double  ggamma;
-	double  bgamma;
+	double rgamma;
+	double ggamma;
+	double bgamma;
 
-	double  graygamma;
+	double graygamma;
 
 } AdjDef, *pAdjDef;
 
-typedef struct {
-  	unsigned long dwFlag;  			/* refer to SECTION (1.2)			*/
+typedef struct
+{
+	unsigned long dwFlag;	/* refer to SECTION (1.2)                       */
 	unsigned long dwBytesPerLine;
 	unsigned long dwLinesPerScan;
 } StartScan, *pStartScan;
 
-typedef struct {
-    unsigned short	wMin;       /* minimum value						*/
-    unsigned short	wDef;       /* default value						*/
-    unsigned short	wMax;		/* software maximum value				*/
-    unsigned short	wPhyMax;	/* hardware maximum value (for DPI only)*/
+typedef struct
+{
+	unsigned short wMin;	/* minimum value                                            */
+	unsigned short wDef;	/* default value                                            */
+	unsigned short wMax;	/* software maximum value                               */
+	unsigned short wPhyMax;	/* hardware maximum value (for DPI only) */
 } RANGE, *PRANGE;
 
-typedef struct {
-	RANGE          rDataType;   /* available scan modes 			*/
-	unsigned long  dwFlag;      /* refer to SECTION (1.2)           */
-	unsigned short wIOBase;     /* refer to SECTION (1.3)			*/
-	unsigned short wMaxExtentX; /* scanarea width					*/
-	unsigned short wMaxExtentY; /* scanarea height					*/
-	unsigned short AsicID;      /* copy of RegAsicID 				*/
-	unsigned short Model;       /* model as best we can determine 	*/
+typedef struct
+{
+	RANGE rDataType;	/* available scan modes                     */
+	unsigned long dwFlag;	/* refer to SECTION (1.2)           */
+	unsigned short wIOBase;	/* refer to SECTION (1.3)                   */
+	unsigned short wMaxExtentX;	/* scanarea width                                   */
+	unsigned short wMaxExtentY;	/* scanarea height                                  */
+	unsigned short AsicID;	/* copy of RegAsicID                                */
+	unsigned short Model;	/* model as best we can determine   */
 } ScannerCaps, *pScannerCaps;
 
-typedef struct {
-    RANGE	    	rDpiX;
-    RANGE	    	rDpiY;
-    RANGE	    	rExtentX;
-    RANGE	    	rExtentY;
-    unsigned short	wBeginX;		/* offset from left */
-    unsigned short	wBeginY;		/* offset from top	*/
+typedef struct
+{
+	RANGE rDpiX;
+	RANGE rDpiY;
+	RANGE rExtentX;
+	RANGE rExtentY;
+	unsigned short wBeginX;	/* offset from left */
+	unsigned short wBeginY;	/* offset from top      */
 } LensInfo, *pLensInfo;
 
-typedef struct {
-    unsigned char*	pDither;
-    void*	    	pMap;
-    ImgDef	    	ImgDef;
-	unsigned short	wMapType;		/* refer to SECTION (3.2)			*/
-	unsigned short	wDither;		/* refer to SECTION (3.3)			*/
-    short	    	siBrightness;	/* refer to SECTION (3.5)			*/
-    short	    	siContrast;    	/* refer to SECTION (3.6)			*/
+typedef struct
+{
+	unsigned char *pDither;
+	void *pMap;
+	ImgDef ImgDef;
+	unsigned short wMapType;	/* refer to SECTION (3.2)                       */
+	unsigned short wDither;	/* refer to SECTION (3.3)                       */
+	short siBrightness;	/* refer to SECTION (3.5)                       */
+	short siContrast;	/* refer to SECTION (3.6)                       */
 } ScanInfo, *pScanInfo;
 
 
 /* IDs the ASIC returns */
-#define _ASIC_IS_96001		0x0f	/* value for 96001	*/
+#define _ASIC_IS_96001		0x0f	/* value for 96001      */
 #define _ASIC_IS_96003		0x10	/* value for 96003  */
-#define _ASIC_IS_98001		0x81	/* value for 98001	*/
-#define _ASIC_IS_98003		0x83	/* value for 98003	*/
+#define _ASIC_IS_98001		0x81	/* value for 98001      */
+#define _ASIC_IS_98003		0x83	/* value for 98003      */
 
 #define _Transparency48OriginOffsetX	375
 #define _Transparency48OriginOffsetY	780
 
-#define _Transparency96OriginOffsetX  	0x03DB  /* org. was 0x0430	*/
-#define _Negative96OriginOffsetX	  	0x03F3	/* org. was 0x0428	*/
+#define _Transparency96OriginOffsetX  	0x03DB	/* org. was 0x0430      */
+#define _Negative96OriginOffsetX	  	0x03F3	/* org. was 0x0428      */
 
 /** Scanmodes
  */
 #define _ScanMode_Color         0
-#define _ScanMode_AverageOut	1	/* CCD averaged 2 pixels value for output*/
-#define _ScanMode_Mono			2   /* not color mode						 */
+#define _ScanMode_AverageOut	1	/* CCD averaged 2 pixels value for output */
+#define _ScanMode_Mono			2	/* not color mode                                            */
 
 
 #ifndef __KERNEL__
@@ -486,18 +500,18 @@ typedef struct {
 /*
  * the default image size
  */
-#define _DEFAULT_TLX  		0		/* 0..216 mm */
-#define _DEFAULT_TLY  		0		/* 0..297 mm */
-#define _DEFAULT_BRX		126		/* 0..216 mm*/
+#define _DEFAULT_TLX  		0	/* 0..216 mm */
+#define _DEFAULT_TLY  		0	/* 0..297 mm */
+#define _DEFAULT_BRX		126	/* 0..216 mm */
 #define _DEFAULT_BRY		76.21	/* 0..297 mm */
 
-#define _DEFAULT_TP_TLX  	3.5		/* 0..42.3 mm */
+#define _DEFAULT_TP_TLX  	3.5	/* 0..42.3 mm */
 #define _DEFAULT_TP_TLY  	10.5	/* 0..43.1 mm */
 #define _DEFAULT_TP_BRX		38.5	/* 0..42.3 mm */
 #define _DEFAULT_TP_BRY		33.5	/* 0..43.1 mm */
 
-#define _DEFAULT_NEG_TLX  	1.5		/* 0..38.9 mm */
-#define _DEFAULT_NEG_TLY  	1.5		/* 0..29.6 mm */
+#define _DEFAULT_NEG_TLX  	1.5	/* 0..38.9 mm */
+#define _DEFAULT_NEG_TLY  	1.5	/* 0..29.6 mm */
 #define _DEFAULT_NEG_BRX	37.5	/* 0..38.9 mm */
 #define _DEFAULT_NEG_BRY	25.5	/* 0..29.6 mm */
 
@@ -510,41 +524,43 @@ typedef struct {
 
 /************************ some structures ************************************/
 
-enum {
-    OPT_NUM_OPTS = 0,
-    OPT_MODE_GROUP,
-    OPT_MODE,
+enum
+{
+	OPT_NUM_OPTS = 0,
+	OPT_MODE_GROUP,
+	OPT_MODE,
 	OPT_EXT_MODE,
-    OPT_RESOLUTION,
-    OPT_PREVIEW,
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,
-    OPT_TL_Y,
-    OPT_BR_X,
-    OPT_BR_Y,
+	OPT_RESOLUTION,
+	OPT_PREVIEW,
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,
+	OPT_TL_Y,
+	OPT_BR_X,
+	OPT_BR_Y,
 	OPT_ENHANCEMENT_GROUP,
-    OPT_HALFTONE,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
-    OPT_CUSTOM_GAMMA,
-    OPT_GAMMA_VECTOR,
-    OPT_GAMMA_VECTOR_R,
-    OPT_GAMMA_VECTOR_G,
-    OPT_GAMMA_VECTOR_B,
-    NUM_OPTIONS
+	OPT_HALFTONE,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_CUSTOM_GAMMA,
+	OPT_GAMMA_VECTOR,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
+	NUM_OPTIONS
 };
 
 /** for compatiblity to version 0x0102 drivers
  */
-typedef struct {
+typedef struct
+{
 
-	int     lampOff;
-	int     lampOffOnEnd;
-	int     warmup;
+	int lampOff;
+	int lampOffOnEnd;
+	int warmup;
 
-	OffsDef pos; 	/* for adjusting normal scan area       */
-	OffsDef tpa; 	/* for adjusting transparency scan area */
-	OffsDef neg; 	/* for adjusting negative scan area     */
+	OffsDef pos;		/* for adjusting normal scan area       */
+	OffsDef tpa;		/* for adjusting transparency scan area */
+	OffsDef neg;		/* for adjusting negative scan area     */
 
 } CompatAdjDef, *pCompatAdjDef;
 
@@ -552,40 +568,41 @@ typedef struct {
  */
 typedef struct Plustek_Device
 {
-	SANE_Int               initialized;      /* device already initialized?  */
-	struct Plustek_Device *next;             /* pointer to next dev in list  */
-	int 				   fd;				 /* device handle                */
-    char                  *name;             /* (to avoid compiler warnings!)*/
-    SANE_Device 		   sane;             /* info struct                  */
-	SANE_Int			   max_x;            /* max XY-extension of the scan-*/
-	SANE_Int			   max_y;            /* area                         */
-    SANE_Range 			   dpi_range;        /* resolution range             */
-    SANE_Range 			   x_range;          /* x-range of the scan-area     */
-    SANE_Range 			   y_range;          /* y-range of the scan-area     */
-    SANE_Int  		 	  *res_list;         /* to hold the available phys.  */
-    SANE_Int 			   res_list_size;    /* resolution values            */
-    ScannerCaps            caps;             /* caps reported by the driver  */
-	AdjDef                 adj;	             /* for driver adjustment        */
-	
-    /*
-     * each device we support may need other access functions...
-     */
-    int  (*open)       ( const char*, void* );
-    int  (*close)      ( struct Plustek_Device* );
-    void (*shutdown)   ( struct Plustek_Device* );
-    int  (*getCaps)    ( struct Plustek_Device* );
-    int  (*getLensInfo)( struct Plustek_Device*, pLensInfo  );
-    int  (*getCropInfo)( struct Plustek_Device*, pCropInfo  );
-    int  (*putImgInfo) ( struct Plustek_Device*, pImgDef    );
-    int  (*setScanEnv) ( struct Plustek_Device*, pScanInfo  );
-    int  (*setMap)     ( struct Plustek_Device*, SANE_Word*,
-	                                             SANE_Word, SANE_Word );
-    int  (*startScan)  ( struct Plustek_Device*, pStartScan );
-    int  (*stopScan)   ( struct Plustek_Device*, short* );
-    int  (*readImage)  ( struct Plustek_Device*, SANE_Byte*, unsigned long );
+	SANE_Int initialized;	/* device already initialized?  */
+	struct Plustek_Device *next;	/* pointer to next dev in list  */
+	int fd;			/* device handle                */
+	char *name;		/* (to avoid compiler warnings!) */
+	SANE_Device sane;	/* info struct                  */
+	SANE_Int max_x;		/* max XY-extension of the scan- */
+	SANE_Int max_y;		/* area                         */
+	SANE_Range dpi_range;	/* resolution range             */
+	SANE_Range x_range;	/* x-range of the scan-area     */
+	SANE_Range y_range;	/* y-range of the scan-area     */
+	SANE_Int *res_list;	/* to hold the available phys.  */
+	SANE_Int res_list_size;	/* resolution values            */
+	ScannerCaps caps;	/* caps reported by the driver  */
+	AdjDef adj;		/* for driver adjustment        */
 
-    int  (*prepare)    ( struct Plustek_Device*, SANE_Byte* );
-    int  (*readLine)   ( struct Plustek_Device* );
+	/*
+	 * each device we support may need other access functions...
+	 */
+	int (*open) (const char *, void *);
+	int (*close) (struct Plustek_Device *);
+	void (*shutdown) (struct Plustek_Device *);
+	int (*getCaps) (struct Plustek_Device *);
+	int (*getLensInfo) (struct Plustek_Device *, pLensInfo);
+	int (*getCropInfo) (struct Plustek_Device *, pCropInfo);
+	int (*putImgInfo) (struct Plustek_Device *, pImgDef);
+	int (*setScanEnv) (struct Plustek_Device *, pScanInfo);
+	int (*setMap) (struct Plustek_Device *, SANE_Word *,
+		       SANE_Word, SANE_Word);
+	int (*startScan) (struct Plustek_Device *, pStartScan);
+	int (*stopScan) (struct Plustek_Device *, short *);
+	int (*readImage) (struct Plustek_Device *, SANE_Byte *,
+			  unsigned long);
+
+	int (*prepare) (struct Plustek_Device *, SANE_Byte *);
+	int (*readLine) (struct Plustek_Device *);
 
 } Plustek_Device, *pPlustek_Device;
 
@@ -601,33 +618,34 @@ typedef union
 
 typedef struct Plustek_Scanner
 {
-    struct Plustek_Scanner *next;
-    pid_t 					reader_pid;		/* process id of reader          */
-    SANE_Status             exit_code;      /* status of the reader process  */
-	int                     r_pipe;         /* pipe to reader process        */
-	int                     w_pipe;         /* pipe from reader process      */
-	unsigned long			bytes_read;		/* number of bytes currently read*/
-    Plustek_Device 		   *hw;				/* pointer to current device     */
-    Option_Value 			val[NUM_OPTIONS];
-    SANE_Byte 			   *buf;            /* the image buffer              */
-    SANE_Bool 				scanning;       /* TRUE during scan-process      */
-    SANE_Parameters 		params;         /* for keeping the parameter     */
-	
-	/************************** gamma tables *********************************/
-	
-	SANE_Word	gamma_table[4][4096];
-	SANE_Range	gamma_range;
-	int 		gamma_length;
+	struct Plustek_Scanner *next;
+	pid_t reader_pid;	/* process id of reader          */
+	SANE_Status exit_code;	/* status of the reader process  */
+	int r_pipe;		/* pipe to reader process        */
+	int w_pipe;		/* pipe from reader process      */
+	unsigned long bytes_read;	/* number of bytes currently read */
+	Plustek_Device *hw;	/* pointer to current device     */
+	Option_Value val[NUM_OPTIONS];
+	SANE_Byte *buf;		/* the image buffer              */
+	SANE_Bool scanning;	/* TRUE during scan-process      */
+	SANE_Parameters params;	/* for keeping the parameter     */
 
-    SANE_Option_Descriptor	opt[NUM_OPTIONS];
+	/************************** gamma tables *********************************/
+
+	SANE_Word gamma_table[4][4096];
+	SANE_Range gamma_range;
+	int gamma_length;
+
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
 
 } Plustek_Scanner, *pPlustek_Scanner;
 
 /** for collecting configuration info...
  */
-typedef struct {
-	
-	char   devName[PATH_MAX];
+typedef struct
+{
+
+	char devName[PATH_MAX];
 
 	/* contains the stuff to adjust... */
 	AdjDef adj;
@@ -635,6 +653,6 @@ typedef struct {
 } CnfDef, *pCnfDef;
 #endif /* guard __KERNEL__ */
 
-#endif	/* guard __PLUSTEKPP_H__ */
+#endif /* guard __PLUSTEKPP_H__ */
 
 /* END PLUSTEK-PP.H .........................................................*/

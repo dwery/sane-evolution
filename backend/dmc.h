@@ -47,70 +47,73 @@
 
 #define BYTES_PER_RAW_LINE 1599
 
-typedef enum {
-    OPT_NUM_OPTS = 0,
+typedef enum
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-    OPT_MODE_GROUP,		/* Image acquisition mode */
-    OPT_IMAGE_MODE,		/* Thumbnail, center cut or MFI'd image */
-    OPT_ASA,			/* ASA Settings */
-    OPT_SHUTTER_SPEED,		/* Shutter speed */
-    OPT_WHITE_BALANCE,		/* White balance */
+	OPT_MODE_GROUP,		/* Image acquisition mode */
+	OPT_IMAGE_MODE,		/* Thumbnail, center cut or MFI'd image */
+	OPT_ASA,		/* ASA Settings */
+	OPT_SHUTTER_SPEED,	/* Shutter speed */
+	OPT_WHITE_BALANCE,	/* White balance */
 
-    /* must come last: */
-    NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 } DMC_Option;
 
-typedef struct DMC_Device {
-    struct DMC_Device *next;
-    SANE_Device sane;
-    SANE_Range shutterSpeedRange;
-    unsigned int shutterSpeed;
-    int asa;
-    int whiteBalance;
+typedef struct DMC_Device
+{
+	struct DMC_Device *next;
+	SANE_Device sane;
+	SANE_Range shutterSpeedRange;
+	unsigned int shutterSpeed;
+	int asa;
+	int whiteBalance;
 } DMC_Device;
 
-typedef struct DMC_Camera {
-    /* all the state needed to define a scan request: */
-    struct DMC_Camera *next;
+typedef struct DMC_Camera
+{
+	/* all the state needed to define a scan request: */
+	struct DMC_Camera *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-    SANE_Parameters params;
-    size_t bytes_to_read;
+	SANE_Parameters params;
+	size_t bytes_to_read;
 
-    SANE_Range tl_x_range;
-    SANE_Range tl_y_range;
-    SANE_Range br_x_range;
-    SANE_Range br_y_range;
+	SANE_Range tl_x_range;
+	SANE_Range tl_y_range;
+	SANE_Range br_x_range;
+	SANE_Range br_y_range;
 
-    int imageMode;
+	int imageMode;
 
-    /* The DMC needs certain reads to be done in one chunk, meaning
-       we might have to buffer them. */
-    char *readBuffer;
-    char *readPtr;
-    int inViewfinderMode;
-    int fd;			/* SCSI filedescriptor */
-    SANE_Byte currentRawLine[BYTES_PER_RAW_LINE];
-    SANE_Byte nextRawLine[BYTES_PER_RAW_LINE];
-    int nextRawLineValid;
+	/* The DMC needs certain reads to be done in one chunk, meaning
+	   we might have to buffer them. */
+	char *readBuffer;
+	char *readPtr;
+	int inViewfinderMode;
+	int fd;			/* SCSI filedescriptor */
+	SANE_Byte currentRawLine[BYTES_PER_RAW_LINE];
+	SANE_Byte nextRawLine[BYTES_PER_RAW_LINE];
+	int nextRawLineValid;
 
-    /* scanner dependent/low-level state: */
-    DMC_Device *hw;
+	/* scanner dependent/low-level state: */
+	DMC_Device *hw;
 } DMC_Camera;
 
 /* We only support the following four imaging modes */
-#define IMAGE_MFI        0x0000 /* 801x600 filtered image   */
-#define IMAGE_VIEWFINDER 0x0001 /* 270x201 viewfinder image */
-#define IMAGE_RAW        0x0002 /* 1599x600 raw image       */
-#define IMAGE_THUMB      0x0003 /* 80x60 thumbnail image    */
+#define IMAGE_MFI        0x0000	/* 801x600 filtered image   */
+#define IMAGE_VIEWFINDER 0x0001	/* 270x201 viewfinder image */
+#define IMAGE_RAW        0x0002	/* 1599x600 raw image       */
+#define IMAGE_THUMB      0x0003	/* 80x60 thumbnail image    */
 #define IMAGE_SUPER_RES  0x0004
 #define NUM_IMAGE_MODES  5
 

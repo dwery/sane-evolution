@@ -91,17 +91,17 @@
 
 #ifdef LINUX_24
 # include <linux/parport_pc.h>
-#endif	/* LINUX_24   */
+#endif /* LINUX_24   */
 
-#endif  /* __KERNEL__ */
+#endif /* __KERNEL__ */
 
 /*.............................................................................
  * driver properties
  */
 #define _DRV_NAME        "pt_drv"   /**< driver's name         */
-#define	_MAX_PTDEVS      4          /**< support for 4 devices */
-#define	_MAX_BTNS        6          /**< support for 6 buttons */
-#define _PTDRV_MAJOR    40          /**< our major number      */
+#define	_MAX_PTDEVS      4	    /**< support for 4 devices */
+#define	_MAX_BTNS        6	    /**< support for 6 buttons */
+#define _PTDRV_MAJOR    40	    /**< our major number      */
 
 /*.............................................................................
  * for port operations
@@ -159,7 +159,7 @@ typedef double TimerDef, *pTimerDef;
 typedef long long TimerDef, *pTimerDef;
 #endif
 
-#define _MSECOND    1000             /* based on 1 us */
+#define _MSECOND    1000	/* based on 1 us */
 #define _SECOND     (1000*_MSECOND)
 
 /*.............................................................................

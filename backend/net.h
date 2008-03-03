@@ -50,39 +50,39 @@
 #include "../include/sane/config.h"
 
 typedef struct Net_Device
-  {
-    struct Net_Device *next;
-    const char *name;
+{
+	struct Net_Device *next;
+	const char *name;
 #if defined (HAVE_GETADDRINFO) && defined (HAVE_GETNAMEINFO)
-    struct addrinfo *addr;
-    struct addrinfo *addr_used;
+	struct addrinfo *addr;
+	struct addrinfo *addr_used;
 #else
-    struct sockaddr addr;
-#endif /* HAVE_GETADDRINFO && HAVE_GETNAMEINFO */
-    int ctl;			/* socket descriptor (or -1) */
-    Wire wire;
-    int auth_active;
-  }
+	struct sockaddr addr;
+#endif				/* HAVE_GETADDRINFO && HAVE_GETNAMEINFO */
+	int ctl;		/* socket descriptor (or -1) */
+	Wire wire;
+	int auth_active;
+}
 Net_Device;
 
 typedef struct Net_Scanner
-  {
-    /* all the state needed to define a scan request: */
-    struct Net_Scanner *next;
+{
+	/* all the state needed to define a scan request: */
+	struct Net_Scanner *next;
 
-    int options_valid;			/* are the options current? */
-    SANE_Option_Descriptor_Array opt, local_opt;
+	int options_valid;	/* are the options current? */
+	SANE_Option_Descriptor_Array opt, local_opt;
 
-    SANE_Word handle;		/* remote handle (it's a word, not a ptr!) */
+	SANE_Word handle;	/* remote handle (it's a word, not a ptr!) */
 
-    int data;			/* data socket descriptor */
-    int reclen_buf_offset;
-    u_char reclen_buf[4];
-    size_t bytes_remaining;	/* how many bytes left in this record? */
+	int data;		/* data socket descriptor */
+	int reclen_buf_offset;
+	u_char reclen_buf[4];
+	size_t bytes_remaining;	/* how many bytes left in this record? */
 
-    /* device (host) info: */
-    Net_Device *hw;
-  }
+	/* device (host) info: */
+	Net_Device *hw;
+}
 Net_Scanner;
 
 #endif /* net_h */

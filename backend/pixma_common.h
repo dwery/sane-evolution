@@ -81,42 +81,42 @@ struct pixma_io_t;
 
 struct pixma_limits_t
 {
-  unsigned xdpi, ydpi;
-  unsigned width, height;
+	unsigned xdpi, ydpi;
+	unsigned width, height;
 };
 
 struct pixma_cmdbuf_t
 {
-  unsigned cmd_header_len, res_header_len, cmd_len_field_ofs;
-  unsigned expected_reslen, cmdlen;
-  int reslen;
-  unsigned size;
-  uint8_t *buf;
+	unsigned cmd_header_len, res_header_len, cmd_len_field_ofs;
+	unsigned expected_reslen, cmdlen;
+	int reslen;
+	unsigned size;
+	uint8_t *buf;
 };
 
 struct pixma_imagebuf_t
 {
-  uint8_t *wptr, *wend;
-  const uint8_t *rptr, *rend;
+	uint8_t *wptr, *wend;
+	const uint8_t *rptr, *rend;
 };
 
 struct pixma_t
 {
-  pixma_t *next;
-  struct pixma_io_t *io;
-  const pixma_scan_ops_t *ops;
-  pixma_scan_param_t *param;
-  const pixma_config_t *cfg;
-  char id[PIXMA_MAX_ID_LEN + 1];
-  int cancel;			/* NOTE: It can be set in a signal handler. */
-  uint32_t events;
-  void *subdriver;		/* can be used by model driver. */
+	pixma_t *next;
+	struct pixma_io_t *io;
+	const pixma_scan_ops_t *ops;
+	pixma_scan_param_t *param;
+	const pixma_config_t *cfg;
+	char id[PIXMA_MAX_ID_LEN + 1];
+	int cancel;		/* NOTE: It can be set in a signal handler. */
+	uint32_t events;
+	void *subdriver;	/* can be used by model driver. */
 
-  /* private */
-  unsigned cur_image_size;
-  pixma_imagebuf_t imagebuf;
-  unsigned scanning:1;
-  unsigned underrun:1;
+	/* private */
+	unsigned cur_image_size;
+	pixma_imagebuf_t imagebuf;
+	unsigned scanning:1;
+	unsigned underrun:1;
 };
 
 /** \addtogroup subdriver
@@ -127,14 +127,14 @@ struct pixma_scan_ops_t
     /** Allocate a data structure for the subdriver. It is called after the
      *  core driver connected to the scanner. The subdriver should reset the
      *  scanner to a known state in this function. */
-  int (*open) (pixma_t *);
+	int (*open) (pixma_t *);
 
     /** Free resources allocated by the subdriver. Don't forget to send abort
      *  command to the scanner if it is scanning. */
-  void (*close) (pixma_t *);
+	void (*close) (pixma_t *);
 
     /** Setup the scanner for scan parameters defined in \a s->param. */
-  int (*scan) (pixma_t * s);
+	int (*scan) (pixma_t * s);
 
     /** Fill a buffer with image data. The subdriver has two choices:
      * -# Fill the buffer pointed by ib->wptr directly and leave
@@ -147,53 +147,53 @@ struct pixma_scan_ops_t
      *
      * The subdriver must wait until there is at least one byte to read or
      * return 0 for the end of image. */
-  int (*fill_buffer) (pixma_t *, pixma_imagebuf_t * ib);
+	int (*fill_buffer) (pixma_t *, pixma_imagebuf_t * ib);
 
     /** Cancel the scan operation if necessary and free resources allocated in
      *  scan(). */
-  void (*finish_scan) (pixma_t *);
+	void (*finish_scan) (pixma_t *);
 
     /** [Optional] Wait for a user's event, e.g. button event. \a timeout is
      *  in milliseconds. If an event occured before it's timed out, flags in
      *  \a s->events should be set accordingly.
      *  \see PIXMA_EV_* */
-  void (*wait_event) (pixma_t * s, int timeout);
+	void (*wait_event) (pixma_t * s, int timeout);
 
     /** Check the scan parameters. The parameters can be adjusted if they are
      *  out of range, e.g. width > max_width. */
-  int (*check_param) (pixma_t *, pixma_scan_param_t *);
+	int (*check_param) (pixma_t *, pixma_scan_param_t *);
 
     /** Read the device status. \see pixma_get_device_status() */
-  int (*get_status) (pixma_t *, pixma_device_status_t *);
+	int (*get_status) (pixma_t *, pixma_device_status_t *);
 };
 
 
 /** \name Funtions for read and write big-endian integer values */
 /**@{*/
-void pixma_set_be16 (uint16_t x, uint8_t * buf);
-void pixma_set_be32 (uint32_t x, uint8_t * buf);
-uint16_t pixma_get_be16 (const uint8_t * buf);
-uint32_t pixma_get_be32 (const uint8_t * buf);
+void pixma_set_be16(uint16_t x, uint8_t * buf);
+void pixma_set_be32(uint32_t x, uint8_t * buf);
+uint16_t pixma_get_be16(const uint8_t * buf);
+uint32_t pixma_get_be32(const uint8_t * buf);
 /**@}*/
 
 /** \name Utility functions */
 /**@{*/
-uint8_t pixma_sum_bytes (const void *data, unsigned len);
-int pixma_check_dpi (unsigned dpi, unsigned max);
-void pixma_sleep (unsigned long usec);
-void pixma_get_time (time_t * sec, uint32_t * usec);
+uint8_t pixma_sum_bytes(const void *data, unsigned len);
+int pixma_check_dpi(unsigned dpi, unsigned max);
+void pixma_sleep(unsigned long usec);
+void pixma_get_time(time_t * sec, uint32_t * usec);
 /**@}*/
 
 /** \name Command related functions */
 /**@{*/
-int pixma_cmd_transaction (pixma_t *, const void *cmd, unsigned cmdlen,
-			   void *data, unsigned expected_len);
-int pixma_check_result (pixma_cmdbuf_t *);
-uint8_t *pixma_newcmd (pixma_cmdbuf_t *, unsigned cmd,
-		       unsigned dataout, unsigned datain);
-int pixma_exec (pixma_t *, pixma_cmdbuf_t *);
-int pixma_exec_short_cmd (pixma_t *, pixma_cmdbuf_t *, unsigned cmd);
-int pixma_map_status_errno (unsigned status);
+int pixma_cmd_transaction(pixma_t *, const void *cmd, unsigned cmdlen,
+			  void *data, unsigned expected_len);
+int pixma_check_result(pixma_cmdbuf_t *);
+uint8_t *pixma_newcmd(pixma_cmdbuf_t *, unsigned cmd,
+		      unsigned dataout, unsigned datain);
+int pixma_exec(pixma_t *, pixma_cmdbuf_t *);
+int pixma_exec_short_cmd(pixma_t *, pixma_cmdbuf_t *, unsigned cmd);
+int pixma_map_status_errno(unsigned status);
 /**@}*/
 
 #define pixma_fill_checksum(start, end) do {		\
@@ -204,15 +204,15 @@ int pixma_map_status_errno (unsigned status);
 
 /** \addtogroup debug
  *  @{ */
-void pixma_set_debug_level (int level);
+void pixma_set_debug_level(int level);
 #ifndef NDEBUG
-void pixma_hexdump (int level, const void *d_, unsigned len);
+void pixma_hexdump(int level, const void *d_, unsigned len);
 
 /* len:   length of data or error code.
    size:  if >= 0, force to print 'size' bytes.
    max:   maximum number of bytes to print(-1 means no limit). */
-void pixma_dump (int level, const char *type, const void *data, int len,
-		 int size, int max);
+void pixma_dump(int level, const char *type, const void *data, int len,
+		int size, int max);
 #  define DEBUG_DECLARE_ONLY
 #  include "../include/sane/sanei_debug.h"
 #endif /* NDEBUG */

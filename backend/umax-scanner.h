@@ -52,10 +52,9 @@
 
 typedef struct
 {
-  char *scanner;
-  unsigned char *inquiry;
-  int inquiry_len;
+	char *scanner;
+	unsigned char *inquiry;
+	int inquiry_len;
 } inquiry_blk;
 
 #endif
-

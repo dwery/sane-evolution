@@ -66,28 +66,28 @@
  */
 enum Genesys_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_SOURCE,
-  OPT_PREVIEW,
-  OPT_BIT_DEPTH,
-  OPT_RESOLUTION,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_SOURCE,
+	OPT_PREVIEW,
+	OPT_BIT_DEPTH,
+	OPT_RESOLUTION,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_EXTRAS_GROUP,
-  OPT_LAMP_OFF_TIME,
-  OPT_THRESHOLD,
-  OPT_DISABLE_INTERPOLATION,
-  OPT_COLOR_FILTER,
-  /* must come last: */
-  NUM_OPTIONS
+	OPT_EXTRAS_GROUP,
+	OPT_LAMP_OFF_TIME,
+	OPT_THRESHOLD,
+	OPT_DISABLE_INTERPOLATION,
+	OPT_COLOR_FILTER,
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 
@@ -95,15 +95,17 @@ enum Genesys_Option
  */
 typedef struct Genesys_Scanner
 {
-  struct Genesys_Scanner *next;	    /**< Next scanner in list */
-  Genesys_Device *dev;		    /**< Low-level device object */
+	struct Genesys_Scanner *next;
+				    /**< Next scanner in list */
+	Genesys_Device *dev;	    /**< Low-level device object */
 
-  /* SANE data */
-  SANE_Bool scanning;			   /**< We are currently scanning */
-  SANE_Option_Descriptor opt[NUM_OPTIONS]; /**< Option descriptors */
-  Option_Value val[NUM_OPTIONS];	   /**< Option values */
-  SANE_Parameters params;		   /**< SANE Parameters */
-  SANE_Int bpp_list[5];			   /**< */
+	/* SANE data */
+	SANE_Bool scanning;		   /**< We are currently scanning */
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+					   /**< Option descriptors */
+	Option_Value val[NUM_OPTIONS];	   /**< Option values */
+	SANE_Parameters params;		   /**< SANE Parameters */
+	SANE_Int bpp_list[5];		   /**< */
 } Genesys_Scanner;
 
 #endif /* not GENESYS_H */

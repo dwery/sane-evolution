@@ -81,50 +81,50 @@
 
 typedef struct picture_info
 {
-  int low_res;
-  int size;
+	int low_res;
+	int size;
 }
 PictureInfo;
 
 typedef struct DC240_s
 {
-  SANE_Int fd;			/* file descriptor to talk to it */
-  char *tty_name;		/* the tty port name it's on */
-  speed_t baud;			/* current tty speed */
-  SANE_Bool scanning;		/* currently scanning an image? */
-  SANE_Byte model;
-  SANE_Byte ver_major;
-  SANE_Byte ver_minor;
-  SANE_Int pic_taken;
-  SANE_Int pic_left;
-  struct
-  {
-    unsigned int low_res:1;
-    unsigned int low_batt:1;
-  }
-  flags;
-  PictureInfo *Pictures;	/* array of pictures */
-  SANE_Int current_picture_number;	/* picture being operated on */
+	SANE_Int fd;		/* file descriptor to talk to it */
+	char *tty_name;		/* the tty port name it's on */
+	speed_t baud;		/* current tty speed */
+	SANE_Bool scanning;	/* currently scanning an image? */
+	SANE_Byte model;
+	SANE_Byte ver_major;
+	SANE_Byte ver_minor;
+	SANE_Int pic_taken;
+	SANE_Int pic_left;
+	struct
+	{
+		unsigned int low_res:1;
+		unsigned int low_batt:1;
+	}
+	flags;
+	PictureInfo *Pictures;	/* array of pictures */
+	SANE_Int current_picture_number;	/* picture being operated on */
 }
 DC240;
 
 typedef struct dc240_info_s
 {
-  SANE_Byte model;
-  SANE_Byte ver_major;
-  SANE_Byte ver_minor;
-  SANE_Int pic_taken;
-  SANE_Int pic_left;
-  struct
-  {
-    SANE_Int low_res:1;
-    SANE_Int low_batt:1;
-  }
-  flags;
+	SANE_Byte model;
+	SANE_Byte ver_major;
+	SANE_Byte ver_minor;
+	SANE_Int pic_taken;
+	SANE_Int pic_left;
+	struct
+	{
+		SANE_Int low_res:1;
+		SANE_Int low_batt:1;
+	}
+	flags;
 }
 Dc240Info, *Dc240InfoPtr;
 
-static SANE_Int get_info (DC240 *);
+static SANE_Int get_info(DC240 *);
 
 #define INIT_PCK	{0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1A}
 /*                               ^^^^^^^^^^
@@ -162,8 +162,8 @@ static SANE_Int get_info (DC240 *);
 
 struct pkt_speed
 {
-  speed_t baud;
-  SANE_Byte pkt_code[2];
+	speed_t baud;
+	SANE_Byte pkt_code[2];
 };
 
 #if defined (B57600) && defined (B115200)
@@ -196,11 +196,11 @@ extern char *__progname;	/* Defined in /usr/lib/crt0.o */
 
 struct cam_dirent
 {
-  SANE_Char name[11];
-  SANE_Byte attr;
-  SANE_Byte create_time[2];
-  SANE_Byte creat_date[2];
-  long size;
+	SANE_Char name[11];
+	SANE_Byte attr;
+	SANE_Byte create_time[2];
+	SANE_Byte creat_date[2];
+	long size;
 };
 
 #ifdef __GNUC__
@@ -216,9 +216,9 @@ struct cam_dirent
  */
 struct dir_buf
 {
-  SANE_Byte entries_msb PACKED;
-  SANE_Byte entries_lsb PACKED;
-  struct cam_dirent entry[1000] PACKED;
+	SANE_Byte entries_msb PACKED;
+	SANE_Byte entries_lsb PACKED;
+	struct cam_dirent entry[1000] PACKED;
 };
 #else
 
@@ -239,40 +239,40 @@ struct dir_buf
 
 struct cam_dirlist
 {
-  SANE_Char name[48];
-  struct cam_dirlist *next;
+	SANE_Char name[48];
+	struct cam_dirlist *next;
 };
 
 
 
 #include <sys/types.h>
 
-FILE *sanei_config_open (const char *filename);
+FILE *sanei_config_open(const char *filename);
 
-static SANE_Int init_dc240 (DC240 *);
+static SANE_Int init_dc240(DC240 *);
 
-static void close_dc240 (SANE_Int);
+static void close_dc240(SANE_Int);
 
-static SANE_Int read_data (SANE_Int fd, SANE_Byte * buf, SANE_Int sz);
+static SANE_Int read_data(SANE_Int fd, SANE_Byte * buf, SANE_Int sz);
 
-static SANE_Int end_of_data (SANE_Int fd);
+static SANE_Int end_of_data(SANE_Int fd);
 
-static PictureInfo *get_pictures_info (void);
+static PictureInfo *get_pictures_info(void);
 
-static SANE_Int get_picture_info (PictureInfo * pic, SANE_Int p);
+static SANE_Int get_picture_info(PictureInfo * pic, SANE_Int p);
 
-static SANE_Status snap_pic (SANE_Int fd);
+static SANE_Status snap_pic(SANE_Int fd);
 
-char *sanei_config_read (char *str, int n, FILE * stream);
+char *sanei_config_read(char *str, int n, FILE * stream);
 
-static SANE_Int read_dir (SANE_String dir);
+static SANE_Int read_dir(SANE_String dir);
 
-static SANE_Int read_info (SANE_String fname);
+static SANE_Int read_info(SANE_String fname);
 
-static SANE_Int dir_insert (struct cam_dirent *entry);
+static SANE_Int dir_insert(struct cam_dirent *entry);
 
-static SANE_Int dir_delete (SANE_String name);
+static SANE_Int dir_delete(SANE_String name);
 
-static SANE_Int send_data (SANE_Byte * buf);
+static SANE_Int send_data(SANE_Byte * buf);
 
-static void set_res (SANE_Int lowres);
+static void set_res(SANE_Int lowres);

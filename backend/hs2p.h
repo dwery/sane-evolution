@@ -68,194 +68,194 @@
 
 typedef struct
 {
-  const char *mfg;
-  const char *model;
+	const char *mfg;
+	const char *model;
 } HS2P_HWEntry;
 
 enum media
 { FLATBED = 0x00, SIMPLEX, DUPLEX };
 typedef struct
 {
-  SANE_Range xres_range;
-  SANE_Range yres_range;
-  SANE_Range x_range;
-  SANE_Range y_range;
+	SANE_Range xres_range;
+	SANE_Range yres_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
 
-  SANE_Int window_width;
-  SANE_Int window_height;
+	SANE_Int window_width;
+	SANE_Int window_height;
 
-  SANE_Range brightness_range;
-  SANE_Range contrast_range;
-  SANE_Range threshold_range;
+	SANE_Range brightness_range;
+	SANE_Range contrast_range;
+	SANE_Range threshold_range;
 
-  char inquiry_data[256];
+	char inquiry_data[256];
 
-  SANE_Byte max_win_sections;	/* Number of supported window subsections 
-				   IS450 supports max of 4 sections 
-				   IS420 supports max of 6 sections
-				 */
+	SANE_Byte max_win_sections;	/* Number of supported window subsections 
+					   IS450 supports max of 4 sections 
+					   IS420 supports max of 6 sections
+					 */
 
-  /* Defaults */
-  SANE_Int default_res;
-  SANE_Int default_xres;
-  SANE_Int default_yres;
-  SANE_Int default_imagecomposition;	/* [lineart], halftone, grayscale, color */
-  SANE_Int default_media;	/* [flatbed], simplex, duplex */
-  SANE_Int default_paper_size;	/* [letter], legal, ledger, ... */
-  SANE_Int default_brightness;
-  SANE_Int default_contrast;
-  SANE_Int default_gamma;	/* Normal, Soft, Sharp, Linear, User */
-  SANE_Bool default_adf;
-  SANE_Bool default_duplex;
-  /*
-     SANE_Bool default_border;
-     SANE_Bool default_batch;
-     SANE_Bool default_deskew;
-     SANE_Bool default_check_adf;
-     SANE_Int  default_timeout_adf;
-     SANE_Int  default_timeout_manual;
-     SANE_Bool default_control_panel;
-   */
+	/* Defaults */
+	SANE_Int default_res;
+	SANE_Int default_xres;
+	SANE_Int default_yres;
+	SANE_Int default_imagecomposition;	/* [lineart], halftone, grayscale, color */
+	SANE_Int default_media;	/* [flatbed], simplex, duplex */
+	SANE_Int default_paper_size;	/* [letter], legal, ledger, ... */
+	SANE_Int default_brightness;
+	SANE_Int default_contrast;
+	SANE_Int default_gamma;	/* Normal, Soft, Sharp, Linear, User */
+	SANE_Bool default_adf;
+	SANE_Bool default_duplex;
+	/*
+	   SANE_Bool default_border;
+	   SANE_Bool default_batch;
+	   SANE_Bool default_deskew;
+	   SANE_Bool default_check_adf;
+	   SANE_Int  default_timeout_adf;
+	   SANE_Int  default_timeout_manual;
+	   SANE_Bool default_control_panel;
+	 */
 
-  /* Mode Page Parameters */
-  MP_CXN cxn;			/* hdr + Connection Parameters */
+	/* Mode Page Parameters */
+	MP_CXN cxn;		/* hdr + Connection Parameters */
 
-  SANE_Int bmu;
-  SANE_Int mud;
-  SANE_Int white_balance;	/* 00H Relative, 01H Absolute; power on default is relative */
-  /* Lamp Timer not supported */
-  SANE_Int adf_control;		/* 00H None, 01H Book, 01H Simplex, 02H Duplex */
-  SANE_Int adf_mode_control;	/* bit2: prefeed mode invalid: "0" : valid "1" */
-  /* Medium Wait Timer not supported */
-  SANE_Int endorser_control;	/* Default Off when power on */
-  SANE_Char endorser_string[20];
-  SANE_Bool scan_wait_mode;	/* wait for operator panel start button to be pressed */
-  SANE_Bool service_mode;	/* power on default self_diagnostics 00H; 01H optical_adjustment */
+	SANE_Int bmu;
+	SANE_Int mud;
+	SANE_Int white_balance;	/* 00H Relative, 01H Absolute; power on default is relative */
+	/* Lamp Timer not supported */
+	SANE_Int adf_control;	/* 00H None, 01H Book, 01H Simplex, 02H Duplex */
+	SANE_Int adf_mode_control;	/* bit2: prefeed mode invalid: "0" : valid "1" */
+	/* Medium Wait Timer not supported */
+	SANE_Int endorser_control;	/* Default Off when power on */
+	SANE_Char endorser_string[20];
+	SANE_Bool scan_wait_mode;	/* wait for operator panel start button to be pressed */
+	SANE_Bool service_mode;	/* power on default self_diagnostics 00H; 01H optical_adjustment */
 
-  /* standard information: EVPD bit is 0 */
-  SANE_Byte devtype;		/* devtype[6]="scanner" */
-  SANE_Char vendor[9];		/* model name 8+1 */
-  SANE_Char product[17];	/* product name 16+1 */
-  SANE_Char revision[5];	/* revision 4+1 */
+	/* standard information: EVPD bit is 0 */
+	SANE_Byte devtype;	/* devtype[6]="scanner" */
+	SANE_Char vendor[9];	/* model name 8+1 */
+	SANE_Char product[17];	/* product name 16+1 */
+	SANE_Char revision[5];	/* revision 4+1 */
 
-  /* VPD information: EVPD bit is 1, Page Code=C0H */
-  /* adf_id: 0: No ADF
-   *         1: Single-sided ADF
-   *         2: Double-sided ADF
-   *         3: ARDF (Reverse double-sided ADF)
-   *         4: Reserved
-   */
+	/* VPD information: EVPD bit is 1, Page Code=C0H */
+	/* adf_id: 0: No ADF
+	 *         1: Single-sided ADF
+	 *         2: Double-sided ADF
+	 *         3: ARDF (Reverse double-sided ADF)
+	 *         4: Reserved
+	 */
 
-  SANE_Bool hasADF;		/* If YES; can either be one of Simplex,Duplex,ARDF */
-  SANE_Bool hasSimplex;
-  SANE_Bool hasDuplex;
-  SANE_Bool hasARDF;
+	SANE_Bool hasADF;	/* If YES; can either be one of Simplex,Duplex,ARDF */
+	SANE_Bool hasSimplex;
+	SANE_Bool hasDuplex;
+	SANE_Bool hasARDF;
 
-  SANE_Bool hasEndorser;
+	SANE_Bool hasEndorser;
 
-  SANE_Bool hasIPU;
-  SANE_Bool hasXBD;
+	SANE_Bool hasIPU;
+	SANE_Bool hasXBD;
 
-  /* VPD Image Composition */
-  SANE_Bool supports_lineart;
-  SANE_Bool supports_dithering;
-  SANE_Bool supports_errordiffusion;
-  SANE_Bool supports_color;
-  SANE_Bool supports_4bitgray;
-  SANE_Bool supports_8bitgray;
+	/* VPD Image Composition */
+	SANE_Bool supports_lineart;
+	SANE_Bool supports_dithering;
+	SANE_Bool supports_errordiffusion;
+	SANE_Bool supports_color;
+	SANE_Bool supports_4bitgray;
+	SANE_Bool supports_8bitgray;
 
-  /* VPD Image Data Processing ACE (supported for IS420) */
-  SANE_Bool supports_whiteframing;
-  SANE_Bool supports_blackframing;
-  SANE_Bool supports_edgeextraction;
-  SANE_Bool supports_noiseremoval;	/* supported for IS450 if IPU installed */
-  SANE_Bool supports_smoothing;	/* supported for IS450 if IPU installed */
-  SANE_Bool supports_linebolding;
+	/* VPD Image Data Processing ACE (supported for IS420) */
+	SANE_Bool supports_whiteframing;
+	SANE_Bool supports_blackframing;
+	SANE_Bool supports_edgeextraction;
+	SANE_Bool supports_noiseremoval;	/* supported for IS450 if IPU installed */
+	SANE_Bool supports_smoothing;	/* supported for IS450 if IPU installed */
+	SANE_Bool supports_linebolding;
 
-  /* VPD Compression (not supported for IS450) */
-  SANE_Bool supports_MH;
-  SANE_Bool supports_MR;
-  SANE_Bool supports_MMR;
-  SANE_Bool supports_MHB;
+	/* VPD Compression (not supported for IS450) */
+	SANE_Bool supports_MH;
+	SANE_Bool supports_MR;
+	SANE_Bool supports_MMR;
+	SANE_Bool supports_MHB;
 
-  /* VPD Marker Recognition (not supported for IS450) */
-  SANE_Bool supports_markerrecognition;
+	/* VPD Marker Recognition (not supported for IS450) */
+	SANE_Bool supports_markerrecognition;
 
-  /* VPD Size Recognition (supported for IS450 if IPU installed) */
-  SANE_Bool supports_sizerecognition;
+	/* VPD Size Recognition (supported for IS450 if IPU installed) */
+	SANE_Bool supports_sizerecognition;
 
-  /* VPD X Maximum Output Pixel: IS450:4960   IS420:4880 */
-  SANE_Int xmaxoutputpixels;
+	/* VPD X Maximum Output Pixel: IS450:4960   IS420:4880 */
+	SANE_Int xmaxoutputpixels;
 
-  /* jis information VPD IDENTIFIER Page Code F0H */
-  SANE_Int resBasicX;		/* basic X resolution */
-  SANE_Int resBasicY;		/* basic Y resolution */
-  SANE_Int resXstep;		/* resolution step in main scan direction */
-  SANE_Int resYstep;		/* resolution step in sub scan direction */
-  SANE_Int resMaxX;		/* maximum X resolution */
-  SANE_Int resMaxY;		/* maximum Y resolution */
-  SANE_Int resMinX;		/* minimum X resolution */
-  SANE_Int resMinY;		/* minimum Y resolution */
-  SANE_Int resStdList[16 + 1];	/* list of available standard resolutions (first slot is the length) */
-  SANE_Int winWidth;		/* length of window (in BasicX res DPI) */
-  SANE_Int winHeight;		/* height of window (in BasicY res DPI) */
-  /* jis.functions duplicates vpd.imagecomposition lineart/dither/grayscale */
-  SANE_Bool overflow_support;
-  SANE_Bool lineart_support;
-  SANE_Bool dither_support;
-  SANE_Bool grayscale_support;
+	/* jis information VPD IDENTIFIER Page Code F0H */
+	SANE_Int resBasicX;	/* basic X resolution */
+	SANE_Int resBasicY;	/* basic Y resolution */
+	SANE_Int resXstep;	/* resolution step in main scan direction */
+	SANE_Int resYstep;	/* resolution step in sub scan direction */
+	SANE_Int resMaxX;	/* maximum X resolution */
+	SANE_Int resMaxY;	/* maximum Y resolution */
+	SANE_Int resMinX;	/* minimum X resolution */
+	SANE_Int resMinY;	/* minimum Y resolution */
+	SANE_Int resStdList[16 + 1];	/* list of available standard resolutions (first slot is the length) */
+	SANE_Int winWidth;	/* length of window (in BasicX res DPI) */
+	SANE_Int winHeight;	/* height of window (in BasicY res DPI) */
+	/* jis.functions duplicates vpd.imagecomposition lineart/dither/grayscale */
+	SANE_Bool overflow_support;
+	SANE_Bool lineart_support;
+	SANE_Bool dither_support;
+	SANE_Bool grayscale_support;
 
 } HS2P_Info;
 
 typedef struct HS2P_Device
 {
-  struct HS2P_Device *next;
-  SANE_Device sane;
-  HS2P_Info info;
+	struct HS2P_Device *next;
+	SANE_Device sane;
+	HS2P_Info info;
 } HS2P_Device;
 
 #define GAMMA_LENGTH 256
 typedef struct HS2P_Scanner
 {
-  /* all the state needed to define a scan request: */
-  struct HS2P_Scanner *next;	/* linked list for housekeeping */
-  int fd;			/* SCSI filedescriptor */
+	/* all the state needed to define a scan request: */
+	struct HS2P_Scanner *next;	/* linked list for housekeeping */
+	int fd;			/* SCSI filedescriptor */
 
-  /* SANE option descriptors and values */
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
-  SANE_Parameters params;	/* SANE image parameters */
-  /* additional values that don't fit into Option_Value representation */
-  SANE_Word gamma_table[GAMMA_LENGTH];	/* Custom Gray Gamma Table */
+	/* SANE option descriptors and values */
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	SANE_Parameters params;	/* SANE image parameters */
+	/* additional values that don't fit into Option_Value representation */
+	SANE_Word gamma_table[GAMMA_LENGTH];	/* Custom Gray Gamma Table */
 
-  /* state information - not options */
+	/* state information - not options */
 
-  /* scanner dependent/low-level state: */
-  HS2P_Device *hw;
+	/* scanner dependent/low-level state: */
+	HS2P_Device *hw;
 
-  SANE_Int bmu;			/* Basic Measurement Unit       */
-  SANE_Int mud;			/* Measurement Unit Divisor     */
-  SANE_Byte image_composition;	/* LINEART, HALFTONE, GRAYSCALE */
-  SANE_Byte bpp;		/* 1,4,6,or 8 Bits Per Pixel    */
+	SANE_Int bmu;		/* Basic Measurement Unit       */
+	SANE_Int mud;		/* Measurement Unit Divisor     */
+	SANE_Byte image_composition;	/* LINEART, HALFTONE, GRAYSCALE */
+	SANE_Byte bpp;		/* 1,4,6,or 8 Bits Per Pixel    */
 
 
-  u_long InvalidBytes;
-  size_t bytes_to_read;
-  SANE_Bool cancelled;
-  /*SANE_Bool backpage; */
-  SANE_Bool scanning;
-  SANE_Bool another_side;
+	u_long InvalidBytes;
+	size_t bytes_to_read;
+	SANE_Bool cancelled;
+	/*SANE_Bool backpage; */
+	SANE_Bool scanning;
+	SANE_Bool another_side;
 } HS2P_Scanner;
 
 static const SANE_Range u8_range = {
-  0,				/* minimum */
-  255,				/* maximum */
-  0				/* quantization */
+	0,			/* minimum */
+	255,			/* maximum */
+	0			/* quantization */
 };
 static const SANE_Range u16_range = {
-  0,				/* minimum */
-  65535,			/* maximum */
-  0				/* quantization */
+	0,			/* minimum */
+	65535,			/* maximum */
+	0			/* quantization */
 };
 
 #define SM_LINEART        "Lineart B/W"
@@ -270,107 +270,107 @@ static SANE_String scan_mode_list[9];
 enum
 { FB, ADF };
 static SANE_String_Const scan_source_list[] = {
-  "FB",				/* Flatbed */
-  "ADF",			/* Automatic Document Feeder */
-  NULL
+	"FB",			/* Flatbed */
+	"ADF",			/* Automatic Document Feeder */
+	NULL
 };
 static SANE_String compression_list[6];	/* "none", "g31d MH", "g32d MR", "g42d MMR", "MH byte boundary", NULL} */
 
 typedef struct
 {
-  SANE_String name;
-  double width, length;		/* paper dimensions in mm */
+	SANE_String name;
+	double width, length;	/* paper dimensions in mm */
 } HS2P_Paper;
 /* list of support paper sizes */
 /* 'custom' MUST be item 0; otherwise a width or length of 0 indicates
  * the maximum value supported by the scanner
  */
 static const HS2P_Paper paper_sizes[] = {	/* Name, Width, Height in mm */
-  {"Custom", 0.0, 0.0},
-  {"Letter", 215.9, 279.4},
-  {"Legal", 215.9, 355.6},
-  {"Ledger", 279.4, 431.8},
-  {"A3", 297, 420},
-  {"A4", 210, 297},
-  {"A4R", 297, 210},
-  {"A5", 148.5, 210},
-  {"A5R", 210, 148.5},
-  {"A6", 105, 148.5},
-  {"B4", 250, 353},
-  {"B5", 182, 257},
-  {"Full", 0.0, 0.0},
+	{"Custom", 0.0, 0.0},
+	{"Letter", 215.9, 279.4},
+	{"Legal", 215.9, 355.6},
+	{"Ledger", 279.4, 431.8},
+	{"A3", 297, 420},
+	{"A4", 210, 297},
+	{"A4R", 297, 210},
+	{"A5", 148.5, 210},
+	{"A5R", 210, 148.5},
+	{"A6", 105, 148.5},
+	{"B4", 250, 353},
+	{"B5", 182, 257},
+	{"Full", 0.0, 0.0},
 };
 
 /* MUST be kept in sync with paper_sizes */
 static SANE_String_Const paper_list[] = {
-  "Custom",
-  "Letter",
-  "Legal",
-  "Ledger",
-  "A3",
-  "A4", "A4R",
-  "A5", "A5R",
-  "A6",
-  "B4",
-  "B5",
-  "Full",
-  NULL				/* (not the same as "") sentinel */
+	"Custom",
+	"Letter",
+	"Legal",
+	"Ledger",
+	"A3",
+	"A4", "A4R",
+	"A5", "A5R",
+	"A6",
+	"B4",
+	"B5",
+	"Full",
+	NULL			/* (not the same as "") sentinel */
 };
 
 #if 0
-static /* inline */ int _is_host_little_endian (void);
+static /* inline */ int _is_host_little_endian(void);
 static /* inline */ int
-_is_host_little_endian ()
+_is_host_little_endian()
 {
-  SANE_Int val = 255;
-  unsigned char *firstbyte = (unsigned char *) &val;
+	SANE_Int val = 255;
+	unsigned char *firstbyte = (unsigned char *) &val;
 
-  return (*firstbyte == 255) ? SANE_TRUE : SANE_FALSE;
+	return (*firstbyte == 255) ? SANE_TRUE : SANE_FALSE;
 }
 #endif
 
 static /* inline */ void
-_lto2b (u_long val, SANE_Byte * bytes)
+_lto2b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 8) & 0xff;
-  bytes[1] = val & 0xff;
+	bytes[0] = (val >> 8) & 0xff;
+	bytes[1] = val & 0xff;
 }
 
 static /* inline */ void
-_lto3b (u_long val, SANE_Byte * bytes)
+_lto3b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 16) & 0xff;
-  bytes[1] = (val >> 8) & 0xff;
-  bytes[2] = val & 0xff;
+	bytes[0] = (val >> 16) & 0xff;
+	bytes[1] = (val >> 8) & 0xff;
+	bytes[2] = val & 0xff;
 }
 
 static /* inline */ void
-_lto4b (u_long val, SANE_Byte * bytes)
+_lto4b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 24) & 0xff;
-  bytes[1] = (val >> 16) & 0xff;
-  bytes[2] = (val >> 8) & 0xff;
-  bytes[3] = val & 0xff;
+	bytes[0] = (val >> 24) & 0xff;
+	bytes[1] = (val >> 16) & 0xff;
+	bytes[2] = (val >> 8) & 0xff;
+	bytes[3] = val & 0xff;
 }
 
 static /* inline */ u_long
-_2btol (SANE_Byte * bytes)
+_2btol(SANE_Byte * bytes)
 {
-  u_long rv;
+	u_long rv;
 
-  rv = (bytes[0] << 8) | bytes[1];
+	rv = (bytes[0] << 8) | bytes[1];
 
-  return rv;
+	return rv;
 }
 
 static /* inline */ u_long
-_4btol (SANE_Byte * bytes)
+_4btol(SANE_Byte * bytes)
 {
-  u_long rv;
+	u_long rv;
 
-  rv = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
+	rv = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 
-  return rv;
+	return rv;
 }
 
 /*
@@ -385,12 +385,12 @@ _2btol(SANE_Byte *bytes)
 }
 */
 static inline SANE_Int
-_3btol (SANE_Byte * bytes)
+_3btol(SANE_Byte * bytes)
 {
-  SANE_Int rv;
+	SANE_Int rv;
 
-  rv = (bytes[0] << 16) | (bytes[1] << 8) | bytes[2];
-  return (rv);
+	rv = (bytes[0] << 16) | (bytes[1] << 8) | bytes[2];
+	return (rv);
 }
 
 /*

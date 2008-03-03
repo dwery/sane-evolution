@@ -57,38 +57,49 @@
  * program here for dealing with parts of SCSI commands.
  */
 
-static inline void setbitfield(unsigned char * pageaddr, int mask, int shift, int val) \
-{ *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift); }
-
-static inline void resetbitfield(unsigned char * pageaddr, int mask, int shift, int val) \
-{ *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift); }
-
-static inline int getbitfield(unsigned char * pageaddr, int mask, int shift) \
-{ return ((*pageaddr >> shift) & mask); }
-
-/* ------------------------------------------------------------------------- */
-
-static inline int getnbyte(unsigned char * pnt, int nbytes) \
+static inline void
+setbitfield(unsigned char *pageaddr, int mask, int shift, int val)
 {
- unsigned int result = 0;
- int i;
+	*pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift);
+}
 
-  for(i=0; i<nbytes; i++)
-    result = (result << 8) | (pnt[i] & 0xff);
-  return result;
+static inline void
+resetbitfield(unsigned char *pageaddr, int mask, int shift, int val)
+{
+	*pageaddr =
+		(*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift);
+}
+
+static inline int
+getbitfield(unsigned char *pageaddr, int mask, int shift)
+{
+	return ((*pageaddr >> shift) & mask);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static inline void putnbyte(unsigned char * pnt, unsigned int value, unsigned int nbytes) \
+static inline int
+getnbyte(unsigned char *pnt, int nbytes)
 {
-  int i;
+	unsigned int result = 0;
+	int i;
 
-  for(i=nbytes-1; i>= 0; i--) \
-  {
-    pnt[i] = value & 0xff;
-    value = value >> 8;
-  }
+	for (i = 0; i < nbytes; i++)
+		result = (result << 8) | (pnt[i] & 0xff);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static inline void
+putnbyte(unsigned char *pnt, unsigned int value, unsigned int nbytes)
+{
+	int i;
+
+	for (i = nbytes - 1; i >= 0; i--) {
+		pnt[i] = value & 0xff;
+		value = value >> 8;
+	}
 }
 
 
@@ -109,7 +120,7 @@ static inline void putnbyte(unsigned char * pnt, unsigned int value, unsigned in
 #define SEND                    0x2A
 #define OBJECT_POSITION         0x31
 #define GET_DATA_BUFFER_STATUS  0x34
-#undef  WRITE_BUFFER							 /* correct write_buffer for scanner */
+#undef  WRITE_BUFFER		/* correct write_buffer for scanner */
 #define WRITE_BUFFER            0x3B
 #define GET_LAMP_STATUS         0x5E
 #define SET_LAMP_STATUS         0x5F
@@ -117,7 +128,7 @@ static inline void putnbyte(unsigned char * pnt, unsigned int value, unsigned in
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-#define STD_WDB_LEN 0x28					     /* wdb_len if nothing is set by inquiry */
+#define STD_WDB_LEN 0x28	/* wdb_len if nothing is set by inquiry */
 
 
 /* --------------------------------------------------------------------------------------------------------- */
@@ -127,8 +138,8 @@ static inline void putnbyte(unsigned char * pnt, unsigned int value, unsigned in
 
 typedef struct
 {
-  unsigned char *cmd;
-  size_t size;
+	unsigned char *cmd;
+	size_t size;
 } scsiblk;
 
 
@@ -287,9 +298,9 @@ static scsiblk inquiry = { inquiryC, sizeof(inquiryC) };
 #define get_inquiry_0x65(in)					in[0x65]
 
 #define get_inquiry_gib(in)					in[0x66]
-#define get_inquiry_gib_8bpp(in)				getbitfield(in + 0x66, 1, 0) 
+#define get_inquiry_gib_8bpp(in)				getbitfield(in + 0x66, 1, 0)
 #define get_inquiry_gib_9bpp(in)				getbitfield(in + 0x66, 1, 1)
-#define get_inquiry_gib_10bpp(in)				getbitfield(in + 0x66, 1, 2) 
+#define get_inquiry_gib_10bpp(in)				getbitfield(in + 0x66, 1, 2)
 #define get_inquiry_gib_12bpp(in)				getbitfield(in + 0x66, 1, 3)
 #define get_inquiry_gib_14bpp(in)				getbitfield(in + 0x66, 1, 4)
 #define get_inquiry_gib_16bpp(in)				getbitfield(in + 0x66, 1, 5)
@@ -301,9 +312,9 @@ static scsiblk inquiry = { inquiryC, sizeof(inquiryC) };
 #define get_inquiry_0x67(in)					in[0x67]
 
 #define get_inquiry_gob(in)					in[0x68]
-#define get_inquiry_gob_8bpp(in)				getbitfield(in + 0x68, 1, 0) 
+#define get_inquiry_gob_8bpp(in)				getbitfield(in + 0x68, 1, 0)
 #define get_inquiry_gob_9bpp(in)				getbitfield(in + 0x68, 1, 1)
-#define get_inquiry_gob_10bpp(in)				getbitfield(in + 0x68, 1, 2) 
+#define get_inquiry_gob_10bpp(in)				getbitfield(in + 0x68, 1, 2)
 #define get_inquiry_gob_12bpp(in)				getbitfield(in + 0x68, 1, 3)
 #define get_inquiry_gob_14bpp(in)				getbitfield(in + 0x68, 1, 4)
 #define get_inquiry_gob_16bpp(in)				getbitfield(in + 0x68, 1, 5)
@@ -411,9 +422,12 @@ static scsiblk inquiry = { inquiryC, sizeof(inquiryC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 /* although the command is defined with 6 bytes length in the doc, 10 bytes seems to be the correct length */
-static unsigned char get_lamp_statusC[] = { GET_LAMP_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char get_lamp_statusC[] =
+	{ GET_LAMP_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00 };
 
-static scsiblk get_lamp_status = { get_lamp_statusC,sizeof(get_lamp_statusC) };
+static scsiblk get_lamp_status =
+	{ get_lamp_statusC, sizeof(get_lamp_statusC) };
 #define get_lamp_status_lamp_on(in)		getbitfield(in, 1, 0)
 
 
@@ -421,24 +435,30 @@ static scsiblk get_lamp_status = { get_lamp_statusC,sizeof(get_lamp_statusC) };
 
 
 /* although the command is defined with 6 bytes length in the doc, 10 bytes seems to be the correct length */
-static unsigned char set_lamp_statusC[] = { SET_LAMP_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char set_lamp_statusC[] =
+	{ SET_LAMP_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00 };
 
-static scsiblk set_lamp_status = { set_lamp_statusC,sizeof(set_lamp_statusC) };
+static scsiblk set_lamp_status =
+	{ set_lamp_statusC, sizeof(set_lamp_statusC) };
 #define set_lamp_status_lamp_on(in,val)		setbitfield(in + 0x03, 1, 7, val)
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char test_unit_readyC[] = { TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char test_unit_readyC[] =
+	{ TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static scsiblk test_unit_ready = { test_unit_readyC,sizeof(test_unit_readyC) };
+static scsiblk test_unit_ready =
+	{ test_unit_readyC, sizeof(test_unit_readyC) };
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char reserve_unitC[] = { RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char reserve_unitC[] =
+	{ RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk reserve_unit = { reserve_unitC, sizeof(reserve_unitC) };
 
@@ -446,7 +466,8 @@ static scsiblk reserve_unit = { reserve_unitC, sizeof(reserve_unitC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char release_unitC[] = { RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char release_unitC[] =
+	{ RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk release_unit = { release_unitC, sizeof(release_unitC) };
 
@@ -454,12 +475,11 @@ static scsiblk release_unit = { release_unitC, sizeof(release_unitC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char set_windowC[] =
-{
-  SET_WINDOW, 0x00,		/* opcode, lun */
-  0x00, 0x00, 0x00, 0x00,	/* reserved */
-  0x00, 0x00, 0x00,		/* transfer length; needs to be set */
-  0x00				/* control byte */
+static unsigned char set_windowC[] = {
+	SET_WINDOW, 0x00,	/* opcode, lun */
+	0x00, 0x00, 0x00, 0x00,	/* reserved */
+	0x00, 0x00, 0x00,	/* transfer length; needs to be set */
+	0x00			/* control byte */
 };
 
 #define set_SW_xferlen(sb, len)				putnbyte(sb + 0x06, len, 3)
@@ -470,65 +490,76 @@ static scsiblk set_window = { set_windowC, sizeof(set_windowC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char window_parameter_data_blockC[] =
-{
-  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,	/* reserved */
-  0x00, 0x00				/* Window Descriptor Length, value must be set by SHORT_WDB define */
+static unsigned char window_parameter_data_blockC[] = {
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00,	/* reserved */
+	0x00, 0x00		/* Window Descriptor Length, value must be set by SHORT_WDB define */
 };
 
 #define set_WPDB_wdblen(sb, len)			putnbyte(sb + 0x06, len, 2)
 
 
 static scsiblk window_parameter_data_block =
-{ window_parameter_data_blockC, sizeof(window_parameter_data_blockC) };
+	{ window_parameter_data_blockC,
+sizeof(window_parameter_data_blockC) };
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char window_descriptor_blockC[] =
-{
+static unsigned char window_descriptor_blockC[] = {
 #define max_WDB_size 0xff
 #define used_WDB_size 0x53
 
-/* 0x00 */  0x00,									/* Window Identifier */
+				/* 0x00 */ 0x00,
+				/* Window Identifier */
 #define set_WD_wid(sb, val)				sb[0] = val
 #  define WD_wid_bw			0x00
 #  define WD_wid_red			0x01
 #  define WD_wid_green			0x02
 #  define WD_wid_blue			0x03
 #  define WD_wid_all			0x00
-/* 0x01 */  0x00,									   /* reserved, AUTO */
+				/* 0x01 */ 0x00,
+				/* reserved, AUTO */
 #define set_WD_auto(sb, val)				setbitfield(sb + 0x01, 1, 0, val)
 
-/* 0x02 */  0x00, 0x00,								      /* X Resolution in dpi */
+				/* 0x02 */ 0x00, 0x00,
+				/* X Resolution in dpi */
 #define set_WD_Xres(sb, val)				putnbyte(sb + 0x02, val, 2)
 
-/* 0x04 */  0x00, 0x00,								      /* Y Resolution in dpi */
+				/* 0x04 */ 0x00, 0x00,
+				/* Y Resolution in dpi */
 #define set_WD_Yres(sb, val)				putnbyte(sb + 0x04, val, 2)
 
-/* 0x06 */  0x00, 0x00, 0x00, 0x00,					      /* Upper Left X in 1200pt/inch */
+						/* 0x06 */ 0x00, 0x00, 0x00, 0x00,
+						/* Upper Left X in 1200pt/inch */
 #define set_WD_ULX(sb, val)				putnbyte(sb + 0x06, val, 4)
 
-/* 0x0a */  0x00, 0x00, 0x00, 0x00,					      /* Upper Left Y in 1200pt/inch */
+						/* 0x0a */ 0x00, 0x00, 0x00, 0x00,
+						/* Upper Left Y in 1200pt/inch */
 #define set_WD_ULY(sb, val)				putnbyte(sb + 0x0a, val, 4)
 
-/* 0x0e */  0x00, 0x00, 0x00, 0x00,							/* Width 1200pt/inch */
+						/* 0x0e */ 0x00, 0x00, 0x00, 0x00,
+						/* Width 1200pt/inch */
 #define set_WD_width(sb, val)				putnbyte(sb + 0x0e, val, 4)
 
-/* 0x12 */  0x00, 0x00, 0x00, 0x00,						       /* Length 1200pt/inch */
+						/* 0x12 */ 0x00, 0x00, 0x00, 0x00,
+						/* Length 1200pt/inch */
 #define set_WD_length(sb, val)				putnbyte(sb + 0x12, val, 4)
 
-/* 0x16 */  0xff,									       /* Brightness */
+				/* 0x16 */ 0xff,
+				/* Brightness */
 #define set_WD_brightness(sb, val)			sb[0x16] = val
 
-/* 0x17 */  0x80,										/* Threshold */
+				/* 0x17 */ 0x80,
+				/* Threshold */
 #define set_WD_threshold(sb, val)			sb[0x17] = val
 
-/* 0x18 */  0x80,										 /* Contrast */
+				/* 0x18 */ 0x80,
+				/* Contrast */
 #define set_WD_contrast(sb, val)			sb[0x18] = val
 
-/* 0x19 */  0x05,									/* Image Composition */
+				/* 0x19 */ 0x05,
+				/* Image Composition */
 #define set_WD_composition(sb, val)			sb[0x19] = val
 #  define WD_comp_lineart		0x00
 #  define WD_comp_dithered		0x01
@@ -538,13 +569,15 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_comp_rgb_dithered		0x04
 #  define WD_comp_rgb_full      	0x05
 
-/* 0x1a */  0x08,									       /* Bits/Pixel */
+				/* 0x1a */ 0x08,
+				/* Bits/Pixel */
 #define set_WD_bitsperpixel(sb, val)			sb[0x1a] = val
 #  define WD_bits_1			0x01
 #  define WD_bits_8			0x08
 #  define WD_bits_10			0x0a
 
-/* 0x1b */  0x00, 0x03,									 /* Halftone pattern */
+				/* 0x1b */ 0x00, 0x03,
+				/* Halftone pattern */
 #define set_WD_halftone(sb, val)			putnbyte(sb + 0x1b, val, 2)
 #  define WD_halftone_download		0x00
 #  define WD_halftone_12x12_1		0x01
@@ -563,17 +596,23 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_halftone_2x2_1		0x0e
 #  define WD_halftone_2x2_2		0x0f
 
-/* 0x1d */  0x03,							      /* RIF, reserved, padding type */
+				/* 0x1d */ 0x03,
+				/* RIF, reserved, padding type */
 #define set_WD_RIF(sb, val)				setbitfield(sb + 0x1d, 1, 7, val)
 #define set_WD_padding_type(sb,val)			setbitfield(sb + 0x1d, 0x07, 0, val)
 #  define WD_padding_byte		0x03
 #  define WD_padding_word		0x07
 
-/* 0x1e */  0x00, 0x00,							/* Bit Ordering (0 = left to right;) */
-/* 0x20 */  0x00,							      /* Compression Type (reserved) */
-/* 0x21 */  0x00,							       /* Compr. Argument (reserved) */
-/* 0x22 */  0x00, 0x00, 0x00, 0x00, 0x00, 0x00,							 /* Reserved */
-/* 0x28 */  0x01,										    /* Speed */
+				/* 0x1e */ 0x00, 0x00,
+				/* Bit Ordering (0 = left to right;) */
+				/* 0x20 */ 0x00,
+				/* Compression Type (reserved) */
+				/* 0x21 */ 0x00,
+				/* Compr. Argument (reserved) */
+							/* 0x22 */ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+							/* Reserved */
+				/* 0x28 */ 0x01,
+				/* Speed */
 #define set_WD_speed(sb, val)				sb[0x28] = val
 #  define WD_speed_fastsmear		0x81
 #  define WD_speed_slowsmear		0x82
@@ -585,23 +624,28 @@ static unsigned char window_descriptor_blockC[] =
 #    define WD_speed_slow		0x02
 #    define WD_speed_smear		0x80
 
-/* 0x29 */  0x00,									     /* Select Color */
+				/* 0x29 */ 0x00,
+				/* Select Color */
 #define set_WD_select_color(sb,val)			setbitfield(sb+0x29, 0x07, 5, val)
 #  define WD_color_gray			0x00
 #  define WD_color_red			0x04
 #  define WD_color_green		0x02
 #  define WD_color_blue			0x01
 
-/* 0x2a */  0xff,										/* Highlight */
+				/* 0x2a */ 0xff,
+				/* Highlight */
 #define set_WD_highlight(sb, val)			sb[0x2a] = val
 
-/* 0x2b */  0x00,										   /* Shadow */
+				/* 0x2b */ 0x00,
+				/* Shadow */
 #define set_WD_shadow(sb, val)				sb[0x2b] = val
 
-/* 0x2c */  0x00, 0x00,									     /* Paper Length */
+				/* 0x2c */ 0x00, 0x00,
+				/* Paper Length */
 #define set_WD_paperlength(sb, val)			putnbyte(sb + 0x2c, val, 2)
 
-/* 0x2e */  0x0f,									   /* Gamma Function */
+				/* 0x2e */ 0x0f,
+				/* Gamma Function */
 #define set_WD_gamma(sb, val)				sb[0x2e] = val
 #  define WD_gamma_download		0x00
 #  define WD_gamma_builtin1		0x01
@@ -610,40 +654,49 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_gamma_builtin4		0x04
 #  define WD_gamma_normal		0x0f
 
-/* 0x2f */  0x11,									      /* Scan Module */
+				/* 0x2f */ 0x11,
+				/* Scan Module */
 #define set_WD_module(sb, val)				sb[0x2f] = val
 #  define WD_module_flatbed		0x11
 #  define WD_module_transparency	0xff
 
-/* 0x30 */  0x01,						      /* HBT, DOR, reserved, RMIF, CBHS Type */
-							   /* CBHS = Contrast, Brightness, Highlight, Shadow */
+				/* 0x30 */ 0x01,
+				/* HBT, DOR, reserved, RMIF, CBHS Type */
+	/* CBHS = Contrast, Brightness, Highlight, Shadow */
 #define set_WD_CBHS(sb, val)				setbitfield(sb + 0x30, 1, 0, val)
 #  define WD_CBHS_50			0
 #  define WD_CBHS_255			1
-#define set_WD_FF(sb, val)				setbitfield(sb + 0x30, 1, 1, val) /* FF = Fix Focus position */
-#define set_WD_RMIF(sb, val)				setbitfield(sb + 0x30, 1, 2, val) /* Reverse Multil Image Frmt */
-#define set_WD_FDC(sb, val)				setbitfield(sb + 0x30, 1, 3, val) /* document calibration */
-#define set_WD_PF(sb, val)				setbitfield(sb + 0x30, 1, 4, val) /* PF pre focus */
-#define set_WD_LCL(sb, val)				setbitfield(sb + 0x30, 1, 5, val) /* LCL (focus position) */
-#define set_WD_DOR(sb, val)				setbitfield(sb + 0x30, 1, 6, val) /* Double Optical Resolution */
-#define set_WD_HBT(sb, val)				setbitfield(sb + 0x30, 1, 7, val) /* High Byte Transfer */
+#define set_WD_FF(sb, val)				setbitfield(sb + 0x30, 1, 1, val)	/* FF = Fix Focus position */
+#define set_WD_RMIF(sb, val)				setbitfield(sb + 0x30, 1, 2, val)	/* Reverse Multil Image Frmt */
+#define set_WD_FDC(sb, val)				setbitfield(sb + 0x30, 1, 3, val)	/* document calibration */
+#define set_WD_PF(sb, val)				setbitfield(sb + 0x30, 1, 4, val)	/* PF pre focus */
+#define set_WD_LCL(sb, val)				setbitfield(sb + 0x30, 1, 5, val)	/* LCL (focus position) */
+#define set_WD_DOR(sb, val)				setbitfield(sb + 0x30, 1, 6, val)	/* Double Optical Resolution */
+#define set_WD_HBT(sb, val)				setbitfield(sb + 0x30, 1, 7, val)	/* High Byte Transfer */
 #  define WD_HBT_HBF			0x00
 #  define WD_HBT_LBF			0x01
 
-/* 0x31 */  0x00, 0x00,								      /* scan exposure level */
+				/* 0x31 */ 0x00, 0x00,
+				/* scan exposure level */
 #define set_WD_scan_exposure_level(sb, val)		putnbyte(sb+0x31, val, 2)
 
-/* 0x33 */  0x00, 0x00,							       /* calibration exposure level */
+				/* 0x33 */ 0x00, 0x00,
+				/* calibration exposure level */
 #define set_WD_calibration_exposure_level(sb, val)	putnbyte(sb+0x33, val, 2)
 
-/* 0x35 */  0x00,										 /* reserved */
-/* 0x36 */  0x00,										 /* reserved */
-/* 0x37 */  0x00,										 /* reserved */
-/* 0x38 */  0x00,							      /* reserved (For Autoexposure) */
+				/* 0x35 */ 0x00,
+				/* reserved */
+				/* 0x36 */ 0x00,
+				/* reserved */
+				/* 0x37 */ 0x00,
+				/* reserved */
+				/* 0x38 */ 0x00,
+				/* reserved (For Autoexposure) */
 
-/* 0x39 */  0x00,							   /* BS, reserved, Calibration Mode */
+				/* 0x39 */ 0x00,
+				/* BS, reserved, Calibration Mode */
 #define set_WD_batch(sb, val)				setbitfield(sb + 0x39, 1, 7, val)
-#define set_WD_MF(sb, val)				setbitfield(sb + 0x39, 1, 6, val) /* manual focus */
+#define set_WD_MF(sb, val)				setbitfield(sb + 0x39, 1, 6, val)	/* manual focus */
 #define set_WD_line_arrangement(sb, val)		setbitfield(sb + 0x39, 1, 5, val)
 #  define WD_line_arrengement_by_driver	0x01
 #  define WD_line_arrengement_by_fw	0x00
@@ -653,10 +706,11 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_calibration_lineart	0x0f
 #  define WD_calibration_dither		0x0e
 #  define WD_calibration_gray		0x0d
-#  define WD_calibration_rgb		0x0a 
+#  define WD_calibration_rgb		0x0a
 #  define WD_calibration_ignore		0x09
 
-/* 0x3a */  0x01,						   /* Color Sequence, Color Ordering Support */
+				/* 0x3a */ 0x01,
+				/* Color Sequence, Color Ordering Support */
 #define set_WD_color_sequence(sb,val)			setbitfield(sb+0x3a,0x07,5, val)
 #  define WD_color_sequence_RGB  0x00
 #  define WD_color_sequence_RBG  0x01
@@ -671,58 +725,71 @@ static unsigned char window_descriptor_blockC[] =
 #  define WD_color_ordering_plane       0x04
 #  define WD_color_ordering_line_w_ccd  0x08
 
-/* 0x3b */  0x00,							   /* analog gamma code (set to 1.0) */
-#define set_WD_analog_gamma(sb, gamma)			sb[0x3b] = gamma	   /* see analog_gamma_table */
+				/* 0x3b */ 0x00,
+				/* analog gamma code (set to 1.0) */
+#define set_WD_analog_gamma(sb, gamma)			sb[0x3b] = gamma	/* see analog_gamma_table */
 
-/* 0x3c */  0x00,										 /* Reserved */
+				/* 0x3c */ 0x00,
+				/* Reserved */
 
-/* 0x3d */  0x00,							    /* Next Calibration Lamp Density */
+				/* 0x3d */ 0x00,
+				/* Next Calibration Lamp Density */
 #define set_WD_lamp_c_density(sb, val)			sb[0x3d] = val
 #  define WD_lamp_c_density_auto	0x00
 #  define WD_lamp_c_density_min		0x01
 #  define WD_lamp_c_density_max		0xff
 
-/* 0x3e */  0x00,										 /* Reserved */
+				/* 0x3e */ 0x00,
+				/* Reserved */
 
-/* 0x3f */  0x00,								   /* Next Scan Lamp Density */
+				/* 0x3f */ 0x00,
+				/* Next Scan Lamp Density */
 #define set_WD_lamp_s_density(sb, val)			sb[0x3f] = val
 #  define WD_lamp_s_density_auto	0x00
 #  define WD_lamp_s_density_min		0x01
 #  define WD_lamp_s_density_max		0xff
 
-/* 0x40 */  0x00, 0x00, 0x00, 0x00,				       /* Next Upper Left Y in 1200 dpt/inch */
+						/* 0x40 */ 0x00, 0x00, 0x00, 0x00,
+						/* Next Upper Left Y in 1200 dpt/inch */
 #define set_WD_next_upper_left(sb, val)			putnbyte(sb + 0x40, val, 4)
 
-/* 0x44 */  0x00, 0x00, 0x00, 0x00,							      /* Pixel Count */
+						/* 0x44 */ 0x00, 0x00, 0x00, 0x00,
+						/* Pixel Count */
 #define set_WD_pixel_count(sb, val)			putnbyte(sb + 0x44, val, 4)
 
-/* 0x48 */  0x00, 0x00, 0x00, 0x00,							       /* Line Count */
+						/* 0x48 */ 0x00, 0x00, 0x00, 0x00,
+						/* Line Count */
 #define set_WD_line_count(sb, val)			putnbyte(sb + 0x48, val, 4)
 
-/* 0x4c */  4, 176,							/* x coordiante base 1200 (pts/inch) */
+				/* 0x4c */ 4, 176,
+				/* x coordiante base 1200 (pts/inch) */
 #define set_WD_x_coordinate_base(sb, val)		putnbyte(sb + 0x4c, val, 2)
 
-/* 0x4e */  4, 176,							/* y coordinate base 1200 (pts/inch) */
+				/* 0x4e */ 4, 176,
+				/* y coordinate base 1200 (pts/inch) */
 #define set_WD_y_coordinate_base(sb, val)		putnbyte(sb + 0x4e, val, 2)
 
-/* 0x50 */  0x00,										 /* reserved */
+				/* 0x50 */ 0x00,
+				/* reserved */
 
-/* 0x51 */  0x00,						 /* driver calibration need image data lines */
+				/* 0x51 */ 0x00,
+				/* driver calibration need image data lines */
 #define set_WD_calibration_data_lines(sb, val)		sb[0x51] = val
 
-/* 0x52 */  0x00									    /* start density */
+				/* 0x52 */ 0x00
+				/* start density */
 #define set_WD_start_density(sb, val)			sb[0x52] = val
-
 /* if somone adds here anything, please change used_WDB_size in this file !! */
 };
 
 
-static scsiblk window_descriptor_block = { window_descriptor_blockC, sizeof(window_descriptor_blockC) };
+static scsiblk window_descriptor_block =
+	{ window_descriptor_blockC, sizeof(window_descriptor_blockC) };
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
- 
+
 #define set_WDB_length(length)				(window_descriptor_block.size = (length))
 
 #define WPDB_OFF(b)					(b + set_window.size)
@@ -737,21 +804,24 @@ static scsiblk window_descriptor_block = { window_descriptor_blockC, sizeof(wind
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char scanC[] = { SCAN, 0x00, 0x00, 0x00, 0x01, 0x20, 0x00, 0x00, 0x00 };
+static unsigned char scanC[] =
+	{ SCAN, 0x00, 0x00, 0x00, 0x01, 0x20, 0x00, 0x00, 0x00 };
 
 static scsiblk scan = { scanC, sizeof(scanC) - 3 };
+
 #define set_SC_xfer_length(sb, val)			sb[0x04] = val
 #define set_SC_quality(sb, val)				setbitfield(sb + 0x05, 1, 5, val)
 #define set_SC_adf(sb, val)				setbitfield(sb + 0x05, 1, 6, val)
 #define set_SC_preview(sb, val)				setbitfield(sb + 0x05, 1, 7, val)
-#define set_SC_wid(sb, n, val)				sb[0x05 + n] = val 
+#define set_SC_wid(sb, n, val)				sb[0x05 + n] = val
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
 /* sread instead of read because read is a libc primitive */
-static unsigned char sreadC[] = { READ, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char sreadC[] =
+	{ READ, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk sread = { sreadC, sizeof(sreadC) };
 
@@ -770,7 +840,8 @@ static scsiblk sread = { sreadC, sizeof(sreadC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char sendC[] = { SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char sendC[] =
+	{ SEND, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk send = { sendC, sizeof(sendC) };
 
@@ -796,6 +867,7 @@ static scsiblk send = { sendC, sizeof(sendC) };
 
 static unsigned char gamma_DCF0C[] = { 0x00 };
 static scsiblk gamma_DCF0 = { gamma_DCF0C, sizeof(gamma_DCF0C) };
+
 #define set_DCF0_gamma_color(dc,col,val)		dc[1 + (1025 * col)] = val
 #  define DCF0_gamma_color_gray		0
 #  define DCF0_gamma_color_red		1
@@ -809,6 +881,7 @@ static scsiblk gamma_DCF0 = { gamma_DCF0C, sizeof(gamma_DCF0C) };
 
 static unsigned char gamma_DCF1C[] = { 0x00, 0x00 };
 static scsiblk gamma_DCF1 = { gamma_DCF1C, sizeof(gamma_DCF1C) };
+
 #define set_DCF1_gamma_color(dc,val)			dc[1] = val
 #  define DCF1_gamma_color_gray		0
 #  define DCF1_gamma_color_red		1
@@ -839,23 +912,27 @@ static scsiblk gamma_DCF2 = { gamma_DCF2C, sizeof(gamma_DCF2C) };
 
 
 static unsigned char object_positionC[] =
-{ OBJECT_POSITION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+	{ OBJECT_POSITION, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00 };
 
-static scsiblk object_position = { object_positionC, sizeof(object_positionC) };
+static scsiblk object_position =
+	{ object_positionC, sizeof(object_positionC) };
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
 #ifndef UMAX_HIDE_UNUSED
-static unsigned char get_data_buffer_statusC[] =
-{
-  GET_DATA_BUFFER_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00 };
+static unsigned char get_data_buffer_statusC[] = {
+	GET_DATA_BUFFER_STATUS, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+		0x0c, 0x00
+};
 
 #define set_GDBS_wait(sb, val)				setbitfield(sb + 0x01, 1, 0, val)
 #define set_GDBS_len(sb, nwins)				putnbyte(sb + 0x07, (4 + (nwins * 8)), 2)
 
-static scsiblk get_data_buffer_status = { get_data_buffer_statusC, sizeof(get_data_buffer_statusC) };
+static scsiblk get_data_buffer_status =
+	{ get_data_buffer_statusC, sizeof(get_data_buffer_statusC) };
 
   /* DBS is Data Buffer Status, the header that is returned */
 #define get_DBS_data_buffer_status_length(sb)		getnbyte(sb, 3)
@@ -876,28 +953,31 @@ static scsiblk get_data_buffer_status = { get_data_buffer_statusC, sizeof(get_da
 
 
 #ifndef UMAX_HIDE_UNUSED
- static unsigned char write_bufferC[] =
- { WRITE_BUFFER, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char write_bufferC[] =
+	{ WRITE_BUFFER, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x00 };
 
- static scsiblk write_buffer = { write_bufferC, sizeof(write_bufferC) };
+static scsiblk write_buffer = { write_bufferC, sizeof(write_bufferC) };
 #endif
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static double analog_gamma_table[16]={1.0000, 1.0434, 1.0887, 1.1361, \
-                                     1.1859, 1.2382, 1.2933, 1.3516, \
-                                     1.4134, 1.4792, 1.5495, 1.6251, \
-                                     1.7067, 1.7954, 1.8926, 2.0000 };
+static double analog_gamma_table[16] = { 1.0000, 1.0434, 1.0887, 1.1361,
+	1.1859, 1.2382, 1.2933, 1.3516,
+	1.4134, 1.4792, 1.5495, 1.6251,
+	1.7067, 1.7954, 1.8926, 2.0000
+};
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char request_senseC[] = { REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char request_senseC[] =
+	{ REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00 };
 #define set_RS_allocation_length(sb,val)		sb[0x04]=val
-#define set_RS_LUN(sb,val)				setbitfield(sb + 0x01, 7, 5) /* ??? */
+#define set_RS_LUN(sb,val)				setbitfield(sb + 0x01, 7, 5)	/* ??? */
 
 static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 
@@ -907,13 +987,13 @@ static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 #define get_RS_filemark(b)				getbitfield(b + 0x02, 1, 7)
 #define get_RS_EOM(b)					getbitfield(b + 0x02, 1, 6)
 #define get_RS_ILI(b)					getbitfield(b + 0x02, 1, 5)
-#define get_RS_sense_key(b)				getbitfield(b + 0x02, 0x0f, 0) 
-#define get_RS_information(b)				getnbyte(b+0x03, 4) 
+#define get_RS_sense_key(b)				getbitfield(b + 0x02, 0x0f, 0)
+#define get_RS_information(b)				getnbyte(b+0x03, 4)
 #define get_RS_additional_length(b)			b[0x07]
 #define get_RS_ASC(b)					b[0x0c]
 #define get_RS_ASCQ(b)					b[0x0d]
-#define get_RS_SKSV(b)					getbitfield(b+0x0f,1,7)   /* valid */ 
-#define get_RS_CD(b)					getbitfield(b+0x0f,1,6)   /* 1=CDB */
+#define get_RS_SKSV(b)					getbitfield(b+0x0f,1,7)	/* valid */
+#define get_RS_CD(b)					getbitfield(b+0x0f,1,6)	/* 1=CDB */
 #define get_RS_field_pointer(b)				getnbyte(b+0x10, 2)
 
 #define get_RS_additional_sense(b)			getnbyte(b+0x12, 2)
@@ -943,145 +1023,149 @@ static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static char *cbhs_str[]       = { "0-50","0-255", "0-255 autoexposure", "reserved" };
+static char *cbhs_str[] =
+	{ "0-50", "0-255", "0-255 autoexposure", "reserved" };
 
-static char *scanmode_str[]   = { "flatbed (FB)", "automatic document feeder (ADF)" };
+static char *scanmode_str[] =
+	{ "flatbed (FB)", "automatic document feeder (ADF)" };
 
-static char *gamma_lines_str[]= { "reserved",
-                            "one line (gray), three pass (color) download",
-                            "reserved",
-                            "one line (gray), three lines (color) download" };
+static char *gamma_lines_str[] = { "reserved",
+	"one line (gray), three pass (color) download",
+	"reserved",
+	"one line (gray), three lines (color) download"
+};
 
-static char *color_sequence_str[]= { "R->G->B","R->B->G",
-                                     "G->B->R","G->R->B",
-                                     "B->R->G","B->G->R",
-                                     "reserved","all supported"};
+static char *color_sequence_str[] = { "R->G->B", "R->B->G",
+	"G->B->R", "G->R->B",
+	"B->R->G", "B->G->R",
+	"reserved", "all supported"
+};
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static char *sense_str[] = {"NO SENSE",
-                            "RECOVERED ERROR",
-                            "NOT READY",
-                            "MEDIUM ERROR",
-                            "HARDWARE ERROR",
-                            "ILLEGAL REQUEST",
-                            "UNIT ATTENTION",
-                            "DATA PROTECT",
-                            "BLANK CHECK",
-                            "VENDOR SPECIFIC",
-			    "COPY ABORTED",
-                            "ABORTED COMMAND",
-                            "EQUAL",
-                            "VOLUME OVERFLOW",
-                            "MISCOMPARE",
-                            "??? - SENSE 0FH" };
+static char *sense_str[] = { "NO SENSE",
+	"RECOVERED ERROR",
+	"NOT READY",
+	"MEDIUM ERROR",
+	"HARDWARE ERROR",
+	"ILLEGAL REQUEST",
+	"UNIT ATTENTION",
+	"DATA PROTECT",
+	"BLANK CHECK",
+	"VENDOR SPECIFIC",
+	"COPY ABORTED",
+	"ABORTED COMMAND",
+	"EQUAL",
+	"VOLUME OVERFLOW",
+	"MISCOMPARE",
+	"??? - SENSE 0FH"
+};
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static char *scanner_error_str[] =
-{"no error",      /* 0 */
- "CPU error",
- "err 2",
- "err 3",
- "ROM error",
- "err 5",
- "err 6",
- "err 7",
- "err 8",
- "err 9",
- "buffer error",        /* 10 */
- "system buffer error",
- "shading buffer error",
- "video buffer error",
- "stack buffer error",
- "control buffer error",
- "gamma buffer error",
- "err 17",
- "err 18",
- "err 19",
- "lamp error",          /* 20 */
- "dark error",
- "dim error",
- "light error",
- "lamp adjust control error (by darken)",
- "err 25",
- "err 26",
- "err 27",
- "err 28",
- "err 29",
- "calibration error",   /* 30 */
- "dc offset error",
- "gain error",
- "auto focus error",
- "err 34",
- "err 35",
- "err 36",
- "err 37",
- "err 38",
- "err 39",
- "scsi error",          /* 40 */
- "err 41",
- "asic error",
- "timer error",
- "ccd error",
- "err 45",
- "err 46",
- "err 47",
- "err 48",
- "err 49",
- "uta error",           /* 50 */
- "uta home or motor sensor error",
- "err 52",
- "err 53",
- "err 54",
- "err 55",
- "err 56",
- "err 57",
- "err 58",
- "err 59",
- "adf error",           /* 60 */
- "adf paper jam",
- "adf no paper",
- "adf cover open",
- "err 64",
- "err 65",
- "err 66",
- "err 67",
- "err 68",
- "err 69",
- "fb sensor error",     /* 70 */
- "fb home or motor sensor error",
- "fb filter or motor sensor error",
- "fb lens or motor sensor error"
- "first line position error (LER error, vertical)",
- "first pixel position error (SER error, horizontal)",
- "first pixel position error for lens 2 (SER2 error, horizontal)",
- "err 77",
- "err 78",
- "err 79",
- "err",      /* 80 */
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",      /* 90 */
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err",
- "err"       /* 99 */
+static char *scanner_error_str[] = { "no error",	/* 0 */
+	"CPU error",
+	"err 2",
+	"err 3",
+	"ROM error",
+	"err 5",
+	"err 6",
+	"err 7",
+	"err 8",
+	"err 9",
+	"buffer error",		/* 10 */
+	"system buffer error",
+	"shading buffer error",
+	"video buffer error",
+	"stack buffer error",
+	"control buffer error",
+	"gamma buffer error",
+	"err 17",
+	"err 18",
+	"err 19",
+	"lamp error",		/* 20 */
+	"dark error",
+	"dim error",
+	"light error",
+	"lamp adjust control error (by darken)",
+	"err 25",
+	"err 26",
+	"err 27",
+	"err 28",
+	"err 29",
+	"calibration error",	/* 30 */
+	"dc offset error",
+	"gain error",
+	"auto focus error",
+	"err 34",
+	"err 35",
+	"err 36",
+	"err 37",
+	"err 38",
+	"err 39",
+	"scsi error",		/* 40 */
+	"err 41",
+	"asic error",
+	"timer error",
+	"ccd error",
+	"err 45",
+	"err 46",
+	"err 47",
+	"err 48",
+	"err 49",
+	"uta error",		/* 50 */
+	"uta home or motor sensor error",
+	"err 52",
+	"err 53",
+	"err 54",
+	"err 55",
+	"err 56",
+	"err 57",
+	"err 58",
+	"err 59",
+	"adf error",		/* 60 */
+	"adf paper jam",
+	"adf no paper",
+	"adf cover open",
+	"err 64",
+	"err 65",
+	"err 66",
+	"err 67",
+	"err 68",
+	"err 69",
+	"fb sensor error",	/* 70 */
+	"fb home or motor sensor error",
+	"fb filter or motor sensor error",
+	"fb lens or motor sensor error"
+		"first line position error (LER error, vertical)",
+	"first pixel position error (SER error, horizontal)",
+	"first pixel position error for lens 2 (SER2 error, horizontal)",
+	"err 77",
+	"err 78",
+	"err 79",
+	"err",			/* 80 */
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",			/* 90 */
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err",
+	"err"			/* 99 */
 };
 
 

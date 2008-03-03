@@ -50,56 +50,56 @@
 #endif
 
 typedef enum
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_MODE,
-    /* FIXME: eventually need to have both X and Y resolution. */
-    OPT_RESOLUTION,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	/* FIXME: eventually need to have both X and Y resolution. */
+	OPT_RESOLUTION,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
 
-    /* must come last: */
-    NUM_OPTIONS
-  }
+	/* must come last: */
+	NUM_OPTIONS
+}
 PINT_Option;
 
 typedef struct PINT_Device
-  {
-    struct PINT_Device *next;
-    SANE_Device sane;
-    SANE_Range dpi_range;
-    SANE_Range x_range;
-    SANE_Range y_range;
-    struct scan_io scanio; /* Scanner hardware state. */
-  }
+{
+	struct PINT_Device *next;
+	SANE_Device sane;
+	SANE_Range dpi_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	struct scan_io scanio;	/* Scanner hardware state. */
+}
 PINT_Device;
 
 typedef struct PINT_Scanner
-  {
-    /* all the state needed to define a scan request: */
-    struct PINT_Scanner *next;
+{
+	/* all the state needed to define a scan request: */
+	struct PINT_Scanner *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-    int scanning;
-    SANE_Parameters params;
+	int scanning;
+	SANE_Parameters params;
 
-    int fd;			/* Device file descriptor */
+	int fd;			/* Device file descriptor */
 
-    /* scanner dependent/low-level state: */
-    PINT_Device *hw;
-  }
+	/* scanner dependent/low-level state: */
+	PINT_Device *hw;
+}
 PINT_Scanner;
 
 #endif /* _PINT_H */

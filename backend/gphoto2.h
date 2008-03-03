@@ -82,50 +82,50 @@
 
 typedef struct picture_info
 {
-  int low_res;
-  int size;
+	int low_res;
+	int size;
 }
 PictureInfo;
 
 typedef struct GPHOTO2_s
 {
-  SANE_String port;		/* the port name it's on */
-  SANE_Int speed;		/* current port speed */
-  SANE_String camera_name;
-  SANE_Bool scanning;		/* currently scanning an image? */
-  SANE_Byte model;
-  SANE_Byte ver_major;
-  SANE_Byte ver_minor;
-  SANE_Int pic_taken;
-  SANE_Int pic_left;
-  struct
-  {
-    unsigned int low_res:1;
-    unsigned int low_batt:1;
-  }
-  flags;
-  PictureInfo *Pictures;	/* array of pictures */
-  SANE_Int current_picture_number;	/* picture being operated on */
+	SANE_String port;	/* the port name it's on */
+	SANE_Int speed;		/* current port speed */
+	SANE_String camera_name;
+	SANE_Bool scanning;	/* currently scanning an image? */
+	SANE_Byte model;
+	SANE_Byte ver_major;
+	SANE_Byte ver_minor;
+	SANE_Int pic_taken;
+	SANE_Int pic_left;
+	struct
+	{
+		unsigned int low_res:1;
+		unsigned int low_batt:1;
+	}
+	flags;
+	PictureInfo *Pictures;	/* array of pictures */
+	SANE_Int current_picture_number;	/* picture being operated on */
 }
 GPHOTO2;
 
 typedef struct gphoto2_info_s
 {
-  SANE_Byte model;
-  SANE_Byte ver_major;
-  SANE_Byte ver_minor;
-  SANE_Int pic_taken;
-  SANE_Int pic_left;
-  struct
-  {
-    SANE_Int low_res:1;
-    SANE_Int low_batt:1;
-  }
-  flags;
+	SANE_Byte model;
+	SANE_Byte ver_major;
+	SANE_Byte ver_minor;
+	SANE_Int pic_taken;
+	SANE_Int pic_left;
+	struct
+	{
+		SANE_Int low_res:1;
+		SANE_Int low_batt:1;
+	}
+	flags;
 }
 Gphoto2Info, *Gphoto2InfoPtr;
 
-static SANE_Int get_info (void);
+static SANE_Int get_info(void);
 
 #define HIGH_RES		0
 #define LOW_RES			1
@@ -148,11 +148,11 @@ extern char *__progname;	/* Defined in /usr/lib/crt0.o */
 
 struct cam_dirent
 {
-  SANE_Char name[11];
-  SANE_Byte attr;
-  SANE_Byte create_time[2];
-  SANE_Byte creat_date[2];
-  long size;
+	SANE_Char name[11];
+	SANE_Byte attr;
+	SANE_Byte create_time[2];
+	SANE_Byte creat_date[2];
+	long size;
 };
 
 #ifdef __GNUC__
@@ -163,38 +163,38 @@ struct cam_dirent
 
 struct cam_dirlist
 {
-  SANE_Char name[48];
-  struct cam_dirlist *next;
+	SANE_Char name[48];
+	struct cam_dirlist *next;
 };
 
 
 
 #include <sys/types.h>
 
-FILE *sanei_config_open (const char *filename);
+FILE *sanei_config_open(const char *filename);
 
-static SANE_Int init_gphoto2 (void);
+static SANE_Int init_gphoto2(void);
 
-static void close_gphoto2 (void);
+static void close_gphoto2(void);
 
-static PictureInfo *get_pictures_info (void);
+static PictureInfo *get_pictures_info(void);
 
-static SANE_Int get_picture_info (PictureInfo * pic, SANE_Int p);
+static SANE_Int get_picture_info(PictureInfo * pic, SANE_Int p);
 
-static SANE_Status snap_pic (void);
+static SANE_Status snap_pic(void);
 
-char *sanei_config_read (char *str, int n, FILE * stream);
+char *sanei_config_read(char *str, int n, FILE * stream);
 
-static SANE_Int read_dir (SANE_String dir, SANE_Bool read_files);
+static SANE_Int read_dir(SANE_String dir, SANE_Bool read_files);
 
-static void set_res (SANE_Int lowres);
+static void set_res(SANE_Int lowres);
 
-static SANE_Int read_info (SANE_String_Const fname);
+static SANE_Int read_info(SANE_String_Const fname);
 
-static SANE_Status converter_do_scan_complete_cleanup (void);
+static SANE_Status converter_do_scan_complete_cleanup(void);
 
-static SANE_Int converter_fill_buffer (void);
+static SANE_Int converter_fill_buffer(void);
 
-static SANE_Bool converter_scan_complete (void);
+static SANE_Bool converter_scan_complete(void);
 
-static SANE_Status converter_init (SANE_Handle handle);
+static SANE_Status converter_init(SANE_Handle handle);

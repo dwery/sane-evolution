@@ -58,7 +58,7 @@
 
 /* snapscan device field values */
 
-#define DEFAULT_DEVICE "/dev/scanner" /* Check this if config is missing */
+#define DEFAULT_DEVICE "/dev/scanner"	/* Check this if config is missing */
 #define SNAPSCAN_TYPE      "flatbed scanner"
 #define TMP_FILE_PREFIX "/var/tmp/snapscan"
 #define SNAPSCAN_CONFIG_FILE "snapscan.conf"
@@ -72,148 +72,147 @@
 
 typedef enum
 {
-  UNKNOWN_BUS,
-  SCSI,
-  USB
+	UNKNOWN_BUS,
+	SCSI,
+	USB
 } SnapScan_Bus;
 
 typedef enum
 {
-    UNKNOWN,
-    SNAPSCAN,           /* the original SnapScan */
-    SNAPSCAN300,        /* the SnapScan 300 */
-    SNAPSCAN310,        /* the SnapScan 310 */
-    SNAPSCAN600,        /* the SnapScan 600 */
-    SNAPSCAN1236,       /* the SnapScan 1236 */
-    SNAPSCAN1212U,
-    SNAPSCANE20,        /* SnapScan e20/e25, 600 DPI */
-    SNAPSCANE50,        /* SnapScan e40/e50, 1200 DPI */
-    SNAPSCANE52,        /* SnapScan e52, 1200 DPI, no quality calibration */
-    ACER300F,
-    PRISA310,           /* Acer ScanPrisa 310 - 300 DPI */
-    PRISA610,           /* Acer ScanPrisa 610 - 600 DPI */
-    PRISA620,           /* Acer ScanPrisa 620 - 600 DPI */
-    PRISA640,           /* Acer ScanPrisa 640 - 600 DPI */
-    PRISA1240,          /* Acer ScanPrisa 1240 - 1200 DPI */
-    PRISA4300,          /* Acer ScanPrisa 3300/4300 - 600 DPI */
-    PRISA4300_2,        /* Acer ScanPrisa 3300/4300 - 600 DPI, 42 bit*/
-    PRISA5000,          /* Acer ScanPrisa 5000 - 1200 DPI */
-    PRISA5000E,         /* Acer ScanPrisa 5000E/5000U - 1200 DPI */
-    PRISA5150,          /* Benq 5150 - 1200 DPI */
-    PRISA5300,          /* Acer ScanPrisa 5300 - 1200 DPI */
-    PERFECTION660,      /* Epson Perfection 660 - 1200 DPI */
-    PERFECTION1270,     /* Epson Perfection 1270 - 1600 DPI */
-    PERFECTION1670,     /* Epson Perfection 1670 - 1600 DPI */
-    PERFECTION2480,     /* Epson Perfection 2480 - 2400 DPI */
-    PERFECTION3490,     /* Epson Perfection 3490 - 3200 DPI */
-    STYLUS_CX1500,      /* Epson Stylus CX 1500 - 600 DPI */
-    ARCUS1200		/* Agfa Arcus 1200 - 1200 DPI (rebadged Acer?) */
+	UNKNOWN,
+	SNAPSCAN,		/* the original SnapScan */
+	SNAPSCAN300,		/* the SnapScan 300 */
+	SNAPSCAN310,		/* the SnapScan 310 */
+	SNAPSCAN600,		/* the SnapScan 600 */
+	SNAPSCAN1236,		/* the SnapScan 1236 */
+	SNAPSCAN1212U,
+	SNAPSCANE20,		/* SnapScan e20/e25, 600 DPI */
+	SNAPSCANE50,		/* SnapScan e40/e50, 1200 DPI */
+	SNAPSCANE52,		/* SnapScan e52, 1200 DPI, no quality calibration */
+	ACER300F,
+	PRISA310,		/* Acer ScanPrisa 310 - 300 DPI */
+	PRISA610,		/* Acer ScanPrisa 610 - 600 DPI */
+	PRISA620,		/* Acer ScanPrisa 620 - 600 DPI */
+	PRISA640,		/* Acer ScanPrisa 640 - 600 DPI */
+	PRISA1240,		/* Acer ScanPrisa 1240 - 1200 DPI */
+	PRISA4300,		/* Acer ScanPrisa 3300/4300 - 600 DPI */
+	PRISA4300_2,		/* Acer ScanPrisa 3300/4300 - 600 DPI, 42 bit */
+	PRISA5000,		/* Acer ScanPrisa 5000 - 1200 DPI */
+	PRISA5000E,		/* Acer ScanPrisa 5000E/5000U - 1200 DPI */
+	PRISA5150,		/* Benq 5150 - 1200 DPI */
+	PRISA5300,		/* Acer ScanPrisa 5300 - 1200 DPI */
+	PERFECTION660,		/* Epson Perfection 660 - 1200 DPI */
+	PERFECTION1270,		/* Epson Perfection 1270 - 1600 DPI */
+	PERFECTION1670,		/* Epson Perfection 1670 - 1600 DPI */
+	PERFECTION2480,		/* Epson Perfection 2480 - 2400 DPI */
+	PERFECTION3490,		/* Epson Perfection 3490 - 3200 DPI */
+	STYLUS_CX1500,		/* Epson Stylus CX 1500 - 600 DPI */
+	ARCUS1200		/* Agfa Arcus 1200 - 1200 DPI (rebadged Acer?) */
 } SnapScan_Model;
 
-struct SnapScan_Driver_desc {
-    SnapScan_Model id;
-    char *driver_name;
+struct SnapScan_Driver_desc
+{
+	SnapScan_Model id;
+	char *driver_name;
 };
 
-static struct SnapScan_Driver_desc drivers[] =
-{
-    /* enum value -> Driver name */
-    {UNKNOWN,        "Unknown"},
-    {SNAPSCAN,       "SnapScan"},
-    {SNAPSCAN300,    "SnapScan300"},
-    {SNAPSCAN310,    "SnapScan310"},
-    {SNAPSCAN600,    "SnapScan600"},
-    {SNAPSCAN1236,   "SnapScan1236"},
-    {SNAPSCAN1212U,  "SnapScan1212"},
-    {SNAPSCANE20,    "SnapScanE20"},
-    {SNAPSCANE50,    "SnapScanE50"},
-    {SNAPSCANE52,    "SnapScanE52"},
-    {ACER300F,       "Acer300"},
-    {PRISA310,       "Acer310"},
-    {PRISA610,       "Acer610"},
-    {PRISA620,       "Acer620"},
-    {PRISA640,       "Acer640"},
-    {PRISA4300,      "Acer4300"},
-    {PRISA4300_2,    "Acer4300 (42 bit)"},
-    {PRISA1240,      "Acer1240"},
-    {PRISA5000E,     "Benq 5000E/5000U"},
-    {PRISA5000,      "Benq 5000"},
-    {PRISA5150,      "Benq 5150 / 5250"},
-    {PRISA5300,      "Benq 5300"},
-    {ARCUS1200,      "Arcus1200"},
-    {PERFECTION660,  "Perfection 660"},
-    {PERFECTION1270, "Perfection 1270"},
-    {PERFECTION1670, "Perfection 1670"},
-    {PERFECTION2480, "Perfection 2480"},
-    {PERFECTION3490, "Perfection 3490"},
-    {STYLUS_CX1500,  "Stylus CX 1500"}
+static struct SnapScan_Driver_desc drivers[] = {
+	/* enum value -> Driver name */
+	{UNKNOWN, "Unknown"},
+	{SNAPSCAN, "SnapScan"},
+	{SNAPSCAN300, "SnapScan300"},
+	{SNAPSCAN310, "SnapScan310"},
+	{SNAPSCAN600, "SnapScan600"},
+	{SNAPSCAN1236, "SnapScan1236"},
+	{SNAPSCAN1212U, "SnapScan1212"},
+	{SNAPSCANE20, "SnapScanE20"},
+	{SNAPSCANE50, "SnapScanE50"},
+	{SNAPSCANE52, "SnapScanE52"},
+	{ACER300F, "Acer300"},
+	{PRISA310, "Acer310"},
+	{PRISA610, "Acer610"},
+	{PRISA620, "Acer620"},
+	{PRISA640, "Acer640"},
+	{PRISA4300, "Acer4300"},
+	{PRISA4300_2, "Acer4300 (42 bit)"},
+	{PRISA1240, "Acer1240"},
+	{PRISA5000E, "Benq 5000E/5000U"},
+	{PRISA5000, "Benq 5000"},
+	{PRISA5150, "Benq 5150 / 5250"},
+	{PRISA5300, "Benq 5300"},
+	{ARCUS1200, "Arcus1200"},
+	{PERFECTION660, "Perfection 660"},
+	{PERFECTION1270, "Perfection 1270"},
+	{PERFECTION1670, "Perfection 1670"},
+	{PERFECTION2480, "Perfection 2480"},
+	{PERFECTION3490, "Perfection 3490"},
+	{STYLUS_CX1500, "Stylus CX 1500"}
 };
 
 #define known_drivers ((int) (sizeof(drivers)/sizeof(drivers[0])))
 
 struct SnapScan_Model_desc
 {
-    char *scsi_name;
-    SnapScan_Model id;
+	char *scsi_name;
+	SnapScan_Model id;
 };
 
-static struct SnapScan_Model_desc scanners[] =
-{
-    /* SCSI model name -> enum value */
-    {"FlatbedScanner_2",    PRISA310},
-    {"FlatbedScanner_4",    PRISA610},
-    {"FlatbedScanner_5",    PRISA620},
-    {"FlatbedScanner_7",    PRISA310},
-    {"FlatbedScanner_9",    PRISA620},
-    {"FlatbedScanner13",    PRISA620},
-    {"FlatbedScanner16",    PRISA620},
-    {"FlatbedScanner17",    PRISA620},
-    {"FlatbedScanner18",    PRISA620},
-    {"FlatbedScanner19",    PRISA1240},
-    {"FlatbedScanner20",    PRISA640},
-    {"FlatbedScanner21",    PRISA4300},
-    {"FlatbedScanner22",    PRISA4300_2},
-    {"FlatbedScanner23",    PRISA4300_2},
-    {"FlatbedScanner24",    PRISA5300},
-    {"FlatbedScanner25",    PRISA5000E},/* 5000E/5000U */
-    {"FlatbedScanner40",    PRISA5150}, /* 5150 / 5250  */
-    {"FlatbedScanner42",    PRISA5000}, /* 5000 */
-    {"SNAPSCAN 1212U",      SNAPSCAN1212U},
-    {"SNAPSCAN 1212U_2",    SNAPSCAN1212U},
-    {"SNAPSCAN e10",        SNAPSCANE20},
-    {"SNAPSCAN e20",        SNAPSCANE20},
-    {"SNAPSCAN e25",        SNAPSCANE20},
-    {"SNAPSCAN e26",        SNAPSCANE20},
-    {"SNAPSCAN e40",        SNAPSCANE50},
-    {"SNAPSCAN e42",        SNAPSCANE52},
-    {"SNAPSCAN e50",        SNAPSCANE50},
-    {"SNAPSCAN e52",        SNAPSCANE52},
-    {"SNAPSCAN 1236",       SNAPSCAN1236},
-    {"SNAPSCAN 1236U",      SNAPSCAN1236},
-    {"SNAPSCAN 300",        SNAPSCAN300},
-    {"SNAPSCAN 310",        SNAPSCAN310},
-    {"SNAPSCAN 600",        SNAPSCAN600},
-    {"SnapScan",            SNAPSCAN},
-    {"ACERSCAN_A4____1",    ACER300F},
-    {"Perfection 660",      PERFECTION660},
-    {"EPSON Scanner",       PERFECTION1670}, /* dummy entry to detect scanner */
-    {"EPSON Scanner1",      PERFECTION2480}, /* dummy entry to detect scanner */
-    {"EPSON Scanner2",      PERFECTION3490}, /* dummy entry to detect scanner */
-    {"EPSON MFP00", 		STYLUS_CX1500},
-    {"ARCUS 1200",          ARCUS1200}
+static struct SnapScan_Model_desc scanners[] = {
+	/* SCSI model name -> enum value */
+	{"FlatbedScanner_2", PRISA310},
+	{"FlatbedScanner_4", PRISA610},
+	{"FlatbedScanner_5", PRISA620},
+	{"FlatbedScanner_7", PRISA310},
+	{"FlatbedScanner_9", PRISA620},
+	{"FlatbedScanner13", PRISA620},
+	{"FlatbedScanner16", PRISA620},
+	{"FlatbedScanner17", PRISA620},
+	{"FlatbedScanner18", PRISA620},
+	{"FlatbedScanner19", PRISA1240},
+	{"FlatbedScanner20", PRISA640},
+	{"FlatbedScanner21", PRISA4300},
+	{"FlatbedScanner22", PRISA4300_2},
+	{"FlatbedScanner23", PRISA4300_2},
+	{"FlatbedScanner24", PRISA5300},
+	{"FlatbedScanner25", PRISA5000E},	/* 5000E/5000U */
+	{"FlatbedScanner40", PRISA5150},	/* 5150 / 5250  */
+	{"FlatbedScanner42", PRISA5000},	/* 5000 */
+	{"SNAPSCAN 1212U", SNAPSCAN1212U},
+	{"SNAPSCAN 1212U_2", SNAPSCAN1212U},
+	{"SNAPSCAN e10", SNAPSCANE20},
+	{"SNAPSCAN e20", SNAPSCANE20},
+	{"SNAPSCAN e25", SNAPSCANE20},
+	{"SNAPSCAN e26", SNAPSCANE20},
+	{"SNAPSCAN e40", SNAPSCANE50},
+	{"SNAPSCAN e42", SNAPSCANE52},
+	{"SNAPSCAN e50", SNAPSCANE50},
+	{"SNAPSCAN e52", SNAPSCANE52},
+	{"SNAPSCAN 1236", SNAPSCAN1236},
+	{"SNAPSCAN 1236U", SNAPSCAN1236},
+	{"SNAPSCAN 300", SNAPSCAN300},
+	{"SNAPSCAN 310", SNAPSCAN310},
+	{"SNAPSCAN 600", SNAPSCAN600},
+	{"SnapScan", SNAPSCAN},
+	{"ACERSCAN_A4____1", ACER300F},
+	{"Perfection 660", PERFECTION660},
+	{"EPSON Scanner", PERFECTION1670},	/* dummy entry to detect scanner */
+	{"EPSON Scanner1", PERFECTION2480},	/* dummy entry to detect scanner */
+	{"EPSON Scanner2", PERFECTION3490},	/* dummy entry to detect scanner */
+	{"EPSON MFP00", STYLUS_CX1500},
+	{"ARCUS 1200", ARCUS1200}
 };
 
 #define known_scanners ((int) (sizeof(scanners)/sizeof(scanners[0])))
 
-static char *vendors[] =
-{
-    /* SCSI Vendor name */
-    "AGFA",
-    "COLOR",
-    "Color",
-    "ACERPER",
-    "EPSON"
+static char *vendors[] = {
+	/* SCSI Vendor name */
+	"AGFA",
+	"COLOR",
+	"Color",
+	"ACERPER",
+	"EPSON"
 };
+
 #define known_vendors ((int) (sizeof(vendors)/sizeof(vendors[0])))
 
 /* Known vendor IDs */
@@ -233,112 +232,112 @@ static char *vendors[] =
 #define USB_PRODUCT_PERFECTION2480 0x0121
 #define USB_PRODUCT_PERFECTION3490 0x0122
 
-static SANE_Word usb_vendor_ids[] =
-{
-    /* USB Vendor IDs */
-    USB_VENDOR_AGFA,     /* Agfa */
-    USB_VENDOR_ACER,     /* Acer */
-    USB_VENDOR_EPSON      /* Epson */
+static SANE_Word usb_vendor_ids[] = {
+	/* USB Vendor IDs */
+	USB_VENDOR_AGFA,	/* Agfa */
+	USB_VENDOR_ACER,	/* Acer */
+	USB_VENDOR_EPSON	/* Epson */
 };
+
 #define known_usb_vendor_ids ((int) (sizeof(usb_vendor_ids)/sizeof(usb_vendor_ids[0])))
 
 struct SnapScan_USB_Model_desc
 {
-    SANE_Word vendor_id;
-    SANE_Word product_id;
-    SnapScan_Model id;
+	SANE_Word vendor_id;
+	SANE_Word product_id;
+	SnapScan_Model id;
 };
 
-static struct SnapScan_USB_Model_desc usb_scanners[] =
-{
-    {USB_VENDOR_ACER, USB_PRODUCT_PRISA310, PRISA310},  /* Acer 310U */
-    {USB_VENDOR_ACER, USB_PRODUCT_PRISA320, PRISA310},  /* Acer 320U */
-    {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION660, PERFECTION660}, /* Epson Perfection 660 */
-    {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION1270, PERFECTION1270}, /* Epson Perfection 1270 */
-    {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION1670, PERFECTION1670}, /* Epson Perfection 1670 */
-    {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION2480, PERFECTION2480}, /* Epson Perfection 2480 */
-    {USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION3490, PERFECTION3490} /* Epson Perfection 3490 */
+static struct SnapScan_USB_Model_desc usb_scanners[] = {
+	{USB_VENDOR_ACER, USB_PRODUCT_PRISA310, PRISA310},	/* Acer 310U */
+	{USB_VENDOR_ACER, USB_PRODUCT_PRISA320, PRISA310},	/* Acer 320U */
+	{USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION660, PERFECTION660},	/* Epson Perfection 660 */
+	{USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION1270, PERFECTION1270},	/* Epson Perfection 1270 */
+	{USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION1670, PERFECTION1670},	/* Epson Perfection 1670 */
+	{USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION2480, PERFECTION2480},	/* Epson Perfection 2480 */
+	{USB_VENDOR_EPSON, USB_PRODUCT_PERFECTION3490, PERFECTION3490}	/* Epson Perfection 3490 */
 };
+
 #define known_usb_scanners ((int) (sizeof(usb_scanners)/sizeof(usb_scanners[0])))
 
 typedef enum
 {
-    OPT_COUNT = 0,         /* option count */
-    OPT_MODE_GROUP,        /* scan mode group */
-    OPT_SCANRES,           /* scan resolution */
-    OPT_PREVIEW,           /* preview mode toggle */
-    OPT_MODE,              /* scan mode */
-    OPT_PREVIEW_MODE,      /* preview mode */
-    OPT_HIGHQUALITY,       /* scan quality (fast / high) */
-    OPT_SOURCE,            /* scan source (flatbed / TPO) */
-    OPT_GEOMETRY_GROUP,    /* geometry group */
-    OPT_TLX,               /* top left x */
-    OPT_TLY,               /* top left y */
-    OPT_BRX,               /* bottom right x */
-    OPT_BRY,               /* bottom right y */
-    OPT_PREDEF_WINDOW,     /* predefined window configuration */
-    OPT_ENHANCEMENT_GROUP, /* enhancement group */
-    OPT_BIT_DEPTH,         /* 8/16 bit/pixel for colour scans */
-    OPT_QUALITY_CAL,       /* quality calibration */
-    OPT_HALFTONE,          /* halftone flag */
-    OPT_HALFTONE_PATTERN,  /* halftone matrix */
-    OPT_CUSTOM_GAMMA,      /* use custom gamma tables */
-    OPT_GAMMA_BIND,        /* use same gamma value for all colors */
-    OPT_GAMMA_GS,          /* gamma correction (greyscale) */
-    OPT_GAMMA_R,           /* gamma correction (red) */
-    OPT_GAMMA_G,           /* gamma correction (green) */
-    OPT_GAMMA_B,           /* gamma correction (blue) */
-    OPT_GAMMA_VECTOR_GS,   /* gamma correction vector (greyscale) */
-    OPT_GAMMA_VECTOR_R,    /* gamma correction vector (red) */
-    OPT_GAMMA_VECTOR_G,    /* gamma correction vector (green) */
-    OPT_GAMMA_VECTOR_B,    /* gamma correction vector (blue) */
-    OPT_NEGATIVE,          /* swap black and white */
-    OPT_THRESHOLD,         /* threshold for line art */
-    OPT_BRIGHTNESS,        /* brightness */
-    OPT_CONTRAST,          /* contrast */
-    OPT_ADVANCED_GROUP,    /* advanced group */
-    OPT_RGB_LPR,           /* lines per scsi read (RGB) */
-    OPT_GS_LPR,            /* lines per scsi read (GS) */
-    NUM_OPTS               /* dummy (gives number of options) */
+	OPT_COUNT = 0,		/* option count */
+	OPT_MODE_GROUP,		/* scan mode group */
+	OPT_SCANRES,		/* scan resolution */
+	OPT_PREVIEW,		/* preview mode toggle */
+	OPT_MODE,		/* scan mode */
+	OPT_PREVIEW_MODE,	/* preview mode */
+	OPT_HIGHQUALITY,	/* scan quality (fast / high) */
+	OPT_SOURCE,		/* scan source (flatbed / TPO) */
+	OPT_GEOMETRY_GROUP,	/* geometry group */
+	OPT_TLX,		/* top left x */
+	OPT_TLY,		/* top left y */
+	OPT_BRX,		/* bottom right x */
+	OPT_BRY,		/* bottom right y */
+	OPT_PREDEF_WINDOW,	/* predefined window configuration */
+	OPT_ENHANCEMENT_GROUP,	/* enhancement group */
+	OPT_BIT_DEPTH,		/* 8/16 bit/pixel for colour scans */
+	OPT_QUALITY_CAL,	/* quality calibration */
+	OPT_HALFTONE,		/* halftone flag */
+	OPT_HALFTONE_PATTERN,	/* halftone matrix */
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables */
+	OPT_GAMMA_BIND,		/* use same gamma value for all colors */
+	OPT_GAMMA_GS,		/* gamma correction (greyscale) */
+	OPT_GAMMA_R,		/* gamma correction (red) */
+	OPT_GAMMA_G,		/* gamma correction (green) */
+	OPT_GAMMA_B,		/* gamma correction (blue) */
+	OPT_GAMMA_VECTOR_GS,	/* gamma correction vector (greyscale) */
+	OPT_GAMMA_VECTOR_R,	/* gamma correction vector (red) */
+	OPT_GAMMA_VECTOR_G,	/* gamma correction vector (green) */
+	OPT_GAMMA_VECTOR_B,	/* gamma correction vector (blue) */
+	OPT_NEGATIVE,		/* swap black and white */
+	OPT_THRESHOLD,		/* threshold for line art */
+	OPT_BRIGHTNESS,		/* brightness */
+	OPT_CONTRAST,		/* contrast */
+	OPT_ADVANCED_GROUP,	/* advanced group */
+	OPT_RGB_LPR,		/* lines per scsi read (RGB) */
+	OPT_GS_LPR,		/* lines per scsi read (GS) */
+	NUM_OPTS		/* dummy (gives number of options) */
 } SnapScan_Options;
 
 typedef enum
 {
-    MD_COLOUR = 0,       /* full colour */
-    MD_BILEVELCOLOUR,    /* 1-bit per channel colour */
-    MD_GREYSCALE,        /* grey scale */
-    MD_LINEART,          /* black and white */
-    MD_NUM_MODES
+	MD_COLOUR = 0,		/* full colour */
+	MD_BILEVELCOLOUR,	/* 1-bit per channel colour */
+	MD_GREYSCALE,		/* grey scale */
+	MD_LINEART,		/* black and white */
+	MD_NUM_MODES
 } SnapScan_Mode;
 
 typedef enum
 {
-    SRC_FLATBED = 0,    /* Flatbed (normal) */
-    SRC_TPO,            /* Transparency unit */
-    SRC_ADF
+	SRC_FLATBED = 0,	/* Flatbed (normal) */
+	SRC_TPO,		/* Transparency unit */
+	SRC_ADF
 } SnapScan_Source;
 
 typedef enum
 {
-    ST_IDLE,            /* between scans */
-    ST_SCAN_INIT,        /* scan initialization */
-    ST_SCANNING,        /* actively scanning data */
-    ST_CANCEL_INIT        /* cancellation begun */
+	ST_IDLE,		/* between scans */
+	ST_SCAN_INIT,		/* scan initialization */
+	ST_SCANNING,		/* actively scanning data */
+	ST_CANCEL_INIT		/* cancellation begun */
 } SnapScan_State;
 
 typedef struct snapscan_device
 {
-    SANE_Device dev;
-    SANE_Range x_range;           /* x dimension of scan area */
-    SANE_Range y_range;           /* y dimension of scan area */
-    SnapScan_Model model;         /* type of scanner */
-    SnapScan_Bus bus;             /* bus of the device usb/scsi */
-    SANE_Char *firmware_filename; /* The name of the firmware file for USB scanners */
-    struct snapscan_device *pnext;
+	SANE_Device dev;
+	SANE_Range x_range;	/* x dimension of scan area */
+	SANE_Range y_range;	/* y dimension of scan area */
+	SnapScan_Model model;	/* type of scanner */
+	SnapScan_Bus bus;	/* bus of the device usb/scsi */
+	SANE_Char *firmware_filename;	/* The name of the firmware file for USB scanners */
+	struct snapscan_device *pnext;
 }
 SnapScan_Device;
 
-#define MAX_SCSI_CMD_LEN 256    /* not that large */
+#define MAX_SCSI_CMD_LEN 256	/* not that large */
 #define DEFAULT_SCANNER_BUF_SZ 1024*63
 
 typedef struct snapscan_scanner SnapScan_Scanner;
@@ -347,77 +346,77 @@ typedef struct snapscan_scanner SnapScan_Scanner;
 
 struct snapscan_scanner
 {
-    SANE_String devname;          /* the scsi device name */
-    SnapScan_Device *pdev;        /* the device */
-    int fd;                       /* scsi file descriptor */
-    int opens;                    /* open count */
-    int rpipe[2];                 /* reader pipe descriptors */
-    int orig_rpipe_flags;         /* initial reader pipe flags */
-    pid_t child;                  /* child reader process pid */
-    SnapScan_Mode mode;           /* mode */
-    SnapScan_Mode preview_mode;   /* preview mode */
-    SnapScan_Source source;       /* scanning source */
-    SnapScan_State state;         /* scanner state */
-    u_char cmd[MAX_SCSI_CMD_LEN]; /* scsi command buffer */
-    u_char *buf;                  /* data buffer */
-    size_t phys_buf_sz;           /* physical buffer size */
-    size_t buf_sz;                /* effective buffer size */
-    size_t expected_read_bytes;   /* expected amount of data in a single read */
-    size_t read_bytes;            /* amount of actual data read */
-    size_t bytes_remaining;       /* remaining bytes expected from scanner */
-    size_t actual_res;            /* actual resolution */
-    size_t lines;                 /* number of scan lines */
-    size_t bytes_per_line;        /* bytes per scan line */
-    size_t pixels_per_line;       /* pixels per scan line */
-    u_char hconfig;               /* hardware configuration byte */
-    u_char hconfig_epson;         /* additional hw configuration for some Epson scanners */
-    u_char hwst;                  /* hardware status byte */
-    float ms_per_line;            /* speed: milliseconds per scan line */
-    SANE_Bool nonblocking;        /* wait on reads for data? */
-    char *sense_str;              /* sense string */
-    char *as_str;                 /* additional sense string */
-    u_char asi1;                  /* first additional sense info byte */
-    u_char asi2;                  /* second additional sense info byte */
-    SANE_Byte chroma_offset[3];   /* chroma offsets */
-    SANE_Int chroma;
-    Source *psrc;                 /* data source */
-    Source *preadersrc;                 /* data source for reader thread */
-    SANE_Option_Descriptor options[NUM_OPTS];  /* the option descriptors */
-    Option_Value val[NUM_OPTS];  /* the options themselves... */
-    SANE_Int res;                /* resolution */
-    SANE_Int bpp;                /* bit depth supported by scanner*/
-    SANE_Int bpp_scan;           /* bit depth used for scanning */
-    SANE_Bool preview;           /* preview mode toggle */
-    SANE_Bool highquality;       /* high quality mode toggle */
-    SANE_String mode_s;          /* scanning mode */
-    SANE_String source_s;        /* scanning source */
-    SANE_String preview_mode_s;  /* scanning mode for preview */
-    SANE_Fixed tlx;              /* window top left x */
-    SANE_Fixed tly;              /* window top left y */
-    SANE_Fixed brx;              /* window bottom right x */
-    SANE_Fixed bry;              /* window bottom right y */
-    int bright;                  /* brightness */
-    int contrast;                /* contrast */
-    SANE_String predef_window;   /* predefined window name */
-    SANE_Fixed gamma_gs;         /* gamma correction value (greyscale) */
-    SANE_Fixed gamma_r;          /* gamma correction value (red) */
-    SANE_Fixed gamma_g;          /* gamma correction value (green) */
-    SANE_Fixed gamma_b;          /* gamma correction value (blue) */
-    SANE_Int *gamma_tables;      /* gamma correction vectors */
-    SANE_Int *gamma_table_gs;    /* gamma correction vector (greyscale) */
-    SANE_Int *gamma_table_r;     /* gamma correction vector (red) */
-    SANE_Int *gamma_table_g;     /* gamma correction vector (green) */
-    SANE_Int *gamma_table_b;     /* gamma correction vector (blue) */
-    int gamma_length;            /* length of gamma vectors */
-    SANE_Bool halftone;          /* halftone toggle */
-    SANE_String dither_matrix;   /* the halftone dither matrix */
-    SANE_Bool negative;          /* swap black and white */
-    SANE_Int threshold;          /* threshold for line art */
-    SANE_Int rgb_lpr;            /* lines per scsi read (RGB) */
-    SANE_Int gs_lpr;             /* lines per scsi read (greyscale) */
-    SANE_Bool firmware_loaded;   /* true if firmware was downloaded */
-    SANE_Word usb_vendor;        /* USB vendor id */
-    SANE_Word usb_product;       /* USB product id */
+	SANE_String devname;	/* the scsi device name */
+	SnapScan_Device *pdev;	/* the device */
+	int fd;			/* scsi file descriptor */
+	int opens;		/* open count */
+	int rpipe[2];		/* reader pipe descriptors */
+	int orig_rpipe_flags;	/* initial reader pipe flags */
+	pid_t child;		/* child reader process pid */
+	SnapScan_Mode mode;	/* mode */
+	SnapScan_Mode preview_mode;	/* preview mode */
+	SnapScan_Source source;	/* scanning source */
+	SnapScan_State state;	/* scanner state */
+	u_char cmd[MAX_SCSI_CMD_LEN];	/* scsi command buffer */
+	u_char *buf;		/* data buffer */
+	size_t phys_buf_sz;	/* physical buffer size */
+	size_t buf_sz;		/* effective buffer size */
+	size_t expected_read_bytes;	/* expected amount of data in a single read */
+	size_t read_bytes;	/* amount of actual data read */
+	size_t bytes_remaining;	/* remaining bytes expected from scanner */
+	size_t actual_res;	/* actual resolution */
+	size_t lines;		/* number of scan lines */
+	size_t bytes_per_line;	/* bytes per scan line */
+	size_t pixels_per_line;	/* pixels per scan line */
+	u_char hconfig;		/* hardware configuration byte */
+	u_char hconfig_epson;	/* additional hw configuration for some Epson scanners */
+	u_char hwst;		/* hardware status byte */
+	float ms_per_line;	/* speed: milliseconds per scan line */
+	SANE_Bool nonblocking;	/* wait on reads for data? */
+	char *sense_str;	/* sense string */
+	char *as_str;		/* additional sense string */
+	u_char asi1;		/* first additional sense info byte */
+	u_char asi2;		/* second additional sense info byte */
+	SANE_Byte chroma_offset[3];	/* chroma offsets */
+	SANE_Int chroma;
+	Source *psrc;		/* data source */
+	Source *preadersrc;	/* data source for reader thread */
+	SANE_Option_Descriptor options[NUM_OPTS];	/* the option descriptors */
+	Option_Value val[NUM_OPTS];	/* the options themselves... */
+	SANE_Int res;		/* resolution */
+	SANE_Int bpp;		/* bit depth supported by scanner */
+	SANE_Int bpp_scan;	/* bit depth used for scanning */
+	SANE_Bool preview;	/* preview mode toggle */
+	SANE_Bool highquality;	/* high quality mode toggle */
+	SANE_String mode_s;	/* scanning mode */
+	SANE_String source_s;	/* scanning source */
+	SANE_String preview_mode_s;	/* scanning mode for preview */
+	SANE_Fixed tlx;		/* window top left x */
+	SANE_Fixed tly;		/* window top left y */
+	SANE_Fixed brx;		/* window bottom right x */
+	SANE_Fixed bry;		/* window bottom right y */
+	int bright;		/* brightness */
+	int contrast;		/* contrast */
+	SANE_String predef_window;	/* predefined window name */
+	SANE_Fixed gamma_gs;	/* gamma correction value (greyscale) */
+	SANE_Fixed gamma_r;	/* gamma correction value (red) */
+	SANE_Fixed gamma_g;	/* gamma correction value (green) */
+	SANE_Fixed gamma_b;	/* gamma correction value (blue) */
+	SANE_Int *gamma_tables;	/* gamma correction vectors */
+	SANE_Int *gamma_table_gs;	/* gamma correction vector (greyscale) */
+	SANE_Int *gamma_table_r;	/* gamma correction vector (red) */
+	SANE_Int *gamma_table_g;	/* gamma correction vector (green) */
+	SANE_Int *gamma_table_b;	/* gamma correction vector (blue) */
+	int gamma_length;	/* length of gamma vectors */
+	SANE_Bool halftone;	/* halftone toggle */
+	SANE_String dither_matrix;	/* the halftone dither matrix */
+	SANE_Bool negative;	/* swap black and white */
+	SANE_Int threshold;	/* threshold for line art */
+	SANE_Int rgb_lpr;	/* lines per scsi read (RGB) */
+	SANE_Int gs_lpr;	/* lines per scsi read (greyscale) */
+	SANE_Bool firmware_loaded;	/* true if firmware was downloaded */
+	SANE_Word usb_vendor;	/* USB vendor id */
+	SANE_Word usb_product;	/* USB product id */
 };
 
 #endif

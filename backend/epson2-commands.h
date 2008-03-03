@@ -35,27 +35,35 @@
 #define esci_set_threshold(s,v)			e2_esc_cmd( s,(s)->hw->cmd->set_threshold, v)
 #define esci_control_extension(s,v)		e2_esc_cmd( s,(s)->hw->cmd->control_an_extension, v)
 
-SANE_Status esci_set_zoom(Epson_Scanner * s, unsigned char x, unsigned char y);
+SANE_Status esci_set_zoom(Epson_Scanner * s, unsigned char x,
+			  unsigned char y);
 SANE_Status esci_set_resolution(Epson_Scanner * s, int x, int y);
 SANE_Status esci_set_scan_area(Epson_Scanner * s, int x, int y, int width,
-			  int height);
+			       int height);
 SANE_Status esci_set_color_correction_coefficients(Epson_Scanner * s);
 SANE_Status esci_set_gamma_table(Epson_Scanner * s);
 
-SANE_Status esci_request_status(SANE_Handle handle, unsigned char *scanner_status);
-SANE_Status esci_request_extended_identity(SANE_Handle handle, unsigned char *buf);
-SANE_Status esci_request_scanner_status(SANE_Handle handle, unsigned char *buf);
-SANE_Status esci_set_scanning_parameter(SANE_Handle handle, unsigned char *buf);
-SANE_Status esci_request_command_parameter(SANE_Handle handle, unsigned char *buf);
+SANE_Status esci_request_status(SANE_Handle handle,
+				unsigned char *scanner_status);
+SANE_Status esci_request_extended_identity(SANE_Handle handle,
+					   unsigned char *buf);
+SANE_Status esci_request_scanner_status(SANE_Handle handle,
+					unsigned char *buf);
+SANE_Status esci_set_scanning_parameter(SANE_Handle handle,
+					unsigned char *buf);
+SANE_Status esci_request_command_parameter(SANE_Handle handle,
+					   unsigned char *buf);
 SANE_Status esci_request_focus_position(SANE_Handle handle,
-				   unsigned char *position);
+					unsigned char *position);
 SANE_Status esci_request_push_button_status(SANE_Handle handle,
-				       unsigned char *bstatus);
-SANE_Status esci_request_identity(SANE_Handle handle, unsigned char **buf, size_t *len);
+					    unsigned char *bstatus);
+SANE_Status esci_request_identity(SANE_Handle handle, unsigned char **buf,
+				  size_t * len);
 
 SANE_Status esci_request_identity2(SANE_Handle handle, unsigned char **buf);
 SANE_Status esci_reset(Epson_Scanner * s);
 SANE_Status esci_feed(Epson_Scanner * s);
 SANE_Status esci_eject(Epson_Scanner * s);
-SANE_Status esci_request_extended_status(SANE_Handle handle, unsigned char **data,
-				    size_t * data_len);
+SANE_Status esci_request_extended_status(SANE_Handle handle,
+					 unsigned char **data,
+					 size_t * data_len);

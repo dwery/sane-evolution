@@ -56,11 +56,11 @@ typedef struct GT68xx_Line_Reader GT68xx_Line_Reader;
 
 struct GT68xx_Delay_Buffer
 {
-  SANE_Int line_count;
-  SANE_Int read_index;
-  SANE_Int write_index;
-  unsigned int **lines;
-  SANE_Byte *mem_block;
+	SANE_Int line_count;
+	SANE_Int read_index;
+	SANE_Int write_index;
+	unsigned int **lines;
+	SANE_Byte *mem_block;
 };
 
 /**
@@ -74,29 +74,29 @@ struct GT68xx_Delay_Buffer
  */
 struct GT68xx_Line_Reader
 {
-  GT68xx_Device *dev;			/**< Low-level interface object */
-  GT68xx_Scan_Parameters params;	/**< Scan parameters */
+	GT68xx_Device *dev;		/**< Low-level interface object */
+	GT68xx_Scan_Parameters params;	/**< Scan parameters */
 
 #if 0
   /** Number of bytes in the returned scanlines */
-  SANE_Int bytes_per_line;
+	SANE_Int bytes_per_line;
 
   /** Number of bytes per pixel in the returned scanlines */
-  SANE_Int bytes_per_pixel;
+	SANE_Int bytes_per_pixel;
 #endif
 
   /** Number of pixels in the returned scanlines */
-  SANE_Int pixels_per_line;
+	SANE_Int pixels_per_line;
 
-  SANE_Byte *pixel_buffer;
+	SANE_Byte *pixel_buffer;
 
-  GT68xx_Delay_Buffer r_delay;
-  GT68xx_Delay_Buffer g_delay;
-  GT68xx_Delay_Buffer b_delay;
-  SANE_Bool delays_initialized;
+	GT68xx_Delay_Buffer r_delay;
+	GT68xx_Delay_Buffer g_delay;
+	GT68xx_Delay_Buffer b_delay;
+	SANE_Bool delays_initialized;
 
-    SANE_Status (*read) (GT68xx_Line_Reader * reader,
-			 unsigned int **buffer_pointers_return);
+	  SANE_Status(*read) (GT68xx_Line_Reader * reader,
+			      unsigned int **buffer_pointers_return);
 };
 
 /**
@@ -114,17 +114,17 @@ struct GT68xx_Line_Reader
  * - other error values - failure of some internal functions
  */
 static SANE_Status
-gt68xx_line_reader_new (GT68xx_Device * dev,
-			GT68xx_Scan_Parameters * params,
-			SANE_Bool final_scan,
-			GT68xx_Line_Reader ** reader_return);
+gt68xx_line_reader_new(GT68xx_Device * dev,
+		       GT68xx_Scan_Parameters * params,
+		       SANE_Bool final_scan,
+		       GT68xx_Line_Reader ** reader_return);
 
 /**
  * Destroy the GT68xx_Line_Reader object.
  *
  * @param reader  The GT68xx_Line_Reader object to destroy.
  */
-static SANE_Status gt68xx_line_reader_free (GT68xx_Line_Reader * reader);
+static SANE_Status gt68xx_line_reader_free(GT68xx_Line_Reader * reader);
 
 /**
  * Read a scanline from the GT68xx_Line_Reader object.
@@ -146,8 +146,8 @@ static SANE_Status gt68xx_line_reader_free (GT68xx_Line_Reader * reader);
  * - other error value - an error occured
  */
 static SANE_Status
-gt68xx_line_reader_read (GT68xx_Line_Reader * reader,
-			 unsigned int **buffer_pointers_return);
+gt68xx_line_reader_read(GT68xx_Line_Reader * reader,
+			unsigned int **buffer_pointers_return);
 
 #endif /* not GT68XX_MID_H */
 

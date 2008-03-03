@@ -46,26 +46,26 @@
 #define GT68XX_GT6801_H
 
 static SANE_Status
-gt6801_check_firmware (GT68xx_Device * dev, SANE_Bool * loaded);
+gt6801_check_firmware(GT68xx_Device * dev, SANE_Bool * loaded);
 
 static SANE_Status
-gt6801_check_plustek_firmware (GT68xx_Device * dev, SANE_Bool * loaded);
+gt6801_check_plustek_firmware(GT68xx_Device * dev, SANE_Bool * loaded);
 
 static SANE_Status
-gt6801_download_firmware (GT68xx_Device * dev,
-			  SANE_Byte * data, SANE_Word size);
+gt6801_download_firmware(GT68xx_Device * dev,
+			 SANE_Byte * data, SANE_Word size);
 
 static SANE_Status
-gt6801_get_power_status (GT68xx_Device * dev, SANE_Bool * power_ok);
+gt6801_get_power_status(GT68xx_Device * dev, SANE_Bool * power_ok);
 
 static SANE_Status
-gt6801_lamp_control (GT68xx_Device * dev, SANE_Bool fb_lamp,
-		     SANE_Bool ta_lamp);
+gt6801_lamp_control(GT68xx_Device * dev, SANE_Bool fb_lamp,
+		    SANE_Bool ta_lamp);
 
-static SANE_Status gt6801_is_moving (GT68xx_Device * dev, SANE_Bool * moving);
+static SANE_Status gt6801_is_moving(GT68xx_Device * dev, SANE_Bool * moving);
 
-static SANE_Status gt6801_carriage_home (GT68xx_Device * dev);
+static SANE_Status gt6801_carriage_home(GT68xx_Device * dev);
 
-static SANE_Status gt6801_stop_scan (GT68xx_Device * dev);
+static SANE_Status gt6801_stop_scan(GT68xx_Device * dev);
 
 #endif /* not GT68XX_GT6801_H */

@@ -161,143 +161,143 @@ do {						\
 /* declarations */
 enum Mustek_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_FAST_GRAY_MODE,
-  OPT_RESOLUTION,
-  OPT_BIT_DEPTH,
-  OPT_SPEED,
-  OPT_SOURCE,
-  OPT_PREVIEW,
-  OPT_FAST_PREVIEW,
-  OPT_LAMP_OFF_TIME,
-  OPT_LAMP_OFF_BUTTON,
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_FAST_GRAY_MODE,
+	OPT_RESOLUTION,
+	OPT_BIT_DEPTH,
+	OPT_SPEED,
+	OPT_SOURCE,
+	OPT_PREVIEW,
+	OPT_FAST_PREVIEW,
+	OPT_LAMP_OFF_TIME,
+	OPT_LAMP_OFF_BUTTON,
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_BRIGHTNESS,
-  OPT_BRIGHTNESS_R,
-  OPT_BRIGHTNESS_G,
-  OPT_BRIGHTNESS_B,
-  OPT_CONTRAST,
-  OPT_CONTRAST_R,
-  OPT_CONTRAST_G,
-  OPT_CONTRAST_B,
-  OPT_CUSTOM_GAMMA,		/* use custom gamma tables? */
-  /* The gamma vectors MUST appear in the order gray, red, green,
-     blue.  */
-  OPT_GAMMA_VECTOR,
-  OPT_GAMMA_VECTOR_R,
-  OPT_GAMMA_VECTOR_G,
-  OPT_GAMMA_VECTOR_B,
-  OPT_QUALITY_CAL,
-  OPT_HALFTONE_DIMENSION,
-  OPT_HALFTONE_PATTERN,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_BRIGHTNESS_R,
+	OPT_BRIGHTNESS_G,
+	OPT_BRIGHTNESS_B,
+	OPT_CONTRAST,
+	OPT_CONTRAST_R,
+	OPT_CONTRAST_G,
+	OPT_CONTRAST_B,
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables? */
+	/* The gamma vectors MUST appear in the order gray, red, green,
+	   blue.  */
+	OPT_GAMMA_VECTOR,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
+	OPT_QUALITY_CAL,
+	OPT_HALFTONE_DIMENSION,
+	OPT_HALFTONE_PATTERN,
 
-  /* must come last: */
-  NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 typedef struct Mustek_Device
 {
-  struct Mustek_Device *next;
-  SANE_String name;
-  SANE_Device sane;
-  SANE_Range dpi_range;
-  SANE_Range x_range;
-  SANE_Range y_range;
-  /* scan area when transparency adapter is used: */
-  SANE_Range x_trans_range;
-  SANE_Range y_trans_range;
-  SANE_Word flags;
-  /* length of gamma table, probably always <= 4096 for the SE */
-  SANE_Int gamma_length;
-  /* values actually used by scanner, not necessarily the desired! */
-  SANE_Int bpl, lines;
-  /* what is needed for calibration (ScanExpress and Pro series) */
-  struct
-  {
-    SANE_Int bytes;
-    SANE_Int lines;
-    SANE_Byte *buffer;
-    SANE_Word *line_buffer[3];
-  }
-  cal;
-  /* current and maximum buffer size used by the backend */
-  /* the buffer sent to the scanner is actually half of this size */
-  SANE_Int buffer_size;
-  SANE_Int max_buffer_size;
-  /* maximum size scanned in one block and corresponding lines */
-  SANE_Int max_block_buffer_size;
-  SANE_Int lines_per_block;
-  SANE_Byte *block_buffer;
+	struct Mustek_Device *next;
+	SANE_String name;
+	SANE_Device sane;
+	SANE_Range dpi_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	/* scan area when transparency adapter is used: */
+	SANE_Range x_trans_range;
+	SANE_Range y_trans_range;
+	SANE_Word flags;
+	/* length of gamma table, probably always <= 4096 for the SE */
+	SANE_Int gamma_length;
+	/* values actually used by scanner, not necessarily the desired! */
+	SANE_Int bpl, lines;
+	/* what is needed for calibration (ScanExpress and Pro series) */
+	struct
+	{
+		SANE_Int bytes;
+		SANE_Int lines;
+		SANE_Byte *buffer;
+		SANE_Word *line_buffer[3];
+	}
+	cal;
+	/* current and maximum buffer size used by the backend */
+	/* the buffer sent to the scanner is actually half of this size */
+	SANE_Int buffer_size;
+	SANE_Int max_buffer_size;
+	/* maximum size scanned in one block and corresponding lines */
+	SANE_Int max_block_buffer_size;
+	SANE_Int lines_per_block;
+	SANE_Byte *block_buffer;
 
-  /* firmware format: 0 = old, MUSTEK at pos 8; 1 = new, MUSTEK at
-     pos 36 */
-  SANE_Int firmware_format;
-  /* firmware revision system: 0 = old, x.yz; 1 = new, Vxyz */
-  SANE_Int firmware_revision_system;
+	/* firmware format: 0 = old, MUSTEK at pos 8; 1 = new, MUSTEK at
+	   pos 36 */
+	SANE_Int firmware_format;
+	/* firmware revision system: 0 = old, x.yz; 1 = new, Vxyz */
+	SANE_Int firmware_revision_system;
 }
 Mustek_Device;
 
 typedef struct Mustek_Scanner
 {
-  /* all the state needed to define a scan request: */
-  struct Mustek_Scanner *next;
+	/* all the state needed to define a scan request: */
+	struct Mustek_Scanner *next;
 
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
-  SANE_Int gamma_table[4][256];
-  SANE_Int *halftone_pattern;
-  SANE_Bool custom_halftone_pattern;
-  SANE_Int halftone_pattern_type;
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	SANE_Int gamma_table[4][256];
+	SANE_Int *halftone_pattern;
+	SANE_Bool custom_halftone_pattern;
+	SANE_Int halftone_pattern_type;
 
-  SANE_Bool scanning;
-  SANE_Bool cancelled;
-  SANE_Int pass;		/* pass number */
-  SANE_Int line;		/* current line number */
-  SANE_Parameters params;
+	SANE_Bool scanning;
+	SANE_Bool cancelled;
+	SANE_Int pass;		/* pass number */
+	SANE_Int line;		/* current line number */
+	SANE_Parameters params;
 
-  /* Parsed option values and variables that are valid only during
-     actual scanning: */
-  SANE_Word mode;
-  SANE_Bool one_pass_color_scan;
-  SANE_Int resolution_code;
-  int fd;			/* SCSI filedescriptor */
-  pid_t reader_pid;		/* process id of reader */
-  int reader_fds;		/* OS/2: pipe write handler for reader */
-  int pipe;			/* pipe to reader process */
-  long start_time;		/* at this time the scan started */
-  SANE_Word total_bytes;	/* bytes transmitted by sane_read */
-  SANE_Word total_lines;	/* lines transmitted to sane_read pipe */
+	/* Parsed option values and variables that are valid only during
+	   actual scanning: */
+	SANE_Word mode;
+	SANE_Bool one_pass_color_scan;
+	SANE_Int resolution_code;
+	int fd;			/* SCSI filedescriptor */
+	pid_t reader_pid;	/* process id of reader */
+	int reader_fds;		/* OS/2: pipe write handler for reader */
+	int pipe;		/* pipe to reader process */
+	long start_time;	/* at this time the scan started */
+	SANE_Word total_bytes;	/* bytes transmitted by sane_read */
+	SANE_Word total_lines;	/* lines transmitted to sane_read pipe */
 
-  /* scanner dependent/low-level state: */
-  Mustek_Device *hw;
+	/* scanner dependent/low-level state: */
+	Mustek_Device *hw;
 
-  /* line-distance correction related state: */
-  struct
-  {
-    SANE_Int color;		/* first color appearing in read data */
-    SANE_Int max_value;
-    SANE_Int peak_res;
-    SANE_Int dist[3];		/* line distance */
-    SANE_Int index[3];		/* index for R/G/B color assignment */
-    SANE_Int quant[3];		/* for resolution correction */
-    SANE_Int saved[3];		/* number of saved color lines */
-    /* these are used for SE, MFS and N line-distance correction: */
-    SANE_Byte *buf[3];
-    /* these are used for N line-distance correction only: */
-    SANE_Int ld_line;		/* line # currently processed in 
-				   ld-correction */
-    SANE_Int lmod3;		/* line # modulo 3 */
-  }
-  ld;
+	/* line-distance correction related state: */
+	struct
+	{
+		SANE_Int color;	/* first color appearing in read data */
+		SANE_Int max_value;
+		SANE_Int peak_res;
+		SANE_Int dist[3];	/* line distance */
+		SANE_Int index[3];	/* index for R/G/B color assignment */
+		SANE_Int quant[3];	/* for resolution correction */
+		SANE_Int saved[3];	/* number of saved color lines */
+		/* these are used for SE, MFS and N line-distance correction: */
+		SANE_Byte *buf[3];
+		/* these are used for N line-distance correction only: */
+		SANE_Int ld_line;	/* line # currently processed in 
+					   ld-correction */
+		SANE_Int lmod3;	/* line # modulo 3 */
+	}
+	ld;
 }
 Mustek_Scanner;
 

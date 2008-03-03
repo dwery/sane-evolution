@@ -103,75 +103,75 @@ do {						\
 /* declarations */
 enum Ma1509_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_RESOLUTION,
-  OPT_SOURCE,
-  OPT_PREVIEW,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_RESOLUTION,
+	OPT_SOURCE,
+	OPT_PREVIEW,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_THRESHOLD,
-  OPT_CUSTOM_GAMMA,		/* use custom gamma tables? */
-  OPT_GAMMA_VECTOR_R,
-  OPT_GAMMA_VECTOR_G,
-  OPT_GAMMA_VECTOR_B,
-  /* must come last: */
-  NUM_OPTIONS
+	OPT_ENHANCEMENT_GROUP,
+	OPT_THRESHOLD,
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables? */
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 typedef struct Ma1509_Device
 {
-  struct Ma1509_Device *next;
-  SANE_String name;
-  SANE_Device sane;
-  SANE_Bool has_ta;
-  SANE_Bool has_adf;
-  SANE_Range x_range;
-  SANE_Range y_range;
-  /* scan area when transparency adapter is used: */
-  SANE_Range x_trans_range;
-  SANE_Range y_trans_range;
-  /* values actually used by scanner, not necessarily the desired! */
-  SANE_Int bpl, ppl, lines;
+	struct Ma1509_Device *next;
+	SANE_String name;
+	SANE_Device sane;
+	SANE_Bool has_ta;
+	SANE_Bool has_adf;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	/* scan area when transparency adapter is used: */
+	SANE_Range x_trans_range;
+	SANE_Range y_trans_range;
+	/* values actually used by scanner, not necessarily the desired! */
+	SANE_Int bpl, ppl, lines;
 }
 Ma1509_Device;
 
 typedef struct Ma1509_Scanner
 {
-  /* all the state needed to define a scan request: */
-  struct Ma1509_Scanner *next;
+	/* all the state needed to define a scan request: */
+	struct Ma1509_Scanner *next;
 
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-  SANE_Bool scanning;
-  SANE_Bool cancelled;
-  SANE_Parameters params;
+	SANE_Bool scanning;
+	SANE_Bool cancelled;
+	SANE_Parameters params;
 
-  /* Parsed option values and variables that are valid only during
-     actual scanning: */
-  int fd;			/* filedescriptor */
-  long start_time;		/* at this time the scan started */
-  long lamp_time;		/* at this time the lamp was turned on */
-  SANE_Word total_bytes;	/* bytes read from scanner */
-  SANE_Word read_bytes;		/* bytes transmitted by sane_read */
+	/* Parsed option values and variables that are valid only during
+	   actual scanning: */
+	int fd;			/* filedescriptor */
+	long start_time;	/* at this time the scan started */
+	long lamp_time;		/* at this time the lamp was turned on */
+	SANE_Word total_bytes;	/* bytes read from scanner */
+	SANE_Word read_bytes;	/* bytes transmitted by sane_read */
 
-  SANE_Int red_gamma_table[MA1509_GAMMA_SIZE];
-  SANE_Int green_gamma_table[MA1509_GAMMA_SIZE];
-  SANE_Int blue_gamma_table[MA1509_GAMMA_SIZE];
+	SANE_Int red_gamma_table[MA1509_GAMMA_SIZE];
+	SANE_Int green_gamma_table[MA1509_GAMMA_SIZE];
+	SANE_Int blue_gamma_table[MA1509_GAMMA_SIZE];
 
-  SANE_Byte *buffer, *buffer_start;
-  SANE_Int buffer_bytes;
-  /* scanner dependent/low-level state: */
-  Ma1509_Device *hw;
+	SANE_Byte *buffer, *buffer_start;
+	SANE_Int buffer_bytes;
+	/* scanner dependent/low-level state: */
+	Ma1509_Device *hw;
 }
 Ma1509_Scanner;
 

@@ -77,51 +77,51 @@
 #endif
 
 typedef struct picture_info
-  {
-    unsigned int low_res;
-    unsigned int size;
-  }
+{
+	unsigned int low_res;
+	unsigned int size;
+}
 PictureInfo;
 
 typedef struct DC210_s
-  {
-    int fd;			/* file descriptor to talk to it */
-    char *tty_name;		/* the tty port name it's on */
-    speed_t baud;		/* current tty speed */
-    SANE_Bool scanning;		/* currently scanning an image? */
-    unsigned char model;
-    unsigned char ver_major;
-    unsigned char ver_minor;
-    int pic_taken;
-    int pic_left;
-    struct
-      {
-	unsigned int low_res:1;
-	unsigned int low_batt:1;
-      }
-    flags;
-    PictureInfo *Pictures;	/* array of pictures */
-    unsigned int current_picture_number;	/* picture being operated on */
-  }
+{
+	int fd;			/* file descriptor to talk to it */
+	char *tty_name;		/* the tty port name it's on */
+	speed_t baud;		/* current tty speed */
+	SANE_Bool scanning;	/* currently scanning an image? */
+	unsigned char model;
+	unsigned char ver_major;
+	unsigned char ver_minor;
+	int pic_taken;
+	int pic_left;
+	struct
+	{
+		unsigned int low_res:1;
+		unsigned int low_batt:1;
+	}
+	flags;
+	PictureInfo *Pictures;	/* array of pictures */
+	unsigned int current_picture_number;	/* picture being operated on */
+}
 DC210;
 
 typedef struct dc210_info_s
-  {
-    unsigned char model;
-    unsigned char ver_major;
-    unsigned char ver_minor;
-    int pic_taken;
-    int pic_left;
-    struct
-      {
-	unsigned int low_res:1;
-	unsigned int low_batt:1;
-      }
-    flags;
-  }
+{
+	unsigned char model;
+	unsigned char ver_major;
+	unsigned char ver_minor;
+	int pic_taken;
+	int pic_left;
+	struct
+	{
+		unsigned int low_res:1;
+		unsigned int low_batt:1;
+	}
+	flags;
+}
 Dc210Info, *Dc210InfoPtr;
 
-static int get_info (DC210 *);
+static int get_info(DC210 *);
 
 #define INIT_PCK	{0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1A}
 /*                               ^^^^^^^^^^
@@ -153,10 +153,10 @@ static int get_info (DC210 *);
  */
 
 struct pkt_speed
-  {
-    speed_t baud;
-    unsigned char pkt_code[2];
-  };
+{
+	speed_t baud;
+	unsigned char pkt_code[2];
+};
 
 #if defined (B57600) && defined (B115200)
 # define SPEEDS			{ {   B9600, { 0x96, 0x00 } }, \
@@ -221,12 +221,12 @@ struct pkt_speed
  */
 
 struct pixmap
-  {
-    int width;
-    int height;
-    int components;
-    unsigned char *planes;
-  };
+{
+	int width;
+	int height;
+	int components;
+	unsigned char *planes;
+};
 
 /*
  *    Rotations
@@ -260,20 +260,20 @@ extern char *__progname;	/* Defined in /usr/lib/crt0.o */
 
 #include <sys/types.h>
 
-FILE *sanei_config_open (const char *filename);
+FILE *sanei_config_open(const char *filename);
 
-static int init_dc210 (DC210 *);
+static int init_dc210(DC210 *);
 
-static void close_dc210 (int);
+static void close_dc210(int);
 
-static int read_data (int fd, unsigned char *buf, int sz);
+static int read_data(int fd, unsigned char *buf, int sz);
 
-static int end_of_data (int fd);
+static int end_of_data(int fd);
 
-static PictureInfo *get_pictures_info (void);
+static PictureInfo *get_pictures_info(void);
 
-static int get_picture_info (PictureInfo * pic, int p);
+static int get_picture_info(PictureInfo * pic, int p);
 
-static SANE_Status snap_pic (int);
+static SANE_Status snap_pic(int);
 
-char *sanei_config_read (char *str, int n, FILE * stream);
+char *sanei_config_read(char *str, int n, FILE * stream);

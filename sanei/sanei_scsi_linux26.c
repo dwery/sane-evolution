@@ -1234,7 +1234,7 @@ sanei_scsi_open (const char *dev, int *fdp,
 	  
 	  if (fd == INVALID_HANDLE_VALUE) fd = -1;
   }
-#else
+#endif
 #if defined(SGIOCSTL) || (USE == SOLARIS_INTERFACE)
   {
     size_t len;

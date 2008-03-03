@@ -49,91 +49,87 @@
 #include "../include/sane/sanei_codec_bin.h"
 
 static void
-bin_w_byte (Wire *w, void *v)
+bin_w_byte(Wire * w, void *v)
 {
-  SANE_Byte *b = v;
+	SANE_Byte *b = v;
 
-  sanei_w_space (w, 1);
-  if (w->status)
-    return;
+	sanei_w_space(w, 1);
+	if (w->status)
+		return;
 
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      *w->buffer.curr++ = *b;
-      break;
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		*w->buffer.curr++ = *b;
+		break;
 
-    case WIRE_DECODE:
-      *b = *w->buffer.curr++;
-      break;
+	case WIRE_DECODE:
+		*b = *w->buffer.curr++;
+		break;
 
-    case WIRE_FREE:
-	break;
-    }
+	case WIRE_FREE:
+		break;
+	}
 }
 
 static void
-bin_w_string (Wire *w, void *v)
+bin_w_string(Wire * w, void *v)
 {
-  SANE_Word len;
-  SANE_String *s = v;
+	SANE_Word len;
+	SANE_String *s = v;
 
-  if (w->direction != WIRE_DECODE)
-    {
-      len = 0;
-      if (*s)
-	len = strlen (*s) + 1;
-    }
-  sanei_w_array (w, &len, v, w->codec.w_byte, 1);
+	if (w->direction != WIRE_DECODE) {
+		len = 0;
+		if (*s)
+			len = strlen(*s) + 1;
+	}
+	sanei_w_array(w, &len, v, w->codec.w_byte, 1);
 
-  if (w->direction == WIRE_DECODE)
-    {
-      if (len == 0)
-	*s = 0;
-      else if (w->status == 0)
-	*(*s + len - 1) = '\0';
-    }
+	if (w->direction == WIRE_DECODE) {
+		if (len == 0)
+			*s = 0;
+		else if (w->status == 0)
+			*(*s + len - 1) = '\0';
+	}
 }
 
 static void
-bin_w_word (Wire *w, void *v)
+bin_w_word(Wire * w, void *v)
 {
-  SANE_Word val, *word = v;
+	SANE_Word val, *word = v;
 
-  sanei_w_space (w, 4);
-  if (w->status)
-    return;
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      val = *word;
-      /* store in bigendian byte-order: */
-      w->buffer.curr[0] = (val >> 24) & 0xff;
-      w->buffer.curr[1] = (val >> 16) & 0xff;
-      w->buffer.curr[2] = (val >>  8) & 0xff;
-      w->buffer.curr[3] = (val >>  0) & 0xff;
-      w->buffer.curr += 4;
-      break;
+	sanei_w_space(w, 4);
+	if (w->status)
+		return;
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		val = *word;
+		/* store in bigendian byte-order: */
+		w->buffer.curr[0] = (val >> 24) & 0xff;
+		w->buffer.curr[1] = (val >> 16) & 0xff;
+		w->buffer.curr[2] = (val >> 8) & 0xff;
+		w->buffer.curr[3] = (val >> 0) & 0xff;
+		w->buffer.curr += 4;
+		break;
 
-    case WIRE_DECODE:
-      val = (  ((w->buffer.curr[0] & 0xff) << 24)
-	     | ((w->buffer.curr[1] & 0xff) << 16)
-	     | ((w->buffer.curr[2] & 0xff) <<  8)
-	     | ((w->buffer.curr[3] & 0xff) <<  0));
-      *word = val;
-      w->buffer.curr += 4;
-      break;
+	case WIRE_DECODE:
+		val = (((w->buffer.curr[0] & 0xff) << 24)
+		       | ((w->buffer.curr[1] & 0xff) << 16)
+		       | ((w->buffer.curr[2] & 0xff) << 8)
+		       | ((w->buffer.curr[3] & 0xff) << 0));
+		*word = val;
+		w->buffer.curr += 4;
+		break;
 
-    case WIRE_FREE:
-      break;
-    }
+	case WIRE_FREE:
+		break;
+	}
 }
 
 void
-sanei_codec_bin_init (Wire *w)
+sanei_codec_bin_init(Wire * w)
 {
-  w->codec.w_byte = bin_w_byte;
-  w->codec.w_char = bin_w_byte;
-  w->codec.w_word = bin_w_word;
-  w->codec.w_string = bin_w_string;
+	w->codec.w_byte = bin_w_byte;
+	w->codec.w_char = bin_w_byte;
+	w->codec.w_word = bin_w_word;
+	w->codec.w_string = bin_w_string;
 }

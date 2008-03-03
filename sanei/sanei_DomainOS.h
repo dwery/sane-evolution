@@ -43,34 +43,34 @@ To send an enter command to the server, follow these steps:
 /* Timeout for ec2_$wait calls, in 1/4 second intervals */
 #define DomainECWaitConstant 120
 
-typedef enum {Open, Close, Enter, Exit} DomainOSOpCode;
+typedef enum
+{ Open, Close, Enter, Exit } DomainOSOpCode;
 
 struct DomainServerCommon
-   {
-   /* Basic communication/synchronization items */
-   ec2_$eventcount_t CommandAvailable;
-   ec2_$eventcount_t CommandAccepted;
-   ec2_$eventcount_t ResultReady;
-   ec2_$eventcount_t ResultAccepted;
-   mutex_$lock_rec_t CommandLock;
-   mutex_$lock_rec_t ResultLock;
+{
+	/* Basic communication/synchronization items */
+	ec2_$eventcount_t CommandAvailable;
+	ec2_$eventcount_t CommandAccepted;
+	ec2_$eventcount_t ResultReady;
+	ec2_$eventcount_t ResultAccepted;
+	mutex_$lock_rec_t CommandLock;
+	mutex_$lock_rec_t ResultLock;
 
-   /* Command Data Areas - locked by CommandLock */
-   DomainOSOpCode opcode;
-   int fd;
-   name_$long_pname_t open_path;
-   status_$t CommandStatus;
-   scsi_$status_t SCSIStatus;
-   unsigned long CommandHandle;
-   linteger cdb_size;
-   scsi_$cdb_t cdb;
-   scsi_$direction_t direction;
-   size_t dst_size;
-   size_t buf_size;
+	/* Command Data Areas - locked by CommandLock */
+	DomainOSOpCode opcode;
+	int fd;
+	name_$long_pname_t open_path;
+	status_$t CommandStatus;
+	scsi_$status_t SCSIStatus;
+	unsigned long CommandHandle;
+	linteger cdb_size;
+	scsi_$cdb_t cdb;
+	scsi_$direction_t direction;
+	size_t dst_size;
+	size_t buf_size;
 
-   /* Result data areas */
-   status_$t status;
-   };
+	/* Result data areas */
+	status_$t status;
+};
 
-#endif /*DomainSenseSize*/
-
+#endif /*DomainSenseSize */

@@ -55,17 +55,17 @@
 #define DID_OK 0x00
 #endif
 #ifndef DID_NO_CONNECT
-#define DID_NO_CONNECT 0x01     /* Unable to connect before timeout */
-#define DID_BUS_BUSY 0x02       /* Bus remain busy until timeout */
-#define DID_TIME_OUT 0x03       /* Timed out for some other reason */
-#define DID_BAD_TARGET 0x04     /* Bad target (id?) */
-#define DID_ABORT 0x05          /* Told to abort for some other reason */
-#define DID_PARITY 0x06         /* Parity error (on SCSI bus) */
-#define DID_ERROR 0x07          /* Internal error */
-#define DID_RESET 0x08          /* Reset by somebody */
-#define DID_BAD_INTR 0x09       /* Received an unexpected interrupt */
-#define DID_PASSTHROUGH 0x0a    /* Force command past mid-level */
-#define DID_SOFT_ERROR 0x0b     /* The low-level driver wants a retry */
+#define DID_NO_CONNECT 0x01	/* Unable to connect before timeout */
+#define DID_BUS_BUSY 0x02	/* Bus remain busy until timeout */
+#define DID_TIME_OUT 0x03	/* Timed out for some other reason */
+#define DID_BAD_TARGET 0x04	/* Bad target (id?) */
+#define DID_ABORT 0x05		/* Told to abort for some other reason */
+#define DID_PARITY 0x06		/* Parity error (on SCSI bus) */
+#define DID_ERROR 0x07		/* Internal error */
+#define DID_RESET 0x08		/* Reset by somebody */
+#define DID_BAD_INTR 0x09	/* Received an unexpected interrupt */
+#define DID_PASSTHROUGH 0x0a	/* Force command past mid-level */
+#define DID_SOFT_ERROR 0x0b	/* The low-level driver wants a retry */
 #endif
 
 
@@ -96,7 +96,7 @@
 #define DRIVER_INVALID 0x05
 #define DRIVER_TIMEOUT 0x06
 #define DRIVER_HARD 0x07
-#define DRIVER_SENSE 0x08       /* Sense_buffer has been set */
+#define DRIVER_SENSE 0x08	/* Sense_buffer has been set */
 
 /* Following "suggests" are "or-ed" with one of previous 8 entries */
 #define SUGGEST_RETRY 0x10

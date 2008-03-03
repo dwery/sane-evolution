@@ -52,294 +52,267 @@
 static const char *hexdigit = "0123456789abcdef";
 
 static void
-skip_ws (Wire *w)
+skip_ws(Wire * w)
 {
-  while (1)
-    {
-      sanei_w_space (w, 1);
-      if (w->status != 0)
-	return;
+	while (1) {
+		sanei_w_space(w, 1);
+		if (w->status != 0)
+			return;
 
-      if (!isspace (*w->buffer.curr))
-	return;
+		if (!isspace(*w->buffer.curr))
+			return;
 
-      ++w->buffer.curr;
-    }
+		++w->buffer.curr;
+	}
 }
 
 static unsigned
-get_digit (Wire *w)
+get_digit(Wire * w)
 {
-  unsigned digit;
+	unsigned digit;
 
-  sanei_w_space (w, 1);
-  digit = tolower(*w->buffer.curr++) - '0';
-  if (digit > 9)
-    digit -= 'a' - ('9' + 1);
-  if (digit > 0xf)
-    {
-      w->status = EINVAL;
-      return 0;
-    }
-  return digit;
+	sanei_w_space(w, 1);
+	digit = tolower(*w->buffer.curr++) - '0';
+	if (digit > 9)
+		digit -= 'a' - ('9' + 1);
+	if (digit > 0xf) {
+		w->status = EINVAL;
+		return 0;
+	}
+	return digit;
 }
 
 static SANE_Byte
-get_byte (Wire *w)
+get_byte(Wire * w)
 {
-  return get_digit (w) << 4 | get_digit (w);
+	return get_digit(w) << 4 | get_digit(w);
 }
 
 static void
-ascii_w_byte (Wire *w, void *v)
+ascii_w_byte(Wire * w, void *v)
 {
-  SANE_Byte *b = v;
+	SANE_Byte *b = v;
 
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      sanei_w_space (w, 3);
-      *w->buffer.curr++ = hexdigit[(*b >> 4) & 0x0f];
-      *w->buffer.curr++ = hexdigit[(*b >> 0) & 0x0f];
-      *w->buffer.curr++ = '\n';
-      break;
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		sanei_w_space(w, 3);
+		*w->buffer.curr++ = hexdigit[(*b >> 4) & 0x0f];
+		*w->buffer.curr++ = hexdigit[(*b >> 0) & 0x0f];
+		*w->buffer.curr++ = '\n';
+		break;
 
-    case WIRE_DECODE:
-      skip_ws (w);
-      *b = get_byte (w);
-      break;
+	case WIRE_DECODE:
+		skip_ws(w);
+		*b = get_byte(w);
+		break;
 
-    case WIRE_FREE:
-      break;
-    }
+	case WIRE_FREE:
+		break;
+	}
 }
 
 static void
-ascii_w_char (Wire *w, void *v)
+ascii_w_char(Wire * w, void *v)
 {
-  SANE_Char *c = v;
+	SANE_Char *c = v;
 
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      sanei_w_space (w, 5);
-      *w->buffer.curr++ = '\'';
-      if (*c == '\'' || *c == '\\')
-	*w->buffer.curr++ = '\\';
-      *w->buffer.curr++ = *c;
-      *w->buffer.curr++ = '\'';
-      *w->buffer.curr++ = '\n';
-      break;
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		sanei_w_space(w, 5);
+		*w->buffer.curr++ = '\'';
+		if (*c == '\'' || *c == '\\')
+			*w->buffer.curr++ = '\\';
+		*w->buffer.curr++ = *c;
+		*w->buffer.curr++ = '\'';
+		*w->buffer.curr++ = '\n';
+		break;
 
-    case WIRE_DECODE:
-      sanei_w_space (w, 4);
-      if (*w->buffer.curr++ != '\'')
-	{
-	  w->status = EINVAL;
-	  return;
-	}
-      *c = *w->buffer.curr++;
-      if (*c == '\\')
-	{
-	  sanei_w_space (w, 2);
-	  *c = *w->buffer.curr++;
-	}
-      if (*w->buffer.curr++ != '\'')
-	{
-	  w->status = EINVAL;
-	  return;
-	}
-      break;
-
-    case WIRE_FREE:
-      break;
-    }
-}
-
-static void
-ascii_w_string (Wire *w, void *v)
-{
-  size_t len, alloced_len;
-  SANE_String *s = v;
-  char * str, ch;
-  int done;
-
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      if (*s)
-	{
-	  sanei_w_space (w, 1);
-	  *w->buffer.curr++ = '"';
-	  str = *s;
-	  while ((ch = *str++))
-	    {
-	      sanei_w_space (w, 2);
-	      if (ch == '"' || ch == '\\')
-		*w->buffer.curr++ = '\\';
-	      *w->buffer.curr++ = ch;
-	    }
-	  *w->buffer.curr++ = '"';
-	}
-      else
-	{
-	  sanei_w_space (w, 5);
-	  *w->buffer.curr++ = '(';
-	  *w->buffer.curr++ = 'n';
-	  *w->buffer.curr++ = 'i';
-	  *w->buffer.curr++ = 'l';
-	  *w->buffer.curr++ = ')';
-	}
-      sanei_w_space (w, 1);
-      *w->buffer.curr++ = '\n';
-      break;
-
-    case WIRE_DECODE:
-      skip_ws (w);
-      sanei_w_space (w, 1);
-      ch = *w->buffer.curr++;
-      if (ch == '"')
-	{
-	  alloced_len = len = 0;
-	  str = 0;
-	  done = 0;
-	  do
-	    {
-	      sanei_w_space (w, 1);
-	      if (w->status != 0)
-		return;
-
-	      ch = *w->buffer.curr++;
-	      if (ch == '"')
-		done = 1;
-
-	      if (ch == '\\')
-		{
-		  sanei_w_space (w, 1);
-		  ch = *w->buffer.curr++;
+	case WIRE_DECODE:
+		sanei_w_space(w, 4);
+		if (*w->buffer.curr++ != '\'') {
+			w->status = EINVAL;
+			return;
 		}
-
-	      if (len >= alloced_len)
-		{
-		  alloced_len += 1024;
-		  if (!str)
-		    str = malloc (alloced_len);
-		  else
-		    str = realloc (str, alloced_len);
-
-		  if (str == 0)
-		    {
-		      /* Malloc failed, so return an error. */
-		      w->status = ENOMEM;
-		      return;
-		    }
+		*c = *w->buffer.curr++;
+		if (*c == '\\') {
+			sanei_w_space(w, 2);
+			*c = *w->buffer.curr++;
 		}
-	      str[len++] = ch;
-	    }
-	  while (!done);
+		if (*w->buffer.curr++ != '\'') {
+			w->status = EINVAL;
+			return;
+		}
+		break;
 
-	  str[len - 1] = '\0';
-	  *s = realloc (str, len);
-
-	  if (*s == 0)
-	    {
-	      /* Malloc failed, so return an error. */
-	      w->status = ENOMEM;
-	      return;
-	    }
+	case WIRE_FREE:
+		break;
 	}
-      else if (ch == '(')
-	{
-	  sanei_w_space (w, 4);
-	  if (   *w->buffer.curr++ != 'n'
-	      || *w->buffer.curr++ != 'i'
-	      || *w->buffer.curr++ != 'l'
-	      || *w->buffer.curr++ != ')')
-	    {
-	      w->status = EINVAL;
-	      return;
-	    }
-	  *s = 0;
-	}
-      else
-	{
-	  w->status = EINVAL;
-	  return;
-	}
-      break;
-
-    case WIRE_FREE:
-      if (*s)
-	free (*s);
-      break;
-    }
 }
 
 static void
-ascii_w_word (Wire *w, void *v)
+ascii_w_string(Wire * w, void *v)
 {
-  SANE_Word val, *word = v;
-  int i, is_negative = 0;
-  char buf[16];
+	size_t len, alloced_len;
+	SANE_String *s = v;
+	char *str, ch;
+	int done;
 
-  switch (w->direction)
-    {
-    case WIRE_ENCODE:
-      val = *word;
-      i = sizeof (buf) - 1;
-      if (val < 0)
-	{
-	  is_negative = 1;
-	  val = -val;
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		if (*s) {
+			sanei_w_space(w, 1);
+			*w->buffer.curr++ = '"';
+			str = *s;
+			while ((ch = *str++)) {
+				sanei_w_space(w, 2);
+				if (ch == '"' || ch == '\\')
+					*w->buffer.curr++ = '\\';
+				*w->buffer.curr++ = ch;
+			}
+			*w->buffer.curr++ = '"';
+		} else {
+			sanei_w_space(w, 5);
+			*w->buffer.curr++ = '(';
+			*w->buffer.curr++ = 'n';
+			*w->buffer.curr++ = 'i';
+			*w->buffer.curr++ = 'l';
+			*w->buffer.curr++ = ')';
+		}
+		sanei_w_space(w, 1);
+		*w->buffer.curr++ = '\n';
+		break;
+
+	case WIRE_DECODE:
+		skip_ws(w);
+		sanei_w_space(w, 1);
+		ch = *w->buffer.curr++;
+		if (ch == '"') {
+			alloced_len = len = 0;
+			str = 0;
+			done = 0;
+			do {
+				sanei_w_space(w, 1);
+				if (w->status != 0)
+					return;
+
+				ch = *w->buffer.curr++;
+				if (ch == '"')
+					done = 1;
+
+				if (ch == '\\') {
+					sanei_w_space(w, 1);
+					ch = *w->buffer.curr++;
+				}
+
+				if (len >= alloced_len) {
+					alloced_len += 1024;
+					if (!str)
+						str = malloc(alloced_len);
+					else
+						str = realloc(str,
+							      alloced_len);
+
+					if (str == 0) {
+						/* Malloc failed, so return an error. */
+						w->status = ENOMEM;
+						return;
+					}
+				}
+				str[len++] = ch;
+			}
+			while (!done);
+
+			str[len - 1] = '\0';
+			*s = realloc(str, len);
+
+			if (*s == 0) {
+				/* Malloc failed, so return an error. */
+				w->status = ENOMEM;
+				return;
+			}
+		} else if (ch == '(') {
+			sanei_w_space(w, 4);
+			if (*w->buffer.curr++ != 'n'
+			    || *w->buffer.curr++ != 'i'
+			    || *w->buffer.curr++ != 'l'
+			    || *w->buffer.curr++ != ')') {
+				w->status = EINVAL;
+				return;
+			}
+			*s = 0;
+		} else {
+			w->status = EINVAL;
+			return;
+		}
+		break;
+
+	case WIRE_FREE:
+		if (*s)
+			free(*s);
+		break;
 	}
-      do
-	{
-	  buf[i--] = '0' + (val % 10);
-	  val /= 10;
+}
+
+static void
+ascii_w_word(Wire * w, void *v)
+{
+	SANE_Word val, *word = v;
+	int i, is_negative = 0;
+	char buf[16];
+
+	switch (w->direction) {
+	case WIRE_ENCODE:
+		val = *word;
+		i = sizeof(buf) - 1;
+		if (val < 0) {
+			is_negative = 1;
+			val = -val;
+		}
+		do {
+			buf[i--] = '0' + (val % 10);
+			val /= 10;
+		}
+		while (val);
+		if (is_negative)
+			buf[i--] = '-';
+
+		sanei_w_space(w, sizeof(buf) - i);
+		memcpy(w->buffer.curr, buf + i + 1, sizeof(buf) - i - 1);
+		w->buffer.curr += sizeof(buf) - i - 1;
+		*w->buffer.curr++ = '\n';
+		break;
+
+	case WIRE_DECODE:
+		skip_ws(w);
+		val = 0;
+		sanei_w_space(w, 1);
+		if (*w->buffer.curr == '-') {
+			is_negative = 1;
+			++w->buffer.curr;
+		}
+		while (1) {
+			sanei_w_space(w, 1);
+			if (w->status != 0)
+				return;
+
+			if (!isdigit(*w->buffer.curr))
+				break;
+
+			val = 10 * val + (*w->buffer.curr++ - '0');
+		}
+		*word = is_negative ? -val : val;
+		break;
+
+	case WIRE_FREE:
+		break;
 	}
-      while (val);
-      if (is_negative)
-	buf[i--] = '-';
-
-      sanei_w_space (w, sizeof (buf) - i);
-      memcpy (w->buffer.curr, buf + i + 1, sizeof (buf) - i - 1);
-      w->buffer.curr += sizeof (buf) - i - 1;
-      *w->buffer.curr++ = '\n';
-      break;
-
-    case WIRE_DECODE:
-      skip_ws (w);
-      val = 0;
-      sanei_w_space (w, 1);
-      if (*w->buffer.curr == '-')
-	{
-	  is_negative = 1;
-	  ++w->buffer.curr;
-	}
-      while (1)
-	{
-	  sanei_w_space (w, 1);
-	  if (w->status != 0)
-	    return;
-
-	  if (!isdigit (*w->buffer.curr))
-	    break;
-
-	  val = 10*val + (*w->buffer.curr++ - '0');
-	}
-      *word = is_negative ? -val : val;
-      break;
-
-    case WIRE_FREE:
-      break;
-    }
 }
 
 void
-sanei_codec_ascii_init (Wire *w)
+sanei_codec_ascii_init(Wire * w)
 {
-  w->codec.w_byte = ascii_w_byte;
-  w->codec.w_char = ascii_w_char;
-  w->codec.w_word = ascii_w_word;
-  w->codec.w_string = ascii_w_string;
+	w->codec.w_byte = ascii_w_byte;
+	w->codec.w_char = ascii_w_char;
+	w->codec.w_word = ascii_w_word;
+	w->codec.w_string = ascii_w_string;
 }

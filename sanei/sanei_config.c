@@ -79,138 +79,134 @@
 static const char *dir_list;
 
 FILE *
-sanei_config_open (const char *filename)
+sanei_config_open(const char *filename)
 {
-  char *copy, *next, *dir, result[PATH_MAX];
-  FILE *fp = 0;
-  size_t len;
-  void *mem = 0;
+	char *copy, *next, *dir, result[PATH_MAX];
+	FILE *fp = 0;
+	size_t len;
+	void *mem = 0;
 
-  if (!dir_list)
-    {
-      DBG_INIT();
+	if (!dir_list) {
+		DBG_INIT();
 
-      dir_list = getenv ("SANE_CONFIG_DIR");
+		dir_list = getenv("SANE_CONFIG_DIR");
 #ifdef __BEOS__
-      /* ~/config/settings/SANE takes precedence over /etc/sane.d/ */
-      if (!dir_list)
-	{
-	  if (find_directory(B_USER_SETTINGS_DIRECTORY, 0, true, result, PATH_MAX) == B_OK)
-	    {
-	      strcat(result,"/SANE");
-	      strcat(result,DIR_SEP); /* do append the default ones */
-	      dir_list = result;
-	    }
-	}
+		/* ~/config/settings/SANE takes precedence over /etc/sane.d/ */
+		if (!dir_list) {
+			if (find_directory
+			    (B_USER_SETTINGS_DIRECTORY, 0, true, result,
+			     PATH_MAX) == B_OK) {
+				strcat(result, "/SANE");
+				strcat(result, DIR_SEP);	/* do append the default ones */
+				dir_list = result;
+			}
+		}
 #endif
-      if (dir_list)
-	{
-	  len = strlen (dir_list);
-	  if ((len > 0) && (dir_list[len - 1] == DIR_SEP[0]))
-	    {
-	      /* append default search directories: */
-	      mem = malloc (len + sizeof (DEFAULT_DIRS));
+		if (dir_list) {
+			len = strlen(dir_list);
+			if ((len > 0) && (dir_list[len - 1] == DIR_SEP[0])) {
+				/* append default search directories: */
+				mem = malloc(len + sizeof(DEFAULT_DIRS));
 
-	      memcpy (mem, dir_list, len);
-	      memcpy ((char *) mem + len, DEFAULT_DIRS, sizeof (DEFAULT_DIRS));
-	      dir_list = mem;
-	    }
+				memcpy(mem, dir_list, len);
+				memcpy((char *) mem + len, DEFAULT_DIRS,
+				       sizeof(DEFAULT_DIRS));
+				dir_list = mem;
+			}
+		} else
+			dir_list = DEFAULT_DIRS;
 	}
-      else
-	dir_list = DEFAULT_DIRS;
-    }
 
-  copy = strdup (dir_list);
+	copy = strdup(dir_list);
 
-  if (mem)
-    free(mem);
+	if (mem)
+		free(mem);
 
-  for (next = copy; (dir = strsep (&next, DIR_SEP)) != 0; )
-    {
-      snprintf (result, sizeof (result), "%s%c%s", dir, PATH_SEP, filename);
-      DBG(4, "sanei_config_open: attempting to open `%s'\n", result);
-      fp = fopen (result, "r");
-      if (fp)
-	{
-	  DBG(3, "sanei_config_open: using file `%s'\n", result);
-	  break;
+	for (next = copy; (dir = strsep(&next, DIR_SEP)) != 0;) {
+		snprintf(result, sizeof(result), "%s%c%s", dir, PATH_SEP,
+			 filename);
+		DBG(4, "sanei_config_open: attempting to open `%s'\n",
+		    result);
+		fp = fopen(result, "r");
+		if (fp) {
+			DBG(3, "sanei_config_open: using file `%s'\n",
+			    result);
+			break;
+		}
 	}
-    }
-  free (copy);
+	free(copy);
 
-  if (!fp)
-    DBG(2, "sanei_config_open: could not find config file `%s'\n", filename);
+	if (!fp)
+		DBG(2, "sanei_config_open: could not find config file `%s'\n",
+		    filename);
 
-  return fp;
+	return fp;
 }
 
 const char *
-sanei_config_skip_whitespace (const char *str)
+sanei_config_skip_whitespace(const char *str)
 {
-  while (str && *str && isspace (*str))
-    ++str;
-  return str;
+	while (str && *str && isspace(*str))
+		++str;
+	return str;
 }
 
 const char *
-sanei_config_get_string (const char *str, char **string_const)
+sanei_config_get_string(const char *str, char **string_const)
 {
-  const char *start;
-  size_t len;
+	const char *start;
+	size_t len;
 
-  str = sanei_config_skip_whitespace (str);
+	str = sanei_config_skip_whitespace(str);
 
-  if (*str == '"')
-    {
-      start = ++str;
-      while (*str && *str != '"')
-	++str;
-      len = str - start;
-      if (*str == '"')
-	++str;
-      else
-	start = 0;		/* final double quote is missing */
-    }
-  else
-    {
-      start = str;
-      while (*str && !isspace (*str))
-	++str;
-      len = str - start;
-    }
-  if (start)
-    *string_const = strndup (start, len);
-  else
-    *string_const = 0;
-  return str;
+	if (*str == '"') {
+		start = ++str;
+		while (*str && *str != '"')
+			++str;
+		len = str - start;
+		if (*str == '"')
+			++str;
+		else
+			start = 0;	/* final double quote is missing */
+	} else {
+		start = str;
+		while (*str && !isspace(*str))
+			++str;
+		len = str - start;
+	}
+	if (start)
+		*string_const = strndup(start, len);
+	else
+		*string_const = 0;
+	return str;
 }
 
 char *
-sanei_config_read (char *str, int n, FILE *stream)
+sanei_config_read(char *str, int n, FILE * stream)
 {
-   char* rc;
-   char* start;
-   int   len;
+	char *rc;
+	char *start;
+	int len;
 
-      /* read line from stream */
-   rc = fgets( str, n, stream);
-   if (rc == NULL)
-      return NULL;
+	/* read line from stream */
+	rc = fgets(str, n, stream);
+	if (rc == NULL)
+		return NULL;
 
-      /* remove ending whitespaces */
-   len = strlen( str);
-   while( (0 < len) && (isspace( str[--len])) )
-      str[len] = '\0';
+	/* remove ending whitespaces */
+	len = strlen(str);
+	while ((0 < len) && (isspace(str[--len])))
+		str[len] = '\0';
 
-      /* remove starting whitespaces */
-   start = str;
-   while( isspace( *start))
-      start++;
+	/* remove starting whitespaces */
+	start = str;
+	while (isspace(*start))
+		start++;
 
-   if (start != str) 
-      do {
-         *str++ = *start++;
-      } while( *str);
+	if (start != str)
+		do {
+			*str++ = *start++;
+		} while (*str);
 
-   return rc;
+	return rc;
 }

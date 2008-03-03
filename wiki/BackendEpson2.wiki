@@ -1,0 +1,33 @@
+||*Model*||*Interfaces*||*USB ids*||*Status*||
+||GT-5500||SCSI|| ||:good||
+||GT-5000||SCSI Parport||||:good||
+||[Perfection 1650]||USB||0x04b8 0x0110||:complete||
+||V700||USB IEEE-1394||0x04b8 0x012c||:good||
+||GT-6500||Parport||||:good||
+||ES-300GS||SCSI||||:good||
+||CX-4200||USB||0x04b8 0x0820||:good||
+||RX-700||USB||0x04b8 0x0810||:good||
+||CX-5400||USB||0x04b8 0x0808||:good||
+||Expression 1600||SCSI USB IEEE-1394||0x04b8 0x0107||:complete||
+||Perfection 1660||USB||0x04b8 0x011e||:complete||
+||RX-500||USB||0x04b8 0x0807||:good||
+||DX-4050||USB||0x04b8 0x082f||:good||
+||Perfection 3200||USB||0x04b8 0x011c||:complete||
+||ES-1200C||Parport||||:good||
+||CX-6300||USB||0x04b8 0x0805||:good||
+||Perfection 4990||USB||0x04b8 0x012a||:complete||
+||CX-4800||USB||0x04b8 0x0819||:good||
+||Perfection 2400||USB||0x04b8 0x011b||:complete||
+||CX-6500||USB||0x04b8 0x0813||:good||
+||CX-5000||USB||0x04b8 0x082b||:good||
+||Expression 1680||SCSI USB IEEE-1394||0x04b8 0x010e||:complete||
+||Perfection 636U||USB||0x04b8 0x0101||:complete||
+||V750||USB IEEE-1394||0x04b8 0x012c||:good||
+||Expression 636||SCSI||||:complete||
+||FilmScan 200||SCSI||||:minimal||
+||RX-600||USB||0x04b8 0x0806||:good||
+||Actionscanner II||SCSI Parport||||:good||
+||ES-8500||SCSI||||:good||
+||Perfection 1200S||SCSI||||:complete||
+||GT-8000||SCSI||||:good||
+||CX-3600||USB||0x04b8 0x080e||:good||

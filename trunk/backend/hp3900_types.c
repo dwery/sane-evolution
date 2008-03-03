@@ -134,9 +134,6 @@
 #define ICM_LINEART         0x01
 #define ICM_COLOR           0x02
 
-#define TRUE                0x01
-#define FALSE               0x00
-
 /* function results */
 #define OK                  0x00
 #define ERROR              -1

@@ -51,10 +51,6 @@
    Simon Krix <kinsei@users.sourceforge.net>
    */
 
-#ifdef _AIX
-#include <lalloca.h>
-#endif
-
 #ifndef NOSANE
 #include "../include/sane/config.h"
 #endif

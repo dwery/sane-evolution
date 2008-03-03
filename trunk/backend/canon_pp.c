@@ -46,10 +46,6 @@
    and NX40P scanners
    */
 
-#ifdef  _AIX
-#include  <lalloca.h>		/* MUST come first for AIX! */
-#endif
-
 #define BACKEND_NAME canon_pp
 
 #define THREE_BITS 0xE0
@@ -64,26 +60,24 @@
 #define VERSION "$Revision: 1.15 $"
 #endif
 
-#include  <string.h>
-#include  <math.h>
-#include  <unistd.h>
-#include  <sys/stat.h>
-#include  <sys/types.h>
-#include  <stdlib.h>
-#include  <errno.h>
-#include  <ieee1284.h>
+#include <string.h>
+#include <math.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <ieee1284.h>
 
-#include  "../include/sane/sane.h"
-#include  "../include/sane/saneopts.h"
+#include "../include/sane/sane.h"
+#include "../include/sane/saneopts.h"
 
 #include "canon_pp-dev.h"
 #include "canon_pp-io.h"
 #include "canon_pp.h"
 
-/* #include  "../include/sane/sanei_pio.h" */
 #include  "../include/sane/sanei_config.h"
 #include  "../include/sane/sanei_backend.h"
-/* #include  "../include/sane/sanei_debug.h" */
 
 
 /* Prototypes */

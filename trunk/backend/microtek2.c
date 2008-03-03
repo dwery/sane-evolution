@@ -53,13 +53,7 @@
    (              karsten.festag@t-online.de)
  ***************************************************************************/
 
-
-#ifdef _AIX
-# include <lalloca.h>		/* MUST come first for AIX! */
-#endif
-
 #include "../include/sane/config.h"
-#include "../include/lalloca.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -4202,11 +4196,11 @@ scsi_send_gamma(Microtek2_Scanner * ms)
 	    ms->gamma_table, ms->lut_size_bytes, ms->word, ms->current_color);
 
 	if ((3 * ms->lut_size_bytes) <= 0xffff) {	/*send Gamma with one command */
-		cmd = (u_int8_t *) alloca(SG_CMD_L + 3 * ms->lut_size_bytes);
+		cmd = (u_int8_t *) malloc(SG_CMD_L + 3 * ms->lut_size_bytes);
 		if (cmd == NULL) {
 			DBG(1,
 			    "scsi_send_gamma: Couldn't get buffer for gamma table\n");
-			return SANE_STATUS_IO_ERROR;
+			return SANE_STATUS_NO_MEM;
 		}
 
 		SG_SET_CMD(cmd);
@@ -4223,23 +4217,27 @@ scsi_send_gamma(Microtek2_Scanner * ms)
 		if (md_dump >= 3)
 			dump_area2(cmd + SG_CMD_L, size, "sendgammadata");
 
-		status = sanei_scsi_cmd(ms->sfd, cmd, size + SG_CMD_L, NULL,
-					0);
-		if (status != SANE_STATUS_GOOD)
-			DBG(1, "scsi_send_gamma: '%s'\n",
-			    sane_strstatus(status));
-	}
+		status = sanei_scsi_cmd(ms->sfd, cmd, size + SG_CMD_L,
+					NULL, 0);
 
-	else {			/* send gamma with 3 commands, one for each color */
+		if (status != SANE_STATUS_GOOD)
+			DBG(1, "scsi_send_gamma: %s\n",
+			    sane_strstatus(status));
+
+		free(cmd);
+
+	} else {
+		/* send gamma with 3 commands, one for each color */
+
+		cmd = (u_int8_t *) malloc(SG_CMD_L + ms->lut_size_bytes);
+		if (cmd == NULL) {
+			DBG(1,
+			    "scsi_send_gamma: Couldn't get buffer for gamma table\n");
+			return SANE_STATUS_NO_MEM;
+		}
 
 		for (color = 0; color < 3; color++) {
-			cmd = (u_int8_t *) alloca(SG_CMD_L +
-						  ms->lut_size_bytes);
-			if (cmd == NULL) {
-				DBG(1,
-				    "scsi_send_gamma: Couldn't get buffer for gamma table\n");
-				return SANE_STATUS_IO_ERROR;
-			}
+
 			SG_SET_CMD(cmd);
 			ENDIAN_TYPE(endiantype)
 				SG_SET_PCORMAC(cmd, endiantype);
@@ -4263,6 +4261,7 @@ scsi_send_gamma(Microtek2_Scanner * ms)
 				    sane_strstatus(status));
 		}
 
+		free(cmd);
 	}
 
 	return status;
@@ -4292,9 +4291,10 @@ scsi_inquiry(Microtek2_Info * mi, char *device)
 
 	INQ_CMD(cmd);
 	INQ_SET_ALLOC(cmd, INQ_ALLOC_L);
-	result = (u_int8_t *) alloca(INQ_ALLOC_L);
+	result = (u_int8_t *) malloc(INQ_ALLOC_L);
 	if (result == NULL) {
 		DBG(1, "scsi_inquiry: malloc failed\n");
+		free(result);
 		sanei_scsi_close(sfd);
 		return SANE_STATUS_NO_MEM;
 	}
@@ -4303,15 +4303,19 @@ scsi_inquiry(Microtek2_Info * mi, char *device)
 	status = sanei_scsi_cmd(sfd, cmd, sizeof(cmd), result, &size);
 	if (status != SANE_STATUS_GOOD) {
 		DBG(1, "scsi_inquiry: '%s'\n", sane_strstatus(status));
+		free(result);
 		sanei_scsi_close(sfd);
 		return status;
 	}
 
 	INQ_GET_INQLEN(inqlen, result);
 	INQ_SET_ALLOC(cmd, inqlen + INQ_ALLOC_L);
-	result = alloca(inqlen + INQ_ALLOC_L);
+
+	free(result);
+	result = malloc(inqlen + INQ_ALLOC_L);
 	if (result == NULL) {
 		DBG(1, "scsi_inquiry: malloc failed\n");
+		free(result);
 		sanei_scsi_close(sfd);
 		return SANE_STATUS_NO_MEM;
 	}
@@ -4322,6 +4326,7 @@ scsi_inquiry(Microtek2_Info * mi, char *device)
 	status = sanei_scsi_cmd(sfd, cmd, sizeof(cmd), result, &size);
 	if (status != SANE_STATUS_GOOD) {
 		DBG(1, "scsi_inquiry: cmd '%s'\n", sane_strstatus(status));
+		free(result);
 		sanei_scsi_close(sfd);
 		return status;
 	}
@@ -4341,6 +4346,7 @@ scsi_inquiry(Microtek2_Info * mi, char *device)
 	INQ_GET_REV(mi->revision, (char *) result);
 	INQ_GET_MODELCODE(mi->model_code, result);
 
+	free(result);
 
 	return SANE_STATUS_GOOD;
 }

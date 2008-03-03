@@ -150,7 +150,6 @@ typedef struct req
 			u_int8_t data[1];
 		}
 		cdb;
-#ifdef SG_IO
 /* at present, Linux's SCSI system limits the sense buffer to 16 bytes
    which is definitely too small. Hoping that this will change at some time,
    let's set the sense buffer size to 64.
@@ -164,7 +163,6 @@ typedef struct req
 			u_int8_t data[1];
 		}
 		sg3;
-#endif
 	}
 	sgdata;
 }
@@ -479,12 +477,10 @@ sanei_scsi_open_extended(const char *dev, int *fdp,
 			if (fdpa->sg_queue_max > 1)
 				DBG(1,
 				    "sanei_scsi_open: low level command queueing enabled\n");
-#ifdef SG_IO
 			if (sg_version >= 30000) {
 				DBG(1,
 				    "sanei_scsi_open: using new SG header structure\n");
 			}
-#endif
 		}
 	}
 
@@ -643,9 +639,7 @@ issue(struct req *req)
 		retries = 20;
 		while (retries) {
 			errno = 0;
-#ifdef SG_IO
 			if (sg_version < 30000) {
-#endif
 				old_mask = atomic_begin();
 
 				{
@@ -675,7 +669,6 @@ issue(struct req *req)
 					}
 				}
 				atomic_end(old_mask);
-#ifdef SG_IO
 			} else {
 				old_mask = atomic_begin();
 				{
@@ -714,7 +707,6 @@ issue(struct req *req)
 				       system
 				       ("cat /proc/scsi/sg/debug 1>&2");)
 					}
-#endif
 					if (rp == fdp->sane_qhead
 					    && errno == EAGAIN) {
 						retries--;
@@ -723,29 +715,21 @@ issue(struct req *req)
 						retries = 0;
 			}
 
-#ifndef SG_IO
-			if (nwritten != rp->sgdata.cdb.hdr.pack_len)
-#else
 			if ((sg_version < 30000
 			     && nwritten != rp->sgdata.cdb.hdr.pack_len)
 			    || (sg_version >= 30000 && ret < 0))
-#endif
 			{
 				if (rp->running) {
-#ifdef SG_IO
 					if (sg_version < 30000)
-#endif
 						DBG(1,
 						    "sanei_scsi.issue: bad write (errno=%i) %s %li\n",
 						    errno, strerror(errno),
 						    (long) nwritten);
-#ifdef SG_IO
 					else if (sg_version > 30000)
 						DBG(1,
 						    "sanei_scsi.issue: SG_IO ioctl error (errno=%i, ret=%d) %s\n",
 						    errno, ret,
 						    strerror(errno));
-#endif
 					rp->done = 1;
 					if (errno == ENOMEM) {
 						DBG(1,
@@ -768,14 +752,10 @@ issue(struct req *req)
 				}
 				break;	/* in case of an error don't try to queue more commands */
 			} else {
-#ifdef SG_IO
 				if (sg_version < 30000)
-#endif
 					req->status = SANE_STATUS_IO_ERROR;
-#ifdef SG_IO
 				else if (sg_version > 30000)	/* SG_IO is synchronous, we're all set */
 					req->status = SANE_STATUS_GOOD;
-#endif
 			}
 			fdp->sg_queue_used++;
 			rp = rp->next;
@@ -794,20 +774,16 @@ issue(struct req *req)
 				count = sane_scsicmd_timeout * 10;
 				while (count) {
 					errno = 0;
-#ifdef SG_IO
 					if (sg_version < 30000)
-#endif
 						len = read(fd,
 							   &req->sgdata.cdb,
 							   req->sgdata.cdb.
 							   hdr.reply_len);
-#ifdef SG_IO
 					else
 						len = read(fd,
 							   &req->sgdata.sg3.
 							   hdr,
 							   sizeof(Sg_io_hdr));
-#endif
 					if (len >= 0
 					    || (len < 0 && errno != EAGAIN))
 						break;
@@ -867,18 +843,14 @@ issue(struct req *req)
 			fdp->sane_free_list = req->next;
 			req->next = 0;
 		} else {
-#ifdef SG_IO
 			if (sg_version < 30000)
-#endif
 				size = (sizeof(*req) -
 					sizeof(req->sgdata.cdb.data)
 					+ fdp->buffersize);
-#ifdef SG_IO
 			else
 				size = sizeof(*req) + MAX_CDB +
 					fdp->buffersize -
 					sizeof(req->sgdata.sg3.data);
-#endif
 			req = malloc(size);
 			if (!req) {
 				DBG(1,
@@ -893,9 +865,7 @@ issue(struct req *req)
 		req->status = SANE_STATUS_GOOD;
 		req->dst = dst;
 		req->dst_len = dst_size;
-#ifdef SG_IO
 		if (sg_version < 30000) {
-#endif
 			memset(&req->sgdata.cdb.hdr, 0,
 			       sizeof(req->sgdata.cdb.hdr));
 			req->sgdata.cdb.hdr.pack_id = pack_id++;
@@ -913,7 +883,6 @@ issue(struct req *req)
 					    "sanei_scsi_req_enter2: ioctl to set command length failed\n");
 				}
 			}
-#ifdef SG_IO
 		} else {
 			memset(&req->sgdata.sg3.hdr, 0,
 			       sizeof(req->sgdata.sg3.hdr));
@@ -1016,9 +985,7 @@ issue(struct req *req)
 			status = req->status;
 		} else {
 			sigset_t old_mask;
-#ifdef SG_IO
 			if (sg_version < 30000) {
-#endif
 				fd_set readable;
 
 				/* wait for command completion: */
@@ -1032,7 +999,6 @@ issue(struct req *req)
 					     req->sgdata.cdb.hdr.reply_len);
 				req->done = 1;
 				atomic_end(old_mask);
-#ifdef SG_IO
 			} else {
 				IF_DBG(if (DBG_LEVEL >= 255)
 				       system
@@ -1042,7 +1008,6 @@ issue(struct req *req)
 					nread = 0;	/* unused in this code path */
 				req->done = 1;
 			}
-#endif
 
 			if (fd_info[req->fd].pdata)
 				((fdparms *) fd_info[req->fd].pdata)->
@@ -1062,9 +1027,7 @@ issue(struct req *req)
 				    (long) nread, errno);
 				status = SANE_STATUS_IO_ERROR;
 			} else {
-#ifdef SG_IO
 				if (sg_version < 30000) {
-#endif
 					nread -= sizeof(req->sgdata.cdb.hdr);
 
 					/* check for errors, but let the sense_handler decide.... */
@@ -1173,7 +1136,6 @@ issue(struct req *req)
 						if (req->dst_len)
 							*req->dst_len = nread;
 					}
-#ifdef SG_IO
 				} else {
 					/* check for errors, but let the sense_handler decide.... */
 					if (((req->sgdata.sg3.hdr.
@@ -1283,19 +1245,6 @@ issue(struct req *req)
 						else
 							status = SANE_STATUS_IO_ERROR;
 					}
-#if 0
-					/* Sometimes the Linux SCSI system reports bogus resid values. 
-					   Observed with lk 2.4.5, 2.4.13, aic7xxx and sym53c8xx drivers, 
-					   if command queueing is used. So we better issue only a warning
-					 */
-					if (status == SANE_STATUS_GOOD) {
-						if (req->dst_len) {
-							*req->dst_len -=
-								req->sgdata.
-								sg3.hdr.resid;
-						}
-					}
-#endif
 					if (req->sgdata.sg3.hdr.resid) {
 						DBG(1,
 						    "sanei_scsi_req_wait: SG driver returned resid %i\n",
@@ -1305,7 +1254,6 @@ issue(struct req *req)
 						    "                     NOTE: This value may be bogus\n");
 					}
 				}
-#endif
 			}
 		}
 		{
@@ -1754,8 +1702,6 @@ issue(struct req *req)
 		}
 		fclose(proc_fp);
 	}
-
-#endif /* USE == LINUX_INTERFACE */
 
 #ifndef WE_HAVE_ASYNC_SCSI
 

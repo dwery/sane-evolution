@@ -1,10 +1,15 @@
 #summary Building instructions
 
  * get the latest version at http://code.google.com/p/sane-evolution/source/checkout
+{{{
+svn checkout http://sane-evolution.googlecode.com/svn/trunk/ sane-evolution-read-only
+}}}
+
  * do:
 
 {{{
-autoconf
+cd sane-evolution-read-only
+./autogen.sh
 ./configure
 make
 }}}

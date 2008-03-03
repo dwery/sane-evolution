@@ -1,0 +1,214 @@
+;
+; SANE Backend specification file
+;
+; It's basically emacs-lisp --- so ";" indicates comment to end of line.
+; All syntactic elements are keyword tokens, followed by a string or
+;  keyword argument, as specified.
+;
+; ":backend" *must* be specified.
+; All other information is optional (but what good is the file without it?).
+;
+; See doc/descriptions.txt for details.
+
+:backend "pixma"                  ; name of backend
+:version "0.14.3"                 ; version of backend (or "unmaintained")
+:manpage "sane-pixma"             ; name of manpage (if it exists)
+:url "http://home.arcor.de/wittawat/pixma/" ; 0.13.1 backend's web page
+:url "http://mp610.blogspot.com/"            ; 0.14.2 backend's web page
+;:comment "Devices marked as experimantal are disabled by default. See the manual page for how to enable them."
+
+:devicetype :scanner              ; start of a list of devices....
+                                  ; other types:  :stillcam, :vidcam,
+                                  ;               :meta, :api
+
+:mfg "Canon"                   ; name a manufacturer
+:url "http://www.canon.com/"
+
+:model "PIXMA MP140"
+:interface "USB"
+:usbid "0x04a9" "0x172b"
+:status :good
+:comment "up to 600 DPI"
+
+:model "PIXMA MP150"
+:interface "USB"
+:usbid "0x04a9" "0x1709"
+:status :good
+
+:model "PIXMA MP160"
+:interface "USB"
+:usbid "0x04a9" "0x1714"
+:status :basic
+
+:model "PIXMA MP170"
+:interface "USB"
+:usbid "0x04a9" "0x170a"
+:status :good
+
+:model "PIXMA MP180"
+:interface "USB"
+:usbid "0x04a9" "0x1715"
+:status :basic
+
+:model "PIXMA MP210"
+:interface "USB"
+:usbid "0x04a9" "0x1721"
+:status :good
+:comment "up to 600DPI"
+
+:model "PIXMA MP220"
+:interface "USB"
+:usbid "0x04a9" "0x1722"
+:status :untested
+:comment "Testers needed! Likely to use generation 3 protocol."
+
+:model "PIXMA MP450"
+:interface "USB"
+:usbid "0x04a9" "0x170b"
+:status :good
+:comment "Scanner makes loud noise at 600 DPI."
+
+:model "PIXMA MP460"
+:interface "USB"
+:usbid "0x04a9" "0x1716"
+:status :basic
+
+:model "PIXMA MP470"
+:interface "USB"
+:usbid "0x04a9" "0x1723"
+:status :good
+:comment "up to 2400DPI"
+
+:model "PIXMA MP500"
+:interface "USB"
+:usbid "0x04a9" "0x170c"
+:status :good
+
+:model "PIXMA MP510"
+:interface "USB"
+:usbid "0x04a9" "0x1717"
+:status :basic
+
+:model "PIXMA MP520"
+:interface "USB"
+:usbid "0x04a9" "0x1724"
+:status :good
+:comment "up to 2400DPI"
+
+:model "PIXMA MP530"
+:interface "USB"
+:usbid "0x04a9" "0x1712"
+:status :good
+
+:model "PIXMA MP600"
+:interface "USB"
+:usbid "0x04a9" "0x1718"
+:status :basic
+:comment "2400DPI doesn't work."
+
+:model "PIXMA MP600R"
+:interface "USB"
+:usbid "0x04a9" "0x1719"
+:status :minimal
+:comment "2400DPI doesn't work."
+
+:model "PIXMA MP610"
+:interface "USB"
+:usbid "0x04a9" "0x1725"
+:status :good
+:comment "up to 4800DPI"
+
+:model "PIXMA MP750"
+:interface "USB"
+:usbid "0x04a9" "0x1706"
+:status :minimal
+:comment "No grayscale. Canceling scan in ADF mode doesn't eject the paper!"
+
+:model "PIXMA MP760"
+:interface "USB"
+:usbid "0x04a9" "0x1708"
+:status :minimal
+:comment "No grayscale. The scanner sometimes hangs!"
+
+:model "PIXMA MP780"
+:interface "USB"
+:usbid "0x04a9" "0x1707"
+:status :minimal
+:comment "No grayscale. The scanner sometimes hangs!"
+
+:model "PIXMA MP800"
+:interface "USB"
+:usbid "0x04a9" "0x170d"
+:status :basic
+:comment "No film scan."
+
+:model "PIXMA MP800R"
+:interface "USB"
+:usbid "0x04a9" "0x170e"
+:status :basic
+:comment "No film scan."
+
+:model "PIXMA MP810"
+:interface "USB"
+:usbid "0x04a9" "0x171a"
+:status :untested
+:comment "Testers needed!"
+
+:model "PIXMA MP830"
+:interface "USB"
+:usbid "0x04a9" "0x1713"
+:status :basic
+:comment "Sigle-side ADF works but duplex doesn't work yet."
+
+:model "PIXMA MP960"
+:interface "USB"
+:usbid "0x04a9" "0x171b"
+:status :minimal
+
+:model "PIXMA MP970"
+:interface "USB"
+:usbid "0x04a9" "0x1726"
+:status :untested
+:comment "Testers needed!"
+
+:model "SmartBase MP360"
+:interface "USB"
+:usbid "0x04a9" "0x263c"
+:status :minimal
+:comment "The scanner locks up sometimes."
+
+:model "SmartBase MP370"
+:interface "USB"
+:usbid "0x04a9" "0x263d"
+:status :minimal
+:comment "The scanner locks up sometimes."
+
+:model "SmartBase MP390"
+:interface "USB"
+:usbid "0x04a9" "0x263e"
+:status :minimal
+:comment "The scanner locks up sometimes."
+
+:model "MultiPASS MP700"
+:interface "USB"
+:usbid "0x04a9" "0x2630"
+:status :basic
+:comment "Same model as SmartBase MP700 Photo?"
+
+:model "PIXMA MP710"
+:interface "USB"
+:usbid "0x04a9" "0x264d"
+:status :good
+:comment "up to 1200DPI"
+
+:model "PIXMA MP740"
+:interface "USB"
+:usbid "0x04a9" "0x264c"
+:status :untested
+:comment "Same protocol as Pixma MP710? Testers needed!"
+
+:model "MultiPASS MP730"
+:interface "USB"
+:usbid "0x04a9" "0x262f"
+:status :minimal
+:comment "Do grayscale and ADF work? Same model as SmartBase MP730 Photo?"

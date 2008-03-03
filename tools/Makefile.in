@@ -1,0 +1,168 @@
+SHELL = /bin/sh
+
+VPATH = @srcdir@
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+top_builddir = ..
+subdir = tools
+
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+distdir = $(top_srcdir)/$(PACKAGE)-$(VERSION)
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datarootdir = @datarootdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+configdir = ${sysconfdir}/sane.d
+
+MKDIR = $(top_srcdir)/mkinstalldirs
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_DATA = @INSTALL_DATA@
+RANLIB = @RANLIB@
+
+CC = @CC@
+INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include -I$(top_srcdir)/include
+CPPFLAGS = @CPPFLAGS@
+CFLAGS = @CFLAGS@
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+DEFS = @DEFS@
+
+LIBTOOL = ../libtool
+MCOMP	= --mode=compile
+MLINK	= --mode=link
+MINST	= --mode=install
+
+COMPILE = $(CC) -c $(CFLAGS) $(DEFS) $(INCLUDES) $(CPPFLAGS)
+LINK = $(CC) $(LDFLAGS) -o $@
+
+DISTCLEAN_FILES = @DISTCLEAN_FILES@
+
+@SET_MAKE@
+
+ifeq (@CROSS_COMPILING@,no)
+HOTPLUG_SCRIPTS = hotplug/libsane.usermap hotplug-ng/libsane.db \
+		  udev/libsane.rules hal/libsane.fdi
+else
+HOTPLUG_SCRIPTS =
+endif
+
+DESTINATIONS = sane-find-scanner sane-config umax_pp gamma4scanimage \
+	       sane-desc $(HOTPLUG_SCRIPTS)
+
+EXTRA = sane_strstatus.lo ../sanei/sanei_init_debug.lo \
+	../sanei/sanei_config.lo ../sanei/sanei_config2.lo \
+	../lib/usleep.lo ../lib/strndup.lo
+
+LIBSANEI = ../sanei/libsanei.a
+# Library routines that should be part of libc, but aren't on some systems:
+LIBLIB = ../lib/liblib.a
+
+DISTFILES = Makefile.in RenSaneDlls.cmd README libtool-get-dll-ext     \
+	mustek600iin-off.c sane-config.in sane-desc.c check-usb-chip.c \
+	sane-find-scanner.c umax_pp.c xerox gamma4scanimage.c check-po.awk
+
+SUBDIRS = hotplug hotplug-ng udev hal
+
+.PHONY: all clean depend dist distclean install uninstall
+
+.c.o:
+	$(COMPILE) $<
+
+%.lo:	%.c
+	@$(LIBTOOL) $(MCOMP) $(COMPILE) -DLIBDIR=$(libdir) $<
+
+all:	$(DESTINATIONS)
+
+install: sane-config sane-find-scanner gamma4scanimage
+	$(INSTALL_SCRIPT) sane-config $(DESTDIR)$(bindir)/sane-config
+	$(INSTALL_PROGRAM) sane-find-scanner $(DESTDIR)$(bindir)/sane-find-scanner
+	$(INSTALL_PROGRAM) gamma4scanimage $(DESTDIR)$(bindir)/gamma4scanimage
+
+uninstall: 
+	rm -f $(bindir)/sane-config $(bindir)/sane-find-scanner $(bindir)/gamma4scanimage
+
+sane-config: sane-config.in $(top_builddir)/config.status 
+	cd $(top_builddir) \
+          && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+sane-find-scanner: sane-find-scanner.o check-usb-chip.o ../backend/sane_strstatus.lo \
+	../sanei/sanei_scsi.lo ../sanei/sanei_usb.lo ../sanei/sanei_init_debug.lo \
+	../sanei/sanei_config.lo
+	@$(LIBTOOL) $(MLINK) $(LINK) sane-find-scanner.o check-usb-chip.o \
+	  ../backend/sane_strstatus.lo $(LIBSANEI) $(LIBLIB) $(LIBS)
+
+gamma4scanimage: gamma4scanimage.o
+	@$(LIBTOOL) $(MLINK) $(LINK) gamma4scanimage.o -lm
+
+../backend/umax_pp_low.o: ../backend/umax_pp_low.c 
+	$(COMPILE) ../backend/umax_pp_low.c -o ../backend/umax_pp_low.o \
+	  -DBACKEND_NAME=umax_pp_low
+
+umax_pp: umax_pp.o ../backend/umax_pp_low.o
+	@$(LIBTOOL) $(MLINK) $(LINK) umax_pp.o ../backend/umax_pp_low.o \
+	   $(LIBSANEI) $(LIBLIB) $(LIBS)
+sane-desc: sane-desc.o
+	@$(LIBTOOL) $(MLINK) $(LINK) sane-desc.o $(LIBSANEI) $(LIBLIB)
+
+hotplug/libsane.usermap: $(wildcard ${top_srcdir}/doc/descriptions/*.desc) $(wildcard ${top_srcdir}/doc/descriptions-external/*.desc) sane-desc
+	@./sane-desc -m usermap -s ${top_srcdir}/doc/descriptions:${top_srcdir}/doc/descriptions-external \
+	   -d 1 > $@
+
+hotplug-ng/libsane.db: $(wildcard ${top_srcdir}/doc/descriptions/*.desc) $(wildcard ${top_srcdir}/doc/descriptions-external/*.desc) sane-desc
+	@./sane-desc -m db -s ${top_srcdir}/doc/descriptions:${top_srcdir}/doc/descriptions-external \
+	   -d 0 > $@
+
+udev/libsane.rules: $(wildcard ${top_srcdir}/doc/descriptions/*.desc) $(wildcard ${top_srcdir}/doc/descriptions-external/*.desc) sane-desc
+	@./sane-desc -m udev -s ${top_srcdir}/doc/descriptions:${top_srcdir}/doc/descriptions-external \
+	   -d 0 > $@
+
+hal/libsane.fdi: $(wildcard ${top_srcdir}/doc/descriptions/*.desc) $(wildcard ${top_srcdir}/doc/descriptions-external/*.desc) sane-desc
+	@./sane-desc -m hal -s ${top_srcdir}/doc/descriptions:${top_srcdir}/doc/descriptions-external \
+	   -d 0 > $@
+
+
+depend:
+	makedepend $(INCLUDES) *.c 2>/dev/null
+
+clean:
+	rm -f *.lo *.o *.la
+	find . -type l -name \*-s.c | xargs rm -f
+	rm -rf .libs
+	rm -f hotplug/libsane.usermap hotplug-ng/libsane.db hotplug/libsane.rules
+
+distclean: clean
+	rm -f Makefile $(DESTINATIONS) mustek600iin-off sane-desc
+	rm -f $(DISTCLEAN_FILES)
+	for subdir in $(SUBDIRS) ; do \
+	  ( cd $$subdir ; rm -f $(DISTCLEAN_FILES) ); \
+	done
+
+dist: $(DISTFILES)
+	for subdir in $(SUBDIRS) ; do \
+	  $(MKDIR) $(distdir)/tools/$${subdir} ; \
+	  for file in $${subdir}/* ; do \
+	    ln $$file $(distdir)/tools/$${subdir} 2> /dev/null \
+	      || cp -p $$file $(distdir)/tools/$${subdir} \
+	      || echo "ignoring: $$file" ; \
+	  done ; \
+	done
+	for file in $(DISTFILES); do \
+	  ln $$file $(distdir)/tools 2> /dev/null \
+	    || cp -p $$file $(distdir)/tools ; \
+	done
+

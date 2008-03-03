@@ -833,8 +833,8 @@ sane_exit(void)
 	for (dev = first_device; dev; dev = next_device) {
 		next_device = dev->next;
 
-		DBG(2, "sane_exit: closing dev %p, ctl=%d\n", (void *) dev,
-		    dev->ctl);
+		DBG(2, "%s: closing dev %p, ctl = %d\n",
+			__func__, (void *) dev, dev->ctl);
 
 		if (dev->ctl >= 0) {
 			sanei_w_call(&dev->wire, SANE_NET_EXIT,
@@ -1351,10 +1351,14 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	SANE_Control_Option_Req req;
 	SANE_Control_Option_Reply reply;
 	SANE_Status status;
-	size_t value_size;
 	int need_auth;
 
 	DBG(3, "sane_control_option: option %d, action %d\n", option, action);
+
+	req.handle = s->handle;
+	req.option = option;
+	req.action = action;
+	req.value = value;
 
 	if (!s->options_valid) {
 		DBG(3, "sane_control_option: getting option descriptors\n");
@@ -1372,35 +1376,41 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		return SANE_STATUS_INVAL;
 	}
 
-	switch (s->opt.desc[option]->type) {
-	case SANE_TYPE_BUTTON:
-	case SANE_TYPE_GROUP:	/* shouldn't happen... */
-		/* the SANE standard defines that the option size of a BUTTON or
-		   GROUP is IGNORED.  */
-		value_size = 0;
+	switch (action) {
+	case SANE_ACTION_SET_VALUE:
+	case SANE_ACTION_GET_VALUE:
+		req.value_type = s->opt.desc[option]->type;
+
+		switch (s->opt.desc[option]->type) {
+		case SANE_TYPE_BUTTON:
+		case SANE_TYPE_GROUP:	/* shouldn't happen... */
+			/* the SANE standard defines that the option size of a BUTTON or
+			   GROUP is IGNORED.  */
+			req.value_size = 0;
+			break;
+		case SANE_TYPE_STRING:	/* strings can be smaller than size */
+			req.value_size = s->opt.desc[option]->size;
+			if ((action == SANE_ACTION_SET_VALUE)
+			    && (((int) strlen((SANE_String) value) + 1)
+				< s->opt.desc[option]->size))
+				req.value_size = strlen((SANE_String) value) + 1;
+			break;
+		default:
+			req.value_size = s->opt.desc[option]->size;
+			break;
+		}
 		break;
-	case SANE_TYPE_STRING:	/* strings can be smaller than size */
-		value_size = s->opt.desc[option]->size;
-		if ((action == SANE_ACTION_SET_VALUE)
-		    && (((SANE_Int) strlen((SANE_String) value) + 1)
-			< s->opt.desc[option]->size))
-			value_size = strlen((SANE_String) value) + 1;
+
+	case SANE_ACTION_SET_AUTO:
+		/* for SET_AUTO the parameter ``value'' is ignored */
+		req.value_type = s->opt.desc[option]->type;
+		req.value_size = 0;
 		break;
-	default:
-		value_size = s->opt.desc[option]->size;
+
+	case SANE_ACTION_CHECK_API_LEVEL:
+		req.value_size = sizeof(u_int32_t);
 		break;
 	}
-
-	/* for SET_AUTO the parameter ``value'' is ignored */
-	if (action == SANE_ACTION_SET_AUTO)
-		value_size = 0;
-
-	req.handle = s->handle;
-	req.option = option;
-	req.action = action;
-	req.value_type = s->opt.desc[option]->type;
-	req.value_size = value_size;
-	req.value = value;
 
 	DBG(3, "sane_control_option: remote control option\n");
 	sanei_w_call(&s->hw->wire, SANE_NET_CONTROL_OPTION,
@@ -1424,9 +1434,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		} else if (status == SANE_STATUS_GOOD) {
 			if (info)
 				*info = reply.info;
-			if (value_size > 0) {
-				if ((SANE_Word) value_size ==
-				    reply.value_size)
+			if (req.value_size > 0) {
+				if ((SANE_Word) req.value_size == reply.value_size)
 					memcpy(value, reply.value,
 					       reply.value_size);
 				else

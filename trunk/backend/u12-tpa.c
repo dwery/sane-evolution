@@ -52,226 +52,242 @@
 /** this function does some reshading, when scanning negatives on an ASIC 98003
  * based scanner
  */
-static void u12tpa_Reshading( U12_Device *dev )
+static void
+u12tpa_Reshading(U12_Device * dev)
 {
-	SANE_Byte   bHi[3], bHiLeft[3], bHiRight[3];
-	u_long      i, dwR, dwG, dwB, dwSum;
-	u_long      dwIndex, dwIndexRight, dwIndexLeft;
+	SANE_Byte bHi[3], bHiLeft[3], bHiRight[3];
+	u_long i, dwR, dwG, dwB, dwSum;
+	u_long dwIndex, dwIndexRight, dwIndexLeft;
 	DataPointer RedPtr, GreenPtr, BluePtr;
-	TimerDef    timer;
+	TimerDef timer;
 
-	DBG( _DBG_INFO, "u12tpa_Reshading()\n" );
+	DBG(_DBG_INFO, "u12tpa_Reshading()\n");
 
 	bHi[0] = bHi[1] = bHi[2] = 0;
 
 	dev->scan.negScan[1].exposureTime = 144;
-	dev->scan.negScan[1].xStepTime    = 18;
+	dev->scan.negScan[1].xStepTime = 18;
 	dev->scan.negScan[2].exposureTime = 144;
-	dev->scan.negScan[2].xStepTime    = 36;
+	dev->scan.negScan[2].xStepTime = 36;
 	dev->scan.negScan[3].exposureTime = 144;
-	dev->scan.negScan[3].xStepTime    = 72;
+	dev->scan.negScan[3].xStepTime = 72;
 	dev->scan.negScan[4].exposureTime = 144;
-	dev->scan.negScan[4].xStepTime    = 144;
+	dev->scan.negScan[4].xStepTime = 144;
 
-	dev->shade.wExposure = dev->scan.negScan[dev->scan.dpiIdx].exposureTime;
-	dev->shade.wXStep    = dev->scan.negScan[dev->scan.dpiIdx].xStepTime;
+	dev->shade.wExposure =
+		dev->scan.negScan[dev->scan.dpiIdx].exposureTime;
+	dev->shade.wXStep = dev->scan.negScan[dev->scan.dpiIdx].xStepTime;
 
-	u12io_StartTimer( &timer, _SECOND );
+	u12io_StartTimer(&timer, _SECOND);
 
 	u12io_ResetFifoLen();
-	while(!(u12io_GetScanState( dev ) & _SCANSTATE_STOP) &&
-	                                              (!u12io_CheckTimer(&timer)));
-	u12io_DataToRegister( dev, REG_XSTEPTIME,
-	                               (SANE_Byte)(dev->regs.RD_LineControl >> 4));
-	_DODELAY( 12 );
-	u12motor_PositionYProc( dev, _NEG_SHADING_OFFS );
+	while (!(u12io_GetScanState(dev) & _SCANSTATE_STOP) &&
+	       (!u12io_CheckTimer(&timer)));
+	u12io_DataToRegister(dev, REG_XSTEPTIME,
+			     (SANE_Byte) (dev->regs.RD_LineControl >> 4));
+	_DODELAY(12);
+	u12motor_PositionYProc(dev, _NEG_SHADING_OFFS);
 
-	u12io_DataToRegister( dev, REG_XSTEPTIME, dev->regs.RD_XStepTime );
+	u12io_DataToRegister(dev, REG_XSTEPTIME, dev->regs.RD_XStepTime);
 
 	dev->regs.RD_ScanControl = _SCAN_BYTEMODE;
-	u12hw_SelectLampSource( dev );
+	u12hw_SelectLampSource(dev);
 
-	u12io_DataToRegister( dev, REG_LINECONTROL, _LOBYTE(dev->shade.wExposure));
-	u12io_DataToRegister( dev, REG_XSTEPTIME,   _LOBYTE(dev->shade.wXStep));
+	u12io_DataToRegister(dev, REG_LINECONTROL,
+			     _LOBYTE(dev->shade.wExposure));
+	u12io_DataToRegister(dev, REG_XSTEPTIME, _LOBYTE(dev->shade.wXStep));
 
-	dev->regs.RD_LineControl    = _LOBYTE(dev->shade.wExposure);
+	dev->regs.RD_LineControl = _LOBYTE(dev->shade.wExposure);
 	dev->regs.RD_ExtLineControl = _HIBYTE(dev->shade.wExposure);
-	dev->regs.RD_XStepTime      = (SANE_Byte)(dev->shade.wExposure);
-	dev->regs.RD_ModeControl    = _ModeScan;
-	dev->regs.RD_Motor0Control  = _FORWARD_MOTOR;
+	dev->regs.RD_XStepTime = (SANE_Byte) (dev->shade.wExposure);
+	dev->regs.RD_ModeControl = _ModeScan;
+	dev->regs.RD_Motor0Control = _FORWARD_MOTOR;
 
-	dev->regs.RD_Origin = (u_short)dev->scan.negBegin;
+	dev->regs.RD_Origin = (u_short) dev->scan.negBegin;
 	dev->regs.RD_Pixels = _NEG_PAGEWIDTH600;
 
-	memset( dev->scanStates, 0, _SCANSTATE_BYTES );
+	memset(dev->scanStates, 0, _SCANSTATE_BYTES);
 
 	/* put 9 scan states to make sure there are 8 lines available at least */
-	for( i = 0; i <= 12; i++)
+	for (i = 0; i <= 12; i++)
 		dev->scanStates[i] = 0x8f;
 
-	u12io_PutOnAllRegisters( dev );
-	_DODELAY( 70 );
+	u12io_PutOnAllRegisters(dev);
+	_DODELAY(70);
 
 	/* prepare the buffers... */
-	memset( dev->bufs.TpaBuf.pb, 0, _SIZE_TPA_DATA_BUF );
+	memset(dev->bufs.TpaBuf.pb, 0, _SIZE_TPA_DATA_BUF);
 
-	RedPtr.pb   = dev->bufs.b1.pShadingMap;
-	GreenPtr.pb = RedPtr.pb   + _NEG_PAGEWIDTH600;
-	BluePtr.pb  = GreenPtr.pb + _NEG_PAGEWIDTH600;
+	RedPtr.pb = dev->bufs.b1.pShadingMap;
+	GreenPtr.pb = RedPtr.pb + _NEG_PAGEWIDTH600;
+	BluePtr.pb = GreenPtr.pb + _NEG_PAGEWIDTH600;
 
-	for( dwSum = 8; dwSum--; ) {
+	for (dwSum = 8; dwSum--;) {
 
-		u12io_ReadOneShadingLine( dev, dev->bufs.b1.pShadingMap, _NEG_PAGEWIDTH600 );
+		u12io_ReadOneShadingLine(dev, dev->bufs.b1.pShadingMap,
+					 _NEG_PAGEWIDTH600);
 
-		for( i = 0; i < _NEG_PAGEWIDTH600; i++) {
+		for (i = 0; i < _NEG_PAGEWIDTH600; i++) {
 
-			dev->bufs.TpaBuf.pusrgb[i].Red   += RedPtr.pb[i];
+			dev->bufs.TpaBuf.pusrgb[i].Red += RedPtr.pb[i];
 			dev->bufs.TpaBuf.pusrgb[i].Green += GreenPtr.pb[i];
-			dev->bufs.TpaBuf.pusrgb[i].Blue  += BluePtr.pb[i];
+			dev->bufs.TpaBuf.pusrgb[i].Blue += BluePtr.pb[i];
 		}
 	}
 
-	for( i = 0; i < (_NEG_PAGEWIDTH600 * 3UL); i++ )
+	for (i = 0; i < (_NEG_PAGEWIDTH600 * 3UL); i++)
 		dev->bufs.TpaBuf.pb[i] = dev->bufs.TpaBuf.pw[i] >> 3;
 
 	RedPtr.pb = dev->bufs.TpaBuf.pb;
 
 	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
-	for( bHiRight[1] = 0, i = dwIndexRight = 0;
-	                                     i < _NEG_PAGEWIDTH600 / 2; i += 16 ) {
-		bHiRight [0] =
-	       (SANE_Byte)(((((u_long) RedPtr.pbrgb [i].Red +
-		     (u_long) RedPtr.pbrgb[i + 1].Red +
-		     (u_long) RedPtr.pbrgb[i + 2].Red +
-		     (u_long) RedPtr.pbrgb[i + 3].Red +
-		     (u_long) RedPtr.pbrgb[i + 4].Red +
-		     (u_long) RedPtr.pbrgb[i + 5].Red +
-		     (u_long) RedPtr.pbrgb[i + 6].Red +
-		     (u_long) RedPtr.pbrgb[i + 7].Red +
-		     (u_long) RedPtr.pbrgb[i + 8].Red +
-		     (u_long) RedPtr.pbrgb[i + 9].Red +
-		     (u_long) RedPtr.pbrgb[i + 10].Red +
-		     (u_long) RedPtr.pbrgb[i + 11].Red +
-		     (u_long) RedPtr.pbrgb[i + 12].Red +
-		     (u_long) RedPtr.pbrgb[i + 13].Red +
-		     (u_long) RedPtr.pbrgb[i + 14].Red +
-		     (u_long) RedPtr.pbrgb[i + 15].Red) >> 4) * 30UL +
-		   (((u_long) RedPtr.pbrgb[i].Green +
-		     (u_long) RedPtr.pbrgb[i + 1].Green +
-		     (u_long) RedPtr.pbrgb[i + 2].Green +
-		     (u_long) RedPtr.pbrgb[i + 3].Green +
-		     (u_long) RedPtr.pbrgb[i + 4].Green +
-		     (u_long) RedPtr.pbrgb[i + 5].Green +
-		     (u_long) RedPtr.pbrgb[i + 6].Green +
-		     (u_long) RedPtr.pbrgb[i + 7].Green +
-		     (u_long) RedPtr.pbrgb[i + 8].Green +
-		     (u_long) RedPtr.pbrgb[i + 9].Green +
-		     (u_long) RedPtr.pbrgb[i + 10].Green +
-		     (u_long) RedPtr.pbrgb[i + 11].Green +
-		     (u_long) RedPtr.pbrgb[i + 12].Green +
-		     (u_long) RedPtr.pbrgb[i + 13].Green +
-		     (u_long) RedPtr.pbrgb[i + 14].Green +
-		     (u_long) RedPtr.pbrgb[i + 15].Green) >> 4) * 59UL +
-		   (((u_long) RedPtr.pbrgb[i].Blue +
-		     (u_long) RedPtr.pbrgb[i + 1].Blue +
-		     (u_long) RedPtr.pbrgb[i + 2].Blue +
-		     (u_long) RedPtr.pbrgb[i + 3].Blue +
-		     (u_long) RedPtr.pbrgb[i + 4].Blue +
-		     (u_long) RedPtr.pbrgb[i + 5].Blue +
-		     (u_long) RedPtr.pbrgb[i + 6].Blue +
-		     (u_long) RedPtr.pbrgb[i + 7].Blue +
-		     (u_long) RedPtr.pbrgb[i + 8].Blue +
-		     (u_long) RedPtr.pbrgb[i + 9].Blue +
-		     (u_long) RedPtr.pbrgb[i + 10].Blue +
-		     (u_long) RedPtr.pbrgb[i + 11].Blue +
-		     (u_long) RedPtr.pbrgb[i + 12].Blue +
-		     (u_long) RedPtr.pbrgb[i + 13].Blue +
-		     (u_long) RedPtr.pbrgb[i + 14].Blue +
-		     (u_long) RedPtr.pbrgb[i + 15].Blue) >> 4) * 11UL) / 100UL);
+	for (bHiRight[1] = 0, i = dwIndexRight = 0;
+	     i < _NEG_PAGEWIDTH600 / 2; i += 16) {
+		bHiRight[0] =
+			(SANE_Byte) (((((u_long) RedPtr.pbrgb[i].Red +
+					(u_long) RedPtr.pbrgb[i + 1].Red +
+					(u_long) RedPtr.pbrgb[i + 2].Red +
+					(u_long) RedPtr.pbrgb[i + 3].Red +
+					(u_long) RedPtr.pbrgb[i + 4].Red +
+					(u_long) RedPtr.pbrgb[i + 5].Red +
+					(u_long) RedPtr.pbrgb[i + 6].Red +
+					(u_long) RedPtr.pbrgb[i + 7].Red +
+					(u_long) RedPtr.pbrgb[i + 8].Red +
+					(u_long) RedPtr.pbrgb[i + 9].Red +
+					(u_long) RedPtr.pbrgb[i + 10].Red +
+					(u_long) RedPtr.pbrgb[i + 11].Red +
+					(u_long) RedPtr.pbrgb[i + 12].Red +
+					(u_long) RedPtr.pbrgb[i + 13].Red +
+					(u_long) RedPtr.pbrgb[i + 14].Red +
+					(u_long) RedPtr.pbrgb[i +
+							      15].Red) >> 4) *
+				      30UL +
+				      (((u_long) RedPtr.pbrgb[i].Green +
+					(u_long) RedPtr.pbrgb[i + 1].Green +
+					(u_long) RedPtr.pbrgb[i + 2].Green +
+					(u_long) RedPtr.pbrgb[i + 3].Green +
+					(u_long) RedPtr.pbrgb[i + 4].Green +
+					(u_long) RedPtr.pbrgb[i + 5].Green +
+					(u_long) RedPtr.pbrgb[i + 6].Green +
+					(u_long) RedPtr.pbrgb[i + 7].Green +
+					(u_long) RedPtr.pbrgb[i + 8].Green +
+					(u_long) RedPtr.pbrgb[i + 9].Green +
+					(u_long) RedPtr.pbrgb[i + 10].Green +
+					(u_long) RedPtr.pbrgb[i + 11].Green +
+					(u_long) RedPtr.pbrgb[i + 12].Green +
+					(u_long) RedPtr.pbrgb[i + 13].Green +
+					(u_long) RedPtr.pbrgb[i + 14].Green +
+					(u_long) RedPtr.pbrgb[i +
+							      15].
+					Green) >> 4) * 59UL +
+				      (((u_long) RedPtr.pbrgb[i].Blue +
+					(u_long) RedPtr.pbrgb[i + 1].Blue +
+					(u_long) RedPtr.pbrgb[i + 2].Blue +
+					(u_long) RedPtr.pbrgb[i + 3].Blue +
+					(u_long) RedPtr.pbrgb[i + 4].Blue +
+					(u_long) RedPtr.pbrgb[i + 5].Blue +
+					(u_long) RedPtr.pbrgb[i + 6].Blue +
+					(u_long) RedPtr.pbrgb[i + 7].Blue +
+					(u_long) RedPtr.pbrgb[i + 8].Blue +
+					(u_long) RedPtr.pbrgb[i + 9].Blue +
+					(u_long) RedPtr.pbrgb[i + 10].Blue +
+					(u_long) RedPtr.pbrgb[i + 11].Blue +
+					(u_long) RedPtr.pbrgb[i + 12].Blue +
+					(u_long) RedPtr.pbrgb[i + 13].Blue +
+					(u_long) RedPtr.pbrgb[i + 14].Blue +
+					(u_long) RedPtr.pbrgb[i +
+							      15].
+					Blue) >> 4) * 11UL) / 100UL);
 
-		if( bHiRight[1] < bHiRight[0] ) {
-			 bHiRight[1] = bHiRight[0];
-			 dwIndexRight = i;
+		if (bHiRight[1] < bHiRight[0]) {
+			bHiRight[1] = bHiRight[0];
+			dwIndexRight = i;
 		}
 	}
 
 	/* Convert RGB to gray scale (Brightness), and average 16 pixels */
-	for( bHiLeft[1] = 0, i = dwIndexLeft = _NEG_PAGEWIDTH / 2;
-	                                         i < _NEG_PAGEWIDTH600; i += 16 ) {
-		bHiLeft [0] =
-	       (SANE_Byte)(((((u_long) RedPtr.pbrgb[i].Red +
-		     (u_long) RedPtr.pbrgb[i + 1].Red +
-		     (u_long) RedPtr.pbrgb[i + 2].Red +
-		     (u_long) RedPtr.pbrgb[i + 3].Red +
-		     (u_long) RedPtr.pbrgb[i + 4].Red +
-		     (u_long) RedPtr.pbrgb[i + 5].Red +
-		     (u_long) RedPtr.pbrgb[i + 6].Red +
-		     (u_long) RedPtr.pbrgb[i + 7].Red +
-		     (u_long) RedPtr.pbrgb[i + 8].Red +
-		     (u_long) RedPtr.pbrgb[i + 9].Red +
-		     (u_long) RedPtr.pbrgb[i + 10].Red +
-		     (u_long) RedPtr.pbrgb[i + 11].Red +
-		     (u_long) RedPtr.pbrgb[i + 12].Red +
-		     (u_long) RedPtr.pbrgb[i + 13].Red +
-		     (u_long) RedPtr.pbrgb[i + 14].Red +
-		     (u_long) RedPtr.pbrgb[i + 15].Red) >> 4) * 30UL +
-		   (((u_long) RedPtr.pbrgb[i].Green +
-		     (u_long) RedPtr.pbrgb[i + 1].Green +
-		     (u_long) RedPtr.pbrgb[i + 2].Green +
-		     (u_long) RedPtr.pbrgb[i + 3].Green +
-		     (u_long) RedPtr.pbrgb[i + 4].Green +
-		     (u_long) RedPtr.pbrgb[i + 5].Green +
-		     (u_long) RedPtr.pbrgb[i + 6].Green +
-		     (u_long) RedPtr.pbrgb[i + 7].Green +
-		     (u_long) RedPtr.pbrgb[i + 8].Green +
-		     (u_long) RedPtr.pbrgb[i + 9].Green +
-		     (u_long) RedPtr.pbrgb[i + 10].Green +
-		     (u_long) RedPtr.pbrgb[i + 11].Green +
-		     (u_long) RedPtr.pbrgb[i + 12].Green +
-		     (u_long) RedPtr.pbrgb[i + 13].Green +
-		     (u_long) RedPtr.pbrgb[i + 14].Green +
-		     (u_long) RedPtr.pbrgb[i + 15].Green) >> 4) * 59UL +
-		   (((u_long) RedPtr.pbrgb[i].Blue +
-		     (u_long) RedPtr.pbrgb[i + 1].Blue +
-		     (u_long) RedPtr.pbrgb[i + 2].Blue +
-		     (u_long) RedPtr.pbrgb[i + 3].Blue +
-		     (u_long) RedPtr.pbrgb[i + 4].Blue +
-		     (u_long) RedPtr.pbrgb[i + 5].Blue +
-		     (u_long) RedPtr.pbrgb[i + 6].Blue +
-		     (u_long) RedPtr.pbrgb[i + 7].Blue +
-		     (u_long) RedPtr.pbrgb[i + 8].Blue +
-		     (u_long) RedPtr.pbrgb[i + 9].Blue +
-		     (u_long) RedPtr.pbrgb[i + 10].Blue +
-		     (u_long) RedPtr.pbrgb[i + 11].Blue +
-		     (u_long) RedPtr.pbrgb[i + 12].Blue +
-		     (u_long) RedPtr.pbrgb[i + 13].Blue +
-		     (u_long) RedPtr.pbrgb[i + 14].Blue +
-		     (u_long) RedPtr.pbrgb[i + 15].Blue) >> 4) * 11UL) / 100UL);
+	for (bHiLeft[1] = 0, i = dwIndexLeft = _NEG_PAGEWIDTH / 2;
+	     i < _NEG_PAGEWIDTH600; i += 16) {
+		bHiLeft[0] =
+			(SANE_Byte) (((((u_long) RedPtr.pbrgb[i].Red +
+					(u_long) RedPtr.pbrgb[i + 1].Red +
+					(u_long) RedPtr.pbrgb[i + 2].Red +
+					(u_long) RedPtr.pbrgb[i + 3].Red +
+					(u_long) RedPtr.pbrgb[i + 4].Red +
+					(u_long) RedPtr.pbrgb[i + 5].Red +
+					(u_long) RedPtr.pbrgb[i + 6].Red +
+					(u_long) RedPtr.pbrgb[i + 7].Red +
+					(u_long) RedPtr.pbrgb[i + 8].Red +
+					(u_long) RedPtr.pbrgb[i + 9].Red +
+					(u_long) RedPtr.pbrgb[i + 10].Red +
+					(u_long) RedPtr.pbrgb[i + 11].Red +
+					(u_long) RedPtr.pbrgb[i + 12].Red +
+					(u_long) RedPtr.pbrgb[i + 13].Red +
+					(u_long) RedPtr.pbrgb[i + 14].Red +
+					(u_long) RedPtr.pbrgb[i +
+							      15].Red) >> 4) *
+				      30UL +
+				      (((u_long) RedPtr.pbrgb[i].Green +
+					(u_long) RedPtr.pbrgb[i + 1].Green +
+					(u_long) RedPtr.pbrgb[i + 2].Green +
+					(u_long) RedPtr.pbrgb[i + 3].Green +
+					(u_long) RedPtr.pbrgb[i + 4].Green +
+					(u_long) RedPtr.pbrgb[i + 5].Green +
+					(u_long) RedPtr.pbrgb[i + 6].Green +
+					(u_long) RedPtr.pbrgb[i + 7].Green +
+					(u_long) RedPtr.pbrgb[i + 8].Green +
+					(u_long) RedPtr.pbrgb[i + 9].Green +
+					(u_long) RedPtr.pbrgb[i + 10].Green +
+					(u_long) RedPtr.pbrgb[i + 11].Green +
+					(u_long) RedPtr.pbrgb[i + 12].Green +
+					(u_long) RedPtr.pbrgb[i + 13].Green +
+					(u_long) RedPtr.pbrgb[i + 14].Green +
+					(u_long) RedPtr.pbrgb[i +
+							      15].
+					Green) >> 4) * 59UL +
+				      (((u_long) RedPtr.pbrgb[i].Blue +
+					(u_long) RedPtr.pbrgb[i + 1].Blue +
+					(u_long) RedPtr.pbrgb[i + 2].Blue +
+					(u_long) RedPtr.pbrgb[i + 3].Blue +
+					(u_long) RedPtr.pbrgb[i + 4].Blue +
+					(u_long) RedPtr.pbrgb[i + 5].Blue +
+					(u_long) RedPtr.pbrgb[i + 6].Blue +
+					(u_long) RedPtr.pbrgb[i + 7].Blue +
+					(u_long) RedPtr.pbrgb[i + 8].Blue +
+					(u_long) RedPtr.pbrgb[i + 9].Blue +
+					(u_long) RedPtr.pbrgb[i + 10].Blue +
+					(u_long) RedPtr.pbrgb[i + 11].Blue +
+					(u_long) RedPtr.pbrgb[i + 12].Blue +
+					(u_long) RedPtr.pbrgb[i + 13].Blue +
+					(u_long) RedPtr.pbrgb[i + 14].Blue +
+					(u_long) RedPtr.pbrgb[i +
+							      15].
+					Blue) >> 4) * 11UL) / 100UL);
 
-		if( bHiLeft[1] < bHiLeft[0] ) {
+		if (bHiLeft[1] < bHiLeft[0]) {
 			bHiLeft[1] = bHiLeft[0];
 			dwIndexLeft = i;
 		}
 	}
 
-	if((bHiLeft[1] < 200) && (bHiRight[1] < 200)) {
+	if ((bHiLeft[1] < 200) && (bHiRight[1] < 200)) {
 
-		if( bHiLeft[1] < bHiRight[1] )
-			 dwIndex = dwIndexRight;
-		 else
+		if (bHiLeft[1] < bHiRight[1])
+			dwIndex = dwIndexRight;
+		else
 			dwIndex = dwIndexLeft;
 	} else {
-		if( bHiLeft[1] > 200 )
-			 dwIndex = dwIndexRight;
-		 else
+		if (bHiLeft[1] > 200)
+			dwIndex = dwIndexRight;
+		else
 			dwIndex = dwIndexLeft;
 	}
 
 	/* Get the hilight */
 	RedPtr.pusrgb = dev->bufs.b2.pSumRGB + dwIndex +
-					dev->regs.RD_Origin + _SHADING_BEGINX;
+		dev->regs.RD_Origin + _SHADING_BEGINX;
 
-	for( dwR = dwG = dwB = 0, i = 16; i--; RedPtr.pusrgb++ ) {
+	for (dwR = dwG = dwB = 0, i = 16; i--; RedPtr.pusrgb++) {
 		dwR += RedPtr.pusrgb->Red;
 		dwG += RedPtr.pusrgb->Green;
 		dwB += RedPtr.pusrgb->Blue;
@@ -281,110 +297,118 @@ static void u12tpa_Reshading( U12_Device *dev )
 	dwG >>= 8;
 	dwB >>= 8;
 
-	if( dwR > dwG && dwR > dwB )
-		dev->shade.bGainHigh = (SANE_Byte)dwR;     /* >> 4 for average, >> 4 to 8-bit */
+	if (dwR > dwG && dwR > dwB)
+		dev->shade.bGainHigh = (SANE_Byte) dwR;	/* >> 4 for average, >> 4 to 8-bit */
 	else {
-		if( dwG > dwR && dwG > dwB )
-			dev->shade.bGainHigh = (SANE_Byte)dwG;
+		if (dwG > dwR && dwG > dwB)
+			dev->shade.bGainHigh = (SANE_Byte) dwG;
 		else
-			dev->shade.bGainHigh = (SANE_Byte)dwB;
+			dev->shade.bGainHigh = (SANE_Byte) dwB;
 	}
 
-	dev->shade.bGainHigh = (SANE_Byte)(dev->shade.bGainHigh - 0x18);
-	dev->shade.bGainLow  = (SANE_Byte)(dev->shade.bGainHigh - 0x10);
+	dev->shade.bGainHigh = (SANE_Byte) (dev->shade.bGainHigh - 0x18);
+	dev->shade.bGainLow = (SANE_Byte) (dev->shade.bGainHigh - 0x10);
 
 	/* Reshading to get the new gain */
-	dev->shade.Hilight.Colors.Red   = 0;
+	dev->shade.Hilight.Colors.Red = 0;
 	dev->shade.Hilight.Colors.Green = 0;
-	dev->shade.Hilight.Colors.Blue  = 0;
+	dev->shade.Hilight.Colors.Blue = 0;
 	dev->shade.Gain.Colors.Red++;
 	dev->shade.Gain.Colors.Green++;
 	dev->shade.Gain.Colors.Blue++;
 	dev->shade.fStop = SANE_FALSE;
 
-	RedPtr.pb   = dev->bufs.b1.pShadingMap + dwIndex;
-	GreenPtr.pb = RedPtr.pb   + _NEG_PAGEWIDTH600;
-	BluePtr.pb  = GreenPtr.pb + _NEG_PAGEWIDTH600;
+	RedPtr.pb = dev->bufs.b1.pShadingMap + dwIndex;
+	GreenPtr.pb = RedPtr.pb + _NEG_PAGEWIDTH600;
+	BluePtr.pb = GreenPtr.pb + _NEG_PAGEWIDTH600;
 
-	for( i = 16; i-- && !dev->shade.fStop;) {
+	for (i = 16; i-- && !dev->shade.fStop;) {
 
 		dev->shade.fStop = SANE_TRUE;
 
-		u12shading_FillToDAC( dev, &dev->RegDACGain, &dev->shade.Gain );
+		u12shading_FillToDAC(dev, &dev->RegDACGain, &dev->shade.Gain);
 
-		u12io_DataToRegister( dev, REG_MODECONTROL, _ModeIdle );
+		u12io_DataToRegister(dev, REG_MODECONTROL, _ModeIdle);
 
 		dev->regs.RD_ScanControl = _SCAN_BYTEMODE;
-		u12hw_SelectLampSource( dev );
+		u12hw_SelectLampSource(dev);
 
-		dev->regs.RD_ModeControl   = _ModeScan;
-		dev->regs.RD_StepControl   = _MOTOR0_SCANSTATE;
+		dev->regs.RD_ModeControl = _ModeScan;
+		dev->regs.RD_StepControl = _MOTOR0_SCANSTATE;
 		dev->regs.RD_Motor0Control = _FORWARD_MOTOR;
 
-		memset( dev->scanStates, 0, _SCANSTATE_BYTES );
+		memset(dev->scanStates, 0, _SCANSTATE_BYTES);
 		dev->scanStates[1] = 0x77;
 
-		u12io_PutOnAllRegisters( dev );
-		_DODELAY( 50 );
+		u12io_PutOnAllRegisters(dev);
+		_DODELAY(50);
 
-		if(u12io_ReadOneShadingLine( dev,
-		                         dev->bufs.b1.pShadingMap,_NEG_PAGEWIDTH600)) {
+		if (u12io_ReadOneShadingLine(dev,
+					     dev->bufs.b1.pShadingMap,
+					     _NEG_PAGEWIDTH600)) {
 
-			bHi[0] = u12shading_SumGains( RedPtr.pb,   32 );
-			bHi[1] = u12shading_SumGains( GreenPtr.pb, 32 );
-			bHi[2] = u12shading_SumGains( BluePtr.pb,  32 );
+			bHi[0] = u12shading_SumGains(RedPtr.pb, 32);
+			bHi[1] = u12shading_SumGains(GreenPtr.pb, 32);
+			bHi[2] = u12shading_SumGains(BluePtr.pb, 32);
 
-			if( !bHi[0] || !bHi[1] || !bHi[2]) {
+			if (!bHi[0] || !bHi[1] || !bHi[2]) {
 				dev->shade.fStop = SANE_FALSE;
 			} else {
 
-				u12shading_AdjustGain( dev, _CHANNEL_RED,   bHi[0] );
-				u12shading_AdjustGain( dev, _CHANNEL_GREEN, bHi[1] );
-				u12shading_AdjustGain( dev, _CHANNEL_BLUE,  bHi[2] );
+				u12shading_AdjustGain(dev, _CHANNEL_RED,
+						      bHi[0]);
+				u12shading_AdjustGain(dev, _CHANNEL_GREEN,
+						      bHi[1]);
+				u12shading_AdjustGain(dev, _CHANNEL_BLUE,
+						      bHi[2]);
 			}
 		} else {
 			dev->shade.fStop = SANE_FALSE;
 		}
 	}
 
-	u12shading_FillToDAC( dev, &dev->RegDACGain, &dev->shade.Gain );
+	u12shading_FillToDAC(dev, &dev->RegDACGain, &dev->shade.Gain);
 
 	/* Set RGB Gain */
-	if( dwR && dwG && dwB ) {
+	if (dwR && dwG && dwB) {
 
-		if(dev->CCDID == _CCD_3797 || dev->DACType == _DA_ESIC ) {
+		if (dev->CCDID == _CCD_3797 || dev->DACType == _DA_ESIC) {
 			dev->shade.pCcdDac->GainResize.Colors.Red =
-			                           (u_short)((u_long)bHi[0] * 100UL / dwR);
+				(u_short) ((u_long) bHi[0] * 100UL / dwR);
 			dev->shade.pCcdDac->GainResize.Colors.Green =
-			                           (u_short)((u_long)bHi[1] * 100UL / dwG);
+				(u_short) ((u_long) bHi[1] * 100UL / dwG);
 			dev->shade.pCcdDac->GainResize.Colors.Blue =
-			                           (u_short)((u_long)bHi[2] * 100UL / dwB);
+				(u_short) ((u_long) bHi[2] * 100UL / dwB);
 		} else {
 			dev->shade.pCcdDac->GainResize.Colors.Red =
-			                            (u_short)((u_long)bHi[0] * 90UL / dwR);
+				(u_short) ((u_long) bHi[0] * 90UL / dwR);
 			dev->shade.pCcdDac->GainResize.Colors.Green =
-			                            (u_short)((u_long)bHi[1] * 77UL / dwG);
+				(u_short) ((u_long) bHi[1] * 77UL / dwG);
 			dev->shade.pCcdDac->GainResize.Colors.Blue =
-			                            (u_short)((u_long)bHi[2] * 73UL / dwB);
+				(u_short) ((u_long) bHi[2] * 73UL / dwB);
 		}
 
 		dev->shade.DarkOffset.Colors.Red +=
-		                          (u_short)((dwR > bHi[0]) ? dwR - bHi[0] : 0);
+			(u_short) ((dwR > bHi[0]) ? dwR - bHi[0] : 0);
 		dev->shade.DarkOffset.Colors.Green +=
-		                          (u_short)((dwG > bHi[1]) ? dwG - bHi[1] : 0);
+			(u_short) ((dwG > bHi[1]) ? dwG - bHi[1] : 0);
 		dev->shade.DarkOffset.Colors.Blue +=
-		                          (u_short)((dwB > bHi[2]) ? dwB - bHi[2] : 0);
+			(u_short) ((dwB > bHi[2]) ? dwB - bHi[2] : 0);
 
-		if( dev->DACType != _DA_ESIC && dev->CCDID != _CCD_3799 ) {
+		if (dev->DACType != _DA_ESIC && dev->CCDID != _CCD_3799) {
 			dev->shade.DarkOffset.Colors.Red =
-			                       (u_short)(dev->shade.DarkOffset.Colors.Red *
-			                dev->shade.pCcdDac->GainResize.Colors.Red / 100UL);
+				(u_short) (dev->shade.DarkOffset.Colors.Red *
+					   dev->shade.pCcdDac->GainResize.
+					   Colors.Red / 100UL);
 			dev->shade.DarkOffset.Colors.Green =
-			                     (u_short)(dev->shade.DarkOffset.Colors.Green *
-			              dev->shade.pCcdDac->GainResize.Colors.Green / 100UL);
+				(u_short) (dev->shade.DarkOffset.Colors.
+					   Green *
+					   dev->shade.pCcdDac->GainResize.
+					   Colors.Green / 100UL);
 			dev->shade.DarkOffset.Colors.Blue =
-			                      (u_short)(dev->shade.DarkOffset.Colors.Blue *
-			               dev->shade.pCcdDac->GainResize.Colors.Blue / 100UL);
+				(u_short) (dev->shade.DarkOffset.Colors.Blue *
+					   dev->shade.pCcdDac->GainResize.
+					   Colors.Blue / 100UL);
 		}
 	}
 
@@ -395,46 +419,51 @@ static void u12tpa_Reshading( U12_Device *dev )
 
 /** perform some adjustments according to the source (normal, transparency etc)
  */
-static void u12tpa_FindCenterPointer( U12_Device *dev )
+static void
+u12tpa_FindCenterPointer(U12_Device * dev)
 {
-	u_long        i;
-	u_long        width;
-	u_long        left;
-	u_long        right;
+	u_long i;
+	u_long width;
+	u_long left;
+	u_long right;
 	RGBUShortDef *pwSum = dev->bufs.b2.pSumRGB;
 
-	if( dev->DataInf.dwScanFlag & _SCANDEF_Negative )
+	if (dev->DataInf.dwScanFlag & _SCANDEF_Negative)
 		width = _NEG_PAGEWIDTH600;
 	else
 		width = _NEG_PAGEWIDTH600 - 94;
 
 	/* 2.54 cm tolerance */
-	left  = _DATA_ORIGIN_X + _NEG_ORG_OFFSETX * 2 - 600;
+	left = _DATA_ORIGIN_X + _NEG_ORG_OFFSETX * 2 - 600;
 	right = _DATA_ORIGIN_X + _NEG_ORG_OFFSETX * 2 +
-                                          _NEG_PAGEWIDTH600 + 600;
+		_NEG_PAGEWIDTH600 + 600;
 
-	for( i = 5400UL - left, pwSum = dev->bufs.b2.pSumRGB; i--; left++)
-		if( pwSum[left].Red   > _NEG_EDGE_VALUE &&
-			pwSum[left].Green > _NEG_EDGE_VALUE &&
-			pwSum[left].Blue  > _NEG_EDGE_VALUE)
+	for (i = 5400UL - left, pwSum = dev->bufs.b2.pSumRGB; i--; left++)
+		if (pwSum[left].Red > _NEG_EDGE_VALUE &&
+		    pwSum[left].Green > _NEG_EDGE_VALUE &&
+		    pwSum[left].Blue > _NEG_EDGE_VALUE)
 			break;
 
-	for( i = 5400UL - left, pwSum = dev->bufs.b2.pSumRGB; i--; right--)
-		if( pwSum[right].Red   > _NEG_EDGE_VALUE &&
-			pwSum[right].Green > _NEG_EDGE_VALUE &&
-			pwSum[right].Blue  > _NEG_EDGE_VALUE)
+	for (i = 5400UL - left, pwSum = dev->bufs.b2.pSumRGB; i--; right--)
+		if (pwSum[right].Red > _NEG_EDGE_VALUE &&
+		    pwSum[right].Green > _NEG_EDGE_VALUE &&
+		    pwSum[right].Blue > _NEG_EDGE_VALUE)
 			break;
 
-	if((right <= left) || ((right - left) < width)) {
-		if( dev->DataInf.dwScanFlag & _SCANDEF_Negative )
-			dev->scan.negBegin = _DATA_ORIGIN_X + _NEG_ORG_OFFSETX * 2;
+	if ((right <= left) || ((right - left) < width)) {
+		if (dev->DataInf.dwScanFlag & _SCANDEF_Negative)
+			dev->scan.negBegin =
+				_DATA_ORIGIN_X + _NEG_ORG_OFFSETX * 2;
 		else
-			dev->scan.posBegin = _DATA_ORIGIN_X + _POS_ORG_OFFSETX * 2;
+			dev->scan.posBegin =
+				_DATA_ORIGIN_X + _POS_ORG_OFFSETX * 2;
 	} else {
-		if( dev->DataInf.dwScanFlag & _SCANDEF_Negative )
-			dev->scan.negBegin = (right + left) / 2UL - _NEG_PAGEWIDTH;
+		if (dev->DataInf.dwScanFlag & _SCANDEF_Negative)
+			dev->scan.negBegin =
+				(right + left) / 2UL - _NEG_PAGEWIDTH;
 		else
-			dev->scan.posBegin = (right + left) / 2UL - _POS_PAGEWIDTH;
+			dev->scan.posBegin =
+				(right + left) / 2UL - _POS_PAGEWIDTH;
 	}
 }
 

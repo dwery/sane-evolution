@@ -86,496 +86,538 @@
 
 static snapscan_mutex_t snapscan_mutex;
 static sense_handler_type usb_sense_handler;
-static void* usb_pss;
+static void *usb_pss;
 
-struct urb_counters_t {
-    unsigned long read_urbs;
-    unsigned long write_urbs;
+struct urb_counters_t
+{
+	unsigned long read_urbs;
+	unsigned long write_urbs;
 };
 
-static struct urb_counters_t* urb_counters = NULL;
+static struct urb_counters_t *urb_counters = NULL;
 
 /* Forward declarations */
-static SANE_Status usb_request_sense(SnapScan_Scanner *pss);
+static SANE_Status usb_request_sense(SnapScan_Scanner * pss);
 
-static SANE_Status snapscani_usb_cmd(int fd, const void *src, size_t src_size,
-                    void *dst, size_t * dst_size)
+static SANE_Status
+snapscani_usb_cmd(int fd, const void *src, size_t src_size,
+		  void *dst, size_t * dst_size)
 {
-    static const char me[] = "snapscani_usb_cmd";
-    int status;
+	static const char me[] = "snapscani_usb_cmd";
+	int status;
 
-    DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
-         fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0));
+	DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+	    fd, (u_long) src, (u_long) src_size, (u_long) dst,
+	    (u_long) dst_size, (u_long) (dst_size ? *dst_size : 0));
 
-    while(bqhead) {
-        status = atomic_usb_cmd(fd, bqhead->src, bqhead->src_size, NULL, NULL);
-        if(status == SANE_STATUS_DEVICE_BUSY) {
-            if(is_queueable(src)) {
-                enqueue_bq(fd,src,src_size);
-                return SANE_STATUS_GOOD;
-            } else {
-                sleep(1);
-                continue;
-            }
-        }
-        dequeue_bq();
-    }
+	while (bqhead) {
+		status = atomic_usb_cmd(fd, bqhead->src, bqhead->src_size,
+					NULL, NULL);
+		if (status == SANE_STATUS_DEVICE_BUSY) {
+			if (is_queueable(src)) {
+				enqueue_bq(fd, src, src_size);
+				return SANE_STATUS_GOOD;
+			} else {
+				sleep(1);
+				continue;
+			}
+		}
+		dequeue_bq();
+	}
 
-    status = atomic_usb_cmd(fd,src,src_size,dst,dst_size);
+	status = atomic_usb_cmd(fd, src, src_size, dst, dst_size);
 
-    if ((status == SANE_STATUS_DEVICE_BUSY) && is_queueable(src) ) {
-        enqueue_bq(fd,src,src_size);
-        return SANE_STATUS_GOOD;
-    }
+	if ((status == SANE_STATUS_DEVICE_BUSY) && is_queueable(src)) {
+		enqueue_bq(fd, src, src_size);
+		return SANE_STATUS_GOOD;
+	}
 
-    return status;
+	return status;
 }
 
-static SANE_Status atomic_usb_cmd(int fd, const void *src, size_t src_size,
-                    void *dst, size_t * dst_size)
+static SANE_Status
+atomic_usb_cmd(int fd, const void *src, size_t src_size,
+	       void *dst, size_t * dst_size)
 {
-    static const char me[] = "atomic_usb_cmd";
+	static const char me[] = "atomic_usb_cmd";
 
-    int status;
-    sigset_t all,oldset;
+	int status;
+	sigset_t all, oldset;
 
-    DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
-         fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0));
+	DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+	    fd, (u_long) src, (u_long) src_size, (u_long) dst,
+	    (u_long) dst_size, (u_long) (dst_size ? *dst_size : 0));
 
-    /* Prevent the calling process from being killed */
-    sigfillset(&all);
-    sigprocmask(SIG_BLOCK, &all, &oldset);
+	/* Prevent the calling process from being killed */
+	sigfillset(&all);
+	sigprocmask(SIG_BLOCK, &all, &oldset);
 
-    /* Make sure we are alone */
-    snapscani_mutex_lock(&snapscan_mutex);
+	/* Make sure we are alone */
+	snapscani_mutex_lock(&snapscan_mutex);
 
-    status = usb_cmd(fd,src,src_size,dst,dst_size);
+	status = usb_cmd(fd, src, src_size, dst, dst_size);
 
-    snapscani_mutex_unlock(&snapscan_mutex);
+	snapscani_mutex_unlock(&snapscan_mutex);
 
-    /* Now it is ok to be killed */
-    sigprocmask(SIG_SETMASK, &oldset, NULL);
+	/* Now it is ok to be killed */
+	sigprocmask(SIG_SETMASK, &oldset, NULL);
 
-    return status;
+	return status;
 
 }
 
-static SANE_Status snapscani_usb_open(const char *dev, int *fdp,
-    sense_handler_type sense_handler, void* pss)
+static SANE_Status
+snapscani_usb_open(const char *dev, int *fdp,
+		   sense_handler_type sense_handler, void *pss)
 {
-    static const char me[] = "snapscani_usb_open";
+	static const char me[] = "snapscani_usb_open";
 
-    DBG (DL_CALL_TRACE, "%s(%s)\n", me, dev);
+	DBG(DL_CALL_TRACE, "%s(%s)\n", me, dev);
 
-    if(!snapscani_mutex_open(&snapscan_mutex, dev)) {
-        DBG (DL_MAJOR_ERROR, "%s: Can't get semaphore\n", me);
-        return SANE_STATUS_INVAL;
-    }
-    usb_sense_handler=sense_handler;
-    usb_pss = pss;
-    urb_counters->read_urbs = 0;
-    urb_counters->write_urbs = 0;    
-    return sanei_usb_open(dev, fdp);
+	if (!snapscani_mutex_open(&snapscan_mutex, dev)) {
+		DBG(DL_MAJOR_ERROR, "%s: Can't get semaphore\n", me);
+		return SANE_STATUS_INVAL;
+	}
+	usb_sense_handler = sense_handler;
+	usb_pss = pss;
+	urb_counters->read_urbs = 0;
+	urb_counters->write_urbs = 0;
+	return sanei_usb_open(dev, fdp);
 }
 
 
-static void snapscani_usb_close(int fd) {
-    static const char me[] = "snapscani_usb_close";
-    SANE_Word vendor_id, product_id;
-    
-    DBG (DL_CALL_TRACE, "%s(%d)\n", me, fd);
-    DBG (DL_DATA_TRACE,"1st read %ld write %ld\n", urb_counters->read_urbs, urb_counters->write_urbs);
-    
-    /* Check if URB counting is needed. If yes, ensure the number of sent and
-       received URBs is even.
-       Odd number of URBs only cause problems with libusb and certain 
-       scanner models. On other scanner models, sending additional commands
-       seems to cause problems (e.g. 1212u_2).
-       If sanei_usb_get_vendor_product returns an error there's probably no
-       libusb, so everything's fine.
-    */
-    if (sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) == SANE_STATUS_GOOD)
-    {
-        /* Exclude 1212u_2 */
-        if (!((vendor_id == USB_VENDOR_AGFA) && (product_id == USB_PRODUCT_1212U2)))        
-        {
-            if ((urb_counters->read_urbs & 0x01) && (urb_counters->write_urbs & 0x01))
-            {
-                char cmd[] = {TEST_UNIT_READY, 0, 0, 0, 0, 0};
-        
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), NULL, 0);
-            }
-            else if (urb_counters->read_urbs & 0x01)
-            {
-                size_t read_bytes;
-                char cmd[] = {TEST_UNIT_READY, 0, 0, 0, 0, 0};
-                char cmd2[] = {INQUIRY, 0, 0, 0, 120, 0};
-                char data[120];
-        
-                read_bytes = 120;
-                snapscani_usb_cmd (fd, cmd2, sizeof (cmd2), data, &read_bytes);
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), NULL, 0);
-            }
-            else if (urb_counters->write_urbs & 0x01)
-            {
-                size_t read_bytes;
-                char cmd[] = {INQUIRY, 0, 0, 0, 120, 0};
-                char data[120];
-        
-                read_bytes = 120;
-                snapscani_usb_cmd (fd, cmd, sizeof (cmd), data, &read_bytes);
-            }
-            DBG (DL_DATA_TRACE,"2nd read %ld write %ld\n", urb_counters->read_urbs, 
-                urb_counters->write_urbs);
-        }
-    }
-    urb_counters->read_urbs = 0;
-    urb_counters->write_urbs = 0;
-    snapscani_mutex_close(&snapscan_mutex);
-    sanei_usb_close(fd);
-}
-
-static int usb_cmdlen(int cmd)
+static void
+snapscani_usb_close(int fd)
 {
-    switch(cmd) {
-    case TEST_UNIT_READY:
-    case INQUIRY:
-    case SCAN:
-    case REQUEST_SENSE:
-    case RESERVE_UNIT:
-    case RELEASE_UNIT:
-    case SEND_DIAGNOSTIC:
-        return 6;
-    case SEND:
-    case SET_WINDOW:
-    case READ:
-    case GET_DATA_BUFFER_STATUS:
-        return 10;
-    }
-    return 0;
+	static const char me[] = "snapscani_usb_close";
+	SANE_Word vendor_id, product_id;
+
+	DBG(DL_CALL_TRACE, "%s(%d)\n", me, fd);
+	DBG(DL_DATA_TRACE, "1st read %ld write %ld\n",
+	    urb_counters->read_urbs, urb_counters->write_urbs);
+
+	/* Check if URB counting is needed. If yes, ensure the number of sent and
+	   received URBs is even.
+	   Odd number of URBs only cause problems with libusb and certain 
+	   scanner models. On other scanner models, sending additional commands
+	   seems to cause problems (e.g. 1212u_2).
+	   If sanei_usb_get_vendor_product returns an error there's probably no
+	   libusb, so everything's fine.
+	 */
+	if (sanei_usb_get_vendor_product(fd, &vendor_id, &product_id) ==
+	    SANE_STATUS_GOOD) {
+		/* Exclude 1212u_2 */
+		if (!((vendor_id == USB_VENDOR_AGFA)
+		      && (product_id == USB_PRODUCT_1212U2))) {
+			if ((urb_counters->read_urbs & 0x01)
+			    && (urb_counters->write_urbs & 0x01)) {
+				char cmd[] =
+					{ TEST_UNIT_READY, 0, 0, 0, 0, 0 };
+
+				snapscani_usb_cmd(fd, cmd, sizeof(cmd), NULL,
+						  0);
+			} else if (urb_counters->read_urbs & 0x01) {
+				size_t read_bytes;
+				char cmd[] =
+					{ TEST_UNIT_READY, 0, 0, 0, 0, 0 };
+				char cmd2[] = { INQUIRY, 0, 0, 0, 120, 0 };
+				char data[120];
+
+				read_bytes = 120;
+				snapscani_usb_cmd(fd, cmd2, sizeof(cmd2),
+						  data, &read_bytes);
+				snapscani_usb_cmd(fd, cmd, sizeof(cmd), NULL,
+						  0);
+			} else if (urb_counters->write_urbs & 0x01) {
+				size_t read_bytes;
+				char cmd[] = { INQUIRY, 0, 0, 0, 120, 0 };
+				char data[120];
+
+				read_bytes = 120;
+				snapscani_usb_cmd(fd, cmd, sizeof(cmd), data,
+						  &read_bytes);
+			}
+			DBG(DL_DATA_TRACE, "2nd read %ld write %ld\n",
+			    urb_counters->read_urbs,
+			    urb_counters->write_urbs);
+		}
+	}
+	urb_counters->read_urbs = 0;
+	urb_counters->write_urbs = 0;
+	snapscani_mutex_close(&snapscan_mutex);
+	sanei_usb_close(fd);
 }
 
-static char *usb_debug_data(char *str,const char *data, int len) {
-    char tmpstr[10];
-    int i;
+static int
+usb_cmdlen(int cmd)
+{
+	switch (cmd) {
+	case TEST_UNIT_READY:
+	case INQUIRY:
+	case SCAN:
+	case REQUEST_SENSE:
+	case RESERVE_UNIT:
+	case RELEASE_UNIT:
+	case SEND_DIAGNOSTIC:
+		return 6;
+	case SEND:
+	case SET_WINDOW:
+	case READ:
+	case GET_DATA_BUFFER_STATUS:
+		return 10;
+	}
+	return 0;
+}
 
-    str[0]=0;
-    for(i=0; i < (len < 10 ? len : 10); i++) {
-        sprintf(tmpstr," 0x%02x",((int)data[i]) & 0xff);
-        if(i%16 == 0 && i != 0)
-            strcat(str,"\n");
-        strcat(str,tmpstr);
-    }
-    if(i < len)
-        strcat(str," ...");
-    return str;
+static char *
+usb_debug_data(char *str, const char *data, int len)
+{
+	char tmpstr[10];
+	int i;
+
+	str[0] = 0;
+	for (i = 0; i < (len < 10 ? len : 10); i++) {
+		sprintf(tmpstr, " 0x%02x", ((int) data[i]) & 0xff);
+		if (i % 16 == 0 && i != 0)
+			strcat(str, "\n");
+		strcat(str, tmpstr);
+	}
+	if (i < len)
+		strcat(str, " ...");
+	return str;
 }
 
 #define RETURN_ON_FAILURE(x) if((status = x) != SANE_STATUS_GOOD) return status;
 
-static SANE_Status usb_write(int fd, const void *buf, size_t n) {
-    char dbgmsg[16384];
-    SANE_Status status;
-    size_t bytes_written = n;
-
-    static const char me[] = "usb_write";
-    DBG(DL_DATA_TRACE, "%s: writing: %s\n",me,usb_debug_data(dbgmsg,buf,n));
-
-    status = sanei_usb_write_bulk(fd, (const SANE_Byte*)buf, &bytes_written);
-    if(bytes_written != n) {
-      DBG (DL_MAJOR_ERROR, "%s Only %lu bytes written\n",me, (u_long) bytes_written);
-        status = SANE_STATUS_IO_ERROR;
-    }
-    urb_counters->write_urbs += (bytes_written + 7) / 8;
-    DBG (DL_DATA_TRACE, "Written %lu bytes\n", (u_long) bytes_written);
-    return status;
-}
-
-static SANE_Status usb_read(SANE_Int fd, void *buf, size_t n) {
-    char dbgmsg[16384];
-    static const char me[] = "usb_read";
-    SANE_Status status;
-    size_t bytes_read = n;
-
-    status = sanei_usb_read_bulk(fd, (SANE_Byte*)buf, &bytes_read);
-    if (bytes_read != n) {
-        DBG (DL_MAJOR_ERROR, "%s Only %lu bytes read\n",me, (u_long) bytes_read);
-        status = SANE_STATUS_IO_ERROR;
-    }
-    urb_counters->read_urbs += ((63 + bytes_read) / 64); 
-    DBG(DL_DATA_TRACE, "%s: reading: %s\n",me,usb_debug_data(dbgmsg,buf,n));
-    DBG(DL_DATA_TRACE, "Read %lu bytes\n", (u_long) bytes_read);
-    return status;
-}
-
-static SANE_Status usb_read_status(int fd, int *scsistatus, int *transaction_status,
-                                   char command)
+static SANE_Status
+usb_write(int fd, const void *buf, size_t n)
 {
-    static const char me[] = "usb_read_status";
-    unsigned char status_buf[8];
-    int scsistat;
-    int status;
+	char dbgmsg[16384];
+	SANE_Status status;
+	size_t bytes_written = n;
 
-    RETURN_ON_FAILURE(usb_read(fd,status_buf,8));
+	static const char me[] = "usb_write";
+	DBG(DL_DATA_TRACE, "%s: writing: %s\n", me,
+	    usb_debug_data(dbgmsg, buf, n));
 
-    if(transaction_status)
-        *transaction_status = status_buf[0];
+	status = sanei_usb_write_bulk(fd, (const SANE_Byte *) buf,
+				      &bytes_written);
+	if (bytes_written != n) {
+		DBG(DL_MAJOR_ERROR, "%s Only %lu bytes written\n", me,
+		    (u_long) bytes_written);
+		status = SANE_STATUS_IO_ERROR;
+	}
+	urb_counters->write_urbs += (bytes_written + 7) / 8;
+	DBG(DL_DATA_TRACE, "Written %lu bytes\n", (u_long) bytes_written);
+	return status;
+}
 
-    scsistat = (status_buf[1] & STATUS_MASK) >> 1;
+static SANE_Status
+usb_read(SANE_Int fd, void *buf, size_t n)
+{
+	char dbgmsg[16384];
+	static const char me[] = "usb_read";
+	SANE_Status status;
+	size_t bytes_read = n;
 
-    if(scsistatus)
-        *scsistatus = scsistat;
+	status = sanei_usb_read_bulk(fd, (SANE_Byte *) buf, &bytes_read);
+	if (bytes_read != n) {
+		DBG(DL_MAJOR_ERROR, "%s Only %lu bytes read\n", me,
+		    (u_long) bytes_read);
+		status = SANE_STATUS_IO_ERROR;
+	}
+	urb_counters->read_urbs += ((63 + bytes_read) / 64);
+	DBG(DL_DATA_TRACE, "%s: reading: %s\n", me,
+	    usb_debug_data(dbgmsg, buf, n));
+	DBG(DL_DATA_TRACE, "Read %lu bytes\n", (u_long) bytes_read);
+	return status;
+}
 
-    switch(scsistat) {
-    case GOOD:
-        return SANE_STATUS_GOOD;
-    case CHECK_CONDITION:
-        if (usb_pss != NULL) {
-            if (command != REQUEST_SENSE) {
-                return usb_request_sense(usb_pss);
-            }
-            else {
-                /* Avoid recursive calls of usb_request_sense */
-                return SANE_STATUS_GOOD;
-            }
-        } else {
-            DBG (DL_MAJOR_ERROR, "%s: scanner structure not set, returning default error\n",
-                me);
-            return SANE_STATUS_DEVICE_BUSY;
-        }
-        break;
-    case BUSY:
-        return SANE_STATUS_DEVICE_BUSY;
-    default:
-        return SANE_STATUS_IO_ERROR;
-    }
+static SANE_Status
+usb_read_status(int fd, int *scsistatus, int *transaction_status,
+		char command)
+{
+	static const char me[] = "usb_read_status";
+	unsigned char status_buf[8];
+	int scsistat;
+	int status;
+
+	RETURN_ON_FAILURE(usb_read(fd, status_buf, 8));
+
+	if (transaction_status)
+		*transaction_status = status_buf[0];
+
+	scsistat = (status_buf[1] & STATUS_MASK) >> 1;
+
+	if (scsistatus)
+		*scsistatus = scsistat;
+
+	switch (scsistat) {
+	case GOOD:
+		return SANE_STATUS_GOOD;
+	case CHECK_CONDITION:
+		if (usb_pss != NULL) {
+			if (command != REQUEST_SENSE) {
+				return usb_request_sense(usb_pss);
+			} else {
+				/* Avoid recursive calls of usb_request_sense */
+				return SANE_STATUS_GOOD;
+			}
+		} else {
+			DBG(DL_MAJOR_ERROR,
+			    "%s: scanner structure not set, returning default error\n",
+			    me);
+			return SANE_STATUS_DEVICE_BUSY;
+		}
+		break;
+	case BUSY:
+		return SANE_STATUS_DEVICE_BUSY;
+	default:
+		return SANE_STATUS_IO_ERROR;
+	}
 }
 
 
-static SANE_Status usb_cmd(int fd, const void *src, size_t src_size,
-                    void *dst, size_t * dst_size)
+static SANE_Status
+usb_cmd(int fd, const void *src, size_t src_size,
+	void *dst, size_t * dst_size)
 {
-  static const char me[] = "usb_cmd";
-  int status,tstatus;
-  int cmdlen,datalen;
-  char command;
+	static const char me[] = "usb_cmd";
+	int status, tstatus;
+	int cmdlen, datalen;
+	char command;
 
-  DBG (DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
-       fd, (u_long) src,(u_long) src_size,(u_long) dst, (u_long) dst_size,(u_long) (dst_size ? *dst_size : 0));
+	DBG(DL_CALL_TRACE, "%s(%d,0x%lx,%lu,0x%lx,0x%lx (%lu))\n", me,
+	    fd, (u_long) src, (u_long) src_size, (u_long) dst,
+	    (u_long) dst_size, (u_long) (dst_size ? *dst_size : 0));
 
-  /* Since the  "Send Diagnostic" command isn't supported by
-     all Snapscan USB-scanners it's disabled .
-  */
-  command = ((const char *)src)[0];
-  if(command == SEND_DIAGNOSTIC)
-      return(SANE_STATUS_GOOD);
+	/* Since the  "Send Diagnostic" command isn't supported by
+	   all Snapscan USB-scanners it's disabled .
+	 */
+	command = ((const char *) src)[0];
+	if (command == SEND_DIAGNOSTIC)
+		return (SANE_STATUS_GOOD);
 
-  cmdlen = usb_cmdlen(*((const char *)src));
-  datalen = src_size - cmdlen;
+	cmdlen = usb_cmdlen(*((const char *) src));
+	datalen = src_size - cmdlen;
 
-  DBG(DL_DATA_TRACE, "%s: cmdlen=%d, datalen=%d\n",me,cmdlen,datalen);
+	DBG(DL_DATA_TRACE, "%s: cmdlen=%d, datalen=%d\n", me, cmdlen,
+	    datalen);
 
-  /* Send command to scanner */
-  RETURN_ON_FAILURE( usb_write(fd,src,cmdlen) );
+	/* Send command to scanner */
+	RETURN_ON_FAILURE(usb_write(fd, src, cmdlen));
 
-  /* Read status */
-  RETURN_ON_FAILURE( usb_read_status(fd, NULL, &tstatus, command) );
+	/* Read status */
+	RETURN_ON_FAILURE(usb_read_status(fd, NULL, &tstatus, command));
 
-  /* Send data only if the scanner is expecting it */
-  if(datalen > 0 && (tstatus == TRANSACTION_WRITE)) {
-      /* Send data to scanner */
-      RETURN_ON_FAILURE( usb_write(fd, ((const SANE_Byte *) src) + cmdlen, datalen) );
+	/* Send data only if the scanner is expecting it */
+	if (datalen > 0 && (tstatus == TRANSACTION_WRITE)) {
+		/* Send data to scanner */
+		RETURN_ON_FAILURE(usb_write
+				  (fd, ((const SANE_Byte *) src) + cmdlen,
+				   datalen));
 
-      /* Read status */
-      RETURN_ON_FAILURE( usb_read_status(fd, NULL, &tstatus, command) );
-  }
+		/* Read status */
+		RETURN_ON_FAILURE(usb_read_status
+				  (fd, NULL, &tstatus, command));
+	}
 
-  /* Receive data only when new data is waiting */
-  if(dst_size && *dst_size && (tstatus == TRANSACTION_READ)) {
-      RETURN_ON_FAILURE( usb_read(fd,dst,*dst_size) );
+	/* Receive data only when new data is waiting */
+	if (dst_size && *dst_size && (tstatus == TRANSACTION_READ)) {
+		RETURN_ON_FAILURE(usb_read(fd, dst, *dst_size));
 
-      /* Read status */
-      RETURN_ON_FAILURE( usb_read_status(fd, NULL, &tstatus, command) );
-  }
+		/* Read status */
+		RETURN_ON_FAILURE(usb_read_status
+				  (fd, NULL, &tstatus, command));
+	}
 
-  if(tstatus != TRANSACTION_COMPLETED) {
-      if(tstatus == TRANSACTION_WRITE)
-          DBG(DL_MAJOR_ERROR,
-              "%s: The transaction should now be completed, but the scanner is expecting more data" ,me);
-      else
-          DBG(DL_MAJOR_ERROR,
-              "%s: The transaction should now be completed, but the scanner has more data to send" ,me);
-      return SANE_STATUS_IO_ERROR;
-  }
+	if (tstatus != TRANSACTION_COMPLETED) {
+		if (tstatus == TRANSACTION_WRITE)
+			DBG(DL_MAJOR_ERROR,
+			    "%s: The transaction should now be completed, but the scanner is expecting more data",
+			    me);
+		else
+			DBG(DL_MAJOR_ERROR,
+			    "%s: The transaction should now be completed, but the scanner has more data to send",
+			    me);
+		return SANE_STATUS_IO_ERROR;
+	}
 
-  return status;
+	return status;
 }
 
 /* Busy queue data structures and function implementations*/
 
-static int is_queueable(const char *src)
+static int
+is_queueable(const char *src)
 {
-    switch(src[0]) {
-    case SEND:
-    case SET_WINDOW:
-    case SEND_DIAGNOSTIC:
-        return 1;
-    default:
-        return 0;
-    }
+	switch (src[0]) {
+	case SEND:
+	case SET_WINDOW:
+	case SEND_DIAGNOSTIC:
+		return 1;
+	default:
+		return 0;
+	}
 }
 
-static struct usb_busy_queue *bqhead=NULL,*bqtail=NULL;
-static int bqelements=0;
+static struct usb_busy_queue *bqhead = NULL, *bqtail = NULL;
+static int bqelements = 0;
 
-static int enqueue_bq(int fd,const void *src, size_t src_size)
+static int
+enqueue_bq(int fd, const void *src, size_t src_size)
 {
-    static const char me[] = "enqueue_bq";
-    struct usb_busy_queue *bqe;
+	static const char me[] = "enqueue_bq";
+	struct usb_busy_queue *bqe;
 
-    DBG (DL_CALL_TRACE, "%s(%d,%p,%lu)\n", me, fd,src, (u_long) src_size);
+	DBG(DL_CALL_TRACE, "%s(%d,%p,%lu)\n", me, fd, src, (u_long) src_size);
 
-    if((bqe = malloc(sizeof(struct usb_busy_queue))) == NULL)
-        return -1;
+	if ((bqe = malloc(sizeof(struct usb_busy_queue))) == NULL)
+		return -1;
 
-    if((bqe->src = malloc(src_size)) == NULL)
-        return -1;
+	if ((bqe->src = malloc(src_size)) == NULL)
+		return -1;
 
-    memcpy(bqe->src,src,src_size);
-    bqe->src_size=src_size;
+	memcpy(bqe->src, src, src_size);
+	bqe->src_size = src_size;
 
-    bqe->next=NULL;
+	bqe->next = NULL;
 
-    if(bqtail) {
-        bqtail->next=bqe;
-        bqtail = bqe;
-    } else
-        bqhead = bqtail = bqe;
+	if (bqtail) {
+		bqtail->next = bqe;
+		bqtail = bqe;
+	} else
+		bqhead = bqtail = bqe;
 
-    bqelements++;
-    DBG(DL_DATA_TRACE, "%s: Busy queue: elements=%d, bqhead=%p, bqtail=%p\n",
-        me,bqelements,(void*)bqhead,(void*)bqtail);
-    return 0;
+	bqelements++;
+	DBG(DL_DATA_TRACE,
+	    "%s: Busy queue: elements=%d, bqhead=%p, bqtail=%p\n", me,
+	    bqelements, (void *) bqhead, (void *) bqtail);
+	return 0;
 }
 
-static void dequeue_bq()
+static void
+dequeue_bq()
 {
-    static const char me[] = "dequeue_bq";
-    struct usb_busy_queue *tbqe;
+	static const char me[] = "dequeue_bq";
+	struct usb_busy_queue *tbqe;
 
-    DBG (DL_CALL_TRACE, "%s()\n", me);
+	DBG(DL_CALL_TRACE, "%s()\n", me);
 
-    if(!bqhead)
-        return;
+	if (!bqhead)
+		return;
 
-    tbqe = bqhead;
-    bqhead = bqhead->next;
-    if(!bqhead)
-        bqtail=NULL;
+	tbqe = bqhead;
+	bqhead = bqhead->next;
+	if (!bqhead)
+		bqtail = NULL;
 
-    if(tbqe->src)
-        free(tbqe->src);
-    free(tbqe);
+	if (tbqe->src)
+		free(tbqe->src);
+	free(tbqe);
 
-    bqelements--;
-    DBG(DL_DATA_TRACE, "%s: Busy queue: elements=%d, bqhead=%p, bqtail=%p\n",
-        me,bqelements,(void*)bqhead,(void*)bqtail);
+	bqelements--;
+	DBG(DL_DATA_TRACE,
+	    "%s: Busy queue: elements=%d, bqhead=%p, bqtail=%p\n", me,
+	    bqelements, (void *) bqhead, (void *) bqtail);
 }
 
-static SANE_Status usb_request_sense(SnapScan_Scanner *pss) {
-    static const char *me = "usb_request_sense";
-    size_t read_bytes = 0;
-    u_char cmd[] = {REQUEST_SENSE, 0, 0, 0, 20, 0};
-    u_char data[20];
-    SANE_Status status;
+static SANE_Status
+usb_request_sense(SnapScan_Scanner * pss)
+{
+	static const char *me = "usb_request_sense";
+	size_t read_bytes = 0;
+	u_char cmd[] = { REQUEST_SENSE, 0, 0, 0, 20, 0 };
+	u_char data[20];
+	SANE_Status status;
 
-    read_bytes = 20;
+	read_bytes = 20;
 
-    DBG (DL_CALL_TRACE, "%s\n", me);
-    status = usb_cmd (pss->fd, cmd, sizeof (cmd), data, &read_bytes);
-    if (status != SANE_STATUS_GOOD)
-    {
-        DBG (DL_MAJOR_ERROR, "%s: usb command error: %s\n",
-             me, sane_strstatus (status));
-    }
-    else
-    {
-        if (usb_sense_handler) {
-            status = usb_sense_handler (pss->fd, data, (void *) pss);
-        } else {
-            DBG (DL_MAJOR_ERROR, "%s: No sense handler for USB\n", me);
-            status = SANE_STATUS_UNSUPPORTED;
-        }
-    }
-    return status;
+	DBG(DL_CALL_TRACE, "%s\n", me);
+	status = usb_cmd(pss->fd, cmd, sizeof(cmd), data, &read_bytes);
+	if (status != SANE_STATUS_GOOD) {
+		DBG(DL_MAJOR_ERROR, "%s: usb command error: %s\n",
+		    me, sane_strstatus(status));
+	} else {
+		if (usb_sense_handler) {
+			status = usb_sense_handler(pss->fd, data,
+						   (void *) pss);
+		} else {
+			DBG(DL_MAJOR_ERROR, "%s: No sense handler for USB\n",
+			    me);
+			status = SANE_STATUS_UNSUPPORTED;
+		}
+	}
+	return status;
 }
 
 #if defined USE_PTHREAD || defined HAVE_OS2_H || defined __BEOS__
-static SANE_Status snapscani_usb_shm_init(void)
+static SANE_Status
+snapscani_usb_shm_init(void)
 {
-    unsigned int shm_size = sizeof(struct urb_counters_t);
-    urb_counters = (struct urb_counters_t*) malloc(shm_size);
-    if (urb_counters == NULL)
-    {
-        return SANE_STATUS_NO_MEM;
-    }
-    memset(urb_counters, 0, shm_size);
-    return SANE_STATUS_GOOD;
-        
+	unsigned int shm_size = sizeof(struct urb_counters_t);
+	urb_counters = (struct urb_counters_t *) malloc(shm_size);
+	if (urb_counters == NULL) {
+		return SANE_STATUS_NO_MEM;
+	}
+	memset(urb_counters, 0, shm_size);
+	return SANE_STATUS_GOOD;
+
 }
 
-static void snapscani_usb_shm_exit(void)
+static void
+snapscani_usb_shm_exit(void)
 {
-    if (urb_counters)
-    {
-        free ((void*)urb_counters);
-        urb_counters = NULL;
-    }
+	if (urb_counters) {
+		free((void *) urb_counters);
+		urb_counters = NULL;
+	}
 }
 #else
 #include <sys/ipc.h>
 #include <sys/shm.h>
-static SANE_Status snapscani_usb_shm_init(void)
+static SANE_Status
+snapscani_usb_shm_init(void)
 {
-    unsigned int shm_size = sizeof(struct urb_counters_t);
-    void* shm_area = NULL;
-    int shm_id = shmget (IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W);
-    if (shm_id == -1)
-    {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot create shared memory segment: %s\n",
-            strerror (errno));
-        return SANE_STATUS_NO_MEM;
-    }
-    
-    shm_area = shmat (shm_id, NULL, 0);
-    if (shm_area == (void *) -1)
-    {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot attach to shared memory segment: %s\n",
-            strerror (errno));
-        shmctl (shm_id, IPC_RMID, NULL);
-        return SANE_STATUS_NO_MEM;
-    }
-    
-    if (shmctl (shm_id, IPC_RMID, NULL) == -1)
-    {
-        DBG (DL_MAJOR_ERROR, "snapscani_usb_shm_init: cannot remove shared memory segment id: %s\n",
-            strerror (errno));
-        shmdt (shm_area);
-        shmctl (shm_id, IPC_RMID, NULL);
-        return SANE_STATUS_NO_MEM;
-    }
-    urb_counters = (struct urb_counters_t*) shm_area;
-    memset(urb_counters, 0, shm_size);
-    return SANE_STATUS_GOOD;
+	unsigned int shm_size = sizeof(struct urb_counters_t);
+	void *shm_area = NULL;
+	int shm_id = shmget(IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W);
+	if (shm_id == -1) {
+		DBG(DL_MAJOR_ERROR,
+		    "snapscani_usb_shm_init: cannot create shared memory segment: %s\n",
+		    strerror(errno));
+		return SANE_STATUS_NO_MEM;
+	}
+
+	shm_area = shmat(shm_id, NULL, 0);
+	if (shm_area == (void *) -1) {
+		DBG(DL_MAJOR_ERROR,
+		    "snapscani_usb_shm_init: cannot attach to shared memory segment: %s\n",
+		    strerror(errno));
+		shmctl(shm_id, IPC_RMID, NULL);
+		return SANE_STATUS_NO_MEM;
+	}
+
+	if (shmctl(shm_id, IPC_RMID, NULL) == -1) {
+		DBG(DL_MAJOR_ERROR,
+		    "snapscani_usb_shm_init: cannot remove shared memory segment id: %s\n",
+		    strerror(errno));
+		shmdt(shm_area);
+		shmctl(shm_id, IPC_RMID, NULL);
+		return SANE_STATUS_NO_MEM;
+	}
+	urb_counters = (struct urb_counters_t *) shm_area;
+	memset(urb_counters, 0, shm_size);
+	return SANE_STATUS_GOOD;
 }
 
-static void snapscani_usb_shm_exit(void)
+static void
+snapscani_usb_shm_exit(void)
 {
-    if (urb_counters)
-    {
-        shmdt (urb_counters);
-        urb_counters = NULL;
-    }
+	if (urb_counters) {
+		shmdt(urb_counters);
+		urb_counters = NULL;
+	}
 }
 #endif
 /*
@@ -653,4 +695,3 @@ static void snapscani_usb_shm_exit(void)
  * - Change copyright notice
  *
  * */
-

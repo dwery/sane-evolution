@@ -67,23 +67,23 @@
  */
 struct Shm_Channel
 {
-  SANE_Int buf_size;			/**< Size of each buffer */
-  SANE_Int buf_count;			/**< Number of buffers */
-  void *shm_area;			/**< Address of shared memory area */
-  SANE_Byte **buffers;			/**< Array of pointers to buffers */
-  SANE_Int *buffer_bytes;		/**< Array of buffer byte counts */
-  int writer_put_pipe[2];		/**< Notification pipe from writer */
-  int reader_put_pipe[2];		/**< Notification pipe from reader */
+	SANE_Int buf_size;		/**< Size of each buffer */
+	SANE_Int buf_count;		/**< Number of buffers */
+	void *shm_area;			/**< Address of shared memory area */
+	SANE_Byte **buffers;		/**< Array of pointers to buffers */
+	SANE_Int *buffer_bytes;		/**< Array of buffer byte counts */
+	int writer_put_pipe[2];		/**< Notification pipe from writer */
+	int reader_put_pipe[2];		/**< Notification pipe from reader */
 };
 
 /** Dummy union to find out the needed alignment */
 union Shm_Channel_Align
 {
-  int i;
-  long l;
-  void *ptr;
-  void (*func_ptr) (void);
-  double d;
+	int i;
+	long l;
+	void *ptr;
+	void (*func_ptr) (void);
+	double d;
 };
 
 /** Check if shm_channel is valid */
@@ -115,48 +115,47 @@ union Shm_Channel_Align
  * @param fd_var Pointer to a variable holding the file descriptor.
  */
 static void
-shm_channel_fd_safe_close (int *fd_var)
+shm_channel_fd_safe_close(int *fd_var)
 {
-  if (*fd_var != -1)
-    {
-      close (*fd_var);
-      *fd_var = -1;
-    }
+	if (*fd_var != -1) {
+		close(*fd_var);
+		*fd_var = -1;
+	}
 }
 
 static SANE_Status
-shm_channel_fd_set_close_on_exec (int fd)
+shm_channel_fd_set_close_on_exec(int fd)
 {
-  long value;
+	long value;
 
-  value = fcntl (fd, F_GETFD, 0L);
-  if (value == -1)
-    return SANE_STATUS_IO_ERROR;
-  if (fcntl (fd, F_SETFD, value | FD_CLOEXEC) == -1)
-    return SANE_STATUS_IO_ERROR;
+	value = fcntl(fd, F_GETFD, 0L);
+	if (value == -1)
+		return SANE_STATUS_IO_ERROR;
+	if (fcntl(fd, F_SETFD, value | FD_CLOEXEC) == -1)
+		return SANE_STATUS_IO_ERROR;
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 #if 0
 static SANE_Status
-shm_channel_fd_set_non_blocking (int fd, SANE_Bool non_blocking)
+shm_channel_fd_set_non_blocking(int fd, SANE_Bool non_blocking)
 {
-  long value;
+	long value;
 
-  value = fcntl (fd, F_GETFL, 0L);
-  if (value == -1)
-    return SANE_STATUS_IO_ERROR;
+	value = fcntl(fd, F_GETFL, 0L);
+	if (value == -1)
+		return SANE_STATUS_IO_ERROR;
 
-  if (non_blocking)
-    value |= O_NONBLOCK;
-  else
-    value &= ~O_NONBLOCK;
+	if (non_blocking)
+		value |= O_NONBLOCK;
+	else
+		value &= ~O_NONBLOCK;
 
-  if (fcntl (fd, F_SETFL, value) == -1)
-    return SANE_STATUS_IO_ERROR;
+	if (fcntl(fd, F_SETFL, value) == -1)
+		return SANE_STATUS_IO_ERROR;
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 #endif
 
@@ -169,125 +168,120 @@ shm_channel_fd_set_non_blocking (int fd, SANE_Bool non_blocking)
  * @param shm_channel_return Returned shared memory channel object.
  */
 SANE_Status
-shm_channel_new (SANE_Int buf_size,
-		 SANE_Int buf_count, Shm_Channel ** shm_channel_return)
+shm_channel_new(SANE_Int buf_size,
+		SANE_Int buf_count, Shm_Channel ** shm_channel_return)
 {
-  Shm_Channel *shm_channel;
-  void *shm_area;
-  SANE_Byte *shm_data;
-  int shm_buffer_bytes_size, shm_buffer_size;
-  int shm_size;
-  int shm_id;
-  int i;
+	Shm_Channel *shm_channel;
+	void *shm_area;
+	SANE_Byte *shm_data;
+	int shm_buffer_bytes_size, shm_buffer_size;
+	int shm_size;
+	int shm_id;
+	int i;
 
-  if (buf_size <= 0)
-    {
-      DBG (3, "shm_channel_new: invalid buf_size=%d\n", buf_size);
-      return SANE_STATUS_INVAL;
-    }
-  if (buf_count <= 0 || buf_count > 255)
-    {
-      DBG (3, "shm_channel_new: invalid buf_count=%d\n", buf_count);
-      return SANE_STATUS_INVAL;
-    }
-  if (!shm_channel_return)
-    {
-      DBG (3, "shm_channel_new: BUG: shm_channel_return==NULL\n");
-      return SANE_STATUS_INVAL;
-    }
+	if (buf_size <= 0) {
+		DBG(3, "shm_channel_new: invalid buf_size=%d\n", buf_size);
+		return SANE_STATUS_INVAL;
+	}
+	if (buf_count <= 0 || buf_count > 255) {
+		DBG(3, "shm_channel_new: invalid buf_count=%d\n", buf_count);
+		return SANE_STATUS_INVAL;
+	}
+	if (!shm_channel_return) {
+		DBG(3, "shm_channel_new: BUG: shm_channel_return==NULL\n");
+		return SANE_STATUS_INVAL;
+	}
 
-  *shm_channel_return = NULL;
+	*shm_channel_return = NULL;
 
-  shm_channel = (Shm_Channel *) malloc (sizeof (Shm_Channel));
-  if (!shm_channel)
-    {
-      DBG (3, "shm_channel_new: no memory for Shm_Channel\n");
-      return SANE_STATUS_NO_MEM;
-    }
+	shm_channel = (Shm_Channel *) malloc(sizeof(Shm_Channel));
+	if (!shm_channel) {
+		DBG(3, "shm_channel_new: no memory for Shm_Channel\n");
+		return SANE_STATUS_NO_MEM;
+	}
 
-  shm_channel->buf_size = buf_size;
-  shm_channel->buf_count = buf_count;
-  shm_channel->shm_area = NULL;
-  shm_channel->buffers = NULL;
-  shm_channel->buffer_bytes = NULL;
-  shm_channel->writer_put_pipe[0] = shm_channel->writer_put_pipe[1] = -1;
-  shm_channel->reader_put_pipe[0] = shm_channel->reader_put_pipe[1] = -1;
+	shm_channel->buf_size = buf_size;
+	shm_channel->buf_count = buf_count;
+	shm_channel->shm_area = NULL;
+	shm_channel->buffers = NULL;
+	shm_channel->buffer_bytes = NULL;
+	shm_channel->writer_put_pipe[0] = shm_channel->writer_put_pipe[1] =
+		-1;
+	shm_channel->reader_put_pipe[0] = shm_channel->reader_put_pipe[1] =
+		-1;
 
-  shm_channel->buffers =
-    (SANE_Byte **) malloc (sizeof (SANE_Byte *) * buf_count);
-  if (!shm_channel->buffers)
-    {
-      DBG (3, "shm_channel_new: no memory for buffer pointers\n");
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	shm_channel->buffers =
+		(SANE_Byte **) malloc(sizeof(SANE_Byte *) * buf_count);
+	if (!shm_channel->buffers) {
+		DBG(3, "shm_channel_new: no memory for buffer pointers\n");
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  if (pipe (shm_channel->writer_put_pipe) == -1)
-    {
-      DBG (3, "shm_channel_new: cannot create writer put pipe: %s\n",
-	   strerror (errno));
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	if (pipe(shm_channel->writer_put_pipe) == -1) {
+		DBG(3, "shm_channel_new: cannot create writer put pipe: %s\n",
+		    strerror(errno));
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  if (pipe (shm_channel->reader_put_pipe) == -1)
-    {
-      DBG (3, "shm_channel_new: cannot create reader put pipe: %s\n",
-	   strerror (errno));
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	if (pipe(shm_channel->reader_put_pipe) == -1) {
+		DBG(3, "shm_channel_new: cannot create reader put pipe: %s\n",
+		    strerror(errno));
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  shm_channel_fd_set_close_on_exec (shm_channel->reader_put_pipe[0]);
-  shm_channel_fd_set_close_on_exec (shm_channel->reader_put_pipe[1]);
-  shm_channel_fd_set_close_on_exec (shm_channel->writer_put_pipe[0]);
-  shm_channel_fd_set_close_on_exec (shm_channel->writer_put_pipe[1]);
+	shm_channel_fd_set_close_on_exec(shm_channel->reader_put_pipe[0]);
+	shm_channel_fd_set_close_on_exec(shm_channel->reader_put_pipe[1]);
+	shm_channel_fd_set_close_on_exec(shm_channel->writer_put_pipe[0]);
+	shm_channel_fd_set_close_on_exec(shm_channel->writer_put_pipe[1]);
 
-  shm_buffer_bytes_size = SHM_CHANNEL_ALIGN (sizeof (SANE_Int) * buf_count);
-  shm_buffer_size = SHM_CHANNEL_ALIGN (buf_size);
-  shm_size = shm_buffer_bytes_size + buf_count * shm_buffer_size;
+	shm_buffer_bytes_size =
+		SHM_CHANNEL_ALIGN(sizeof(SANE_Int) * buf_count);
+	shm_buffer_size = SHM_CHANNEL_ALIGN(buf_size);
+	shm_size = shm_buffer_bytes_size + buf_count * shm_buffer_size;
 
-  shm_id = shmget (IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W);
-  if (shm_id == -1)
-    {
-      DBG (3, "shm_channel_new: cannot create shared memory segment: %s\n",
-	   strerror (errno));
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	shm_id = shmget(IPC_PRIVATE, shm_size, IPC_CREAT | SHM_R | SHM_W);
+	if (shm_id == -1) {
+		DBG(3,
+		    "shm_channel_new: cannot create shared memory segment: %s\n",
+		    strerror(errno));
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  shm_area = shmat (shm_id, NULL, 0);
-  if (shm_area == (void *) -1)
-    {
-      DBG (3, "shm_channel_new: cannot attach to shared memory segment: %s\n",
-	   strerror (errno));
-      shmctl (shm_id, IPC_RMID, NULL);
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	shm_area = shmat(shm_id, NULL, 0);
+	if (shm_area == (void *) -1) {
+		DBG(3,
+		    "shm_channel_new: cannot attach to shared memory segment: %s\n",
+		    strerror(errno));
+		shmctl(shm_id, IPC_RMID, NULL);
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  if (shmctl (shm_id, IPC_RMID, NULL) == -1)
-    {
-      DBG (3, "shm_channel_new: cannot remove shared memory segment id: %s\n",
-	   strerror (errno));
-      shmdt (shm_area);
-      shmctl (shm_id, IPC_RMID, NULL);
-      shm_channel_free (shm_channel);
-      return SANE_STATUS_NO_MEM;
-    }
+	if (shmctl(shm_id, IPC_RMID, NULL) == -1) {
+		DBG(3,
+		    "shm_channel_new: cannot remove shared memory segment id: %s\n",
+		    strerror(errno));
+		shmdt(shm_area);
+		shmctl(shm_id, IPC_RMID, NULL);
+		shm_channel_free(shm_channel);
+		return SANE_STATUS_NO_MEM;
+	}
 
-  shm_channel->shm_area = shm_area;
+	shm_channel->shm_area = shm_area;
 
-  shm_channel->buffer_bytes = (SANE_Int *) shm_area;
-  shm_data = ((SANE_Byte *) shm_area) + shm_buffer_bytes_size;
-  for (i = 0; i < shm_channel->buf_count; ++i)
-    {
-      shm_channel->buffers[i] = shm_data;
-      shm_data += shm_buffer_size;
-    }
+	shm_channel->buffer_bytes = (SANE_Int *) shm_area;
+	shm_data = ((SANE_Byte *) shm_area) + shm_buffer_bytes_size;
+	for (i = 0; i < shm_channel->buf_count; ++i) {
+		shm_channel->buffers[i] = shm_data;
+		shm_data += shm_buffer_size;
+	}
 
-  *shm_channel_return = shm_channel;
-  return SANE_STATUS_GOOD;
+	*shm_channel_return = shm_channel;
+	return SANE_STATUS_GOOD;
 }
 
 /** Close the shared memory channel and release associated resources.
@@ -295,28 +289,26 @@ shm_channel_new (SANE_Int buf_size,
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_free (Shm_Channel * shm_channel)
+shm_channel_free(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_free");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_free");
 
-  if (shm_channel->shm_area)
-    {
-      shmdt (shm_channel->shm_area);
-      shm_channel->shm_area = NULL;
-    }
+	if (shm_channel->shm_area) {
+		shmdt(shm_channel->shm_area);
+		shm_channel->shm_area = NULL;
+	}
 
-  if (shm_channel->buffers)
-    {
-      free (shm_channel->buffers);
-      shm_channel->buffers = NULL;
-    }
+	if (shm_channel->buffers) {
+		free(shm_channel->buffers);
+		shm_channel->buffers = NULL;
+	}
 
-  shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[0]);
-  shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[1]);
-  shm_channel_fd_safe_close (&shm_channel->writer_put_pipe[0]);
-  shm_channel_fd_safe_close (&shm_channel->writer_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->reader_put_pipe[0]);
+	shm_channel_fd_safe_close(&shm_channel->reader_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->writer_put_pipe[0]);
+	shm_channel_fd_safe_close(&shm_channel->writer_put_pipe[1]);
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 /** Initialize the shared memory channel in the writer process.
@@ -327,14 +319,14 @@ shm_channel_free (Shm_Channel * shm_channel)
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_writer_init (Shm_Channel * shm_channel)
+shm_channel_writer_init(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_init");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_init");
 
-  shm_channel_fd_safe_close (&shm_channel->writer_put_pipe[0]);
-  shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->writer_put_pipe[0]);
+	shm_channel_fd_safe_close(&shm_channel->reader_put_pipe[1]);
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 /** Get a free shared memory buffer for writing.
@@ -358,36 +350,35 @@ shm_channel_writer_init (Shm_Channel * shm_channel)
  * - SANE_STATUS_IO_ERROR - an I/O error occured.
  */
 SANE_Status
-shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
-			       SANE_Int * buffer_id_return,
-			       SANE_Byte ** buffer_addr_return)
+shm_channel_writer_get_buffer(Shm_Channel * shm_channel,
+			      SANE_Int * buffer_id_return,
+			      SANE_Byte ** buffer_addr_return)
 {
-  SANE_Byte buf_index;
-  int bytes_read;
+	SANE_Byte buf_index;
+	int bytes_read;
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_get_buffer");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_get_buffer");
 
-  do
-    bytes_read = read (shm_channel->reader_put_pipe[0], &buf_index, 1);
-  while (bytes_read == -1 && errno == EINTR);
+	do
+		bytes_read =
+			read(shm_channel->reader_put_pipe[0], &buf_index, 1);
+	while (bytes_read == -1 && errno == EINTR);
 
-  if (bytes_read == 1)
-    {
-      SANE_Int index = buf_index;
-      if (index < shm_channel->buf_count)
-	{
-	  *buffer_id_return = index;
-	  *buffer_addr_return = shm_channel->buffers[index];
-	  return SANE_STATUS_GOOD;
+	if (bytes_read == 1) {
+		SANE_Int index = buf_index;
+		if (index < shm_channel->buf_count) {
+			*buffer_id_return = index;
+			*buffer_addr_return = shm_channel->buffers[index];
+			return SANE_STATUS_GOOD;
+		}
 	}
-    }
 
-  *buffer_id_return = -1;
-  *buffer_addr_return = NULL;
-  if (bytes_read == 0)
-    return SANE_STATUS_EOF;
-  else
-    return SANE_STATUS_IO_ERROR;
+	*buffer_id_return = -1;
+	*buffer_addr_return = NULL;
+	if (bytes_read == 0)
+		return SANE_STATUS_EOF;
+	else
+		return SANE_STATUS_IO_ERROR;
 }
 
 /** Pass a filled shared memory buffer to the reader process.
@@ -402,32 +393,33 @@ shm_channel_writer_get_buffer (Shm_Channel * shm_channel,
  *   channel, or another I/O error occured.
  */
 SANE_Status
-shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
-			       SANE_Int buffer_id, SANE_Int buffer_bytes)
+shm_channel_writer_put_buffer(Shm_Channel * shm_channel,
+			      SANE_Int buffer_id, SANE_Int buffer_bytes)
 {
-  SANE_Byte buf_index;
-  int bytes_written;
+	SANE_Byte buf_index;
+	int bytes_written;
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_put_buffer");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_put_buffer");
 
-  if (buffer_id < 0 || buffer_id >= shm_channel->buf_count)
-    {
-      DBG (3, "shm_channel_writer_put_buffer: BUG: buffer_id=%d\n",
-	   buffer_id);
-      return SANE_STATUS_INVAL;
-    }
+	if (buffer_id < 0 || buffer_id >= shm_channel->buf_count) {
+		DBG(3, "shm_channel_writer_put_buffer: BUG: buffer_id=%d\n",
+		    buffer_id);
+		return SANE_STATUS_INVAL;
+	}
 
-  shm_channel->buffer_bytes[buffer_id] = buffer_bytes;
+	shm_channel->buffer_bytes[buffer_id] = buffer_bytes;
 
-  buf_index = (SANE_Byte) buffer_id;
-  do
-    bytes_written = write (shm_channel->writer_put_pipe[1], &buf_index, 1);
-  while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR));
+	buf_index = (SANE_Byte) buffer_id;
+	do
+		bytes_written =
+			write(shm_channel->writer_put_pipe[1], &buf_index, 1);
+	while ((bytes_written == 0)
+	       || (bytes_written == -1 && errno == EINTR));
 
-  if (bytes_written == 1)
-    return SANE_STATUS_GOOD;
-  else
-    return SANE_STATUS_IO_ERROR;
+	if (bytes_written == 1)
+		return SANE_STATUS_GOOD;
+	else
+		return SANE_STATUS_IO_ERROR;
 }
 
 /** Close the writing half of the shared memory channel.
@@ -435,13 +427,13 @@ shm_channel_writer_put_buffer (Shm_Channel * shm_channel,
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_writer_close (Shm_Channel * shm_channel)
+shm_channel_writer_close(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_writer_close");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_writer_close");
 
-  shm_channel_fd_safe_close (&shm_channel->writer_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->writer_put_pipe[1]);
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 
@@ -453,18 +445,18 @@ shm_channel_writer_close (Shm_Channel * shm_channel)
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_reader_init (Shm_Channel * shm_channel)
+shm_channel_reader_init(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_init");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_init");
 
-  shm_channel_fd_safe_close (&shm_channel->writer_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->writer_put_pipe[1]);
 
-  /* Don't close reader_put_pipe[0] here.  Otherwise, if the channel writer
-   * process dies early, this process might get SIGPIPE - and I don't want to
-   * mess with signals in the main process. */
-  /* shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[0]); */
+	/* Don't close reader_put_pipe[0] here.  Otherwise, if the channel writer
+	 * process dies early, this process might get SIGPIPE - and I don't want to
+	 * mess with signals in the main process. */
+	/* shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[0]); */
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 #if 0
@@ -480,13 +472,14 @@ shm_channel_reader_init (Shm_Channel * shm_channel)
  * - SANE_STATUS_IO_ERROR - error setting the requested mode.
  */
 SANE_Status
-shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
-				SANE_Bool non_blocking)
+shm_channel_reader_set_io_mode(Shm_Channel * shm_channel,
+			       SANE_Bool non_blocking)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_set_io_mode");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_set_io_mode");
 
-  return shm_channel_fd_set_non_blocking (shm_channel->writer_put_pipe[0],
-					  non_blocking);
+	return shm_channel_fd_set_non_blocking(shm_channel->
+					       writer_put_pipe[0],
+					       non_blocking);
 }
 
 /** Get the file descriptor which will signal when some data is available in
@@ -503,14 +496,14 @@ shm_channel_reader_set_io_mode (Shm_Channel * shm_channel,
  * - SANE_STATUS_GOOD - the file descriptor was returned.
  */
 SANE_Status
-shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
-				  SANE_Int * fd_return)
+shm_channel_reader_get_select_fd(Shm_Channel * shm_channel,
+				 SANE_Int * fd_return)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_get_select_fd");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_get_select_fd");
 
-  *fd_return = shm_channel->writer_put_pipe[0];
+	*fd_return = shm_channel->writer_put_pipe[0];
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 #endif
 
@@ -524,30 +517,31 @@ shm_channel_reader_get_select_fd (Shm_Channel * shm_channel,
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_reader_start (Shm_Channel * shm_channel)
+shm_channel_reader_start(Shm_Channel * shm_channel)
 {
-  int i, bytes_written;
-  SANE_Byte buffer_id;
+	int i, bytes_written;
+	SANE_Byte buffer_id;
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_start");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_start");
 
-  for (i = 0; i < shm_channel->buf_count; ++i)
-    {
-      buffer_id = i;
-      do
-	bytes_written =
-	  write (shm_channel->reader_put_pipe[1], &buffer_id, 1);
-      while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR));
+	for (i = 0; i < shm_channel->buf_count; ++i) {
+		buffer_id = i;
+		do
+			bytes_written =
+				write(shm_channel->reader_put_pipe[1],
+				      &buffer_id, 1);
+		while ((bytes_written == 0)
+		       || (bytes_written == -1 && errno == EINTR));
 
-      if (bytes_written == -1)
-	{
-	  DBG (3, "shm_channel_reader_start: write error at buffer %d: %s\n",
-	       i, strerror (errno));
-	  return SANE_STATUS_IO_ERROR;
+		if (bytes_written == -1) {
+			DBG(3,
+			    "shm_channel_reader_start: write error at buffer %d: %s\n",
+			    i, strerror(errno));
+			return SANE_STATUS_IO_ERROR;
+		}
 	}
-    }
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 
 /** Get the next shared memory buffer passed from the writer process.
@@ -576,39 +570,39 @@ shm_channel_reader_start (Shm_Channel * shm_channel)
  * - SANE_STATUS_IO_ERROR - an I/O error occured.
  */
 SANE_Status
-shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
-			       SANE_Int * buffer_id_return,
-			       SANE_Byte ** buffer_addr_return,
-			       SANE_Int * buffer_bytes_return)
+shm_channel_reader_get_buffer(Shm_Channel * shm_channel,
+			      SANE_Int * buffer_id_return,
+			      SANE_Byte ** buffer_addr_return,
+			      SANE_Int * buffer_bytes_return)
 {
-  SANE_Byte buf_index;
-  int bytes_read;
+	SANE_Byte buf_index;
+	int bytes_read;
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_get_buffer");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_get_buffer");
 
-  do
-    bytes_read = read (shm_channel->writer_put_pipe[0], &buf_index, 1);
-  while (bytes_read == -1 && errno == EINTR);
+	do
+		bytes_read =
+			read(shm_channel->writer_put_pipe[0], &buf_index, 1);
+	while (bytes_read == -1 && errno == EINTR);
 
-  if (bytes_read == 1)
-    {
-      SANE_Int index = buf_index;
-      if (index < shm_channel->buf_count)
-	{
-	  *buffer_id_return = index;
-	  *buffer_addr_return = shm_channel->buffers[index];
-	  *buffer_bytes_return = shm_channel->buffer_bytes[index];
-	  return SANE_STATUS_GOOD;
+	if (bytes_read == 1) {
+		SANE_Int index = buf_index;
+		if (index < shm_channel->buf_count) {
+			*buffer_id_return = index;
+			*buffer_addr_return = shm_channel->buffers[index];
+			*buffer_bytes_return =
+				shm_channel->buffer_bytes[index];
+			return SANE_STATUS_GOOD;
+		}
 	}
-    }
 
-  *buffer_id_return = -1;
-  *buffer_addr_return = NULL;
-  *buffer_bytes_return = 0;
-  if (bytes_read == 0)
-    return SANE_STATUS_EOF;
-  else
-    return SANE_STATUS_IO_ERROR;
+	*buffer_id_return = -1;
+	*buffer_addr_return = NULL;
+	*buffer_bytes_return = 0;
+	if (bytes_read == 0)
+		return SANE_STATUS_EOF;
+	else
+		return SANE_STATUS_IO_ERROR;
 }
 
 /** Release a shared memory buffer received by the reader process.
@@ -630,29 +624,30 @@ shm_channel_reader_get_buffer (Shm_Channel * shm_channel,
  *   channel, or an unexpected I/O error occured.
  */
 SANE_Status
-shm_channel_reader_put_buffer (Shm_Channel * shm_channel, SANE_Int buffer_id)
+shm_channel_reader_put_buffer(Shm_Channel * shm_channel, SANE_Int buffer_id)
 {
-  SANE_Byte buf_index;
-  int bytes_written;
+	SANE_Byte buf_index;
+	int bytes_written;
 
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_put_buffer");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_put_buffer");
 
-  if (buffer_id < 0 || buffer_id >= shm_channel->buf_count)
-    {
-      DBG (3, "shm_channel_reader_put_buffer: BUG: buffer_id=%d\n",
-	   buffer_id);
-      return SANE_STATUS_INVAL;
-    }
+	if (buffer_id < 0 || buffer_id >= shm_channel->buf_count) {
+		DBG(3, "shm_channel_reader_put_buffer: BUG: buffer_id=%d\n",
+		    buffer_id);
+		return SANE_STATUS_INVAL;
+	}
 
-  buf_index = (SANE_Byte) buffer_id;
-  do
-    bytes_written = write (shm_channel->reader_put_pipe[1], &buf_index, 1);
-  while ((bytes_written == 0) || (bytes_written == -1 && errno == EINTR));
+	buf_index = (SANE_Byte) buffer_id;
+	do
+		bytes_written =
+			write(shm_channel->reader_put_pipe[1], &buf_index, 1);
+	while ((bytes_written == 0)
+	       || (bytes_written == -1 && errno == EINTR));
 
-  if (bytes_written == 1)
-    return SANE_STATUS_GOOD;
-  else
-    return SANE_STATUS_IO_ERROR;
+	if (bytes_written == 1)
+		return SANE_STATUS_GOOD;
+	else
+		return SANE_STATUS_IO_ERROR;
 }
 
 #if 0
@@ -661,13 +656,13 @@ shm_channel_reader_put_buffer (Shm_Channel * shm_channel, SANE_Int buffer_id)
  * @param shm_channel Shared memory channel object.
  */
 SANE_Status
-shm_channel_reader_close (Shm_Channel * shm_channel)
+shm_channel_reader_close(Shm_Channel * shm_channel)
 {
-  SHM_CHANNEL_CHECK (shm_channel, "shm_channel_reader_close");
+	SHM_CHANNEL_CHECK(shm_channel, "shm_channel_reader_close");
 
-  shm_channel_fd_safe_close (&shm_channel->reader_put_pipe[1]);
+	shm_channel_fd_safe_close(&shm_channel->reader_put_pipe[1]);
 
-  return SANE_STATUS_GOOD;
+	return SANE_STATUS_GOOD;
 }
 #endif
 /* vim: set sw=2 cino=>2se-1sn-1s{s^-1st0(0u0 smarttab expandtab: */

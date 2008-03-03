@@ -47,8 +47,7 @@
 #include "umax-scanner.h"
 /* ------------------------------------------------------------------------- */
 
-static unsigned char UC1200S_INQUIRY[] =
-{
+static unsigned char UC1200S_INQUIRY[] = {
 #define UC1200S_INQUIRY_LEN 0x9d
 /* 24 F/W support function */
 	0x03,
@@ -59,13 +58,13 @@ static unsigned char UC1200S_INQUIRY[] =
 /* 28 - 29 reserved */
 	0x00, 0x00,
 
-/* 2a - 35 exposure times */	
+/* 2a - 35 exposure times */
 	0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00,
 	0x00, 0x00,
 
-/* 36 - 37 reserved */	
+/* 36 - 37 reserved */
 	0x00, 0x00,
 
 /* 38 - 5f scsi reserved */
@@ -78,7 +77,7 @@ static unsigned char UC1200S_INQUIRY[] =
 /* 60 -62 scanner capability*/
 	0x2f,
 	0x0c,
-	0x07, 
+	0x07,
 
 /* 63 reserved */
 	0x00,
@@ -105,7 +104,7 @@ static unsigned char UC1200S_INQUIRY[] =
 	0x00, 0x00,
 
 /* 6d color sequence */
-	0xe8, /* 0xe9 or 0xe1 ? */
+	0xe8,			/* 0xe9 or 0xe1 ? */
 
 /* 6e - 71 video memory */
 	0x00, 0x04, 0x00, 0x00,
@@ -151,7 +150,7 @@ static unsigned char UC1200S_INQUIRY[] =
 
 /* 8a-8b dor max scan width in 0.01 inch */
 	0x00, 0x00,
-	
+
 /* 8c-8d dor max scan length in 0.01 inch */
 	0x00, 0x00,
 
@@ -198,7 +197,6 @@ static unsigned char UC1200S_INQUIRY[] =
 	0x08
 };
 
-static inquiry_blk inquiry_uc1200s =
-{
-  "UC1200S ",UC1200S_INQUIRY, UC1200S_INQUIRY_LEN
+static inquiry_blk inquiry_uc1200s = {
+	"UC1200S ", UC1200S_INQUIRY, UC1200S_INQUIRY_LEN
 };

@@ -53,36 +53,47 @@
  * @param  s - pointer to the scanner specific structure
  * @return The function always returns SANE_STATUS_GOOD
  */
-static SANE_Status u12map_InitGammaSettings( U12_Device *dev )
+static SANE_Status
+u12map_InitGammaSettings(U12_Device * dev)
 {
-	int    i, j, val;
+	int i, j, val;
 	double gamma;
 
-	dev->gamma_length      = 4096;
-	dev->gamma_range.min   = 0;
-	dev->gamma_range.max   = 255;
+	dev->gamma_length = 4096;
+	dev->gamma_range.min = 0;
+	dev->gamma_range.max = 255;
 	dev->gamma_range.quant = 0;
 
-	DBG( _DBG_INFO, "Presetting Gamma tables (len=%u)\n", dev->gamma_length );
-	DBG( _DBG_INFO, "----------------------------------\n" );
+	DBG(_DBG_INFO, "Presetting Gamma tables (len=%u)\n",
+	    dev->gamma_length);
+	DBG(_DBG_INFO, "----------------------------------\n");
 
 	/* preset the gamma maps */
-	for( i = 0; i < 4; i++ ) {
+	for (i = 0; i < 4; i++) {
 
-		switch( i ) {
-			case 1:  gamma = dev->adj.rgamma;    break;
-			case 2:  gamma = dev->adj.ggamma;    break;
-			case 3:  gamma = dev->adj.bgamma;    break;
-			default: gamma = dev->adj.graygamma; break;
+		switch (i) {
+		case 1:
+			gamma = dev->adj.rgamma;
+			break;
+		case 2:
+			gamma = dev->adj.ggamma;
+			break;
+		case 3:
+			gamma = dev->adj.bgamma;
+			break;
+		default:
+			gamma = dev->adj.graygamma;
+			break;
 		}
 
-		for( j = 0; j < dev->gamma_length; j++ ) {
+		for (j = 0; j < dev->gamma_length; j++) {
 
 			val = (dev->gamma_range.max *
-					    pow((double) j / ((double)dev->gamma_length - 1.0),
-						1.0 / gamma ));
+			       pow((double) j /
+				   ((double) dev->gamma_length - 1.0),
+				   1.0 / gamma));
 
-			if( val > dev->gamma_range.max )
+			if (val > dev->gamma_range.max)
 				val = dev->gamma_range.max;
 
 			dev->gamma_table[i][j] = val;
@@ -95,13 +106,14 @@ static SANE_Status u12map_InitGammaSettings( U12_Device *dev )
  * @param  s - pointer to the scanner specific structure
  * @return nothing
  */
-static void u12map_CheckGammaSettings( U12_Device *dev )
+static void
+u12map_CheckGammaSettings(U12_Device * dev)
 {
 	int i, j;
 
-	for( i = 0; i < 4 ; i++ ) {
-		for( j = 0; j < dev->gamma_length; j++ ) {
-			if( dev->gamma_table[i][j] > dev->gamma_range.max ) {
+	for (i = 0; i < 4; i++) {
+		for (j = 0; j < dev->gamma_length; j++) {
+			if (dev->gamma_table[i][j] > dev->gamma_range.max) {
 				dev->gamma_table[i][j] = dev->gamma_range.max;
 			}
 		}
@@ -110,13 +122,14 @@ static void u12map_CheckGammaSettings( U12_Device *dev )
 
 /** adjust acording to brightness and contrast
  */
-static void u12map_Adjust( U12_Device *dev, int which, SANE_Byte *buf )
+static void
+u12map_Adjust(U12_Device * dev, int which, SANE_Byte * buf)
 {
-	int     i;
+	int i;
 	u_long *pdw;
-	double  b, c, tmp;
+	double b, c, tmp;
 
-	DBG( _DBG_INFO, "u12map_Adjust(%u)\n", which );
+	DBG(_DBG_INFO, "u12map_Adjust(%u)\n", which);
 
 	/* adjust brightness (b) and contrast (c) using the function:
 	 *
@@ -127,63 +140,69 @@ static void u12map_Adjust( U12_Device *dev, int which, SANE_Byte *buf )
 
 	/* scale brightness and contrast...
 	 */
-	b = ((double)dev->DataInf.siBrightness * 192.0)/100.0;
-	c = ((double)dev->DataInf.siContrast   + 100.0)/100.0;
+	b = ((double) dev->DataInf.siBrightness * 192.0) / 100.0;
+	c = ((double) dev->DataInf.siContrast + 100.0) / 100.0;
 
-	DBG( _DBG_INFO, "* brightness   = %i -> %i\n",
-	                 dev->DataInf.siBrightness, (SANE_Byte)b);
-	DBG( _DBG_INFO, "* contrast*100 = %i -> %i\n",
-	                 dev->DataInf.siContrast, (int)(c*100));
+	DBG(_DBG_INFO, "* brightness   = %i -> %i\n",
+	    dev->DataInf.siBrightness, (SANE_Byte) b);
+	DBG(_DBG_INFO, "* contrast*100 = %i -> %i\n",
+	    dev->DataInf.siContrast, (int) (c * 100));
 
-	for( i = 0; i < dev->gamma_length; i++ ) {
+	for (i = 0; i < dev->gamma_length; i++) {
 
-		if((_MAP_MASTER == which) || (_MAP_RED == which)) {
-			tmp = ((double)(dev->gamma_table[0][i] + b)) * c;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			buf[i] = (SANE_Byte)tmp;
+		if ((_MAP_MASTER == which) || (_MAP_RED == which)) {
+			tmp = ((double) (dev->gamma_table[0][i] + b)) * c;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			buf[i] = (SANE_Byte) tmp;
 		}
 
-		if((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
-			tmp = ((double)(dev->gamma_table[1][i] + b)) * c;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			buf[4096+i] = (SANE_Byte)tmp;
-    	}
+		if ((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
+			tmp = ((double) (dev->gamma_table[1][i] + b)) * c;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			buf[4096 + i] = (SANE_Byte) tmp;
+		}
 
-		if((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
-			tmp = ((double)(dev->gamma_table[2][i] + b)) * c;
-			if( tmp < 0 )   tmp = 0;
-			if( tmp > 255 ) tmp = 255;
-			buf[8192+i] = (SANE_Byte)tmp;
+		if ((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
+			tmp = ((double) (dev->gamma_table[2][i] + b)) * c;
+			if (tmp < 0)
+				tmp = 0;
+			if (tmp > 255)
+				tmp = 255;
+			buf[8192 + i] = (SANE_Byte) tmp;
 		}
 	}
 
-	if((dev->DataInf.dwScanFlag & _SCANDEF_Negative) ||
-	   (dev->DataInf.wPhyDataType == COLOR_BW)) {
-		DBG( _DBG_INFO, "inverting...\n" );
+	if ((dev->DataInf.dwScanFlag & _SCANDEF_Negative) ||
+	    (dev->DataInf.wPhyDataType == COLOR_BW)) {
+		DBG(_DBG_INFO, "inverting...\n");
 
-		if((_MAP_MASTER == which) || (_MAP_RED == which)) {
+		if ((_MAP_MASTER == which) || (_MAP_RED == which)) {
 
-			DBG( _DBG_INFO, "inverting RED map\n" );
-			pdw = (u_long*)&buf[0];
-		    for( i = dev->gamma_length / 4; i; i--, pdw++ )
+			DBG(_DBG_INFO, "inverting RED map\n");
+			pdw = (u_long *) & buf[0];
+			for (i = dev->gamma_length / 4; i; i--, pdw++)
 				*pdw = ~(*pdw);
 		}
 
-		if((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
+		if ((_MAP_MASTER == which) || (_MAP_GREEN == which)) {
 
-			DBG( _DBG_INFO, "inverting GREEN map\n" );
-			pdw = (u_long*)&buf[4096];
-		    for( i = dev->gamma_length / 4; i; i--, pdw++ )
+			DBG(_DBG_INFO, "inverting GREEN map\n");
+			pdw = (u_long *) & buf[4096];
+			for (i = dev->gamma_length / 4; i; i--, pdw++)
 				*pdw = ~(*pdw);
 		}
 
-		if((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
+		if ((_MAP_MASTER == which) || (_MAP_BLUE == which)) {
 
-			DBG( _DBG_INFO, "inverting BLUE map\n" );
-			pdw = (u_long*)&buf[8192];
-		    for( i = dev->gamma_length / 4; i; i--, pdw++ )
+			DBG(_DBG_INFO, "inverting BLUE map\n");
+			pdw = (u_long *) & buf[8192];
+			for (i = dev->gamma_length / 4; i; i--, pdw++)
 				*pdw = ~(*pdw);
 		}
 	}

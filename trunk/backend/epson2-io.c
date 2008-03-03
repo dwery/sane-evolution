@@ -46,7 +46,7 @@ unsigned int w_cmd_count = 0;
 
 int
 e2_send(Epson_Scanner * s, void *buf, size_t buf_size, size_t reply_len,
-	    SANE_Status * status)
+	SANE_Status * status)
 {
 	DBG(15, "%s: size = %lu, reply = %lu\n",
 	    __func__, (u_long) buf_size, (u_long) reply_len);
@@ -112,8 +112,7 @@ e2_send(Epson_Scanner * s, void *buf, size_t buf_size, size_t reply_len,
 }
 
 ssize_t
-e2_recv(Epson_Scanner * s, void *buf, ssize_t buf_size,
-	    SANE_Status * status)
+e2_recv(Epson_Scanner * s, void *buf, ssize_t buf_size, SANE_Status * status)
 {
 	ssize_t n = 0;
 
@@ -168,7 +167,7 @@ e2_recv(Epson_Scanner * s, void *buf, ssize_t buf_size,
 
 SANE_Status
 e2_txrx(Epson_Scanner * s, unsigned char *txbuf, size_t txlen,
-	    unsigned char *rxbuf, size_t rxlen)
+	unsigned char *rxbuf, size_t rxlen)
 {
 	SANE_Status status;
 
@@ -220,7 +219,7 @@ e2_cmd_simple(Epson_Scanner * s, void *buf, size_t buf_size)
 /* receives a 4 or 6 bytes information block from the scanner*/
 SANE_Status
 e2_recv_info_block(Epson_Scanner * s, unsigned char *scanner_status,
-		       size_t info_size, size_t * payload_size)
+		   size_t info_size, size_t * payload_size)
 {
 	SANE_Status status;
 	unsigned char info[6];
@@ -262,7 +261,7 @@ e2_recv_info_block(Epson_Scanner * s, unsigned char *scanner_status,
 			*payload_size *= le16atoh(&info[4]);
 
 		DBG(14, "%s: payload length: %lu\n", __func__,
-			(u_long) *payload_size);
+		    (u_long) * payload_size);
 	}
 
 	return SANE_STATUS_GOOD;
@@ -277,8 +276,8 @@ e2_recv_info_block(Epson_Scanner * s, unsigned char *scanner_status,
 
 SANE_Status
 e2_cmd_info_block(SANE_Handle handle, unsigned char *params,
-		      unsigned char params_len, size_t reply_len,
-		      unsigned char **buf, size_t * buf_len)
+		  unsigned char params_len, size_t reply_len,
+		  unsigned char **buf, size_t * buf_len)
 {
 	SANE_Status status;
 	Epson_Scanner *s = (Epson_Scanner *) handle;
@@ -295,7 +294,7 @@ e2_cmd_info_block(SANE_Handle handle, unsigned char *params,
 
 	/* send command, we expect the info block + reply_len back */
 	e2_send(s, params, params_len,
-		    reply_len ? reply_len + 4 : 0, &status);
+		reply_len ? reply_len + 4 : 0, &status);
 
 	if (status != SANE_STATUS_GOOD)
 		goto end;

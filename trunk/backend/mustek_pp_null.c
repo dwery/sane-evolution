@@ -39,7 +39,7 @@
    If you do not wish that, delete this exception notice.
 
    This file implements a SANE backend for Mustek PP flatbed scanners.  */
-   
+
 #include "../include/sane/config.h"
 
 #if defined(HAVE_STDLIB_H)
@@ -62,9 +62,9 @@
 
 #define MUSTEK_PP_NULL_DRIVER	0
 
-static SANE_Status 
+static SANE_Status
 debug_drv_init(SANE_Int options, SANE_String_Const port,
-		SANE_String_Const name, SANE_Attach_Callback attach)
+	       SANE_String_Const name, SANE_Attach_Callback attach)
 {
 
 	if (options != CAP_NOTHING)
@@ -74,13 +74,12 @@ debug_drv_init(SANE_Int options, SANE_String_Const port,
 
 }
 
-/*ARGSUSED*/
-static void 
-debug_drv_capabilities(SANE_Int info __UNUSED__, SANE_String *model,
-                            SANE_String *vendor, SANE_String *type,
-                            SANE_Int *maxres, SANE_Int *minres,
-                            SANE_Int *maxhsize, SANE_Int *maxvsize,
-                            SANE_Int *caps)
+ /*ARGSUSED*/ static void
+debug_drv_capabilities(SANE_Int info __UNUSED__, SANE_String * model,
+		       SANE_String * vendor, SANE_String * type,
+		       SANE_Int * maxres, SANE_Int * minres,
+		       SANE_Int * maxhsize, SANE_Int * maxvsize,
+		       SANE_Int * caps)
 {
 
 	*model = strdup("debugger");
@@ -94,17 +93,16 @@ debug_drv_capabilities(SANE_Int info __UNUSED__, SANE_String *model,
 
 }
 
-/*ARGSUSED*/
-static SANE_Status
-debug_drv_open (SANE_String port __UNUSED__, 
-			    SANE_Int caps __UNUSED__, SANE_Int *fd)
+ /*ARGSUSED*/ static SANE_Status
+debug_drv_open(SANE_String port __UNUSED__,
+	       SANE_Int caps __UNUSED__, SANE_Int * fd)
 {
 	*fd = 1;
 	return SANE_STATUS_GOOD;
 }
 
-static void 
-debug_drv_setup (SANE_Handle hndl)
+static void
+debug_drv_setup(SANE_Handle hndl)
 {
 
 	Mustek_pp_Handle *dev = hndl;
@@ -113,41 +111,37 @@ debug_drv_setup (SANE_Handle hndl)
 	dev->priv = NULL;
 }
 
-/*ARGSUSED*/
-static SANE_Status
-debug_drv_config(SANE_Handle hndl __UNUSED__, 
-			     SANE_String_Const optname,
-			     SANE_String_Const optval)
+ /*ARGSUSED*/ static SANE_Status
+debug_drv_config(SANE_Handle hndl __UNUSED__,
+		 SANE_String_Const optname, SANE_String_Const optval)
 {
-	DBG (3, "debug_drv cfg option: %s=%s\n", optname, optval ? optval : "");
+	DBG(3, "debug_drv cfg option: %s=%s\n", optname,
+	    optval ? optval : "");
 	return SANE_STATUS_GOOD;
 }
 
-/*ARGSUSED*/
+ /*ARGSUSED*/ static void
+debug_drv_close(SANE_Handle hndl __UNUSED__)
+{
+}
+
+ /*ARGSUSED*/ static SANE_Status
+debug_drv_start(SANE_Handle hndl __UNUSED__)
+{
+	return SANE_STATUS_GOOD;
+}
+
 static void
-debug_drv_close (SANE_Handle hndl __UNUSED__)
-{
-}
-
-/*ARGSUSED*/
-static SANE_Status
-debug_drv_start (SANE_Handle hndl __UNUSED__)
-{
-	return SANE_STATUS_GOOD;
-}
-
-static void 
-debug_drv_read (SANE_Handle hndl, SANE_Byte *buffer)
+debug_drv_read(SANE_Handle hndl, SANE_Byte * buffer)
 {
 
 	Mustek_pp_Handle *dev = hndl;
 
-	memset (buffer, 0, dev->params.bytes_per_line);
+	memset(buffer, 0, dev->params.bytes_per_line);
 }
 
-/*ARGSUSED*/
-static void
-debug_drv_stop (SANE_Handle hndl __UNUSED__)
+ /*ARGSUSED*/ static void
+debug_drv_stop(SANE_Handle hndl __UNUSED__)
 {
 
 }

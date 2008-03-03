@@ -507,12 +507,18 @@ esci_set_scanning_parameter(SANE_Handle handle, unsigned char *buf)
 	params[0] = FS;
 	params[1] = 'W';
 
-	DBG(10, "resolution of main scan     : %lu\n", (u_long) le32atoh(&buf[0]));
-	DBG(10, "resolution of sub scan      : %lu\n", (u_long) le32atoh(&buf[4]));
-	DBG(10, "offset length of main scan  : %lu\n", (u_long) le32atoh(&buf[8]));
-	DBG(10, "offset length of sub scan   : %lu\n", (u_long) le32atoh(&buf[12]));
-	DBG(10, "scanning length of main scan: %lu\n", (u_long) le32atoh(&buf[16]));
-	DBG(10, "scanning length of sub scan : %lu\n", (u_long) le32atoh(&buf[20]));
+	DBG(10, "resolution of main scan     : %lu\n",
+	    (u_long) le32atoh(&buf[0]));
+	DBG(10, "resolution of sub scan      : %lu\n",
+	    (u_long) le32atoh(&buf[4]));
+	DBG(10, "offset length of main scan  : %lu\n",
+	    (u_long) le32atoh(&buf[8]));
+	DBG(10, "offset length of sub scan   : %lu\n",
+	    (u_long) le32atoh(&buf[12]));
+	DBG(10, "scanning length of main scan: %lu\n",
+	    (u_long) le32atoh(&buf[16]));
+	DBG(10, "scanning length of sub scan : %lu\n",
+	    (u_long) le32atoh(&buf[20]));
 	DBG(10, "scanning color              : %d\n", buf[24]);
 	DBG(10, "data format                 : %d\n", buf[25]);
 	DBG(10, "option control              : %d\n", buf[26]);
@@ -666,7 +672,7 @@ esci_request_push_button_status(SANE_Handle handle, unsigned char *bstatus)
  * XXX information should be parsed separately.
  */
 SANE_Status
-esci_request_identity(SANE_Handle handle, unsigned char **buf, size_t *len)
+esci_request_identity(SANE_Handle handle, unsigned char **buf, size_t * len)
 {
 	Epson_Scanner *s = (Epson_Scanner *) handle;
 	unsigned char params[2];
@@ -774,7 +780,7 @@ esci_eject(Epson_Scanner * s)
 
 SANE_Status
 esci_request_extended_status(SANE_Handle handle, unsigned char **data,
-			size_t * data_len)
+			     size_t * data_len)
 {
 	Epson_Scanner *s = (Epson_Scanner *) handle;
 	SANE_Status status = SANE_STATUS_GOOD;
@@ -794,7 +800,7 @@ esci_request_extended_status(SANE_Handle handle, unsigned char **data,
 	 * and 42 (CMD_SIZE_EXT_STATUS) on new ones.
 	 */
 	status = e2_cmd_info_block(s, params, 2, CMD_SIZE_EXT_STATUS,
-				       &buf, &buf_len);
+				   &buf, &buf_len);
 	if (status != SANE_STATUS_GOOD)
 		return status;
 
@@ -804,12 +810,12 @@ esci_request_extended_status(SANE_Handle handle, unsigned char **data,
 		break;
 	default:
 		DBG(1, "%s: unknown reply length (%lu)\n", __func__,
-			(u_long) buf_len);
+		    (u_long) buf_len);
 		break;
 	}
 
 	DBG(4, "main = %02x, ADF = %02x, TPU = %02x, main 2 = %02x\n",
-		buf[0], buf[1], buf[6], buf[11]);
+	    buf[0], buf[1], buf[6], buf[11]);
 
 	if (buf[0] & EXT_STATUS_FER)
 		DBG(1, "system error\n");

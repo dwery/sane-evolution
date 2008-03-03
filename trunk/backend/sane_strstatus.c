@@ -45,51 +45,50 @@
 #include "sane/sane.h"
 
 SANE_String_Const
-sane_strstatus (SANE_Status status)
+sane_strstatus(SANE_Status status)
 {
-  static char buf[80];
+	static char buf[80];
 
-  switch (status)
-    {
-    case SANE_STATUS_GOOD:
-      return "Success";
+	switch (status) {
+	case SANE_STATUS_GOOD:
+		return "Success";
 
-    case SANE_STATUS_UNSUPPORTED:
-      return "Operation not supported";
+	case SANE_STATUS_UNSUPPORTED:
+		return "Operation not supported";
 
-    case SANE_STATUS_CANCELLED:
-      return "Operation was cancelled";
+	case SANE_STATUS_CANCELLED:
+		return "Operation was cancelled";
 
-    case SANE_STATUS_DEVICE_BUSY:
-      return "Device busy";
+	case SANE_STATUS_DEVICE_BUSY:
+		return "Device busy";
 
-    case SANE_STATUS_INVAL:
-      return "Invalid argument";
+	case SANE_STATUS_INVAL:
+		return "Invalid argument";
 
-    case SANE_STATUS_EOF:
-      return "End of file reached";
+	case SANE_STATUS_EOF:
+		return "End of file reached";
 
-    case SANE_STATUS_JAMMED:
-      return "Document feeder jammed";
+	case SANE_STATUS_JAMMED:
+		return "Document feeder jammed";
 
-    case SANE_STATUS_NO_DOCS:
-      return "Document feeder out of documents";
+	case SANE_STATUS_NO_DOCS:
+		return "Document feeder out of documents";
 
-    case SANE_STATUS_COVER_OPEN:
-      return "Scanner cover is open";
+	case SANE_STATUS_COVER_OPEN:
+		return "Scanner cover is open";
 
-    case SANE_STATUS_IO_ERROR:
-      return "Error during device I/O";
+	case SANE_STATUS_IO_ERROR:
+		return "Error during device I/O";
 
-    case SANE_STATUS_NO_MEM:
-      return "Out of memory";
+	case SANE_STATUS_NO_MEM:
+		return "Out of memory";
 
-    case SANE_STATUS_ACCESS_DENIED:
-      return "Access to resource has been denied";
+	case SANE_STATUS_ACCESS_DENIED:
+		return "Access to resource has been denied";
 
-    default:
-      /* non-reentrant, but better than nothing */
-      sprintf (buf, "Unknown SANE status code %d", status);
-      return buf;
-    }
+	default:
+		/* non-reentrant, but better than nothing */
+		sprintf(buf, "Unknown SANE status code %d", status);
+		return buf;
+	}
 }

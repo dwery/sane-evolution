@@ -42,52 +42,52 @@
 */
 
 static Lexmark_Model model_list[] = {
-  {
-   0x043d,			/* vendor id */
-   0x007c,			/* product id */
-   0xb2,			/* submodel id */
-   "Lexmark X1100",		/* name */
-   "Lexmark",			/* vendor */
-   "X1100/rev. B2",		/* model */
-   X1100_MOTOR,			/* X1100 series has 2 sensors */
-   X1100_B2_SENSOR},
-  {
-   0x043d,			/* vendor id */
-   0x007c,			/* product id */
-   0x2c,			/* submodel id */
-   "Lexmark X1100",		/* name */
-   "Lexmark",			/* vendor */
-   "X1100/rev. 2C",		/* model */
-   A920_MOTOR,			/* X1100 series has 2 sensors, 2C or B2. It
+	{
+	 0x043d,		/* vendor id */
+	 0x007c,		/* product id */
+	 0xb2,			/* submodel id */
+	 "Lexmark X1100",	/* name */
+	 "Lexmark",		/* vendor */
+	 "X1100/rev. B2",	/* model */
+	 X1100_MOTOR,		/* X1100 series has 2 sensors */
+	 X1100_B2_SENSOR},
+	{
+	 0x043d,		/* vendor id */
+	 0x007c,		/* product id */
+	 0x2c,			/* submodel id */
+	 "Lexmark X1100",	/* name */
+	 "Lexmark",		/* vendor */
+	 "X1100/rev. 2C",	/* model */
+	 A920_MOTOR,		/* X1100 series has 2 sensors, 2C or B2. It
 				   is detected at sane_open() */
-   X1100_2C_SENSOR},
-  {
-   0x413c,			/* vendor id */
-   0x5105,			/* product id */
-   0x2c,			/* submodel id */
-   "Dell A920",			/* name */
-   "Dell",			/* vendor */
-   "A920",			/* model */
-   A920_MOTOR,
-   A920_SENSOR},
-  {
-   0x043d,			/* vendor id */
-   0x007d,			/* product id */
-   0x87,			/* submodel id */
-   "Lexmark X1200",		/* name */
-   "Lexmark",			/* vendor */
-   "X1200/USB1.1",		/* model */
-   A920_MOTOR,
-   X1200_SENSOR},
-  {
-   0x043d,			/* vendor id */
-   0x007d,			/* product id */
-   0x97,			/* submodel id */
-   "Lexmark X1200",		/* name */
-   "Lexmark",			/* vendor */
-   "X1200/USB2.0",		/* model */
-   A920_MOTOR,
-   X1200_USB2_SENSOR},
-  {				/* termination model, must be last */
-   0, 0, 0, NULL, NULL, NULL, 0, 0}
+	 X1100_2C_SENSOR},
+	{
+	 0x413c,		/* vendor id */
+	 0x5105,		/* product id */
+	 0x2c,			/* submodel id */
+	 "Dell A920",		/* name */
+	 "Dell",		/* vendor */
+	 "A920",		/* model */
+	 A920_MOTOR,
+	 A920_SENSOR},
+	{
+	 0x043d,		/* vendor id */
+	 0x007d,		/* product id */
+	 0x87,			/* submodel id */
+	 "Lexmark X1200",	/* name */
+	 "Lexmark",		/* vendor */
+	 "X1200/USB1.1",	/* model */
+	 A920_MOTOR,
+	 X1200_SENSOR},
+	{
+	 0x043d,		/* vendor id */
+	 0x007d,		/* product id */
+	 0x97,			/* submodel id */
+	 "Lexmark X1200",	/* name */
+	 "Lexmark",		/* vendor */
+	 "X1200/USB2.0",	/* model */
+	 A920_MOTOR,
+	 X1200_USB2_SENSOR},
+	{			/* termination model, must be last */
+	 0, 0, 0, NULL, NULL, NULL, 0, 0}
 };				/* end models description */

@@ -62,15 +62,14 @@
 #include "umax-uc1200se.c"
 #include "umax-uc1260.c"
 
-static inquiry_blk *inquiry_table[] =
-{
-  &inquiry_uc630,
-  &inquiry_uc840,
-  &inquiry_ug630,
-  &inquiry_ug80,
-  &inquiry_uc1200s,
-  &inquiry_uc1200se,
-  &inquiry_uc1260
+static inquiry_blk *inquiry_table[] = {
+	&inquiry_uc630,
+	&inquiry_uc840,
+	&inquiry_ug630,
+	&inquiry_ug80,
+	&inquiry_uc1200s,
+	&inquiry_uc1200se,
+	&inquiry_uc1260
 };
 
 #define known_inquiry 7
@@ -80,57 +79,55 @@ static inquiry_blk *inquiry_table[] =
 /* names of scanners that are supported because */
 /* the inquiry_return_block is ok and driver is tested */
 
-static char *scanner_str[] =
-{
-  "UMAX ",	"Vista-T630 ",
-  "UMAX ",	"Vista-S6 ",
-  "UMAX ",	"Vista-S6E ",
-  "UMAX ",	"UMAX S-6E ",
-  "UMAX ",	"UMAX S-6EG ",
-  "UMAX ",	"Vista-S8 ",
-  "UMAX ",	"UMAX S-12 ",
-  "UMAX ",	"UMAX S-12G ",
-  "UMAX ",	"SuperVista S-12 ",
-  "UMAX ",	"PSD ",
-  "UMAX ",	"Astra 600S ",
-  "UMAX ",	"Astra 610S ",
-  "UMAX ",	"Astra 1200S ",
-  "UMAX ",	"Astra 1220S ", 
-  "UMAX ",	"Astra 2100S ", 
-  "UMAX ",	"Astra 2200 ", 
-  "UMAX ",	"Astra 2400S ",
-/*  "UMAX ",	"Astra 6400 ", */ /* this is a firewire scanner */
-/*  "UMAX ",	"Astra 6450 ", */ /* this is a firewire scanner */
-  "UMAX ",	"Mirage D-16L ",
-  "UMAX ",	"Mirage II ",
-  "UMAX ",	"Mirage IIse ",
-  "UMAX ",	"PL-II ",
-  "UMAX ",	"Power Look 2000 ",
-  "UMAX ",	"PowerLook 2100XL",
-  "UMAX ",	"PowerLook III ",
-  "UMAX ",	"PowerLook 3000 ",
-  "UMAX ",	"Gemini D-16 ",
-  "UMAX ",      "PS-2400X ", /* same as LinoHell SAPHIR */
-  "LinoHell",	"JADE ",   /* is a Supervista S-12 */
-  "LinoHell",	"Office ", /* is a Supervista S-12 */
-  "LinoHell",	"Office2 ",
-  "LinoHell",	"SAPHIR ", /* same as UMAX PS-2400X */
-  "LinoHell",	"SAPHIR2 ",
-  "LinoHell",	"SAPHIR3 ", /* 1000x2000 dpi */
+static char *scanner_str[] = {
+	"UMAX ", "Vista-T630 ",
+	"UMAX ", "Vista-S6 ",
+	"UMAX ", "Vista-S6E ",
+	"UMAX ", "UMAX S-6E ",
+	"UMAX ", "UMAX S-6EG ",
+	"UMAX ", "Vista-S8 ",
+	"UMAX ", "UMAX S-12 ",
+	"UMAX ", "UMAX S-12G ",
+	"UMAX ", "SuperVista S-12 ",
+	"UMAX ", "PSD ",
+	"UMAX ", "Astra 600S ",
+	"UMAX ", "Astra 610S ",
+	"UMAX ", "Astra 1200S ",
+	"UMAX ", "Astra 1220S ",
+	"UMAX ", "Astra 2100S ",
+	"UMAX ", "Astra 2200 ",
+	"UMAX ", "Astra 2400S ",
+	/*  "UMAX ",    "Astra 6400 ", *//* this is a firewire scanner */
+	/*  "UMAX ",    "Astra 6450 ", *//* this is a firewire scanner */
+	"UMAX ", "Mirage D-16L ",
+	"UMAX ", "Mirage II ",
+	"UMAX ", "Mirage IIse ",
+	"UMAX ", "PL-II ",
+	"UMAX ", "Power Look 2000 ",
+	"UMAX ", "PowerLook 2100XL",
+	"UMAX ", "PowerLook III ",
+	"UMAX ", "PowerLook 3000 ",
+	"UMAX ", "Gemini D-16 ",
+	"UMAX ", "PS-2400X ",	/* same as LinoHell SAPHIR */
+	"LinoHell", "JADE ",	/* is a Supervista S-12 */
+	"LinoHell", "Office ",	/* is a Supervista S-12 */
+	"LinoHell", "Office2 ",
+	"LinoHell", "SAPHIR ",	/* same as UMAX PS-2400X */
+	"LinoHell", "SAPHIR2 ",
+	"LinoHell", "SAPHIR3 ",	/* 1000x2000 dpi */
 /*  "LinoHell",	"SAPHIR4 ", */
-  "Linotype",	"SAPHIR4 ", /* Linotype-Hell Saphir Ultra II */
+	"Linotype", "SAPHIR4 ",	/* Linotype-Hell Saphir Ultra II */
 /*  "LinoHell",	"OPAL ", */
-  "LinoHell",	"OPAL2 ", /* looks like a UMAX Mirage II */
-  "HDM ",	"LS4H1S ", /* Linoscan 1400 */
-  "Nikon ",	"AX-110 ", /* is a Vista S6E */
-  "Nikon ",	"AX-210 ", /* is a Supervista S12 */
-  "KYE ",	"ColorPage-HR5 ", 
-  "EPSON ",	"Perfection600 ", 
-  "ESCORT ",    "Galleria 600S ", /* is an Astra 600S */
-  "EDGE ",	"KTX-9600US ", /* may be an Astra 1220S */
-  "TriGem ",	"PowerScanII ", /* is a Supervista S12 */
-  "END_OF_LIST"
+	"LinoHell", "OPAL2 ",	/* looks like a UMAX Mirage II */
+	"HDM ", "LS4H1S ",	/* Linoscan 1400 */
+	"Nikon ", "AX-110 ",	/* is a Vista S6E */
+	"Nikon ", "AX-210 ",	/* is a Supervista S12 */
+	"KYE ", "ColorPage-HR5 ",
+	"EPSON ", "Perfection600 ",
+	"ESCORT ", "Galleria 600S ",	/* is an Astra 600S */
+	"EDGE ", "KTX-9600US ",	/* may be an Astra 1220S */
+	"TriGem ", "PowerScanII ",	/* is a Supervista S12 */
+	"END_OF_LIST"
 };
 
 /* ==================================================================== */
-

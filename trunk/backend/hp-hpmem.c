@@ -53,16 +53,16 @@ extern int sanei_debug_hp;*/
 
 #include "hp.h"
 
-typedef struct hp_alloc_s  Alloc;
+typedef struct hp_alloc_s Alloc;
 
 struct hp_alloc_s
 {
-    Alloc *	prev;
-    Alloc *	next;
-    hp_byte_t	buf[1];
+	Alloc *prev;
+	Alloc *next;
+	hp_byte_t buf[1];
 };
 
-static Alloc  head[] = {{ head, head, {0} }};
+static Alloc head[] = { {head, head, {0}} };
 
 #define DATA_OFFSET	  (head->buf - (hp_byte_t *)head)
 #define VOID_TO_ALLOCP(p) ((Alloc *)((hp_byte_t *)(p) - DATA_OFFSET))
@@ -70,82 +70,81 @@ static Alloc  head[] = {{ head, head, {0} }};
 
 
 void *
-sanei_hp_alloc (size_t sz)
+sanei_hp_alloc(size_t sz)
 {
-  Alloc * new = malloc(ALLOCSIZE(sz));
+	Alloc *new = malloc(ALLOCSIZE(sz));
 
-  if (!new)
-      return 0;
-  (new->next = head->next)->prev = new;
-  (new->prev = head)->next = new;
-  return new->buf;
+	if (!new)
+		return 0;
+	(new->next = head->next)->prev = new;
+	(new->prev = head)->next = new;
+	return new->buf;
 }
 
 void *
-sanei_hp_allocz (size_t sz)
+sanei_hp_allocz(size_t sz)
 {
-  void * new = sanei_hp_alloc(sz);
+	void *new = sanei_hp_alloc(sz);
 
-  if (!new)
-      return 0;
-  memset(new, 0, sz);
-  return new;
+	if (!new)
+		return 0;
+	memset(new, 0, sz);
+	return new;
 }
 
 void *
-sanei_hp_memdup (const void * src, size_t sz)
+sanei_hp_memdup(const void *src, size_t sz)
 {
-  char * new = sanei_hp_alloc(sz);
-  if (!new)
-      return 0;
-  return memcpy(new, src, sz);
+	char *new = sanei_hp_alloc(sz);
+	if (!new)
+		return 0;
+	return memcpy(new, src, sz);
 }
 
 char *
-sanei_hp_strdup (const char * str)
+sanei_hp_strdup(const char *str)
 {
-  return sanei_hp_memdup(str, strlen(str) + 1);
+	return sanei_hp_memdup(str, strlen(str) + 1);
 }
 
 void *
-sanei_hp_realloc (void * ptr, size_t sz)
+sanei_hp_realloc(void *ptr, size_t sz)
 {
-  if (ptr)
-    {
-      Alloc * old = VOID_TO_ALLOCP(ptr);
-      Alloc  copy = *old;
-      Alloc * new = realloc(old, ALLOCSIZE(sz));
-      if (!new)
-	  return 0;
-      if (new != old)
-	  (new->prev = copy.prev)->next = (new->next = copy.next)->prev = new;
-      return new->buf;
-    }
-  else
-      return sanei_hp_alloc(sz);
+	if (ptr) {
+		Alloc *old = VOID_TO_ALLOCP(ptr);
+		Alloc copy = *old;
+		Alloc *new = realloc(old, ALLOCSIZE(sz));
+		if (!new)
+			return 0;
+		if (new != old)
+			(new->prev = copy.prev)->next = (new->next =
+							 copy.next)->prev =
+				new;
+		return new->buf;
+	} else
+		return sanei_hp_alloc(sz);
 }
 
 void
-sanei_hp_free (void * ptr)
+sanei_hp_free(void *ptr)
 {
-  Alloc * old = VOID_TO_ALLOCP(ptr);
+	Alloc *old = VOID_TO_ALLOCP(ptr);
 
-  assert(old && old != head);
-  (old->next->prev = old->prev)->next = old->next;
-  old->next = old->prev = 0;	/* so we can puke on multiple free's */
-  free(old);
+	assert(old && old != head);
+	(old->next->prev = old->prev)->next = old->next;
+	old->next = old->prev = 0;	/* so we can puke on multiple free's */
+	free(old);
 }
 
 void
-sanei_hp_free_all (void)
+sanei_hp_free_all(void)
 {
-  Alloc * ptr;
-  Alloc * next;
+	Alloc *ptr;
+	Alloc *next;
 
-  for (ptr = head->next; ptr != head; ptr = next)
-    {
-      next = ptr->next;
-      free(ptr);
-    }
-  head->next = head->prev = head;
+	for (ptr = head->next; ptr != head; ptr = next) {
+		next = ptr->next;
+		free(ptr);
+	}
+	head->next = head->prev = head;
 }

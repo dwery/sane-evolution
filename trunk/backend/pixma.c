@@ -87,31 +87,31 @@
 
 typedef struct pixma_sane_t
 {
-  struct pixma_sane_t *next;
-  pixma_t *s;
-  pixma_scan_param_t sp;
-  SANE_Bool cancel;
+	struct pixma_sane_t *next;
+	pixma_t *s;
+	pixma_scan_param_t sp;
+	SANE_Bool cancel;
 
-  /* valid states: idle, !idle && scanning, !idle && !scanning */
-  SANE_Bool idle;
-  SANE_Bool scanning;
-  SANE_Status last_read_status;	/* valid if !idle && !scanning */
+	/* valid states: idle, !idle && scanning, !idle && !scanning */
+	SANE_Bool idle;
+	SANE_Bool scanning;
+	SANE_Status last_read_status;	/* valid if !idle && !scanning */
 
-  option_descriptor_t opt[opt_last];
-  SANE_Range xrange, yrange;
-  SANE_Word dpi_list[9];	/* up to 9600 dpi */
-  SANE_String_Const mode_list[3];
-  uint8_t gamma_table[4096];
-  SANE_String_Const source_list[4];
-  pixma_paper_source_t source_map[4];
+	option_descriptor_t opt[opt_last];
+	SANE_Range xrange, yrange;
+	SANE_Word dpi_list[9];	/* up to 9600 dpi */
+	SANE_String_Const mode_list[3];
+	uint8_t gamma_table[4096];
+	SANE_String_Const source_list[4];
+	pixma_paper_source_t source_map[4];
 
-  unsigned byte_pos_in_line, output_line_size;
-  unsigned image_bytes_read;
-  unsigned page_count;		/* valid for ADF */
+	unsigned byte_pos_in_line, output_line_size;
+	unsigned image_bytes_read;
+	unsigned page_count;	/* valid for ADF */
 
-  int reader_taskid;
-  int wpipe, rpipe;
-  SANE_Bool reader_stop;
+	int reader_taskid;
+	int wpipe, rpipe;
+	SANE_Bool reader_stop;
 } pixma_sane_t;
 
 
@@ -123,855 +123,789 @@ static const SANE_Device **dev_list = NULL;
 
 
 static SANE_Status
-map_error (int error)
+map_error(int error)
 {
-  if (error >= 0)
-    return SANE_STATUS_GOOD;
+	if (error >= 0)
+		return SANE_STATUS_GOOD;
 
-  switch (error)
-    {
-    case PIXMA_ENOMEM:
-      return SANE_STATUS_NO_MEM;
-    case PIXMA_ECANCELED:
-      return SANE_STATUS_CANCELLED;
-    case PIXMA_EBUSY:
-      return SANE_STATUS_DEVICE_BUSY;
-    case PIXMA_EINVAL:
-      return SANE_STATUS_INVAL;
-    case PIXMA_EACCES:
-      return SANE_STATUS_ACCESS_DENIED;
-    case PIXMA_EPAPER_JAMMED:
-      return SANE_STATUS_JAMMED;
-    case PIXMA_ENO_PAPER:
-      return SANE_STATUS_NO_DOCS;
-    case PIXMA_ECOVER_OPEN:
-      return SANE_STATUS_COVER_OPEN;
-    case PIXMA_ENOTSUP:
-      return SANE_STATUS_UNSUPPORTED;
-    case PIXMA_EPROTO:
-    case PIXMA_ENODEV:
-    case PIXMA_EIO:
-    case PIXMA_ETIMEDOUT:
-      return SANE_STATUS_IO_ERROR;
-    }
-  PDBG (pixma_dbg (1, "BUG: unmapped error %d\n", error));
-  return SANE_STATUS_IO_ERROR;
+	switch (error) {
+	case PIXMA_ENOMEM:
+		return SANE_STATUS_NO_MEM;
+	case PIXMA_ECANCELED:
+		return SANE_STATUS_CANCELLED;
+	case PIXMA_EBUSY:
+		return SANE_STATUS_DEVICE_BUSY;
+	case PIXMA_EINVAL:
+		return SANE_STATUS_INVAL;
+	case PIXMA_EACCES:
+		return SANE_STATUS_ACCESS_DENIED;
+	case PIXMA_EPAPER_JAMMED:
+		return SANE_STATUS_JAMMED;
+	case PIXMA_ENO_PAPER:
+		return SANE_STATUS_NO_DOCS;
+	case PIXMA_ECOVER_OPEN:
+		return SANE_STATUS_COVER_OPEN;
+	case PIXMA_ENOTSUP:
+		return SANE_STATUS_UNSUPPORTED;
+	case PIXMA_EPROTO:
+	case PIXMA_ENODEV:
+	case PIXMA_EIO:
+	case PIXMA_ETIMEDOUT:
+		return SANE_STATUS_IO_ERROR;
+	}
+	PDBG(pixma_dbg(1, "BUG: unmapped error %d\n", error));
+	return SANE_STATUS_IO_ERROR;
 }
 
 static int
-getenv_atoi (const char *name, int def)
+getenv_atoi(const char *name, int def)
 {
-  const char *str = getenv (name);
-  return (str) ? atoi (str) : def;
+	const char *str = getenv(name);
+	return (str) ? atoi(str) : def;
 }
 
 #define CONST_CAST(t,x) (t)(x)
 
 static void
-cleanup_device_list (void)
+cleanup_device_list(void)
 {
-  if (dev_list)
-    {
-      int i;
-      for (i = 0; dev_list[i]; i++)
-	{
-	  free (CONST_CAST (void *, dev_list[i]->name));
-	  free (CONST_CAST (void *, dev_list[i]->model));
-	  free (CONST_CAST (void *, dev_list[i]));
+	if (dev_list) {
+		int i;
+		for (i = 0; dev_list[i]; i++) {
+			free(CONST_CAST(void *, dev_list[i]->name));
+			free(CONST_CAST(void *, dev_list[i]->model));
+			free(CONST_CAST(void *, dev_list[i]));
+		}
 	}
-    }
-  free (dev_list);
-  dev_list = NULL;
+	free(dev_list);
+	dev_list = NULL;
 }
 
 static void
-find_scanners (void)
+find_scanners(void)
 {
-  unsigned i, nscanners;
+	unsigned i, nscanners;
 
-  cleanup_device_list ();
-  nscanners = pixma_find_scanners ();
-  PDBG (pixma_dbg (3, "pixma_find_scanners() found %u devices\n", nscanners));
-  dev_list =
-    (const SANE_Device **) calloc (nscanners + 1, sizeof (*dev_list));
-  if (!dev_list)
-    return;
-  for (i = 0; i != nscanners; i++)
-    {
-      SANE_Device *sdev = (SANE_Device *) calloc (1, sizeof (*sdev));
-      char *name, *model;
-      if (!sdev)
-	goto nomem;
-      name = strdup (pixma_get_device_id (i));
-      model = strdup (pixma_get_device_model (i));
-      if (!name || !model)
-	{
-	  free (name);
-	  free (model);
-	  free (sdev);
-	  goto nomem;
+	cleanup_device_list();
+	nscanners = pixma_find_scanners();
+	PDBG(pixma_dbg
+	     (3, "pixma_find_scanners() found %u devices\n", nscanners));
+	dev_list =
+		(const SANE_Device **) calloc(nscanners + 1,
+					      sizeof(*dev_list));
+	if (!dev_list)
+		return;
+	for (i = 0; i != nscanners; i++) {
+		SANE_Device *sdev = (SANE_Device *) calloc(1, sizeof(*sdev));
+		char *name, *model;
+		if (!sdev)
+			goto nomem;
+		name = strdup(pixma_get_device_id(i));
+		model = strdup(pixma_get_device_model(i));
+		if (!name || !model) {
+			free(name);
+			free(model);
+			free(sdev);
+			goto nomem;
+		}
+		sdev->name = name;
+		sdev->model = model;
+		sdev->vendor = vendor_str;
+		sdev->type = type_str;
+		dev_list[i] = sdev;
 	}
-      sdev->name = name;
-      sdev->model = model;
-      sdev->vendor = vendor_str;
-      sdev->type = type_str;
-      dev_list[i] = sdev;
-    }
-  /* dev_list is already NULL terminated by calloc(). */
-  return;
+	/* dev_list is already NULL terminated by calloc(). */
+	return;
 
-nomem:
-  PDBG (pixma_dbg (1, "WARNING:not enough memory for device list\n"));
-  return;
+      nomem:
+	PDBG(pixma_dbg(1, "WARNING:not enough memory for device list\n"));
+	return;
 }
 
 static pixma_sane_t *
-check_handle (SANE_Handle h)
+check_handle(SANE_Handle h)
 {
-  pixma_sane_t *p;
+	pixma_sane_t *p;
 
-  for (p = first_scanner; p && (SANE_Handle) p != h; p = p->next)
-    {
-    }
-  return p;
+	for (p = first_scanner; p && (SANE_Handle) p != h; p = p->next) {
+	}
+	return p;
 }
 
 static void
-update_button_state (pixma_sane_t * ss, SANE_Int * info)
+update_button_state(pixma_sane_t * ss, SANE_Int * info)
 {
-  SANE_Int b1 = OVAL (opt_button_1).w;
-  SANE_Int b2 = OVAL (opt_button_2).w;
-  uint32_t ev = pixma_wait_event (ss->s, 300);
-  switch (ev & ~PIXMA_EV_ACTION_MASK)
-    {
-    case PIXMA_EV_BUTTON1:
-      b1 = (ev & PIXMA_EV_ACTION_MASK) + 1;
-      break;
-    case PIXMA_EV_BUTTON2:
-      b2 = (ev & PIXMA_EV_ACTION_MASK) + 1;
-      break;
-    }
-  if (b1 != OVAL (opt_button_1).w || b2 != OVAL (opt_button_2).w)
-    *info |= SANE_INFO_RELOAD_OPTIONS;
-  OVAL (opt_button_1).w = b1;
-  OVAL (opt_button_2).w = b2;
+	SANE_Int b1 = OVAL(opt_button_1).w;
+	SANE_Int b2 = OVAL(opt_button_2).w;
+	uint32_t ev = pixma_wait_event(ss->s, 300);
+	switch (ev & ~PIXMA_EV_ACTION_MASK) {
+	case PIXMA_EV_BUTTON1:
+		b1 = (ev & PIXMA_EV_ACTION_MASK) + 1;
+		break;
+	case PIXMA_EV_BUTTON2:
+		b2 = (ev & PIXMA_EV_ACTION_MASK) + 1;
+		break;
+	}
+	if (b1 != OVAL(opt_button_1).w || b2 != OVAL(opt_button_2).w)
+		*info |= SANE_INFO_RELOAD_OPTIONS;
+	OVAL(opt_button_1).w = b1;
+	OVAL(opt_button_2).w = b2;
 }
 
 static SANE_Bool
-enable_option (pixma_sane_t * ss, SANE_Int o, SANE_Bool enable)
+enable_option(pixma_sane_t * ss, SANE_Int o, SANE_Bool enable)
 {
-  SANE_Word save = SOD (o).cap;
-  if (enable)
-    SOD (o).cap &= ~SANE_CAP_INACTIVE;
-  else
-    SOD (o).cap |= SANE_CAP_INACTIVE;
-  return (save != SOD (o).cap);
+	SANE_Word save = SOD(o).cap;
+	if (enable)
+		SOD(o).cap &= ~SANE_CAP_INACTIVE;
+	else
+		SOD(o).cap |= SANE_CAP_INACTIVE;
+	return (save != SOD(o).cap);
 }
 
 static void
-clamp_value (pixma_sane_t * ss, SANE_Int n, void *v, SANE_Int * info)
+clamp_value(pixma_sane_t * ss, SANE_Int n, void *v, SANE_Int * info)
 {
-  SANE_Option_Descriptor *sod = &SOD (n);
-  SANE_Word *va = (SANE_Word *) v;
-  const SANE_Range *range = sod->constraint.range;
-  int i, nmemb;
+	SANE_Option_Descriptor *sod = &SOD(n);
+	SANE_Word *va = (SANE_Word *) v;
+	const SANE_Range *range = sod->constraint.range;
+	int i, nmemb;
 
-  nmemb = sod->size / sizeof (SANE_Word);
-  for (i = 0; i < nmemb; i++)
-    {
-      SANE_Word value = va[i];
-      if (value < range->min)
-	{
-	  value = range->min;
+	nmemb = sod->size / sizeof(SANE_Word);
+	for (i = 0; i < nmemb; i++) {
+		SANE_Word value = va[i];
+		if (value < range->min) {
+			value = range->min;
+		} else if (value > range->max) {
+			value = range->max;
+		}
+		if (range->quant != 0) {
+			value = (value - range->min + range->quant / 2) /
+				range->quant * range->quant;
+		}
+		if (value != va[i]) {
+			va[i] = value;
+			*info |= SANE_INFO_INEXACT;
+		}
 	}
-      else if (value > range->max)
-	{
-	  value = range->max;
-	}
-      if (range->quant != 0)
-	{
-	  value = (value - range->min + range->quant / 2) /
-	    range->quant * range->quant;
-	}
-      if (value != va[i])
-	{
-	  va[i] = value;
-	  *info |= SANE_INFO_INEXACT;
-	}
-    }
 }
 
 static void
-select_value_from_list (pixma_sane_t * ss, SANE_Int n, void *v,
-			SANE_Int * info)
-{
-  SANE_Option_Descriptor *sod = &SOD (n);
-  SANE_Word *va = (SANE_Word *) v;
-  const SANE_Word *list = sod->constraint.word_list;
-  int i, j, nmemb;
-
-  nmemb = sod->size / sizeof (SANE_Word);
-  for (i = 0; i < nmemb; i++)
-    {
-      SANE_Word value = va[i];
-      SANE_Word mindelta = abs (value - list[1]);
-      SANE_Word nearest = list[1];
-      for (j = 2; j <= list[0]; j++)
-	{
-	  SANE_Word delta = abs (value - list[j]);
-	  if (delta < mindelta)
-	    {
-	      mindelta = delta;
-	      nearest = list[j];
-	    }
-	  if (mindelta == 0)
-	    break;
-	}
-      if (va[i] != nearest)
-	{
-	  va[i] = nearest;
-	  *info |= SANE_INFO_INEXACT;
-	}
-    }
-}
-
-static SANE_Status
-control_scalar_option (pixma_sane_t * ss, SANE_Int n, SANE_Action a, void *v,
+select_value_from_list(pixma_sane_t * ss, SANE_Int n, void *v,
 		       SANE_Int * info)
 {
-  option_descriptor_t *opt = &(OPT_IN_CTX[n]);
-  SANE_Word val;
+	SANE_Option_Descriptor *sod = &SOD(n);
+	SANE_Word *va = (SANE_Word *) v;
+	const SANE_Word *list = sod->constraint.word_list;
+	int i, j, nmemb;
 
-  switch (a)
-    {
-    case SANE_ACTION_GET_VALUE:
-      switch (opt->sod.type)
-	{
-	case SANE_TYPE_BOOL:
-	case SANE_TYPE_INT:
-	case SANE_TYPE_FIXED:
-	  *(SANE_Word *) v = opt->val.w;
-	  break;
-	default:
-	  return SANE_STATUS_UNSUPPORTED;
+	nmemb = sod->size / sizeof(SANE_Word);
+	for (i = 0; i < nmemb; i++) {
+		SANE_Word value = va[i];
+		SANE_Word mindelta = abs(value - list[1]);
+		SANE_Word nearest = list[1];
+		for (j = 2; j <= list[0]; j++) {
+			SANE_Word delta = abs(value - list[j]);
+			if (delta < mindelta) {
+				mindelta = delta;
+				nearest = list[j];
+			}
+			if (mindelta == 0)
+				break;
+		}
+		if (va[i] != nearest) {
+			va[i] = nearest;
+			*info |= SANE_INFO_INEXACT;
+		}
 	}
-      return SANE_STATUS_GOOD;
-
-    case SANE_ACTION_SET_VALUE:
-      switch (opt->sod.type)
-	{
-	case SANE_TYPE_BOOL:
-	  val = *(SANE_Word *) v;
-	  if (val != SANE_TRUE && val != SANE_FALSE)
-	    return SANE_STATUS_INVAL;
-	  opt->val.w = val;
-	  break;
-	case SANE_TYPE_INT:
-	case SANE_TYPE_FIXED:
-	  if (opt->sod.constraint_type == SANE_CONSTRAINT_RANGE)
-	    clamp_value (ss, n, v, info);
-	  else if (opt->sod.constraint_type == SANE_CONSTRAINT_WORD_LIST)
-	    select_value_from_list (ss, n, v, info);
-	  opt->val.w = *(SANE_Word *) v;
-	  break;
-	default:
-	  return SANE_STATUS_UNSUPPORTED;
-	}
-      *info |= opt->info;
-      return SANE_STATUS_GOOD;
-
-    case SANE_ACTION_SET_AUTO:
-      switch (opt->sod.type)
-	{
-	case SANE_TYPE_BOOL:
-	case SANE_TYPE_INT:
-	case SANE_TYPE_FIXED:
-	  opt->val.w = opt->def.w;
-	  break;
-	default:
-	  return SANE_STATUS_UNSUPPORTED;
-	}
-      *info |= opt->info;
-      return SANE_STATUS_GOOD;
-    }
-  return SANE_STATUS_UNSUPPORTED;
 }
 
 static SANE_Status
-control_string_option (pixma_sane_t * ss, SANE_Int n, SANE_Action a, void *v,
-		       SANE_Int * info)
+control_scalar_option(pixma_sane_t * ss, SANE_Int n, SANE_Action a, void *v,
+		      SANE_Int * info)
 {
-  option_descriptor_t *opt = &(OPT_IN_CTX[n]);
-  const SANE_String_Const *slist = opt->sod.constraint.string_list;
-  SANE_String str = (SANE_String) v;
-  int i;
+	option_descriptor_t *opt = &(OPT_IN_CTX[n]);
+	SANE_Word val;
 
-  if (opt->sod.constraint_type == SANE_CONSTRAINT_NONE)
-    {
-      switch (a)
-	{
+	switch (a) {
 	case SANE_ACTION_GET_VALUE:
-	  strcpy (str, opt->val.s);
-	  break;
-	case SANE_ACTION_SET_AUTO:
-	  str = opt->def.s;
-	  /* fall through */
+		switch (opt->sod.type) {
+		case SANE_TYPE_BOOL:
+		case SANE_TYPE_INT:
+		case SANE_TYPE_FIXED:
+			*(SANE_Word *) v = opt->val.w;
+			break;
+		default:
+			return SANE_STATUS_UNSUPPORTED;
+		}
+		return SANE_STATUS_GOOD;
+
 	case SANE_ACTION_SET_VALUE:
-	  strncpy (opt->val.s, str, opt->sod.size - 1);
-	  *info |= opt->info;
-	  break;
-	}
-      return SANE_STATUS_GOOD;
-    }
-  else
-    {
-      switch (a)
-	{
-	case SANE_ACTION_GET_VALUE:
-	  strcpy (str, slist[opt->val.w]);
-	  break;
+		switch (opt->sod.type) {
+		case SANE_TYPE_BOOL:
+			val = *(SANE_Word *) v;
+			if (val != SANE_TRUE && val != SANE_FALSE)
+				return SANE_STATUS_INVAL;
+			opt->val.w = val;
+			break;
+		case SANE_TYPE_INT:
+		case SANE_TYPE_FIXED:
+			if (opt->sod.constraint_type == SANE_CONSTRAINT_RANGE)
+				clamp_value(ss, n, v, info);
+			else if (opt->sod.constraint_type ==
+				 SANE_CONSTRAINT_WORD_LIST)
+				select_value_from_list(ss, n, v, info);
+			opt->val.w = *(SANE_Word *) v;
+			break;
+		default:
+			return SANE_STATUS_UNSUPPORTED;
+		}
+		*info |= opt->info;
+		return SANE_STATUS_GOOD;
+
 	case SANE_ACTION_SET_AUTO:
-	  str = opt->def.ptr;
-	  /* fall through */
-	case SANE_ACTION_SET_VALUE:
-	  i = 0;
-	  while (slist[i] && strcasecmp (str, slist[i]) != 0)
-	    i++;
-	  if (!slist[i])
-	    return SANE_STATUS_INVAL;
-	  if (strcmp (slist[i], str) != 0)
-	    {
-	      strcpy (str, slist[i]);
-	      *info |= SANE_INFO_INEXACT;
-	    }
-	  opt->val.w = i;
-	  *info |= opt->info;
-	  break;
+		switch (opt->sod.type) {
+		case SANE_TYPE_BOOL:
+		case SANE_TYPE_INT:
+		case SANE_TYPE_FIXED:
+			opt->val.w = opt->def.w;
+			break;
+		default:
+			return SANE_STATUS_UNSUPPORTED;
+		}
+		*info |= opt->info;
+		return SANE_STATUS_GOOD;
 	}
-      return SANE_STATUS_GOOD;
-    }
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 static SANE_Status
-control_option (pixma_sane_t * ss, SANE_Int n,
-		SANE_Action a, void *v, SANE_Int * info)
+control_string_option(pixma_sane_t * ss, SANE_Int n, SANE_Action a, void *v,
+		      SANE_Int * info)
 {
-  int result, i;
+	option_descriptor_t *opt = &(OPT_IN_CTX[n]);
+	const SANE_String_Const *slist = opt->sod.constraint.string_list;
+	SANE_String str = (SANE_String) v;
+	int i;
 
-  result = SANE_STATUS_UNSUPPORTED;
-  switch (n)
-    {
-    case opt_gamma_table:
-      switch (a)
-	{
-	case SANE_ACTION_SET_VALUE:
-	  clamp_value (ss, n, v, info);
-	  for (i = 0; i != 4096; i++)
-	    ss->gamma_table[i] = *((SANE_Int *) v + i);
-	  break;
-	case SANE_ACTION_GET_VALUE:
-	  for (i = 0; i != 4096; i++)
-	    *((SANE_Int *) v + i) = ss->gamma_table[i];
-	  break;
-	case SANE_ACTION_SET_AUTO:
-	  pixma_fill_gamma_table (AUTO_GAMMA, ss->gamma_table,
-				  sizeof (ss->gamma_table));
-	  break;
-	default:
-	  return SANE_STATUS_UNSUPPORTED;
+	if (opt->sod.constraint_type == SANE_CONSTRAINT_NONE) {
+		switch (a) {
+		case SANE_ACTION_GET_VALUE:
+			strcpy(str, opt->val.s);
+			break;
+		case SANE_ACTION_SET_AUTO:
+			str = opt->def.s;
+			/* fall through */
+		case SANE_ACTION_SET_VALUE:
+			strncpy(opt->val.s, str, opt->sod.size - 1);
+			*info |= opt->info;
+			break;
+		}
+		return SANE_STATUS_GOOD;
+	} else {
+		switch (a) {
+		case SANE_ACTION_GET_VALUE:
+			strcpy(str, slist[opt->val.w]);
+			break;
+		case SANE_ACTION_SET_AUTO:
+			str = opt->def.ptr;
+			/* fall through */
+		case SANE_ACTION_SET_VALUE:
+			i = 0;
+			while (slist[i] && strcasecmp(str, slist[i]) != 0)
+				i++;
+			if (!slist[i])
+				return SANE_STATUS_INVAL;
+			if (strcmp(slist[i], str) != 0) {
+				strcpy(str, slist[i]);
+				*info |= SANE_INFO_INEXACT;
+			}
+			opt->val.w = i;
+			*info |= opt->info;
+			break;
+		}
+		return SANE_STATUS_GOOD;
 	}
-      return SANE_STATUS_GOOD;
+}
 
-    case opt_button_update:
-      if (a == SANE_ACTION_SET_VALUE)
-	{
-	  update_button_state (ss, info);
-	  return SANE_STATUS_GOOD;
+static SANE_Status
+control_option(pixma_sane_t * ss, SANE_Int n,
+	       SANE_Action a, void *v, SANE_Int * info)
+{
+	int result, i;
+
+	result = SANE_STATUS_UNSUPPORTED;
+	switch (n) {
+	case opt_gamma_table:
+		switch (a) {
+		case SANE_ACTION_SET_VALUE:
+			clamp_value(ss, n, v, info);
+			for (i = 0; i != 4096; i++)
+				ss->gamma_table[i] = *((SANE_Int *) v + i);
+			break;
+		case SANE_ACTION_GET_VALUE:
+			for (i = 0; i != 4096; i++)
+				*((SANE_Int *) v + i) = ss->gamma_table[i];
+			break;
+		case SANE_ACTION_SET_AUTO:
+			pixma_fill_gamma_table(AUTO_GAMMA, ss->gamma_table,
+					       sizeof(ss->gamma_table));
+			break;
+		default:
+			return SANE_STATUS_UNSUPPORTED;
+		}
+		return SANE_STATUS_GOOD;
+
+	case opt_button_update:
+		if (a == SANE_ACTION_SET_VALUE) {
+			update_button_state(ss, info);
+			return SANE_STATUS_GOOD;
+		} else {
+			return SANE_STATUS_INVAL;
+		}
+		break;
 	}
-      else
-	{
-	  return SANE_STATUS_INVAL;
+
+	switch (SOD(n).type) {
+	case SANE_TYPE_BOOL:
+	case SANE_TYPE_INT:
+	case SANE_TYPE_FIXED:
+		result = control_scalar_option(ss, n, a, v, info);
+		break;
+	case SANE_TYPE_STRING:
+		result = control_string_option(ss, n, a, v, info);
+		break;
+	case SANE_TYPE_BUTTON:
+	case SANE_TYPE_GROUP:
+		PDBG(pixma_dbg(1, "BUG:control_option():Unhandled option\n"));
+		result = SANE_STATUS_INVAL;
+		break;
 	}
-      break;
-    }
+	if (result != SANE_STATUS_GOOD)
+		return result;
 
-  switch (SOD (n).type)
-    {
-    case SANE_TYPE_BOOL:
-    case SANE_TYPE_INT:
-    case SANE_TYPE_FIXED:
-      result = control_scalar_option (ss, n, a, v, info);
-      break;
-    case SANE_TYPE_STRING:
-      result = control_string_option (ss, n, a, v, info);
-      break;
-    case SANE_TYPE_BUTTON:
-    case SANE_TYPE_GROUP:
-      PDBG (pixma_dbg (1, "BUG:control_option():Unhandled option\n"));
-      result = SANE_STATUS_INVAL;
-      break;
-    }
-  if (result != SANE_STATUS_GOOD)
-    return result;
-
-  switch (n)
-    {
-    case opt_custom_gamma:
-      if (a == SANE_ACTION_SET_VALUE || a == SANE_ACTION_SET_AUTO)
-	{
-	  if (enable_option (ss, opt_gamma_table, OVAL (opt_custom_gamma).b))
-	    *info |= SANE_INFO_RELOAD_OPTIONS;
+	switch (n) {
+	case opt_custom_gamma:
+		if (a == SANE_ACTION_SET_VALUE || a == SANE_ACTION_SET_AUTO) {
+			if (enable_option
+			    (ss, opt_gamma_table, OVAL(opt_custom_gamma).b))
+				*info |= SANE_INFO_RELOAD_OPTIONS;
+		}
+		break;
 	}
-      break;
-    }
 
-  return result;
+	return result;
 }
 
 #ifndef NDEBUG
 static void
-print_scan_param (int level, const pixma_scan_param_t * sp)
+print_scan_param(int level, const pixma_scan_param_t * sp)
 {
-  pixma_dbg (level, "Scan parameters\n");
-  pixma_dbg (level, "  line_size=%u image_size=%u channels=%u depth=%u\n",
-	     sp->line_size, sp->image_size, sp->channels, sp->depth);
-  pixma_dbg (level, "  dpi=%ux%u offset=(%u,%u) dimension=%ux%u\n",
-	     sp->xdpi, sp->ydpi, sp->x, sp->y, sp->w, sp->h);
-  pixma_dbg (level, "  gamma_table=%p source=%d\n", sp->gamma_table,
-	     sp->source);
+	pixma_dbg(level, "Scan parameters\n");
+	pixma_dbg(level,
+		  "  line_size=%u image_size=%u channels=%u depth=%u\n",
+		  sp->line_size, sp->image_size, sp->channels, sp->depth);
+	pixma_dbg(level, "  dpi=%ux%u offset=(%u,%u) dimension=%ux%u\n",
+		  sp->xdpi, sp->ydpi, sp->x, sp->y, sp->w, sp->h);
+	pixma_dbg(level, "  gamma_table=%p source=%d\n", sp->gamma_table,
+		  sp->source);
 }
 #endif
 
 static int
-calc_scan_param (pixma_sane_t * ss, pixma_scan_param_t * sp)
+calc_scan_param(pixma_sane_t * ss, pixma_scan_param_t * sp)
 {
-  int x1, y1, x2, y2;
-  int error;
+	int x1, y1, x2, y2;
+	int error;
 
-  memset (sp, 0, sizeof (*sp));
+	memset(sp, 0, sizeof(*sp));
 
-  sp->channels = (OVAL (opt_mode).w == 0) ? 3 : 1;
-  sp->xdpi = sp->ydpi = OVAL (opt_resolution).w;
+	sp->channels = (OVAL(opt_mode).w == 0) ? 3 : 1;
+	sp->xdpi = sp->ydpi = OVAL(opt_resolution).w;
 
 #define PIXEL(x,dpi) (int)((SANE_UNFIX(x) / 25.4 * (dpi)) + 0.5)
-  x1 = PIXEL (OVAL (opt_tl_x).w, sp->xdpi);
-  x2 = PIXEL (OVAL (opt_br_x).w, sp->xdpi);
-  if (x2 < x1)
-    {
-      int temp = x1;
-      x1 = x2;
-      x2 = temp;
-    }
-  y1 = PIXEL (OVAL (opt_tl_y).w, sp->ydpi);
-  y2 = PIXEL (OVAL (opt_br_y).w, sp->ydpi);
-  if (y2 < y1)
-    {
-      int temp = y1;
-      y1 = y2;
-      y2 = temp;
-    }
+	x1 = PIXEL(OVAL(opt_tl_x).w, sp->xdpi);
+	x2 = PIXEL(OVAL(opt_br_x).w, sp->xdpi);
+	if (x2 < x1) {
+		int temp = x1;
+		x1 = x2;
+		x2 = temp;
+	}
+	y1 = PIXEL(OVAL(opt_tl_y).w, sp->ydpi);
+	y2 = PIXEL(OVAL(opt_br_y).w, sp->ydpi);
+	if (y2 < y1) {
+		int temp = y1;
+		y1 = y2;
+		y2 = temp;
+	}
 #undef PIXEL
-  sp->x = x1;
-  sp->y = y1;
-  sp->w = x2 - x1;
-  sp->h = y2 - y1;
-  if (sp->w == 0)
-    sp->w = 1;
-  if (sp->h == 0)
-    sp->h = 1;
+	sp->x = x1;
+	sp->y = y1;
+	sp->w = x2 - x1;
+	sp->h = y2 - y1;
+	if (sp->w == 0)
+		sp->w = 1;
+	if (sp->h == 0)
+		sp->h = 1;
 
-  sp->gamma_table = (OVAL (opt_custom_gamma).b) ? ss->gamma_table : NULL;
-  sp->source = ss->source_map[OVAL (opt_source).w];
+	sp->gamma_table = (OVAL(opt_custom_gamma).b) ? ss->gamma_table : NULL;
+	sp->source = ss->source_map[OVAL(opt_source).w];
 
-  error = pixma_check_scan_param (ss->s, sp);
-  if (error < 0)
-    {
-      PDBG (pixma_dbg (1, "BUG:calc_scan_param() failed %d\n", error));
-      PDBG (print_scan_param (1, sp));
-    }
-  return error;
+	error = pixma_check_scan_param(ss->s, sp);
+	if (error < 0) {
+		PDBG(pixma_dbg
+		     (1, "BUG:calc_scan_param() failed %d\n", error));
+		PDBG(print_scan_param(1, sp));
+	}
+	return error;
 }
 
 static void
-init_option_descriptors (pixma_sane_t * ss)
+init_option_descriptors(pixma_sane_t * ss)
 {
-  const pixma_config_t *cfg;
-  int i;
+	const pixma_config_t *cfg;
+	int i;
 
-  cfg = pixma_get_config (ss->s);
+	cfg = pixma_get_config(ss->s);
 
-  /* setup range for the scan area. */
-  ss->xrange.min = SANE_FIX (0);
-  ss->xrange.max = SANE_FIX (cfg->width / 75.0 * 25.4);
-  ss->xrange.quant = SANE_FIX (0);
+	/* setup range for the scan area. */
+	ss->xrange.min = SANE_FIX(0);
+	ss->xrange.max = SANE_FIX(cfg->width / 75.0 * 25.4);
+	ss->xrange.quant = SANE_FIX(0);
 
-  ss->yrange.min = SANE_FIX (0);
-  ss->yrange.max = SANE_FIX (cfg->height / 75.0 * 25.4);
-  ss->yrange.quant = SANE_FIX (0);
+	ss->yrange.min = SANE_FIX(0);
+	ss->yrange.max = SANE_FIX(cfg->height / 75.0 * 25.4);
+	ss->yrange.quant = SANE_FIX(0);
 
-  /* setup dpi up to the value supported by the scanner. */
-  i = 0;
-  do
-    {
-      i++;
-      ss->dpi_list[i] = 75 * (1 << (i - 1));	/* 75 x 2^(i-1) */
-    }
-  while ((unsigned) ss->dpi_list[i] != cfg->xdpi);
-  ss->dpi_list[0] = i;
+	/* setup dpi up to the value supported by the scanner. */
+	i = 0;
+	do {
+		i++;
+		ss->dpi_list[i] = 75 * (1 << (i - 1));	/* 75 x 2^(i-1) */
+	}
+	while ((unsigned) ss->dpi_list[i] != cfg->xdpi);
+	ss->dpi_list[0] = i;
 
-  /* mode_list and source_list were already NULL-terminated,
-   * because the whole pixma_sane_t was cleared during allocation. */
+	/* mode_list and source_list were already NULL-terminated,
+	 * because the whole pixma_sane_t was cleared during allocation. */
 
-  /* setup available mode. */
-  ss->mode_list[0] = SANE_I18N ("Color");
-  if (cfg->cap & PIXMA_CAP_GRAY)
-    {
-      ss->mode_list[1] = SANE_I18N ("Gray");
-    }
+	/* setup available mode. */
+	ss->mode_list[0] = SANE_I18N("Color");
+	if (cfg->cap & PIXMA_CAP_GRAY) {
+		ss->mode_list[1] = SANE_I18N("Gray");
+	}
 
-  /* setup paper source */
-  i = 0;
-  ss->source_list[i] = SANE_I18N ("Flatbed");
-  ss->source_map[i] = PIXMA_SOURCE_FLATBED;
-  i++;
-  if (cfg->cap & PIXMA_CAP_ADF)
-    {
-      ss->source_list[i] = SANE_I18N ("Automatic Document Feeder");
-      ss->source_map[i] = PIXMA_SOURCE_ADF;
-      i++;
-    }
+	/* setup paper source */
+	i = 0;
+	ss->source_list[i] = SANE_I18N("Flatbed");
+	ss->source_map[i] = PIXMA_SOURCE_FLATBED;
+	i++;
+	if (cfg->cap & PIXMA_CAP_ADF) {
+		ss->source_list[i] = SANE_I18N("Automatic Document Feeder");
+		ss->source_map[i] = PIXMA_SOURCE_ADF;
+		i++;
+	}
 #if 0
-  if (cfg->cap & PIXMA_CAP_ADFDUP)
-    {
-      ss->source_list[i] = SANE_I18N ("ADF Duplex");
-      ss->source_map[i] = PIXMA_SOURCE_ADFDUP;
-      i++;
-    }
+	if (cfg->cap & PIXMA_CAP_ADFDUP) {
+		ss->source_list[i] = SANE_I18N("ADF Duplex");
+		ss->source_map[i] = PIXMA_SOURCE_ADFDUP;
+		i++;
+	}
 #endif
 
-  build_option_descriptors (ss);
+	build_option_descriptors(ss);
 
-  /* Enable options that are available only in some scanners. */
-  if (cfg->cap & PIXMA_CAP_GAMMA_TABLE)
-    {
-      enable_option (ss, opt_custom_gamma, SANE_TRUE);
-      sane_control_option (ss, opt_custom_gamma, SANE_ACTION_SET_AUTO,
-			   NULL, NULL);
-      pixma_fill_gamma_table (AUTO_GAMMA, ss->gamma_table, 4096);
-    }
-  enable_option (ss, opt_button_controlled,
-		 ((cfg->cap & PIXMA_CAP_EVENTS) != 0));
+	/* Enable options that are available only in some scanners. */
+	if (cfg->cap & PIXMA_CAP_GAMMA_TABLE) {
+		enable_option(ss, opt_custom_gamma, SANE_TRUE);
+		sane_control_option(ss, opt_custom_gamma,
+				    SANE_ACTION_SET_AUTO, NULL, NULL);
+		pixma_fill_gamma_table(AUTO_GAMMA, ss->gamma_table, 4096);
+	}
+	enable_option(ss, opt_button_controlled,
+		      ((cfg->cap & PIXMA_CAP_EVENTS) != 0));
 }
 
 /* Writing to reader_ss outside reader_process() is a BUG! */
 static pixma_sane_t *reader_ss = NULL;
 
 static RETSIGTYPE
-reader_signal_handler (int sig)
+reader_signal_handler(int sig)
 {
-  UNUSED (sig);
-  if (reader_ss)
-    {
-      reader_ss->reader_stop = SANE_TRUE;
-      pixma_cancel (reader_ss->s);
-    }
+	UNUSED(sig);
+	if (reader_ss) {
+		reader_ss->reader_stop = SANE_TRUE;
+		pixma_cancel(reader_ss->s);
+	}
 }
 
 static int
-write_all (pixma_sane_t * ss, void *buf_, size_t size)
+write_all(pixma_sane_t * ss, void *buf_, size_t size)
 {
-  uint8_t *buf = (uint8_t *) buf_;
-  int count;
+	uint8_t *buf = (uint8_t *) buf_;
+	int count;
 
-  while (size != 0 && !ss->reader_stop)
-    {
-      count = write (ss->wpipe, buf, size);
-      if (count == -1 && errno != EINTR)
-	break;
-      if (count == -1 && errno == EINTR)
-	continue;
-      buf += count;
-      size -= count;
-    }
-  return buf - (uint8_t *) buf_;
+	while (size != 0 && !ss->reader_stop) {
+		count = write(ss->wpipe, buf, size);
+		if (count == -1 && errno != EINTR)
+			break;
+		if (count == -1 && errno == EINTR)
+			continue;
+		buf += count;
+		size -= count;
+	}
+	return buf - (uint8_t *) buf_;
 }
 
 /* NOTE: reader_loop() runs either in a separate thread or process. */
 static SANE_Status
-reader_loop (pixma_sane_t * ss)
+reader_loop(pixma_sane_t * ss)
 {
-  void *buf;
-  unsigned bufsize;
-  int count = 0;
+	void *buf;
+	unsigned bufsize;
+	int count = 0;
 
-  PDBG (pixma_dbg (3, "Reader task started\n"));
-  bufsize = ss->sp.line_size + 1;	/* XXX: "odd" bufsize for testing pixma_read_image() */
-  buf = malloc (bufsize);
-  if (!buf)
-    {
-      count = PIXMA_ENOMEM;
-      goto done;
-    }
-  pixma_enable_background (ss->s, 1);
-  if (OVAL (opt_button_controlled).b && ss->page_count == 0)
-    {
-      int start = 0;
+	PDBG(pixma_dbg(3, "Reader task started\n"));
+	bufsize = ss->sp.line_size + 1;	/* XXX: "odd" bufsize for testing pixma_read_image() */
+	buf = malloc(bufsize);
+	if (!buf) {
+		count = PIXMA_ENOMEM;
+		goto done;
+	}
+	pixma_enable_background(ss->s, 1);
+	if (OVAL(opt_button_controlled).b && ss->page_count == 0) {
+		int start = 0;
 #ifndef NDEBUG
-      pixma_dbg (1, "==== Button-controlled scan mode is enabled.\n");
-      pixma_dbg (1, "==== To proceed, presse 'SCAN' or 'COLOR' button. "
-		 "To cancel, press 'GRAY' button.\n");
+		pixma_dbg(1,
+			  "==== Button-controlled scan mode is enabled.\n");
+		pixma_dbg(1,
+			  "==== To proceed, presse 'SCAN' or 'COLOR' button. "
+			  "To cancel, press 'GRAY' button.\n");
 #endif
-      while (pixma_wait_event (ss->s, 10) != 0)
-	{
+		while (pixma_wait_event(ss->s, 10) != 0) {
+		}
+		while (!start) {
+			uint32_t events;
+			if (ss->reader_stop) {
+				count = PIXMA_ECANCELED;
+				goto done;
+			}
+			events = pixma_wait_event(ss->s, 1000);
+			switch (events & ~PIXMA_EV_ACTION_MASK) {
+			case PIXMA_EV_BUTTON1:
+				start = 1;
+				break;
+			case PIXMA_EV_BUTTON2:
+				count = PIXMA_ENO_PAPER;
+				goto done;
+			}
+		}
 	}
-      while (!start)
-	{
-	  uint32_t events;
-	  if (ss->reader_stop)
-	    {
-	      count = PIXMA_ECANCELED;
-	      goto done;
-	    }
-	  events = pixma_wait_event (ss->s, 1000);
-	  switch (events & ~PIXMA_EV_ACTION_MASK)
-	    {
-	    case PIXMA_EV_BUTTON1:
-	      start = 1;
-	      break;
-	    case PIXMA_EV_BUTTON2:
-	      count = PIXMA_ENO_PAPER;
-	      goto done;
-	    }
+	count = pixma_scan(ss->s, &ss->sp);
+	if (count >= 0) {
+		while ((count = pixma_read_image(ss->s, buf, bufsize)) > 0) {
+			if (write_all(ss, buf, count) != count)
+				pixma_cancel(ss->s);
+		}
 	}
-    }
-  count = pixma_scan (ss->s, &ss->sp);
-  if (count >= 0)
-    {
-      while ((count = pixma_read_image (ss->s, buf, bufsize)) > 0)
-	{
-	  if (write_all (ss, buf, count) != count)
-	    pixma_cancel (ss->s);
-	}
-    }
 
-done:
-  pixma_enable_background (ss->s, 0);
-  free (buf);
-  close (ss->wpipe);
-  ss->wpipe = -1;
-  if (count >= 0)
-    {
-      PDBG (pixma_dbg (3, "Reader task terminated\n"));
-    }
-  else
-    {
-      PDBG (pixma_dbg
-	    (2, "Reader task terminated: %s\n", pixma_strerror (count)));
-    }
-  return map_error (count);
+      done:
+	pixma_enable_background(ss->s, 0);
+	free(buf);
+	close(ss->wpipe);
+	ss->wpipe = -1;
+	if (count >= 0) {
+		PDBG(pixma_dbg(3, "Reader task terminated\n"));
+	} else {
+		PDBG(pixma_dbg
+		     (2, "Reader task terminated: %s\n",
+		      pixma_strerror(count)));
+	}
+	return map_error(count);
 }
 
 static int
-reader_process (void *arg)
+reader_process(void *arg)
 {
-  pixma_sane_t *ss = (pixma_sane_t *) arg;
-  struct SIGACTION sa;
+	pixma_sane_t *ss = (pixma_sane_t *) arg;
+	struct SIGACTION sa;
 
-  reader_ss = ss;
-  memset (&sa, 0, sizeof (sa));
-  sigemptyset (&sa.sa_mask);
-  sa.sa_handler = reader_signal_handler;
-  /* FIXME: which signal else? */
-  sigaction (SIGHUP, &sa, NULL);
-  sigaction (SIGINT, &sa, NULL);
-  sigaction (SIGPIPE, &sa, NULL);
-  sigaction (SIGTERM, &sa, NULL);
-  close (ss->rpipe);
-  ss->rpipe = -1;
-  return reader_loop (ss);
+	reader_ss = ss;
+	memset(&sa, 0, sizeof(sa));
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = reader_signal_handler;
+	/* FIXME: which signal else? */
+	sigaction(SIGHUP, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGPIPE, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
+	close(ss->rpipe);
+	ss->rpipe = -1;
+	return reader_loop(ss);
 }
 
 static int
-reader_thread (void *arg)
+reader_thread(void *arg)
 {
-  pixma_sane_t *ss = (pixma_sane_t *) arg;
+	pixma_sane_t *ss = (pixma_sane_t *) arg;
 #ifdef USE_PTHREAD
-  /* Block SIGPIPE. We will handle this in reader_loop() by checking
-     ss->reader_stop and the return value from write(). */
-  sigset_t sigs;
-  sigemptyset (&sigs);
-  sigaddset (&sigs, SIGPIPE);
-  pthread_sigmask (SIG_BLOCK, &sigs, NULL);
+	/* Block SIGPIPE. We will handle this in reader_loop() by checking
+	   ss->reader_stop and the return value from write(). */
+	sigset_t sigs;
+	sigemptyset(&sigs);
+	sigaddset(&sigs, SIGPIPE);
+	pthread_sigmask(SIG_BLOCK, &sigs, NULL);
 #endif /* USE_PTHREAD */
-  return reader_loop (ss);
+	return reader_loop(ss);
 }
 
 static int
-terminate_reader_task (pixma_sane_t * ss, int *exit_code)
+terminate_reader_task(pixma_sane_t * ss, int *exit_code)
 {
-  int result, pid;
-  int status = 0;
+	int result, pid;
+	int status = 0;
 
-  pid = ss->reader_taskid;
-  if (pid == -1)
-    return -1;
-  if (sanei_thread_is_forked ())
-    {
-      sanei_thread_kill (pid);
-    }
-  else
-    {
-      ss->reader_stop = SANE_TRUE;
-      pixma_cancel (ss->s);
-    }
-  result = sanei_thread_waitpid (pid, &status);
-  ss->reader_taskid = -1;
-
-  if ((ss->sp.source & (PIXMA_SOURCE_ADF | PIXMA_SOURCE_ADFDUP)) == 0)
-    ss->idle = SANE_TRUE;
-
-  if (result == pid)
-    {
-      if (exit_code)
-	*exit_code = status;
-      return pid;
-    }
-  else
-    {
-      PDBG (pixma_dbg (1, "WARNING:waitpid() failed %s\n", strerror (errno)));
-      return -1;
-    }
-}
-
-static int
-start_reader_task (pixma_sane_t * ss)
-{
-  int fds[2];
-  int pid;
-  int is_forked;
-
-  if (ss->rpipe != -1 || ss->wpipe != -1)
-    {
-      PDBG (pixma_dbg
-	    (1, "BUG:rpipe = %d, wpipe = %d\n", ss->rpipe, ss->wpipe));
-      close (ss->rpipe);
-      close (ss->wpipe);
-      ss->rpipe = -1;
-      ss->wpipe = -1;
-    }
-  if (ss->reader_taskid != -1)
-    {
-      PDBG (pixma_dbg
-	    (1, "BUG:reader_taskid(%d) != -1\n", ss->reader_taskid));
-      terminate_reader_task (ss, NULL);
-    }
-  if (pipe (fds) == -1)
-    {
-      PDBG (pixma_dbg (1, "ERROR:start_reader_task():pipe() failed %s\n",
-		       strerror (errno)));
-      return PIXMA_ENOMEM;
-    }
-  ss->rpipe = fds[0];
-  ss->wpipe = fds[1];
-  ss->reader_stop = SANE_FALSE;
-
-  is_forked = sanei_thread_is_forked ();
-  if (is_forked)
-    {
-      pid = sanei_thread_begin (reader_process, ss);
-      if (pid > 0)
-	{
-	  close (ss->wpipe);
-	  ss->wpipe = -1;
+	pid = ss->reader_taskid;
+	if (pid == -1)
+		return -1;
+	if (sanei_thread_is_forked()) {
+		sanei_thread_kill(pid);
+	} else {
+		ss->reader_stop = SANE_TRUE;
+		pixma_cancel(ss->s);
 	}
-    }
-  else
-    {
-      pid = sanei_thread_begin (reader_thread, ss);
-    }
-  if (pid == -1)
-    {
-      close (ss->wpipe);
-      close (ss->rpipe);
-      ss->wpipe = -1;
-      ss->rpipe = -1;
-      PDBG (pixma_dbg (1, "ERROR:unable to start reader task\n"));
-      return PIXMA_ENOMEM;
-    }
-  PDBG (pixma_dbg (3, "Reader task id=%d (%s)\n", pid,
-		   (is_forked) ? "forked" : "threaded"));
-  ss->reader_taskid = pid;
-  return 0;
+	result = sanei_thread_waitpid(pid, &status);
+	ss->reader_taskid = -1;
+
+	if ((ss->sp.source & (PIXMA_SOURCE_ADF | PIXMA_SOURCE_ADFDUP)) == 0)
+		ss->idle = SANE_TRUE;
+
+	if (result == pid) {
+		if (exit_code)
+			*exit_code = status;
+		return pid;
+	} else {
+		PDBG(pixma_dbg
+		     (1, "WARNING:waitpid() failed %s\n", strerror(errno)));
+		return -1;
+	}
+}
+
+static int
+start_reader_task(pixma_sane_t * ss)
+{
+	int fds[2];
+	int pid;
+	int is_forked;
+
+	if (ss->rpipe != -1 || ss->wpipe != -1) {
+		PDBG(pixma_dbg
+		     (1, "BUG:rpipe = %d, wpipe = %d\n", ss->rpipe,
+		      ss->wpipe));
+		close(ss->rpipe);
+		close(ss->wpipe);
+		ss->rpipe = -1;
+		ss->wpipe = -1;
+	}
+	if (ss->reader_taskid != -1) {
+		PDBG(pixma_dbg
+		     (1, "BUG:reader_taskid(%d) != -1\n", ss->reader_taskid));
+		terminate_reader_task(ss, NULL);
+	}
+	if (pipe(fds) == -1) {
+		PDBG(pixma_dbg
+		     (1, "ERROR:start_reader_task():pipe() failed %s\n",
+		      strerror(errno)));
+		return PIXMA_ENOMEM;
+	}
+	ss->rpipe = fds[0];
+	ss->wpipe = fds[1];
+	ss->reader_stop = SANE_FALSE;
+
+	is_forked = sanei_thread_is_forked();
+	if (is_forked) {
+		pid = sanei_thread_begin(reader_process, ss);
+		if (pid > 0) {
+			close(ss->wpipe);
+			ss->wpipe = -1;
+		}
+	} else {
+		pid = sanei_thread_begin(reader_thread, ss);
+	}
+	if (pid == -1) {
+		close(ss->wpipe);
+		close(ss->rpipe);
+		ss->wpipe = -1;
+		ss->rpipe = -1;
+		PDBG(pixma_dbg(1, "ERROR:unable to start reader task\n"));
+		return PIXMA_ENOMEM;
+	}
+	PDBG(pixma_dbg(3, "Reader task id=%d (%s)\n", pid,
+		       (is_forked) ? "forked" : "threaded"));
+	ss->reader_taskid = pid;
+	return 0;
 }
 
 static SANE_Status
-read_image (pixma_sane_t * ss, void *buf, unsigned size, int *readlen)
+read_image(pixma_sane_t * ss, void *buf, unsigned size, int *readlen)
 {
-  int count, status;
+	int count, status;
 
-  if (readlen)
-    *readlen = 0;
-  if (ss->image_bytes_read >= ss->sp.image_size)
-    return SANE_STATUS_EOF;
+	if (readlen)
+		*readlen = 0;
+	if (ss->image_bytes_read >= ss->sp.image_size)
+		return SANE_STATUS_EOF;
 
-  do
-    {
-      if (ss->cancel)
-	/* ss->rpipe has already been closed by sane_cancel(). */
-	return SANE_STATUS_CANCELLED;
-      count = read (ss->rpipe, buf, size);
-    }
-  while (count == -1 && errno == EINTR);
+	do {
+		if (ss->cancel)
+			/* ss->rpipe has already been closed by sane_cancel(). */
+			return SANE_STATUS_CANCELLED;
+		count = read(ss->rpipe, buf, size);
+	}
+	while (count == -1 && errno == EINTR);
 
-  if (count == -1)
-    {
-      if (errno == EAGAIN)
+	if (count == -1) {
+		if (errno == EAGAIN)
+			return SANE_STATUS_GOOD;
+		if (!ss->cancel) {
+			PDBG(pixma_dbg
+			     (1, "WARNING:read_image():read() failed %s\n",
+			      strerror(errno)));
+		}
+		close(ss->rpipe);
+		ss->rpipe = -1;
+		terminate_reader_task(ss, NULL);
+		return SANE_STATUS_IO_ERROR;
+	}
+
+	/* here count >= 0 */
+	ss->image_bytes_read += count;
+	if (ss->image_bytes_read > ss->sp.image_size) {
+		PDBG(pixma_dbg
+		     (1, "BUG:ss->image_bytes_read > ss->sp.image_size\n"));
+	}
+	if (ss->image_bytes_read >= ss->sp.image_size) {
+		close(ss->rpipe);
+		ss->rpipe = -1;
+		terminate_reader_task(ss, NULL);
+	} else if (count == 0) {
+		PDBG(pixma_dbg(3, "read_image():reader task closed the pipe:"
+			       "%u bytes received, %u bytes expected\n",
+			       ss->image_bytes_read, ss->sp.image_size));
+		close(ss->rpipe);
+		ss->rpipe = -1;
+		if (terminate_reader_task(ss, &status) > 0
+		    && status != SANE_STATUS_GOOD) {
+			return status;
+		} else {
+			/* either terminate_reader_task failed or
+			   rpipe was closed but we expect more data */
+			return SANE_STATUS_IO_ERROR;
+		}
+	}
+	if (readlen)
+		*readlen = count;
 	return SANE_STATUS_GOOD;
-      if (!ss->cancel)
-	{
-	  PDBG (pixma_dbg (1, "WARNING:read_image():read() failed %s\n",
-			   strerror (errno)));
-	}
-      close (ss->rpipe);
-      ss->rpipe = -1;
-      terminate_reader_task (ss, NULL);
-      return SANE_STATUS_IO_ERROR;
-    }
-
-  /* here count >= 0 */
-  ss->image_bytes_read += count;
-  if (ss->image_bytes_read > ss->sp.image_size)
-    {
-      PDBG (pixma_dbg (1, "BUG:ss->image_bytes_read > ss->sp.image_size\n"));
-    }
-  if (ss->image_bytes_read >= ss->sp.image_size)
-    {
-      close (ss->rpipe);
-      ss->rpipe = -1;
-      terminate_reader_task (ss, NULL);
-    }
-  else if (count == 0)
-    {
-      PDBG (pixma_dbg (3, "read_image():reader task closed the pipe:"
-		       "%u bytes received, %u bytes expected\n",
-		       ss->image_bytes_read, ss->sp.image_size));
-      close (ss->rpipe);
-      ss->rpipe = -1;
-      if (terminate_reader_task (ss, &status) > 0
-	  && status != SANE_STATUS_GOOD)
-	{
-	  return status;
-	}
-      else
-	{
-	  /* either terminate_reader_task failed or
-	     rpipe was closed but we expect more data */
-	  return SANE_STATUS_IO_ERROR;
-	}
-    }
-  if (readlen)
-    *readlen = count;
-  return SANE_STATUS_GOOD;
 }
 
 
@@ -979,387 +913,372 @@ read_image (pixma_sane_t * ss, void *buf, unsigned size, int *readlen)
  ** SANE API
  *******************************************************************/
 SANE_Status
-sane_init (SANE_Int * version_code, SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
-  int status, myversion;
+	int status, myversion;
 
-  UNUSED (authorize);
+	UNUSED(authorize);
 
-  if (!version_code)
-    return SANE_STATUS_INVAL;
-  myversion = 100 * PIXMA_VERSION_MAJOR + PIXMA_VERSION_MINOR;
-  *version_code = SANE_VERSION_CODE (V_MAJOR, V_MINOR, myversion);
-  DBG_INIT ();
-  sanei_thread_init ();
-  pixma_set_debug_level (DBG_LEVEL);
+	if (!version_code)
+		return SANE_STATUS_INVAL;
+	myversion = 100 * PIXMA_VERSION_MAJOR + PIXMA_VERSION_MINOR;
+	*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, myversion);
+	DBG_INIT();
+	sanei_thread_init();
+	pixma_set_debug_level(DBG_LEVEL);
 
-  status = pixma_init ();
-  if (status < 0)
-    {
-      PDBG (pixma_dbg
-	    (2, "pixma_init() failed %s\n", pixma_strerror (status)));
-    }
-  return map_error (status);
+	status = pixma_init();
+	if (status < 0) {
+		PDBG(pixma_dbg
+		     (2, "pixma_init() failed %s\n", pixma_strerror(status)));
+	}
+	return map_error(status);
 }
 
 void
-sane_exit (void)
+sane_exit(void)
 {
-  while (first_scanner)
-    sane_close (first_scanner);
-  cleanup_device_list ();
-  pixma_cleanup ();
+	while (first_scanner)
+		sane_close(first_scanner);
+	cleanup_device_list();
+	pixma_cleanup();
 }
 
 SANE_Status
-sane_get_devices (const SANE_Device *** device_list, SANE_Bool local_only)
+sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only)
 {
-  UNUSED (local_only);
+	UNUSED(local_only);
 
-  if (!device_list)
-    return SANE_STATUS_INVAL;
-  find_scanners ();
-  *device_list = dev_list;
-  return (dev_list) ? SANE_STATUS_GOOD : SANE_STATUS_NO_MEM;
+	if (!device_list)
+		return SANE_STATUS_INVAL;
+	find_scanners();
+	*device_list = dev_list;
+	return (dev_list) ? SANE_STATUS_GOOD : SANE_STATUS_NO_MEM;
 }
 
 SANE_Status
-sane_open (SANE_String_Const name, SANE_Handle * h)
+sane_open(SANE_String_Const name, SANE_Handle * h)
 {
-  unsigned i, nscanners;
-  int error = 0;
-  pixma_sane_t *ss = NULL;
-  const pixma_config_t *cfg;
+	unsigned i, nscanners;
+	int error = 0;
+	pixma_sane_t *ss = NULL;
+	const pixma_config_t *cfg;
 
-  if (!name || !h)
-    return SANE_STATUS_INVAL;
+	if (!name || !h)
+		return SANE_STATUS_INVAL;
 
-  *h = NULL;
-  nscanners = pixma_find_scanners ();
-  if (nscanners == 0)
-    return SANE_STATUS_INVAL;
-  if (name[0] == '\0')
-    name = pixma_get_device_id (0);
+	*h = NULL;
+	nscanners = pixma_find_scanners();
+	if (nscanners == 0)
+		return SANE_STATUS_INVAL;
+	if (name[0] == '\0')
+		name = pixma_get_device_id(0);
 
-  /* Have we already opened the scanner? */
-  for (ss = first_scanner; ss; ss = ss->next)
-    {
-      if (strcmp (pixma_get_string (ss->s, PIXMA_STRING_ID), name) == 0)
-	{
-	  /* We have already opened it! */
-	  return SANE_STATUS_DEVICE_BUSY;
+	/* Have we already opened the scanner? */
+	for (ss = first_scanner; ss; ss = ss->next) {
+		if (strcmp(pixma_get_string(ss->s, PIXMA_STRING_ID), name) ==
+		    0) {
+			/* We have already opened it! */
+			return SANE_STATUS_DEVICE_BUSY;
+		}
 	}
-    }
 
-  i = 0;
-  while (strcmp (pixma_get_device_id (i), name) != 0)
-    {
-      if (++i >= nscanners)
-	return SANE_STATUS_INVAL;
-    }
-  cfg = pixma_get_device_config (i);
-  if ((cfg->cap & PIXMA_CAP_EXPERIMENT) != 0)
-    {
+	i = 0;
+	while (strcmp(pixma_get_device_id(i), name) != 0) {
+		if (++i >= nscanners)
+			return SANE_STATUS_INVAL;
+	}
+	cfg = pixma_get_device_config(i);
+	if ((cfg->cap & PIXMA_CAP_EXPERIMENT) != 0) {
 #ifndef NDEBUG
-      pixma_dbg (1, "WARNING:"
-		 "Experimental backend CAN DAMAGE your hardware!\n");
-      if (getenv_atoi ("PIXMA_EXPERIMENT", 0) == 0)
-	{
-	  pixma_dbg (1, "Experimental SANE backend for %s is disabled "
-		     "by default.\n", pixma_get_device_model (i));
-	  pixma_dbg (1, "To enable it, set the environment variable "
-		     "PIXMA_EXPERIMENT to non-zero.\n");
-	  return SANE_STATUS_UNSUPPORTED;
-	}
+		pixma_dbg(1, "WARNING:"
+			  "Experimental backend CAN DAMAGE your hardware!\n");
+		if (getenv_atoi("PIXMA_EXPERIMENT", 0) == 0) {
+			pixma_dbg(1,
+				  "Experimental SANE backend for %s is disabled "
+				  "by default.\n", pixma_get_device_model(i));
+			pixma_dbg(1,
+				  "To enable it, set the environment variable "
+				  "PIXMA_EXPERIMENT to non-zero.\n");
+			return SANE_STATUS_UNSUPPORTED;
+		}
 #else
-      return SANE_STATUS_UNSUPPORTED;
+		return SANE_STATUS_UNSUPPORTED;
 #endif
-    }
+	}
 
-  ss = (pixma_sane_t *) calloc (1, sizeof (*ss));
-  if (!ss)
-    return SANE_STATUS_NO_MEM;
-  ss->next = first_scanner;
-  first_scanner = ss;
-  ss->reader_taskid = -1;
-  ss->wpipe = -1;
-  ss->rpipe = -1;
-  ss->idle = SANE_TRUE;
-  ss->scanning = SANE_FALSE;
+	ss = (pixma_sane_t *) calloc(1, sizeof(*ss));
+	if (!ss)
+		return SANE_STATUS_NO_MEM;
+	ss->next = first_scanner;
+	first_scanner = ss;
+	ss->reader_taskid = -1;
+	ss->wpipe = -1;
+	ss->rpipe = -1;
+	ss->idle = SANE_TRUE;
+	ss->scanning = SANE_FALSE;
 
-  error = pixma_open (i, &ss->s);
-  if (error < 0)
-    {
-      sane_close (ss);
-      return map_error (error);
-    }
-  pixma_enable_background (ss->s, 0);
-  init_option_descriptors (ss);
-  *h = ss;
-  return SANE_STATUS_GOOD;
+	error = pixma_open(i, &ss->s);
+	if (error < 0) {
+		sane_close(ss);
+		return map_error(error);
+	}
+	pixma_enable_background(ss->s, 0);
+	init_option_descriptors(ss);
+	*h = ss;
+	return SANE_STATUS_GOOD;
 }
 
 void
-sane_close (SANE_Handle h)
+sane_close(SANE_Handle h)
 {
-  pixma_sane_t **p, *ss;
+	pixma_sane_t **p, *ss;
 
-  for (p = &first_scanner; *p && *p != (pixma_sane_t *) h; p = &((*p)->next))
-    {
-    }
-  if (!(*p))
-    return;
-  ss = *p;
-  sane_cancel (ss);
-  pixma_close (ss->s);
-  *p = ss->next;
-  free (ss);
+	for (p = &first_scanner; *p && *p != (pixma_sane_t *) h;
+	     p = &((*p)->next)) {
+	}
+	if (!(*p))
+		return;
+	ss = *p;
+	sane_cancel(ss);
+	pixma_close(ss->s);
+	*p = ss->next;
+	free(ss);
 }
 
 const SANE_Option_Descriptor *
-sane_get_option_descriptor (SANE_Handle h, SANE_Int n)
+sane_get_option_descriptor(SANE_Handle h, SANE_Int n)
 {
-  DECL_CTX;
+	DECL_CTX;
 
-  if (ss && 0 <= n && n < opt_last)
-    return &SOD (n);
-  return NULL;
+	if (ss && 0 <= n && n < opt_last)
+		return &SOD(n);
+	return NULL;
 }
 
 SANE_Status
-sane_control_option (SANE_Handle h, SANE_Int n,
-		     SANE_Action a, void *v, SANE_Int * i)
+sane_control_option(SANE_Handle h, SANE_Int n,
+		    SANE_Action a, void *v, SANE_Int * i)
 {
-  DECL_CTX;
-  SANE_Int info = 0;
-  int error;
-  option_descriptor_t *opt;
+	DECL_CTX;
+	SANE_Int info = 0;
+	int error;
+	option_descriptor_t *opt;
 
-  if (i)
-    *i = 0;
-  if (!ss)
-    return SANE_STATUS_INVAL;
-  if (n < 0 || n >= opt_last)
-    return SANE_STATUS_UNSUPPORTED;
-  if (!ss->idle && a != SANE_ACTION_GET_VALUE)
-    return SANE_STATUS_INVAL;
+	if (i)
+		*i = 0;
+	if (!ss)
+		return SANE_STATUS_INVAL;
+	if (n < 0 || n >= opt_last)
+		return SANE_STATUS_UNSUPPORTED;
+	if (!ss->idle && a != SANE_ACTION_GET_VALUE)
+		return SANE_STATUS_INVAL;
 
-  opt = &(OPT_IN_CTX[n]);
-  if (!SANE_OPTION_IS_ACTIVE (opt->sod.cap))
-    return SANE_STATUS_INVAL;
-  switch (a)
-    {
-    case SANE_ACTION_SET_VALUE:
-      if ((opt->sod.type != SANE_TYPE_BUTTON && !v) ||
-	  !SANE_OPTION_IS_SETTABLE (opt->sod.cap))
-	return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
-      break;
-    case SANE_ACTION_SET_AUTO:
-      if (!(opt->sod.cap & SANE_CAP_AUTOMATIC) ||
-	  !SANE_OPTION_IS_SETTABLE (opt->sod.cap))
-	return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
-      break;
-    case SANE_ACTION_GET_VALUE:
-      if (!v || !(opt->sod.cap & SANE_CAP_SOFT_DETECT))
-	return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
-      break;
-    default:
-      return SANE_STATUS_UNSUPPORTED;
-    }
-
-  error = control_option (ss, n, a, v, &info);
-  if (error == SANE_STATUS_GOOD && i)
-    *i = info;
-  return error;
-}
-
-SANE_Status
-sane_get_parameters (SANE_Handle h, SANE_Parameters * p)
-{
-  DECL_CTX;
-  pixma_scan_param_t temp, *sp;
-
-  if (!ss || !p)
-    return SANE_STATUS_INVAL;
-
-  if (!ss->idle)
-    {
-      sp = &ss->sp;		/* sp is calculated in sane_start() */
-    }
-  else
-    {
-      calc_scan_param (ss, &temp);
-      sp = &temp;
-    }
-  p->format = (sp->channels == 3) ? SANE_FRAME_RGB : SANE_FRAME_GRAY;
-  p->last_frame = SANE_TRUE;
-  p->lines = sp->h;
-  p->depth = sp->depth;
-  p->pixels_per_line = sp->w;
-  /* p->bytes_per_line = sp->line_size; NOTE: It should work this way, but it doesn't. No SANE frontend can cope with this. */
-  p->bytes_per_line = sp->w * sp->channels * (sp->depth / 8);
-  return SANE_STATUS_GOOD;
-}
-
-SANE_Status
-sane_start (SANE_Handle h)
-{
-  DECL_CTX;
-  int error = 0;
-
-  if (!ss)
-    return SANE_STATUS_INVAL;
-  if (!ss->idle && ss->scanning)
-    return SANE_STATUS_INVAL;
-
-  ss->cancel = SANE_FALSE;
-  if (calc_scan_param (ss, &ss->sp) < 0)
-    return SANE_STATUS_INVAL;
-  ss->image_bytes_read = 0;
-  /* TODO: Check paper here in sane_start(). A function like
-     pixma_get_status() is needed. */
-  error = start_reader_task (ss);
-  if (error >= 0)
-    {
-      ss->output_line_size = ss->sp.w * ss->sp.channels * (ss->sp.depth / 8);
-      ss->byte_pos_in_line = 0;
-      if (ss->idle ||
-	  ss->source_map[OVAL (opt_source).w] == PIXMA_SOURCE_FLATBED ||
-	  ss->source_map[OVAL (opt_source).w] == PIXMA_SOURCE_TPU)
-	ss->page_count = 0;	/* start from idle state or scan from flatbed or TPU */
-      else
-	ss->page_count++;
-      ss->last_read_status = SANE_STATUS_GOOD;
-      ss->scanning = SANE_TRUE;
-      ss->idle = SANE_FALSE;
-    }
-  return map_error (error);
-}
-
-SANE_Status
-sane_read (SANE_Handle h, SANE_Byte * buf, SANE_Int maxlen, SANE_Int * len)
-{
-  DECL_CTX;
-  int sum, n;
-  SANE_Byte temp[60];
-  SANE_Status status;
-
-  if (len)
-    *len = 0;
-  if (!ss || !buf || !len)
-    return SANE_STATUS_INVAL;
-  if (ss->cancel)
-    return SANE_STATUS_CANCELLED;
-  if ((ss->idle)
-      && ((ss->sp.source & (PIXMA_SOURCE_ADF | PIXMA_SOURCE_ADFDUP)) != 0))
-    return SANE_STATUS_INVAL;
-  if (!ss->scanning)
-    return ss->last_read_status;
-
-  status = SANE_STATUS_GOOD;
-  if ((ss->sp.line_size - ss->output_line_size) == 0)
-    {
-      status = read_image (ss, buf, maxlen, &sum);
-    }
-  else
-    {
-      /* FIXME: Because there is no frontend that can cope with padding at
-         the end of line, we've to remove it here in the backend! */
-      sum = 0;
-      while (sum < maxlen)
-	{
-	  if (ss->byte_pos_in_line < ss->output_line_size)
-	    {
-	      n = ss->output_line_size - ss->byte_pos_in_line;
-	      if ((maxlen - sum) < n)
-		n = maxlen - sum;
-	      status = read_image (ss, buf, n, &n);
-	      if (n == 0)
+	opt = &(OPT_IN_CTX[n]);
+	if (!SANE_OPTION_IS_ACTIVE(opt->sod.cap))
+		return SANE_STATUS_INVAL;
+	switch (a) {
+	case SANE_ACTION_SET_VALUE:
+		if ((opt->sod.type != SANE_TYPE_BUTTON && !v) ||
+		    !SANE_OPTION_IS_SETTABLE(opt->sod.cap))
+			return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
 		break;
-	      sum += n;
-	      buf += n;
-	      ss->byte_pos_in_line += n;
-	    }
-	  else
-	    {
-	      /* skip padding */
-	      n = ss->sp.line_size - ss->byte_pos_in_line;
-	      if (n > (int) sizeof (temp))
-		{
-		  PDBG (pixma_dbg (3,
-				   "Inefficient skip buffer. Should be %d\n",
-				   n));
-		  n = sizeof (temp);
-		}
-	      status = read_image (ss, temp, n, &n);
-	      if (n == 0)
+	case SANE_ACTION_SET_AUTO:
+		if (!(opt->sod.cap & SANE_CAP_AUTOMATIC) ||
+		    !SANE_OPTION_IS_SETTABLE(opt->sod.cap))
+			return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
 		break;
-	      ss->byte_pos_in_line += n;
-	      if (ss->byte_pos_in_line == ss->sp.line_size)
-		ss->byte_pos_in_line = 0;
-	    }
+	case SANE_ACTION_GET_VALUE:
+		if (!v || !(opt->sod.cap & SANE_CAP_SOFT_DETECT))
+			return SANE_STATUS_INVAL;	/* or _UNSUPPORTED? */
+		break;
+	default:
+		return SANE_STATUS_UNSUPPORTED;
 	}
-    }
-  if (ss->cancel)
-    status = SANE_STATUS_CANCELLED;
-  else if ((status == SANE_STATUS_GOOD || status == SANE_STATUS_EOF) &&
-	   sum > 0)
-    {
-      *len = sum;
-      status = SANE_STATUS_GOOD;
-    }
-  ss->scanning = (status == SANE_STATUS_GOOD);
-  ss->last_read_status = status;
-  return status;
+
+	error = control_option(ss, n, a, v, &info);
+	if (error == SANE_STATUS_GOOD && i)
+		*i = info;
+	return error;
+}
+
+SANE_Status
+sane_get_parameters(SANE_Handle h, SANE_Parameters * p)
+{
+	DECL_CTX;
+	pixma_scan_param_t temp, *sp;
+
+	if (!ss || !p)
+		return SANE_STATUS_INVAL;
+
+	if (!ss->idle) {
+		sp = &ss->sp;	/* sp is calculated in sane_start() */
+	} else {
+		calc_scan_param(ss, &temp);
+		sp = &temp;
+	}
+	p->format = (sp->channels == 3) ? SANE_FRAME_RGB : SANE_FRAME_GRAY;
+	p->last_frame = SANE_TRUE;
+	p->lines = sp->h;
+	p->depth = sp->depth;
+	p->pixels_per_line = sp->w;
+	/* p->bytes_per_line = sp->line_size; NOTE: It should work this way, but it doesn't. No SANE frontend can cope with this. */
+	p->bytes_per_line = sp->w * sp->channels * (sp->depth / 8);
+	return SANE_STATUS_GOOD;
+}
+
+SANE_Status
+sane_start(SANE_Handle h)
+{
+	DECL_CTX;
+	int error = 0;
+
+	if (!ss)
+		return SANE_STATUS_INVAL;
+	if (!ss->idle && ss->scanning)
+		return SANE_STATUS_INVAL;
+
+	ss->cancel = SANE_FALSE;
+	if (calc_scan_param(ss, &ss->sp) < 0)
+		return SANE_STATUS_INVAL;
+	ss->image_bytes_read = 0;
+	/* TODO: Check paper here in sane_start(). A function like
+	   pixma_get_status() is needed. */
+	error = start_reader_task(ss);
+	if (error >= 0) {
+		ss->output_line_size =
+			ss->sp.w * ss->sp.channels * (ss->sp.depth / 8);
+		ss->byte_pos_in_line = 0;
+		if (ss->idle ||
+		    ss->source_map[OVAL(opt_source).w] == PIXMA_SOURCE_FLATBED
+		    || ss->source_map[OVAL(opt_source).w] == PIXMA_SOURCE_TPU)
+			ss->page_count = 0;	/* start from idle state or scan from flatbed or TPU */
+		else
+			ss->page_count++;
+		ss->last_read_status = SANE_STATUS_GOOD;
+		ss->scanning = SANE_TRUE;
+		ss->idle = SANE_FALSE;
+	}
+	return map_error(error);
+}
+
+SANE_Status
+sane_read(SANE_Handle h, SANE_Byte * buf, SANE_Int maxlen, SANE_Int * len)
+{
+	DECL_CTX;
+	int sum, n;
+	SANE_Byte temp[60];
+	SANE_Status status;
+
+	if (len)
+		*len = 0;
+	if (!ss || !buf || !len)
+		return SANE_STATUS_INVAL;
+	if (ss->cancel)
+		return SANE_STATUS_CANCELLED;
+	if ((ss->idle)
+	    && ((ss->sp.source & (PIXMA_SOURCE_ADF | PIXMA_SOURCE_ADFDUP)) !=
+		0))
+		return SANE_STATUS_INVAL;
+	if (!ss->scanning)
+		return ss->last_read_status;
+
+	status = SANE_STATUS_GOOD;
+	if ((ss->sp.line_size - ss->output_line_size) == 0) {
+		status = read_image(ss, buf, maxlen, &sum);
+	} else {
+		/* FIXME: Because there is no frontend that can cope with padding at
+		   the end of line, we've to remove it here in the backend! */
+		sum = 0;
+		while (sum < maxlen) {
+			if (ss->byte_pos_in_line < ss->output_line_size) {
+				n = ss->output_line_size -
+					ss->byte_pos_in_line;
+				if ((maxlen - sum) < n)
+					n = maxlen - sum;
+				status = read_image(ss, buf, n, &n);
+				if (n == 0)
+					break;
+				sum += n;
+				buf += n;
+				ss->byte_pos_in_line += n;
+			} else {
+				/* skip padding */
+				n = ss->sp.line_size - ss->byte_pos_in_line;
+				if (n > (int) sizeof(temp)) {
+					PDBG(pixma_dbg(3,
+						       "Inefficient skip buffer. Should be %d\n",
+						       n));
+					n = sizeof(temp);
+				}
+				status = read_image(ss, temp, n, &n);
+				if (n == 0)
+					break;
+				ss->byte_pos_in_line += n;
+				if (ss->byte_pos_in_line == ss->sp.line_size)
+					ss->byte_pos_in_line = 0;
+			}
+		}
+	}
+	if (ss->cancel)
+		status = SANE_STATUS_CANCELLED;
+	else if ((status == SANE_STATUS_GOOD || status == SANE_STATUS_EOF) &&
+		 sum > 0) {
+		*len = sum;
+		status = SANE_STATUS_GOOD;
+	}
+	ss->scanning = (status == SANE_STATUS_GOOD);
+	ss->last_read_status = status;
+	return status;
 }
 
 void
-sane_cancel (SANE_Handle h)
+sane_cancel(SANE_Handle h)
 {
-  DECL_CTX;
+	DECL_CTX;
 
-  if (!ss)
-    return;
-  ss->cancel = SANE_TRUE;
-  if (ss->idle)
-    return;
-  close (ss->rpipe);
-  ss->rpipe = -1;
-  terminate_reader_task (ss, NULL);
-  ss->idle = SANE_TRUE;
+	if (!ss)
+		return;
+	ss->cancel = SANE_TRUE;
+	if (ss->idle)
+		return;
+	close(ss->rpipe);
+	ss->rpipe = -1;
+	terminate_reader_task(ss, NULL);
+	ss->idle = SANE_TRUE;
 }
 
 SANE_Status
-sane_set_io_mode (SANE_Handle h, SANE_Bool m)
+sane_set_io_mode(SANE_Handle h, SANE_Bool m)
 {
-  DECL_CTX;
+	DECL_CTX;
 
-  if (!ss || ss->idle || ss->rpipe == -1)
-    return SANE_STATUS_INVAL;
+	if (!ss || ss->idle || ss->rpipe == -1)
+		return SANE_STATUS_INVAL;
 #ifdef HAVE_FCNTL_H
-  PDBG (pixma_dbg (2, "Setting %sblocking mode\n", (m) ? "non-" : ""));
-  if (fcntl (ss->rpipe, F_SETFL, (m) ? O_NONBLOCK : 0) == -1)
-    {
-      PDBG (pixma_dbg
-	    (1, "WARNING:fcntl(F_SETFL) failed %s\n", strerror (errno)));
-      return SANE_STATUS_UNSUPPORTED;
-    }
-  return SANE_STATUS_GOOD;
+	PDBG(pixma_dbg(2, "Setting %sblocking mode\n", (m) ? "non-" : ""));
+	if (fcntl(ss->rpipe, F_SETFL, (m) ? O_NONBLOCK : 0) == -1) {
+		PDBG(pixma_dbg
+		     (1, "WARNING:fcntl(F_SETFL) failed %s\n",
+		      strerror(errno)));
+		return SANE_STATUS_UNSUPPORTED;
+	}
+	return SANE_STATUS_GOOD;
 #else
-  return (m) ? SANE_STATUS_UNSUPPORTED : SANE_STATUS_GOOD;
+	return (m) ? SANE_STATUS_UNSUPPORTED : SANE_STATUS_GOOD;
 #endif
 }
 
 SANE_Status
-sane_get_select_fd (SANE_Handle h, SANE_Int * fd)
+sane_get_select_fd(SANE_Handle h, SANE_Int * fd)
 {
-  DECL_CTX;
+	DECL_CTX;
 
-  *fd = -1;
-  if (!ss || !fd || ss->idle || ss->rpipe == -1)
-    return SANE_STATUS_INVAL;
-  *fd = ss->rpipe;
-  return SANE_STATUS_GOOD;
+	*fd = -1;
+	if (!ss || !fd || ss->idle || ss->rpipe == -1)
+		return SANE_STATUS_INVAL;
+	*fd = ss->rpipe;
+	return SANE_STATUS_GOOD;
 }
 
 /*

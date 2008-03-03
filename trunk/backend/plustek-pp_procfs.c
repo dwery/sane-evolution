@@ -59,51 +59,50 @@
 #include "plustek-pp_scan.h"
 
 /* toggled by your kernel configuration */
-#ifdef CONFIG_PROC_FS	
+#ifdef CONFIG_PROC_FS
 
 /****************************** static vars **********************************/
 
 /** for the proc filesystem
  */
 extern struct proc_dir_entry proc_root;
-static struct proc_dir_entry *base  = NULL;
+static struct proc_dir_entry *base = NULL;
 static struct proc_dir_entry *binfo = NULL;
-static ULong                  devcount;
+static ULong devcount;
 
 /** parallel port modes... */
 static char *procfsPortModes[] = {
 	"EPP",
 	"SPP",
 	"BiDi (PS/2)",
-	"ECP"
-	"unknown",
+	"ECP" "unknown",
 	NULL
 };
 
 /** CCD-Types (as for ASIC 98001 based series) */
 static TabDef procfsCCDTypes98001[] = {
 
-	{ _CCD_3797, "3797" },
-	{ _CCD_3717, "3717" },
-	{ _CCD_535,  "535"  },
-	{ _CCD_2556, "2556" },
-	{ _CCD_518,  "518"  },
-	{ _CCD_539,  "539"  },
-    { -1 ,       "unknown" }
+	{_CCD_3797, "3797"},
+	{_CCD_3717, "3717"},
+	{_CCD_535, "535"},
+	{_CCD_2556, "2556"},
+	{_CCD_518, "518"},
+	{_CCD_539, "539"},
+	{-1, "unknown"}
 };
 
 /** CCD-Types (as for ASIC 98003 based series) */
 static TabDef procfsCCDTypes98003[] = {
 
-	{ _CCD_3797, "3797" },
-	{ _CCD_3799, "3799" },
-	{ _CCD_535,  "535"  },
-	{ _CCD_2556, "2556" },
-	{ _CCD_518,  "518"  },
-	{ _CCD_539,  "539"  },
-    { _CCD_3777, "3777"	},
-    { _CCD_548 , "548"	},
-    { -1 ,       "unknown" }
+	{_CCD_3797, "3797"},
+	{_CCD_3799, "3799"},
+	{_CCD_535, "535"},
+	{_CCD_2556, "2556"},
+	{_CCD_518, "518"},
+	{_CCD_539, "539"},
+	{_CCD_3777, "3777"},
+	{_CCD_548, "548"},
+	{-1, "unknown"}
 };
 
 /****************************** local functions ******************************/
@@ -117,94 +116,107 @@ static TabDef procfsCCDTypes98003[] = {
  *
  * Here simply a dummy function
  */
-static void procfsFillFunc( struct inode *inode, int fill )
+static void
+procfsFillFunc(struct inode *inode, int fill)
 {
 }
 #endif
 
 /** returns a pointer to the port-mode string
  */
-static const char* procfsGetMode( int mode )
+static const char *
+procfsGetMode(int mode)
 {
-	if((mode < _PORT_EPP) || (mode > _PORT_ECP))
-		return procfsPortModes[_PORT_ECP+1];
+	if ((mode < _PORT_EPP) || (mode > _PORT_ECP))
+		return procfsPortModes[_PORT_ECP + 1];
 
 	return procfsPortModes[mode];
 }
 
 /** determines CCD-Type string
  */
-static const char* procfsGetCCDType( pScanData ps )
+static const char *
+procfsGetCCDType(pScanData ps)
 {
-	int     i;
-	int     ccd_id = ps->Device.bCCDID;
+	int i;
+	int ccd_id = ps->Device.bCCDID;
 	pTabDef tab = procfsCCDTypes98001;
 
-	if( _IS_ASIC98(ps->sCaps.AsicID)) {
+	if (_IS_ASIC98(ps->sCaps.AsicID)) {
 
-        if(_ASIC_IS_98003 == ps->sCaps.AsicID)
-            tab = procfsCCDTypes98003;
+		if (_ASIC_IS_98003 == ps->sCaps.AsicID)
+			tab = procfsCCDTypes98003;
 
-        /* seek down the description table */
-        for( i = 0; -1 != tab[i].id; i++ ) {
+		/* seek down the description table */
+		for (i = 0; -1 != tab[i].id; i++) {
 
-            if( tab[i].id == ccd_id )
-                return tab[i].desc;
-        }
-    } else {
+			if (tab[i].id == ccd_id)
+				return tab[i].desc;
+		}
+	} else {
 
-        /* for older scanners only this info is available */
-        if( ps->fSonyCCD )
-            return "SONY Type";
-        else
-            return "NEC/TOSHIBA Type";
-    }
+		/* for older scanners only this info is available */
+		if (ps->fSonyCCD)
+			return "SONY Type";
+		else
+			return "NEC/TOSHIBA Type";
+	}
 
 	/* return the last entry if nothing applies! */
-	return tab[(sizeof(procfsCCDTypes98001)/sizeof(TabDef)-1)].desc;
+	return tab[(sizeof(procfsCCDTypes98001) / sizeof(TabDef) - 1)].desc;
 }
 
 /** will be called when reading the proc filesystem:
  * cat /proc/pt_drv/info
  */
-static int procfsBInfoReadProc( char *buf, char **start, off_t offset,
-                                int count, int *eof, void *data )
+static int
+procfsBInfoReadProc(char *buf, char **start, off_t offset,
+		    int count, int *eof, void *data)
 {
 	int len = 0;
 
-	len += sprintf( buf, "Plustek Flatbed Scanner Driver version "_PTDRV_VERSTR"\n" );
+	len += sprintf(buf,
+		       "Plustek Flatbed Scanner Driver version " _PTDRV_VERSTR
+		       "\n");
 
-	len += sprintf( buf + len, "Devices      : %lu\n", *((pULong)data) );
-	len += sprintf( buf + len, "IOCTL-Version: 0x%08x\n",_PTDRV_IOCTL_VERSION);
+	len += sprintf(buf + len, "Devices      : %lu\n", *((pULong) data));
+	len += sprintf(buf + len, "IOCTL-Version: 0x%08x\n",
+		       _PTDRV_IOCTL_VERSION);
 	return len;
 }
 
 /** will be called when reading the proc filesystem:
  * cat /proc/pt_drv/deviceX/info
  */
-static int procfsInfoReadProc( char *buf, char **start, off_t offset,
-                               int count, int *eof, void *data )
+static int
+procfsInfoReadProc(char *buf, char **start, off_t offset,
+		   int count, int *eof, void *data)
 {
-	int       len = 0;
-	pScanData ps  = (pScanData)data;
+	int len = 0;
+	pScanData ps = (pScanData) data;
 
 	/* Tell us something about the device... */
-	if( NULL != ps ) {
-		len += sprintf( buf+len, "Model       : %s\n",
-					    MiscGetModelName(ps->sCaps.Model));
-		len += sprintf( buf+len, "Portaddress : 0x%X\n", ps->IO.portBase );
-		len += sprintf( buf+len, "Portmode    : %s (%s I/O, %s)\n",
-					    procfsGetMode(ps->IO.portMode), 
-						(ps->IO.slowIO == _TRUE?"delayed":"fast"),
-                        (ps->IO.forceMode == 0?"autodetect":"forced"));
-		len += sprintf( buf+len, "Buttons     : %u\n",  ps->Device.buttons);
-		len += sprintf( buf+len, "Warmuptime  : %us\n", ps->warmup        );
-		len += sprintf( buf+len, "Lamp timeout: %us\n", ps->lampoff       );
-		len += sprintf( buf+len, "mov-switch  : %u\n",  ps->ModelOverride );
-		len += sprintf( buf+len, "I/O-delay   : %u\n",  ps->IO.delay      );
-		len += sprintf( buf+len, "CCD-Type    : %s\n",  procfsGetCCDType(ps));
-        len += sprintf( buf+len, "TPA         : %s\n",
-                        (ps->sCaps.dwFlag & SFLAG_TPA) ? "yes":"no" );
+	if (NULL != ps) {
+		len += sprintf(buf + len, "Model       : %s\n",
+			       MiscGetModelName(ps->sCaps.Model));
+		len += sprintf(buf + len, "Portaddress : 0x%X\n",
+			       ps->IO.portBase);
+		len += sprintf(buf + len, "Portmode    : %s (%s I/O, %s)\n",
+			       procfsGetMode(ps->IO.portMode),
+			       (ps->IO.slowIO == _TRUE ? "delayed" : "fast"),
+			       (ps->IO.forceMode ==
+				0 ? "autodetect" : "forced"));
+		len += sprintf(buf + len, "Buttons     : %u\n",
+			       ps->Device.buttons);
+		len += sprintf(buf + len, "Warmuptime  : %us\n", ps->warmup);
+		len += sprintf(buf + len, "Lamp timeout: %us\n", ps->lampoff);
+		len += sprintf(buf + len, "mov-switch  : %u\n",
+			       ps->ModelOverride);
+		len += sprintf(buf + len, "I/O-delay   : %u\n", ps->IO.delay);
+		len += sprintf(buf + len, "CCD-Type    : %s\n",
+			       procfsGetCCDType(ps));
+		len += sprintf(buf + len, "TPA         : %s\n",
+			       (ps->sCaps.dwFlag & SFLAG_TPA) ? "yes" : "no");
 	}
 
 	return len;
@@ -213,44 +225,45 @@ static int procfsInfoReadProc( char *buf, char **start, off_t offset,
 /** will be called when reading the proc filesystem:
  * cat /proc/pt_drv/devicex/buttony
  */
-static int procfsButtonsReadProc( char *buf, char **start, off_t offset,
-                                  int count, int *eof, void *data )
+static int
+procfsButtonsReadProc(char *buf, char **start, off_t offset,
+		      int count, int *eof, void *data)
 {
-	Byte	  b;
-	int       bc  = 0;
-	int       len = 0;
-	pScanData ps  = (pScanData)data;
+	Byte b;
+	int bc = 0;
+	int len = 0;
+	pScanData ps = (pScanData) data;
 
-	if( NULL != ps ) {
+	if (NULL != ps) {
 		bc = ps->Device.buttons;
 	}
 
 	/* Check the buttons... */
-	if( 0 != bc ) {
+	if (0 != bc) {
 
-		if ( _ASIC_IS_96003 == ps->sCaps.AsicID ) {
-			MiscClaimPort( ps );
-			b = IODataRegisterFromScanner( ps, ps->RegStatus );
-			if(_FLAG_P96_KEY == (b & _FLAG_P96_KEY))
+		if (_ASIC_IS_96003 == ps->sCaps.AsicID) {
+			MiscClaimPort(ps);
+			b = IODataRegisterFromScanner(ps, ps->RegStatus);
+			if (_FLAG_P96_KEY == (b & _FLAG_P96_KEY))
 				b = 0;
 			else
 				b = 1;
-			MiscReleasePort( ps );
-			len += sprintf( buf + len, "%u\n", b );
+			MiscReleasePort(ps);
+			len += sprintf(buf + len, "%u\n", b);
 		} else
 			bc = 0;
 	}
 
-	if( 0 == bc )
-		len += sprintf( buf + len, "none\n" );
+	if (0 == bc)
+		len += sprintf(buf + len, "none\n");
 
 	return len;
 }
 
 /** create a procfs entry
  */
-static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
-                                         struct proc_dir_entry *parent )
+static struct proc_dir_entry *
+new_entry(const char *name, mode_t mode, struct proc_dir_entry *parent)
 {
 #ifndef LINUX_24
 	int len;
@@ -267,31 +280,31 @@ static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
 
 	/* allocate memory for the entry and the name */
 	ent = kmalloc(sizeof(struct proc_dir_entry) + len, GFP_KERNEL);
-	if( NULL == ent )
+	if (NULL == ent)
 		return NULL;
 
 	memset(ent, 0, sizeof(struct proc_dir_entry));
 
-	/* position pointer of name to end of the structure*/
+	/* position pointer of name to end of the structure */
 	ent->name = ((char *) ent) + sizeof(*ent);
-	strcpy((char *)ent->name, name );
-	
+	strcpy((char *) ent->name, name);
+
 	ent->namelen = strlen(name);
-	ent->mode    = mode;
+	ent->mode = mode;
 
 	if (S_ISDIR(mode)) {
-		ent->nlink      = 2;
+		ent->nlink = 2;
 		ent->fill_inode = &procfsFillFunc;
 	} else {
 		ent->nlink = 1;
 	}
 
-	proc_register( parent, ent );
+	proc_register(parent, ent);
 #else
 	if (mode == S_IFDIR)
-		ent = proc_mkdir( name, parent );
+		ent = proc_mkdir(name, parent);
 	else
-		ent = create_proc_entry( name, mode, parent );
+		ent = create_proc_entry(name, mode, parent);
 #endif
 
 	return ent;
@@ -299,16 +312,17 @@ static struct proc_dir_entry *new_entry( const char *name, mode_t mode,
 
 /** shutdown one proc fs entry
  */
-static inline void destroy_proc_entry( struct proc_dir_entry *root,
-                                       struct proc_dir_entry **d )
+static inline void
+destroy_proc_entry(struct proc_dir_entry *root, struct proc_dir_entry **d)
 {
 #ifndef LINUX_24
-	proc_unregister( root, (*d)->low_ino );
+	proc_unregister(root, (*d)->low_ino);
 	kfree(*d);
 #else
-	DBG(DBG_HIGH, "pt_drv: proc del '%s' root='%s'\n", (*d)->name, root->name);
-	
-	remove_proc_entry((*d)->name, root );
+	DBG(DBG_HIGH, "pt_drv: proc del '%s' root='%s'\n", (*d)->name,
+	    root->name);
+
+	remove_proc_entry((*d)->name, root);
 #endif
 
 	*d = NULL;
@@ -316,26 +330,30 @@ static inline void destroy_proc_entry( struct proc_dir_entry *root,
 
 /** shutdown the proc-tree for one device
  */
-static void destroy_proc_tree( pScanData ps )
+static void
+destroy_proc_tree(pScanData ps)
 {
 	int i;
 
-	DBG( DBG_HIGH, "pt_drv: destroy_proc_tree !\n" );
+	DBG(DBG_HIGH, "pt_drv: destroy_proc_tree !\n");
 
-	if( ps ) {
+	if (ps) {
 
-		if( ps->procDir.entry ) {
+		if (ps->procDir.entry) {
 
-			if( ps->procDir.info )
-				destroy_proc_entry( ps->procDir.entry, &ps->procDir.info );
+			if (ps->procDir.info)
+				destroy_proc_entry(ps->procDir.entry,
+						   &ps->procDir.info);
 
-			for( i = 0; i < ps->Device.buttons; i++ ) {
+			for (i = 0; i < ps->Device.buttons; i++) {
 
-				if( ps->procDir.buttons[i] )
-    				destroy_proc_entry(ps->procDir.entry, &ps->procDir.buttons[i]);
+				if (ps->procDir.buttons[i])
+					destroy_proc_entry(ps->procDir.entry,
+							   &ps->procDir.
+							   buttons[i]);
 			}
 
-			destroy_proc_entry( base, &ps->procDir.entry );
+			destroy_proc_entry(base, &ps->procDir.entry);
 		}
 	}
 }
@@ -344,20 +362,21 @@ static void destroy_proc_tree( pScanData ps )
 
 /** initialize our proc-fs stuff
  */
-int ProcFsInitialize( void )
+int
+ProcFsInitialize(void)
 {
-	DBG( DBG_HIGH, "ProcFsInitialize()\n" );
+	DBG(DBG_HIGH, "ProcFsInitialize()\n");
 
-	base = new_entry( _DRV_NAME, S_IFDIR, &proc_root );
+	base = new_entry(_DRV_NAME, S_IFDIR, &proc_root);
 
-	if( NULL != base ) {
+	if (NULL != base) {
 
 		devcount = 0;
 
-		binfo = new_entry( "info", 0, base );
-		if( NULL != binfo ) {
+		binfo = new_entry("info", 0, base);
+		if (NULL != binfo) {
 			binfo->read_proc = procfsBInfoReadProc;
-			binfo->data      = &devcount;
+			binfo->data = &devcount;
 		}
 	}
 
@@ -366,16 +385,17 @@ int ProcFsInitialize( void )
 
 /** cleanup the base entry
  */
-void ProcFsShutdown( void )
+void
+ProcFsShutdown(void)
 {
-	DBG( DBG_HIGH, "ProcFsShutdown()\n" );
+	DBG(DBG_HIGH, "ProcFsShutdown()\n");
 
-	if( NULL != base ) {
+	if (NULL != base) {
 
-		if( NULL != binfo )
-			destroy_proc_entry( base, &binfo );
+		if (NULL != binfo)
+			destroy_proc_entry(base, &binfo);
 
-		destroy_proc_entry( &proc_root, &base );
+		destroy_proc_entry(&proc_root, &base);
 	}
 
 	devcount = 0;
@@ -383,76 +403,83 @@ void ProcFsShutdown( void )
 
 /** will be called for each device, that has been found
  */
-void ProcFsRegisterDevice( pScanData ps )
+void
+ProcFsRegisterDevice(pScanData ps)
 {
-	int	 i;
+	int i;
 	char str[20];
 
-	if( NULL == base ) {
-	    printk( KERN_ERR "pt_drv : proc not initialised yet!\n");
+	if (NULL == base) {
+		printk(KERN_ERR "pt_drv : proc not initialised yet!\n");
 		return;
 	}
 
-	memset( &ps->procDir, 0, sizeof(ProcDirDef));
+	memset(&ps->procDir, 0, sizeof(ProcDirDef));
 
-	sprintf( str, "device%lu", ps->devno );
-	
-	ps->procDir.entry = new_entry( str, S_IFDIR, base );
-	if( NULL == ps->procDir.entry )
+	sprintf(str, "device%lu", ps->devno);
+
+	ps->procDir.entry = new_entry(str, S_IFDIR, base);
+	if (NULL == ps->procDir.entry)
 		goto error_exit;
 
-	ps->procDir.info = new_entry( "info", 0, ps->procDir.entry );
-	if( NULL == ps->procDir.info )
+	ps->procDir.info = new_entry("info", 0, ps->procDir.entry);
+	if (NULL == ps->procDir.info)
 		goto error_exit;
 
 	ps->procDir.info->read_proc = procfsInfoReadProc;
-	ps->procDir.info->data      = ps;
+	ps->procDir.info->data = ps;
 
-	for( i = 0; i < ps->Device.buttons; i++ ) {
+	for (i = 0; i < ps->Device.buttons; i++) {
 
-		sprintf( str, "button%u", i );
+		sprintf(str, "button%u", i);
 
-		ps->procDir.buttons[i] = new_entry( str, 0, ps->procDir.entry );
-		if( NULL == ps->procDir.buttons[i] )
+		ps->procDir.buttons[i] = new_entry(str, 0, ps->procDir.entry);
+		if (NULL == ps->procDir.buttons[i])
 			goto error_exit;
 
 		ps->procDir.buttons[i]->read_proc = procfsButtonsReadProc;
-		ps->procDir.buttons[i]->data      = ps;
+		ps->procDir.buttons[i]->data = ps;
 	}
 
 	devcount++;
 	return;
 
 
-error_exit:
+      error_exit:
 
-	printk(KERN_ERR "pt_drv: failure registering /proc/ entry %s.\n", str );
-	destroy_proc_tree( ps );
+	printk(KERN_ERR "pt_drv: failure registering /proc/ entry %s.\n",
+	       str);
+	destroy_proc_tree(ps);
 }
 
 /** cleanup the proc-fs for a certain device
  */
-void ProcFsUnregisterDevice( pScanData ps )
+void
+ProcFsUnregisterDevice(pScanData ps)
 {
-	destroy_proc_tree( ps );
+	destroy_proc_tree(ps);
 }
 
-#else 	/* CONFIG_PROC_FS */
+#else /* CONFIG_PROC_FS */
 
-int  ProcFsInitialize( void )
+int
+ProcFsInitialize(void)
 {
 	return _OK;
 }
 
-void ProcFsShutdown( void )
+void
+ProcFsShutdown(void)
 {
 }
 
-void ProcFsRegisterDevice( pScanData ps )
+void
+ProcFsRegisterDevice(pScanData ps)
 {
 }
 
-void ProcFsUnregisterDevice( pScanData ps )
+void
+ProcFsUnregisterDevice(pScanData ps)
 {
 }
 

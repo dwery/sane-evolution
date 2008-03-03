@@ -56,14 +56,15 @@
 /* USB specific parts */
 
 /* Apparently this will recover from some errors. */
-static void pv8630_mini_init_scanner(int fd)
+static void
+pv8630_mini_init_scanner(int fd)
 {
 	DBG(DBG_info, "mini_init_scanner\n");
 
 	/* (re-)init the device (?) */
-	sanei_pv8630_write_byte(fd, PV8630_UNKNOWN, 0x04 );
-	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02 );
-	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02 );
+	sanei_pv8630_write_byte(fd, PV8630_UNKNOWN, 0x04);
+	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02);
+	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x02);
 
 	sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xd0, 0xff, 1000);
 }
@@ -71,8 +72,9 @@ static void pv8630_mini_init_scanner(int fd)
 /* Length of the CDB given the SCSI command. The last two are not
    correct (vendor reserved). */
 static u_char cdb_sizes[8] = {
-    6, 10, 10, 6, 16, 12, 0, 0
+	6, 10, 10, 6, 16, 12, 0, 0
 };
+
 #define CDB_SIZE(opcode)	cdb_sizes[(((opcode) >> 5) & 7)]
 
 /* Sends a CDB to the scanner. Also sends the parameters and receives
@@ -81,15 +83,20 @@ static u_char cdb_sizes[8] = {
  *
  * Note: I don't know about deferred commands.
  */
-static SANE_Status sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, void *dst, size_t * dst_size)
+static SANE_Status
+sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, void *dst,
+		  size_t * dst_size)
 {
 	unsigned char result;
-	size_t cmd_size = CDB_SIZE (*(const char *) src);
+	size_t cmd_size = CDB_SIZE(*(const char *) src);
 	size_t param_size = src_size - cmd_size;
-	const char * param_ptr = ((const char *) src) + cmd_size;
+	const char *param_ptr = ((const char *) src) + cmd_size;
 	size_t tmp_len;
-	
-	DBG(DBG_info, "Sending SCSI cmd 0x%02x cdb len %ld, param len %ld, result len %ld\n", ((const unsigned char *)src)[0], (long)cmd_size, (long)param_size, dst_size? (long)*dst_size:(long)0);
+
+	DBG(DBG_info,
+	    "Sending SCSI cmd 0x%02x cdb len %ld, param len %ld, result len %ld\n",
+	    ((const unsigned char *) src)[0], (long) cmd_size,
+	    (long) param_size, dst_size ? (long) *dst_size : (long) 0);
 
 	/* This looks like some kind of pre-initialization. */
 	sanei_pv8630_write_byte(fd, PV8630_UNKNOWN, 0x0c);
@@ -100,7 +107,7 @@ static SANE_Status sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, v
 	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x16);
 	sanei_pv8630_flush_buffer(fd);
 	sanei_pv8630_prep_bulkwrite(fd, cmd_size);
-	
+
 	tmp_len = cmd_size;
 	sanei_pv8630_bulkwrite(fd, src, &tmp_len);
 	sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xf8, 0xff, 1000);
@@ -108,38 +115,41 @@ static SANE_Status sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, v
 	sanei_pv8630_flush_buffer(fd);
 	sanei_pv8630_prep_bulkread(fd, 1);
 
-	result = 0xA5;				/* to be sure */
+	result = 0xA5;		/* to be sure */
 	tmp_len = 1;
 	sanei_pv8630_bulkread(fd, &result, &tmp_len);
 	if (result != 0) {
-		DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result);
+		DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n",
+		    result);
 		if (result == 8) {
 			pv8630_mini_init_scanner(fd);
 		}
-		return(SANE_STATUS_IO_ERROR);
+		return (SANE_STATUS_IO_ERROR);
 	}
-	
+
 	/* Send the parameters and check they've been received OK. */
 	if (param_size) {
 		sanei_pv8630_flush_buffer(fd);
 		sanei_pv8630_prep_bulkwrite(fd, param_size);
-		
+
 		tmp_len = param_size;
 		sanei_pv8630_bulkwrite(fd, param_ptr, &tmp_len);
 		sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xf8, 0xff, 1000);
-		
+
 		sanei_pv8630_flush_buffer(fd);
 		sanei_pv8630_prep_bulkread(fd, 1);
-		
-		result = 0xA5;				/* to be sure */
+
+		result = 0xA5;	/* to be sure */
 		tmp_len = 1;
 		sanei_pv8630_bulkread(fd, &result, &tmp_len);
 		if (result != 0) {
-			DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result);
+			DBG(DBG_info,
+			    "error in sanei_pv8630_bulkread (got %02x)\n",
+			    result);
 			if (result == 8) {
 				pv8630_mini_init_scanner(fd);
 			}
-			return(SANE_STATUS_IO_ERROR);
+			return (SANE_STATUS_IO_ERROR);
 		}
 	}
 
@@ -149,22 +159,25 @@ static SANE_Status sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, v
 		sanei_pv8630_prep_bulkread(fd, *dst_size);
 		sanei_pv8630_bulkread(fd, dst, dst_size);
 
-		DBG(DBG_info, "  SCSI cmd returned %lu bytes\n", (u_long) *dst_size);
+		DBG(DBG_info, "  SCSI cmd returned %lu bytes\n",
+		    (u_long) * dst_size);
 
 		sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xf8, 0xff, 1000);
 
 		sanei_pv8630_flush_buffer(fd);
 		sanei_pv8630_prep_bulkread(fd, 1);
 
-		result = 0x5A;			/* just to be sure */
+		result = 0x5A;	/* just to be sure */
 		tmp_len = 1;
 		sanei_pv8630_bulkread(fd, &result, &tmp_len);
 		if (result != 0) {
-			DBG(DBG_info, "error in sanei_pv8630_bulkread (got %02x)\n", result);
+			DBG(DBG_info,
+			    "error in sanei_pv8630_bulkread (got %02x)\n",
+			    result);
 			if (result == 8) {
 				pv8630_mini_init_scanner(fd);
 			}
-			return(SANE_STATUS_IO_ERROR);
+			return (SANE_STATUS_IO_ERROR);
 		}
 	}
 
@@ -174,12 +187,13 @@ static SANE_Status sanei_umaxusb_cmd(int fd, const void *src, size_t src_size, v
 	sanei_pv8630_wait_byte(fd, PV8630_RSTATUS, 0xd0, 0xff, 1000);
 
 	DBG(DBG_info, "  SCSI command successfully executed\n");
- 
-	return(SANE_STATUS_GOOD);
+
+	return (SANE_STATUS_GOOD);
 }
 
 /* Initialize the PowerVision 8630. */
-static SANE_Status pv8630_init_umaxusb_scanner(int fd)
+static SANE_Status
+pv8630_init_umaxusb_scanner(int fd)
 {
 	DBG(DBG_info, "Initializing the PV8630\n");
 
@@ -214,8 +228,8 @@ static SANE_Status pv8630_init_umaxusb_scanner(int fd)
 	sanei_pv8630_write_byte(fd, PV8630_RMODE, 0x16);
 
 	DBG(DBG_info, "PV8630 initialized\n");
-	
-	return(SANE_STATUS_GOOD);
+
+	return (SANE_STATUS_GOOD);
 }
 
 
@@ -235,48 +249,50 @@ static SANE_Status pv8630_init_umaxusb_scanner(int fd)
  * to be bad anyway.
  */
 
-static void *umaxusb_req_buffer; /* keep the buffer ptr as an ID */
+static void *umaxusb_req_buffer;	/* keep the buffer ptr as an ID */
 
-static SANE_Status sanei_umaxusb_req_enter (int fd,
-											const void *src, size_t src_size,
-											void *dst, size_t * dst_size, void **idp)
+static SANE_Status
+sanei_umaxusb_req_enter(int fd,
+			const void *src, size_t src_size,
+			void *dst, size_t * dst_size, void **idp)
 {
 	umaxusb_req_buffer = *idp = dst;
-	return(sanei_umaxusb_cmd(fd, src, src_size, dst, dst_size));
+	return (sanei_umaxusb_cmd(fd, src, src_size, dst, dst_size));
 }
 
 static SANE_Status
-sanei_umaxusb_req_wait (void *id)
+sanei_umaxusb_req_wait(void *id)
 {
 	if (id != umaxusb_req_buffer) {
 		DBG(DBG_info, "sanei_umaxusb_req_wait: AIE, invalid id\n");
-		return(SANE_STATUS_IO_ERROR);
+		return (SANE_STATUS_IO_ERROR);
 	}
-	return(SANE_STATUS_GOOD);
+	return (SANE_STATUS_GOOD);
 }
 
 /* Open the device. 
  */
 static SANE_Status
-sanei_umaxusb_open (const char *dev, int *fdp,
-					SANEI_SCSI_Sense_Handler handler, void *handler_arg)
+sanei_umaxusb_open(const char *dev, int *fdp,
+		   SANEI_SCSI_Sense_Handler handler, void *handler_arg)
 {
 	SANE_Status status;
 
-	handler = handler;			/* silence gcc */
+	handler = handler;	/* silence gcc */
 	handler_arg = handler_arg;	/* silence gcc */
 
-	status = sanei_usb_open (dev, fdp);
+	status = sanei_usb_open(dev, fdp);
 	if (status != SANE_STATUS_GOOD) {
-		DBG (1, "sanei_umaxusb_open: open of `%s' failed: %s\n",
-			 dev, sane_strstatus(status));
+		DBG(1, "sanei_umaxusb_open: open of `%s' failed: %s\n",
+		    dev, sane_strstatus(status));
 		return status;
-    } else {
+	} else {
 		SANE_Word vendor;
 		SANE_Word product;
 
 		/* We have openned the device. Check that it is a USB scanner. */
-		if (sanei_usb_get_vendor_product (*fdp, &vendor, &product) != SANE_STATUS_GOOD) {
+		if (sanei_usb_get_vendor_product(*fdp, &vendor, &product) !=
+		    SANE_STATUS_GOOD) {
 			/* This is not a USB scanner, or SANE or the OS doesn't support it. */
 			sanei_usb_close(*fdp);
 			*fdp = -1;
@@ -290,35 +306,32 @@ sanei_umaxusb_open (const char *dev, int *fdp,
 			*fdp = -1;
 			return SANE_STATUS_UNSUPPORTED;
 		}
-		
+
 		/* It's a good scanner. Initialize it.  
 		 *
 		 * Note: pv8630_init_umaxusb_scanner() is for the UMAX
 		 * 2200. Other UMAX scanner might need a different
 		 * initialization routine. */
 
-		pv8630_init_umaxusb_scanner(*fdp); 
+		pv8630_init_umaxusb_scanner(*fdp);
 	}
-	
-	return(SANE_STATUS_GOOD);
+
+	return (SANE_STATUS_GOOD);
 }
 
 /* sanei_umaxusb_open_extended() is just a passthrough for sanei_umaxusb_open(). */
 static SANE_Status
-sanei_umaxusb_open_extended (const char *dev, int *fdp,
-					SANEI_SCSI_Sense_Handler handler, void *handler_arg, int *buffersize)
+sanei_umaxusb_open_extended(const char *dev, int *fdp,
+			    SANEI_SCSI_Sense_Handler handler,
+			    void *handler_arg, int *buffersize)
 {
 	buffersize = buffersize;
-	return(sanei_umaxusb_open(dev, fdp, handler, handler_arg));
+	return (sanei_umaxusb_open(dev, fdp, handler, handler_arg));
 }
 
 /* Close the scanner. */
 static void
-sanei_umaxusb_close (int fd)
+sanei_umaxusb_close(int fd)
 {
 	sanei_usb_close(fd);
 }
-
-
-
-

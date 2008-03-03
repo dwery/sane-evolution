@@ -1,0 +1,7 @@
+Building from source
+====================
+
+./autogen.sh
+./configure
+make
+make install

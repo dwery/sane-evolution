@@ -6,7 +6,6 @@ svn checkout http://sane-evolution.googlecode.com/svn/trunk/ sane-evolution-read
 }}}
 
  * do:
-
 {{{
 cd sane-evolution-read-only
 ./autogen.sh

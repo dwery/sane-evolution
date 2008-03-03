@@ -52,24 +52,24 @@
 
 typedef enum SM3840_Option
 {
-  OPT_NUM_OPTS = 0,
-  OPT_MODE,
-  OPT_RESOLUTION,
-  OPT_BIT_DEPTH,
+	OPT_NUM_OPTS = 0,
+	OPT_MODE,
+	OPT_RESOLUTION,
+	OPT_BIT_DEPTH,
 
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_BRIGHTNESS,
-  OPT_CONTRAST,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
 
-  OPT_LAMP_TIMEOUT,
-  OPT_THRESHOLD,
+	OPT_LAMP_TIMEOUT,
+	OPT_THRESHOLD,
 
-  /* must come last */
-  NUM_OPTIONS
+	/* must come last */
+	NUM_OPTIONS
 } SM3840_Option;
 
 #include "sm3840_params.h"
@@ -77,38 +77,38 @@ typedef enum SM3840_Option
 
 typedef struct SM3840_Device
 {
-  struct SM3840_Device *next;
-  SANE_Device sane;
+	struct SM3840_Device *next;
+	SANE_Device sane;
 } SM3840_Device;
 
 
 
 typedef struct SM3840_Scan
 {
-  struct SM3840_Scan *next;
-  SANE_Option_Descriptor options_list[NUM_OPTIONS];
-  Option_Value value[NUM_OPTIONS];
+	struct SM3840_Scan *next;
+	SANE_Option_Descriptor options_list[NUM_OPTIONS];
+	Option_Value value[NUM_OPTIONS];
 
-  SANE_Int udev;
+	SANE_Int udev;
 
-  SANE_Bool scanning;
-  SANE_Bool cancelled;
-  SANE_Parameters sane_params;
-  SM3840_Params sm3840_params;
+	SANE_Bool scanning;
+	SANE_Bool cancelled;
+	SANE_Parameters sane_params;
+	SM3840_Params sm3840_params;
 
-  SANE_Byte *line_buffer;	/* One remapped/etc line */
-  size_t remaining;		/* How much of line_buffer is still good? */
-  size_t offset;		/* Offset in line_buffer where unread data lives */
-  int linesleft;		/* How many lines to read from scanner? */
-  int linesread;		/* Total lines returned to SANE */
+	SANE_Byte *line_buffer;	/* One remapped/etc line */
+	size_t remaining;	/* How much of line_buffer is still good? */
+	size_t offset;		/* Offset in line_buffer where unread data lives */
+	int linesleft;		/* How many lines to read from scanner? */
+	int linesread;		/* Total lines returned to SANE */
 
-  /* record_line state parameters */
-  int save_i;
-  unsigned char *save_scan_line;
-  unsigned char *save_dpi1200_remap;
-  unsigned char *save_color_remap;
-  unsigned char threshold;
-  int save_dither_err;
+	/* record_line state parameters */
+	int save_i;
+	unsigned char *save_scan_line;
+	unsigned char *save_dpi1200_remap;
+	unsigned char *save_color_remap;
+	unsigned char threshold;
+	int save_dither_err;
 
 } SM3840_Scan;
 

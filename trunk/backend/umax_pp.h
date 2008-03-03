@@ -50,126 +50,126 @@
 
 enum Umax_PP_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_RESOLUTION,
-  OPT_PREVIEW,
-  OPT_GRAY_PREVIEW,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_RESOLUTION,
+	OPT_PREVIEW,
+	OPT_GRAY_PREVIEW,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_ENHANCEMENT_GROUP,
+	OPT_ENHANCEMENT_GROUP,
 
-  OPT_LAMP_CONTROL,
-  OPT_UTA_CONTROL,
+	OPT_LAMP_CONTROL,
+	OPT_UTA_CONTROL,
 
-  OPT_CUSTOM_GAMMA,		/* use custom gamma tables? */
-  /* The gamma vectors MUST appear in the order gray, red, green,
-     blue.  */
-  OPT_GAMMA_VECTOR,
-  OPT_GAMMA_VECTOR_R,
-  OPT_GAMMA_VECTOR_G,
-  OPT_GAMMA_VECTOR_B,
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables? */
+	/* The gamma vectors MUST appear in the order gray, red, green,
+	   blue.  */
+	OPT_GAMMA_VECTOR,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
 
-  OPT_MANUAL_GAIN,
-  OPT_GRAY_GAIN,
-  OPT_RED_GAIN,
-  OPT_GREEN_GAIN,
-  OPT_BLUE_GAIN,
+	OPT_MANUAL_GAIN,
+	OPT_GRAY_GAIN,
+	OPT_RED_GAIN,
+	OPT_GREEN_GAIN,
+	OPT_BLUE_GAIN,
 
-  OPT_MANUAL_OFFSET,
-  OPT_GRAY_OFFSET,
-  OPT_RED_OFFSET,
-  OPT_GREEN_OFFSET,
-  OPT_BLUE_OFFSET,
+	OPT_MANUAL_OFFSET,
+	OPT_GRAY_OFFSET,
+	OPT_RED_OFFSET,
+	OPT_GREEN_OFFSET,
+	OPT_BLUE_OFFSET,
 
-  /* must come last: */
-  NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 
 typedef struct Umax_PP_Descriptor
 {
-  SANE_Device sane;
+	SANE_Device sane;
 
-  SANE_String port;
-  SANE_String ppdevice;
+	SANE_String port;
+	SANE_String ppdevice;
 
-  SANE_Int max_res;
-  SANE_Int ccd_res;
-  SANE_Int max_h_size;
-  SANE_Int max_v_size;
-  long int buf_size;
-  u_char revision;
+	SANE_Int max_res;
+	SANE_Int ccd_res;
+	SANE_Int max_h_size;
+	SANE_Int max_v_size;
+	long int buf_size;
+	u_char revision;
 
-  /* default values */
-  SANE_Int gray_gain;
-  SANE_Int red_gain;
-  SANE_Int blue_gain;
-  SANE_Int green_gain;
-  SANE_Int gray_offset;
-  SANE_Int red_offset;
-  SANE_Int blue_offset;
-  SANE_Int green_offset;
+	/* default values */
+	SANE_Int gray_gain;
+	SANE_Int red_gain;
+	SANE_Int blue_gain;
+	SANE_Int green_gain;
+	SANE_Int gray_offset;
+	SANE_Int red_offset;
+	SANE_Int blue_offset;
+	SANE_Int green_offset;
 }
 Umax_PP_Descriptor;
 
 typedef struct Umax_PP_Device
 {
-  struct Umax_PP_Device *next;
-  Umax_PP_Descriptor *desc;
+	struct Umax_PP_Device *next;
+	Umax_PP_Descriptor *desc;
 
 
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-  SANE_Int gamma_table[4][256];
+	SANE_Int gamma_table[4][256];
 
-  int state;
-  int mode;
+	int state;
+	int mode;
 
-  int TopX;
-  int TopY;
-  int BottomX;
-  int BottomY;
+	int TopX;
+	int TopY;
+	int BottomX;
+	int BottomY;
 
-  int dpi;
-  int gain;
-  int color;
-  int bpp;			/* bytes per pixel */
-  int tw;			/* target width in pixels */
-  int th;			/* target height in pixels */
+	int dpi;
+	int gain;
+	int color;
+	int bpp;		/* bytes per pixel */
+	int tw;			/* target width in pixels */
+	int th;			/* target height in pixels */
 
 
 
-  SANE_Byte *calibration;
+	SANE_Byte *calibration;
 
-  SANE_Byte *buf;
-  long int bufsize;		/* size of read buffer                 */
-  long int buflen;		/* size of data length in buffer       */
-  long int bufread;		/* number of bytes read in the buffer  */
-  long int read;		/* bytes read from previous start scan */
+	SANE_Byte *buf;
+	long int bufsize;	/* size of read buffer                 */
+	long int buflen;	/* size of data length in buffer       */
+	long int bufread;	/* number of bytes read in the buffer  */
+	long int read;		/* bytes read from previous start scan */
 
-  SANE_Parameters params;
-  SANE_Range dpi_range;
-  SANE_Range x_range;
-  SANE_Range y_range;
+	SANE_Parameters params;
+	SANE_Range dpi_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
 
-  SANE_Int gray_gain;
-  SANE_Int red_gain;
-  SANE_Int blue_gain;
-  SANE_Int green_gain;
+	SANE_Int gray_gain;
+	SANE_Int red_gain;
+	SANE_Int blue_gain;
+	SANE_Int green_gain;
 
-  SANE_Int gray_offset;
-  SANE_Int red_offset;
-  SANE_Int blue_offset;
-  SANE_Int green_offset;
+	SANE_Int gray_offset;
+	SANE_Int red_offset;
+	SANE_Int blue_offset;
+	SANE_Int green_offset;
 }
 Umax_PP_Device;
 

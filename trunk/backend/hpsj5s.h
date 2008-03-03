@@ -32,71 +32,70 @@ enumColorDepth;
 
 /*Middle-level API:*/
 
-static int OpenScanner (const char *scanner_path);
+static int OpenScanner(const char *scanner_path);
 
-static void CloseScanner (int handle);
+static void CloseScanner(int handle);
 
-static int DetectScanner (void);
+static int DetectScanner(void);
 
-static void StandByScanner (void);
+static void StandByScanner(void);
 
-static void SwitchHardwareState (SANE_Byte mask, SANE_Byte invert_mask);
+static void SwitchHardwareState(SANE_Byte mask, SANE_Byte invert_mask);
 
-static int CheckPaperPresent (void);
+static int CheckPaperPresent(void);
 
-static int ReleasePaper (void);
+static int ReleasePaper(void);
 
-static int PaperFeed (SANE_Word wLinesToFeed);
+static int PaperFeed(SANE_Word wLinesToFeed);
 
-static void TransferScanParameters (enumColorDepth enColor,
-				    SANE_Word wResolution,
-				    SANE_Word wCorrectedLength);
+static void TransferScanParameters(enumColorDepth enColor,
+				   SANE_Word wResolution,
+				   SANE_Word wCorrectedLength);
 
-static void TurnOnPaperPulling (enumColorDepth enColor,
-				SANE_Word wResolution);
+static void TurnOnPaperPulling(enumColorDepth enColor, SANE_Word wResolution);
 
-static void TurnOffPaperPulling (void);
+static void TurnOffPaperPulling(void);
 
-static SANE_Byte GetCalibration (void);
+static SANE_Byte GetCalibration(void);
 
-static void CalibrateScanElements (void);
+static void CalibrateScanElements(void);
 
 /*Internal-use functions:*/
 
-static int OutputCheck (void);
-static int InputCheck (void);
-static int CallCheck (void);
-static void LoadingPaletteToScanner (void);
+static int OutputCheck(void);
+static int InputCheck(void);
+static int CallCheck(void);
+static void LoadingPaletteToScanner(void);
 
 /*Low level warappers:*/
 
-static void WriteAddress (SANE_Byte Address);
+static void WriteAddress(SANE_Byte Address);
 
-static void WriteData (SANE_Byte Data);
+static void WriteData(SANE_Byte Data);
 
-static void WriteScannerRegister (SANE_Byte Address, SANE_Byte Data);
+static void WriteScannerRegister(SANE_Byte Address, SANE_Byte Data);
 
-static void CallFunctionWithParameter (SANE_Byte Function,
-				       SANE_Byte Parameter);
+static void CallFunctionWithParameter(SANE_Byte Function,
+				      SANE_Byte Parameter);
 
-static SANE_Byte CallFunctionWithRetVal (SANE_Byte Function);
+static SANE_Byte CallFunctionWithRetVal(SANE_Byte Function);
 
-static SANE_Byte ReadDataByte (void);
+static SANE_Byte ReadDataByte(void);
 
-static void ReadDataBlock (SANE_Byte * Buffer, int lenght);
+static void ReadDataBlock(SANE_Byte * Buffer, int lenght);
 
 /*Daisy chaining API: (should be moved to ieee1284 library in future)*/
 
 /*Deselect all devices in chain on this port.*/
-static void daisy_deselect_all (struct parport *port);
+static void daisy_deselect_all(struct parport *port);
 
 /*Select device with number 'daisy' in 'mode'.*/
-static int daisy_select (struct parport *port, int daisy, int mode);
+static int daisy_select(struct parport *port, int daisy, int mode);
 
 /*Setup address for device in chain on this port*/
-static int assign_addr (struct parport *port, int daisy);
+static int assign_addr(struct parport *port, int daisy);
 
 /* Send a daisy-chain-style CPP command packet. */
-static int cpp_daisy (struct parport *port, int cmd);
+static int cpp_daisy(struct parport *port, int cmd);
 
 #endif

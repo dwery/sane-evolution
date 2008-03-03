@@ -268,69 +268,69 @@
 
 typedef enum
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_INQUIRY,			/* inquiry string */
-  OPT_PREVIEW,
-  OPT_SCAN_MODE,		/* scan mode */
-  OPT_RESOLUTION,
-  OPT_X_RESOLUTION,
-  OPT_Y_RESOLUTION,
-  OPT_COMPRESSION,		/* hardware compression */
+	OPT_MODE_GROUP,
+	OPT_INQUIRY,		/* inquiry string */
+	OPT_PREVIEW,
+	OPT_SCAN_MODE,		/* scan mode */
+	OPT_RESOLUTION,
+	OPT_X_RESOLUTION,
+	OPT_Y_RESOLUTION,
+	OPT_COMPRESSION,	/* hardware compression */
 
-  OPT_GEOMETRY_GROUP,
-  /*OPT_AUTOBORDER,       automatic border detection */
-  /*OPT_ROTATION,         hardware rotation */
-  /*OPT_DESKEW,           hardware deskew */
-  OPT_PAPER_SIZE,		/* paper size */
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
-  OPT_PADDING,			/* Pad to requested length */
-  OPT_AUTO_SIZE,		/* Automatic Size Recognition */
+	OPT_GEOMETRY_GROUP,
+	/*OPT_AUTOBORDER,       automatic border detection */
+	/*OPT_ROTATION,         hardware rotation */
+	/*OPT_DESKEW,           hardware deskew */
+	OPT_PAPER_SIZE,		/* paper size */
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
+	OPT_PADDING,		/* Pad to requested length */
+	OPT_AUTO_SIZE,		/* Automatic Size Recognition */
 
-  OPT_FEEDER_GROUP,
-  OPT_SCAN_SOURCE,		/* scan source (eg. Flatbed, ADF) */
-  OPT_DUPLEX,			/* scan both sides of the page */
-  OPT_SCAN_WAIT_MODE,		/* Enables the scanner's Start Button */
-  OPT_PREFEED,
-  OPT_ENDORSER,			/* Endorser (off,on) */
-  OPT_ENDORSER_STRING,		/* Endorser String */
-  /*OPT_BATCH,              scan in batch mode */
-  /*OPT_TIMEOUT_MANUAL,     timeout in seconds with manual feed */
-  /*OPT_TIMEOUT_ADF,        timeout in seconds with ADF */
-  /*OPT_CHECK_ADF,          check for page in ADF before scanning */
+	OPT_FEEDER_GROUP,
+	OPT_SCAN_SOURCE,	/* scan source (eg. Flatbed, ADF) */
+	OPT_DUPLEX,		/* scan both sides of the page */
+	OPT_SCAN_WAIT_MODE,	/* Enables the scanner's Start Button */
+	OPT_PREFEED,
+	OPT_ENDORSER,		/* Endorser (off,on) */
+	OPT_ENDORSER_STRING,	/* Endorser String */
+	/*OPT_BATCH,              scan in batch mode */
+	/*OPT_TIMEOUT_MANUAL,     timeout in seconds with manual feed */
+	/*OPT_TIMEOUT_ADF,        timeout in seconds with ADF */
+	/*OPT_CHECK_ADF,          check for page in ADF before scanning */
 
-  OPT_ENHANCEMENT_GROUP,
-  /* OPT_ACE_FUNCTION,  
-     OPT_ACE_SENSITIVITY, */
-  OPT_BRIGHTNESS,		/* Brightness */
-  OPT_THRESHOLD,		/* Threshold */
-  OPT_CONTRAST,			/* Contrast */
-  OPT_NEGATIVE,			/* Negative (reverse image) */
-  OPT_GAMMA,			/* Gamma Correction */
-  OPT_CUSTOM_GAMMA,
-  OPT_GAMMA_VECTOR_GRAY,
-  OPT_HALFTONE_CODE,		/* Halftone Code    */
-  OPT_HALFTONE_PATTERN,		/* Halftone Pattern */
-  OPT_GRAYFILTER,		/* MRIF */
-  OPT_SMOOTHING,		/* Smoothing */
-  OPT_NOISEREMOVAL,		/* Noise Removal */
-  OPT_AUTOSEP,			/* Auto Separation */
-  OPT_AUTOBIN,			/* Auto Binarization */
-  OPT_WHITE_BALANCE,
+	OPT_ENHANCEMENT_GROUP,
+	/* OPT_ACE_FUNCTION,  
+	   OPT_ACE_SENSITIVITY, */
+	OPT_BRIGHTNESS,		/* Brightness */
+	OPT_THRESHOLD,		/* Threshold */
+	OPT_CONTRAST,		/* Contrast */
+	OPT_NEGATIVE,		/* Negative (reverse image) */
+	OPT_GAMMA,		/* Gamma Correction */
+	OPT_CUSTOM_GAMMA,
+	OPT_GAMMA_VECTOR_GRAY,
+	OPT_HALFTONE_CODE,	/* Halftone Code    */
+	OPT_HALFTONE_PATTERN,	/* Halftone Pattern */
+	OPT_GRAYFILTER,		/* MRIF */
+	OPT_SMOOTHING,		/* Smoothing */
+	OPT_NOISEREMOVAL,	/* Noise Removal */
+	OPT_AUTOSEP,		/* Auto Separation */
+	OPT_AUTOBIN,		/* Auto Binarization */
+	OPT_WHITE_BALANCE,
 
-  OPT_MISCELLANEOUS_GROUP,
-  OPT_PADDING_TYPE,
-  /*OPT_BITORDER,      */
-  OPT_SELF_DIAGNOSTICS,
-  OPT_OPTICAL_ADJUSTMENT,
-  /*
-     OPT_PARITION_FUNCTION
-     OPT_SECTION
-   */
+	OPT_MISCELLANEOUS_GROUP,
+	OPT_PADDING_TYPE,
+	/*OPT_BITORDER,      */
+	OPT_SELF_DIAGNOSTICS,
+	OPT_OPTICAL_ADJUSTMENT,
+	/*
+	   OPT_PARITION_FUNCTION
+	   OPT_SECTION
+	 */
 
-  NUM_OPTIONS			/* must come last: */
+	NUM_OPTIONS		/* must come last: */
 } HS2P_Option;

@@ -59,64 +59,76 @@
  * program here for dealing with parts of SCSI commands.
  */
 
-static inline void setbitfield(unsigned char * pageaddr, int mask, int shift, int val)
-{ *pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift); }
-
-static inline void resetbitfield(unsigned char * pageaddr, int mask, int shift, int val)
-{ *pageaddr = (*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift); }
-
-static inline int getbitfield(unsigned char * pageaddr, int mask, int shift)
-{ return ((*pageaddr >> shift) & mask); }
-
-/* ------------------------------------------------------------------------- */
-
-static inline int getnbyte(unsigned char * pnt, int nbytes)
+static inline void
+setbitfield(unsigned char *pageaddr, int mask, int shift, int val)
 {
- unsigned int result = 0;
- int i;
+	*pageaddr = (*pageaddr & ~(mask << shift)) | ((val & mask) << shift);
+}
 
-  for(i=0; i<nbytes; i++)
-    result = (result << 8) | (pnt[i] & 0xff);
-  return result;
+static inline void
+resetbitfield(unsigned char *pageaddr, int mask, int shift, int val)
+{
+	*pageaddr =
+		(*pageaddr & ~(mask << shift)) | (((!val) & mask) << shift);
+}
+
+static inline int
+getbitfield(unsigned char *pageaddr, int mask, int shift)
+{
+	return ((*pageaddr >> shift) & mask);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static inline int getnbyte1(unsigned char * pnt, int nbytes)
+static inline int
+getnbyte(unsigned char *pnt, int nbytes)
 {
- unsigned int result = 0;
- int i;
+	unsigned int result = 0;
+	int i;
 
-  for(i=nbytes-1; i >= 0; i--)
-    result = (result << 8) | (pnt[i] & 0xff);
-  return result;
+	for (i = 0; i < nbytes; i++)
+		result = (result << 8) | (pnt[i] & 0xff);
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static inline void putnbyte(unsigned char * pnt, unsigned int value, unsigned int nbytes)
+static inline int
+getnbyte1(unsigned char *pnt, int nbytes)
 {
-  int i;
+	unsigned int result = 0;
+	int i;
 
-  for(i=nbytes-1; i>= 0; i--)
-  {
-    pnt[i] = value & 0xff;
-    value = value >> 8;
-  }
+	for (i = nbytes - 1; i >= 0; i--)
+		result = (result << 8) | (pnt[i] & 0xff);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static inline void
+putnbyte(unsigned char *pnt, unsigned int value, unsigned int nbytes)
+{
+	int i;
+
+	for (i = nbytes - 1; i >= 0; i--) {
+		pnt[i] = value & 0xff;
+		value = value >> 8;
+	}
 }
 
 
 /* ------------------------------------------------------------------------- */
 
-static inline void putnbyte1(unsigned char * pnt, unsigned int value, unsigned int nbytes)
+static inline void
+putnbyte1(unsigned char *pnt, unsigned int value, unsigned int nbytes)
 {
-  unsigned int i;
+	unsigned int i;
 
-  for(i=0; i< nbytes; i++)
-  {
-    pnt[i] = value & 0xff;
-    value = value >> 8;
-  }
+	for (i = 0; i < nbytes; i++) {
+		pnt[i] = value & 0xff;
+		value = value >> 8;
+	}
 }
 
 
@@ -140,7 +152,7 @@ static inline void putnbyte1(unsigned char * pnt, unsigned int value, unsigned i
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-#define STD_WDB_LEN 0x28					     /* wdb_len if nothing is set by inquiry */
+#define STD_WDB_LEN 0x28	/* wdb_len if nothing is set by inquiry */
 
 
 /* --------------------------------------------------------------------------------------------------------- */
@@ -150,8 +162,8 @@ static inline void putnbyte1(unsigned char * pnt, unsigned int value, unsigned i
 
 typedef struct
 {
-  unsigned char *cmd;
-  size_t size;
+	unsigned char *cmd;
+	size_t size;
 } scsiblk;
 
 
@@ -270,15 +282,18 @@ static scsiblk inquiry = { inquiryC, sizeof(inquiryC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char test_unit_readyC[] = { TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char test_unit_readyC[] =
+	{ TEST_UNIT_READY, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static scsiblk test_unit_ready = { test_unit_readyC,sizeof(test_unit_readyC) };
+static scsiblk test_unit_ready =
+	{ test_unit_readyC, sizeof(test_unit_readyC) };
 
 
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char reserve_unitC[] = { RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char reserve_unitC[] =
+	{ RESERVE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk reserve_unit = { reserve_unitC, sizeof(reserve_unitC) };
 
@@ -286,7 +301,8 @@ static scsiblk reserve_unit = { reserve_unitC, sizeof(reserve_unitC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static unsigned char release_unitC[] = { RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char release_unitC[] =
+	{ RELEASE_UNIT, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static scsiblk release_unit = { release_unitC, sizeof(release_unitC) };
 
@@ -350,9 +366,10 @@ static scsiblk sread = { sreadC, sizeof(sreadC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 #if 0
-static unsigned char request_senseC[] = { REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static unsigned char request_senseC[] =
+	{ REQUEST_SENSE, 0x00, 0x00, 0x00, 0x00, 0x00 };
 #define set_RS_allocation_length(sb,val)		sb[0x04]=val
-#define set_RS_LUN(sb,val)				setbitfield(sb + 0x01, 7, 5) /* ??? */
+#define set_RS_LUN(sb,val)				setbitfield(sb + 0x01, 7, 5)	/* ??? */
 
 static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 #endif
@@ -363,13 +380,13 @@ static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 #define get_RS_filemark(b)				getbitfield(b + 0x02, 1, 7)
 #define get_RS_EOM(b)					getbitfield(b + 0x02, 1, 6)
 #define get_RS_ILI(b)					getbitfield(b + 0x02, 1, 5)
-#define get_RS_sense_key(b)				getbitfield(b + 0x02, 0x0f, 0) 
-#define get_RS_information(b)				getnbyte(b+0x03, 4) 
+#define get_RS_sense_key(b)				getbitfield(b + 0x02, 0x0f, 0)
+#define get_RS_information(b)				getnbyte(b+0x03, 4)
 #define get_RS_additional_length(b)			b[0x07]
 #define get_RS_ASC(b)					b[0x0c]
 #define get_RS_ASCQ(b)					b[0x0d]
-#define get_RS_SKSV(b)					getbitfield(b+0x0f,1,7)   /* valid */ 
-#define get_RS_CD(b)					getbitfield(b+0x0f,1,6)   /* 1=CDB */
+#define get_RS_SKSV(b)					getbitfield(b+0x0f,1,7)	/* valid */
+#define get_RS_CD(b)					getbitfield(b+0x0f,1,6)	/* 1=CDB */
 #define get_RS_field_pointer(b)				getnbyte(b+0x10, 2)
 
 #define get_RS_additional_sense(b)			getnbyte(b+0x12, 2)
@@ -380,22 +397,23 @@ static scsiblk request_sense = { request_senseC, sizeof(request_senseC) };
 /* --------------------------------------------------------------------------------------------------------- */
 
 
-static char *sense_str[] = {"NO SENSE",
-                            "RECOVERED ERROR",
-                            "NOT READY",
-                            "MEDIUM ERROR",
-                            "HARDWARE ERROR",
-                            "ILLEGAL REQUEST",
-                            "UNIT ATTENTION",
-                            "DATA PROTECT",
-                            "BLANK CHECK",
-                            "VENDOR SPECIFIC",
-			    "COPY ABORTED",
-                            "ABORTED COMMAND",
-                            "EQUAL",
-                            "VOLUME OVERFLOW",
-                            "MISCOMPARE",
-                            "??? - SENSE 0FH" };
+static char *sense_str[] = { "NO SENSE",
+	"RECOVERED ERROR",
+	"NOT READY",
+	"MEDIUM ERROR",
+	"HARDWARE ERROR",
+	"ILLEGAL REQUEST",
+	"UNIT ATTENTION",
+	"DATA PROTECT",
+	"BLANK CHECK",
+	"VENDOR SPECIFIC",
+	"COPY ABORTED",
+	"ABORTED COMMAND",
+	"EQUAL",
+	"VOLUME OVERFLOW",
+	"MISCOMPARE",
+	"??? - SENSE 0FH"
+};
 
 /* --------------------------------------------------------------------------------------------------------- */
 

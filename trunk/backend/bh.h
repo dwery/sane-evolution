@@ -73,136 +73,135 @@
 #define BH_SECTION_FRONT_PATCH (1 << 4)
 #define BH_SECTION_BACK_PATCH (1 << 5)
 
-typedef enum 
-{ 
-  BH_UNIT_INCH, 
-  BH_UNIT_MM, 
-  BH_UNIT_POINT
+typedef enum
+{
+	BH_UNIT_INCH,
+	BH_UNIT_MM,
+	BH_UNIT_POINT
 } bh_measureUnit;
 
 typedef enum
 {
-  BH_COMP_NONE, 
-  BH_COMP_G31D,
-  BH_COMP_G32D,
-  BH_COMP_G42D
+	BH_COMP_NONE,
+	BH_COMP_G31D,
+	BH_COMP_G32D,
+	BH_COMP_G42D
 } bh_compress;
 
 typedef enum
 {
-  BH_ROTATION_0, 
-  BH_ROTATION_90,
-  BH_ROTATION_180,
-  BH_ROTATION_270
+	BH_ROTATION_0,
+	BH_ROTATION_90,
+	BH_ROTATION_180,
+	BH_ROTATION_270
 } bh_rotation;
 
-typedef enum 
+typedef enum
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  /* inquiry string */
-  OPT_INQUIRY,
-  /* preview mode */
-  OPT_PREVIEW,
-  /* scan mode */
-  OPT_SCAN_MODE,
-  /* resolution */
-  OPT_RESOLUTION,
-  /* hardware compression */
-  OPT_COMPRESSION,
+	OPT_MODE_GROUP,
+	/* inquiry string */
+	OPT_INQUIRY,
+	/* preview mode */
+	OPT_PREVIEW,
+	/* scan mode */
+	OPT_SCAN_MODE,
+	/* resolution */
+	OPT_RESOLUTION,
+	/* hardware compression */
+	OPT_COMPRESSION,
 
-  OPT_GEOMETRY_GROUP,
-  /* automatic border detection */
-  OPT_AUTOBORDER,
-  /* hardware rotation */
-  OPT_ROTATION,
-  /* hardware deskew */
-  OPT_DESKEW,
-  /* paper size */
-  OPT_PAPER_SIZE,
-  /* top-left x */
-  OPT_TL_X,
-  /* top-left y */
-  OPT_TL_Y,
-  /* bottom-right x */
-  OPT_BR_X,
-  /* bottom-right y */
-  OPT_BR_Y,
+	OPT_GEOMETRY_GROUP,
+	/* automatic border detection */
+	OPT_AUTOBORDER,
+	/* hardware rotation */
+	OPT_ROTATION,
+	/* hardware deskew */
+	OPT_DESKEW,
+	/* paper size */
+	OPT_PAPER_SIZE,
+	/* top-left x */
+	OPT_TL_X,
+	/* top-left y */
+	OPT_TL_Y,
+	/* bottom-right x */
+	OPT_BR_X,
+	/* bottom-right y */
+	OPT_BR_Y,
 
-  OPT_FEEDER_GROUP,
-  /* scan source (eg. ADF) */
-  OPT_SCAN_SOURCE,
-  /* scan in batch mode */
-  OPT_BATCH,
-  /* scan both sides of the page */
-  OPT_DUPLEX,
-  /* timeout in seconds with manual feed */
-  OPT_TIMEOUT_MANUAL,
-  /* timeout in seconds with ADF */
-  OPT_TIMEOUT_ADF,
-  /* check for page in ADF before scanning */
-  OPT_CHECK_ADF,
+	OPT_FEEDER_GROUP,
+	/* scan source (eg. ADF) */
+	OPT_SCAN_SOURCE,
+	/* scan in batch mode */
+	OPT_BATCH,
+	/* scan both sides of the page */
+	OPT_DUPLEX,
+	/* timeout in seconds with manual feed */
+	OPT_TIMEOUT_MANUAL,
+	/* timeout in seconds with ADF */
+	OPT_TIMEOUT_ADF,
+	/* check for page in ADF before scanning */
+	OPT_CHECK_ADF,
 
-  OPT_ENHANCEMENT_GROUP,
-  /* Enables the scanner's control panel */
-  OPT_CONTROL_PANEL,
-  /* ACE Function */
-  OPT_ACE_FUNCTION,
-  /* ACE Sensitivity */
-  OPT_ACE_SENSITIVITY,
-  /* Brightness */
-  OPT_BRIGHTNESS,
-  /* Threshold */
-  OPT_THRESHOLD,
-  /* Contrast */
-  OPT_CONTRAST,
-  /* Negative (reverse image) */
-  OPT_NEGATIVE,
+	OPT_ENHANCEMENT_GROUP,
+	/* Enables the scanner's control panel */
+	OPT_CONTROL_PANEL,
+	/* ACE Function */
+	OPT_ACE_FUNCTION,
+	/* ACE Sensitivity */
+	OPT_ACE_SENSITIVITY,
+	/* Brightness */
+	OPT_BRIGHTNESS,
+	/* Threshold */
+	OPT_THRESHOLD,
+	/* Contrast */
+	OPT_CONTRAST,
+	/* Negative (reverse image) */
+	OPT_NEGATIVE,
 
-  OPT_ICON_GROUP,
-  /* Width of icon (thumbnail) image in pixels */
-  OPT_ICON_WIDTH,
-  /* Length of icon (thumbnail) image in pixels */
-  OPT_ICON_LENGTH,
+	OPT_ICON_GROUP,
+	/* Width of icon (thumbnail) image in pixels */
+	OPT_ICON_WIDTH,
+	/* Length of icon (thumbnail) image in pixels */
+	OPT_ICON_LENGTH,
 
-  OPT_BARCODE_GROUP,
-  /* Add <name> to barcode search priority. */
-  OPT_BARCODE_SEARCH_BAR,
-  /* Barcode search count (1-7, default 3). */
-  OPT_BARCODE_SEARCH_COUNT,
-  /* Barcode search mode. 
-   * (1 = horizontal,2 = vertical, 6 = v then h, 9 = h then v). 
-   */
-  OPT_BARCODE_SEARCH_MODE,
-  /* Patch code min height (def=127 (5mm)) */
-  OPT_BARCODE_HMIN,       
-  /* Barcode search timeout in ms 
-   * (20-65535,default is disabled). 
-   */
-  OPT_BARCODE_SEARCH_TIMEOUT,
-  /* Specify image sections and functions
-   */
-  OPT_SECTION,
-  /* Specifies the maximum relation from the widest to 
-   * the smallest bar 
-   */
-  OPT_BARCODE_RELMAX,
-  /* Specifies the minimum number of bars in Bar/Patch code */
-  OPT_BARCODE_BARMIN,
-  /* Specifies the maximum number of bars in a Bar/Patch code */
-  OPT_BARCODE_BARMAX,
-  /* Specifies the image contrast used in decoding.  
-   * Use higher values when there are more white pixels 
-   * in the code 
-   */
-  OPT_BARCODE_CONTRAST,
-  /* Controls Patch Code detection. */
-  OPT_BARCODE_PATCHMODE,
+	OPT_BARCODE_GROUP,
+	/* Add <name> to barcode search priority. */
+	OPT_BARCODE_SEARCH_BAR,
+	/* Barcode search count (1-7, default 3). */
+	OPT_BARCODE_SEARCH_COUNT,
+	/* Barcode search mode. 
+	 * (1 = horizontal,2 = vertical, 6 = v then h, 9 = h then v). 
+	 */
+	OPT_BARCODE_SEARCH_MODE,
+	/* Patch code min height (def=127 (5mm)) */
+	OPT_BARCODE_HMIN,
+	/* Barcode search timeout in ms 
+	 * (20-65535,default is disabled). 
+	 */
+	OPT_BARCODE_SEARCH_TIMEOUT,
+	/* Specify image sections and functions
+	 */
+	OPT_SECTION,
+	/* Specifies the maximum relation from the widest to 
+	 * the smallest bar 
+	 */
+	OPT_BARCODE_RELMAX,
+	/* Specifies the minimum number of bars in Bar/Patch code */
+	OPT_BARCODE_BARMIN,
+	/* Specifies the maximum number of bars in a Bar/Patch code */
+	OPT_BARCODE_BARMAX,
+	/* Specifies the image contrast used in decoding.  
+	 * Use higher values when there are more white pixels 
+	 * in the code 
+	 */
+	OPT_BARCODE_CONTRAST,
+	/* Controls Patch Code detection. */
+	OPT_BARCODE_PATCHMODE,
 
-  /* must come last: */
-  NUM_OPTIONS
-
+	/* must come last: */
+	NUM_OPTIONS
 } BH_Option;
 
 /* macros for accessing the value for an option within a scanning context */
@@ -216,392 +215,369 @@ typedef enum
 
 typedef struct _BH_Paper
 {
-  SANE_String name;
+	SANE_String name;
 
-  /* paper dimensions in mm */
-  double width, length;
+	/* paper dimensions in mm */
+	double width, length;
 } BH_Paper;
 
 typedef struct _BH_Section
 {
-  /* section dimensions - in millimeters */
-  u_long top, left, width, length;
+	/* section dimensions - in millimeters */
+	u_long top, left, width, length;
 
-  /* compression type/arg/frameformat */
-  SANE_Byte compressiontype;
-  SANE_Byte compressionarg;
-  SANE_Frame format;
+	/* compression type/arg/frameformat */
+	SANE_Byte compressiontype;
+	SANE_Byte compressionarg;
+	SANE_Frame format;
 
-  /* Flags (see BH_SECTION_...) indicating operation(s) to perform
-   * on the section.  If zero, the section is completely disabled
-   * and will not even be defined in set_window.
-   */
-  SANE_Word flags;
+	/* Flags (see BH_SECTION_...) indicating operation(s) to perform
+	 * on the section.  If zero, the section is completely disabled
+	 * and will not even be defined in set_window.
+	 */
+	SANE_Word flags;
 
 } BH_Section;
 
 typedef struct _BH_Info
 {
-  SANE_Range x_range;
-  SANE_Range y_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
 
-  SANE_Int res_default;
-  SANE_Bool autoborder_default;
-  SANE_Bool batch_default;
-  SANE_Bool deskew_default;
-  SANE_Bool check_adf_default;
-  SANE_Bool duplex_default;
-  SANE_Int timeout_adf_default;
-  SANE_Int timeout_manual_default;
-  SANE_Bool control_panel_default;
+	SANE_Int res_default;
+	SANE_Bool autoborder_default;
+	SANE_Bool batch_default;
+	SANE_Bool deskew_default;
+	SANE_Bool check_adf_default;
+	SANE_Bool duplex_default;
+	SANE_Int timeout_adf_default;
+	SANE_Int timeout_manual_default;
+	SANE_Bool control_panel_default;
 
-  /* additional discovered/guessed capabilities */
-  SANE_Bool canACE;
-  SANE_Bool canDuplex;
-  SANE_Bool canCheckADF;
+	/* additional discovered/guessed capabilities */
+	SANE_Bool canACE;
+	SANE_Bool canDuplex;
+	SANE_Bool canCheckADF;
 
-  /* standard information */
-  SANE_Byte devtype;
-  SANE_Char vendor[9];	/* model name */
-  SANE_Char product[17];	/* product name */
-  SANE_Char revision[5];	/* revision */
+	/* standard information */
+	SANE_Byte devtype;
+	SANE_Char vendor[9];	/* model name */
+	SANE_Char product[17];	/* product name */
+	SANE_Char revision[5];	/* revision */
 
-  /* VPD information */
-  SANE_Bool canADF;		/* is there an ADF available */
-  SANE_Bool colorBandW;	/* can scanner do black and white */
-  SANE_Bool colorHalftone;	/* can scanner do Halftone */
-  SANE_Bool canWhiteFrame;	/* data processing: White Framing */
-  SANE_Bool canBlackFrame;	/* data processing: Black Framing */
-  SANE_Bool canEdgeExtract;	/* data processing: ACE: Edge Extraction */
-  SANE_Bool canNoiseFilter;	/* data processing: ACE: Noise Filtering */
-  SANE_Bool canSmooth;	/* data processing: ACE: Smoothing */
-  SANE_Bool canLineBold;	/* data processing: ACE: LineBolding */
-  SANE_Bool comprG3_1D;	/* compression: Group 3, 1 dimensional */
-  SANE_Bool comprG3_2D;	/* compression: Group 3, 2 dimensional */
-  SANE_Bool comprG4;		/* compression: Group 4 */
-  SANE_Bool canBorderRecog;	/* can do border recognition */
-  SANE_Bool canBarCode;	/* bar code support available */
-  SANE_Bool canIcon;		/* icon support available */
-  SANE_Bool canSection;	/* section support available */
-  SANE_Int lineMaxBytes;	/* maximum bytes per scan-line */
+	/* VPD information */
+	SANE_Bool canADF;	/* is there an ADF available */
+	SANE_Bool colorBandW;	/* can scanner do black and white */
+	SANE_Bool colorHalftone;	/* can scanner do Halftone */
+	SANE_Bool canWhiteFrame;	/* data processing: White Framing */
+	SANE_Bool canBlackFrame;	/* data processing: Black Framing */
+	SANE_Bool canEdgeExtract;	/* data processing: ACE: Edge Extraction */
+	SANE_Bool canNoiseFilter;	/* data processing: ACE: Noise Filtering */
+	SANE_Bool canSmooth;	/* data processing: ACE: Smoothing */
+	SANE_Bool canLineBold;	/* data processing: ACE: LineBolding */
+	SANE_Bool comprG3_1D;	/* compression: Group 3, 1 dimensional */
+	SANE_Bool comprG3_2D;	/* compression: Group 3, 2 dimensional */
+	SANE_Bool comprG4;	/* compression: Group 4 */
+	SANE_Bool canBorderRecog;	/* can do border recognition */
+	SANE_Bool canBarCode;	/* bar code support available */
+	SANE_Bool canIcon;	/* icon support available */
+	SANE_Bool canSection;	/* section support available */
+	SANE_Int lineMaxBytes;	/* maximum bytes per scan-line */
 
-  /* jis information */
-  SANE_Int resBasicX;		/* basic X resolution */
-  SANE_Int resBasicY;		/* basic Y resolution */
-  SANE_Int resMaxX;		/* maximum X resolution */
-  SANE_Int resMaxY;		/* maximum Y resolution */
-  SANE_Int resMinX;		/* minimum X resolution */
-  SANE_Int resMinY;		/* minimum Y resolution */
-  SANE_Int resStdList[16+1];    /* list of available standard resolutions 
-				 * (first slot is the length) 
-				 */
-  SANE_Int winWidth;		/* length of window (in BasicX res DPI) */
-  SANE_Int winHeight;		/* height of window (in BasicY res DPI) */
+	/* jis information */
+	SANE_Int resBasicX;	/* basic X resolution */
+	SANE_Int resBasicY;	/* basic Y resolution */
+	SANE_Int resMaxX;	/* maximum X resolution */
+	SANE_Int resMaxY;	/* maximum Y resolution */
+	SANE_Int resMinX;	/* minimum X resolution */
+	SANE_Int resMinY;	/* minimum Y resolution */
+	SANE_Int resStdList[16 + 1];	/* list of available standard resolutions 
+					 * (first slot is the length) 
+					 */
+	SANE_Int winWidth;	/* length of window (in BasicX res DPI) */
+	SANE_Int winHeight;	/* height of window (in BasicY res DPI) */
 } BH_Info;
 
 typedef struct _BH_Device BH_Device;
 
 struct _BH_Device
 {
-  BH_Device *next;
-  SANE_Device sane;
-  BH_Info info;
+	BH_Device *next;
+	SANE_Device sane;
+	BH_Info info;
 };
 
 
 typedef struct _BH_Scanner BH_Scanner;
 struct _BH_Scanner
 {
-  /* all the state needed to define a scan request: */
+	/* all the state needed to define a scan request: */
 
-  /* linked list for housekeeping */
-  BH_Scanner *next;
+	/* linked list for housekeeping */
+	BH_Scanner *next;
 
-  /* scanner dependent/low-level state: */
-  BH_Device *hw;
+	/* scanner dependent/low-level state: */
+	BH_Device *hw;
 
-  /* SCSI filedescriptor */
-  int fd;
-  
-  /* tempfile which is used to send decoded barcode data */
-  FILE *barf;
-  char barfname[PATH_MAX+1];
+	/* SCSI filedescriptor */
+	int fd;
 
-  /* SANE option descriptors and values */
-  SANE_Option_Descriptor opt[NUM_OPTIONS];
-  Option_Value val[NUM_OPTIONS];
+	/* tempfile which is used to send decoded barcode data */
+	FILE *barf;
+	char barfname[PATH_MAX + 1];
 
-  /* additional values that don't fit into Option_Value representation */
-  SANE_Byte search_bars[NUM_SEARCH_BARS];
-  BH_Section sections[NUM_SECTIONS];
-  SANE_Int num_sections;
+	/* SANE option descriptors and values */
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-  /* SANE image parameters */
-  SANE_Parameters params;
-  
-  /* state information - not options */
+	/* additional values that don't fit into Option_Value representation */
+	SANE_Byte search_bars[NUM_SEARCH_BARS];
+	BH_Section sections[NUM_SECTIONS];
+	SANE_Int num_sections;
 
-  /* Basic Measurement Unit */
-  SANE_Int bmu;
-  /* Measurement Unit Divisor */
-  SANE_Int mud;
+	/* SANE image parameters */
+	SANE_Parameters params;
 
-  /* track data to be read.  ReadList contains the codes of the read types
-   * (see BH_READ_TYPE...) to perform, readcnt is the total number of reads
-   * for this scan and readptr points to the current read operation.
-   */
-  SANE_Byte readlist[NUM_READS];
-  SANE_Int readcnt, readptr;
+	/* state information - not options */
 
-  u_long InvalidBytes;
-  SANE_Bool scanning;
-  SANE_Bool cancelled;
-  SANE_Bool backpage;
-  SANE_Bool barcodes;
-  SANE_Bool patchcodes;
-  SANE_Bool icons;
-  u_long iconwidth, iconlength;
-  SANE_Bool barcode_not_found;
+	/* Basic Measurement Unit */
+	SANE_Int bmu;
+	/* Measurement Unit Divisor */
+	SANE_Int mud;
+
+	/* track data to be read.  ReadList contains the codes of the read types
+	 * (see BH_READ_TYPE...) to perform, readcnt is the total number of reads
+	 * for this scan and readptr points to the current read operation.
+	 */
+	SANE_Byte readlist[NUM_READS];
+	SANE_Int readcnt, readptr;
+
+	u_long InvalidBytes;
+	SANE_Bool scanning;
+	SANE_Bool cancelled;
+	SANE_Bool backpage;
+	SANE_Bool barcodes;
+	SANE_Bool patchcodes;
+	SANE_Bool icons;
+	u_long iconwidth, iconlength;
+	SANE_Bool barcode_not_found;
 };
 
-static const SANE_Range u8_range =
-{
-    0,		/* minimum */
-    255,	/* maximum */
-    0		/* quantization */
+static const SANE_Range u8_range = {
+	0,			/* minimum */
+	255,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range u16_range =
-{
-    0,		/* minimum */
-    65535, 	/* maximum */
-    0		/* quantization */
+static const SANE_Range u16_range = {
+	0,			/* minimum */
+	65535,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range icon_range =
-{
-    0,		/* minimum */
-    3600, 	/* maximum */
-    8		/* quantization */
+static const SANE_Range icon_range = {
+	0,			/* minimum */
+	3600,			/* maximum */
+	8			/* quantization */
 };
 
-static const SANE_Range barcode_search_timeout_range =
-{
-    20,		/* minimum */
-    65535, 	/* maximum */
-    0		/* quantization */
+static const SANE_Range barcode_search_timeout_range = {
+	20,			/* minimum */
+	65535,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range barcode_hmin_range =
-{
-    1,		/* minimum */
-    1660, 	/* maximum (when converted from mm 
-		 * to thousandths will still be less 
-		 * than 65536) 
-		 */
-    0		/* quantization */
+static const SANE_Range barcode_hmin_range = {
+	1,			/* minimum */
+	1660,			/* maximum (when converted from mm 
+				 * to thousandths will still be less 
+				 * than 65536) 
+				 */
+	0			/* quantization */
 };
 
-static const SANE_Range barcode_search_count_range =
-{
-    1,		/* minimum */
-    7,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range barcode_search_count_range = {
+	1,			/* minimum */
+	7,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range barcode_relmax_range =
-{
-    0,		/* minimum */
-    6,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range barcode_relmax_range = {
+	0,			/* minimum */
+	6,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range barcode_contrast_range =
-{
-    0,		/* minimum */
-    6,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range barcode_contrast_range = {
+	0,			/* minimum */
+	6,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range barcode_patchmode_range =
-{
-    0,		/* minimum */
-    1,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range barcode_patchmode_range = {
+	0,			/* minimum */
+	1,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range ace_function_range =
-{
-    -4,		/* minimum */
-    4,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range ace_function_range = {
+	-4,			/* minimum */
+	4,			/* maximum */
+	0			/* quantization */
 };
 
-static const SANE_Range ace_sensitivity_range =
-{
-    0,		/* minimum */
-    9,  	/* maximum */
-    0		/* quantization */
+static const SANE_Range ace_sensitivity_range = {
+	0,			/* minimum */
+	9,			/* maximum */
+	0			/* quantization */
 };
 
-static SANE_String_Const scan_mode_list[] =
-{
-  "lineart",
-  "halftone",
-  0
+static SANE_String_Const scan_mode_list[] = {
+	"lineart",
+	"halftone",
+	0
 };
 
-static SANE_String_Const scan_mode_min_list[] =
-{
-  "lineart",
-  0
+static SANE_String_Const scan_mode_min_list[] = {
+	"lineart",
+	0
 };
 
-static SANE_String_Const barcode_search_mode_list[] =
-{
-  "horiz-vert", /* 9 */
-  "horizontal", /* 1 */
-  "vertical",   /* 2 */
-  "vert-horiz", /* 6 */
-  0
+static SANE_String_Const barcode_search_mode_list[] = {
+	"horiz-vert",		/* 9 */
+	"horizontal",		/* 1 */
+	"vertical",		/* 2 */
+	"vert-horiz",		/* 6 */
+	0
 };
 
-static SANE_String_Const scan_source_list[] =
-{
-  "Automatic Document Feeder",
-  "Manual Feed Tray",
-  0
+static SANE_String_Const scan_source_list[] = {
+	"Automatic Document Feeder",
+	"Manual Feed Tray",
+	0
 };
 
-static SANE_String_Const compression_list[] =
-{
-  "none",
-  "g31d",
-  "g32d",
-  "g42d",
-  0
+static SANE_String_Const compression_list[] = {
+	"none",
+	"g31d",
+	"g32d",
+	"g42d",
+	0
 };
 
 /* list of supported bar/patch codes */
-static SANE_String_Const barcode_search_bar_list[] =
-{
-  "none",
-  "ean-8",
-  "ean-13",
-  "reserved-ean-add",
-  "code39",
-  "code2-5-interleaved",
-  "code2-5-3lines-matrix",
-  "code2-5-3lines-datalogic",
-  "code2-5-5lines-industrial",
-  "patchcode",
-  "codabar",
-  "codabar-with-start-stop",
-  "code39ascii",
-  "code128",
-  "code2-5-5lines-iata",
-  0
+static SANE_String_Const barcode_search_bar_list[] = {
+	"none",
+	"ean-8",
+	"ean-13",
+	"reserved-ean-add",
+	"code39",
+	"code2-5-interleaved",
+	"code2-5-3lines-matrix",
+	"code2-5-3lines-datalogic",
+	"code2-5-5lines-industrial",
+	"patchcode",
+	"codabar",
+	"codabar-with-start-stop",
+	"code39ascii",
+	"code128",
+	"code2-5-5lines-iata",
+	0
 };
 
 /* list of supported rotation angles */
-static SANE_String_Const rotation_list[] =
-{
-  "0",
-  "90",
-  "180",
-  "270",
-  0
+static SANE_String_Const rotation_list[] = {
+	"0",
+	"90",
+	"180",
+	"270",
+	0
 };
 
 /* list of support paper sizes */
 /* 'custom' MUST be item 0; otherwise a width or length of 0 indicates
  * the maximum value supported by the scanner
  */
-static const BH_Paper paper_sizes[] =
-{
-  {"Custom", 0.0, 0.0},
-  {"Letter", 215.9, 279.4},
-  {"Legal", 215.9, 355.6},
-  {"A3", 297, 420},
-  {"A4", 210, 297},
-  {"A5", 148.5, 210},
-  {"A6", 105, 148.5},
-  {"B4", 250, 353},
-  {"B5", 182, 257},
-  {"Full", 0.0, 0.0},
+static const BH_Paper paper_sizes[] = {
+	{"Custom", 0.0, 0.0},
+	{"Letter", 215.9, 279.4},
+	{"Legal", 215.9, 355.6},
+	{"A3", 297, 420},
+	{"A4", 210, 297},
+	{"A5", 148.5, 210},
+	{"A6", 105, 148.5},
+	{"B4", 250, 353},
+	{"B5", 182, 257},
+	{"Full", 0.0, 0.0},
 };
 
 /* MUST be kept in sync with paper_sizes */
-static SANE_String_Const paper_list[] =
-{
-  "Custom",
-  "Letter",
-  "Legal",
-  "A3",
-  "A4",
-  "A5",
-  "A6",
-  "B4",
-  "B5",
-  "Full",
-  0
+static SANE_String_Const paper_list[] = {
+	"Custom",
+	"Letter",
+	"Legal",
+	"A3",
+	"A4",
+	"A5",
+	"A6",
+	"B4",
+	"B5",
+	"Full",
+	0
 };
 
 static /* inline */ int _is_host_little_endian(void);
 static /* inline */ int
 _is_host_little_endian()
 {
-  SANE_Int val = 255;
-  unsigned char *firstbyte = (unsigned char *) &val;
+	SANE_Int val = 255;
+	unsigned char *firstbyte = (unsigned char *) &val;
 
-  return (*firstbyte == 255) ? SANE_TRUE : SANE_FALSE;
+	return (*firstbyte == 255) ? SANE_TRUE : SANE_FALSE;
 }
 
 static /* inline */ void
-_lto2b(u_long val, SANE_Byte *bytes)
+_lto2b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 8) & 0xff;
-  bytes[1] = val & 0xff;
+	bytes[0] = (val >> 8) & 0xff;
+	bytes[1] = val & 0xff;
 }
 
 static /* inline */ void
-_lto3b(u_long val, SANE_Byte *bytes)
+_lto3b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 16) & 0xff;
-  bytes[1] = (val >> 8) & 0xff;
-  bytes[2] = val & 0xff;
+	bytes[0] = (val >> 16) & 0xff;
+	bytes[1] = (val >> 8) & 0xff;
+	bytes[2] = val & 0xff;
 }
 
 static /* inline */ void
-_lto4b(u_long val, SANE_Byte *bytes)
+_lto4b(u_long val, SANE_Byte * bytes)
 {
-  bytes[0] = (val >> 24) & 0xff;
-  bytes[1] = (val >> 16) & 0xff;
-  bytes[2] = (val >> 8) & 0xff;
-  bytes[3] = val & 0xff;
+	bytes[0] = (val >> 24) & 0xff;
+	bytes[1] = (val >> 16) & 0xff;
+	bytes[2] = (val >> 8) & 0xff;
+	bytes[3] = val & 0xff;
 }
 
 static /* inline */ u_long
-_2btol(SANE_Byte *bytes)
+_2btol(SANE_Byte * bytes)
 {
-  u_long rv;
+	u_long rv;
 
-  rv = (bytes[0] << 8) | bytes[1];
+	rv = (bytes[0] << 8) | bytes[1];
 
-  return rv;
+	return rv;
 }
 
 static /* inline */ u_long
-_4btol(SANE_Byte *bytes)
+_4btol(SANE_Byte * bytes)
 {
-  u_long rv;
+	u_long rv;
 
-  rv = (bytes[0] << 24) |
-    (bytes[1] << 16) |
-    (bytes[2] << 8) |
-    bytes[3];
+	rv = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 
-  return rv;
+	return rv;
 }
 
 #define SANE_TITLE_SCAN_MODE_GROUP "Scan Mode"
@@ -778,234 +754,248 @@ _4btol(SANE_Byte *bytes)
 #define BH_BATCH_ABORT 0x03
 
 /* deskew mode codes used with BH_SCSI_SET_WINDOW */
-#define BH_DESKEW_DISABLE 0x00       /* border detection is assumed, see page 3-37 of 8000 manual */
-#define BH_DESKEW_ENABLE 0x04        /* deskew and border detection */
+#define BH_DESKEW_DISABLE 0x00	/* border detection is assumed, see page 3-37 of 8000 manual */
+#define BH_DESKEW_ENABLE 0x04	/* deskew and border detection */
 
 /* used with BH_SCSI_SET_WINDOW, BH_SCSI_GET_WINDOW */
-typedef struct _BH_SectionBlock {
-  SANE_Byte ul_x[4];
-  SANE_Byte ul_y[4];
-  SANE_Byte width[4];
-  SANE_Byte length[4];
-  SANE_Byte compressiontype;
-  SANE_Byte compressionarg;
-  SANE_Byte reserved[6];
+typedef struct _BH_SectionBlock
+{
+	SANE_Byte ul_x[4];
+	SANE_Byte ul_y[4];
+	SANE_Byte width[4];
+	SANE_Byte length[4];
+	SANE_Byte compressiontype;
+	SANE_Byte compressionarg;
+	SANE_Byte reserved[6];
 } BH_SectionBlock;
 
 /* used with BH_SCSI_SET_WINDOW, BH_SCSI_GET_WINDOW */
-struct window_data {           /* window descriptor block byte layout */
-  SANE_Byte windowid;          /* 0 */
-  SANE_Byte autoborder;        /* 1 */
-  SANE_Byte xres[2];           /* 2,3 */
-  SANE_Byte yres[2];           /* 4,5 */
-  SANE_Byte ulx[4];            /* 6-9 */
-  SANE_Byte uly[4];            /* 10-13 */
-  SANE_Byte windowwidth[4];    /* 14-17 */
-  SANE_Byte windowlength[4];   /* 18-21 */
-  SANE_Byte brightness;        /* 22 */
-  SANE_Byte threshold;         /* 23 */
-  SANE_Byte contrast;          /* 24 */
-  SANE_Byte imagecomposition;  /* 25 */
-  SANE_Byte bitsperpixel;      /* 26 */
-  SANE_Byte halftonecode;      /* 27 */
-  SANE_Byte halftoneid;        /* 28 */
-  SANE_Byte paddingtype;       /* 29 */
-  SANE_Byte bitordering[2];    /* 30,31 */
-  SANE_Byte compressiontype;   /* 32 */
-  SANE_Byte compressionarg;    /* 33 */
-  SANE_Byte reserved2[6];      /* 34-39 */
-  SANE_Byte remote;            /* 40 */
-  SANE_Byte acefunction;       /* 41 */
-  SANE_Byte acesensitivity;    /* 42 */
-  SANE_Byte batchmode;         /* 43 */
-  SANE_Byte reserved3[2];      /* 44,45 */
-  SANE_Byte border_rotation;   /* 46     added this for copiscan 8080 */
-  SANE_Byte reserved4[17];     /* 47-63  added this for copiscan 8080 */
-  BH_SectionBlock sectionblock[NUM_SECTIONS];
+struct window_data
+{				/* window descriptor block byte layout */
+	SANE_Byte windowid;	/* 0 */
+	SANE_Byte autoborder;	/* 1 */
+	SANE_Byte xres[2];	/* 2,3 */
+	SANE_Byte yres[2];	/* 4,5 */
+	SANE_Byte ulx[4];	/* 6-9 */
+	SANE_Byte uly[4];	/* 10-13 */
+	SANE_Byte windowwidth[4];	/* 14-17 */
+	SANE_Byte windowlength[4];	/* 18-21 */
+	SANE_Byte brightness;	/* 22 */
+	SANE_Byte threshold;	/* 23 */
+	SANE_Byte contrast;	/* 24 */
+	SANE_Byte imagecomposition;	/* 25 */
+	SANE_Byte bitsperpixel;	/* 26 */
+	SANE_Byte halftonecode;	/* 27 */
+	SANE_Byte halftoneid;	/* 28 */
+	SANE_Byte paddingtype;	/* 29 */
+	SANE_Byte bitordering[2];	/* 30,31 */
+	SANE_Byte compressiontype;	/* 32 */
+	SANE_Byte compressionarg;	/* 33 */
+	SANE_Byte reserved2[6];	/* 34-39 */
+	SANE_Byte remote;	/* 40 */
+	SANE_Byte acefunction;	/* 41 */
+	SANE_Byte acesensitivity;	/* 42 */
+	SANE_Byte batchmode;	/* 43 */
+	SANE_Byte reserved3[2];	/* 44,45 */
+	SANE_Byte border_rotation;	/* 46     added this for copiscan 8080 */
+	SANE_Byte reserved4[17];	/* 47-63  added this for copiscan 8080 */
+	BH_SectionBlock sectionblock[NUM_SECTIONS];
 };
 
 /* used with BH_SCSI_READ_SCANNED_DATA */
 /* structure for returned decoded barcode data */
-struct barcode_data {
-  SANE_Byte reserved1[2];
-  SANE_Byte barcodetype[2];
-  SANE_Byte statusflag[2];
-  SANE_Byte barcodeorientation[2];
-  SANE_Byte posxa[2];
-  SANE_Byte posya[2];
-  SANE_Byte posxb[2];
-  SANE_Byte posyb[2];
-  SANE_Byte posxc[2];
-  SANE_Byte posyc[2];
-  SANE_Byte posxd[2];
-  SANE_Byte posyd[2];
-  SANE_Byte barcodesearchtime[2];
-  SANE_Byte reserved2[13];
-  SANE_Byte barcodelen;
-  SANE_Byte barcodedata[160];
+struct barcode_data
+{
+	SANE_Byte reserved1[2];
+	SANE_Byte barcodetype[2];
+	SANE_Byte statusflag[2];
+	SANE_Byte barcodeorientation[2];
+	SANE_Byte posxa[2];
+	SANE_Byte posya[2];
+	SANE_Byte posxb[2];
+	SANE_Byte posyb[2];
+	SANE_Byte posxc[2];
+	SANE_Byte posyc[2];
+	SANE_Byte posxd[2];
+	SANE_Byte posyd[2];
+	SANE_Byte barcodesearchtime[2];
+	SANE_Byte reserved2[13];
+	SANE_Byte barcodelen;
+	SANE_Byte barcodedata[160];
 };
 
 /* structure for returned icon data block */
-struct icon_data {
-  SANE_Byte windowwidth[4];
-  SANE_Byte windowlength[4];
-  SANE_Byte iconwidth[4];
-  SANE_Byte iconwidthbytes[4];
-  SANE_Byte iconlength[4];
-  SANE_Byte bitordering;
-  SANE_Byte reserved[7];
-  SANE_Byte icondatalen[4];
+struct icon_data
+{
+	SANE_Byte windowwidth[4];
+	SANE_Byte windowlength[4];
+	SANE_Byte iconwidth[4];
+	SANE_Byte iconwidthbytes[4];
+	SANE_Byte iconlength[4];
+	SANE_Byte bitordering;
+	SANE_Byte reserved[7];
+	SANE_Byte icondatalen[4];
 };
 
 
 /* used with BH_SCSI_INQUIRY */
 
 /* Standard Data [EVPD=0] */
-struct inquiry_standard_data {
-  SANE_Byte devtype;
-  SANE_Byte reserved[7];
-  SANE_Byte vendor[8];
-  SANE_Byte product[16];
-  SANE_Byte revision[4];
+struct inquiry_standard_data
+{
+	SANE_Byte devtype;
+	SANE_Byte reserved[7];
+	SANE_Byte vendor[8];
+	SANE_Byte product[16];
+	SANE_Byte revision[4];
 };
 
 /* VPD Information [EVPD=1, PageCode=C0H] */
-struct inquiry_vpd_data {
-  SANE_Byte devtype;
-  SANE_Byte pagecode;
-  SANE_Byte reserved1;
-  SANE_Byte alloclen;
-  SANE_Byte adf;
-  SANE_Byte reserved2[2];
-  SANE_Byte imagecomposition;
-  SANE_Byte imagedataprocessing[2];
-  SANE_Byte compression;
-  SANE_Byte reserved3;
-  SANE_Byte sizerecognition;
-  SANE_Byte optionalfeatures;
-  SANE_Byte xmaxoutputbytes[2];
+struct inquiry_vpd_data
+{
+	SANE_Byte devtype;
+	SANE_Byte pagecode;
+	SANE_Byte reserved1;
+	SANE_Byte alloclen;
+	SANE_Byte adf;
+	SANE_Byte reserved2[2];
+	SANE_Byte imagecomposition;
+	SANE_Byte imagedataprocessing[2];
+	SANE_Byte compression;
+	SANE_Byte reserved3;
+	SANE_Byte sizerecognition;
+	SANE_Byte optionalfeatures;
+	SANE_Byte xmaxoutputbytes[2];
 };
 
 
 /* JIS Information [EVPD=1, PageCode=F0H] */
-struct inquiry_jis_data {
-  SANE_Byte devtype;
-  SANE_Byte pagecode;
-  SANE_Byte jisversion;
-  SANE_Byte reserved1;
-  SANE_Byte alloclen;
-  SANE_Byte basicxres[2];
-  SANE_Byte basicyres[2];
-  SANE_Byte resolutionstep;
-  SANE_Byte maxxres[2];
-  SANE_Byte maxyres[2];
-  SANE_Byte minxres[2];
-  SANE_Byte minyres[2];
-  SANE_Byte standardres[2];
-  SANE_Byte windowwidth[4];
-  SANE_Byte windowlength[4];
-  SANE_Byte functions;
-  SANE_Byte reserved2;
+struct inquiry_jis_data
+{
+	SANE_Byte devtype;
+	SANE_Byte pagecode;
+	SANE_Byte jisversion;
+	SANE_Byte reserved1;
+	SANE_Byte alloclen;
+	SANE_Byte basicxres[2];
+	SANE_Byte basicyres[2];
+	SANE_Byte resolutionstep;
+	SANE_Byte maxxres[2];
+	SANE_Byte maxyres[2];
+	SANE_Byte minxres[2];
+	SANE_Byte minyres[2];
+	SANE_Byte standardres[2];
+	SANE_Byte windowwidth[4];
+	SANE_Byte windowlength[4];
+	SANE_Byte functions;
+	SANE_Byte reserved2;
 };
 
 /* used with BH_SCSI_MODE_SELECT and BH_SCSI_MODE_SENSE */
 
 /* Scanning Measurement Parameters PageCode=03H */
-struct mode_page_03 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
-  
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte bmu;
-  SANE_Byte reserved1;
-  SANE_Byte mud[2];
-  SANE_Byte reserved2[2];
+struct mode_page_03
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
+
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte bmu;
+	SANE_Byte reserved1;
+	SANE_Byte mud[2];
+	SANE_Byte reserved2[2];
 };
 
 /* Scan Command Timeout PageCode=20H */
-struct mode_page_20 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_20
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte timeoutmanual;
-  SANE_Byte timeoutadf;
-  SANE_Byte reserved[4];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte timeoutmanual;
+	SANE_Byte timeoutadf;
+	SANE_Byte reserved[4];
 };
 
 /* Icon Definition PageCode=21H */
-struct mode_page_21 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_21
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte iconwidth[2];
-  SANE_Byte iconlength[2];
-  SANE_Byte reserved[2];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte iconwidth[2];
+	SANE_Byte iconlength[2];
+	SANE_Byte reserved[2];
 };
 
 /* Bar/Patch Code search priority order PageCode=30H */
-struct mode_page_30 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_30
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte priority[6];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte priority[6];
 };
 
 /* Bar/Patch Code search parameters 1 of 3 PageCode=31H */
-struct mode_page_31 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_31
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte minbarheight[2];
-  SANE_Byte searchcount;
-  SANE_Byte searchmode;
-  SANE_Byte searchtimeout[2];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte minbarheight[2];
+	SANE_Byte searchcount;
+	SANE_Byte searchmode;
+	SANE_Byte searchtimeout[2];
 };
 
 /* Bar/Patch Code search parameters 2 of 3 PageCode=32H */
-struct mode_page_32 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_32
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte relmax[2];
-  SANE_Byte barmin[2];
-  SANE_Byte barmax[2];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte relmax[2];
+	SANE_Byte barmin[2];
+	SANE_Byte barmax[2];
 };
 
 /* Bar/Patch Code search parameters 3 of 3 PageCode=33H */
-struct mode_page_33 {
-  SANE_Byte modedatalen;
-  SANE_Byte mediumtype;
-  SANE_Byte devicespecificparam;
-  SANE_Byte blockdescriptorlen;
+struct mode_page_33
+{
+	SANE_Byte modedatalen;
+	SANE_Byte mediumtype;
+	SANE_Byte devicespecificparam;
+	SANE_Byte blockdescriptorlen;
 
-  SANE_Byte pagecode;
-  SANE_Byte paramlen;
-  SANE_Byte barcodecontrast[2];
-  SANE_Byte patchmode[2];
-  SANE_Byte reserved[2];
+	SANE_Byte pagecode;
+	SANE_Byte paramlen;
+	SANE_Byte barcodecontrast[2];
+	SANE_Byte patchmode[2];
+	SANE_Byte reserved[2];
 };
 
 #ifndef sane_isbasicframe

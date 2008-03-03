@@ -83,11 +83,11 @@
 
 /** for Asic I/O signal control
  */
-#define _CTRL_GENSIGNAL         (_CTRL_RESERVED + _CTRL_NOT_INIT)   /* 0xc4 */
-#define _CTRL_SIGNAL_REGWRITE   (_CTRL_GENSIGNAL + _CTRL_SELECT_IN) /* 0xcc */
-#define _CTRL_END_REGWRITE	    (_CTRL_GENSIGNAL)                   /* 0xc4 */
-#define _CTRL_SIGNAL_DATAWRITE  (_CTRL_GENSIGNAL + _CTRL_AUTOLF)    /* 0xc6 */
-#define _CTRL_END_DATAWRITE     (_CTRL_GENSIGNAL)                   /* 0xc4 */
+#define _CTRL_GENSIGNAL         (_CTRL_RESERVED + _CTRL_NOT_INIT)	/* 0xc4 */
+#define _CTRL_SIGNAL_REGWRITE   (_CTRL_GENSIGNAL + _CTRL_SELECT_IN)	/* 0xcc */
+#define _CTRL_END_REGWRITE	    (_CTRL_GENSIGNAL)	/* 0xc4 */
+#define _CTRL_SIGNAL_DATAWRITE  (_CTRL_GENSIGNAL + _CTRL_AUTOLF)	/* 0xc6 */
+#define _CTRL_END_DATAWRITE     (_CTRL_GENSIGNAL)	/* 0xc4 */
 
 #define ASIC_ID 0x83
 
@@ -205,11 +205,11 @@
 
 /* Register RegScanControl (Addr: 0x1d) */
 #define _SCAN_BITMODE           0x00
-#define _SCAN_BYTEMODE          0x01    /* Gray/Color mode                  */
+#define _SCAN_BYTEMODE          0x01	/* Gray/Color mode                  */
 #define _SCAN_12BITMODE         0x02
-#define _SCAN_1ST_AVERAGE       0x04    /* first pixel is averaged pixel    */
-#define _SCAN_BITDIRR2L         0x08    /* bit shift from right to left     */
-#define _SCAN_NORMALLAMP_ON     0x10    /* normal Lamp  */
+#define _SCAN_1ST_AVERAGE       0x04	/* first pixel is averaged pixel    */
+#define _SCAN_BITDIRR2L         0x08	/* bit shift from right to left     */
+#define _SCAN_NORMALLAMP_ON     0x10	/* normal Lamp  */
 #define _SCAN_TPALAMP_ON        0x20
 #define _SCAN_DATA_INVERT       0x40
 #define _BITALIGN_LEFT          0x80
@@ -224,7 +224,7 @@
 #define _MotorHFullStepH        0x00
 #define _MotorHHalfStep         0x04
 #define _MotorHQuarterStep      0x08
-#define _MotorPowerEnable       0x40    
+#define _MotorPowerEnable       0x40
 #define _MotorHHomeStop         0x80
 
 #define _DIR_FW   1
@@ -241,8 +241,8 @@
 #define _P98_NEC_MACHINE       0x08
 #define _P98_PCBID             0xF0
 
-#define _DEF_BW_THRESHOLD      128      /* default B/W mode threshold value */
-#define _NUMBER_OF_SCANSTEPS   64       /* Asic spec.: up to 64 scan steps  */
+#define _DEF_BW_THRESHOLD      128	/* default B/W mode threshold value */
+#define _NUMBER_OF_SCANSTEPS   64	/* Asic spec.: up to 64 scan steps  */
 #define _SCANSTATE_BYTES      (_NUMBER_OF_SCANSTEPS/2)
 
 #define _CCD_3797               0
@@ -269,7 +269,7 @@
 #define _AGFA_PCB               0x1f
 
 /* Register RegModelControl (Addr: 0x1f) */
-#define _HOME_SENSOR_POLARITY   0x01    
+#define _HOME_SENSOR_POLARITY   0x01
 #define _LED_CONTROL            0x02
 #define _LED_ACTIVITY           0x04
 #define _MODEL_DPI200           0x00
@@ -354,9 +354,9 @@
 #define _SIZE_TOTAL_BUF_TPA   (u_long)(_SIZE_TOTAL_BUF + _SIZE_TPA_DATA_BUF)
 
 /** internal FIFO buffers */
-#define _SIZE_REDFIFO   196608UL    /* 192k */
-#define _SIZE_GREENFIFO 147456UL    /* 144k */
-#define _SIZE_BLUEFIFO  114688UL    /* 112k */
+#define _SIZE_REDFIFO   196608UL	/* 192k */
+#define _SIZE_GREENFIFO 147456UL	/* 144k */
+#define _SIZE_BLUEFIFO  114688UL	/* 112k */
 
 #define _SIZE_GRAYFIFO  (_SIZE_REDFIFO + _SIZE_GREENFIFO + _SIZE_BLUEFIFO)
 
@@ -393,37 +393,38 @@
 
 #define _DEFAULT_LINESCANTIME   96
 
-#define _LINE_TIMEOUT   (_SECOND * 5 ) 
+#define _LINE_TIMEOUT   (_SECOND * 5 )
 
 
 /** for mirroring parts of the 98003 ASIC register set
  */
-typedef struct {
-	SANE_Byte RD_Motor1Control;     /* 0x0b           */
-	SANE_Byte RD_StepControl;       /* 0x14           */
-	SANE_Byte RD_Motor0Control;     /* 0x15           */
-	SANE_Byte RD_XStepTime;         /* 0x16           */
-	SANE_Byte RD_ModeControl;       /* 0x1b           */
-	SANE_Byte RD_LineControl;       /* 0x1c           */
-	SANE_Byte RD_ScanControl;       /* 0x1d, init = 5 */
-	SANE_Byte RD_ModelControl;      /* 0x1f           */
-	SANE_Byte RD_Model1Control;     /* 0x20           */
-	u_short   RD_Dpi;               /* 0x21           */
-	u_short   RD_Origin;            /* 0x23           */
-	u_short   RD_Pixels;            /* 0x25           */
-	u_short   RD_ThresholdControl;  /* 0x27           */
-	SANE_Byte RD_ThresholdGapCtrl;  /* 0x29           */
-	u_short   RD_RedDarkOff;        /* 0x33           */
-	u_short   RD_GreenDarkOff;      /* 0x35           */
-	u_short   RD_BlueDarkOff;       /* 0x37           */
+typedef struct
+{
+	SANE_Byte RD_Motor1Control;	/* 0x0b           */
+	SANE_Byte RD_StepControl;	/* 0x14           */
+	SANE_Byte RD_Motor0Control;	/* 0x15           */
+	SANE_Byte RD_XStepTime;	/* 0x16           */
+	SANE_Byte RD_ModeControl;	/* 0x1b           */
+	SANE_Byte RD_LineControl;	/* 0x1c           */
+	SANE_Byte RD_ScanControl;	/* 0x1d, init = 5 */
+	SANE_Byte RD_ModelControl;	/* 0x1f           */
+	SANE_Byte RD_Model1Control;	/* 0x20           */
+	u_short RD_Dpi;		/* 0x21           */
+	u_short RD_Origin;	/* 0x23           */
+	u_short RD_Pixels;	/* 0x25           */
+	u_short RD_ThresholdControl;	/* 0x27           */
+	SANE_Byte RD_ThresholdGapCtrl;	/* 0x29           */
+	u_short RD_RedDarkOff;	/* 0x33           */
+	u_short RD_GreenDarkOff;	/* 0x35           */
+	u_short RD_BlueDarkOff;	/* 0x37           */
 
-	u_long    RD_BufFullSize;       /* 0x54   */
-	u_short   RD_MotorTotalSteps;   /* 0x57   */
+	u_long RD_BufFullSize;	/* 0x54   */
+	u_short RD_MotorTotalSteps;	/* 0x57   */
 
-	SANE_Byte RD_ScanControl1;      /* 0x5b   */
-	SANE_Byte RD_MotorDriverType;   /* 0x64   */
-	SANE_Byte RD_ExtLineControl;    /* 0x6d   */
-	SANE_Byte RD_ExtXStepTime;      /* 0x6e   */
+	SANE_Byte RD_ScanControl1;	/* 0x5b   */
+	SANE_Byte RD_MotorDriverType;	/* 0x64   */
+	SANE_Byte RD_ExtLineControl;	/* 0x6d   */
+	SANE_Byte RD_ExtXStepTime;	/* 0x6e   */
 
 } ShadowRegs;
 
@@ -431,43 +432,43 @@ typedef struct {
  */
 typedef struct svd
 {
-	ColorWord   GainResize;
-	ColorWord   DarkCmpHi;
-	ColorWord   DarkCmpLo;
-	ColorWord   DarkOffSub;
-	ColorByte   DarkDAC;
-	SANE_Byte   Reserved;
+	ColorWord GainResize;
+	ColorWord DarkCmpHi;
+	ColorWord DarkCmpLo;
+	ColorWord DarkOffSub;
+	ColorByte DarkDAC;
+	SANE_Byte Reserved;
 } ShadingVarDef;
 
-typedef struct 
+typedef struct
 {
 	ShadingVarDef *pCcdDac;
-	ColorByte      DarkDAC;
-	ColorWord      DarkOffset;
-	u_short        wDarkLevels;
-	SANE_Byte      intermediate;
+	ColorByte DarkDAC;
+	ColorWord DarkOffset;
+	u_short wDarkLevels;
+	SANE_Byte intermediate;
 
-	u_long         dwDiv;
-	SANE_Byte      skipShadow;
+	u_long dwDiv;
+	SANE_Byte skipShadow;
 
-	SANE_Byte      skipHilight;
-	ColorByte      Hilight;
-	RGBUShortDef  *pHilight;
-	ColorByte      Gain;
-	SANE_Byte      bGainDouble;
-	SANE_Byte      bUniGain;
-	SANE_Byte      bMinGain;
-	SANE_Byte      bMaxGain;
-	SANE_Byte      bGainHigh;
-	SANE_Byte      bGainLow;
+	SANE_Byte skipHilight;
+	ColorByte Hilight;
+	RGBUShortDef *pHilight;
+	ColorByte Gain;
+	SANE_Byte bGainDouble;
+	SANE_Byte bUniGain;
+	SANE_Byte bMinGain;
+	SANE_Byte bMaxGain;
+	SANE_Byte bGainHigh;
+	SANE_Byte bGainLow;
 
-	SANE_Bool      fStop;
+	SANE_Bool fStop;
 
-	u_short        wExposure;
-	u_short        wXStep;
+	u_short wExposure;
+	u_short wXStep;
 
 } ShadingDef;
 
-#endif	/* guard __U12_HWDEF_H__ */
+#endif /* guard __U12_HWDEF_H__ */
 
 /* END U12-HWDEF.H ..........................................................*/

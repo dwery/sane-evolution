@@ -68,18 +68,19 @@
 /* make real exports */
 #define __SM3600EXPORT__
 
-typedef enum { SANE_STATUS_GOOD,
-	       SANE_STATUS_CANCELLED,
-	       SANE_STATUS_UNSUPPORTED,
-	       SANE_STATUS_EOF,
-	       SANE_STATUS_NO_MEM,
-	       SANE_STATUS_IO_ERROR,
-	       SANE_STATUS_ACCESS_DENIED,
-	       SANE_STATUS_INVAL,
-	       SANE_STATUS_DEVICE_BUSY,
+typedef enum
+{ SANE_STATUS_GOOD,
+	SANE_STATUS_CANCELLED,
+	SANE_STATUS_UNSUPPORTED,
+	SANE_STATUS_EOF,
+	SANE_STATUS_NO_MEM,
+	SANE_STATUS_IO_ERROR,
+	SANE_STATUS_ACCESS_DENIED,
+	SANE_STATUS_INVAL,
+	SANE_STATUS_DEVICE_BUSY,
 } SANE_Status;
 
-typedef int    SANE_Int;
+typedef int SANE_Int;
 
 #endif
 
@@ -95,15 +96,15 @@ void DBG(int nLevel, const char *szFormat, ...);
 
 #ifdef INSTANTIATE_VARIABLES
 #define GLOBAL
-char *achErrorMessages[]={ "everything fine",
-			  "operation canceled",
-			  "unsupported function",
-			  "end of scan or file",
-			  "memory overflow",
-			  "input/output error",
-			  "permission problem",
-			  "invalid parameter",
-			  "device busy",
+char *achErrorMessages[] = { "everything fine",
+	"operation canceled",
+	"unsupported function",
+	"end of scan or file",
+	"memory overflow",
+	"input/output error",
+	"permission problem",
+	"invalid parameter",
+	"device busy",
 };
 #else
 #define GLOBAL extern
@@ -116,14 +117,14 @@ char *achErrorMessages[]={ "everything fine",
 
 /* ====================================================================== */
 
-GLOBAL unsigned long      ulDebugMask;
-GLOBAL TBool              bVerbose;
-GLOBAL TBool              bInteractive;
-GLOBAL char              *szLogFile;
-GLOBAL char              *szScanFile;
-GLOBAL int                idOutputFormat;
+GLOBAL unsigned long ulDebugMask;
+GLOBAL TBool bVerbose;
+GLOBAL TBool bInteractive;
+GLOBAL char *szLogFile;
+GLOBAL char *szScanFile;
+GLOBAL int idOutputFormat;
 
-GLOBAL TInstance          devInstance;
+GLOBAL TInstance devInstance;
 
 /* ====================================================================== */
 

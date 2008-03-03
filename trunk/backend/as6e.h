@@ -57,17 +57,17 @@ typedef enum
 	OPT_MODE,
 	OPT_RESOLUTION,
 
-	OPT_TL_X,			/* top-left x */
-	OPT_TL_Y,			/* top-left y */
-	OPT_BR_X,			/* bottom-right x */
-	OPT_BR_Y,			/* bottom-right y */
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
 	OPT_BRIGHTNESS,
 	OPT_CONTRAST,
 
 	/* must come last */
 	NUM_OPTIONS
-  } AS6E_Option;
+} AS6E_Option;
 
 typedef struct
 {
@@ -99,7 +99,7 @@ typedef struct AS6E_Scan
 	SANE_Bool scanning;
 	SANE_Bool cancelled;
 	SANE_Parameters sane_params;
-	AS6E_Params	as6e_params;
+	AS6E_Params as6e_params;
 	pid_t child_pid;
 	size_t bytes_to_read;
 	SANE_Byte *scan_buffer;

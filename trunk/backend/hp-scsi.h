@@ -46,33 +46,32 @@
 #define HP_SCSI_INCLUDED
 
 #define HP_SCSI_MAX_WRITE	(2048)
-SANE_Status sanei_hp_nonscsi_new (HpScsi * newp, const char * devname,
-                                  HpConnect connect);
-SANE_Status sanei_hp_scsi_new	(HpScsi * newp, const char * devname);
-void	    sanei_hp_scsi_destroy	(HpScsi this,int completely);
+SANE_Status sanei_hp_nonscsi_new(HpScsi * newp, const char *devname,
+				 HpConnect connect);
+SANE_Status sanei_hp_scsi_new(HpScsi * newp, const char *devname);
+void sanei_hp_scsi_destroy(HpScsi this, int completely);
 
-hp_byte_t * sanei_hp_scsi_inq        (HpScsi this);
-const char *sanei_hp_scsi_model	     (HpScsi this);
-const char *sanei_hp_scsi_vendor     (HpScsi this);
-const char *sanei_hp_scsi_devicename (HpScsi this);
+hp_byte_t *sanei_hp_scsi_inq(HpScsi this);
+const char *sanei_hp_scsi_model(HpScsi this);
+const char *sanei_hp_scsi_vendor(HpScsi this);
+const char *sanei_hp_scsi_devicename(HpScsi this);
 
-SANE_Status sanei_hp_scsi_pipeout    (HpScsi this, int outfd,
-                                      HpProcessData *pdescr);
+SANE_Status sanei_hp_scsi_pipeout(HpScsi this, int outfd,
+				  HpProcessData * pdescr);
 
-SANE_Status sanei_hp_scl_calibrate   (HpScsi scsi);
-SANE_Status sanei_hp_scl_startScan   (HpScsi scsi, HpScl scl);
-SANE_Status sanei_hp_scl_reset       (HpScsi scsi);
-SANE_Status sanei_hp_scl_clearErrors (HpScsi scsi);
-SANE_Status sanei_hp_scl_errcheck    (HpScsi scsi);
+SANE_Status sanei_hp_scl_calibrate(HpScsi scsi);
+SANE_Status sanei_hp_scl_startScan(HpScsi scsi, HpScl scl);
+SANE_Status sanei_hp_scl_reset(HpScsi scsi);
+SANE_Status sanei_hp_scl_clearErrors(HpScsi scsi);
+SANE_Status sanei_hp_scl_errcheck(HpScsi scsi);
 
-SANE_Status sanei_hp_scl_upload_binary (HpScsi scsi, HpScl scl,
-                                        size_t *lengthhp, char **bufhp);
-SANE_Status sanei_hp_scl_set    (HpScsi scsi, HpScl scl, int val);
+SANE_Status sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl,
+				       size_t * lengthhp, char **bufhp);
+SANE_Status sanei_hp_scl_set(HpScsi scsi, HpScl scl, int val);
 SANE_Status sanei_hp_scl_inquire(HpScsi scsi, HpScl scl,
-                                 int * valp, int * minp, int * maxp);
-SANE_Status sanei_hp_scl_upload (HpScsi scsi, HpScl scl,
-                                 void * buf, size_t sz);
-SANE_Status sanei_hp_scl_download (HpScsi scsi, HpScl scl,
-                                   const void * buf, size_t sz);
+				 int *valp, int *minp, int *maxp);
+SANE_Status sanei_hp_scl_upload(HpScsi scsi, HpScl scl, void *buf, size_t sz);
+SANE_Status sanei_hp_scl_download(HpScsi scsi, HpScl scl,
+				  const void *buf, size_t sz);
 
 #endif /* HP_SCSI_INCLUDED */

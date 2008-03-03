@@ -47,7 +47,7 @@
 #if defined(HAVE_SYS_TIME_H)
 # include <sys/time.h>
 #endif
-   
+
 #define DEBUG_NOT_STATIC
 #include "../include/sane/sanei_debug.h"
 
@@ -75,58 +75,59 @@
 
 
 /* the function init uses this callback to register a device to the backend */
-typedef SANE_Status (*SANE_Attach_Callback) (SANE_String_Const port, SANE_String_Const name,
-						SANE_Int driver, SANE_Int info);
+typedef SANE_Status(*SANE_Attach_Callback) (SANE_String_Const port,
+					    SANE_String_Const name,
+					    SANE_Int driver, SANE_Int info);
 
-typedef struct {
+typedef struct
+{
 
-	const char		*driver;
-	const char		*author;
-	const char		*version;
+	const char *driver;
+	const char *author;
+	const char *version;
 
 	/* this function detects the presence of a scanner at the
 	 * given location */
-	SANE_Status		(*init)(SANE_Int options,
-					SANE_String_Const port,
-					SANE_String_Const name,
-					SANE_Attach_Callback attach);
+	  SANE_Status(*init) (SANE_Int options,
+			      SANE_String_Const port,
+			      SANE_String_Const name,
+			      SANE_Attach_Callback attach);
 	/* this function returns the informationen needed to set up
 	 * the device entry. the info parameter is passed from
 	 * init to the attach_callback to this function, to
 	 * help to identify the device, before it is registered
 	 */
-	void			(*capabilities)(SANE_Int info,
-						SANE_String *model,
-						SANE_String *vendor,
-						SANE_String *type,
-						SANE_Int *maxres,
-						SANE_Int *minres,
-						SANE_Int *maxhsize,
-						SANE_Int *maxvsize,
-						SANE_Int *caps);
+	void (*capabilities) (SANE_Int info,
+			      SANE_String * model,
+			      SANE_String * vendor,
+			      SANE_String * type,
+			      SANE_Int * maxres,
+			      SANE_Int * minres,
+			      SANE_Int * maxhsize,
+			      SANE_Int * maxvsize, SANE_Int * caps);
 
 	/* tries to open the given device. returns a fd on success */
-	SANE_Status		(*open)(SANE_String port, SANE_Int caps, SANE_Int *fd);
+	  SANE_Status(*open) (SANE_String port, SANE_Int caps, SANE_Int * fd);
 
 	/* start scanning session */
-	void			(*setup)(SANE_Handle hndl);
+	void (*setup) (SANE_Handle hndl);
 
-        /* processes a configuration option */
-        SANE_Status		(*config)(SANE_Handle hndl, 
-					  SANE_String_Const optname,
-                                          SANE_String_Const optval);
+	/* processes a configuration option */
+	  SANE_Status(*config) (SANE_Handle hndl,
+				SANE_String_Const optname,
+				SANE_String_Const optval);
 
 	/* stop scanning session */
-	void			(*close)(SANE_Handle hndl);
+	void (*close) (SANE_Handle hndl);
 
 	/* start actuall scan */
-	SANE_Status		(*start)(SANE_Handle hndl);
+	  SANE_Status(*start) (SANE_Handle hndl);
 
 	/* read data (one line) */
-	void			(*read)(SANE_Handle hndl, SANE_Byte *buffer);
+	void (*read) (SANE_Handle hndl, SANE_Byte * buffer);
 
 	/* stop scanner and return scanhead home */
-	void			(*stop)(SANE_Handle hndl);
+	void (*stop) (SANE_Handle hndl);
 
 } Mustek_pp_Functions;
 
@@ -146,42 +147,44 @@ typedef struct {
 #define CAP_DEPTH		32
 
 /* Structure for holding name/value options from the configuration file */
-typedef struct Mustek_pp_config_option {
+typedef struct Mustek_pp_config_option
+{
 
-   SANE_String name;
-   SANE_String value;
-   
+	SANE_String name;
+	SANE_String value;
+
 } Mustek_pp_config_option;
 
-typedef struct Mustek_pp_Device {
+typedef struct Mustek_pp_Device
+{
 
-	struct Mustek_pp_Device	*next;
+	struct Mustek_pp_Device *next;
 
-	SANE_Device		sane;
+	SANE_Device sane;
 
 	/* non-const copy of SANE_Device */
-	SANE_String		name, vendor, model, type;
+	SANE_String name, vendor, model, type;
 
 	/* port */
-	SANE_String		port;
+	SANE_String port;
 
 	/* part describing hardware capabilities */
-	int			minres;
-	int			maxres;
-	int			maxhsize;
-	int			maxvsize;
-	int			caps;
+	int minres;
+	int maxres;
+	int maxhsize;
+	int maxvsize;
+	int caps;
 
 	/* functions */
-	Mustek_pp_Functions	*func;
-        
-        /* Modified by EDG: device identification is needed to initialize
-           private device descriptor */
-        SANE_Int 		info;
-        
-        /* Array of configuration file options */
-        int			numcfgoptions;
-        Mustek_pp_config_option *cfgoptions;
+	Mustek_pp_Functions *func;
+
+	/* Modified by EDG: device identification is needed to initialize
+	   private device descriptor */
+	SANE_Int info;
+
+	/* Array of configuration file options */
+	int numcfgoptions;
+	Mustek_pp_config_option *cfgoptions;
 
 } Mustek_pp_Device;
 
@@ -202,68 +205,69 @@ typedef struct Mustek_pp_Device {
 
 enum Mustek_pp_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_DEPTH,
-  OPT_RESOLUTION,
-  OPT_PREVIEW,
-  OPT_GRAY_PREVIEW,
-  OPT_SPEED,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_DEPTH,
+	OPT_RESOLUTION,
+	OPT_PREVIEW,
+	OPT_GRAY_PREVIEW,
+	OPT_SPEED,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  OPT_ENHANCEMENT_GROUP,
+	OPT_ENHANCEMENT_GROUP,
 
 
-  OPT_INVERT,
+	OPT_INVERT,
 
-  OPT_CUSTOM_GAMMA,		/* use custom gamma tables? */
-  /* The gamma vectors MUST appear in the order gray, red, green,
-     blue.  */
-  OPT_GAMMA_VECTOR,
-  OPT_GAMMA_VECTOR_R,
-  OPT_GAMMA_VECTOR_G,
-  OPT_GAMMA_VECTOR_B,
+	OPT_CUSTOM_GAMMA,	/* use custom gamma tables? */
+	/* The gamma vectors MUST appear in the order gray, red, green,
+	   blue.  */
+	OPT_GAMMA_VECTOR,
+	OPT_GAMMA_VECTOR_R,
+	OPT_GAMMA_VECTOR_G,
+	OPT_GAMMA_VECTOR_B,
 
-  /* must come last: */
-  NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 
-typedef struct Mustek_pp_Handle {
+typedef struct Mustek_pp_Handle
+{
 
-	struct Mustek_pp_Handle	*next;
+	struct Mustek_pp_Handle *next;
 
-	
-	
-	Mustek_pp_Device	*dev;
 
-	int			fd;
 
-	int			reader;
-	int			pipe;
+	Mustek_pp_Device *dev;
 
-	int			state;
-	
-	int			topX, topY;
-	int			bottomX, bottomY;
-	int			mode;
-	int			res;
+	int fd;
+
+	int reader;
+	int pipe;
+
+	int state;
+
+	int topX, topY;
+	int bottomX, bottomY;
+	int mode;
+	int res;
 
 	/* gamma table, etc... */
-	SANE_Int		gamma_table[4][256];
-	int			do_gamma;
-	int			invert;
-	int			use_ta;
-	int			depth;
-	int			speed;
-	
+	SANE_Int gamma_table[4][256];
+	int do_gamma;
+	int invert;
+	int use_ta;
+	int depth;
+	int speed;
+
 	/* current parameters */
 	SANE_Parameters params;
 
@@ -271,16 +275,16 @@ typedef struct Mustek_pp_Handle {
 	SANE_Range x_range;
 	SANE_Range y_range;
 	SANE_Range gamma_range;
-  
+
 	/* options */
-	SANE_Option_Descriptor	opt[NUM_OPTIONS];
-	Option_Value		val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
 
-	time_t			lamp_on;
+	time_t lamp_on;
 
-	void			*priv;
-	
+	void *priv;
+
 } Mustek_pp_Handle;
 
 #endif /* mustek_pp_h */

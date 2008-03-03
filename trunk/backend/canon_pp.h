@@ -69,7 +69,7 @@
 #define CANONP_CONFIG_FILE "canon_pp.conf"
 /* options: num,res,colour,depth,tl-x,tl-y,br-x,br-y,cal */
 /* preview option disabled */
-#define NUM_OPTIONS 9  
+#define NUM_OPTIONS 9
 #define BUF_MAX 64000
 
 /* Indexes into options array */
@@ -122,4 +122,3 @@ struct CANONP_Scanner_Struct
 
 
 #endif
-

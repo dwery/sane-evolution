@@ -73,7 +73,7 @@
 #define NDATAAVAIL 0x01
 
 /* Scanner things */
-#define CALSIZE 18      /* Lines per calibration */
+#define CALSIZE 18		/* Lines per calibration */
 
 /* Init modes */
 #define INITMODE_20P 1
@@ -107,7 +107,7 @@ typedef struct scanner_parameter_struct
 
 	/* ID String. Should only be 38(?) bytes long, so we can 
 	   reduce the size later. */
-	char id_string[80]; 
+	char id_string[80];
 
 	/* Short, readable scanner name, such as "FB330P" */
 	char name[40];
@@ -120,7 +120,7 @@ typedef struct scanner_parameter_struct
 	unsigned long *blueweight;
 
 	/* Not understood white-balance/gain values */
-	unsigned char gamma[32]; 
+	unsigned char gamma[32];
 
 	/* Type of scanner ( 0 = *20P, 1 = [*30P|*40P] ) */
 	unsigned char type;
@@ -156,25 +156,28 @@ typedef struct image_segment_struct
 
 /* Brings the scanner in and out of transparent mode 
    and detects model information */
-int sanei_canon_pp_initialise(scanner_parameters *sp, int mode);
-int sanei_canon_pp_close_scanner(scanner_parameters *sp);
+int sanei_canon_pp_initialise(scanner_parameters * sp, int mode);
+int sanei_canon_pp_close_scanner(scanner_parameters * sp);
 
 /* Image scanning functions */
-int sanei_canon_pp_init_scan(scanner_parameters *sp, scan_parameters *scanp);
+int sanei_canon_pp_init_scan(scanner_parameters * sp,
+			     scan_parameters * scanp);
 
-int sanei_canon_pp_read_segment(image_segment **dest, scanner_parameters *sp, 
-		scan_parameters *scanp, int scanline_count, int do_adjust,
-		int scanlines_left);
+int sanei_canon_pp_read_segment(image_segment ** dest,
+				scanner_parameters * sp,
+				scan_parameters * scanp, int scanline_count,
+				int do_adjust, int scanlines_left);
 
-int sanei_canon_pp_abort_scan(scanner_parameters *sp);
+int sanei_canon_pp_abort_scan(scanner_parameters * sp);
 
 /* Loads the gain offset values. Needs a new name. */
-int sanei_canon_pp_load_weights(const char *filename, scanner_parameters *sp);
+int sanei_canon_pp_load_weights(const char *filename,
+				scanner_parameters * sp);
 
 
-int sanei_canon_pp_calibrate(scanner_parameters *sp, char *cal_file);
+int sanei_canon_pp_calibrate(scanner_parameters * sp, char *cal_file);
 
-int sanei_canon_pp_adjust_gamma(scanner_parameters *sp);
+int sanei_canon_pp_adjust_gamma(scanner_parameters * sp);
 
 /* Detect if a scanner is present on a given port */
 int sanei_canon_pp_detect(struct parport *port, int mode);

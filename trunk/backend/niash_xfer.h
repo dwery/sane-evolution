@@ -40,21 +40,21 @@
 
 typedef enum
 {
-  eUnknownModel = 0,
-  eHp3300c,
-  eHp3400c,
-  eHp4300c,
-  eAgfaTouch
+	eUnknownModel = 0,
+	eHp3300c,
+	eHp3400c,
+	eHp4300c,
+	eAgfaTouch
 } EScannerModel;
 
 
 typedef struct
 {
-  char *pszVendor;
-  char *pszName;
-  int iVendor;
-  int iProduct;
-  EScannerModel eModel;
+	char *pszVendor;
+	char *pszName;
+	int iVendor;
+	int iProduct;
+	EScannerModel eModel;
 } TScannerModel;
 
 
@@ -76,20 +76,19 @@ extern FILE *BG_ASSERT;
 extern TScannerModel ScannerModels[];
 #endif /* NO WITH_NIASH */
 
-STATIC void NiashXferInit (TFnReportDevice * pfnReport);
-STATIC int NiashXferOpen (const char *pszName, EScannerModel * peModel);
-STATIC void NiashXferClose (int iXferHandle);
+STATIC void NiashXferInit(TFnReportDevice * pfnReport);
+STATIC int NiashXferOpen(const char *pszName, EScannerModel * peModel);
+STATIC void NiashXferClose(int iXferHandle);
 
-STATIC void NiashWriteReg (int iXferHandle, unsigned char bReg,
-			   unsigned char bData);
-STATIC void NiashReadReg (int iXferHandle, unsigned char bReg,
-			  unsigned char *pbData);
-STATIC void NiashWriteBulk (int iXferHandle, unsigned char *pabBuf,
-			    int iSize);
-STATIC void NiashReadBulk (int iXferHandle, unsigned char *pabBuf, int iSize);
-STATIC void NiashWakeup (int iXferHandle);
+STATIC void NiashWriteReg(int iXferHandle, unsigned char bReg,
+			  unsigned char bData);
+STATIC void NiashReadReg(int iXferHandle, unsigned char bReg,
+			 unsigned char *pbData);
+STATIC void NiashWriteBulk(int iXferHandle, unsigned char *pabBuf, int iSize);
+STATIC void NiashReadBulk(int iXferHandle, unsigned char *pabBuf, int iSize);
+STATIC void NiashWakeup(int iXferHandle);
 
-STATIC SANE_Bool MatchUsbDevice (int iVendor, int iProduct,
-				 TScannerModel ** ppeModel);
+STATIC SANE_Bool MatchUsbDevice(int iVendor, int iProduct,
+				TScannerModel ** ppeModel);
 
 #endif /* _NIASH_XFER_H_ */

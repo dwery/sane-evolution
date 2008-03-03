@@ -54,21 +54,21 @@ typedef struct GT68xx_Scanner GT68xx_Scanner;
  */
 struct GT68xx_Calibrator
 {
-  unsigned int *k_white;	/**< White point vector */
-  unsigned int *k_black;	/**< Black point vector */
+	unsigned int *k_white;	/**< White point vector */
+	unsigned int *k_black;	/**< Black point vector */
 
-  double *white_line;		/**< White average */
-  double *black_line;		/**< Black average */
+	double *white_line;	/**< White average */
+	double *black_line;	/**< Black average */
 
-  SANE_Int width;		/**< Image width */
-  SANE_Int white_level;		/**< Desired white level */
+	SANE_Int width;		/**< Image width */
+	SANE_Int white_level;	/**< Desired white level */
 
-  SANE_Int white_count;		/**< Number of white lines scanned */
-  SANE_Int black_count;		/**< Number of black lines scanned */
+	SANE_Int white_count;	/**< Number of white lines scanned */
+	SANE_Int black_count;	/**< Number of black lines scanned */
 
 #ifdef TUNE_CALIBRATOR
-  SANE_Int min_clip_count;	 /**< Count of too low values */
-  SANE_Int max_clip_count;	 /**< Count of too high values */
+	SANE_Int min_clip_count; /**< Count of too low values */
+	SANE_Int max_clip_count; /**< Count of too high values */
 #endif				/* TUNE_CALIBRATOR */
 };
 
@@ -84,14 +84,14 @@ struct GT68xx_Calibrator
  * - SANE_STATUS_NO_MEM - not enough memory to create the object.
  */
 static SANE_Status
-gt68xx_calibrator_new (SANE_Int width,
-		       SANE_Int white_level, GT68xx_Calibrator ** cal_return);
+gt68xx_calibrator_new(SANE_Int width,
+		      SANE_Int white_level, GT68xx_Calibrator ** cal_return);
 
 /** Destroy the channel calibrator object.
  *
  * @param cal Calibrator object.
  */
-static SANE_Status gt68xx_calibrator_free (GT68xx_Calibrator * cal);
+static SANE_Status gt68xx_calibrator_free(GT68xx_Calibrator * cal);
 
 /** Add a white calibration line to the calibrator.
  *
@@ -105,8 +105,7 @@ static SANE_Status gt68xx_calibrator_free (GT68xx_Calibrator * cal);
  * - #SANE_STATUS_GOOD - the line data was processed successfully.
  */
 static SANE_Status
-gt68xx_calibrator_add_white_line (GT68xx_Calibrator * cal,
-				  unsigned int *line);
+gt68xx_calibrator_add_white_line(GT68xx_Calibrator * cal, unsigned int *line);
 
 /** Calculate the white point for the calibrator.
  *
@@ -121,7 +120,7 @@ gt68xx_calibrator_add_white_line (GT68xx_Calibrator * cal,
  * - #SANE_STATUS_GOOD - the white point was calculated successfully.
  */
 static SANE_Status
-gt68xx_calibrator_eval_white (GT68xx_Calibrator * cal, double factor);
+gt68xx_calibrator_eval_white(GT68xx_Calibrator * cal, double factor);
 
 /** Add a black calibration line to the calibrator.
  *
@@ -135,8 +134,7 @@ gt68xx_calibrator_eval_white (GT68xx_Calibrator * cal, double factor);
  * - #SANE_STATUS_GOOD - the line data was processed successfully.
  */
 static SANE_Status
-gt68xx_calibrator_add_black_line (GT68xx_Calibrator * cal,
-				  unsigned int *line);
+gt68xx_calibrator_add_black_line(GT68xx_Calibrator * cal, unsigned int *line);
 
 /** Calculate the black point for the calibrator.
  *
@@ -151,7 +149,7 @@ gt68xx_calibrator_add_black_line (GT68xx_Calibrator * cal,
  * - #SANE_STATUS_GOOD - the white point was calculated successfully.
  */
 static SANE_Status
-gt68xx_calibrator_eval_black (GT68xx_Calibrator * cal, double factor);
+gt68xx_calibrator_eval_black(GT68xx_Calibrator * cal, double factor);
 
 /** Finish the calibrator setup and prepare for real scanning.
  *
@@ -163,7 +161,7 @@ gt68xx_calibrator_eval_black (GT68xx_Calibrator * cal, double factor);
  * @return
  * - #SANE_STATUS_GOOD - the calibrator setup completed successfully.
  */
-static SANE_Status gt68xx_calibrator_finish_setup (GT68xx_Calibrator * cal);
+static SANE_Status gt68xx_calibrator_finish_setup(GT68xx_Calibrator * cal);
 
 /** Process the image line through the calibrator.
  *
@@ -177,79 +175,80 @@ static SANE_Status gt68xx_calibrator_finish_setup (GT68xx_Calibrator * cal);
  * - #SANE_STATUS_GOOD - the image line was processed successfully.
  */
 static SANE_Status
-gt68xx_calibrator_process_line (GT68xx_Calibrator * cal, unsigned int *line);
+gt68xx_calibrator_process_line(GT68xx_Calibrator * cal, unsigned int *line);
 
 /** List of SANE options
  */
 enum GT68xx_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,
-  OPT_GRAY_MODE_COLOR,
-  OPT_SOURCE,
-  OPT_PREVIEW,
-  OPT_BIT_DEPTH,
-  OPT_RESOLUTION,
-  OPT_LAMP_OFF_AT_EXIT,
-  OPT_BACKTRACK,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_GRAY_MODE_COLOR,
+	OPT_SOURCE,
+	OPT_PREVIEW,
+	OPT_BIT_DEPTH,
+	OPT_RESOLUTION,
+	OPT_LAMP_OFF_AT_EXIT,
+	OPT_BACKTRACK,
 
-  OPT_DEBUG_GROUP,
-  OPT_AUTO_WARMUP,
-  OPT_FULL_SCAN,
-  OPT_COARSE_CAL,
-  OPT_COARSE_CAL_ONCE,
-  OPT_QUALITY_CAL,
-  OPT_BACKTRACK_LINES,
+	OPT_DEBUG_GROUP,
+	OPT_AUTO_WARMUP,
+	OPT_FULL_SCAN,
+	OPT_COARSE_CAL,
+	OPT_COARSE_CAL_ONCE,
+	OPT_QUALITY_CAL,
+	OPT_BACKTRACK_LINES,
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_GAMMA_VALUE,
-  OPT_THRESHOLD,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_GAMMA_VALUE,
+	OPT_THRESHOLD,
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* top-left x */
-  OPT_TL_Y,			/* top-left y */
-  OPT_BR_X,			/* bottom-right x */
-  OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-  /* must come last: */
-  NUM_OPTIONS
+	/* must come last: */
+	NUM_OPTIONS
 };
 
 /** Scanner object.
  */
 struct GT68xx_Scanner
 {
-  struct GT68xx_Scanner *next;	    /**< Next scanner in list */
-  GT68xx_Device *dev;		    /**< Low-level device object */
+	struct GT68xx_Scanner *next;/**< Next scanner in list */
+	GT68xx_Device *dev;	    /**< Low-level device object */
 
-  GT68xx_Line_Reader *reader;	    /**< Line reader object */
+	GT68xx_Line_Reader *reader; /**< Line reader object */
 
-  GT68xx_Calibrator *cal_gray;	    /**< Calibrator for grayscale data */
-  GT68xx_Calibrator *cal_r;	    /**< Calibrator for the red channel */
-  GT68xx_Calibrator *cal_g;	    /**< Calibrator for the green channel */
-  GT68xx_Calibrator *cal_b;	    /**< Calibrator for the blue channel */
+	GT68xx_Calibrator *cal_gray;/**< Calibrator for grayscale data */
+	GT68xx_Calibrator *cal_r;   /**< Calibrator for the red channel */
+	GT68xx_Calibrator *cal_g;   /**< Calibrator for the green channel */
+	GT68xx_Calibrator *cal_b;   /**< Calibrator for the blue channel */
 
-  /* SANE data */
-  SANE_Bool scanning;			   /**< We are currently scanning */
-  SANE_Option_Descriptor opt[NUM_OPTIONS]; /**< Option descriptors */
-  Option_Value val[NUM_OPTIONS];	   /**< Option values */
-  SANE_Parameters params;		   /**< SANE Parameters */
-  SANE_Int line;			   /**< Current line */
-  SANE_Int total_bytes;			   /**< Bytes already transmitted */
-  SANE_Int byte_count;			   /**< Bytes transmitted in this line */
-  SANE_Bool calib;			   /**< Apply calibration data */
-  SANE_Bool auto_afe;			   /**< Use automatic gain/offset */
-  SANE_Bool first_scan;			   /**< Is this the first scan? */
-  struct timeval lamp_on_time;		   /**< Time when the lamp was turned on */
-  struct timeval start_time;		   /**< Time when the scan was started */
-  SANE_Int bpp_list[5];			   /**< */
-  SANE_Int *gamma_table;		   /**< Gray gamma table */
+	/* SANE data */
+	SANE_Bool scanning;		   /**< We are currently scanning */
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+					   /**< Option descriptors */
+	Option_Value val[NUM_OPTIONS];	   /**< Option values */
+	SANE_Parameters params;		   /**< SANE Parameters */
+	SANE_Int line;			   /**< Current line */
+	SANE_Int total_bytes;		   /**< Bytes already transmitted */
+	SANE_Int byte_count;		   /**< Bytes transmitted in this line */
+	SANE_Bool calib;		   /**< Apply calibration data */
+	SANE_Bool auto_afe;		   /**< Use automatic gain/offset */
+	SANE_Bool first_scan;		   /**< Is this the first scan? */
+	struct timeval lamp_on_time;	   /**< Time when the lamp was turned on */
+	struct timeval start_time;	   /**< Time when the scan was started */
+	SANE_Int bpp_list[5];		   /**< */
+	SANE_Int *gamma_table;		   /**< Gray gamma table */
 #ifdef DEBUG_BRIGHTNESS
-  SANE_Int average_white;	    /**< For debugging brightness problems */
-  SANE_Int max_white;
-  SANE_Int min_black;
+	SANE_Int average_white;	    /**< For debugging brightness problems */
+	SANE_Int max_white;
+	SANE_Int min_black;
 #endif
 };
 
@@ -260,7 +259,7 @@ struct GT68xx_Scanner
  * @param scanner_return Returned pointer to the created scanner object.
  */
 static SANE_Status
-gt68xx_scanner_new (GT68xx_Device * dev, GT68xx_Scanner ** scanner_return);
+gt68xx_scanner_new(GT68xx_Device * dev, GT68xx_Scanner ** scanner_return);
 
 /** Destroy the scanner object.
  *
@@ -268,7 +267,7 @@ gt68xx_scanner_new (GT68xx_Device * dev, GT68xx_Scanner ** scanner_return);
  *
  * @param scanner Scanner object.
  */
-static SANE_Status gt68xx_scanner_free (GT68xx_Scanner * scanner);
+static SANE_Status gt68xx_scanner_free(GT68xx_Scanner * scanner);
 
 /** Calibrate the scanner before the main scan.
  *
@@ -277,8 +276,8 @@ static SANE_Status gt68xx_scanner_free (GT68xx_Scanner * scanner);
  * @param use_autogain Enable automatic offset/gain control
  */
 static SANE_Status
-gt68xx_scanner_calibrate (GT68xx_Scanner * scanner,
-			  GT68xx_Scan_Request * request);
+gt68xx_scanner_calibrate(GT68xx_Scanner * scanner,
+			 GT68xx_Scan_Request * request);
 
 /** Start scanning the image.
  *
@@ -290,9 +289,9 @@ gt68xx_scanner_calibrate (GT68xx_Scanner * scanner,
  * @param params  Returned scan parameters (calculated from the request).
  */
 static SANE_Status
-gt68xx_scanner_start_scan (GT68xx_Scanner * scanner,
-			   GT68xx_Scan_Request * request,
-			   GT68xx_Scan_Parameters * params);
+gt68xx_scanner_start_scan(GT68xx_Scanner * scanner,
+			  GT68xx_Scan_Request * request,
+			  GT68xx_Scan_Parameters * params);
 
 /** Read one image line from the scanner.
  *
@@ -303,8 +302,8 @@ gt68xx_scanner_start_scan (GT68xx_Scanner * scanner,
  * @param buffer_pointers Array of pointers to the image lines.
  */
 static SANE_Status
-gt68xx_scanner_read_line (GT68xx_Scanner * scanner,
-			  unsigned int **buffer_pointers);
+gt68xx_scanner_read_line(GT68xx_Scanner * scanner,
+			 unsigned int **buffer_pointers);
 
 /** Stop scanning the image.
  *
@@ -314,7 +313,7 @@ gt68xx_scanner_read_line (GT68xx_Scanner * scanner,
  *
  * @param scanner Scanner object.
  */
-static SANE_Status gt68xx_scanner_stop_scan (GT68xx_Scanner * scanner);
+static SANE_Status gt68xx_scanner_stop_scan(GT68xx_Scanner * scanner);
 
 #endif /* not GT68XX_HIGH_H */
 

@@ -1,7 +1,8 @@
 #ifndef SP15C_H
 #define SP15C_H
 
-static const char RCSid_h[] = "$Header: /cvsroot/sane/sane-backends/backend/sp15c.h,v 1.7 2005-09-19 19:57:48 fzago-guest Exp $";
+static const char RCSid_h[] =
+	"$Header: /cvsroot/sane/sane-backends/backend/sp15c.h,v 1.7 2005-09-19 19:57:48 fzago-guest Exp $";
 /* sane - Scanner Access Now Easy.
 
    This file is part of the SANE package.
@@ -98,94 +99,94 @@ static int num_devices;
 static struct sp15c *first_dev;
 
 enum sp15c_Option
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_SOURCE,
-    OPT_MODE,
-    OPT_TYPE,
-    OPT_X_RES,
-    OPT_Y_RES,
-    OPT_PRESCAN,
-    OPT_PREVIEW_RES,
+	OPT_MODE_GROUP,
+	OPT_SOURCE,
+	OPT_MODE,
+	OPT_TYPE,
+	OPT_X_RES,
+	OPT_Y_RES,
+	OPT_PRESCAN,
+	OPT_PREVIEW_RES,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* in mm/2^16 */
-    OPT_TL_Y,			/* in mm/2^16 */
-    OPT_BR_X,			/* in mm/2^16 */
-    OPT_BR_Y,			/* in mm/2^16 */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* in mm/2^16 */
+	OPT_TL_Y,		/* in mm/2^16 */
+	OPT_BR_X,		/* in mm/2^16 */
+	OPT_BR_Y,		/* in mm/2^16 */
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_AVERAGING,
-    OPT_BRIGHTNESS,
-    OPT_THRESHOLD,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_AVERAGING,
+	OPT_BRIGHTNESS,
+	OPT_THRESHOLD,
 
-    OPT_ADVANCED_GROUP,
-    OPT_PREVIEW,
+	OPT_ADVANCED_GROUP,
+	OPT_PREVIEW,
 
-    /* must come last: */
-    NUM_OPTIONS
-  };
+	/* must come last: */
+	NUM_OPTIONS
+};
 
 struct sp15c
-  {
-    struct sp15c *next;
+{
+	struct sp15c *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    SANE_Device sane;
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	SANE_Device sane;
 
-    char vendor[9];
-    char product[17];
-    char version[5];
+	char vendor[9];
+	char product[17];
+	char version[5];
 
-    char *devicename;		/* name of the scanner device */
-    int sfd;			/* output file descriptor, scanner device */
-    int pipe;
-    int reader_pipe;
+	char *devicename;	/* name of the scanner device */
+	int sfd;		/* output file descriptor, scanner device */
+	int pipe;
+	int reader_pipe;
 
-    int scanning;		/* "in progress" flag */
-    int autofeeder;		/* detected */
-    int use_adf;		/* requested */
-    int reader_pid;		/* child is running */
-    int prescan;		/* ??? */
+	int scanning;		/* "in progress" flag */
+	int autofeeder;		/* detected */
+	int use_adf;		/* requested */
+	int reader_pid;		/* child is running */
+	int prescan;		/* ??? */
 
 /***** terms for "set window" command *****/
-    int x_res;			/* resolution in */
-    int y_res;			/* pixels/inch */
-    int tl_x;			/* top left position, */
-    int tl_y;			/* in inch/1200 units */
-    int br_x;			/* bottom right position, */
-    int br_y;			/* in inch/1200 units */
+	int x_res;		/* resolution in */
+	int y_res;		/* pixels/inch */
+	int tl_x;		/* top left position, */
+	int tl_y;		/* in inch/1200 units */
+	int br_x;		/* bottom right position, */
+	int br_y;		/* in inch/1200 units */
 
-    int brightness;
-    int threshold;
-    int contrast;
-    int composition;
-    int bitsperpixel;		/* at the scanner interface */
-    int halftone;
-    int rif;
-    int bitorder;
-    int compress_type;
-    int compress_arg;
-    int vendor_id_code;
-    int outline;
-    int emphasis;
-    int auto_sep;
-    int mirroring;
-    int var_rate_dyn_thresh;
-    int white_level_follow;
-    int subwindow_list;
-    int paper_size;
-    int paper_width_X;
-    int paper_length_Y;
+	int brightness;
+	int threshold;
+	int contrast;
+	int composition;
+	int bitsperpixel;	/* at the scanner interface */
+	int halftone;
+	int rif;
+	int bitorder;
+	int compress_type;
+	int compress_arg;
+	int vendor_id_code;
+	int outline;
+	int emphasis;
+	int auto_sep;
+	int mirroring;
+	int var_rate_dyn_thresh;
+	int white_level_follow;
+	int subwindow_list;
+	int paper_size;
+	int paper_width_X;
+	int paper_length_Y;
 /***** end of "set window" terms *****/
 
-    /* buffer used for scsi-transfer */
-    unsigned char *buffer;
-    unsigned int row_bufsize;
+	/* buffer used for scsi-transfer */
+	unsigned char *buffer;
+	unsigned int row_bufsize;
 
-  };
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -197,138 +198,103 @@ struct sp15c
 
 /* ------------------------------------------------------------------------- */
 
-SANE_Status
-sane_init (SANE_Int * version_code, SANE_Auth_Callback authorize);
+SANE_Status sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize);
 
 SANE_Status
-sane_get_devices (const SANE_Device *** device_list, SANE_Bool local_only);
+sane_get_devices(const SANE_Device *** device_list, SANE_Bool local_only);
+
+SANE_Status sane_open(SANE_String_Const name, SANE_Handle * handle);
+
+SANE_Status sane_set_io_mode(SANE_Handle h, SANE_Bool non_blocking);
+
+SANE_Status sane_get_select_fd(SANE_Handle h, SANE_Int * fdp);
+
+const SANE_Option_Descriptor *sane_get_option_descriptor(SANE_Handle handle,
+							 SANE_Int option);
 
 SANE_Status
-sane_open (SANE_String_Const name, SANE_Handle * handle);
+sane_control_option(SANE_Handle handle, SANE_Int option,
+		    SANE_Action action, void *val, SANE_Int * info);
+
+SANE_Status sane_start(SANE_Handle handle);
+
+SANE_Status sane_get_parameters(SANE_Handle handle, SANE_Parameters * params);
 
 SANE_Status
-sane_set_io_mode (SANE_Handle h, SANE_Bool non_blocking);
+sane_read(SANE_Handle handle, SANE_Byte * buf,
+	  SANE_Int max_len, SANE_Int * len);
 
-SANE_Status
-sane_get_select_fd (SANE_Handle h, SANE_Int * fdp);
+void sane_cancel(SANE_Handle h);
 
-const SANE_Option_Descriptor *
-  sane_get_option_descriptor (SANE_Handle handle, SANE_Int option);
+void sane_close(SANE_Handle h);
 
-SANE_Status
-sane_control_option (SANE_Handle handle, SANE_Int option,
-		     SANE_Action action, void *val, SANE_Int * info);
-
-SANE_Status
-sane_start (SANE_Handle handle);
-
-SANE_Status
-sane_get_parameters (SANE_Handle handle, SANE_Parameters * params);
-
-SANE_Status
-sane_read (SANE_Handle handle, SANE_Byte * buf,
-	   SANE_Int max_len, SANE_Int * len);
-
-void
-  sane_cancel (SANE_Handle h);
-
-void
-  sane_close (SANE_Handle h);
-
-void
-  sane_exit (void);
+void sane_exit(void);
 
 /* ------------------------------------------------------------------------- */
 
 static SANE_Status
-  attach_scanner (const char *devicename, struct sp15c **devp);
+attach_scanner(const char *devicename, struct sp15c **devp);
+
+static SANE_Status sense_handler(int scsi_fd, u_char * result, void *arg);
+
+static int request_sense_parse(u_char * sensed_data);
+
+static SANE_Status sp15c_identify_scanner(struct sp15c *s);
+
+static SANE_Status sp15c_do_inquiry(struct sp15c *s);
 
 static SANE_Status
-  sense_handler (int scsi_fd, u_char * result, void *arg);
+do_scsi_cmd(int fd, unsigned char *cmd, int cmd_len, unsigned char *out,
+	    size_t out_len);
 
-static int
-  request_sense_parse (u_char * sensed_data);
+static void hexdump(int level, char *comment, unsigned char *p, int l);
 
-static SANE_Status
-  sp15c_identify_scanner (struct sp15c *s);
+static SANE_Status init_options(struct sp15c *scanner);
 
-static SANE_Status
-  sp15c_do_inquiry (struct sp15c *s);
+static int sp15c_check_values(struct sp15c *s);
 
-static SANE_Status
-  do_scsi_cmd (int fd, unsigned char *cmd, int cmd_len, unsigned char *out, size_t out_len);
+static int sp15c_grab_scanner(struct sp15c *s);
 
-static void
-  hexdump (int level, char *comment, unsigned char *p, int l);
+static int sp15c_free_scanner(struct sp15c *s);
 
-static SANE_Status
-  init_options (struct sp15c *scanner);
+static int wait_scanner(struct sp15c *s);
 
-static int
-  sp15c_check_values (struct sp15c *s);
+static int __sane_unused__ sp15c_object_position(struct sp15c *s);
 
-static int
-  sp15c_grab_scanner (struct sp15c *s);
+static SANE_Status do_cancel(struct sp15c *scanner);
 
-static int
-  sp15c_free_scanner (struct sp15c *s);
+static void swap_res(struct sp15c *s);
 
-static int
-  wait_scanner (struct sp15c *s);
+static int __sane_unused__ sp15c_object_discharge(struct sp15c *s);
 
-static int __sane_unused__
-  sp15c_object_position (struct sp15c *s);
+static int sp15c_set_window_param(struct sp15c *s, int prescan);
 
-static SANE_Status
-  do_cancel (struct sp15c *scanner);
+static size_t max_string_size(const SANE_String_Const strings[]);
 
-static void
-  swap_res (struct sp15c *s);
+static int sp15c_start_scan(struct sp15c *s);
 
-static int __sane_unused__
-  sp15c_object_discharge (struct sp15c *s);
+static int reader_process(void *scanner);
 
-static int
-  sp15c_set_window_param (struct sp15c *s, int prescan);
+static SANE_Status do_eof(struct sp15c *scanner);
 
-static size_t
-  max_string_size (const SANE_String_Const strings[]);
+static int pixels_per_line(struct sp15c *s);
 
-static int
-  sp15c_start_scan (struct sp15c *s);
+static int lines_per_scan(struct sp15c *s);
 
-static int
-  reader_process (void *scanner);
+static int bytes_per_line(struct sp15c *s);
+
+static void sp15c_trim_rowbufsize(struct sp15c *s);
+
+static int sp15c_read_data_block(struct sp15c *s, unsigned int length);
+
+static SANE_Status attach_one(const char *name);
+
+static void adjust_width(struct sp15c *s, SANE_Int * info);
 
 static SANE_Status
-  do_eof (struct sp15c *scanner);
+apply_constraints(struct sp15c *s, SANE_Int opt,
+		  SANE_Int * target, SANE_Word * info);
 
-static int
-  pixels_per_line (struct sp15c *s);
-
-static int
-  lines_per_scan (struct sp15c *s);
-
-static int
-  bytes_per_line (struct sp15c *s);
-
-static void
-  sp15c_trim_rowbufsize (struct sp15c *s);
-
-static int
-  sp15c_read_data_block (struct sp15c *s, unsigned int length);
-
-static SANE_Status
-  attach_one (const char *name);
-
-static void
-  adjust_width (struct sp15c *s, SANE_Int * info);
-
-static SANE_Status
-  apply_constraints (struct sp15c *s, SANE_Int opt,
-		     SANE_Int * target, SANE_Word * info);
-
-static int
-  sp15c_media_check (struct sp15c *s);
+static int sp15c_media_check(struct sp15c *s);
 
 #endif /* SP15C_H */

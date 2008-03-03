@@ -70,7 +70,7 @@ extern FILE *DBG_ASSERT;
 extern FILE *DBG_ERR;
 extern FILE *DBG_MSG;
 
-void  hp5400_dbg_start();
+void hp5400_dbg_start();
 
 #define HP5400_SANE_STATIC
 

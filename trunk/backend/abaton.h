@@ -49,85 +49,85 @@
 #include <sys/types.h>
 
 enum Abaton_Modes
-  {
-    ABATON_MODE_LINEART=0,
-    ABATON_MODE_HALFTONE,
-    ABATON_MODE_GRAY
-  };
-  
+{
+	ABATON_MODE_LINEART = 0,
+	ABATON_MODE_HALFTONE,
+	ABATON_MODE_GRAY
+};
+
 enum Abaton_Option
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_MODE,
-    OPT_X_RESOLUTION,
-    OPT_Y_RESOLUTION,
-    OPT_RESOLUTION_BIND,
-    OPT_PREVIEW,
-    OPT_HALFTONE_PATTERN,
-    
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_X_RESOLUTION,
+	OPT_Y_RESOLUTION,
+	OPT_RESOLUTION_BIND,
+	OPT_PREVIEW,
+	OPT_HALFTONE_PATTERN,
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
-    OPT_THRESHOLD,
-    OPT_NEGATIVE,
-    OPT_MIRROR,
-    
-    /* must come last: */
-    NUM_OPTIONS
-  };
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
+
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_THRESHOLD,
+	OPT_NEGATIVE,
+	OPT_MIRROR,
+
+	/* must come last: */
+	NUM_OPTIONS
+};
 
 enum ScannerModels
 {
-  ABATON_300GS,
-  ABATON_300S
+	ABATON_300GS,
+	ABATON_300S
 };
 
 typedef struct Abaton_Device
-  {
-    struct Abaton_Device *next;
-    SANE_Int ScannerModel;
-    SANE_Device sane;
-    SANE_Range dpi_range;
-    unsigned flags;
-  }
+{
+	struct Abaton_Device *next;
+	SANE_Int ScannerModel;
+	SANE_Device sane;
+	SANE_Range dpi_range;
+	unsigned flags;
+}
 Abaton_Device;
 
 typedef struct Abaton_Scanner
-  {
-    /* all the state needed to define a scan request: */
-    struct Abaton_Scanner *next;
+{
+	/* all the state needed to define a scan request: */
+	struct Abaton_Scanner *next;
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
 
-    SANE_Bool scanning;
-    SANE_Bool AbortedByUser;
- 
-    SANE_Parameters params;
+	SANE_Bool scanning;
+	SANE_Bool AbortedByUser;
 
-    /* The actual bpp, before "Pseudo-8-bit" fiddling */
-    SANE_Int bpp;
+	SANE_Parameters params;
 
-    /* window, in pixels */
-    SANE_Int ULx;
-    SANE_Int ULy;
-    SANE_Int Width;
-    SANE_Int Height;
+	/* The actual bpp, before "Pseudo-8-bit" fiddling */
+	SANE_Int bpp;
 
-    int fd;			/* SCSI filedescriptor */
+	/* window, in pixels */
+	SANE_Int ULx;
+	SANE_Int ULy;
+	SANE_Int Width;
+	SANE_Int Height;
 
-    /* scanner dependent/low-level state: */
-    Abaton_Device *hw;
+	int fd;			/* SCSI filedescriptor */
 
-  }
+	/* scanner dependent/low-level state: */
+	Abaton_Device *hw;
+
+}
 Abaton_Scanner;
 
 #endif /* abaton_h */

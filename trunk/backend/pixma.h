@@ -175,58 +175,58 @@ typedef struct pixma_device_status_t pixma_device_status_t;
 /** String index constants */
 typedef enum pixma_string_index_t
 {
-  PIXMA_STRING_MODEL,
-  PIXMA_STRING_ID,
-  PIXMA_STRING_LAST
+	PIXMA_STRING_MODEL,
+	PIXMA_STRING_ID,
+	PIXMA_STRING_LAST
 } pixma_string_index_t;
 
 /** Paper sources */
 typedef enum pixma_paper_source_t
 {
-  PIXMA_SOURCE_FLATBED,
-  PIXMA_SOURCE_ADF,
-  PIXMA_SOURCE_TPU,
-  PIXMA_SOURCE_ADFDUP		/* duplex */
+	PIXMA_SOURCE_FLATBED,
+	PIXMA_SOURCE_ADF,
+	PIXMA_SOURCE_TPU,
+	PIXMA_SOURCE_ADFDUP	/* duplex */
 } pixma_paper_source_t;
 
 typedef enum pixma_hardware_status_t
 {
-  PIXMA_HARDWARE_OK,
-  PIXMA_HARDWARE_ERROR
+	PIXMA_HARDWARE_OK,
+	PIXMA_HARDWARE_ERROR
 } pixma_hardware_status_t;
 
 typedef enum pixma_lamp_status_t
 {
-  PIXMA_LAMP_OK,
-  PIXMA_LAMP_WARMING_UP,
-  PIXMA_LAMP_OFF,
-  PIXMA_LAMP_ERROR
+	PIXMA_LAMP_OK,
+	PIXMA_LAMP_WARMING_UP,
+	PIXMA_LAMP_OFF,
+	PIXMA_LAMP_ERROR
 } pixma_lamp_status_t;
 
 typedef enum pixma_adf_status_t
 {
-  PIXMA_ADF_OK,
-  PIXMA_ADF_NO_PAPER,
-  PIXMA_ADF_JAMMED,
-  PIXMA_ADF_COVER_OPEN,
-  PIXMA_ADF_ERROR
+	PIXMA_ADF_OK,
+	PIXMA_ADF_NO_PAPER,
+	PIXMA_ADF_JAMMED,
+	PIXMA_ADF_COVER_OPEN,
+	PIXMA_ADF_ERROR
 } pixma_adf_status_t;
 
 typedef enum pixma_calibration_status_t
 {
-  PIXMA_CALIBRATION_OK,
-  PIXMA_CALIBRATION_IN_PROGRESS,
-  PIXMA_CALIBRATION_OFF,
-  PIXMA_CALIBRATION_ERROR
+	PIXMA_CALIBRATION_OK,
+	PIXMA_CALIBRATION_IN_PROGRESS,
+	PIXMA_CALIBRATION_OFF,
+	PIXMA_CALIBRATION_ERROR
 } pixma_calibration_status_t;
 
 /** Device status. */
 struct pixma_device_status_t
 {
-  pixma_hardware_status_t hardware;
-  pixma_lamp_status_t lamp;
-  pixma_adf_status_t adf;
-  pixma_calibration_status_t cal;
+	pixma_hardware_status_t hardware;
+	pixma_lamp_status_t lamp;
+	pixma_adf_status_t adf;
+	pixma_calibration_status_t cal;
 };
 
 /** Scan parameters. */
@@ -235,54 +235,55 @@ struct pixma_scan_param_t
     /** Size in bytes of one image line (row).
      *  line_size >= depth / 8 * channels * w <br>
      *  This field will be set by pixma_check_scan_param(). */
-  unsigned line_size;
+	unsigned line_size;
 
     /** Size in bytes of the whole image.
      *  image_size = line_size * h <br>
      *  This field will be set by pixma_check_scan_param(). */
-  unsigned image_size;
+	unsigned image_size;
 
     /** Channels per pixel. 1 = grayscale, 3 = color */
-  unsigned channels;
+	unsigned channels;
 
     /** Bits per channels. 0 = default. Currently not used. */
-  unsigned depth;
+	unsigned depth;
 
-  /*@{ */
+	/*@{ */
     /** Resolution. Valid values are 75,150,300,600,1200... */
-  unsigned xdpi, ydpi;
-  /*@} */
+	unsigned xdpi, ydpi;
+	/*@} */
 
-  /*! \name Scan area in pixels
-   * (0,0) = top left; positive x extends to the right; positive y to the
-   *  bottom; in pixels. */
-  /*@{ */
-  unsigned x, y, w, h;
-  /*@} */
+	/*! \name Scan area in pixels
+	 * (0,0) = top left; positive x extends to the right; positive y to the
+	 *  bottom; in pixels. */
+	/*@{ */
+	unsigned x, y, w, h;
+	/*@} */
 
     /** Gamma table. 4096 entries, 12 bit => 8 bit. If \c NULL, default gamma
      *  specified by subdriver will be used. */
-  const uint8_t *gamma_table;
+	const uint8_t *gamma_table;
 
     /** \see #pixma_paper_source_t */
-  pixma_paper_source_t source;
+	pixma_paper_source_t source;
 };
 
 /** PIXMA model information */
 struct pixma_config_t
 {
-  /* If you change this structure, don't forget to update the device list in
-   * subdrivers. */
-  const char *name;	   /**< Model name. */
-  uint16_t vid;		   /**< USB Vendor ID */
-  uint16_t pid;		   /**< USB Product ID */
-  unsigned iface;	   /**< USB Interface number */
-  const pixma_scan_ops_t *ops;	  /**< Subdriver ops */
-  unsigned xdpi;	   /**< Maximum horizontal resolution[DPI] */
-  unsigned ydpi;	   /**< Maximum vertical resolution[DPI] */
-  unsigned width;	   /**< Maximum width of scannable area in pixels at 75DPI */
-  unsigned height;	   /**< Maximum height of scannable area in pixels at 75DPI */
-  unsigned cap;		   /**< Capability bitfield \see PIXMA_CAP_* */
+	/* If you change this structure, don't forget to update the device list in
+	 * subdrivers. */
+	const char *name;  /**< Model name. */
+	uint16_t vid;	   /**< USB Vendor ID */
+	uint16_t pid;	   /**< USB Product ID */
+	unsigned iface;	   /**< USB Interface number */
+	const pixma_scan_ops_t *ops;
+				  /**< Subdriver ops */
+	unsigned xdpi;	   /**< Maximum horizontal resolution[DPI] */
+	unsigned ydpi;	   /**< Maximum vertical resolution[DPI] */
+	unsigned width;	   /**< Maximum width of scannable area in pixels at 75DPI */
+	unsigned height;   /**< Maximum height of scannable area in pixels at 75DPI */
+	unsigned cap;	   /**< Capability bitfield \see PIXMA_CAP_* */
 };
 
 
@@ -290,10 +291,10 @@ struct pixma_config_t
 
 /** Initialize the driver. It must be called before any other functions
  *  except pixma_set_debug_level(). */
-int pixma_init (void);
+int pixma_init(void);
 
 /** Free resources allocated by the driver. */
-void pixma_cleanup (void);
+void pixma_cleanup(void);
 
 /** Set the debug level.
  *  \param[in] level the debug level
@@ -302,7 +303,7 @@ void pixma_cleanup (void);
  *    - 2 General information
  *    - 3 Debugging messages
  *    - 10 USB traffic dump */
-void pixma_set_debug_level (int level);
+void pixma_set_debug_level(int level);
 
 /** Find scanners. The device number used in pixma_open(),
  *  pixma_get_device_model(), pixma_get_device_id() and
@@ -311,30 +312,30 @@ void pixma_set_debug_level (int level);
  *
  *  \return The number of scanners found currently. The return value is
  *  guaranteed to be valid until the next call to pixma_find_scanners(). */
-int pixma_find_scanners (void);
+int pixma_find_scanners(void);
 
 /** Return the model name of the device \a devnr. */
-const char *pixma_get_device_model (unsigned devnr);
+const char *pixma_get_device_model(unsigned devnr);
 
 /** Return the unique ID of the device \a devnr. */
-const char *pixma_get_device_id (unsigned devnr);
+const char *pixma_get_device_id(unsigned devnr);
 
 /** Return the device configuration of the device \a devnr. */
-const struct pixma_config_t *pixma_get_device_config (unsigned devnr);
+const struct pixma_config_t *pixma_get_device_config(unsigned devnr);
 
 /** Open a connection to the scanner \a devnr.
  *  \param[in] devnr The scanner number
  *  \param[out] handle The device handle
  *  \see pixma_find_scanners() */
-int pixma_open (unsigned devnr, pixma_t ** handle);
+int pixma_open(unsigned devnr, pixma_t ** handle);
 
 /** Close the connection to the scanner. The scanning process is aborted
  *  if necessary before the function returns. */
-void pixma_close (pixma_t * s);
+void pixma_close(pixma_t * s);
 
 /** Initiate an image acquisition process. You must keep \a sp valid until the
  *  image acquisition process has finished. */
-int pixma_scan (pixma_t *, pixma_scan_param_t * sp);
+int pixma_scan(pixma_t *, pixma_scan_param_t * sp);
 
 /** Read a block of image data. It blocks until there is at least one byte
  *  available or an error occurs.
@@ -348,13 +349,13 @@ int pixma_scan (pixma_t *, pixma_scan_param_t * sp);
  *     - count = \a len
  *     - 0 < count < \a len if and only if it is the last block.
  *     - count < 0 for error  */
-int pixma_read_image (pixma_t *, void *buf, unsigned len);
+int pixma_read_image(pixma_t *, void *buf, unsigned len);
 
 #if 0
 /** Read a block of image data and write to \a fd.
  *  \param[in] fd output file descriptor
  *  \see pixma_read_image() */
-int pixma_read_image_write (pixma_t *, int fd);
+int pixma_read_image_write(pixma_t *, int fd);
 #endif
 
 /** Cancel the scanning process. No effect if no scanning process is in
@@ -362,13 +363,13 @@ int pixma_read_image_write (pixma_t *, int fd);
  *  handle. pixma_cancel() doesn't abort the operation immediately.  It
  *  guarantees that the current call or, at the latest, the next call to
  *  pixma_read_image() will return zero or an error (probably PIXMA_ECANCELED). */
-void pixma_cancel (pixma_t *);
+void pixma_cancel(pixma_t *);
 
 /** Check the scan parameters. This function can change your parameters to
  *  match the device capability, e.g. adjust width and height to the available
  *  area.
  *  \return PIXMA_EINVAL for invalid parameters. */
-int pixma_check_scan_param (pixma_t *, pixma_scan_param_t *);
+int pixma_check_scan_param(pixma_t *, pixma_scan_param_t *);
 
 /** Wait until a scanner button is pressed or it times out. It should not be
  *  called during image acquisition is in progress.
@@ -378,24 +379,24 @@ int pixma_check_scan_param (pixma_t *, pixma_scan_param_t *);
  *   - non-zero value indicates which button was pressed.
  *  \see PIXMA_EV_*
  */
-uint32_t pixma_wait_event (pixma_t *, int timeout);
+uint32_t pixma_wait_event(pixma_t *, int timeout);
 
 /** Enable or disable background tasks. Currently, the only one task
  *  is submitting interrupt URB in background.
  *  \param[in] enabled if not zero, enable background task.
  *  \see pixma_set_interrupt_mode() */
-int pixma_enable_background (pixma_t *, int enabled);
+int pixma_enable_background(pixma_t *, int enabled);
 
 /** Read the current device status.
  *  \param[out] status the current device status
  *  \return 0 if succeeded. Otherwise, failed.
  */
-int pixma_get_device_status (pixma_t *, pixma_device_status_t * status);
+int pixma_get_device_status(pixma_t *, pixma_device_status_t * status);
 
-const char *pixma_get_string (pixma_t *, pixma_string_index_t);
-const pixma_config_t *pixma_get_config (pixma_t *);
-void pixma_fill_gamma_table (double gamma, uint8_t * table, unsigned n);
-const char *pixma_strerror (int error);
+const char *pixma_get_string(pixma_t *, pixma_string_index_t);
+const pixma_config_t *pixma_get_config(pixma_t *);
+void pixma_fill_gamma_table(double gamma, uint8_t * table, unsigned n);
+const char *pixma_strerror(int error);
 
 /** @} end of API group */
 

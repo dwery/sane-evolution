@@ -74,7 +74,7 @@
 
 */
 
-extern int sanei_umax_pp_attach (int port, char *name);
+extern int sanei_umax_pp_attach(int port, char *name);
 
 /*
  recognizes 1220P from 2000P
@@ -84,7 +84,7 @@ extern int sanei_umax_pp_attach (int port, char *name);
 
 */
 
-extern int sanei_umax_pp_model (int port, int *model);
+extern int sanei_umax_pp_model(int port, int *model);
 
 
 /* 
@@ -95,7 +95,7 @@ if on=0 -> lights off scanner lamp
  else one of the error above.
 */
 
-extern int sanei_umax_pp_lamp (int on);
+extern int sanei_umax_pp_lamp(int on);
 
 
 
@@ -112,7 +112,7 @@ extern int sanei_umax_pp_lamp (int on);
 
 */
 
-extern int sanei_umax_pp_open (int port, char *name);
+extern int sanei_umax_pp_open(int port, char *name);
 
 
 
@@ -120,7 +120,7 @@ extern int sanei_umax_pp_open (int port, char *name);
 	release any ressource acquired during open
 	since there may be only one scanner, no port parameter
 */
-extern int sanei_umax_pp_close (void);
+extern int sanei_umax_pp_close(void);
 
 
 
@@ -128,7 +128,7 @@ extern int sanei_umax_pp_close (void);
 /*
  stops any pending action, then parks the head
 */
-extern int sanei_umax_pp_cancel (void);
+extern int sanei_umax_pp_cancel(void);
 
 /* starts scanning:
 	- find scanner origin
@@ -151,9 +151,9 @@ extern int sanei_umax_pp_cancel (void);
    if successful, rbpp holds bytes/pixel, rth the height and rtw
    the width of scanned area expressed in pixels
 */
-extern int sanei_umax_pp_start (int x, int y, int width, int height, int dpi,
-				int color, int autoset, int gain,
-				int offset, int *rbpp, int *rtw, int *rth);
+extern int sanei_umax_pp_start(int x, int y, int width, int height, int dpi,
+			       int color, int autoset, int gain,
+			       int offset, int *rbpp, int *rtw, int *rth);
 
 
 /* reads one block of data from scanner
@@ -166,8 +166,8 @@ extern int sanei_umax_pp_start (int x, int y, int width, int height, int dpi,
 	last is true if it is the last block of the scan
 	buffer will hold the data read
 */
-extern int sanei_umax_pp_read (long len, int window, int dpi, int last,
-			       unsigned char *buffer);
+extern int sanei_umax_pp_read(long len, int window, int dpi, int last,
+			      unsigned char *buffer);
 
 
 
@@ -175,17 +175,17 @@ extern int sanei_umax_pp_read (long len, int window, int dpi, int last,
 	returns UMAX1220P_OK if scanner idle, or UMAX1220P_BUSY if
 	scanner's motor is on
 */
-extern int sanei_umax_pp_status (void);
+extern int sanei_umax_pp_status(void);
 
 /* set auto calibration 0: no, else yes */
-extern void sanei_umax_pp_setauto (int mode);
+extern void sanei_umax_pp_setauto(int mode);
 
 /* set umax astra model number */
-extern void sanei_umax_pp_setastra (int val);
+extern void sanei_umax_pp_setastra(int val);
 
 /* set gamma tables */
-extern void sanei_umax_pp_gamma (int *red, int *green, int *blue);
+extern void sanei_umax_pp_gamma(int *red, int *green, int *blue);
 
 /* sets coordinate of first usable left pixel */
-extern int sanei_umax_pp_getLeft (void);
+extern int sanei_umax_pp_getLeft(void);
 #endif

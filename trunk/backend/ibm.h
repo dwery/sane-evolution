@@ -78,23 +78,21 @@
 #define PC_DEFAULT 0x80
 #define PC_SAVED   0xc0
 
-static const SANE_String_Const mode_list[] =
-  {
-    "Lineart", "Halftone", "Gray",
-    0
-  };
+static const SANE_String_Const mode_list[] = {
+	"Lineart", "Halftone", "Gray",
+	0
+};
 
-static const SANE_String_Const paper_list[] =
-  {
-    "User",
-    "A3",
-    "A4", "A4R",
-    "A5", "A5R",
-    "A6",
-    "B4", "B5",
-    "Legal", "Letter",
-    0
-  };
+static const SANE_String_Const paper_list[] = {
+	"User",
+	"A3",
+	"A4", "A4R",
+	"A5", "A5R",
+	"A6",
+	"B4", "B5",
+	"Legal", "Letter",
+	0
+};
 
 #define PAPER_A3_W	14032
 #define PAPER_A3_H	19842
@@ -117,253 +115,244 @@ static const SANE_String_Const paper_list[] =
 #define PAPER_LETTER_W	10200
 #define PAPER_LETTER_H	13200
 
-static const SANE_Range u8_range =
-  {
-      0,				/* minimum */
-    255,				/* maximum */
-      0				        /* quantization */
-  };
+static const SANE_Range u8_range = {
+	0,			/* minimum */
+	255,			/* maximum */
+	0			/* quantization */
+};
 
-static const SANE_Range ibm2456_res_range =
-  {
-    100,				/* minimum */
-    600,				/* maximum */
-      0				        /* quantization */
-  };
+static const SANE_Range ibm2456_res_range = {
+	100,			/* minimum */
+	600,			/* maximum */
+	0			/* quantization */
+};
 
-static const SANE_Range default_x_range =
-  {
-    0,				        /* minimum */
+static const SANE_Range default_x_range = {
+	0,			/* minimum */
 /*    (SANE_Word) ( * DEFAULT_MUD),	 maximum */
-    14032,				/* maximum (found empirically for Gray mode) */
-    					/* in Lineart mode it works till 14062 */
-    2				        /* quantization */
-  };
+	14032,			/* maximum (found empirically for Gray mode) */
+	/* in Lineart mode it works till 14062 */
+	2			/* quantization */
+};
 
-static const SANE_Range default_y_range =
-  {
-    0,				        /* minimum */
+static const SANE_Range default_y_range = {
+	0,			/* minimum */
 /*    (SANE_Word) (14 * DEFAULT_MUD),	 maximum */
-    20410,				/* maximum (found empirically) */
-    2				        /* quantization */
-  };
+	20410,			/* maximum (found empirically) */
+	2			/* quantization */
+};
 
 
 
 static inline void
-_lto2b(SANE_Int val, SANE_Byte *bytes)
-        
+_lto2b(SANE_Int val, SANE_Byte * bytes)
 {
 
-        bytes[0] = (val >> 8) & 0xff;
-        bytes[1] = val & 0xff;
+	bytes[0] = (val >> 8) & 0xff;
+	bytes[1] = val & 0xff;
 }
 
 static inline void
-_lto3b(SANE_Int val, SANE_Byte *bytes)
-       
+_lto3b(SANE_Int val, SANE_Byte * bytes)
 {
 
-        bytes[0] = (val >> 16) & 0xff;
-        bytes[1] = (val >> 8) & 0xff;
-        bytes[2] = val & 0xff;
+	bytes[0] = (val >> 16) & 0xff;
+	bytes[1] = (val >> 8) & 0xff;
+	bytes[2] = val & 0xff;
 }
 
 static inline void
-_lto4b(SANE_Int val, SANE_Byte *bytes)
+_lto4b(SANE_Int val, SANE_Byte * bytes)
 {
 
-        bytes[0] = (val >> 24) & 0xff;
-        bytes[1] = (val >> 16) & 0xff;
-        bytes[2] = (val >> 8) & 0xff;
-        bytes[3] = val & 0xff;
+	bytes[0] = (val >> 24) & 0xff;
+	bytes[1] = (val >> 16) & 0xff;
+	bytes[2] = (val >> 8) & 0xff;
+	bytes[3] = val & 0xff;
 }
 
 static inline SANE_Int
-_2btol(SANE_Byte *bytes)
+_2btol(SANE_Byte * bytes)
 {
-        SANE_Int rv;
+	SANE_Int rv;
 
-        rv = (bytes[0] << 8) |
-             bytes[1];
-        return (rv);
+	rv = (bytes[0] << 8) | bytes[1];
+	return (rv);
 }
 
 static inline SANE_Int
-_3btol(SANE_Byte *bytes)
+_3btol(SANE_Byte * bytes)
 {
-        SANE_Int rv;
+	SANE_Int rv;
 
-        rv = (bytes[0] << 16) |
-             (bytes[1] << 8) |
-             bytes[2];
-        return (rv);
+	rv = (bytes[0] << 16) | (bytes[1] << 8) | bytes[2];
+	return (rv);
 }
 
 static inline SANE_Int
-_4btol(SANE_Byte *bytes)
+_4btol(SANE_Byte * bytes)
 {
-        SANE_Int rv;
+	SANE_Int rv;
 
-        rv = (bytes[0] << 24) |
-             (bytes[1] << 16) |
-             (bytes[2] << 8) |
-             bytes[3];
-        return (rv);
+	rv = (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
+	return (rv);
 }
 
-typedef enum 
-  {
-    OPT_NUM_OPTS = 0,
+typedef enum
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_MODE,
-    OPT_X_RESOLUTION,
-    OPT_Y_RESOLUTION,
-    OPT_ADF,
+	OPT_MODE_GROUP,
+	OPT_MODE,
+	OPT_X_RESOLUTION,
+	OPT_Y_RESOLUTION,
+	OPT_ADF,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_PAPER,			/* predefined formats */
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_PAPER,		/* predefined formats */
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
 
-    /* must come last: */
-    NUM_OPTIONS
-  }
+	/* must come last: */
+	NUM_OPTIONS
+}
 Ibm_Option;
 
 typedef struct Ibm_Info
-  {
-    SANE_Range xres_range;
-    SANE_Range yres_range;
-    SANE_Range x_range;
-    SANE_Range y_range;
-    SANE_Range brightness_range;
-    SANE_Range contrast_range;
+{
+	SANE_Range xres_range;
+	SANE_Range yres_range;
+	SANE_Range x_range;
+	SANE_Range y_range;
+	SANE_Range brightness_range;
+	SANE_Range contrast_range;
 
-    SANE_Int xres_default;
-    SANE_Int yres_default;
-    SANE_Int image_mode_default;
-    SANE_Int paper_default;
-    SANE_Int brightness_default;
-    SANE_Int contrast_default;
-    SANE_Int adf_default;
+	SANE_Int xres_default;
+	SANE_Int yres_default;
+	SANE_Int image_mode_default;
+	SANE_Int paper_default;
+	SANE_Int brightness_default;
+	SANE_Int contrast_default;
+	SANE_Int adf_default;
 
-    SANE_Int bmu;
-    SANE_Int mud;
-  }
+	SANE_Int bmu;
+	SANE_Int mud;
+}
 Ibm_Info;
 
 typedef struct Ibm_Device
-  {
-    struct Ibm_Device *next;
-    SANE_Device sane;
-    Ibm_Info info;
-  }
+{
+	struct Ibm_Device *next;
+	SANE_Device sane;
+	Ibm_Info info;
+}
 Ibm_Device;
 
 typedef struct Ibm_Scanner
-  {
-    /* all the state needed to define a scan request: */
-    struct Ibm_Scanner *next;
-    int fd;			/* SCSI filedescriptor */
+{
+	/* all the state needed to define a scan request: */
+	struct Ibm_Scanner *next;
+	int fd;			/* SCSI filedescriptor */
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    Option_Value val[NUM_OPTIONS];
-    SANE_Parameters params;
-    /* scanner dependent/low-level state: */
-    Ibm_Device *hw;
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	Option_Value val[NUM_OPTIONS];
+	SANE_Parameters params;
+	/* scanner dependent/low-level state: */
+	Ibm_Device *hw;
 
-    SANE_Int xres;
-    SANE_Int yres;
-    SANE_Int ulx;
-    SANE_Int uly;
-    SANE_Int width;
-    SANE_Int length;
-    SANE_Int brightness;
-    SANE_Int contrast;
-    SANE_Int image_composition;
-    SANE_Int bpp;
-    SANE_Bool reverse;
+	SANE_Int xres;
+	SANE_Int yres;
+	SANE_Int ulx;
+	SANE_Int uly;
+	SANE_Int width;
+	SANE_Int length;
+	SANE_Int brightness;
+	SANE_Int contrast;
+	SANE_Int image_composition;
+	SANE_Int bpp;
+	SANE_Bool reverse;
 /* next lines by mf */
-    SANE_Int adf_state;
-#define ADF_UNUSED  0             /* scan from flatbed, not ADF */
-#define ADF_ARMED   1             /* scan from ADF, everything's set up */
-#define ADF_CLEANUP 2             /* eject paper from ADF on close */
+	SANE_Int adf_state;
+#define ADF_UNUSED  0		/* scan from flatbed, not ADF */
+#define ADF_ARMED   1		/* scan from ADF, everything's set up */
+#define ADF_CLEANUP 2		/* eject paper from ADF on close */
 /* end lines by mf */
-    size_t bytes_to_read;
-    int scanning;
-  }
+	size_t bytes_to_read;
+	int scanning;
+}
 Ibm_Scanner;
 
-struct inquiry_data {
-        SANE_Byte devtype;
-        SANE_Byte byte2;
-        SANE_Byte byte3;
-        SANE_Byte byte4;
-        SANE_Byte byte5;
-        SANE_Byte res1[2];
-        SANE_Byte flags;
-        SANE_Byte vendor[8];
-        SANE_Byte product[8];
-        SANE_Byte revision[4];
-        SANE_Byte byte[60];
+struct inquiry_data
+{
+	SANE_Byte devtype;
+	SANE_Byte byte2;
+	SANE_Byte byte3;
+	SANE_Byte byte4;
+	SANE_Byte byte5;
+	SANE_Byte res1[2];
+	SANE_Byte flags;
+	SANE_Byte vendor[8];
+	SANE_Byte product[8];
+	SANE_Byte revision[4];
+	SANE_Byte byte[60];
 };
 
 #define IBM_WINDOW_DATA_SIZE 320
-struct ibm_window_data {
-        /* header */
-        SANE_Byte reserved[6];
-        SANE_Byte len[2];
-        /* data */
-        SANE_Byte window_id;         /* must be zero */
-        SANE_Byte reserved0;
-        SANE_Byte x_res[2];
-        SANE_Byte y_res[2];
-        SANE_Byte x_org[4];
-        SANE_Byte y_org[4];
-        SANE_Byte width[4];
-        SANE_Byte length[4];
-        SANE_Byte brightness;
-        SANE_Byte threshold;
-        SANE_Byte contrast;
-        SANE_Byte image_comp;        /* image composition (data type) */
-        SANE_Byte bits_per_pixel;
-        SANE_Byte halftone_code;     /* halftone_pattern[0] in ricoh.h */
-        SANE_Byte halftone_id;       /* halftone_pattern[1] in ricoh.h */
-        SANE_Byte pad_type;
-        SANE_Byte bit_ordering[2];
-        SANE_Byte compression_type;
-        SANE_Byte compression_arg;
-        SANE_Byte res3[6];
+struct ibm_window_data
+{
+	/* header */
+	SANE_Byte reserved[6];
+	SANE_Byte len[2];
+	/* data */
+	SANE_Byte window_id;	/* must be zero */
+	SANE_Byte reserved0;
+	SANE_Byte x_res[2];
+	SANE_Byte y_res[2];
+	SANE_Byte x_org[4];
+	SANE_Byte y_org[4];
+	SANE_Byte width[4];
+	SANE_Byte length[4];
+	SANE_Byte brightness;
+	SANE_Byte threshold;
+	SANE_Byte contrast;
+	SANE_Byte image_comp;	/* image composition (data type) */
+	SANE_Byte bits_per_pixel;
+	SANE_Byte halftone_code;	/* halftone_pattern[0] in ricoh.h */
+	SANE_Byte halftone_id;	/* halftone_pattern[1] in ricoh.h */
+	SANE_Byte pad_type;
+	SANE_Byte bit_ordering[2];
+	SANE_Byte compression_type;
+	SANE_Byte compression_arg;
+	SANE_Byte res3[6];
 
-        /* Vendor Specific parameter byte(s) */
-        /* Ricoh specific, follow the scsi2 standard ones */
-        SANE_Byte byte1;
-        SANE_Byte byte2;
-        SANE_Byte mrif_filtering_gamma_id;
-        SANE_Byte byte3;
-        SANE_Byte byte4;
-        SANE_Byte binary_filter;
-        SANE_Byte reserved2[18];
+	/* Vendor Specific parameter byte(s) */
+	/* Ricoh specific, follow the scsi2 standard ones */
+	SANE_Byte byte1;
+	SANE_Byte byte2;
+	SANE_Byte mrif_filtering_gamma_id;
+	SANE_Byte byte3;
+	SANE_Byte byte4;
+	SANE_Byte binary_filter;
+	SANE_Byte reserved2[18];
 
-        SANE_Byte reserved3[256];
+	SANE_Byte reserved3[256];
 
 };
 
-struct measurements_units_page {
-        SANE_Byte page_code; /* 0x03 */
-        SANE_Byte parameter_length; /* 0x06 */
-        SANE_Byte bmu;
-        SANE_Byte res1;
-        SANE_Byte mud[2];
-        SANE_Byte res2[2];  /* anybody know what `COH' may mean ??? */
+struct measurements_units_page
+{
+	SANE_Byte page_code;	/* 0x03 */
+	SANE_Byte parameter_length;	/* 0x06 */
+	SANE_Byte bmu;
+	SANE_Byte res1;
+	SANE_Byte mud[2];
+	SANE_Byte res2[2];	/* anybody know what `COH' may mean ??? */
 /* next 4 lines by mf */
 	SANE_Byte adf_page_code;
 	SANE_Byte adf_parameter_length;
@@ -371,12 +360,13 @@ struct measurements_units_page {
 	SANE_Byte res3[5];
 };
 
-struct mode_pages {
-        SANE_Byte page_code; 
-        SANE_Byte parameter_length;
-        SANE_Byte rest[14];  /* modified by mf; it was 6; see above */
+struct mode_pages
+{
+	SANE_Byte page_code;
+	SANE_Byte parameter_length;
+	SANE_Byte rest[14];	/* modified by mf; it was 6; see above */
 #if 0
-        SANE_Byte more_pages[243]; /* maximum size 255 bytes (incl header) */
+	SANE_Byte more_pages[243];	/* maximum size 255 bytes (incl header) */
 #endif
 };
 

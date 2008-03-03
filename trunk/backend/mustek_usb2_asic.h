@@ -69,205 +69,205 @@
 
 typedef enum tagFIRMWARESTATE
 {
-  FS_NULL = 0,
-  FS_ATTACHED = 1,
-  FS_OPENED = 2,
-  FS_SCANNING = 3
+	FS_NULL = 0,
+	FS_ATTACHED = 1,
+	FS_OPENED = 2,
+	FS_SCANNING = 3
 } FIRMWARESTATE, *LPFIRMWARESTATE;
 
 typedef enum tagMOTORSTATE
 {
-  MS_STILL = 0,
-  MS_MOVED = 1
+	MS_STILL = 0,
+	MS_MOVED = 1
 } MOTORSTATE, *LPMOTORSTATE;
 
 typedef enum tagUSBHOST
 {
-  HT_USB10 = 0,
-  HT_USB20 = 1
+	HT_USB10 = 0,
+	HT_USB20 = 1
 } USBHOST;
 
 typedef enum tagLIGHTSOURCE
 {
-  LS_REFLECTIVE = 1,
-  LS_POSITIVE = 2,
-  LS_NEGATIVE = 4
+	LS_REFLECTIVE = 1,
+	LS_POSITIVE = 2,
+	LS_NEGATIVE = 4
 } LIGHTSOURCE;
 
 typedef struct
 {
-  unsigned int LongX;
-  unsigned int PicWidth;
-  unsigned int PicHeight;
+	unsigned int LongX;
+	unsigned int PicWidth;
+	unsigned int PicHeight;
 
-  unsigned int Top;
-  unsigned int Bottom;
-  unsigned int Left;
-  unsigned int Right;
-  unsigned int ScanMode;
-  unsigned int Dpi;
-  unsigned int TotalMotorSteps;
+	unsigned int Top;
+	unsigned int Bottom;
+	unsigned int Left;
+	unsigned int Right;
+	unsigned int ScanMode;
+	unsigned int Dpi;
+	unsigned int TotalMotorSteps;
 
-  unsigned int CCD_Pixel_Length;
-  SANE_Byte LineGap;
-  SANE_Byte TG_Pulse_Width_Pixel;
-  SANE_Byte TG_Wait_Width_Pixel;
-  unsigned short Multi_TG_Dummy_Pixel;
-  unsigned short CCD_Dummy_Pixel;
-  SANE_Byte Dummy_Cycle;
-  SANE_Byte TG_Times;
+	unsigned int CCD_Pixel_Length;
+	SANE_Byte LineGap;
+	SANE_Byte TG_Pulse_Width_Pixel;
+	SANE_Byte TG_Wait_Width_Pixel;
+	unsigned short Multi_TG_Dummy_Pixel;
+	unsigned short CCD_Dummy_Pixel;
+	SANE_Byte Dummy_Cycle;
+	SANE_Byte TG_Times;
 
-  double LineTime;
+	double LineTime;
 
-  unsigned short StartPixel;
-  unsigned short StartLine;
+	unsigned short StartPixel;
+	unsigned short StartLine;
 }
 ScanParam;
 
 typedef struct
 {
-  unsigned int Shading_Table_Size;
-  unsigned int Image_Buffer_Size;
-  unsigned int Full_Bank;
-  unsigned int Line_Pixel;
-  double Line_Time;
-  SANE_Byte LineGap;
+	unsigned int Shading_Table_Size;
+	unsigned int Image_Buffer_Size;
+	unsigned int Full_Bank;
+	unsigned int Line_Pixel;
+	double Line_Time;
+	SANE_Byte LineGap;
 }
 Temps;
 
 typedef struct
 {
-  /* AFE */
-  unsigned int AFE_ADCCLK_Timing;
-  unsigned int AFE_ADCVS_Timing;
-  unsigned int AFE_ADCRS_Timing;
-  unsigned short AFE_ChannelA_LatchPos;
-  unsigned short AFE_ChannelB_LatchPos;
-  unsigned short AFE_ChannelC_LatchPos;
-  unsigned short AFE_ChannelD_LatchPos;
-  SANE_Byte AFE_Secondary_FF_LatchPos;
-  /* Sensor */
-  unsigned int CCD_DummyCycleTiming;
-  SANE_Byte PHTG_PluseWidth;
-  SANE_Byte PHTG_WaitWidth;
-  unsigned short ChannelR_StartPixel;
-  unsigned short ChannelR_EndPixel;
-  unsigned short ChannelG_StartPixel;
-  unsigned short ChannelG_EndPixel;
-  unsigned short ChannelB_StartPixel;
-  unsigned short ChannelB_EndPixel;
-  SANE_Byte PHTG_TimingAdj;
-  SANE_Byte PHTG_TimingSetup;
+	/* AFE */
+	unsigned int AFE_ADCCLK_Timing;
+	unsigned int AFE_ADCVS_Timing;
+	unsigned int AFE_ADCRS_Timing;
+	unsigned short AFE_ChannelA_LatchPos;
+	unsigned short AFE_ChannelB_LatchPos;
+	unsigned short AFE_ChannelC_LatchPos;
+	unsigned short AFE_ChannelD_LatchPos;
+	SANE_Byte AFE_Secondary_FF_LatchPos;
+	/* Sensor */
+	unsigned int CCD_DummyCycleTiming;
+	SANE_Byte PHTG_PluseWidth;
+	SANE_Byte PHTG_WaitWidth;
+	unsigned short ChannelR_StartPixel;
+	unsigned short ChannelR_EndPixel;
+	unsigned short ChannelG_StartPixel;
+	unsigned short ChannelG_EndPixel;
+	unsigned short ChannelB_StartPixel;
+	unsigned short ChannelB_EndPixel;
+	SANE_Byte PHTG_TimingAdj;
+	SANE_Byte PHTG_TimingSetup;
 
-  /*1200dpi */
-  unsigned int CCD_PHRS_Timing_1200;
-  unsigned int CCD_PHCP_Timing_1200;
-  unsigned int CCD_PH1_Timing_1200;
-  unsigned int CCD_PH2_Timing_1200;
-  SANE_Byte DE_CCD_SETUP_REGISTER_1200;
-  unsigned short wCCDPixelNumber_1200;
+	/*1200dpi */
+	unsigned int CCD_PHRS_Timing_1200;
+	unsigned int CCD_PHCP_Timing_1200;
+	unsigned int CCD_PH1_Timing_1200;
+	unsigned int CCD_PH2_Timing_1200;
+	SANE_Byte DE_CCD_SETUP_REGISTER_1200;
+	unsigned short wCCDPixelNumber_1200;
 
-  /*600dpi */
-  unsigned int CCD_PHRS_Timing_600;
-  unsigned int CCD_PHCP_Timing_600;
-  unsigned int CCD_PH1_Timing_600;
-  unsigned int CCD_PH2_Timing_600;
-  SANE_Byte DE_CCD_SETUP_REGISTER_600;
-  unsigned short wCCDPixelNumber_600;
+	/*600dpi */
+	unsigned int CCD_PHRS_Timing_600;
+	unsigned int CCD_PHCP_Timing_600;
+	unsigned int CCD_PH1_Timing_600;
+	unsigned int CCD_PH2_Timing_600;
+	SANE_Byte DE_CCD_SETUP_REGISTER_600;
+	unsigned short wCCDPixelNumber_600;
 } Timings;
 
 
 typedef struct tagADConverter
 {
-  SANE_Byte GainR;
-  SANE_Byte GainG;
-  SANE_Byte GainB;
-  SANE_Byte OffsetR;
-  SANE_Byte OffsetG;
-  SANE_Byte OffsetB;
-  SANE_Bool DirectionR;
-  SANE_Bool DirectionG;
-  SANE_Bool DirectionB;
+	SANE_Byte GainR;
+	SANE_Byte GainG;
+	SANE_Byte GainB;
+	SANE_Byte OffsetR;
+	SANE_Byte OffsetG;
+	SANE_Byte OffsetB;
+	SANE_Bool DirectionR;
+	SANE_Bool DirectionG;
+	SANE_Bool DirectionB;
 } ADConverter, LPADConverter;
 
 
 
 typedef struct
 {
-  unsigned int Shading;
-  SANE_Byte Shading_0;
-  SANE_Byte Shading_1;
-  SANE_Byte Shading_2;
+	unsigned int Shading;
+	SANE_Byte Shading_0;
+	SANE_Byte Shading_1;
+	SANE_Byte Shading_2;
 
-  unsigned int Motor;
-  SANE_Byte Motor_0;
-  SANE_Byte Motor_1;
-  SANE_Byte Motor_2;
+	unsigned int Motor;
+	SANE_Byte Motor_0;
+	SANE_Byte Motor_1;
+	SANE_Byte Motor_2;
 
-  SANE_Byte ImageEndAddr_0;
-  SANE_Byte ImageEndAddr_1;
-  SANE_Byte ImageEndAddr_2;
+	SANE_Byte ImageEndAddr_0;
+	SANE_Byte ImageEndAddr_1;
+	SANE_Byte ImageEndAddr_2;
 
-  SANE_Byte ImageFullBank_0;
-  SANE_Byte ImageFullBank_1;
+	SANE_Byte ImageFullBank_0;
+	SANE_Byte ImageFullBank_1;
 }
 RamPosition;
 
 typedef enum tagTASSTATUS
 {
-  TA_NOT_PLUGIN = 0,
-  TA_PLUGIN = 1,
-  TA_UNKNOW = 2
+	TA_NOT_PLUGIN = 0,
+	TA_PLUGIN = 1,
+	TA_UNKNOW = 2
 } TASTATUS;
 
 typedef struct
 {
-  int fd;			/* File Description of Scanner */
+	int fd;			/* File Description of Scanner */
 
-  FIRMWARESTATE firmwarestate;	/* record firmware state */
-  MOTORSTATE motorstate;	/* record motor status */
-  SANE_Bool isFirstOpenChip;		/* If first open chip, is TRUE */
-  USBHOST UsbHost;		/* The type of USB port */
-  LIGHTSOURCE lsLightSource;	/* light source of scanner */
-  ScanParam Scan;		/* The parameters of Scan */
+	FIRMWARESTATE firmwarestate;	/* record firmware state */
+	MOTORSTATE motorstate;	/* record motor status */
+	SANE_Bool isFirstOpenChip;	/* If first open chip, is TRUE */
+	USBHOST UsbHost;	/* The type of USB port */
+	LIGHTSOURCE lsLightSource;	/* light source of scanner */
+	ScanParam Scan;		/* The parameters of Scan */
 
-  unsigned int dwBytesCountPerRow;
-  unsigned int dwCalibrationBytesCountPerRow;
+	unsigned int dwBytesCountPerRow;
+	unsigned int dwCalibrationBytesCountPerRow;
 
-  Temps Temp;
-  Timings Timing;
-  ADConverter AD;
+	Temps Temp;
+	Timings Timing;
+	ADConverter AD;
 
-  SANE_Bool isHardwareShading;
+	SANE_Bool isHardwareShading;
 
-  RamPosition RamPositions;
+	RamPosition RamPositions;
 
-  unsigned short * lpGammaTable;
-  SANE_Byte isMotorMove;
+	unsigned short *lpGammaTable;
+	SANE_Byte isMotorMove;
 
-  unsigned int ibase1;
-  unsigned int ibase2;
+	unsigned int ibase1;
+	unsigned int ibase2;
 
-  unsigned short SWWidth;
+	unsigned short SWWidth;
 
-  TASTATUS TA_Status;
+	TASTATUS TA_Status;
 
-  SANE_Byte isMotorGoToFirstLine;	/*Roy add */
-  SANE_Byte * lpShadingTable;	/*Roy add */
-  SANE_Byte isUniformSpeedToScan;
+	SANE_Byte isMotorGoToFirstLine;	/*Roy add */
+	SANE_Byte *lpShadingTable;	/*Roy add */
+	SANE_Byte isUniformSpeedToScan;
 }
 Asic, *PAsic;
 
 typedef enum
 {
-  STATUS_GOOD = 0,
-  STATUS_CANCELLED,
-  STATUS_EOF,
-  STATUS_DEVICE_BUSY,
-  STATUS_INVAL,
-  STATUS_MEM_ERROR,
-  STATUS_IO_ERROR,
-  STATUS_ACCESS_ERROR
+	STATUS_GOOD = 0,
+	STATUS_CANCELLED,
+	STATUS_EOF,
+	STATUS_DEVICE_BUSY,
+	STATUS_INVAL,
+	STATUS_MEM_ERROR,
+	STATUS_IO_ERROR,
+	STATUS_ACCESS_ERROR
 }
 STATUS;
 
@@ -275,25 +275,25 @@ STATUS;
 /* For ScanObj */
 typedef struct Point
 {
-  unsigned int x;
-  unsigned int y;
+	unsigned int x;
+	unsigned int y;
 }
 Point;
 
 typedef struct Rect
 {
-  unsigned int left;
-  unsigned int right;
-  unsigned int top;
-  unsigned int bottom;
+	unsigned int left;
+	unsigned int right;
+	unsigned int top;
+	unsigned int bottom;
 }
 Rect;
 
 typedef struct RGBColor
 {
-  unsigned short Red;
-  unsigned short Green;
-  unsigned short Blue;
+	unsigned short Red;
+	unsigned short Green;
+	unsigned short Blue;
 }
 RGBColor;
 
@@ -1213,107 +1213,126 @@ RGBColor;
 #define		ES01_2CF_VALID_PIXEL_PARAMETER_OF_SEGMENT16	0x2CF
 
 /* forward declarations */
-static STATUS OpenScanChip (PAsic chip);
-static STATUS CloseScanChip (PAsic chip);
-static STATUS SafeInitialChip (PAsic chip);
-static STATUS DRAM_Test (PAsic chip);
+static STATUS OpenScanChip(PAsic chip);
+static STATUS CloseScanChip(PAsic chip);
+static STATUS SafeInitialChip(PAsic chip);
+static STATUS DRAM_Test(PAsic chip);
 #if SANE_UNUSED
-static STATUS SetPowerSave (PAsic chip);
+static STATUS SetPowerSave(PAsic chip);
 #endif
-static STATUS SetLineTimeAndExposure (PAsic chip);
-static STATUS CCDTiming (PAsic chip);
-static STATUS IsCarriageHome (PAsic chip, SANE_Bool * LampHome, SANE_Bool * TAHome);
-static STATUS InitTiming (PAsic chip);
-static STATUS GetChipStatus (PAsic chip, SANE_Byte Selector, SANE_Byte * ChipStatus);
-static STATUS SetAFEGainOffset (PAsic chip);
-static STATUS SetLEDTime (PAsic chip);
-static STATUS SetScanMode (PAsic chip, SANE_Byte bScanBits);
-static STATUS SetPackAddress (PAsic chip, unsigned short wXResolution,
-			      unsigned short wWidth, unsigned short wX, double XRatioAdderDouble,
-			      double XRatioTypeDouble,
-			      SANE_Byte byClear_Pulse_Width,
-			      unsigned short * PValidPixelNumber);
-static STATUS SetExtraSetting (PAsic chip, unsigned short wXResolution,
-			       unsigned short wCCD_PixelNumber, SANE_Bool isCaribrate);
+static STATUS SetLineTimeAndExposure(PAsic chip);
+static STATUS CCDTiming(PAsic chip);
+static STATUS IsCarriageHome(PAsic chip, SANE_Bool * LampHome,
+			     SANE_Bool * TAHome);
+static STATUS InitTiming(PAsic chip);
+static STATUS GetChipStatus(PAsic chip, SANE_Byte Selector,
+			    SANE_Byte * ChipStatus);
+static STATUS SetAFEGainOffset(PAsic chip);
+static STATUS SetLEDTime(PAsic chip);
+static STATUS SetScanMode(PAsic chip, SANE_Byte bScanBits);
+static STATUS SetPackAddress(PAsic chip, unsigned short wXResolution,
+			     unsigned short wWidth, unsigned short wX,
+			     double XRatioAdderDouble,
+			     double XRatioTypeDouble,
+			     SANE_Byte byClear_Pulse_Width,
+			     unsigned short *PValidPixelNumber);
+static STATUS SetExtraSetting(PAsic chip, unsigned short wXResolution,
+			      unsigned short wCCD_PixelNumber,
+			      SANE_Bool isCaribrate);
 
 
 /* Forward declarations */
 
-static STATUS Mustek_SendData (PAsic chip, unsigned short reg, SANE_Byte data);
-static STATUS Mustek_SendData2Byte (PAsic chip, unsigned short reg, SANE_Byte data);
-static STATUS Mustek_ReceiveData (PAsic chip, SANE_Byte * reg);
-static STATUS Mustek_WriteAddressLineForRegister (PAsic chip, SANE_Byte x);
-static STATUS WriteIOControl (PAsic chip, unsigned short wValue, unsigned short wIndex,
-			      unsigned short wLength, SANE_Byte * lpbuf);
-static STATUS ReadIOControl (PAsic chip, unsigned short wValue, unsigned short wIndex,
-			     unsigned short wLength, SANE_Byte * lpbuf);
-static STATUS Mustek_DMARead (PAsic chip, unsigned int size, SANE_Byte * lpdata);
-static STATUS Mustek_DMAWrite (PAsic chip, unsigned int size, SANE_Byte * lpdata);
-static STATUS Mustek_ClearFIFO (PAsic chip);
-static STATUS SetRWSize (PAsic chip, SANE_Byte ReadWrite, unsigned int size);
+static STATUS Mustek_SendData(PAsic chip, unsigned short reg, SANE_Byte data);
+static STATUS Mustek_SendData2Byte(PAsic chip, unsigned short reg,
+				   SANE_Byte data);
+static STATUS Mustek_ReceiveData(PAsic chip, SANE_Byte * reg);
+static STATUS Mustek_WriteAddressLineForRegister(PAsic chip, SANE_Byte x);
+static STATUS WriteIOControl(PAsic chip, unsigned short wValue,
+			     unsigned short wIndex, unsigned short wLength,
+			     SANE_Byte * lpbuf);
+static STATUS ReadIOControl(PAsic chip, unsigned short wValue,
+			    unsigned short wIndex, unsigned short wLength,
+			    SANE_Byte * lpbuf);
+static STATUS Mustek_DMARead(PAsic chip, unsigned int size,
+			     SANE_Byte * lpdata);
+static STATUS Mustek_DMAWrite(PAsic chip, unsigned int size,
+			      SANE_Byte * lpdata);
+static STATUS Mustek_ClearFIFO(PAsic chip);
+static STATUS SetRWSize(PAsic chip, SANE_Byte ReadWrite, unsigned int size);
 
 /* Open Scanner by Scanner Name and return Chip Information */
-static STATUS Asic_Open (PAsic chip, SANE_Byte *pDeviceName);
+static STATUS Asic_Open(PAsic chip, SANE_Byte * pDeviceName);
 /* Close Scanner */
-static STATUS Asic_Close (PAsic chip);
+static STATUS Asic_Close(PAsic chip);
 #if SANE_UNUSED
 /* Release Scanner Resource */
-static STATUS Asic_Release (PAsic chip);
+static STATUS Asic_Release(PAsic chip);
 #endif
 /* Initialize Scanner Parameters */
-static STATUS Asic_Initialize (PAsic chip);
+static STATUS Asic_Initialize(PAsic chip);
 /* Set Scan Window */
-static STATUS Asic_SetWindow (PAsic chip, SANE_Byte bScanBits,
-			      unsigned short wXResolution, unsigned short wYResolution,
-			      unsigned short wX, unsigned short wY, unsigned short wWidth, unsigned short wLength);
+static STATUS Asic_SetWindow(PAsic chip, SANE_Byte bScanBits,
+			     unsigned short wXResolution,
+			     unsigned short wYResolution, unsigned short wX,
+			     unsigned short wY, unsigned short wWidth,
+			     unsigned short wLength);
 /* Turn Lamp  ON or OFF */
-static STATUS Asic_TurnLamp (PAsic chip, SANE_Bool isLampOn);
+static STATUS Asic_TurnLamp(PAsic chip, SANE_Bool isLampOn);
 /* Turn TA ON or OFF */
-static STATUS Asic_TurnTA (PAsic chip, SANE_Bool isTAOn);
+static STATUS Asic_TurnTA(PAsic chip, SANE_Bool isTAOn);
 /* Reset some parameter of asic */
-static STATUS Asic_Reset (PAsic chip);
+static STATUS Asic_Reset(PAsic chip);
 /* Set scan source */
-static STATUS Asic_SetSource (PAsic chip, LIGHTSOURCE lsLightSource);
+static STATUS Asic_SetSource(PAsic chip, LIGHTSOURCE lsLightSource);
 /* Start scanner to scan */
-static STATUS Asic_ScanStart (PAsic chip);
+static STATUS Asic_ScanStart(PAsic chip);
 /* Stop scanner to scan */
-static STATUS Asic_ScanStop (PAsic chip);
+static STATUS Asic_ScanStop(PAsic chip);
 /* Read One Scan Line When Scanning */
-static STATUS Asic_ReadImage (PAsic chip, SANE_Byte * pBuffer, unsigned short LinesCount);
+static STATUS Asic_ReadImage(PAsic chip, SANE_Byte * pBuffer,
+			     unsigned short LinesCount);
 #if SANE_UNUSED
 /* To Check Hard Key */
-static STATUS Asic_CheckFunctionKey (PAsic chip, SANE_Byte * key);
+static STATUS Asic_CheckFunctionKey(PAsic chip, SANE_Byte * key);
 #endif
 /* To Check if TA id connected */
-static STATUS Asic_IsTAConnected (PAsic chip, SANE_Bool *hasTA);
+static STATUS Asic_IsTAConnected(PAsic chip, SANE_Bool * hasTA);
 #if SANE_UNUSED
 /* Download GammaTable to Scanner */
-static STATUS Asic_DownloadGammaTable (PAsic chip, void * lpBuffer);
+static STATUS Asic_DownloadGammaTable(PAsic chip, void *lpBuffer);
 #endif
 /* For AdjustAD Calculate Scanner*/
-static STATUS Asic_ReadCalibrationData (PAsic chip, void * pBuffer,
-					unsigned int dwXferBytes, SANE_Byte bScanBits);
+static STATUS Asic_ReadCalibrationData(PAsic chip, void *pBuffer,
+				       unsigned int dwXferBytes,
+				       SANE_Byte bScanBits);
 /* Set motor move or not */
-static STATUS Asic_SetMotorType (PAsic chip, SANE_Bool isMotorMove, SANE_Bool isUniformSpeed);
+static STATUS Asic_SetMotorType(PAsic chip, SANE_Bool isMotorMove,
+				SANE_Bool isUniformSpeed);
 /* Move Motor Forward or Backword */
-static STATUS Asic_MotorMove (PAsic chip, SANE_Bool isForward, unsigned int dwTotalSteps);
+static STATUS Asic_MotorMove(PAsic chip, SANE_Bool isForward,
+			     unsigned int dwTotalSteps);
 /* Move Motor to Home. */
 /* If isTA is TRUE, move TA to home, else move Lamp to home */
-static STATUS Asic_CarriageHome (PAsic chip, SANE_Bool isTA);
+static STATUS Asic_CarriageHome(PAsic chip, SANE_Bool isTA);
 /* For ShadingTable */
-static STATUS Asic_SetShadingTable (PAsic chip, unsigned short * lpWhiteShading,
-				    unsigned short * lpDarkShading,
-				    unsigned short wXResolution, unsigned short wWidth, unsigned short wX);
+static STATUS Asic_SetShadingTable(PAsic chip, unsigned short *lpWhiteShading,
+				   unsigned short *lpDarkShading,
+				   unsigned short wXResolution,
+				   unsigned short wWidth, unsigned short wX);
 /* Wait motor move to home. isTA no used */
-static STATUS Asic_WaitCarriageHome (PAsic chip, SANE_Bool isTA);
+static STATUS Asic_WaitCarriageHome(PAsic chip, SANE_Bool isTA);
 /* Wait until asic idle */
-static STATUS Asic_WaitUnitReady (PAsic chip);
+static STATUS Asic_WaitUnitReady(PAsic chip);
 /* Set Scan Parameter to Scanner */
-static STATUS Asic_SetCalibrate (PAsic chip, SANE_Byte bScanBits, unsigned short wXResolution,
-				 unsigned short wYResolution, unsigned short wX, unsigned short wY,
-				 unsigned short wWidth, unsigned short wLength, SANE_Bool isShading);
+static STATUS Asic_SetCalibrate(PAsic chip, SANE_Byte bScanBits,
+				unsigned short wXResolution,
+				unsigned short wYResolution,
+				unsigned short wX, unsigned short wY,
+				unsigned short wWidth, unsigned short wLength,
+				SANE_Bool isShading);
 /* Set AFE  Parameter to Scanner */
-static STATUS Asic_SetAFEGainOffset (PAsic chip);
+static STATUS Asic_SetAFEGainOffset(PAsic chip);
 
 /* ---------------------- asic motor defines -------------------------- */
 
@@ -1324,98 +1343,101 @@ static STATUS Asic_SetAFEGainOffset (PAsic chip);
 
 typedef struct tagMOTOR_CURRENT_AND_PHASE
 {
-  SANE_Byte MoveType;
-  SANE_Byte FillPhase;
-  SANE_Byte MotorDriverIs3967;
-  SANE_Byte MotorCurrentTableA[32];
-  SANE_Byte MotorCurrentTableB[32];
-  SANE_Byte MotorPhaseTable[32];
+	SANE_Byte MoveType;
+	SANE_Byte FillPhase;
+	SANE_Byte MotorDriverIs3967;
+	SANE_Byte MotorCurrentTableA[32];
+	SANE_Byte MotorCurrentTableB[32];
+	SANE_Byte MotorPhaseTable[32];
 } MOTOR_CURRENT_AND_PHASE, LPMOTOR_CURRENT_AND_PHASE;
 
 typedef struct tagLLF_RAMACCESS
 {
-  SANE_Byte ReadWrite;
-  SANE_Byte IsOnChipGamma;
-  unsigned short LoStartAddress;
-  unsigned short HiStartAddress;
-  int RwSize;
-  SANE_Byte DramDelayTime;
-  SANE_Byte *BufferPtr;
+	SANE_Byte ReadWrite;
+	SANE_Byte IsOnChipGamma;
+	unsigned short LoStartAddress;
+	unsigned short HiStartAddress;
+	int RwSize;
+	SANE_Byte DramDelayTime;
+	SANE_Byte *BufferPtr;
 } LLF_RAMACCESS;
 
 typedef struct tagLLF_MOTOR_CURRENT_AND_PHASE
 {
-  SANE_Byte MoveType;
-  SANE_Byte FillPhase;
-  SANE_Byte MotorDriverIs3967;
-  SANE_Byte MotorCurrentTableA[32];
-  SANE_Byte MotorCurrentTableB[32];
-  SANE_Byte MotorPhaseTable[32];
+	SANE_Byte MoveType;
+	SANE_Byte FillPhase;
+	SANE_Byte MotorDriverIs3967;
+	SANE_Byte MotorCurrentTableA[32];
+	SANE_Byte MotorCurrentTableB[32];
+	SANE_Byte MotorPhaseTable[32];
 } LLF_MOTOR_CURRENT_AND_PHASE;
 
 typedef struct tagLLF_CALCULATEMOTORTABLE
 {
-  unsigned short StartSpeed;
-  unsigned short EndSpeed;
-  unsigned short AccStepBeforeScan;
-  SANE_Byte DecStepAfterScan;
-  unsigned short * lpMotorTable;
+	unsigned short StartSpeed;
+	unsigned short EndSpeed;
+	unsigned short AccStepBeforeScan;
+	SANE_Byte DecStepAfterScan;
+	unsigned short *lpMotorTable;
 } LLF_CALCULATEMOTORTABLE;
 
 typedef struct tagLLF_SETMOTORTABLE
 {
-  unsigned int TableSize;
-  SANE_Byte MotorTableAddress;
-  unsigned short *MotorTablePtr;
+	unsigned int TableSize;
+	SANE_Byte MotorTableAddress;
+	unsigned short *MotorTablePtr;
 } LLF_SETMOTORTABLE;
 
 typedef struct tagLLF_MOTORMOVE
 {
-  SANE_Byte ActionMode;		/* 0: AccDec Mode, 1: Uniform Speed Mode, 2: Test Mode */
-  SANE_Byte ActionType;		/* 0: Forward, 1: Backward, 2:Back To Home */
-  SANE_Byte MotorSelect;		/* 0: Motor 0 only, 1: Motor 1 only, 2: Motor 0 & 1 */
-  SANE_Byte HomeSensorSelect;	/* 0: Sensor 0, 1: Sensor 1, 2: Sensor 0 & 1, 3:Invert Sensor 1 */
-  unsigned short FixMoveSpeed;
-  unsigned int FixMoveSteps;		/* 3 bytes */
-  SANE_Byte MotorSpeedUnit;
-  SANE_Byte MotorSyncUnit;
-  unsigned short AccStep;			/*Max = 511 */
-  SANE_Byte DecStep;			/* Max = 255 */
-  SANE_Byte MotorMoveUnit;
-  SANE_Byte WaitOrNoWait;		/* 0: no wait, 1: wait */
-  SANE_Byte Lamp0PwmFreq;		/* Lamp0 PWM freq */
-  SANE_Byte Lamp1PwmFreq;		/* Lamp1 PWM freq */
+	SANE_Byte ActionMode;	/* 0: AccDec Mode, 1: Uniform Speed Mode, 2: Test Mode */
+	SANE_Byte ActionType;	/* 0: Forward, 1: Backward, 2:Back To Home */
+	SANE_Byte MotorSelect;	/* 0: Motor 0 only, 1: Motor 1 only, 2: Motor 0 & 1 */
+	SANE_Byte HomeSensorSelect;	/* 0: Sensor 0, 1: Sensor 1, 2: Sensor 0 & 1, 3:Invert Sensor 1 */
+	unsigned short FixMoveSpeed;
+	unsigned int FixMoveSteps;	/* 3 bytes */
+	SANE_Byte MotorSpeedUnit;
+	SANE_Byte MotorSyncUnit;
+	unsigned short AccStep;	/*Max = 511 */
+	SANE_Byte DecStep;	/* Max = 255 */
+	SANE_Byte MotorMoveUnit;
+	SANE_Byte WaitOrNoWait;	/* 0: no wait, 1: wait */
+	SANE_Byte Lamp0PwmFreq;	/* Lamp0 PWM freq */
+	SANE_Byte Lamp1PwmFreq;	/* Lamp1 PWM freq */
 
-  unsigned short wForwardSteps;
-  unsigned short wScanAccSteps;
-  SANE_Byte bScanDecSteps;
-  unsigned short wFixScanSteps;
-  unsigned short wScanBackTrackingSteps;
-  unsigned short wScanRestartSteps;
-  unsigned short wScanBackHomeExtSteps;
+	unsigned short wForwardSteps;
+	unsigned short wScanAccSteps;
+	SANE_Byte bScanDecSteps;
+	unsigned short wFixScanSteps;
+	unsigned short wScanBackTrackingSteps;
+	unsigned short wScanRestartSteps;
+	unsigned short wScanBackHomeExtSteps;
 } LLF_MOTORMOVE;
 
-static STATUS CalculateMotorTable (LLF_CALCULATEMOTORTABLE *
-				   lpCalculateMotorTable, unsigned short wYResolution);
-static STATUS LLFCalculateMotorTable (LLF_CALCULATEMOTORTABLE *
-				      lpCalculateMotorTable);
-static STATUS LLFSetMotorCurrentAndPhase (PAsic chip,
-					  LLF_MOTOR_CURRENT_AND_PHASE *
-					  MotorCurrentAndPhase);
-static STATUS SetMotorStepTable (PAsic chip, LLF_MOTORMOVE * MotorStepsTable,
-				 unsigned short wStartY, unsigned int dwScanImageSteps,
-				 unsigned short wYResolution);
-static STATUS LLFSetMotorTable (PAsic chip,
-				LLF_SETMOTORTABLE * LLF_SetMotorTable);
-static STATUS SetMotorCurrent (PAsic chip, unsigned short dwMotorSpeed,
-			       LLF_MOTOR_CURRENT_AND_PHASE * CurrentPhase);
-static STATUS LLFMotorMove (PAsic chip, LLF_MOTORMOVE * LLF_MotorMove);
+static STATUS CalculateMotorTable(LLF_CALCULATEMOTORTABLE *
+				  lpCalculateMotorTable,
+				  unsigned short wYResolution);
+static STATUS LLFCalculateMotorTable(LLF_CALCULATEMOTORTABLE *
+				     lpCalculateMotorTable);
+static STATUS LLFSetMotorCurrentAndPhase(PAsic chip,
+					 LLF_MOTOR_CURRENT_AND_PHASE *
+					 MotorCurrentAndPhase);
+static STATUS SetMotorStepTable(PAsic chip, LLF_MOTORMOVE * MotorStepsTable,
+				unsigned short wStartY,
+				unsigned int dwScanImageSteps,
+				unsigned short wYResolution);
+static STATUS LLFSetMotorTable(PAsic chip,
+			       LLF_SETMOTORTABLE * LLF_SetMotorTable);
+static STATUS SetMotorCurrent(PAsic chip, unsigned short dwMotorSpeed,
+			      LLF_MOTOR_CURRENT_AND_PHASE * CurrentPhase);
+static STATUS LLFMotorMove(PAsic chip, LLF_MOTORMOVE * LLF_MotorMove);
 #if SANE_UNUSED
-static STATUS LLFStopMotorMove (PAsic chip);
+static STATUS LLFStopMotorMove(PAsic chip);
 #endif
-static STATUS LLFSetRamAddress (PAsic chip, unsigned int dwStartAddr,
-				unsigned int dwEndAddr, SANE_Byte byAccessTarget);
-static STATUS LLFRamAccess (PAsic chip, LLF_RAMACCESS * RamAccess);
-static STATUS MotorBackHome (PAsic chip, SANE_Byte WaitOrNoWait);
+static STATUS LLFSetRamAddress(PAsic chip, unsigned int dwStartAddr,
+			       unsigned int dwEndAddr,
+			       SANE_Byte byAccessTarget);
+static STATUS LLFRamAccess(PAsic chip, LLF_RAMACCESS * RamAccess);
+static STATUS MotorBackHome(PAsic chip, SANE_Byte WaitOrNoWait);
 
 #endif

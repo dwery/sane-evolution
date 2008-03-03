@@ -46,43 +46,46 @@
 #define HP_ACCESSOR_H_INCLUDED
 #include "hp.h"
 
-HpData sanei_hp_data_new (void);
-HpData sanei_hp_data_dup (HpData orig);
-void   sanei_hp_data_destroy (HpData this);
+HpData sanei_hp_data_new(void);
+HpData sanei_hp_data_dup(HpData orig);
+void sanei_hp_data_destroy(HpData this);
 
-HpAccessor sanei_hp_accessor_new       (HpData data, size_t size);
-HpAccessor sanei_hp_accessor_int_new   (HpData data);
-HpAccessor sanei_hp_accessor_bool_new  (HpData data);
-HpAccessor sanei_hp_accessor_fixed_new (HpData data);
+HpAccessor sanei_hp_accessor_new(HpData data, size_t size);
+HpAccessor sanei_hp_accessor_int_new(HpData data);
+HpAccessor sanei_hp_accessor_bool_new(HpData data);
+HpAccessor sanei_hp_accessor_fixed_new(HpData data);
 HpAccessor sanei_hp_accessor_choice_new(HpData data, HpChoice choices,
-                                        hp_bool_t may_change);
+					hp_bool_t may_change);
 HpAccessor sanei_hp_accessor_vector_new(HpData data,
-                                        unsigned length, unsigned depth);
+					unsigned length, unsigned depth);
 HpAccessor sanei_hp_accessor_gamma_vector_new(HpData data,
-                                        unsigned length, unsigned depth);
-HpAccessor sanei_hp_accessor_matrix_vector_new(HpData data,
-                                        unsigned length, unsigned depth);
+					      unsigned length,
+					      unsigned depth);
+HpAccessor sanei_hp_accessor_matrix_vector_new(HpData data, unsigned length,
+					       unsigned depth);
 HpAccessor sanei_hp_accessor_subvector_new(HpAccessorVector super,
-                                        unsigned nchan, unsigned chan);
+					   unsigned nchan, unsigned chan);
 
-HpAccessor sanei_hp_accessor_geometry_new (HpAccessor val, HpAccessor lim,
-                                        hp_bool_t is_br, HpAccessor res);
+HpAccessor sanei_hp_accessor_geometry_new(HpAccessor val, HpAccessor lim,
+					  hp_bool_t is_br, HpAccessor res);
 
-SANE_Status sanei_hp_accessor_get   (HpAccessor this, HpData data, void * valp);
-SANE_Status sanei_hp_accessor_set   (HpAccessor this, HpData data, void * valp);
-int	    sanei_hp_accessor_getint(HpAccessor this, HpData data);
-void	    sanei_hp_accessor_setint(HpAccessor this, HpData data, int v);
-const void *sanei_hp_accessor_data  (HpAccessor this, HpData data);
-void *	    sanei__hp_accessor_data (HpAccessor this, HpData data);
-size_t      sanei_hp_accessor_size  (HpAccessor this);
+SANE_Status sanei_hp_accessor_get(HpAccessor this, HpData data, void *valp);
+SANE_Status sanei_hp_accessor_set(HpAccessor this, HpData data, void *valp);
+int sanei_hp_accessor_getint(HpAccessor this, HpData data);
+void sanei_hp_accessor_setint(HpAccessor this, HpData data, int v);
+const void *sanei_hp_accessor_data(HpAccessor this, HpData data);
+void *sanei__hp_accessor_data(HpAccessor this, HpData data);
+size_t sanei_hp_accessor_size(HpAccessor this);
 
-unsigned    sanei_hp_accessor_vector_length (HpAccessorVector this);
-SANE_Fixed  sanei_hp_accessor_vector_minval (HpAccessorVector this);
-SANE_Fixed  sanei_hp_accessor_vector_maxval (HpAccessorVector this);
+unsigned sanei_hp_accessor_vector_length(HpAccessorVector this);
+SANE_Fixed sanei_hp_accessor_vector_minval(HpAccessorVector this);
+SANE_Fixed sanei_hp_accessor_vector_maxval(HpAccessorVector this);
 
-SANE_Int    sanei_hp_accessor_choice_maxsize (HpAccessorChoice this);
-SANE_String_Const *
-  sanei_hp_accessor_choice_strlist (HpAccessorChoice this, HpOptSet optset,
-                                    HpData data, const HpDeviceInfo *info);
+SANE_Int sanei_hp_accessor_choice_maxsize(HpAccessorChoice this);
+SANE_String_Const *sanei_hp_accessor_choice_strlist(HpAccessorChoice this,
+						    HpOptSet optset,
+						    HpData data,
+						    const HpDeviceInfo *
+						    info);
 
 #endif /* HP_ACCESSOR_H_INCLUDED */

@@ -90,24 +90,24 @@
 
 struct ScanRequest
 {
-  u_int8_t x1;			/* Set to 0x08 */
-  u_int16_t dpix, dpiy;		/* Set to 75, 150 or 300 in network order */
-  u_int16_t offx, offy;		/* Offset to scan, in 1/300th of dpi, in network order */
-  u_int16_t lenx, leny;		/* Size of scan, in 1/300th of dpi, in network order */
-  u_int16_t flags1, flags2, flags3;	/* Undetermined flag info */
-  /* Known combinations are:
-     1st calibration scan: 0x0000, 0x0010, 0x1820  =  24bpp
-     2nd calibration scan: 0x0000, 0x0010, 0x3020  =  48bpp ???
-     3rd calibration scan: 0x0000, 0x0010, 0x3024  =  48bpp ???
-     Preview scan:         0x0080, 0x0000, 0x18E8  =   8bpp
-     4th & 5th like 2nd and 3rd
-     B&W scan:             0x0080, 0x0040, 0x08E8  =   8bpp
-     6th & 7th like 2nd and 3rd
-     True colour scan      0x0080, 0x0040, 0x18E8  =  24bpp
-   */
-  u_int8_t zero;			/* Seems to always be zero */
-  u_int16_t gamma[3];		/* Set to 100 in network order. Gamma? */
-  u_int16_t pad[3];		/* Zero padding ot 32 bytes??? */
+	u_int8_t x1;		/* Set to 0x08 */
+	u_int16_t dpix, dpiy;	/* Set to 75, 150 or 300 in network order */
+	u_int16_t offx, offy;	/* Offset to scan, in 1/300th of dpi, in network order */
+	u_int16_t lenx, leny;	/* Size of scan, in 1/300th of dpi, in network order */
+	u_int16_t flags1, flags2, flags3;	/* Undetermined flag info */
+	/* Known combinations are:
+	   1st calibration scan: 0x0000, 0x0010, 0x1820  =  24bpp
+	   2nd calibration scan: 0x0000, 0x0010, 0x3020  =  48bpp ???
+	   3rd calibration scan: 0x0000, 0x0010, 0x3024  =  48bpp ???
+	   Preview scan:         0x0080, 0x0000, 0x18E8  =   8bpp
+	   4th & 5th like 2nd and 3rd
+	   B&W scan:             0x0080, 0x0040, 0x08E8  =   8bpp
+	   6th & 7th like 2nd and 3rd
+	   True colour scan      0x0080, 0x0040, 0x18E8  =  24bpp
+	 */
+	u_int8_t zero;		/* Seems to always be zero */
+	u_int16_t gamma[3];	/* Set to 100 in network order. Gamma? */
+	u_int16_t pad[3];	/* Zero padding ot 32 bytes??? */
 }
 PACKED;
 
@@ -129,147 +129,114 @@ PACKED;
 
 struct ScanResponse
 {
-  u_int16_t x1;			/* Usually 0x0000 or 0x4000 */
-  u_int32_t transfersize;	/* Number of bytes to be transferred */
-  u_int32_t xsize;		/* Shape of returned bitmap */
-  u_int16_t ysize;		/*   Why does the X get more bytes? */
-  u_int16_t pad[2];		/* Zero padding to 16 bytes??? */
+	u_int16_t x1;		/* Usually 0x0000 or 0x4000 */
+	u_int32_t transfersize;	/* Number of bytes to be transferred */
+	u_int32_t xsize;	/* Shape of returned bitmap */
+	u_int16_t ysize;	/*   Why does the X get more bytes? */
+	u_int16_t pad[2];	/* Zero padding to 16 bytes??? */
 }
 PACKED;
 
 HP5400_SANE_STATIC
-int
-InitScan2 (enum ScanType type, struct ScanRequest *req,
-		      THWParams * pHWParams, struct ScanResponse *res,
-		      int iColourOffset, int code);
+	int
+InitScan2(enum ScanType type, struct ScanRequest *req,
+	  THWParams * pHWParams, struct ScanResponse *res,
+	  int iColourOffset, int code);
+
+HP5400_SANE_STATIC void FinishScan(THWParams * pHWParams);
+
+HP5400_SANE_STATIC int WriteByte(int iHandle, int cmd, char data);
+
+HP5400_SANE_STATIC int SetLamp(THWParams * pHWParams, int fLampOn);
+
+HP5400_SANE_STATIC int WarmupLamp(int iHandle);
 
 HP5400_SANE_STATIC
-void
-FinishScan (THWParams * pHWParams);
+	int
+SetCalibration(int iHandle, int numPixels,
+	       unsigned int *low_vals[3],
+	       unsigned int *high_vals[3], int dpi);
 
 HP5400_SANE_STATIC
-int
-WriteByte (int iHandle, int cmd, char data);
-
-HP5400_SANE_STATIC
-int
-SetLamp (THWParams * pHWParams, int fLampOn);
-
-HP5400_SANE_STATIC
-int
-WarmupLamp (int iHandle);
-
-HP5400_SANE_STATIC
-int
-SetCalibration (int iHandle, int numPixels,
-			   unsigned int *low_vals[3],
-			   unsigned int *high_vals[3], int dpi);
-
-HP5400_SANE_STATIC
-void
-WriteGammaCalibTable (int iHandle, const int *pabGammaR,
-				  const int *pabGammaG,
-				  const int *pabGammaB);
+	void
+WriteGammaCalibTable(int iHandle, const int *pabGammaR,
+		     const int *pabGammaG, const int *pabGammaB);
 #ifdef STANDALONE
-HP5400_SANE_STATIC
-void
-SetDefaultGamma (int iHandle);
+HP5400_SANE_STATIC void SetDefaultGamma(int iHandle);
 #endif
 
 HP5400_SANE_STATIC
-void
-CircBufferInit (int iHandle, TDataPipe * p, int iBytesPerLine,
-			    int bpp, int iMisAlignment, int blksize,
-			    int iTransferSize);
+	void
+CircBufferInit(int iHandle, TDataPipe * p, int iBytesPerLine,
+	       int bpp, int iMisAlignment, int blksize, int iTransferSize);
 
 HP5400_SANE_STATIC
-int
-CircBufferGetLine (int iHandle, TDataPipe * p, void *pabLine);
+	int CircBufferGetLine(int iHandle, TDataPipe * p, void *pabLine);
 
-HP5400_SANE_STATIC
-void
-CircBufferExit (TDataPipe * p);
+HP5400_SANE_STATIC void CircBufferExit(TDataPipe * p);
 
 #ifdef STANDALONE
 HP5400_SANE_STATIC
-void
-DecodeImage (FILE * file, int planes, int bpp, int xsize, int ysize,
-			 const char *filename);
+	void
+DecodeImage(FILE * file, int planes, int bpp, int xsize, int ysize,
+	    const char *filename);
 
 HP5400_SANE_STATIC
-int
-hp5400_test_scan_response (struct ScanResponse *resp,
-				      struct ScanRequest *req);
+	int
+hp5400_test_scan_response(struct ScanResponse *resp, struct ScanRequest *req);
 #endif
 
 
 HP5400_SANE_STATIC
-int
-DoAverageScan (int iHandle, struct ScanRequest *req, int code,
-			  unsigned int **array);
+	int
+DoAverageScan(int iHandle, struct ScanRequest *req, int code,
+	      unsigned int **array);
 
 #ifdef STANDALONE
 HP5400_SANE_STATIC
-int
-DoScan (int iHandle, struct ScanRequest *req, const char *filename, int code,
-		   struct ScanResponse *res);
+	int
+DoScan(int iHandle, struct ScanRequest *req, const char *filename, int code,
+       struct ScanResponse *res);
+#endif
+
+HP5400_SANE_STATIC int Calibrate(int iHandle, int dpi);
+
+#ifdef STANDALONE
+HP5400_SANE_STATIC
+	int
+hp5400_scan(int iHandle, TScanParams * params, THWParams * pHWParams,
+	    const char *filename);
+
+HP5400_SANE_STATIC int PreviewScan(int iHandle);
+
+HP5400_SANE_STATIC int InitScanner(int iHandle);
 #endif
 
 HP5400_SANE_STATIC
-int
-Calibrate (int iHandle, int dpi);
+	int
+InitScan(enum ScanType scantype, TScanParams * pParams,
+	 THWParams * pHWParams);
 
-#ifdef STANDALONE
-HP5400_SANE_STATIC
-int
-hp5400_scan (int iHandle, TScanParams * params, THWParams * pHWParams,
-			const char *filename);
+HP5400_SANE_STATIC void FinishScan(THWParams * pHWParams);
 
-HP5400_SANE_STATIC
-int
-PreviewScan (int iHandle);
+HP5400_SANE_STATIC int HP5400Open(THWParams * params, const char *filename);
+
+HP5400_SANE_STATIC void HP5400Close(THWParams * params);
 
 HP5400_SANE_STATIC
-int
-InitScanner (int iHandle);
-#endif
-
-HP5400_SANE_STATIC
-int
-InitScan (enum ScanType scantype, TScanParams * pParams,
-		     THWParams * pHWParams);
-
-HP5400_SANE_STATIC
-void
-FinishScan (THWParams * pHWParams);
-
-HP5400_SANE_STATIC
-int
-HP5400Open (THWParams * params, const char *filename);
-
-HP5400_SANE_STATIC
-void
-HP5400Close (THWParams * params);
-
-HP5400_SANE_STATIC
-int
-HP5400Detect (const char *filename,
-			 int (*_ReportDevice) (TScannerModel * pModel,
-					       const char *pszDeviceName));
+	int
+HP5400Detect(const char *filename,
+	     int (*_ReportDevice) (TScannerModel * pModel,
+				   const char *pszDeviceName));
 
 
-HP5400_SANE_STATIC
-int
-InitHp5400_internal( void );
+HP5400_SANE_STATIC int InitHp5400_internal(void);
 
-HP5400_SANE_STATIC
-int
-FreeHp5400_internal( void );
+HP5400_SANE_STATIC int FreeHp5400_internal(void);
 
 
 #ifdef STANDALONE
-int
-main (int argc, char *argv[]);
+int main(int argc, char *argv[]);
 #endif
 
 #endif

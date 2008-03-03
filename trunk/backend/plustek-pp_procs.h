@@ -82,174 +82,174 @@
 /*
  * implementation in plustek-pp_misc.c
  */
-_LOC pScanData MiscAllocAndInitStruct( void );
-_LOC int       MiscReinitStruct      ( pScanData ps );
+_LOC pScanData MiscAllocAndInitStruct(void);
+_LOC int MiscReinitStruct(pScanData ps);
 
-_LOC int  MiscInitPorts  ( pScanData ps, int port );
-_LOC void MiscRestorePort( pScanData ps );
-_LOC void MiscStartTimer ( pTimerDef timer, unsigned long us );
-_LOC int  MiscCheckTimer ( pTimerDef timer );
+_LOC int MiscInitPorts(pScanData ps, int port);
+_LOC void MiscRestorePort(pScanData ps);
+_LOC void MiscStartTimer(pTimerDef timer, unsigned long us);
+_LOC int MiscCheckTimer(pTimerDef timer);
 
-_LOC int  MiscRegisterPort       ( pScanData ps, int portAddr );
-_LOC void MiscUnregisterPort     ( pScanData ps );
-_LOC int  MiscClaimPort          ( pScanData ps );
-_LOC void MiscReleasePort        ( pScanData ps );
-_LOC Long MiscLongRand           ( void );
-_LOC const char *MiscGetModelName( UShort id );
+_LOC int MiscRegisterPort(pScanData ps, int portAddr);
+_LOC void MiscUnregisterPort(pScanData ps);
+_LOC int MiscClaimPort(pScanData ps);
+_LOC void MiscReleasePort(pScanData ps);
+_LOC Long MiscLongRand(void);
+_LOC const char *MiscGetModelName(UShort id);
 
 #ifdef DEBUG
-_LOC Bool MiscAllPointersSet( pScanData ps );
+_LOC Bool MiscAllPointersSet(pScanData ps);
 #endif
 
 /*
  * implementation in plustek-pp_detect.c
  */
-_LOC int DetectScanner( pScanData ps, int mode );
+_LOC int DetectScanner(pScanData ps, int mode);
 
 /*
  * implementation in plustek-pp_p48xx.c
  */
-_LOC int P48xxInitAsic( pScanData ps );
+_LOC int P48xxInitAsic(pScanData ps);
 
 /*
  * implementation in plustek-pp_p9636.c
  */
-_LOC int P9636InitAsic( pScanData ps );
+_LOC int P9636InitAsic(pScanData ps);
 
 /*
  * implementation in plustek-pp_p12.c
  */
-_LOC int  P12InitAsic          ( pScanData ps );
-_LOC void P12SetGeneralRegister( pScanData ps );
+_LOC int P12InitAsic(pScanData ps);
+_LOC void P12SetGeneralRegister(pScanData ps);
 
 /*
  * implementation in plustek-pp_p12ccd.c
  */
-_LOC void P12InitCCDandDAC( pScanData ps, Bool shading );
+_LOC void P12InitCCDandDAC(pScanData ps, Bool shading);
 
 /*
  * implementation in plustek-pp_models.c
  */
-_LOC void ModelSet4800 ( pScanData ps );
-_LOC void ModelSet4830 ( pScanData ps );
-_LOC void ModelSet600  ( pScanData ps );
-_LOC void ModelSet12000( pScanData ps );
-_LOC void ModelSetA3I  ( pScanData ps );
-_LOC void ModelSet9630 ( pScanData ps );
-_LOC void ModelSet9636 ( pScanData ps );
-_LOC void ModelSetP12  ( pScanData ps );
+_LOC void ModelSet4800(pScanData ps);
+_LOC void ModelSet4830(pScanData ps);
+_LOC void ModelSet600(pScanData ps);
+_LOC void ModelSet12000(pScanData ps);
+_LOC void ModelSetA3I(pScanData ps);
+_LOC void ModelSet9630(pScanData ps);
+_LOC void ModelSet9636(pScanData ps);
+_LOC void ModelSetP12(pScanData ps);
 
 /*
  * implementation in plustek-pp_dac.c
  */
-_LOC int  DacInitialize( pScanData ps );
+_LOC int DacInitialize(pScanData ps);
 
-_LOC void DacP98AdjustDark					   ( pScanData ps );
-_LOC void DacP98FillGainOutDirectPort		   ( pScanData ps );
-_LOC void DacP98FillShadingDarkToShadingRegister( pScanData ps );
+_LOC void DacP98AdjustDark(pScanData ps);
+_LOC void DacP98FillGainOutDirectPort(pScanData ps);
+_LOC void DacP98FillShadingDarkToShadingRegister(pScanData ps);
 
-_LOC void DacP96WriteBackToGammaShadingRAM( pScanData ps );
+_LOC void DacP96WriteBackToGammaShadingRAM(pScanData ps);
 
-_LOC void DacP98003FillToDAC (pScanData ps, pRGBByteDef regs, pColorByte data);
-_LOC void DacP98003AdjustGain(pScanData ps, ULong color, Byte hilight );
-_LOC Byte DacP98003SumGains  ( pUChar pb, ULong pixelsLine );
+_LOC void DacP98003FillToDAC(pScanData ps, pRGBByteDef regs, pColorByte data);
+_LOC void DacP98003AdjustGain(pScanData ps, ULong color, Byte hilight);
+_LOC Byte DacP98003SumGains(pUChar pb, ULong pixelsLine);
 
 /*
  * implementation in plustek-pp_motor.c
  */
-_LOC int  MotorInitialize	 ( pScanData ps );
-_LOC void MotorSetConstantMove( pScanData ps, Byte bMovePerStep );
-_LOC void MotorToHomePosition ( pScanData ps );
+_LOC int MotorInitialize(pScanData ps);
+_LOC void MotorSetConstantMove(pScanData ps, Byte bMovePerStep);
+_LOC void MotorToHomePosition(pScanData ps);
 
-_LOC void MotorP98GoFullStep  ( pScanData ps, ULong dwStep );
+_LOC void MotorP98GoFullStep(pScanData ps, ULong dwStep);
 
-_LOC void MotorP96SetSpeedToStopProc( pScanData ps );
-_LOC void MotorP96ConstantMoveProc  ( pScanData ps, ULong dwLines );
-_LOC Bool MotorP96AheadToDarkArea   ( pScanData ps );
-_LOC void MotorP96AdjustCurrentSpeed( pScanData ps, Byte bSpeed );
+_LOC void MotorP96SetSpeedToStopProc(pScanData ps);
+_LOC void MotorP96ConstantMoveProc(pScanData ps, ULong dwLines);
+_LOC Bool MotorP96AheadToDarkArea(pScanData ps);
+_LOC void MotorP96AdjustCurrentSpeed(pScanData ps, Byte bSpeed);
 
-_LOC void MotorP98003BackToHomeSensor     ( pScanData ps );
-_LOC void MotorP98003ModuleForwardBackward( pScanData ps );
-_LOC void MotorP98003ForceToLeaveHomePos  ( pScanData ps );
-_LOC void MotorP98003PositionYProc        ( pScanData ps, ULong steps);
+_LOC void MotorP98003BackToHomeSensor(pScanData ps);
+_LOC void MotorP98003ModuleForwardBackward(pScanData ps);
+_LOC void MotorP98003ForceToLeaveHomePos(pScanData ps);
+_LOC void MotorP98003PositionYProc(pScanData ps, ULong steps);
 
 /*
  * implementation in plustek-pp_map.c
  */
-_LOC void MapInitialize ( pScanData ps );
-_LOC void MapSetupDither( pScanData ps );
-_LOC void MapAdjust     ( pScanData ps, int which );
+_LOC void MapInitialize(pScanData ps);
+_LOC void MapSetupDither(pScanData ps);
+_LOC void MapAdjust(pScanData ps, int which);
 
 /*
  * implementation in plustek-pp_image.c
  */
-_LOC int ImageInitialize( pScanData ps );
+_LOC int ImageInitialize(pScanData ps);
 
 /*
  * implementation in plustek-pp_genericio.c
  */
-_LOC int  IOFuncInitialize      ( pScanData ps );
-_LOC Byte IOSetToMotorRegister  ( pScanData ps );
-_LOC Byte IOGetScanState        ( pScanData ps, Bool fOpenned );
-_LOC Byte IOGetExtendedStatus   ( pScanData ps );
-_LOC void IOGetCurrentStateCount( pScanData, pScanState pScanStep);
-_LOC int  IOIsReadyForScan      ( pScanData ps );
+_LOC int IOFuncInitialize(pScanData ps);
+_LOC Byte IOSetToMotorRegister(pScanData ps);
+_LOC Byte IOGetScanState(pScanData ps, Bool fOpenned);
+_LOC Byte IOGetExtendedStatus(pScanData ps);
+_LOC void IOGetCurrentStateCount(pScanData, pScanState pScanStep);
+_LOC int IOIsReadyForScan(pScanData ps);
 
-_LOC void  IOSetXStepLineScanTime( pScanData ps, Byte b );
-_LOC void  IOSetToMotorStepCount ( pScanData ps );
-_LOC void  IOSelectLampSource    ( pScanData ps );
-_LOC Bool  IOReadOneShadingLine  ( pScanData ps, pUChar pBuf, ULong len );
-_LOC ULong IOReadFifoLength      ( pScanData ps );
-_LOC void  IOPutOnAllRegisters   ( pScanData ps );
-_LOC void  IOReadColorData       ( pScanData ps, pUChar pBuf, ULong len );
+_LOC void IOSetXStepLineScanTime(pScanData ps, Byte b);
+_LOC void IOSetToMotorStepCount(pScanData ps);
+_LOC void IOSelectLampSource(pScanData ps);
+_LOC Bool IOReadOneShadingLine(pScanData ps, pUChar pBuf, ULong len);
+_LOC ULong IOReadFifoLength(pScanData ps);
+_LOC void IOPutOnAllRegisters(pScanData ps);
+_LOC void IOReadColorData(pScanData ps, pUChar pBuf, ULong len);
 
 /*
  * implementation in plustek-pp_io.c
  */
-_LOC int  IOInitialize        ( pScanData ps );
-_LOC void IOMoveDataToScanner ( pScanData ps, pUChar pBuffer, ULong size );
-_LOC void IODownloadScanStates( pScanData ps );
-_LOC void IODataToScanner     ( pScanData, Byte bValue );
-_LOC void IODataToRegister    ( pScanData ps, Byte bReg, Byte bData );
-_LOC Byte IODataFromRegister  ( pScanData ps, Byte bReg );
-_LOC void IORegisterToScanner ( pScanData ps, Byte bReg );
-_LOC void IODataRegisterToDAC ( pScanData ps, Byte bReg, Byte bData );
+_LOC int IOInitialize(pScanData ps);
+_LOC void IOMoveDataToScanner(pScanData ps, pUChar pBuffer, ULong size);
+_LOC void IODownloadScanStates(pScanData ps);
+_LOC void IODataToScanner(pScanData, Byte bValue);
+_LOC void IODataToRegister(pScanData ps, Byte bReg, Byte bData);
+_LOC Byte IODataFromRegister(pScanData ps, Byte bReg);
+_LOC void IORegisterToScanner(pScanData ps, Byte bReg);
+_LOC void IODataRegisterToDAC(pScanData ps, Byte bReg, Byte bData);
 
-_LOC Byte IODataRegisterFromScanner( pScanData ps, Byte bReg );
-_LOC void IOCmdRegisterToScanner   ( pScanData ps, Byte bReg, Byte bData );
-_LOC void IORegisterDirectToScanner( pScanData, Byte bReg );
-_LOC void IOSoftwareReset          ( pScanData ps );
-_LOC void IOReadScannerImageData   ( pScanData ps, pUChar pBuf, ULong size );
+_LOC Byte IODataRegisterFromScanner(pScanData ps, Byte bReg);
+_LOC void IOCmdRegisterToScanner(pScanData ps, Byte bReg, Byte bData);
+_LOC void IORegisterDirectToScanner(pScanData, Byte bReg);
+_LOC void IOSoftwareReset(pScanData ps);
+_LOC void IOReadScannerImageData(pScanData ps, pUChar pBuf, ULong size);
 
 #ifdef __KERNEL__
-_LOC void IOOut       ( Byte data, UShort port );
-_LOC void IOOutDelayed( Byte data, UShort port );
-_LOC Byte IOIn        ( UShort port );
-_LOC Byte IOInDelayed ( UShort port );
+_LOC void IOOut(Byte data, UShort port);
+_LOC void IOOutDelayed(Byte data, UShort port);
+_LOC Byte IOIn(UShort port);
+_LOC Byte IOInDelayed(UShort port);
 #endif
 
 /*
  * implementation in plustek-pp_tpa.c
  */
-_LOC void TPAP98001AverageShadingData( pScanData ps );
-_LOC void TPAP98003FindCenterPointer ( pScanData ps );
-_LOC void TPAP98003Reshading         ( pScanData ps );
+_LOC void TPAP98001AverageShadingData(pScanData ps);
+_LOC void TPAP98003FindCenterPointer(pScanData ps);
+_LOC void TPAP98003Reshading(pScanData ps);
 
 /*
  * implementation in plustek-pp_scale.c
  */
-_LOC void ScaleX( pScanData ps, pUChar inBuf, pUChar outBuf );
+_LOC void ScaleX(pScanData ps, pUChar inBuf, pUChar outBuf);
 
 /*
  * implementation in plustek-pp_procfs.c (Kernel-mode only)
  */
 #ifdef __KERNEL__
-int  ProcFsInitialize      ( void );
-void ProcFsShutdown        ( void );
-void ProcFsRegisterDevice  ( pScanData ps );
-void ProcFsUnregisterDevice( pScanData ps );
+int ProcFsInitialize(void);
+void ProcFsShutdown(void);
+void ProcFsRegisterDevice(pScanData ps);
+void ProcFsUnregisterDevice(pScanData ps);
 #endif
 
-#endif	/* guard __PROCS_H__ */
+#endif /* guard __PROCS_H__ */
 
 /* END PLUSTEK-PP_PROCS.H ...................................................*/

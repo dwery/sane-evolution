@@ -88,13 +88,13 @@
 #define GENESYS_FLAG_MUST_WAIT        (1 << 10)	/* tells wether the scanner 
 						   should wait 1 minute after 
 						   init before doing anything 
-						*/
+						 */
 
 
 #define GENESYS_FLAG_ALT_SLOPE_CREATE (1 << 11)	/* use alternative slope
 						   creation function */
 
-#define GENESYS_FLAG_DARK_WHITE_CALIBRATION (1 << 12) /*yet another calibration method. does white and dark shading in one run, depending on a black and a white strip*/
+#define GENESYS_FLAG_DARK_WHITE_CALIBRATION (1 << 12)	/*yet another calibration method. does white and dark shading in one run, depending on a black and a white strip */
 
 /* USB control message values */
 #define REQUEST_TYPE_IN		(USB_TYPE_VENDOR | USB_DIR_IN)
@@ -139,58 +139,58 @@
 /* todo: check if those are the same for every scanner */
 #define SYSTEM_CLOCK		32	/* todo: ? */
 #define MOTOR_SPEED_MAX		350
-													      /*#define MOTOR_GEAR    *//*600 1200 * todo: base y res? --> model */
+																	/*#define MOTOR_GEAR    *//*600 1200 * todo: base y res? --> model */
 #define PIXEL_TIME		((double) 24 / SYSTEM_CLOCK)
 #define DARK_VALUE		0
 
 
 typedef struct
 {
-  SANE_Byte address;
-  SANE_Byte value;
+	SANE_Byte address;
+	SANE_Byte value;
 } Genesys_Register_Set;
 
 typedef struct
 {
-  u_int8_t reg[4];
-  u_int8_t sign[3];
-  u_int8_t offset[3];
-  u_int8_t gain[3];
-  u_int8_t reg2[3];
+	u_int8_t reg[4];
+	u_int8_t sign[3];
+	u_int8_t offset[3];
+	u_int8_t gain[3];
+	u_int8_t reg2[3];
 } Genesys_Frontend;
 
 typedef struct
 {
-  int optical_res;
-  int black_pixels;
-  int dummy_pixel;              /* value of dummy register. */
-  int CCD_start_xoffset;	/* last pixel of CCD margin at optical resolution */
-  int sensor_pixels;		/* total pixels used by the sensor */
-  int fau_gain_white_ref;	/* TA CCD target code (reference gain) */
-  int gain_white_ref;		/* CCD target code (reference gain) */
-  u_int8_t regs_0x08_0x0b[4];
-  u_int8_t regs_0x10_0x1d[14];
-  u_int8_t regs_0x52_0x5e[13];
-  float red_gamma;
-  float green_gamma;
-  float blue_gamma;
-  u_int16_t *red_gamma_table;
-  u_int16_t *green_gamma_table;
-  u_int16_t *blue_gamma_table;
+	int optical_res;
+	int black_pixels;
+	int dummy_pixel;	/* value of dummy register. */
+	int CCD_start_xoffset;	/* last pixel of CCD margin at optical resolution */
+	int sensor_pixels;	/* total pixels used by the sensor */
+	int fau_gain_white_ref;	/* TA CCD target code (reference gain) */
+	int gain_white_ref;	/* CCD target code (reference gain) */
+	u_int8_t regs_0x08_0x0b[4];
+	u_int8_t regs_0x10_0x1d[14];
+	u_int8_t regs_0x52_0x5e[13];
+	float red_gamma;
+	float green_gamma;
+	float blue_gamma;
+	u_int16_t *red_gamma_table;
+	u_int16_t *green_gamma_table;
+	u_int16_t *blue_gamma_table;
 } Genesys_Sensor;
 
 typedef struct
 {
-  u_int8_t value[2];
-  u_int8_t enable[2];
+	u_int8_t value[2];
+	u_int8_t enable[2];
 } Genesys_Gpo;
 
 typedef struct
 {
-  SANE_Int maximum_start_speed; /* maximum speed allowed when accelerating from standstill. Unit: pixeltime/step */
-  SANE_Int maximum_speed;       /* maximum speed allowed. Unit: pixeltime/step */
-  SANE_Int minimum_steps;       /* number of steps used for default curve */
-  float g;                      /* power for non-linear acceleration curves. */
+	SANE_Int maximum_start_speed;	/* maximum speed allowed when accelerating from standstill. Unit: pixeltime/step */
+	SANE_Int maximum_speed;	/* maximum speed allowed. Unit: pixeltime/step */
+	SANE_Int minimum_steps;	/* number of steps used for default curve */
+	float g;		/* power for non-linear acceleration curves. */
 /* vs*(1-i^g)+ve*(i^g) where 
    vs = start speed, ve = end speed, 
    i = 0.0 for first entry and i = 1.0 for last entry in default table*/
@@ -199,17 +199,17 @@ typedef struct
 
 typedef struct
 {
-  SANE_Int base_ydpi;		 /* motor base steps. Unit: 1/" */
-  SANE_Int optical_ydpi;	 /* maximum resolution in y-direction. Unit: 1/"  */
-  SANE_Int max_step_type;        /* maximum step type. 0-2 */
-  SANE_Int power_mode_count;        /* number of power modes*/
-  Genesys_Motor_Slope slopes[2][3]; /* slopes to derive individual slopes from */
+	SANE_Int base_ydpi;	/* motor base steps. Unit: 1/" */
+	SANE_Int optical_ydpi;	/* maximum resolution in y-direction. Unit: 1/"  */
+	SANE_Int max_step_type;	/* maximum step type. 0-2 */
+	SANE_Int power_mode_count;	/* number of power modes */
+	Genesys_Motor_Slope slopes[2][3];	/* slopes to derive individual slopes from */
 } Genesys_Motor;
 
 typedef enum Genesys_Color_Order
 {
-  COLOR_ORDER_RGB,
-  COLOR_ORDER_BGR
+	COLOR_ORDER_RGB,
+	COLOR_ORDER_BGR
 }
 Genesys_Color_Order;
 
@@ -269,342 +269,341 @@ typedef struct Genesys_Device Genesys_Device;
 typedef struct Genesys_Command_Set
 {
   /** @name Identification */
-  /*@{ */
+	/*@{ */
 
   /** Name of this command set */
-  SANE_String_Const name;
+	SANE_String_Const name;
 
-  /*@} */
+	/*@} */
 
   /** For ASIC initialization */
-    SANE_Status (*init) (Genesys_Device * dev);
+	  SANE_Status(*init) (Genesys_Device * dev);
 
-    SANE_Status (*init_regs_for_warmup) (Genesys_Device * dev,
-					 Genesys_Register_Set * regs,
-					 int *channels, int *total_size);
-    SANE_Status (*init_regs_for_coarse_calibration) (Genesys_Device * dev);
-    SANE_Status (*init_regs_for_shading) (Genesys_Device * dev);
-    SANE_Status (*init_regs_for_scan) (Genesys_Device * dev);
+	  SANE_Status(*init_regs_for_warmup) (Genesys_Device * dev,
+					      Genesys_Register_Set * regs,
+					      int *channels, int *total_size);
+	  SANE_Status(*init_regs_for_coarse_calibration) (Genesys_Device *
+							  dev);
+	  SANE_Status(*init_regs_for_shading) (Genesys_Device * dev);
+	  SANE_Status(*init_regs_for_scan) (Genesys_Device * dev);
 
-    SANE_Bool (*get_filter_bit) (Genesys_Register_Set * reg);
-    SANE_Bool (*get_lineart_bit) (Genesys_Register_Set * reg);
-    SANE_Bool (*get_bitset_bit) (Genesys_Register_Set * reg);
-    SANE_Bool (*get_gain4_bit) (Genesys_Register_Set * reg);
-    SANE_Bool (*get_fast_feed_bit) (Genesys_Register_Set * reg);
+	  SANE_Bool(*get_filter_bit) (Genesys_Register_Set * reg);
+	  SANE_Bool(*get_lineart_bit) (Genesys_Register_Set * reg);
+	  SANE_Bool(*get_bitset_bit) (Genesys_Register_Set * reg);
+	  SANE_Bool(*get_gain4_bit) (Genesys_Register_Set * reg);
+	  SANE_Bool(*get_fast_feed_bit) (Genesys_Register_Set * reg);
 
-    SANE_Bool (*test_buffer_empty_bit) (SANE_Byte val);
-    SANE_Bool (*test_motor_flag_bit) (SANE_Byte val);
+	  SANE_Bool(*test_buffer_empty_bit) (SANE_Byte val);
+	  SANE_Bool(*test_motor_flag_bit) (SANE_Byte val);
 
-  int (*bulk_full_size) (void);
+	int (*bulk_full_size) (void);
 
-    SANE_Status (*set_fe) (Genesys_Device * dev, u_int8_t set);
-    SANE_Status (*set_powersaving) (Genesys_Device * dev, int delay);
-    SANE_Status (*save_power) (Genesys_Device * dev, SANE_Bool enable);
+	  SANE_Status(*set_fe) (Genesys_Device * dev, u_int8_t set);
+	  SANE_Status(*set_powersaving) (Genesys_Device * dev, int delay);
+	  SANE_Status(*save_power) (Genesys_Device * dev, SANE_Bool enable);
 
-  void (*set_motor_power) (Genesys_Register_Set * regs, SANE_Bool set);
-  void (*set_lamp_power) (Genesys_Device * dev, 
-			  Genesys_Register_Set * regs, 
-			  SANE_Bool set);
+	void (*set_motor_power) (Genesys_Register_Set * regs, SANE_Bool set);
+	void (*set_lamp_power) (Genesys_Device * dev,
+				Genesys_Register_Set * regs, SANE_Bool set);
 
-    SANE_Status (*begin_scan) (Genesys_Device * dev,
-			       Genesys_Register_Set * regs,
-			       SANE_Bool start_motor);
-    SANE_Status (*end_scan) (Genesys_Device * dev,
-			     Genesys_Register_Set * regs,
-			     SANE_Bool check_stop);
+	  SANE_Status(*begin_scan) (Genesys_Device * dev,
+				    Genesys_Register_Set * regs,
+				    SANE_Bool start_motor);
+	  SANE_Status(*end_scan) (Genesys_Device * dev,
+				  Genesys_Register_Set * regs,
+				  SANE_Bool check_stop);
 
-    SANE_Status (*send_gamma_table) (Genesys_Device * dev, SANE_Bool generic);
+	  SANE_Status(*send_gamma_table) (Genesys_Device * dev,
+					  SANE_Bool generic);
 
-    SANE_Status (*search_start_position) (Genesys_Device * dev);
-    SANE_Status (*offset_calibration) (Genesys_Device * dev);
-    SANE_Status (*coarse_gain_calibration) (Genesys_Device * dev, int dpi);
-    SANE_Status (*led_calibration) (Genesys_Device * dev);
+	  SANE_Status(*search_start_position) (Genesys_Device * dev);
+	  SANE_Status(*offset_calibration) (Genesys_Device * dev);
+	  SANE_Status(*coarse_gain_calibration) (Genesys_Device * dev,
+						 int dpi);
+	  SANE_Status(*led_calibration) (Genesys_Device * dev);
 
-    SANE_Status (*slow_back_home) (Genesys_Device * dev,
+	  SANE_Status(*slow_back_home) (Genesys_Device * dev,
+					SANE_Bool wait_until_home);
+	  SANE_Status(*park_head) (Genesys_Device * dev,
+				   Genesys_Register_Set * reg,
 				   SANE_Bool wait_until_home);
-    SANE_Status (*park_head) (Genesys_Device * dev,
-			      Genesys_Register_Set * reg,
-			      SANE_Bool wait_until_home);
-    SANE_Status (*bulk_write_register) (Genesys_Device * dev,
-					Genesys_Register_Set * reg, 
-					size_t elems);
-    SANE_Status (*bulk_write_data) (Genesys_Device * dev, u_int8_t addr, 
-				    u_int8_t * data, size_t len);
+	  SANE_Status(*bulk_write_register) (Genesys_Device * dev,
+					     Genesys_Register_Set * reg,
+					     size_t elems);
+	  SANE_Status(*bulk_write_data) (Genesys_Device * dev, u_int8_t addr,
+					 u_int8_t * data, size_t len);
 
-    SANE_Status (*bulk_read_data) (Genesys_Device * dev, u_int8_t addr,
-				   u_int8_t * data, size_t len);
+	  SANE_Status(*bulk_read_data) (Genesys_Device * dev, u_int8_t addr,
+					u_int8_t * data, size_t len);
 
 } Genesys_Command_Set;
 
 typedef struct Genesys_Model
 {
-  SANE_String_Const name;
-  SANE_String_Const vendor;
-  SANE_String_Const model;
+	SANE_String_Const name;
+	SANE_String_Const vendor;
+	SANE_String_Const model;
 
-  SANE_Int asic_type;		/* ASIC type gl646 or gl841 */
-  Genesys_Command_Set *cmd_set;	/* pointers to low level functions */
+	SANE_Int asic_type;	/* ASIC type gl646 or gl841 */
+	Genesys_Command_Set *cmd_set;	/* pointers to low level functions */
 
-  SANE_Int xdpi_values[MAX_RESOLUTIONS];	/* possible x resolutions */
-  SANE_Int ydpi_values[MAX_RESOLUTIONS];	/* possible y resolutions */
-  SANE_Int bpp_gray_values[MAX_DPI];	/* possible depths in gray mode */
-  SANE_Int bpp_color_values[MAX_DPI];	/* possible depths in color mode */
+	SANE_Int xdpi_values[MAX_RESOLUTIONS];	/* possible x resolutions */
+	SANE_Int ydpi_values[MAX_RESOLUTIONS];	/* possible y resolutions */
+	SANE_Int bpp_gray_values[MAX_DPI];	/* possible depths in gray mode */
+	SANE_Int bpp_color_values[MAX_DPI];	/* possible depths in color mode */
 
-  SANE_Fixed x_offset;		/* Start of scan area in mm */
-  SANE_Fixed y_offset;		/* Start of scan area in mm */
-  SANE_Fixed x_size;		/* Size of scan area in mm */
-  SANE_Fixed y_size;		/* Size of scan area in mm */
+	SANE_Fixed x_offset;	/* Start of scan area in mm */
+	SANE_Fixed y_offset;	/* Start of scan area in mm */
+	SANE_Fixed x_size;	/* Size of scan area in mm */
+	SANE_Fixed y_size;	/* Size of scan area in mm */
 
-  SANE_Fixed y_offset_calib;	/* Start of white strip in mm */
-  SANE_Fixed x_offset_mark;	/* Start of black mark in mm */
+	SANE_Fixed y_offset_calib;	/* Start of white strip in mm */
+	SANE_Fixed x_offset_mark;	/* Start of black mark in mm */
 
-  SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
-  SANE_Fixed x_size_ta;		/* Size of scan area in TA mode in mm */
-  SANE_Fixed y_size_ta;		/* Size of scan area in TA mode in mm */
+	SANE_Fixed x_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed y_offset_ta;	/* Start of scan area in TA mode in mm */
+	SANE_Fixed x_size_ta;	/* Size of scan area in TA mode in mm */
+	SANE_Fixed y_size_ta;	/* Size of scan area in TA mode in mm */
 
-  SANE_Fixed y_offset_calib_ta;	/* Start of white strip in TA mode in mm */
+	SANE_Fixed y_offset_calib_ta;	/* Start of white strip in TA mode in mm */
 
-  /* Line-distance correction (in pixel at optical_ydpi) for CCD scanners */
-  SANE_Int ld_shift_r;		/* red */
-  SANE_Int ld_shift_g;		/* green */
-  SANE_Int ld_shift_b;		/* blue */
+	/* Line-distance correction (in pixel at optical_ydpi) for CCD scanners */
+	SANE_Int ld_shift_r;	/* red */
+	SANE_Int ld_shift_g;	/* green */
+	SANE_Int ld_shift_b;	/* blue */
 
-  Genesys_Color_Order line_mode_color_order;	/* Order of the CCD/CIS colors */
+	Genesys_Color_Order line_mode_color_order;	/* Order of the CCD/CIS colors */
 
-  SANE_Bool is_cis;		/* Is this a CIS or CCD scanner? */
+	SANE_Bool is_cis;	/* Is this a CIS or CCD scanner? */
 
-  SANE_Int ccd_type;		/* which SENSOR type do we have ? */
-  SANE_Int dac_type;		/* which DAC do we have ? */
-  SANE_Int gpo_type;		/* General purpose output type */
-  SANE_Int motor_type;		/* stepper motor type */
-  SANE_Word flags;		/* Which hacks are needed for this scanner? */
-  /*@} */
-  SANE_Int shading_lines;	/* how many lines are used for shading calibration */
-  SANE_Int search_lines;	/* how many lines are used to search start position */
+	SANE_Int ccd_type;	/* which SENSOR type do we have ? */
+	SANE_Int dac_type;	/* which DAC do we have ? */
+	SANE_Int gpo_type;	/* General purpose output type */
+	SANE_Int motor_type;	/* stepper motor type */
+	SANE_Word flags;	/* Which hacks are needed for this scanner? */
+	/*@} */
+	SANE_Int shading_lines;	/* how many lines are used for shading calibration */
+	SANE_Int search_lines;	/* how many lines are used to search start position */
 } Genesys_Model;
 
 
 typedef struct
 {
-  int scan_method;		/* todo: change >=2: Transparency, 0x88: negative film */
-  int scan_mode;		/* todo: change 0,1 = lineart, halftone; 2 = gray, 3 = 3pass color, 4=single pass color */
-  int xres;			/* dpi */
-  int yres;			/* dpi */
+	int scan_method;	/* todo: change >=2: Transparency, 0x88: negative film */
+	int scan_mode;		/* todo: change 0,1 = lineart, halftone; 2 = gray, 3 = 3pass color, 4=single pass color */
+	int xres;		/* dpi */
+	int yres;		/* dpi */
 
-  double tl_x;			/* x start on scan table in mm */
-  double tl_y;			/* y start on scan table in mm */
+	double tl_x;		/* x start on scan table in mm */
+	double tl_y;		/* y start on scan table in mm */
 
-  unsigned int lines;		/* number of lines at scan resolution */
-  unsigned int pixels;		/* number of pixels at scan resolution */
+	unsigned int lines;	/* number of lines at scan resolution */
+	unsigned int pixels;	/* number of pixels at scan resolution */
 
-  unsigned int depth;/* bit depth of the scan */
+	unsigned int depth;	/* bit depth of the scan */
 
-  /* todo : remove these fields ? */
-  int exposure_time;
+	/* todo : remove these fields ? */
+	int exposure_time;
 
-  unsigned int color_filter;	/* todo: check, may be make it an advanced option */
+	unsigned int color_filter;	/* todo: check, may be make it an advanced option */
 
-  /* BW threshold */
-  int threshold;
+	/* BW threshold */
+	int threshold;
 
-  /* Disable interpolation for xres<yres*/
-  int disable_interpolation;
+	/* Disable interpolation for xres<yres */
+	int disable_interpolation;
 } Genesys_Settings;
 
 typedef struct Genesys_Current_Setup
 {
-    int pixels;         /* pixel count expected from scanner */
-    int lines;          /* line count expected from scanner */
-    int depth;          /* depth expected from scanner */
-    int channels;       /* channel count expected from scanner */
-    int exposure_time;  /* used exposure time */
-    float xres;         /* used xres */
-    float yres;         /* used yres*/
-    SANE_Bool half_ccd; /* half ccd mode */
-    SANE_Int stagger;		
-    SANE_Int max_shift;	/* max shift of any ccd component, including staggered pixels*/
+	int pixels;		/* pixel count expected from scanner */
+	int lines;		/* line count expected from scanner */
+	int depth;		/* depth expected from scanner */
+	int channels;		/* channel count expected from scanner */
+	int exposure_time;	/* used exposure time */
+	float xres;		/* used xres */
+	float yres;		/* used yres */
+	SANE_Bool half_ccd;	/* half ccd mode */
+	SANE_Int stagger;
+	SANE_Int max_shift;	/* max shift of any ccd component, including staggered pixels */
 } Genesys_Current_Setup;
 
 typedef struct Genesys_Buffer
 {
-  SANE_Byte *buffer;
-  size_t size;
-  size_t pos;	/* current position in read buffer */
-  size_t avail;	/* data bytes currently in buffer */
+	SANE_Byte *buffer;
+	size_t size;
+	size_t pos;		/* current position in read buffer */
+	size_t avail;		/* data bytes currently in buffer */
 } Genesys_Buffer;
 
 struct Genesys_Device
 {
-  SANE_Int dn;
-  SANE_String file_name;
-  Genesys_Model *model;
+	SANE_Int dn;
+	SANE_String file_name;
+	Genesys_Model *model;
 
-  Genesys_Register_Set reg[GENESYS_MAX_REGS];
-  Genesys_Register_Set calib_reg[GENESYS_MAX_REGS];
-  Genesys_Settings settings;
-  Genesys_Frontend frontend;
-  Genesys_Sensor sensor;
-  Genesys_Gpo gpo;
-  Genesys_Motor motor;
-  u_int16_t slope_table0[256];
-  u_int16_t slope_table1[256];
-  time_t init_date;
+	Genesys_Register_Set reg[GENESYS_MAX_REGS];
+	Genesys_Register_Set calib_reg[GENESYS_MAX_REGS];
+	Genesys_Settings settings;
+	Genesys_Frontend frontend;
+	Genesys_Sensor sensor;
+	Genesys_Gpo gpo;
+	Genesys_Motor motor;
+	u_int16_t slope_table0[256];
+	u_int16_t slope_table1[256];
+	time_t init_date;
 
-  u_int8_t *white_average_data;
-  u_int8_t *dark_average_data;
-  u_int16_t dark[3];
+	u_int8_t *white_average_data;
+	u_int8_t *dark_average_data;
+	u_int16_t dark[3];
 
-  SANE_Bool already_initialized;
-  SANE_Int scanhead_position_in_steps;
-  SANE_Int lamp_off_time;
+	SANE_Bool already_initialized;
+	SANE_Int scanhead_position_in_steps;
+	SANE_Int lamp_off_time;
 
-  SANE_Bool read_active;
+	SANE_Bool read_active;
 
-  Genesys_Buffer read_buffer;
-  Genesys_Buffer lines_buffer;
-  Genesys_Buffer shrink_buffer;
-  Genesys_Buffer out_buffer;
+	Genesys_Buffer read_buffer;
+	Genesys_Buffer lines_buffer;
+	Genesys_Buffer shrink_buffer;
+	Genesys_Buffer out_buffer;
 
-  size_t read_bytes_left;	/* bytes to read from scanner */
+	size_t read_bytes_left;	/* bytes to read from scanner */
 
-  size_t total_bytes_read;	/* total bytes read sent to frontend */
-  size_t total_bytes_to_read;	/* total bytes read to be sent to frontend */
+	size_t total_bytes_read;	/* total bytes read sent to frontend */
+	size_t total_bytes_to_read;	/* total bytes read to be sent to frontend */
 
-  Genesys_Current_Setup current_setup; /* contains the real used values */
+	Genesys_Current_Setup current_setup;	/* contains the real used values */
 
-  struct Genesys_Device *next;
+	struct Genesys_Device *next;
 };
 
 typedef struct Genesys_USB_Device_Entry
 {
-  SANE_Word vendor;			/**< USB vendor identifier */
-  SANE_Word product;			/**< USB product identifier */
-  Genesys_Model *model;			/**< Scanner model information */
+	SANE_Word vendor;		/**< USB vendor identifier */
+	SANE_Word product;		/**< USB product identifier */
+	Genesys_Model *model;		/**< Scanner model information */
 } Genesys_USB_Device_Entry;
 
 /*--------------------------------------------------------------------------*/
 /*       common functions needed by low level specific functions            */
 /*--------------------------------------------------------------------------*/
 
-extern Genesys_Register_Set *sanei_genesys_get_address (Genesys_Register_Set *
-							regs, SANE_Byte addr);
+extern Genesys_Register_Set *sanei_genesys_get_address(Genesys_Register_Set *
+						       regs, SANE_Byte addr);
 
 extern SANE_Byte
-sanei_genesys_read_reg_from_set (Genesys_Register_Set * regs,
-				 SANE_Byte address);
+sanei_genesys_read_reg_from_set(Genesys_Register_Set * regs,
+				SANE_Byte address);
 
 extern void
-sanei_genesys_set_reg_from_set (Genesys_Register_Set * regs,
-				SANE_Byte address, SANE_Byte value);
+sanei_genesys_set_reg_from_set(Genesys_Register_Set * regs,
+			       SANE_Byte address, SANE_Byte value);
 
 extern SANE_Status
-sanei_genesys_read_register (Genesys_Device * dev, u_int8_t reg,
-			     u_int8_t * val);
+sanei_genesys_read_register(Genesys_Device * dev, u_int8_t reg,
+			    u_int8_t * val);
 
 extern SANE_Status
-sanei_genesys_write_register (Genesys_Device * dev, u_int8_t reg,
-			      u_int8_t val);
+sanei_genesys_write_register(Genesys_Device * dev, u_int8_t reg,
+			     u_int8_t val);
 
 extern SANE_Status
-sanei_genesys_get_status (Genesys_Device * dev, u_int8_t * status);
+sanei_genesys_get_status(Genesys_Device * dev, u_int8_t * status);
 
-extern void sanei_genesys_init_fe (Genesys_Device * dev);
+extern void sanei_genesys_init_fe(Genesys_Device * dev);
 
-extern void sanei_genesys_init_structs (Genesys_Device * dev);
+extern void sanei_genesys_init_structs(Genesys_Device * dev);
 
 extern SANE_Status
-sanei_genesys_init_shading_data (Genesys_Device * dev, int pixels_per_line);
+sanei_genesys_init_shading_data(Genesys_Device * dev, int pixels_per_line);
 
-extern SANE_Status sanei_genesys_read_feed_steps (Genesys_Device * dev,
-						  unsigned int *steps);
+extern SANE_Status sanei_genesys_read_feed_steps(Genesys_Device * dev,
+						 unsigned int *steps);
 
 extern void
-sanei_genesys_calculate_zmode2 (SANE_Bool two_table,
-				u_int32_t exposure_time,
-				u_int16_t * slope_table,
-				int reg21,
-				int move, int reg22, u_int32_t * z1,
-				u_int32_t * z2);
-
-extern void
-sanei_genesys_calculate_zmode (Genesys_Device * dev,
+sanei_genesys_calculate_zmode2(SANE_Bool two_table,
 			       u_int32_t exposure_time,
-			       u_int32_t steps_sum,
-			       u_int16_t last_speed, u_int32_t feedl,
-			       u_int8_t fastfed, u_int8_t scanfed,
-			       u_int8_t fwdstep, u_int8_t tgtime,
-			       u_int32_t * z1, u_int32_t * z2);
+			       u_int16_t * slope_table,
+			       int reg21,
+			       int move, int reg22, u_int32_t * z1,
+			       u_int32_t * z2);
+
+extern void
+sanei_genesys_calculate_zmode(Genesys_Device * dev,
+			      u_int32_t exposure_time,
+			      u_int32_t steps_sum,
+			      u_int16_t last_speed, u_int32_t feedl,
+			      u_int8_t fastfed, u_int8_t scanfed,
+			      u_int8_t fwdstep, u_int8_t tgtime,
+			      u_int32_t * z1, u_int32_t * z2);
 
 extern SANE_Status
-sanei_genesys_set_buffer_address (Genesys_Device * dev, u_int32_t addr);
+sanei_genesys_set_buffer_address(Genesys_Device * dev, u_int32_t addr);
 
 extern SANE_Status
-sanei_genesys_fe_write_data (Genesys_Device * dev, u_int8_t addr,
-			     u_int16_t data);
+sanei_genesys_fe_write_data(Genesys_Device * dev, u_int8_t addr,
+			    u_int16_t data);
 
 extern SANE_Int
-sanei_genesys_exposure_time2 (Genesys_Device * dev,
-			      float ydpi, int step_type, int endpixel,
-			      int led_exposure, int power_mode);
+sanei_genesys_exposure_time2(Genesys_Device * dev,
+			     float ydpi, int step_type, int endpixel,
+			     int led_exposure, int power_mode);
 
 extern SANE_Int
-sanei_genesys_exposure_time (Genesys_Device * dev, Genesys_Register_Set * reg,
-			     int xdpi);
+sanei_genesys_exposure_time(Genesys_Device * dev, Genesys_Register_Set * reg,
+			    int xdpi);
 
 extern SANE_Int
-sanei_genesys_create_slope_table (Genesys_Device * dev,
-				  u_int16_t * slope_table, int steps,
-				  int step_type, int exposure_time,
-				  SANE_Bool same_speed, double yres,
-				  int power_mode);
+sanei_genesys_create_slope_table(Genesys_Device * dev,
+				 u_int16_t * slope_table, int steps,
+				 int step_type, int exposure_time,
+				 SANE_Bool same_speed, double yres,
+				 int power_mode);
 
 SANE_Int
-sanei_genesys_create_slope_table3 (Genesys_Device * dev,
-				   u_int16_t * slope_table, int max_step,
-				   unsigned int use_steps,
-				   int step_type, int exposure_time,
-				   double yres,
-				   unsigned int *used_steps,
-				   unsigned int *final_exposure,
-				   int power_mode);
+sanei_genesys_create_slope_table3(Genesys_Device * dev,
+				  u_int16_t * slope_table, int max_step,
+				  unsigned int use_steps,
+				  int step_type, int exposure_time,
+				  double yres,
+				  unsigned int *used_steps,
+				  unsigned int *final_exposure,
+				  int power_mode);
 
 extern void
-sanei_genesys_create_gamma_table (u_int16_t * gamma_table, int size,
-				  float maximum, float gamma_max,
-				  float gamma);
+sanei_genesys_create_gamma_table(u_int16_t * gamma_table, int size,
+				 float maximum, float gamma_max, float gamma);
 
-extern SANE_Status sanei_genesys_start_motor (Genesys_Device * dev);
+extern SANE_Status sanei_genesys_start_motor(Genesys_Device * dev);
 
-extern SANE_Status sanei_genesys_stop_motor (Genesys_Device * dev);
-
-extern SANE_Status
-sanei_genesys_search_reference_point (Genesys_Device * dev, u_int8_t * data,
-				      int start_pixel, int dpi, int width,
-				      int height);
+extern SANE_Status sanei_genesys_stop_motor(Genesys_Device * dev);
 
 extern SANE_Status
-sanei_genesys_write_pnm_file (char *filename, u_int8_t * data, int depth,
-			      int channels, int pixels_per_line, int lines);
+sanei_genesys_search_reference_point(Genesys_Device * dev, u_int8_t * data,
+				     int start_pixel, int dpi, int width,
+				     int height);
 
 extern SANE_Status
-sanei_genesys_test_buffer_empty (Genesys_Device * dev, SANE_Bool * empty);
+sanei_genesys_write_pnm_file(char *filename, u_int8_t * data, int depth,
+			     int channels, int pixels_per_line, int lines);
 
 extern SANE_Status
-sanei_genesys_read_data_from_scanner (Genesys_Device * dev, u_int8_t * data,
-				      size_t size);
+sanei_genesys_test_buffer_empty(Genesys_Device * dev, SANE_Bool * empty);
+
+extern SANE_Status
+sanei_genesys_read_data_from_scanner(Genesys_Device * dev, u_int8_t * data,
+				     size_t size);
 
 extern SANE_Status
 sanei_genesys_buffer_alloc(Genesys_Buffer * buf, size_t size);
 
-extern SANE_Status
-sanei_genesys_buffer_free(Genesys_Buffer * buf);
+extern SANE_Status sanei_genesys_buffer_free(Genesys_Buffer * buf);
 
-extern SANE_Byte *
-sanei_genesys_buffer_get_write_pos(Genesys_Buffer * buf, size_t size);
+extern SANE_Byte *sanei_genesys_buffer_get_write_pos(Genesys_Buffer * buf,
+						     size_t size);
 
-extern SANE_Byte *
-sanei_genesys_buffer_get_read_pos(Genesys_Buffer * buf);
+extern SANE_Byte *sanei_genesys_buffer_get_read_pos(Genesys_Buffer * buf);
 
 extern SANE_Status
 sanei_genesys_buffer_produce(Genesys_Buffer * buf, size_t size);
@@ -616,7 +615,7 @@ sanei_genesys_buffer_consume(Genesys_Buffer * buf, size_t size);
 /*---------------------------------------------------------------------------*/
 /*                ASIC specific functions declarations                       */
 /*---------------------------------------------------------------------------*/
-extern SANE_Status sanei_gl646_init_cmd_set (Genesys_Device * dev);
-extern SANE_Status sanei_gl841_init_cmd_set (Genesys_Device * dev);
+extern SANE_Status sanei_gl646_init_cmd_set(Genesys_Device * dev);
+extern SANE_Status sanei_gl841_init_cmd_set(Genesys_Device * dev);
 
 #endif /* not GENESYS_LOW_H */

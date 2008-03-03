@@ -63,46 +63,57 @@
 
 
 
-HP5400_SANE_STATIC void _UsbWriteControl (int fd, int iValue, int iIndex, void *pabData, int iSize);
+HP5400_SANE_STATIC void _UsbWriteControl(int fd, int iValue, int iIndex,
+					 void *pabData, int iSize);
 
-HP5400_SANE_STATIC void hp5400_command_write_noverify (int fd, int iValue, void *pabData, int iSize);
+HP5400_SANE_STATIC void hp5400_command_write_noverify(int fd, int iValue,
+						      void *pabData,
+						      int iSize);
 
-HP5400_SANE_STATIC void _UsbReadControl (int fd, int iValue, int iIndex, void *pabData, int iSize);
+HP5400_SANE_STATIC void _UsbReadControl(int fd, int iValue, int iIndex,
+					void *pabData, int iSize);
 
-HP5400_SANE_STATIC int hp5400_open (const char *filename);
+HP5400_SANE_STATIC int hp5400_open(const char *filename);
 
-HP5400_SANE_STATIC void hp5400_close (int iHandle);
+HP5400_SANE_STATIC void hp5400_close(int iHandle);
 
 /* returns value > 0 if verify ok */
-HP5400_SANE_STATIC int hp5400_command_verify (int iHandle, int iCmd);
+HP5400_SANE_STATIC int hp5400_command_verify(int iHandle, int iCmd);
 
 /* returns > 0 if command OK */
-HP5400_SANE_STATIC int hp5400_command_read_noverify (int iHandle, int iCmd, int iLen, void *pbData);
+HP5400_SANE_STATIC int hp5400_command_read_noverify(int iHandle, int iCmd,
+						    int iLen, void *pbData);
 
 /* returns > 0 if command OK */
-HP5400_SANE_STATIC int hp5400_command_read (int iHandle, int iCmd, int iLen, void *pbData);
+HP5400_SANE_STATIC int hp5400_command_read(int iHandle, int iCmd, int iLen,
+					   void *pbData);
 
 /* returns >0 if command OK */
-HP5400_SANE_STATIC int hp5400_command_write (int iHandle, int iCmd, int iLen, void *pbData);
+HP5400_SANE_STATIC int hp5400_command_write(int iHandle, int iCmd, int iLen,
+					    void *pbData);
 
 #ifdef STANDALONE
 /* returns >0 if command OK */
-HP5400_SANE_STATIC int hp5400_bulk_read (int iHandle, size_t len, int block, FILE * file);
+HP5400_SANE_STATIC int hp5400_bulk_read(int iHandle, size_t len, int block,
+					FILE * file);
 #endif
 
 /* returns >0 if command OK */
-HP5400_SANE_STATIC int hp5400_bulk_read_block (int iHandle, int iCmd, void *cmd, int cmdlen,
-			void *buffer, int len);
+HP5400_SANE_STATIC int hp5400_bulk_read_block(int iHandle, int iCmd,
+					      void *cmd, int cmdlen,
+					      void *buffer, int len);
 
 /* returns >0 if command OK */
-HP5400_SANE_STATIC int hp5400_bulk_command_write (int iHandle, int iCmd, void *cmd, int cmdlen,
-			   int datalen, int block, char *data);
+HP5400_SANE_STATIC int hp5400_bulk_command_write(int iHandle, int iCmd,
+						 void *cmd, int cmdlen,
+						 int datalen, int block,
+						 char *data);
 
 /**
   ScannerIsOn
     retrieve on/off status from scanner
     @return 1 if is on 0 if is off -1 if is not reachable
 */
-HP5400_SANE_STATIC int hp5400_isOn (int iHandle);
+HP5400_SANE_STATIC int hp5400_isOn(int iHandle);
 
 #endif

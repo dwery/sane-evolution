@@ -21,63 +21,63 @@
 #define s9036_h
 
 enum S9036_Option
-  {
-    OPT_NUM_OPTS = 0,
+{
+	OPT_NUM_OPTS = 0,
 
-    OPT_MODE_GROUP,
-    OPT_DEPTH,
-    OPT_RESOLUTION,
+	OPT_MODE_GROUP,
+	OPT_DEPTH,
+	OPT_RESOLUTION,
 
-    OPT_GEOMETRY_GROUP,
-    OPT_TL_X,			/* top-left x */
-    OPT_TL_Y,			/* top-left y */
-    OPT_BR_X,			/* bottom-right x */
-    OPT_BR_Y,			/* bottom-right y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* top-left x */
+	OPT_TL_Y,		/* top-left y */
+	OPT_BR_X,		/* bottom-right x */
+	OPT_BR_Y,		/* bottom-right y */
 
-    OPT_ENHANCEMENT_GROUP,
-    OPT_BRIGHTNESS,
-    OPT_CONTRAST,
-    OPT_BRIGHT_ADJUST,
-    OPT_CONTR_ADJUST,
+	OPT_ENHANCEMENT_GROUP,
+	OPT_BRIGHTNESS,
+	OPT_CONTRAST,
+	OPT_BRIGHT_ADJUST,
+	OPT_CONTR_ADJUST,
 
-    /* must come last: */
-    NUM_OPTIONS
-  };
+	/* must come last: */
+	NUM_OPTIONS
+};
 
 typedef struct S9036_Device
-  {
-    struct S9036_Device *next;
-    SANE_Device sane;
-    SANE_Handle handle;
-  }
+{
+	struct S9036_Device *next;
+	SANE_Device sane;
+	SANE_Handle handle;
+}
 S9036_Device;
 
 typedef struct S9036_Scanner
-  {
-    /* all the state needed to define a scan request: */
+{
+	/* all the state needed to define a scan request: */
 
-    SANE_Option_Descriptor opt[NUM_OPTIONS];
-    SANE_Word val[NUM_OPTIONS];
+	SANE_Option_Descriptor opt[NUM_OPTIONS];
+	SANE_Word val[NUM_OPTIONS];
 
-    /* Parsed option values and variables that are valid only during
-       actual scanning: */
-    SANE_Bool scanning;
-    SANE_Parameters params;
+	/* Parsed option values and variables that are valid only during
+	   actual scanning: */
+	SANE_Bool scanning;
+	SANE_Parameters params;
 
-    size_t bufsize;		/* about SCSI_MAX_REQUEST_SIZE */
-    SANE_Byte *buffer;		/* buffer of size 'bufsize' */
-    SANE_Byte *bufstart;	/* Start of data for next read */
-    size_t in_buffer;		/* bytes already in buffer */
+	size_t bufsize;		/* about SCSI_MAX_REQUEST_SIZE */
+	SANE_Byte *buffer;	/* buffer of size 'bufsize' */
+	SANE_Byte *bufstart;	/* Start of data for next read */
+	size_t in_buffer;	/* bytes already in buffer */
 
-    int lines_in_scanner;	/* Lines in scanner memory */
-    int lines_read;		/* Total lines read for now */
+	int lines_in_scanner;	/* Lines in scanner memory */
+	int lines_read;		/* Total lines read for now */
 
-    int fd;			/* SCSI filedescriptor */
+	int fd;			/* SCSI filedescriptor */
 
-    /* scanner dependent/low-level state: */
-    S9036_Device *hw;
+	/* scanner dependent/low-level state: */
+	S9036_Device *hw;
 
-  }
+}
 S9036_Scanner;
 
 #endif /* s9036_h */

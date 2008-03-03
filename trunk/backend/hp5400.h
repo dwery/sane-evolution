@@ -64,47 +64,47 @@
 
 enum ScanType
 {
-  SCAN_TYPE_CALIBRATION,
-  SCAN_TYPE_PREVIEW,
-  SCAN_TYPE_NORMAL
+	SCAN_TYPE_CALIBRATION,
+	SCAN_TYPE_PREVIEW,
+	SCAN_TYPE_NORMAL
 };
 
 /* In case we ever need to track multiple models */
 typedef struct
 {
-  char *pszVendor;
-  char *pszName;
+	char *pszVendor;
+	char *pszName;
 }
 TScannerModel;
 
 typedef struct
 {
-  /* transfer buffer */
-  void *buffer;			/* Pointer to memory allocated for buffer */
-  int roff, goff, boff;		/* Offset into buffer of rows to be copied *next* */
-  int bufstart, bufend;		/* What is currently the valid buffer */
-  int bpp;			/* Bytes per pixel per colour (1 or 2) */
-  int linelength, pixels;	/* Bytes per line from scanner */
-  int transfersize;		/* Number of bytes to transfer resulting image */
-  int blksize;			/* Size of blocks to pull from scanner */
-  int buffersize;		/* Size of the buffer */
+	/* transfer buffer */
+	void *buffer;		/* Pointer to memory allocated for buffer */
+	int roff, goff, boff;	/* Offset into buffer of rows to be copied *next* */
+	int bufstart, bufend;	/* What is currently the valid buffer */
+	int bpp;		/* Bytes per pixel per colour (1 or 2) */
+	int linelength, pixels;	/* Bytes per line from scanner */
+	int transfersize;	/* Number of bytes to transfer resulting image */
+	int blksize;		/* Size of blocks to pull from scanner */
+	int buffersize;		/* Size of the buffer */
 }
 TDataPipe;
 
 typedef struct
 {
-  int iXferHandle;		/* handle used for data transfer to HW */
-  TDataPipe pipe;		/* Pipe for data */
+	int iXferHandle;	/* handle used for data transfer to HW */
+	TDataPipe pipe;		/* Pipe for data */
 
-  int iTopLeftX;		/* in mm */
-  int iTopLeftY;		/* in mm */
-  /*  int           iSensorSkew;   *//* in units of 1/1200 inch */
-  /*  int           iSkipLines;    *//* lines of garbage to skip */
-  /*  int           fReg07;        *//* NIASH00019 */
-  /*  int           fGamma16;      *//* if TRUE, gamma entries are 16 bit */
+	int iTopLeftX;		/* in mm */
+	int iTopLeftY;		/* in mm */
+	/*  int           iSensorSkew;   *//* in units of 1/1200 inch */
+	/*  int           iSkipLines;    *//* lines of garbage to skip */
+	/*  int           fReg07;        *//* NIASH00019 */
+	/*  int           fGamma16;      *//* if TRUE, gamma entries are 16 bit */
 /*  int           iExpTime;      */
-  /*  int           iReversedHead; *//* Head is reversed */
-  /*  int           iBufferSize;   *//* Size of internal scan buffer */
+	/*  int           iReversedHead; *//* Head is reversed */
+	/*  int           iBufferSize;   *//* Size of internal scan buffer */
 /*  EScannerModel eModel;        */
 }
 THWParams;
@@ -119,18 +119,18 @@ THWParams;
 
 typedef struct
 {
-  int iDpi;			/* horizontal resolution */
-  int iLpi;			/* vertical resolution */
-  int iTop;			/* in HW coordinates (units HW_LPI) */
-  int iLeft;			/* in HW coordinates (units HW_LPI) */
-  int iWidth;			/* in HW coordinates (units HW_LPI) */
-  int iHeight;			/* in HW coordinates (units HW_LPI) */
+	int iDpi;		/* horizontal resolution */
+	int iLpi;		/* vertical resolution */
+	int iTop;		/* in HW coordinates (units HW_LPI) */
+	int iLeft;		/* in HW coordinates (units HW_LPI) */
+	int iWidth;		/* in HW coordinates (units HW_LPI) */
+	int iHeight;		/* in HW coordinates (units HW_LPI) */
 
-  int iBytesPerLine;		/* Resulting bytes per line */
-  int iLines;			/* Resulting lines of image */
-  int iLinesRead;		/* Lines of image already read */
+	int iBytesPerLine;	/* Resulting bytes per line */
+	int iLines;		/* Resulting lines of image */
+	int iLinesRead;		/* Lines of image already read */
 
-  int iColourOffset;		/* How far the colours are offset. Currently this is
+	int iColourOffset;	/* How far the colours are offset. Currently this is
 				 * set by the caller. This doesn't seem to be
 				 * necessary anymore since the scanner is doing it
 				 * internally. Leave it for the time being as it

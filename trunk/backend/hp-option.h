@@ -206,89 +206,96 @@
 
 struct hp_choice_s
 {
-    int		val;
-    const char *name;
-    hp_bool_t	(*enable)(HpChoice this, HpOptSet optset, HpData data,
-                          const HpDeviceInfo *info);
-    hp_bool_t	is_emulated:1;
-    HpChoice	next;
+	int val;
+	const char *name;
+	  hp_bool_t(*enable) (HpChoice this, HpOptSet optset, HpData data,
+			      const HpDeviceInfo * info);
+	hp_bool_t is_emulated:1;
+	HpChoice next;
 };
 
 enum hp_scanmode_e
 {
-    HP_SCANMODE_LINEART	= 0,
-    HP_SCANMODE_HALFTONE	= 3,
-    HP_SCANMODE_GRAYSCALE	= 4,
-    HP_SCANMODE_COLOR	= 5
+	HP_SCANMODE_LINEART = 0,
+	HP_SCANMODE_HALFTONE = 3,
+	HP_SCANMODE_GRAYSCALE = 4,
+	HP_SCANMODE_COLOR = 5
 };
 
 enum hp_scantype_e
 {
-    HP_SCANTYPE_NORMAL   = 0,
-    HP_SCANTYPE_ADF      = 1,
-    HP_SCANTYPE_XPA      = 2
+	HP_SCANTYPE_NORMAL = 0,
+	HP_SCANTYPE_ADF = 1,
+	HP_SCANTYPE_XPA = 2
 };
 
-enum hp_dither_type_e {
-    HP_DITHER_CUSTOM		= -1,
-    HP_DITHER_COARSE		= 0,
-    HP_DITHER_FINE		= 1,
-    HP_DITHER_BAYER		= 2,
-    HP_DITHER_VERTICAL		= 3,
-    HP_DITHER_HORIZONTAL
+enum hp_dither_type_e
+{
+	HP_DITHER_CUSTOM = -1,
+	HP_DITHER_COARSE = 0,
+	HP_DITHER_FINE = 1,
+	HP_DITHER_BAYER = 2,
+	HP_DITHER_VERTICAL = 3,
+	HP_DITHER_HORIZONTAL
 };
 
-enum hp_matrix_type_e {
-    HP_MATRIX_AUTO		= -256,
-    HP_MATRIX_GREEN		= -257,
-    HP_MATRIX_CUSTOM_BW		= -2,
-    HP_MATRIX_CUSTOM		= -1,
-    HP_MATRIX_RGB		= 0,
-    HP_MATRIX_BW		= 1,
-    HP_MATRIX_PASS		= 2,
-    HP_MATRIX_RED		= 3,
-    HP_MATRIX_BLUE		= 4,
-    HP_MATRIX_XPA_RGB		= 5,
-    HP_MATRIX_XPA_BW		= 6
+enum hp_matrix_type_e
+{
+	HP_MATRIX_AUTO = -256,
+	HP_MATRIX_GREEN = -257,
+	HP_MATRIX_CUSTOM_BW = -2,
+	HP_MATRIX_CUSTOM = -1,
+	HP_MATRIX_RGB = 0,
+	HP_MATRIX_BW = 1,
+	HP_MATRIX_PASS = 2,
+	HP_MATRIX_RED = 3,
+	HP_MATRIX_BLUE = 4,
+	HP_MATRIX_XPA_RGB = 5,
+	HP_MATRIX_XPA_BW = 6
 };
 
-enum hp_mirror_horiz_e {
-    HP_MIRROR_HORIZ_CONDITIONAL = -256,
-    HP_MIRROR_HORIZ_OFF         = 0,
-    HP_MIRROR_HORIZ_ON          = 1
+enum hp_mirror_horiz_e
+{
+	HP_MIRROR_HORIZ_CONDITIONAL = -256,
+	HP_MIRROR_HORIZ_OFF = 0,
+	HP_MIRROR_HORIZ_ON = 1
 };
 
-enum hp_mirror_vert_e {
-    HP_MIRROR_VERT_OFF         = -258,
-    HP_MIRROR_VERT_ON          = -257,
-    HP_MIRROR_VERT_CONDITIONAL = -256
+enum hp_mirror_vert_e
+{
+	HP_MIRROR_VERT_OFF = -258,
+	HP_MIRROR_VERT_ON = -257,
+	HP_MIRROR_VERT_CONDITIONAL = -256
 };
 
-enum hp_media_e {
-    HP_MEDIA_NEGATIVE = 1,
-    HP_MEDIA_SLIDE = 2,
-    HP_MEDIA_PRINT = 3
+enum hp_media_e
+{
+	HP_MEDIA_NEGATIVE = 1,
+	HP_MEDIA_SLIDE = 2,
+	HP_MEDIA_PRINT = 3
 };
 
-hp_bool_t   sanei_hp_choice_isEnabled (HpChoice this, HpOptSet optset,
-                               HpData data, const HpDeviceInfo *info);
+hp_bool_t sanei_hp_choice_isEnabled(HpChoice this, HpOptSet optset,
+				    HpData data, const HpDeviceInfo * info);
 
 SANE_Status sanei_hp_optset_new(HpOptSet * newp, HpScsi scsi, HpDevice dev);
-SANE_Status sanei_hp_optset_download (HpOptSet this, HpData data, HpScsi scsi);
-SANE_Status sanei_hp_optset_control (HpOptSet this, HpData data,
-                               int optnum, SANE_Action action,
-			       void * valp, SANE_Int *infop, HpScsi scsi,
-                               hp_bool_t immediate);
-SANE_Status sanei_hp_optset_guessParameters (HpOptSet this, HpData data,
-                               SANE_Parameters * p);
-enum hp_scanmode_e sanei_hp_optset_scanmode (HpOptSet this, HpData data);
-hp_bool_t sanei_hp_optset_output_8bit (HpOptSet this, HpData data);
-int sanei_hp_optset_data_width (HpOptSet this, HpData data);
-hp_bool_t sanei_hp_optset_isImmediate (HpOptSet this, int optnum);
-hp_bool_t sanei_hp_optset_mirror_vert (HpOptSet this, HpData data, HpScsi scsi);
+SANE_Status sanei_hp_optset_download(HpOptSet this, HpData data, HpScsi scsi);
+SANE_Status sanei_hp_optset_control(HpOptSet this, HpData data,
+				    int optnum, SANE_Action action,
+				    void *valp, SANE_Int * infop, HpScsi scsi,
+				    hp_bool_t immediate);
+SANE_Status sanei_hp_optset_guessParameters(HpOptSet this, HpData data,
+					    SANE_Parameters * p);
+enum hp_scanmode_e sanei_hp_optset_scanmode(HpOptSet this, HpData data);
+hp_bool_t sanei_hp_optset_output_8bit(HpOptSet this, HpData data);
+int sanei_hp_optset_data_width(HpOptSet this, HpData data);
+hp_bool_t sanei_hp_optset_isImmediate(HpOptSet this, int optnum);
+hp_bool_t sanei_hp_optset_mirror_vert(HpOptSet this, HpData data,
+				      HpScsi scsi);
 hp_bool_t sanei_hp_optset_start_wait(HpOptSet this, HpData data);
-HpScl sanei_hp_optset_scan_type (HpOptSet this, HpData data);
-const SANE_Option_Descriptor * sanei_hp_optset_saneoption (HpOptSet this,
-                               HpData data, int optnum);
+HpScl sanei_hp_optset_scan_type(HpOptSet this, HpData data);
+const SANE_Option_Descriptor *sanei_hp_optset_saneoption(HpOptSet this,
+							 HpData data,
+							 int optnum);
 
 #endif /* HP_OPTION_H_INCLUDED */

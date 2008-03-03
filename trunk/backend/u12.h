@@ -121,8 +121,8 @@ typedef union
 /** Scanmodes
  */
 #define _ScanMode_Color         0
-#define _ScanMode_AverageOut	1	/* CCD averaged 2 pixels value for output*/
-#define _ScanMode_Mono			2   /* not color mode						 */
+#define _ScanMode_AverageOut	1	/* CCD averaged 2 pixels value for output */
+#define _ScanMode_Mono			2	/* not color mode                                            */
 
 /** Scansource + additional flags
  */
@@ -145,7 +145,8 @@ typedef union
 
 /************************ some structures ************************************/
 
-enum {
+enum
+{
 	OPT_NUM_OPTS = 0,
 	OPT_MODE_GROUP,
 #ifdef ALL_MODES
@@ -172,35 +173,37 @@ enum {
 
 /** for adjusting the scanner settings
  */
-typedef struct {
+typedef struct
+{
 	int lampOff;
 	int lampOffOnEnd;
 	int warmup;
 
 	/* for adjusting the default gamma settings */
-	double  rgamma;
-	double  ggamma;
-	double  bgamma;
-	double  graygamma;
+	double rgamma;
+	double ggamma;
+	double bgamma;
+	double graygamma;
 
 	/* for adjusting scan-area */
-	long    upNormal;      
-	long    upPositive;
-	long    upNegative;
-	long    leftNormal;
+	long upNormal;
+	long upPositive;
+	long upNegative;
+	long leftNormal;
 
 } AdjDef, *pAdjDef;
 
 /** for holding basic capabilities
  */
-typedef struct {
+typedef struct
+{
 	unsigned short scanAreaX;
 	unsigned short scanAreaY;
-	unsigned long  flag;
+	unsigned long flag;
 #if 0
-	RANGE	    	rDataType;      /* available scan modes 			*/
-	unsigned short	wMaxExtentX;	/* scanarea width					*/
-	unsigned short	wMaxExtentY;	/* scanarea height					*/
+	RANGE rDataType;	/* available scan modes                         */
+	unsigned short wMaxExtentX;	/* scanarea width                                       */
+	unsigned short wMaxExtentY;	/* scanarea height                                      */
 #endif
 } ScannerCaps, *pScannerCaps;
 
@@ -218,102 +221,102 @@ typedef const struct mode_param
  */
 typedef struct u12d
 {
-	SANE_Bool    initialized;       /* device already initialized?  */
-	struct u12d *next;              /* pointer to next dev in list  */
-	int          fd;                /* device handle                */
-	int          mode;
-	char        *name;              /* (to avoid compiler warnings!)*/
-	SANE_Device  sane;              /* info struct                  */
+	SANE_Bool initialized;	/* device already initialized?  */
+	struct u12d *next;	/* pointer to next dev in list  */
+	int fd;			/* device handle                */
+	int mode;
+	char *name;		/* (to avoid compiler warnings!) */
+	SANE_Device sane;	/* info struct                  */
 
 	/* scan-area settings */
-	SANE_Int     max_x;             /* max XY-extension of the scan-*/
-	SANE_Int     max_y;             /* area                         */
-	SANE_Range   x_range;           /* x-range of the scan-area     */
-	SANE_Range   y_range;           /* y-range of the scan-area     */
+	SANE_Int max_x;		/* max XY-extension of the scan- */
+	SANE_Int max_y;		/* area                         */
+	SANE_Range x_range;	/* x-range of the scan-area     */
+	SANE_Range y_range;	/* y-range of the scan-area     */
 
 	/* resolution settings */
-	SANE_Int     dpi_max_x;         /* */
-	SANE_Int     dpi_max_y;         /* */
-	SANE_Range   dpi_range;         /* resolution range             */
+	SANE_Int dpi_max_x;	/* */
+	SANE_Int dpi_max_y;	/* */
+	SANE_Range dpi_range;	/* resolution range             */
 
-	SANE_Int    *res_list;          /* to hold the available phys.  */
-	SANE_Int     res_list_size;     /* resolution values            */
-	ScannerCaps  caps;              /* caps reported by the driver  */
-	AdjDef       adj;               /* for driver adjustment        */
-	
-	char         usbId[_MAX_ID_LEN];/* to keep Vendor and product   */
-                                    /* ID string (from conf) file   */
+	SANE_Int *res_list;	/* to hold the available phys.  */
+	SANE_Int res_list_size;	/* resolution values            */
+	ScannerCaps caps;	/* caps reported by the driver  */
+	AdjDef adj;		/* for driver adjustment        */
+
+	char usbId[_MAX_ID_LEN];	/* to keep Vendor and product   */
+	/* ID string (from conf) file   */
 	/* our gamma tables */
-	SANE_Word    gamma_table[4][4096];
-	SANE_Range   gamma_range;
-	int          gamma_length;
+	SANE_Word gamma_table[4][4096];
+	SANE_Range gamma_range;
+	int gamma_length;
 
 	/* the shading section */
-	pFnDACOffs   fnDarkOffset;   /**< ...                 */
-	ShadingDef   shade;          /**< shading parameters */
+	pFnDACOffs fnDarkOffset;     /**< ...                 */
+	ShadingDef shade;	     /**< shading parameters */
 
 	/* */
-	SANE_Byte    PCBID;         /**< which version of the PCB         */
+	SANE_Byte PCBID;	    /**< which version of the PCB         */
 
 	/* motor control section */
-	SANE_Byte    MotorID;       /**< the type of the motor drivers    */
-	SANE_Byte    MotorPower;    /**< how to drive the motor           */
-	SANE_Bool    f2003;
-	SANE_Byte    XStepMono;
-	SANE_Byte    XStepColor;
-	SANE_Byte    XStepBack;
-	SANE_Bool    f0_8_16;
-	SANE_Byte    scanStates[_SCANSTATE_BYTES];
+	SANE_Byte MotorID;	    /**< the type of the motor drivers    */
+	SANE_Byte MotorPower;	    /**< how to drive the motor           */
+	SANE_Bool f2003;
+	SANE_Byte XStepMono;
+	SANE_Byte XStepColor;
+	SANE_Byte XStepBack;
+	SANE_Bool f0_8_16;
+	SANE_Byte scanStates[_SCANSTATE_BYTES];
 
 	/* CCD section */
-	SANE_Byte    CCDID;         /**< what CCD do we have              */
-	RegDef      *CCDRegs;       /**< pointer to the register descr    */
-	u_short      numCCDRegs;    /**< number of values to write        */
+	SANE_Byte CCDID;	    /**< what CCD do we have              */
+	RegDef *CCDRegs;	    /**< pointer to the register descr    */
+	u_short numCCDRegs;	    /**< number of values to write        */
 
 	/* DAC section */
-	SANE_Byte    DACType;       /**< what DAC do we have              */
-	RegDef      *DACRegs;       /**< pointer to DAC reg descr.        */
-	u_short      numDACRegs;    /**< number of values to write        */
-	pFnDACDark   fnDACDark;     /**<                                  */
-	RGBByteDef   RegDACOffset;
-	RGBByteDef   RegDACGain;
+	SANE_Byte DACType;	    /**< what DAC do we have              */
+	RegDef *DACRegs;	    /**< pointer to DAC reg descr.        */
+	u_short numDACRegs;	    /**< number of values to write        */
+	pFnDACDark fnDACDark;	    /**<                                  */
+	RGBByteDef RegDACOffset;
+	RGBByteDef RegDACGain;
 
-	ShadowRegs   regs;       /**< for holding ASIC register values        */
-	DataInfo     DataInf;    /**< all static info about the current scan  */
-	ScanInfo     scan;       /**< buffer and motor management during scan */
-	BufferDef    bufs;
-	void        *scaleBuf;   /**< buffer for line scaling    */
-	int          scaleStep;  /**< step size for line scaling */
-	int          scaleIzoom; /**< factor for line scaling    */
+	ShadowRegs regs;	 /**< for holding ASIC register values        */
+	DataInfo DataInf;	 /**< all static info about the current scan  */
+	ScanInfo scan;		 /**< buffer and motor management during scan */
+	BufferDef bufs;
+	void *scaleBuf;		 /**< buffer for line scaling    */
+	int scaleStep;		 /**< step size for line scaling */
+	int scaleIzoom;		 /**< factor for line scaling    */
 
-	u_long       ModelOriginY;
-	SANE_Byte    ModelCtrl;
+	u_long ModelOriginY;
+	SANE_Byte ModelCtrl;
 
-	SANE_Bool    Tpa;           /**< do we have a TPA                 */
-	SANE_Byte    Buttons;       /**< number of buttons                */
+	SANE_Bool Tpa;		    /**< do we have a TPA                 */
+	SANE_Byte Buttons;	    /**< number of buttons                */
 
 	/* lamp control section */
-	SANE_Bool    warmupNeeded;
-	SANE_Byte    lastLampStatus;  /**< for keeping the lamp status   */
+	SANE_Bool warmupNeeded;
+	SANE_Byte lastLampStatus;     /**< for keeping the lamp status   */
 
 #ifdef HAVE_SETITIMER
-	struct itimerval   saveSettings;    /**< for lamp timer           */
+	struct itimerval saveSettings;	    /**< for lamp timer           */
 #endif
 } U12_Device;
 
 typedef struct u12s
 {
-	struct u12s     *next;
-	pid_t            reader_pid;     /* process id of reader          */
-	SANE_Status      exit_code;      /* status of the reader process  */
-	int              r_pipe;         /* pipe to reader process        */
-	int              w_pipe;         /* pipe from reader process      */
-	unsigned long    bytes_read;     /* number of bytes currently read*/
-	U12_Device      *hw;             /* pointer to current device     */
-	Option_Value     val[NUM_OPTIONS];
-	SANE_Byte       *buf;            /* the image buffer              */
-	SANE_Bool        scanning;       /* TRUE during scan-process      */
-	SANE_Parameters  params;         /* for keeping the parameter     */
+	struct u12s *next;
+	pid_t reader_pid;	/* process id of reader          */
+	SANE_Status exit_code;	/* status of the reader process  */
+	int r_pipe;		/* pipe to reader process        */
+	int w_pipe;		/* pipe from reader process      */
+	unsigned long bytes_read;	/* number of bytes currently read */
+	U12_Device *hw;		/* pointer to current device     */
+	Option_Value val[NUM_OPTIONS];
+	SANE_Byte *buf;		/* the image buffer              */
+	SANE_Bool scanning;	/* TRUE during scan-process      */
+	SANE_Parameters params;	/* for keeping the parameter     */
 
 	SANE_Option_Descriptor opt[NUM_OPTIONS];
 
@@ -321,16 +324,17 @@ typedef struct u12s
 
 /** for collecting configuration info...
  */
-typedef struct {
-	
+typedef struct
+{
+
 	char devName[PATH_MAX];
 	char usbId[_MAX_ID_LEN];
 
 	/* contains the stuff to adjust... */
-	AdjDef   adj;
+	AdjDef adj;
 
 } CnfDef, *pCnfDef;
 
-#endif	/* guard __U12_H__ */
+#endif /* guard __U12_H__ */
 
 /* END U12.H ................................................................*/

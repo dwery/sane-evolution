@@ -46,16 +46,16 @@
 /*****************************************************************************/
 /*                 set port to 'idle state' and get iopl                     */
 /*****************************************************************************/
-extern int sanei_umax_pp_initPort (int port, char *name);
-extern int sanei_umax_pp_initScanner (int recover);
-extern int sanei_umax_pp_initTransport (int recover);
-extern int sanei_umax_pp_endSession (void);
-extern int sanei_umax_pp_initCancel (void);
-extern int sanei_umax_pp_cancel (void);
-extern int sanei_umax_pp_checkModel (void);
-extern int sanei_umax_pp_getauto (void);
-extern int sanei_umax_pp_UTA (void);
-extern void sanei_umax_pp_setauto (int mode);
+extern int sanei_umax_pp_initPort(int port, char *name);
+extern int sanei_umax_pp_initScanner(int recover);
+extern int sanei_umax_pp_initTransport(int recover);
+extern int sanei_umax_pp_endSession(void);
+extern int sanei_umax_pp_initCancel(void);
+extern int sanei_umax_pp_cancel(void);
+extern int sanei_umax_pp_checkModel(void);
+extern int sanei_umax_pp_getauto(void);
+extern int sanei_umax_pp_UTA(void);
+extern void sanei_umax_pp_setauto(int mode);
 
 #ifndef __GLOBALES__
 
@@ -87,37 +87,36 @@ extern void sanei_umax_pp_setauto (int mode);
 
 #endif
 
-extern int sanei_umax_pp_scan (int x, int y, int width, int height, int dpi,
-			       int color, int gain, int offset);
-extern int sanei_umax_pp_move (int distance, int precision,
-			       unsigned char *buffer);
-extern int sanei_umax_pp_setLamp (int on);
-extern int sanei_umax_pp_completionWait (void);
-extern int sanei_umax_pp_commitScan (void);
-extern int sanei_umax_pp_park (void);
-extern int sanei_umax_pp_parkWait (void);
-extern int sanei_umax_pp_readBlock (long len, int window, int dpi, int last,
-				    unsigned char *buffer);
-extern int sanei_umax_pp_startScan (int x, int y, int width, int height,
-				    int dpi, int color, int gain,
-				    int offset, int *rbpp, int *rtw,
-				    int *rth);
+extern int sanei_umax_pp_scan(int x, int y, int width, int height, int dpi,
+			      int color, int gain, int offset);
+extern int sanei_umax_pp_move(int distance, int precision,
+			      unsigned char *buffer);
+extern int sanei_umax_pp_setLamp(int on);
+extern int sanei_umax_pp_completionWait(void);
+extern int sanei_umax_pp_commitScan(void);
+extern int sanei_umax_pp_park(void);
+extern int sanei_umax_pp_parkWait(void);
+extern int sanei_umax_pp_readBlock(long len, int window, int dpi, int last,
+				   unsigned char *buffer);
+extern int sanei_umax_pp_startScan(int x, int y, int width, int height,
+				   int dpi, int color, int gain,
+				   int offset, int *rbpp, int *rtw, int *rth);
 
-extern void sanei_umax_pp_setport (int port);
-extern int sanei_umax_pp_getport (void);
-extern void sanei_umax_pp_setparport (int fd);
-extern int sanei_umax_pp_getparport (void);
-extern void sanei_umax_pp_setastra (int mod);
-extern int sanei_umax_pp_getastra (void);
-extern void sanei_umax_pp_setLeft (int mod);
-extern int sanei_umax_pp_getLeft (void);
-extern void sanei_umax_pp_setfull (int mod);
-extern int sanei_umax_pp_getfull (void);
-extern int sanei_umax_pp_scannerStatus (void);
-extern int sanei_umax_pp_probeScanner (int recover);
+extern void sanei_umax_pp_setport(int port);
+extern int sanei_umax_pp_getport(void);
+extern void sanei_umax_pp_setparport(int fd);
+extern int sanei_umax_pp_getparport(void);
+extern void sanei_umax_pp_setastra(int mod);
+extern int sanei_umax_pp_getastra(void);
+extern void sanei_umax_pp_setLeft(int mod);
+extern int sanei_umax_pp_getLeft(void);
+extern void sanei_umax_pp_setfull(int mod);
+extern int sanei_umax_pp_getfull(void);
+extern int sanei_umax_pp_scannerStatus(void);
+extern int sanei_umax_pp_probeScanner(int recover);
 
-extern char **sanei_parport_find_port (void);
-extern char **sanei_parport_find_device (void);
+extern char **sanei_parport_find_port(void);
+extern char **sanei_parport_find_device(void);
 
-extern int sanei_umax_pp_cmdSync (int cmd);
-extern void sanei_umax_pp_gamma (int *red, int *green, int *blue);
+extern int sanei_umax_pp_cmdSync(int cmd);
+extern void sanei_umax_pp_gamma(int *red, int *green, int *blue);

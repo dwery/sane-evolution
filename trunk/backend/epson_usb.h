@@ -5,6 +5,6 @@
 
 extern SANE_Word sanei_epson_usb_product_ids[];
 
-extern int sanei_epson_getNumberOfUSBProductIds (void);
+extern int sanei_epson_getNumberOfUSBProductIds(void);
 
 #endif

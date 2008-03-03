@@ -47,26 +47,26 @@
 #include "gt68xx_low.h"
 
 static SANE_Status
-gt68xx_generic_move_relative (GT68xx_Device * dev, SANE_Int distance);
+gt68xx_generic_move_relative(GT68xx_Device * dev, SANE_Int distance);
 
-static SANE_Status gt68xx_generic_start_scan (GT68xx_Device * dev);
-
-static SANE_Status
-gt68xx_generic_read_scanned_data (GT68xx_Device * dev, SANE_Bool * ready);
+static SANE_Status gt68xx_generic_start_scan(GT68xx_Device * dev);
 
 static SANE_Status
-gt68xx_generic_set_afe (GT68xx_Device * dev, GT68xx_AFE_Parameters * params);
+gt68xx_generic_read_scanned_data(GT68xx_Device * dev, SANE_Bool * ready);
 
 static SANE_Status
-gt68xx_generic_set_exposure_time (GT68xx_Device * dev,
-				  GT68xx_Exposure_Parameters * params);
-static SANE_Status gt68xx_generic_get_id (GT68xx_Device * dev);
-static SANE_Status gt68xx_generic_paperfeed (GT68xx_Device * dev);
+gt68xx_generic_set_afe(GT68xx_Device * dev, GT68xx_AFE_Parameters * params);
 
 static SANE_Status
-gt68xx_generic_setup_scan (GT68xx_Device * dev,
-			   GT68xx_Scan_Request * request,
-			   GT68xx_Scan_Action action,
-			   GT68xx_Scan_Parameters * params);
+gt68xx_generic_set_exposure_time(GT68xx_Device * dev,
+				 GT68xx_Exposure_Parameters * params);
+static SANE_Status gt68xx_generic_get_id(GT68xx_Device * dev);
+static SANE_Status gt68xx_generic_paperfeed(GT68xx_Device * dev);
+
+static SANE_Status
+gt68xx_generic_setup_scan(GT68xx_Device * dev,
+			  GT68xx_Scan_Request * request,
+			  GT68xx_Scan_Action action,
+			  GT68xx_Scan_Parameters * params);
 
 #endif /* not GT68XX_GENERIC_H */

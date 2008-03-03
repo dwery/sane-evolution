@@ -69,27 +69,27 @@
 #define __DRV_TYPES_H__
 
 /* define some useful types */
-typedef int 			Bool;
-typedef char 			Char;
-typedef char 		   *pChar;
-typedef unsigned char 	UChar;
-typedef UChar 		   *pUChar;
-typedef unsigned char   Byte;
-typedef Byte 		   *pByte;
+typedef int Bool;
+typedef char Char;
+typedef char *pChar;
+typedef unsigned char UChar;
+typedef UChar *pUChar;
+typedef unsigned char Byte;
+typedef Byte *pByte;
 
-typedef short 			Short;
-typedef unsigned short	UShort;
-typedef UShort 		   *pUShort;
+typedef short Short;
+typedef unsigned short UShort;
+typedef UShort *pUShort;
 
-typedef unsigned int	UInt;
-typedef UInt		   *pUInt;
+typedef unsigned int UInt;
+typedef UInt *pUInt;
 
-typedef long 		  	Long;
-typedef long  		   *pLong;
-typedef unsigned long 	ULong;
-typedef ULong 		   *pULong;
+typedef long Long;
+typedef long *pLong;
+typedef unsigned long ULong;
+typedef ULong *pULong;
 
-typedef void 		   *pVoid;
+typedef void *pVoid;
 
 /*
  * the boolean values
@@ -117,64 +117,73 @@ typedef struct
 
 typedef struct
 {
-    WordVal w1st;
-    WordVal w2nd;
+	WordVal w1st;
+	WordVal w2nd;
 } DWordVal, *pDWordVal;
 
 /* useful for RGB-values */
-typedef struct {
+typedef struct
+{
 	Byte Red;
 	Byte Green;
 	Byte Blue;
 } RGBByteDef, *pRGBByteDef;
 
-typedef struct {
+typedef struct
+{
 	UShort Red;
 	UShort Green;
 	UShort Blue;
 } RGBUShortDef, *pRGBUShortDef;
 
-typedef struct {
+typedef struct
+{
 
-    union {
-        pUChar  bp;
-        pUShort usp;
-        pULong  ulp;
-    } red;
-    union {
-        pUChar  bp;
-        pUShort usp;
-        pULong  ulp;
-    } green;
-    union {
-        pUChar  bp;
-        pUShort usp;
-        pULong  ulp;
-    } blue;
+	union
+	{
+		pUChar bp;
+		pUShort usp;
+		pULong ulp;
+	} red;
+	union
+	{
+		pUChar bp;
+		pUShort usp;
+		pULong ulp;
+	} green;
+	union
+	{
+		pUChar bp;
+		pUShort usp;
+		pULong ulp;
+	} blue;
 
 } RBGPtrDef;
 
-typedef struct {
+typedef struct
+{
 	ULong Red;
 	ULong Green;
 	ULong Blue;
 } RGBULongDef, *pRGBULongDef;
 
-typedef union {
-	pUChar	       pb;
-	pUShort	       pw;
-	pULong	       pdw;
-    pRGBByteDef    pbrgb;
-    pRGBUShortDef  pusrgb;
-    pRGBULongDef   pulrgb;
+typedef union
+{
+	pUChar pb;
+	pUShort pw;
+	pULong pdw;
+	pRGBByteDef pbrgb;
+	pRGBUShortDef pusrgb;
+	pRGBULongDef pulrgb;
 } DataPointer, *pDataPointer;
 
-typedef union {
-	WordVal	 wOverlap;
+typedef union
+{
+	WordVal wOverlap;
 	DWordVal dwOverlap;
-	ULong	 dwValue;
-	UShort	 wValue;
-	Byte	 bValue;
+	ULong dwValue;
+	UShort wValue;
+	Byte bValue;
 } DataType, *pDataType;
 
 #endif /* guard __DRV_TYPES_H__ */

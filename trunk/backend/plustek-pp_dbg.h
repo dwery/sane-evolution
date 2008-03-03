@@ -93,7 +93,7 @@
  * standard debug level
  */
 #ifdef DEBUG
-static int dbg_level=(DBG_ALL & ~(DBG_IO | DBG_IOF));
+static int dbg_level = (DBG_ALL & ~(DBG_IO | DBG_IOF));
 #endif
 
 #endif /* guard __DEBUG_H__ */

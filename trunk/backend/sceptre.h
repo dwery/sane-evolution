@@ -61,8 +61,8 @@
 
 typedef struct
 {
-  unsigned char data[16];
-  int len;
+	unsigned char data[16];
+	int len;
 }
 CDB;
 
@@ -242,30 +242,30 @@ CDB;
 
 enum Sceptre_Option
 {
-  OPT_NUM_OPTS = 0,
+	OPT_NUM_OPTS = 0,
 
-  OPT_MODE_GROUP,
-  OPT_MODE,			/* scanner modes */
-  OPT_RESOLUTION,		/* X and Y resolution */
+	OPT_MODE_GROUP,
+	OPT_MODE,		/* scanner modes */
+	OPT_RESOLUTION,		/* X and Y resolution */
 
-  OPT_GEOMETRY_GROUP,
-  OPT_TL_X,			/* upper left X */
-  OPT_TL_Y,			/* upper left Y */
-  OPT_BR_X,			/* bottom right X */
-  OPT_BR_Y,			/* bottom right Y */
+	OPT_GEOMETRY_GROUP,
+	OPT_TL_X,		/* upper left X */
+	OPT_TL_Y,		/* upper left Y */
+	OPT_BR_X,		/* bottom right X */
+	OPT_BR_Y,		/* bottom right Y */
 
-  OPT_ENHANCEMENT_GROUP,
-  OPT_CUSTOM_GAMMA,		/* Use the custom gamma tables */
-  OPT_GAMMA_VECTOR_R,		/* Custom Red gamma table */
-  OPT_GAMMA_VECTOR_G,		/* Custom Green Gamma table */
-  OPT_GAMMA_VECTOR_B,		/* Custom Blue Gamma table */
-  OPT_THRESHOLD,		/* Threshold */
-  OPT_HALFTONE_PATTERN,		/* Halftone pattern (1 to 4) */
+	OPT_ENHANCEMENT_GROUP,
+	OPT_CUSTOM_GAMMA,	/* Use the custom gamma tables */
+	OPT_GAMMA_VECTOR_R,	/* Custom Red gamma table */
+	OPT_GAMMA_VECTOR_G,	/* Custom Green Gamma table */
+	OPT_GAMMA_VECTOR_B,	/* Custom Blue Gamma table */
+	OPT_THRESHOLD,		/* Threshold */
+	OPT_HALFTONE_PATTERN,	/* Halftone pattern (1 to 4) */
 
-  OPT_PREVIEW,			/* preview mode */
+	OPT_PREVIEW,		/* preview mode */
 
-  /* must come last: */
-  OPT_NUM_OPTIONS
+	/* must come last: */
+	OPT_NUM_OPTIONS
 };
 
 /*--------------------------------------------------------------------------*/
@@ -275,13 +275,13 @@ enum Sceptre_Option
  */
 struct scanners_supported
 {
-  /* From scsi inquiry */
-  int scsi_type;
-  char scsi_vendor[9];
-  char scsi_product[17];
+	/* From scsi inquiry */
+	int scsi_type;
+	char scsi_vendor[9];
+	char scsi_product[17];
 
-  char *real_vendor;
-  char *real_product;
+	char *real_vendor;
+	char *real_product;
 };
 
 /*--------------------------------------------------------------------------*/
@@ -296,87 +296,87 @@ struct scanners_supported
 /* Define a scanner occurence. */
 typedef struct Sceptre_Scanner
 {
-  struct Sceptre_Scanner *next;
-  SANE_Device sane;
+	struct Sceptre_Scanner *next;
+	SANE_Device sane;
 
-  char *devicename;
-  int sfd;			/* device handle */
+	char *devicename;
+	int sfd;		/* device handle */
 
-  /* Infos from inquiry. */
-  char scsi_type;
-  char scsi_vendor[9];
-  char scsi_product[17];
-  char scsi_version[5];
+	/* Infos from inquiry. */
+	char scsi_type;
+	char scsi_vendor[9];
+	char scsi_product[17];
+	char scsi_version[5];
 
-  /* Scanner infos. */
-  SANE_Range x_range;
-  SANE_Range y_range;
-  SANE_Range resolution_range;
-  int scnum;			/* index of that scanner in
-				   * scanners_supported */
+	/* Scanner infos. */
+	SANE_Range x_range;
+	SANE_Range y_range;
+	SANE_Range resolution_range;
+	int scnum;		/* index of that scanner in
+				 * scanners_supported */
 
-  /* SCSI handling */
-  SANE_Byte *buffer;		/* for SCSI transfer. */
-  size_t buffer_size;		/* allocated size of buffer */
+	/* SCSI handling */
+	SANE_Byte *buffer;	/* for SCSI transfer. */
+	size_t buffer_size;	/* allocated size of buffer */
 
-  /* Scanning handling. */
-  int scanning;			/* TRUE is a scan is running. */
-  int resolution;		/* scan resolution */
-  int x_tl;			/* X top left */
-  int y_tl;			/* Y top left */
-  int x_br;			/* X bottom right */
-  int y_br;			/* Y bottom right */
-  int width;			/* width of the scan area in mm */
-  int length;			/* length of the scan area in mm */
+	/* Scanning handling. */
+	int scanning;		/* TRUE is a scan is running. */
+	int resolution;		/* scan resolution */
+	int x_tl;		/* X top left */
+	int y_tl;		/* Y top left */
+	int x_br;		/* X bottom right */
+	int y_br;		/* Y bottom right */
+	int width;		/* width of the scan area in mm */
+	int length;		/* length of the scan area in mm */
 
-  enum
-  {
-    SCEPTRE_LINEART,
-    SCEPTRE_HALFTONE,
-    SCEPTRE_GRAYSCALE,
-    SCEPTRE_COLOR
-  }
-  scan_mode;
+	enum
+	{
+		SCEPTRE_LINEART,
+		SCEPTRE_HALFTONE,
+		SCEPTRE_GRAYSCALE,
+		SCEPTRE_COLOR
+	}
+	scan_mode;
 
-  int depth;			/* depth per color */
-  int halftone_param;		/* haltone number, valid for SCEPTRE_HALFTONE */
+	int depth;		/* depth per color */
+	int halftone_param;	/* haltone number, valid for SCEPTRE_HALFTONE */
 
-  size_t bytes_left;		/* number of bytes left to give to the backend */
+	size_t bytes_left;	/* number of bytes left to give to the backend */
 
-  size_t real_bytes_left;	/* number of bytes left the scanner will return. */
+	size_t real_bytes_left;	/* number of bytes left the scanner will return. */
 
-  SANE_Byte *image;		/* keep the raw image here */
-  size_t image_size;		/* allocated size of image */
-  size_t image_begin;		/* first significant byte in image */
-  size_t image_end;		/* first free byte in image */
+	SANE_Byte *image;	/* keep the raw image here */
+	size_t image_size;	/* allocated size of image */
+	size_t image_begin;	/* first significant byte in image */
+	size_t image_end;	/* first free byte in image */
 
-  int color_shift;		/* for color scan: number of lines to
-				   * shift the colors. The higher the
-				   * resolution, the higher this
-				   * number. */
+	int color_shift;	/* for color scan: number of lines to
+				 * shift the colors. The higher the
+				 * resolution, the higher this
+				 * number. */
 
-  int raster_size;		/* size of a raster */
-  int raster_num;		/* for colour scan, current raster read */
-  int raster_real;		/* real number of raster in the
-				   * scan. This is necessary since I
-				   * don't know how to reliably compute
-				   * the number of lines */
+	int raster_size;	/* size of a raster */
+	int raster_num;		/* for colour scan, current raster read */
+	int raster_real;	/* real number of raster in the
+				 * scan. This is necessary since I
+				 * don't know how to reliably compute
+				 * the number of lines */
 
-  int raster_ahead;		/* max size of the incomplete lines */
+	int raster_ahead;	/* max size of the incomplete lines */
 
-  int line;			/* current line of the scan */
+	int line;		/* current line of the scan */
 
 
-  SANE_Parameters params;
+	SANE_Parameters params;
 
-  /* Options */
-  SANE_Option_Descriptor opt[OPT_NUM_OPTIONS];
-  Option_Value val[OPT_NUM_OPTIONS];
+	/* Options */
+	SANE_Option_Descriptor opt[OPT_NUM_OPTIONS];
+	Option_Value val[OPT_NUM_OPTIONS];
 
-  /* Gamma table. 1 array per colour. */
-  SANE_Word gamma_R[GAMMA_LENGTH];
-  SANE_Word gamma_G[GAMMA_LENGTH];
-  SANE_Word gamma_B[GAMMA_LENGTH];
+	/* Gamma table. 1 array per colour. */
+	SANE_Word gamma_R[GAMMA_LENGTH];
+	SANE_Word gamma_G[GAMMA_LENGTH];
+	SANE_Word gamma_B[GAMMA_LENGTH];
 
 }
 Sceptre_Scanner;

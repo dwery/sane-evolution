@@ -1,0 +1,4 @@
+*.mo
+*.pot
+.tmp
+Makefile

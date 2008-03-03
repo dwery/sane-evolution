@@ -121,6 +121,7 @@ distclean: clean distclean-recursive
 	rm -rf $(distdir)
 	rm -f TAGS
 	rm -rf autom4te.cache
+	rm -f configure
 
 depend: depend-recursive
 

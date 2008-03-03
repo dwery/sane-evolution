@@ -117,9 +117,8 @@ struct scanner
 
 /* ------------------------------------------------------------------------- */
 
-#define MM_PER_INCH    25.4
-#define MM_PER_UNIT_UNFIX SANE_UNFIX(SANE_FIX(MM_PER_INCH / 1200.0))
-#define MM_PER_UNIT_FIX SANE_FIX(SANE_UNFIX(SANE_FIX(MM_PER_INCH / 1200.0)))
+#define MM_PER_UNIT_UNFIX SANE_UNFIX(SANE_FIX(SANE_MM_PER_INCH / 1200.0))
+#define MM_PER_UNIT_FIX SANE_FIX(SANE_UNFIX(SANE_FIX(SANE_MM_PER_INCH / 1200.0)))
 
 #define SCANNER_UNIT_TO_FIXED_MM(number) SANE_FIX((number) * MM_PER_UNIT_UNFIX)
 #define FIXED_MM_TO_SCANNER_UNIT(number) SANE_UNFIX(number) / MM_PER_UNIT_UNFIX

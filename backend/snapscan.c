@@ -131,7 +131,6 @@ if ((s) != SANE_STATUS_GOOD) { DBG(DL_MAJOR_ERROR, "%s: %s command failed: %s\n"
 
 #define HCFG_HT   0x0C		/* support halftone matrices at all */
 
-#define MM_PER_IN 25.4		/* # millimetres per inch */
 #define IN_PER_MM 0.03937	/* # inches per millimetre  */
 
 #ifndef SANE_I18N
@@ -1082,7 +1081,7 @@ sane_get_parameters(SANE_Handle h, SANE_Parameters * p)
 		width = SANE_UNFIX(pss->brx - pss->tlx);
 		height = SANE_UNFIX(pss->bry - pss->tly);
 		dpi = pss->res;
-		dots_per_mm = dpi / MM_PER_IN;
+		dots_per_mm = dpi / SANE_MM_PER_INCH;
 		p->pixels_per_line = width * dots_per_mm;
 		p->lines = height * dots_per_mm;
 		switch (mode) {

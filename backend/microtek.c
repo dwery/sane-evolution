@@ -84,7 +84,6 @@
 # define PATH_MAX	1024
 #endif
 
-#define MM_PER_INCH	25.4
 
 #define SCSI_BUFF_SIZE sanei_scsi_max_request_size
 
@@ -1762,8 +1761,8 @@ parse_inquiry(Microtek_Info * mi, unsigned char *result)
 		break;
 	case 0x80:
 		/* Slide format, size is mm */
-		mi->max_x = (35.0 / MM_PER_INCH) * mi->base_resolution - 1;
-		mi->max_y = (35.0 / MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_x = (35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_y = (35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
 		break;
 	case 0x81:
 		mi->max_x = 5.0 * mi->base_resolution - 1;
@@ -1771,8 +1770,8 @@ parse_inquiry(Microtek_Info * mi, unsigned char *result)
 		break;
 	case 0x82:
 		/* Slide format, size is mm */
-		mi->max_x = (36.0 / MM_PER_INCH) * mi->base_resolution - 1;
-		mi->max_y = (36.0 / MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_x = (36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_y = (36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
 		break;
 	default:
 		/* Undefined document format code */
@@ -1785,7 +1784,7 @@ parse_inquiry(Microtek_Info * mi, unsigned char *result)
 	{
 		/* we need base resolution in dots-per-millimeter... */
 		float base_res_dpmm =
-			(float) mi->base_resolution / MM_PER_INCH;
+			(float) mi->base_resolution / SANE_MM_PER_INCH;
 		mi->doc_x_range.min = SANE_FIX(0);
 		mi->doc_x_range.max =
 			SANE_FIX((float) mi->max_x / base_res_dpmm);
@@ -4124,9 +4123,9 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		{
 			/* need to 'round' things properly!  XXXXXXXX */
 			SANE_Int widthpix;
-			double dots_per_mm = s->resolution / MM_PER_INCH;
-			double units_per_mm = (s->unit_type == MS_UNIT_18INCH) ? (8.0 / MM_PER_INCH) :	/* 1/8 inches */
-				(s->dev->info.base_resolution / MM_PER_INCH);	/* pixels     */
+			double dots_per_mm = s->resolution / SANE_MM_PER_INCH;
+			double units_per_mm = (s->unit_type == MS_UNIT_18INCH) ? (8.0 / SANE_MM_PER_INCH) :	/* 1/8 inches */
+				(s->dev->info.base_resolution / SANE_MM_PER_INCH);	/* pixels     */
 
 			DBG(23, "sane_get_parameters:  dots_per_mm:  %f\n",
 			    dots_per_mm);

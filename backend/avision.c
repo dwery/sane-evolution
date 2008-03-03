@@ -1006,7 +1006,6 @@ struct timeval tv;
 #define AVISION_INQUIRY_SIZE_V2 0x88
 #define AVISION_INQUIRY_SIZE_MAX AVISION_INQUIRY_SIZE_V2
 
-#define MM_PER_INCH 25.4
 
 #define AVISION_BASE_RES 300
 
@@ -2319,13 +2318,13 @@ compute_parameters(Avision_Scanner * s)
 
 	/* window parameter in pixel */
 	s->avdimen.tlx = s->avdimen.hw_xres * SANE_UNFIX(s->val[OPT_TL_X].w)
-		/ MM_PER_INCH;
+		/ SANE_MM_PER_INCH;
 	s->avdimen.tly = s->avdimen.hw_yres * SANE_UNFIX(s->val[OPT_TL_Y].w)
-		/ MM_PER_INCH;
+		/ SANE_MM_PER_INCH;
 	s->avdimen.brx = s->avdimen.hw_xres * SANE_UNFIX(s->val[OPT_BR_X].w)
-		/ MM_PER_INCH;
+		/ SANE_MM_PER_INCH;
 	s->avdimen.bry = s->avdimen.hw_yres * SANE_UNFIX(s->val[OPT_BR_Y].w)
-		/ MM_PER_INCH;
+		/ SANE_MM_PER_INCH;
 
 	/* line difference */
 	if (color_mode_is_color(s->c_mode) &&
@@ -2341,7 +2340,7 @@ compute_parameters(Avision_Scanner * s)
 		{
 			long y_max =
 				dev->inquiry_y_ranges[s->source_mode_dim] *
-				s->avdimen.hw_yres / MM_PER_INCH;
+				s->avdimen.hw_yres / SANE_MM_PER_INCH;
 			DBG(3,
 			    "sane_compute_parameters: y_max: %ld, bry: %ld, line_difference: %d\n",
 			    y_max, s->avdimen.bry,
@@ -2368,8 +2367,8 @@ compute_parameters(Avision_Scanner * s)
 		int overscan = (s->avdimen.hw_yres *
 				(SANE_UNFIX(s->val[OPT_OVERSCAN_TOP].w) +
 				 SANE_UNFIX(s->val[OPT_OVERSCAN_BOTTOM].w)) +
-				(MM_PER_INCH - 1)
-			) / MM_PER_INCH;
+				(SANE_MM_PER_INCH - 1)
+			) / SANE_MM_PER_INCH;
 		DBG(3, "sane_compute_parameters: overscan lines: %d\n",
 		    overscan);
 		s->avdimen.bry += overscan;
@@ -3942,24 +3941,24 @@ attach(SANE_String_Const devname, Avision_ConnectionType con_type,
 		/* .1 to slightly increate the size to match the one of American standard paper
 		   formats that would otherwise be .1 mm too large to scan ... */
 		dev->inquiry_x_ranges[AV_NORMAL_DIM] =
-			(double) get_double(&(result[81])) * MM_PER_INCH /
+			(double) get_double(&(result[81])) * SANE_MM_PER_INCH /
 			base_dpi + .1;
 		dev->inquiry_y_ranges[AV_NORMAL_DIM] =
-			(double) get_double(&(result[83])) * MM_PER_INCH /
+			(double) get_double(&(result[83])) * SANE_MM_PER_INCH /
 			base_dpi;
 
 		dev->inquiry_x_ranges[AV_TRANSPARENT_DIM] =
-			(double) get_double(&(result[77])) * MM_PER_INCH /
+			(double) get_double(&(result[77])) * SANE_MM_PER_INCH /
 			base_dpi + .1;
 		dev->inquiry_y_ranges[AV_TRANSPARENT_DIM] =
-			(double) get_double(&(result[79])) * MM_PER_INCH /
+			(double) get_double(&(result[79])) * SANE_MM_PER_INCH /
 			base_dpi;
 
 		dev->inquiry_x_ranges[AV_ADF_DIM] =
-			(double) get_double(&(result[85])) * MM_PER_INCH /
+			(double) get_double(&(result[85])) * SANE_MM_PER_INCH /
 			base_dpi + .1;
 		dev->inquiry_y_ranges[AV_ADF_DIM] =
-			(double) get_double(&(result[87])) * MM_PER_INCH /
+			(double) get_double(&(result[87])) * SANE_MM_PER_INCH /
 			base_dpi;
 	}
 
@@ -3986,16 +3985,16 @@ attach(SANE_String_Const devname, Avision_ConnectionType con_type,
 					DBG(1,
 					    "attach: \"force_a4\" found! Using defauld (ISO A4).\n");
 					dev->inquiry_x_ranges[mode] =
-						A4_X_RANGE * MM_PER_INCH;
+						A4_X_RANGE * SANE_MM_PER_INCH;
 					dev->inquiry_y_ranges[mode] =
-						A4_Y_RANGE * MM_PER_INCH;
+						A4_Y_RANGE * SANE_MM_PER_INCH;
 				} else if (force_a3) {
 					DBG(1,
 					    "attach: \"force_a3\" found! Using defauld (ISO A3).\n");
 					dev->inquiry_x_ranges[mode] =
-						A3_X_RANGE * MM_PER_INCH;
+						A3_X_RANGE * SANE_MM_PER_INCH;
 					dev->inquiry_y_ranges[mode] =
-						A3_Y_RANGE * MM_PER_INCH;
+						A3_Y_RANGE * SANE_MM_PER_INCH;
 				}
 			} else {	/* mode is invaild */
 
@@ -4004,27 +4003,27 @@ attach(SANE_String_Const devname, Avision_ConnectionType con_type,
 				    mode);
 				if (dev->hw->feature_type & AV_FORCE_A3) {
 					dev->inquiry_x_ranges[mode] =
-						A3_X_RANGE * MM_PER_INCH;
+						A3_X_RANGE * SANE_MM_PER_INCH;
 					dev->inquiry_y_ranges[mode] =
-						A3_Y_RANGE * MM_PER_INCH;
+						A3_Y_RANGE * SANE_MM_PER_INCH;
 				} else if (dev->hw->
 					   feature_type & AV_FORCE_FILM) {
 					dev->inquiry_x_ranges[mode] =
-						FILM_X_RANGE * MM_PER_INCH;
+						FILM_X_RANGE * SANE_MM_PER_INCH;
 					dev->inquiry_y_ranges[mode] =
-						FILM_Y_RANGE * MM_PER_INCH;
+						FILM_Y_RANGE * SANE_MM_PER_INCH;
 				} else {
 					dev->inquiry_x_ranges[mode] =
-						A4_X_RANGE * MM_PER_INCH;
+						A4_X_RANGE * SANE_MM_PER_INCH;
 
 					if (dev->scanner_type == AV_SHEETFEED)
 						dev->inquiry_y_ranges[mode] =
 							SHEETFEED_Y_RANGE *
-							MM_PER_INCH;
+							SANE_MM_PER_INCH;
 					else
 						dev->inquiry_y_ranges[mode] =
 							A4_Y_RANGE *
-							MM_PER_INCH;
+							SANE_MM_PER_INCH;
 				}
 			}
 			DBG(1, "attach: Mode %d range is now: %f x %f mm.\n",
@@ -4143,7 +4142,7 @@ send_tune_scan_length(Avision_Scanner * s)
 
 	/* the SPEC says optical DPI, but real world meassuring suggests it is 1200
 	   as in the window descriptor */
-	top = 1200 * SANE_UNFIX(s->val[OPT_OVERSCAN_TOP].w) / MM_PER_INCH;
+	top = 1200 * SANE_UNFIX(s->val[OPT_OVERSCAN_TOP].w) / SANE_MM_PER_INCH;
 	DBG(3, "send_tune_scan_length: top: %d\n", top);
 
 	set_double(scmd.datatypequal, 0x0001);	/* attach, 0x000 is shorten */
@@ -4170,7 +4169,7 @@ send_tune_scan_length(Avision_Scanner * s)
 
 	scmd.datatypecode = 0x95;	/* Attach/Truncate tail(right) of scan length */
 	bottom = 1200 * SANE_UNFIX(s->val[OPT_OVERSCAN_BOTTOM].w) /
-		MM_PER_INCH;
+		SANE_MM_PER_INCH;
 	DBG(3, "send_tune_scan_length: bottom: %d\n", bottom);
 
 	set_double(payload.vertical, bottom);

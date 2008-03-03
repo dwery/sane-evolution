@@ -112,7 +112,7 @@ init_picture_buffer(Test_Device * test_device, SANE_Byte ** buffer,
 	if (strcmp(test_device->val[opt_test_picture].s, "Grid") == 0) {
 		double p_size =
 			(10.0 * SANE_UNFIX(test_device->val[opt_resolution].w)
-			 / MM_PER_INCH);
+			 / SANE_MM_PER_INCH);
 		SANE_Word increment = 1;
 		if (test_device->params.format == SANE_FRAME_RGB)
 			increment *= 3;

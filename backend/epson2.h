@@ -76,8 +76,7 @@
 
 #define SANE_EPSON_MAX_RETRIES	120	/* how often do we retry during warmup ? */
 
-#ifndef MM_PER_INCH
-#define MM_PER_INCH             25.4
+#ifndef SANE_MM_PER_INCH
 #endif
 
 /* NOTE: you can find these codes with "man ascii". */

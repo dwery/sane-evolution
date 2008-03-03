@@ -106,7 +106,6 @@
 
 /************************ some definitions ***********************************/
 
-#define MM_PER_INCH         25.4
 
 #define PLUSTEK_CONFIG_FILE	"plustek.conf"
 
@@ -148,7 +147,7 @@
 #define _NegLargePageWidth  1270UL
 #define _NegLargePageHeight 1570UL
 
-#define _SCALE(X) ((double)(X)/300.0 * MM_PER_INCH)
+#define _SCALE(X) ((double)(X)/300.0 * SANE_MM_PER_INCH)
 
 /** scan modes
  */

@@ -2607,10 +2607,10 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 	/* use detected left margin  and fixed value */
 	start = dev->sensor.CCD_start_xoffset +
 		(SANE_UNFIX(dev->model->x_offset) * dev->sensor.optical_res) /
-		MM_PER_INCH;
+		SANE_MM_PER_INCH;
 
 	/* add x coordinates */
-	start += (dev->settings.tl_x * dev->sensor.optical_res) / MM_PER_INCH;
+	start += (dev->settings.tl_x * dev->sensor.optical_res) / SANE_MM_PER_INCH;
 	if (half_ccd)
 		start = start / 2;
 	if (stagger > 0)
@@ -2840,7 +2840,7 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 	   SANE_Fixed y_offset;                       
 	   SANE_Fixed y_size;                 
 	   SANE_Fixed y_offset_calib;
-	   mm_to_steps()=motor dpi / 2.54 / 10=motor dpi / MM_PER_INCH */
+	   mm_to_steps()=motor dpi / 2.54 / 10=motor dpi / SANE_MM_PER_INCH */
 
 	/* if scanner uses GENESYS_FLAG_SEARCH_START y_offset is
 	   relative from origin, else, it is from parking position */
@@ -2854,12 +2854,12 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 	}
 	if (dev->model->flags & GENESYS_FLAG_SEARCH_START)
 		move = (SANE_UNFIX(dev->model->y_offset_calib) * move_dpi) /
-			MM_PER_INCH;
+			SANE_MM_PER_INCH;
 	else
 		move = 0;
 	DBG(DBG_info, "gl646_init_regs_for_scan: move=%d steps\n", move);
 
-	move += (SANE_UNFIX(dev->model->y_offset) * move_dpi) / MM_PER_INCH;
+	move += (SANE_UNFIX(dev->model->y_offset) * move_dpi) / SANE_MM_PER_INCH;
 	if (move < 0) {
 		DBG(DBG_error,
 		    "gl646_init_regs_for_scan: overriding negative move value %d\n",
@@ -2869,8 +2869,8 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 	DBG(DBG_info, "gl646_init_regs_for_scan: move=%d steps\n", move);
 
 	/* add tl_y to base movement */
-	/* move += (dev->settings.tl_y * dev->motor.optical_ydpi) / MM_PER_INCH; */
-	move += (dev->settings.tl_y * move_dpi) / MM_PER_INCH;
+	/* move += (dev->settings.tl_y * dev->motor.optical_ydpi) / SANE_MM_PER_INCH; */
+	move += (dev->settings.tl_y * move_dpi) / SANE_MM_PER_INCH;
 	DBG(DBG_info, "gl646_init_regs_for_scan: move=%d steps\n", move);
 
 	/* substract current head position */

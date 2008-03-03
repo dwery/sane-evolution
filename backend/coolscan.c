@@ -1846,10 +1846,9 @@ sense_handler(int scsi_fd, unsigned char *result, void *arg)
 /* ------------------------------------------------------------------------- */
 
 
-#define MM_PER_INCH	25.4
 /* ilu per mm */
 
-#define length_quant SANE_UNFIX(SANE_FIX(MM_PER_INCH / 2700.0))
+#define length_quant SANE_UNFIX(SANE_FIX(SANE_MM_PER_INCH / 2700.0))
 #define mmToIlu(mm) ((mm) / length_quant)
 #define iluToMm(ilu) ((ilu) * length_quant)
 

@@ -352,16 +352,16 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		if (val[OPT_RESOLUTION_BIND].w == SANE_TRUE) {
 			x_pixel_per_mm = y_pixel_per_mm =
 				SANE_UNFIX(val[OPT_RESOLUTION].w) /
-				MM_PER_INCH;
+				SANE_MM_PER_INCH;
 			DBG(30, "sane_get_parameters: x_res=y_res=%f\n",
 			    SANE_UNFIX(val[OPT_RESOLUTION].w));
 		} else {
 			x_pixel_per_mm =
 				SANE_UNFIX(val[OPT_RESOLUTION].w) /
-				MM_PER_INCH;
+				SANE_MM_PER_INCH;
 			y_pixel_per_mm =
 				SANE_UNFIX(val[OPT_Y_RESOLUTION].w) /
-				MM_PER_INCH;
+				SANE_MM_PER_INCH;
 			DBG(30, "sane_get_parameters: x_res=%f, y_res=%f\n",
 			    SANE_UNFIX(val[OPT_RESOLUTION].w),
 			    SANE_UNFIX(val[OPT_Y_RESOLUTION].w));
@@ -2138,12 +2138,12 @@ init_options(Microtek2_Scanner * ms, u_int8_t current_scan_source)
 	md->x_range_mm.min = SANE_FIX(0.0);
 	md->x_range_mm.max = SANE_FIX((double) mi->geo_width
 				      / (double) mi->opt_resolution
-				      * MM_PER_INCH);
+				      * SANE_MM_PER_INCH);
 	md->x_range_mm.quant = SANE_FIX(0.0);
 	md->y_range_mm.min = SANE_FIX(0.0);
 	md->y_range_mm.max = SANE_FIX((double) mi->geo_height
 				      / (double) mi->opt_resolution
-				      * MM_PER_INCH);
+				      * SANE_MM_PER_INCH);
 	md->y_range_mm.quant = SANE_FIX(0.0);
 	val[OPT_TL_X].w = SANE_FIX(0.0);
 	val[OPT_TL_Y].w = SANE_FIX(0.0);
@@ -3900,7 +3900,7 @@ get_scan_parameters(Microtek2_Scanner * ms)
 	/* calculate positions, width and height in dots */
 	/* check for impossible values */
 	/* ensure a minimum scan area of 10 x 10 pixels */
-	dpm = (double) mi->opt_resolution / MM_PER_INCH;
+	dpm = (double) mi->opt_resolution / SANE_MM_PER_INCH;
 	ms->x1_dots =
 		(SANE_Int) (SANE_UNFIX(ms->val[OPT_TL_X].w) * dpm + 0.5);
 	if (ms->x1_dots > (mi->geo_width - 10))

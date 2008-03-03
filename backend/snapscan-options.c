@@ -1326,23 +1326,23 @@ sane_control_option(SANE_Handle h,
 
 				if (strcmp(s, pdw_6X4) == 0) {
 					pss->predef_window = pdw_6X4;
-					pss->brx = SANE_FIX(6.0 * MM_PER_IN);
-					pss->bry = SANE_FIX(4.0 * MM_PER_IN);
+					pss->brx = SANE_FIX(6.0 * SANE_MM_PER_INCH);
+					pss->bry = SANE_FIX(4.0 * SANE_MM_PER_INCH);
 				} else if (strcmp(s, pdw_8X10) == 0) {
 					pss->predef_window = pdw_8X10;
-					pss->brx = SANE_FIX(8.0 * MM_PER_IN);
-					pss->bry = SANE_FIX(10.0 * MM_PER_IN);
+					pss->brx = SANE_FIX(8.0 * SANE_MM_PER_INCH);
+					pss->bry = SANE_FIX(10.0 * SANE_MM_PER_INCH);
 				} else if (strcmp(s, pdw_85X11) == 0) {
 					pss->predef_window = pdw_85X11;
-					pss->brx = SANE_FIX(8.5 * MM_PER_IN);
-					pss->bry = SANE_FIX(11.0 * MM_PER_IN);
+					pss->brx = SANE_FIX(8.5 * SANE_MM_PER_INCH);
+					pss->bry = SANE_FIX(11.0 * SANE_MM_PER_INCH);
 				} else {
 					DBG(DL_MAJOR_ERROR,
 					    "%s: trying to set predef window with "
 					    "garbage value.", me);
 					pss->predef_window = pdw_none;
-					pss->brx = SANE_FIX(6.0 * MM_PER_IN);
-					pss->bry = SANE_FIX(4.0 * MM_PER_IN);
+					pss->brx = SANE_FIX(6.0 * SANE_MM_PER_INCH);
+					pss->bry = SANE_FIX(4.0 * SANE_MM_PER_INCH);
 				}
 			} else {
 				pss->predef_window = pdw_none;

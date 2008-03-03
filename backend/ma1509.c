@@ -401,8 +401,8 @@ attach(SANE_String_Const devname, Ma1509_Device ** devp)
 	dev->x_trans_range.min = 0;
 	dev->y_trans_range.min = 0;
 	/* default to something really small to be on the safe side: */
-	dev->x_trans_range.max = SANE_FIX(8.0 * MM_PER_INCH);
-	dev->y_trans_range.max = SANE_FIX(5.0 * MM_PER_INCH);
+	dev->x_trans_range.max = SANE_FIX(8.0 * SANE_MM_PER_INCH);
+	dev->y_trans_range.max = SANE_FIX(5.0 * SANE_MM_PER_INCH);
 	dev->x_trans_range.quant = SANE_FIX(0.1);
 	dev->y_trans_range.quant = SANE_FIX(0.1);
 
@@ -713,7 +713,7 @@ set_window(Ma1509_Scanner * s)
 	STORE16B(cp, s->val[OPT_RESOLUTION].w);
 	STORE16B(cp, 0);	/* not used acc. to specs       */
 
-	pixels_per_mm = s->val[OPT_RESOLUTION].w / MM_PER_INCH;
+	pixels_per_mm = s->val[OPT_RESOLUTION].w / SANE_MM_PER_INCH;
 
 	tlx = SANE_UNFIX(s->val[OPT_TL_X].w) * pixels_per_mm + 0.5;
 	tly = SANE_UNFIX(s->val[OPT_TL_Y].w) * pixels_per_mm + 0.5;
@@ -1653,7 +1653,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		/* make best-effort guess at what parameters will look like once
 		   scanning starts.  */
 		if (dpi > 0.0 && width > 0.0 && height > 0.0) {
-			double dots_per_mm = dpi / MM_PER_INCH;
+			double dots_per_mm = dpi / SANE_MM_PER_INCH;
 
 			s->params.pixels_per_line = width * dots_per_mm;
 			s->params.lines = height * dots_per_mm;

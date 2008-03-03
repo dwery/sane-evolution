@@ -79,7 +79,6 @@
 #include "abaton.h"
 
 
-#define MM_PER_INCH	25.4
 
 static int num_devices;
 static Abaton_Device *first_dev;
@@ -107,13 +106,13 @@ static const SANE_Range enhance_range = {
 
 static const SANE_Range x_range = {
 	0,
-	8.5 * MM_PER_INCH,
+	8.5 * SANE_MM_PER_INCH,
 	1
 };
 
 static const SANE_Range y_range = {
 	0,
-	14.0 * MM_PER_INCH,
+	14.0 * SANE_MM_PER_INCH,
 	1
 };
 
@@ -505,10 +504,10 @@ calc_parameters(Abaton_Scanner * s)
 	}
 
 	/* in inches */
-	ulx = (double) s->val[OPT_TL_X].w / MM_PER_INCH;
-	uly = (double) s->val[OPT_TL_Y].w / MM_PER_INCH;
-	width = (double) s->val[OPT_BR_X].w / MM_PER_INCH - ulx;
-	height = (double) s->val[OPT_BR_Y].w / MM_PER_INCH - uly;
+	ulx = (double) s->val[OPT_TL_X].w / SANE_MM_PER_INCH;
+	uly = (double) s->val[OPT_TL_Y].w / SANE_MM_PER_INCH;
+	width = (double) s->val[OPT_BR_X].w / SANE_MM_PER_INCH - ulx;
+	height = (double) s->val[OPT_BR_Y].w / SANE_MM_PER_INCH - uly;
 
 	DBG(VARIABLE_CONTROL,
 	    "(inches) ulx: %f, uly: %f, width: %f, height: %f\n", ulx, uly,

@@ -1,6 +1,6 @@
 ||*Model*||*Interfaces*||*USB ids*||*Status*||
-||[GT-5500 GT-5500]||SCSI|| ||:good||
-||[GT-5000 GT-5000]||SCSI Parport|| ||:good||
+||[GT5500 GT-5500]||SCSI|| ||:good||
+||[GT5000 GT-5000]||SCSI Parport|| ||:good||
 ||[Perfection1650 Perfection 1650]||USB||0x04b8 0x0110||:complete||
 ||[V700 V700]||USB IEEE-1394||0x04b8 0x012c||:good||
 ||[GT-6500 GT-6500]||Parport|| ||:good||

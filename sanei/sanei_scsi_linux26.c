@@ -60,25 +60,7 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
-#define STUBBED_INTERFACE	0
 #define LINUX_INTERFACE		1
-#define BSD_INTERFACE		2
-#define	HPUX_INTERFACE		3
-#define OPENSTEP_INTERFACE	4
-#define DECUNIX_INTERFACE	5
-#define SCO_OS5_INTERFACE	6
-#define IRIX_INTERFACE		7
-#define SOLARIS_INTERFACE	8
-#define SOLARIS_SG_INTERFACE	9
-#define OS2_INTERFACE		10
-#define AIX_GSC_INTERFACE	11
-#define DOMAINOS_INTERFACE	12
-#define FREEBSD_CAM_INTERFACE	13
-#define SYSVR4_INTERFACE	14
-#define SCO_UW71_INTERFACE	15
-#define SOLARIS_USCSI_INTERFACE	16
-#define MACOSX_INTERFACE	17
-#define WIN32_INTERFACE		18
 
 #ifdef HAVE_RESMGR
 # include <resmgr.h>
@@ -227,43 +209,9 @@
 #define BACKEND_NAME	sanei_scsi
 #include "../include/sane/sanei_debug.h"
 
-#if USE == DECUNIX_INTERFACE
-#endif
-
-#if USE == SOLARIS_INTERFACE || USE == SOLARIS_USCSI_INTERFACE
-#endif
-
 #ifdef SG_BIG_BUFF
 # define MAX_DATA	SG_BIG_BUFF
 #endif
-
-#if USE == SYSVR4_INTERFACE
-#endif
-
-#if USE == OPENSTEP_INTERFACE
-#endif
-
-#if USE == IRIX_INTERFACE
-#endif
-
-#if USE == FREEBSD_CAM_INTERFACE
-#endif
-
-#if USE == SOLARIS_INTERFACE
-#endif
-
-#if USE == SOLARIS_SG_INTERFACE
-#endif
-
-#if USE == SOLARIS_USCSI_INTERFACE
-#endif
-
-#if USE == OS2_INTERFACE
-#endif
-
-#if USE == MACOSX_INTERFACE
-#endif
-
 
 #ifndef MAX_DATA
 # define MAX_DATA	(32*1024)
@@ -388,9 +336,6 @@ fdparms;
 
 #endif
 
-#if USE == FREEBSD_CAM_INTERFACE
-#endif
-
 static struct
 {
   u_int in_use:1;		/* is this fd_info in use? */
@@ -407,13 +352,6 @@ static u_char cdb_sizes[8] = {
 };
 #define CDB_SIZE(opcode)	cdb_sizes[(((opcode) >> 5) & 7)]
 
-
-#if USE == DOMAINOS_INTERFACE
-#endif /* USE == DOMAINOS_INTERFACE */
-
-
-#if USE == OS2_INTERFACE
-#endif /* USE_OS2_INTERFACE */
 
 static int num_alloced = 0;
 
@@ -497,8 +435,6 @@ sanei_scsi_open (const char *dev, int *fdp,
 #if USE == LINUX_INTERFACE
   static int first_time = 1;
 #endif
-#if USE == MACOSX_INTERFACE  
-#endif
 
   cc = getenv ("SANE_SCSICMD_TIMEOUT");
   if (cc)
@@ -552,23 +488,6 @@ sanei_scsi_open (const char *dev, int *fdp,
 	   sanei_scsi_max_request_size);
     }
 #endif
-
-#if USE == OS2_INTERFACE
-#endif
-#if USE == DECUNIX_INTERFACE
-#endif
-#if USE == DOMAINOS_INTERFACE
-#endif
-#if USE == FREEBSD_CAM_INTERFACE
-#endif
-#if USE == SCO_UW71_INTERFACE
-#endif
-#if USE == MACOSX_INTERFACE
-#endif
-#if USE == WIN32_INTERFACE
-#endif
-#if defined(SGIOCSTL) || (USE == SOLARIS_INTERFACE)
-#endif /* defined(SGIOCSTL) || (USE == SOLARIS_INTERFACE) */
 
   fd = -1;
 #ifdef HAVE_RESMGR
@@ -782,11 +701,6 @@ sanei_scsi_open (const char *dev, int *fdp,
   fd_info[fd].lun = lun;
   fd_info[fd].pdata = pdata;
 
-#if USE == SOLARIS_INTERFACE || USE == SOLARIS_USCSI_INTERFACE
-#endif
-#if USE == SYSVR4_INTERFACE
-#endif
-
   if (fdp)
     *fdp = fd;
 
@@ -884,21 +798,7 @@ sanei_scsi_close (int fd)
     close (fd);
 #endif
 
-#if USE == FREEBSD_CAM_INTERFACE
-#endif
-#if USE == DOMAINOS_INTERFACE
-#endif /* USE == DOMAINOS_INTERFACE */
-
-#if USE == OS2_INTERFACE
-#endif /* USE == OS2_INTERFACE */
-
-#if USE == MACOSX_INTERFACE
-#endif /* USE == MACOSX_INTERFACE */
 }
-
-
-#if USE == DOMAINOS_INTERFACE
-#endif /* USE == DOMAINOS_INTERFACE */
 
 
 #if USE == LINUX_INTERFACE
@@ -1974,112 +1874,6 @@ issue (struct req *req)
 
 #endif /* USE == LINUX_INTERFACE */
 
-
-
-#if USE == BSD_INTERFACE
-#ifndef HAVE_SCSIREQ_ENTER
-  static int scsireq_enter (int fd, scsireq_t * hdr)
-  {
-    return ioctl (fd, SCIOCCOMMAND, hdr);
-  }
-#endif /* !HAVE_SCSIREQ_ENTER */
-#endif /* USE == BSD_INTERFACE */
-
-#if USE == FREEBSD_CAM_INTERFACE
-#endif
-
-
-
-#if USE == HPUX_INTERFACE
-#endif /* USE == HPUX_INTERFACE */
-
-
-#if USE == OPENSTEP_INTERFACE
-#endif /* USE == OPENSTEP_INTERFACE */
-
-
-#if USE == DECUNIX_INTERFACE
-#endif /* USE == DECUNIX_INTERFACE */
-
-
-#if USE == SCO_OS5_INTERFACE
-#endif /* USE == SCO_OS5_INTERFACE */
-#if USE == SYSVR4_INTERFACE
-#ifdef UWSUPPORTED		/* at this time not supported by driver */
-	  if (sb_ptr->SCB.sc_comp_code != SDI_ASW)
-	    {
-	      DBG (1, "sanei_scsi_cmd: scsi_cmd failture %x\n",
-		   sb_ptr->SCB.sc_comp_code);
-	      if (sb_ptr->SCB.sc_comp_code == SDI_CKSTAT
-		  && sb_ptr->SCB.sc_status == S_CKCON)
-		if (fd_info[fd].sense_handler)
-		  {
-		    void *arg = fd_info[fd].sense_handler_arg;
-		    return (*fd_info[fd].sense_handler) (fd,
-							 (u_char *) & sb_ptr->
-							 SCB.sc_link, arg);
-		  }
-	      return SANE_STATUS_IO_ERROR;
-	    }
-#endif
-#endif /* USE == SYSVR4_INTERFACE */
-#if USE == SCO_UW71_INTERFACE
-#endif /* USE == SCO_UW71_INTERFACE */
-
-#if USE == OS2_INTERFACE
-#endif /* USE == OS2_INTERFACE */
-
-#if USE == STUBBED_INTERFACE
-#endif /* USE == STUBBED_INTERFACE */
-
-#if USE == IRIX_INTERFACE
-#endif /* USE == IRIX_INTERFACE */
-
-#if USE == AIX_GSC_INTERFACE
-#endif /* USE == AIX_GSC_INTERFACE */
-
-#if USE == SOLARIS_SG_INTERFACE
-#ifndef CCS_SENSE_LEN
-# define CCS_SENSE_LEN 18
-#endif
-#endif /* USE == SOLARIS_SG_INTERFACE */
-
-#if USE == SOLARIS_INTERFACE
-#ifndef SC_NOT_READ
-# define SC_NOT_READY		0x02
-#endif
-#ifndef SC_BUSY
-# define SC_BUSY		0x08
-#endif
-#endif /* USE == SOLARIS_INTERFACE */
-
-
-#if USE == SOLARIS_USCSI_INTERFACE
-#if 0
-	if (us.error)
-	  {
-	    if (sanei_debug_sanei_scsi > 100 &&
-		scmd.cdb.g0_cdb.cmd != SC_TEST_UNIT_READY)
-	      {
-		lifes = sanei_debug_sanei_scsi - ++d_errs;
-		DBG (1, "sanei_scsi_cmd: %d lifes left\n", lifes);
-		assert (lifes > 0);
-	      }
-	    return SANE_STATUS_IO_ERROR;
-	  }
-
-	if (scmd.u_scb.cmd_scb[0] == SC_BUSY)
-	  return SANE_STATUS_DEVICE_BUSY;
-#endif
-#endif /* USE == SOLARIS_USCSI_INTERFACE */
-
-#if USE == WIN32_INTERFACE
-#endif /* USE == WIN32_INTERFACE */
-
-#if USE == MACOSX_INTERFACE
-#endif /* USE == MACOSX_INTERFACE */
-
-
 #ifndef WE_HAVE_ASYNC_SCSI
 
   SANE_Status
@@ -2136,19 +1930,3 @@ issue (struct req *req)
 			    (const char *) src + cmd_size,
 			    src_size - cmd_size, dst, dst_size);
   }
-
-
-#ifndef WE_HAVE_FIND_DEVICES
-
-  void
-    sanei_scsi_find_devices (const char *findvendor, const char *findmodel,
-			     const char *findtype,
-			     int findbus, int findchannel, int findid,
-			     int findlun,
-			     SANE_Status (*attach) (const char *dev))
-  {
-    DBG_INIT ();
-    DBG (1, "sanei_scsi_find_devices: not implemented for this platform\n");
-  }
-
-#endif /* WE_HAVE_FIND_DEVICES */

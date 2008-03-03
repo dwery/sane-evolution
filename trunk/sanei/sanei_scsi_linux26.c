@@ -1,6 +1,8 @@
 /* sane - Scanner Access Now Easy.
    Copyright (C) 1996, 1997 David Mosberger-Tang
    Copyright (C) 2003 Frank Zago
+   Copyright (C) 2008 Alessandro Zummo
+   
    This file is part of the SANE package.
 
    This program is free software; you can redistribute it and/or
@@ -18,7 +20,7 @@
    Foundation, Inc., 59 Temple Place - Suite 330, Boston,
    MA 02111-1307, USA.
 
-   This file provides a SCSI interface for Linux 2.6.
+   This file provides a SCSI interface for Linux >= 2.4.0
 */
 
 #include "../include/sane/config.h"
@@ -36,13 +38,10 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
-#define LINUX_INTERFACE		1
-
 #ifdef HAVE_RESMGR
 # include <resmgr.h>
 #endif
 
-#define USE LINUX_INTERFACE
 #include <scsi/sg.h>
 
 #include "../include/sane/sanei.h"
@@ -53,11 +52,11 @@
 #include "../include/sane/sanei_debug.h"
 
 #ifdef SG_BIG_BUFF
-# define MAX_DATA	SG_BIG_BUFF
+#define MAX_DATA	SG_BIG_BUFF
 #endif
 
 #ifndef MAX_DATA
-# define MAX_DATA	(32*1024)
+#define MAX_DATA	(32*1024)
 #endif
 
 #ifdef SG_SET_TIMEOUT
@@ -77,7 +76,7 @@
 /* default timeout value: 120 seconds */
 static int sane_scsicmd_timeout = 120;
 int sanei_scsi_max_request_size = MAX_DATA;
-#if USE == LINUX_INTERFACE
+
 /* the following #defines follow Douglas Gilbert's sample code
    to maintain run time compatibility with the old and the
    new SG driver for Linux
@@ -176,8 +175,6 @@ typedef struct Fdparms
 }
 fdparms;
 
-#endif
-
 static struct
 {
 	u_int in_use:1;		/* is this fd_info in use? */
@@ -206,8 +203,7 @@ get_max_buffer_size(const char *file)
 {
 	int fd = -1;
 	int buffersize = SCSIBUFFERSIZE, i;
-	size_t len;
-	char *cc, *cc1, buf[32];
+	char *cc, *cc1;
 
 #ifdef HAVE_RESMGR
 	fd = rsm_open_device(file, O_RDWR);
@@ -225,7 +221,7 @@ get_max_buffer_size(const char *file)
 		}
 
 		ioctl(fd, SG_SET_RESERVED_SIZE, &buffersize);
-		if (0 == ioctl(fd, SG_GET_RESERVED_SIZE, &buffersize)) {
+		if (ioctl(fd, SG_GET_RESERVED_SIZE, &buffersize) == 0) {
 			if (buffersize < sanei_scsi_max_request_size)
 				sanei_scsi_max_request_size = buffersize;
 			close(fd);
@@ -235,21 +231,11 @@ get_max_buffer_size(const char *file)
 		} else {
 			close(fd);
 			/* ioctl not available: we have the old SG driver */
-			fd = open("/proc/sys/kernel/sg-big-buff", O_RDONLY);
-			if (fd > 0
-			    && (len = read(fd, buf, sizeof(buf) - 1)) > 0) {
-				buf[len] = '\0';
-				sanei_scsi_max_request_size = atoi(buf);
-				close(fd);
-			} else
-				sanei_scsi_max_request_size =
-					buffersize <
-					SG_BIG_BUFF ? buffersize :
-					SG_BIG_BUFF;
 			return SANE_STATUS_IO_ERROR;
 		}
-	} else
-		return SANE_STATUS_GOOD;
+	}
+
+	return SANE_STATUS_GOOD;
 }
 
 
@@ -344,21 +330,6 @@ sanei_scsi_open_extended(const char *dev, int *fdp,
 		ioctl(fd, SG_SET_TIMEOUT, &timeout);
 	}
 #endif
-
-#ifdef SGIOCSTL
-	{
-		struct scsi_adr sa;
-
-		sa.sa_target = target;
-		sa.sa_lun = 0;
-		if (ioctl(fd, SGIOCSTL, &sa) == -1) {
-			DBG(1,
-			    "sanei_scsi_open: failed to attach to target: %u (%s)\n",
-			    sa.sa_target, strerror(errno));
-			return SANE_STATUS_INVAL;
-		}
-	}
-#endif /* SGIOCSTL */
 
 	{
 		SG_scsi_id sid;
@@ -588,9 +559,6 @@ sanei_scsi_close(int fd)
 
 #include <sys/time.h>
 
-#define WE_HAVE_ASYNC_SCSI
-#define WE_HAVE_FIND_DEVICES
-
 static int pack_id = 0;
 static int need_init = 1;
 static sigset_t all_signals;
@@ -767,11 +735,12 @@ sanei_scsi_req_flush_all()
 	 */
 
 	fd = num_alloced;
-	for (i = 0; i < num_alloced; i++)
+	for (i = 0; i < num_alloced; i++) {
 		if (fd_info[i].in_use) {
 			j++;
 			fd = i;
 		}
+	}
 
 	assert(j < 2);
 
@@ -869,14 +838,14 @@ sanei_scsi_req_enter2(int fd,
 
 	req->next = 0;
 	old_mask = atomic_begin();
-	{
-		if (fdp->sane_qtail) {
-			fdp->sane_qtail->next = req;
-			fdp->sane_qtail = req;
-		} else {
-			fdp->sane_qhead = fdp->sane_qtail = req;
-		}
+
+	if (fdp->sane_qtail) {
+		fdp->sane_qtail->next = req;
+		fdp->sane_qtail = req;
+	} else {
+		fdp->sane_qhead = fdp->sane_qtail = req;
 	}
+
 	atomic_end(old_mask);
 
 	DBG(4, "scsi_req_enter: entered %p\n", (void *) req);
@@ -908,14 +877,9 @@ sanei_scsi_req_wait(void *id)
 		issue(req->next);	/* issue next command, if any */
 		status = req->status;
 	} else {
-		{
-			IF_DBG(if (DBG_LEVEL >= 255)
-			       system("cat /proc/scsi/sg/debug 1>&2");)
-
-				/* set DONE: */
-				nread = 0;	/* unused in this code path */
-			req->done = 1;
-		}
+		/* set DONE: */
+		nread = 0;	/* unused in this code path */
+		req->done = 1;
 
 		if (fd_info[req->fd].pdata)
 			((fdparms *) fd_info[req->fd].pdata)->sg_queue_used--;
@@ -1101,15 +1065,11 @@ static const struct lx_device_name_list_tag
 	const char *prefix;
 	char base;
 }
+
 lx_dnl[] = {
 	{
-	"/dev/sg", 0}
-	, {
+	"/dev/sg", 0x0}, {
 	"/dev/sg", 'a'}
-	, {
-	"/dev/uk", 0}
-	, {
-	"/dev/gsc", 0}
 };
 
 static int			/* Returns open sg file descriptor, or -1 for no access,
@@ -1360,6 +1320,7 @@ sanei_scsi_find_devices(const char *findvendor,
 	number = bus = channel = id = lun = -1;
 
 	vendor[0] = model[0] = type[0] = '\0';
+
 	if (findvendor)
 		findvendor_len = strlen(findvendor);
 	if (findmodel)
@@ -1462,36 +1423,6 @@ sanei_scsi_find_devices(const char *findvendor,
 	}
 	fclose(proc_fp);
 }
-
-#ifndef WE_HAVE_ASYNC_SCSI
-
-SANE_Status
-sanei_scsi_req_enter2(int fd, const void *cmd,
-		      size_t cmd_size, const void *src,
-		      size_t src_size, void *dst,
-		      size_t * dst_size, void **idp)
-{
-	return sanei_scsi_cmd2(fd, cmd, cmd_size, src, src_size, dst,
-			       dst_size);
-}
-
-SANE_Status
-sanei_scsi_req_wait(void *id)
-{
-	return SANE_STATUS_GOOD;
-}
-
-void
-sanei_scsi_req_flush_all(void)
-{
-}
-
-void
-sanei_scsi_req_flush_all_extended(int fd)
-{
-}
-
-#endif /* WE_HAVE_ASYNC_SCSI */
 
 SANE_Status
 sanei_scsi_req_enter(int fd,

@@ -1,0 +1,9 @@
+#summary Scanners supported by the hp4200 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hp4200ScanJet4200Cse ScanJet 4200Cse]||USB||0x03f0 0x0105||basic|| ||
+||[Hp4200ScanJet4200Cxi ScanJet 4200Cxi]||USB||0x03f0 0x0105||basic|| ||
+||[Hp4200ScanJet4200C ScanJet 4200C]||USB||0x03f0 0x0105||basic|| ||

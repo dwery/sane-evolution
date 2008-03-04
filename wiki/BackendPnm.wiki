@@ -1,0 +1,7 @@
+#summary Scanners supported by the pnm backend
+
+This list is automatically generated. Do not edit.
+
+Used for debugging frontends. Obsolete, use test backend instead.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||

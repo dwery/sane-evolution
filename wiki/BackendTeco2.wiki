@@ -1,0 +1,17 @@
+#summary Scanners supported by the teco2 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Teco2SCORPIOSuper3 SCORPIO Super 3]||SCSI|| ||good|| ||
+||[Teco2Profi19200 Profi 19200]||SCSI|| ||good||http://www.mustek.com/||
+||[Teco2SCORPIOProS SCORPIO Pro-S]||SCSI|| ||untested||http://www.primax.nl/||
+||[Teco2APOLLOExpress6 APOLLO Express 6]||SCSI|| ||good|| ||
+||[Teco2AVECSuper3 AVEC Super 3]||SCSI|| ||untested|| ||
+||[Teco2AVECIIS3 AVEC II S3]||SCSI|| ||good|| ||
+||[Teco2ScanMagic4830S ScanMagic 4830S]||SCSI|| ||untested|| ||
+||[Teco2SCORPIOPro SCORPIO Pro]||SCSI|| ||good|| ||
+||[Teco2Profi9600 Profi 9600]||SCSI|| ||basic|| ||
+||[Teco2APOLLOExpress3 APOLLO Express 3]||SCSI|| ||basic|| ||
+||[Teco2Jewel4800 Jewel 4800]||SCSI|| ||good|| ||

@@ -1,0 +1,7 @@
+#summary Scanners supported by the dmc backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[DmcDMC DMC]||SCSI|| ||good|| ||

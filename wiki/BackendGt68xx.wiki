@@ -1,0 +1,70 @@
+#summary Scanners supported by the gt68xx backend
+
+This list is automatically generated. Do not edit.
+
+Only the USB scanners mentioned below are supported. For other Mustek BearPaws, look at the Plustek and the MA-1509 backend.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Gt68xx240THEasyWebscanGold 240TH Easy Webscan Gold]||USB||0x055f 0x0218||good|| ||
+||[Gt68xx19200i 19200i]||USB||0x07b3 0x0400||good||http://www.trust-site.com||
+||[Gt68xxBearPaw2448CSPlus BearPaw 2448 CS Plus]||USB||0x055f 0x021a||basic|| ||
+||[Gt68xxBearPaw1200CU BearPaw 1200 CU]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxColorpageVivid1200X Colorpage Vivid 1200 X]||USB||0x0458	0x201d||good|| ||
+||[Gt68xxFlatScanUSB19200 Flat Scan USB 19200]||USB||0x05d8 0x4002||good||http://www.visioneer.com/||
+||[Gt68xxOpticProS24 OpticPro S24]||USB||0x07b3 0x040e||good|| ||
+||[Gt68xxScanExpressA3USB ScanExpress A3 USB]||USB||0x055f 0x0210||basic|| ||
+||[Gt68xxOpticSlimM12 OpticSlim M12]||USB||0x07b3 0x0412||basic|| ||
+||[Gt68xxColorpageVivid3V2 Colorpage Vivid3 V2]||USB||0x0458	0x2011||good|| ||
+||[Gt68xxColorpageSF600 Colorpage SF600]||USB||0x0458 0x2021||basic|| ||
+||[Gt68xxOpticProU16B OpticPro U16B+]||USB||0x07b3 0x0403||good|| ||
+||[Gt68xxBearPaw2400TAPlus BearPaw 2400 TA Plus]||USB||0x055f 0x0219||good|| ||
+||[Gt68xxScanExpress1248UB ScanExpress 1248 UB]||USB||0x055f 0x021f||complete|| ||
+||[Gt68xxX70 X70]||USB||0x043d 0x002d||good|| ||
+||[Gt68xxBearPaw1200CUPlus BearPaw 1200 CU Plus]||USB||0x055f 0x021c||good|| ||
+||[Gt68xxOpticProU16B OpticPro U16B]||USB||0x07b3 0x0402||good|| ||
+||[Gt68xxOpticSlim2400 OpticSlim 2400]||USB||0x07b3 0x0422||good|| ||
+||[Gt68xxX73 X73]||USB||0x043d 0x002d||good||http://www.medion.com||
+||[Gt68xxPlugnScan2400MT Plug-n-Scan 2400 MT]||USB||0x055f 0x0219||good|| ||
+||[Gt68xxBearPaw2448TAPlus BearPaw 2448 TA Plus]||USB||0x055f 0x021a||basic|| ||
+||[Gt68xxScanMagic1200UBPlus ScanMagic 1200 UB Plus]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxColorpageVivid1200XE Colorpage Vivid 1200 XE]||USB||0x0458	0x201f||good|| ||
+||[Gt68xxOpticPro1248U OpticPro 1248U]||USB||0x07b3 0x0401||good|| ||
+||[Gt68xxBearPaw2400TA BearPaw 2400 TA]||USB||0x055f 0x0218||good|| ||
+||[Gt68xxDiamond1200Plus Diamond 1200 Plus]||USB||0x055f 0x021b||good|| ||
+||[Gt68xxScanalizerProfessional25 Scanalizer Professional 2.5]||USB||0x07b3 0x0412||untested|| ||
+||[Gt68xxBearPaw2400CS BearPaw 2400 CS]||USB||0x055f 0x0218||untested|| ||
+||[Gt68xxBearPaw1200CS BearPaw 1200 CS]||USB||0x055f 0x021e||good|| ||
+||[Gt68xxColorPageSlim1200 ColorPage Slim 1200]||USB||0x0458 0x201e||untested|| ||
+||[Gt68xxOneTouch7300 OneTouch 7300]||USB||0x04a7 0x0444||good|| ||
+||[Gt68xxCompactScanUSB19200 Compact Scan USB 19200]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxMDLT9385 MD/LT 9385]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxColorpageVivid3xe Colorpage Vivid3xe]||USB||0x0458	0x2017||good|| ||
+||[Gt68xxColorpageVivid4x Colorpage Vivid4x]||USB||0x0458	0x201b||good|| ||
+||[Gt68xxMD9458 MD 9458]||USB||0x05d8 0x4002||good||http://www.mustek.de/||
+||[Gt68xxPlugnScan2400M Plug-n-Scan 2400 M]||USB||0x055f 0x0219||good|| ||
+||[Gt68xxBearPaw1248CU BearPaw 1248 CU]||USB||0x055f 0x021c||good|| ||
+||[Gt68xxScanExpress2400USB ScanExpress 2400 USB]||USB||0x05d8 0x4002||minimal|| ||
+||[Gt68xxScanExpress1200UBPlus ScanExpress 1200 UB Plus]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxColorpageVivid4xe Colorpage Vivid4xe]||USB||0x0458	0x201a||good|| ||
+||[Gt68xxMD4394 MD 4394]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxOpticProUT16B OpticPro UT16B]||USB||0x07b3 0x0403||untested|| ||
+||[Gt68xxOpticProS12 OpticPro S12]||USB||0x07b3 0x040b||good|| ||
+||[Gt68xxDiamond2450 Diamond 2450]||USB||0x055f 0x0219||good||http://www.plustek.com/||
+||[Gt68xxUltima2000 Ultima 2000]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xx2000 2000]||USB||0x05d8 0x4002||good||http://www.lexmark.com/||
+||[Gt68xxMDLT9375 MD/LT 9375]||USB||0x05d8 0x4002||untested|| ||
+||[Gt68xxDirectWebScan19200 Direct WebScan 19200]||USB||0x055f 0x021c||good|| ||
+||[Gt68xxOpticProST12 OpticPro ST12]||USB||0x07b3 0x040b||untested|| ||
+||[Gt68xxLT9452 LT 9452]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxUltima2000e Ultima 2000 e+]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xx1200CUS 1200CUS]||USB||0x05d8 0x4002||basic||http://www.genius-kye.com/||
+||[Gt68xxMyScan1200 MyScan 1200]||USB||0x07b3 0x040b||untested|| ||
+||[Gt68xxColorpageVivid4 Colorpage Vivid4]||USB||0x0458	0x2014||good|| ||
+||[Gt68xxBearPaw2400CSPlus BearPaw 2400 CS Plus]||USB||0x055f 0x0219||good|| ||
+||[Gt68xxDiamond1200 Diamond 1200]||USB||0x05d8 0x4002||good|| ||
+||[Gt68xxBearPaw1200TA BearPaw 1200 TA]||USB||0x055f 0x021e||good|| ||
+||[Gt68xxBearPaw2400CU BearPaw 2400 CU]||USB||0x05d8 0x4002||basic|| ||
+||[Gt68xxBearPaw2400CUPlus BearPaw 2400 CU Plus]||USB||0x055f 0x021d||good|| ||
+||[Gt68xxSmrtScanSlimEdition Sm@rtScan Slim Edition]||USB||0x05d8 0x4002||good||http://www.fujitsu.com/||
+||[Gt68xxColorpageVivid3x Colorpage Vivid3x]||USB||0x0458	0x2011||good|| ||
+||[Gt68xxOpticSlim1200 OpticSlim 1200]||USB||0x07b3 0x0413||good|| ||

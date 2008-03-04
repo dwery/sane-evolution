@@ -1,0 +1,12 @@
+#summary Scanners supported by the mustek_usb backend
+
+This list is automatically generated. Do not edit.
+
+Only the USB scanners mentioned below are supported. For BearPaws, look at the Plustek, MA-1509, and gt68xx backends.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[MustekusbCompactScanUSB19200 Compact Scan USB 19200]||USB||0x055f 0x0006||complete|| ||
+||[MustekusbScanExpress1200CUPlus ScanExpress 1200 CU Plus]||USB||0x055f 0x0008||complete|| ||
+||[MustekusbScanExpress1200UB ScanExpress 1200 UB]||USB||0x055f 0x0006||complete||http://www.trust-site.com||
+||[MustekusbScanExpress600CU ScanExpress 600 CU]||USB||0x055f 0x0002||complete|| ||
+||[MustekusbScanExpress1200CU ScanExpress 1200 CU]||USB||0x055f 0x0001||complete|| ||

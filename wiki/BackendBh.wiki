@@ -1,0 +1,13 @@
+#summary Scanners supported by the bh backend
+
+This list is automatically generated. Do not edit.
+
+Supports Copiscan II scanners with Remote SCSI Controller (RSC) interface
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[BhCOPISCANII2138A COPISCAN II 2138A]||SCSI|| ||untested|| ||
+||[BhCOPISCANII2135 COPISCAN II 2135]||SCSI|| ||untested|| ||
+||[BhCOPISCANII6338 COPISCAN II 6338]||SCSI|| ||good|| ||
+||[BhCOPISCANII2137A COPISCAN II 2137(A)]||SCSI|| ||good|| ||
+||[BhCOPISCANII3338A COPISCAN II 3338(A)]||SCSI|| ||untested|| ||
+||[BhCOPISCANII3238 COPISCAN II 3238]||SCSI|| ||untested|| ||

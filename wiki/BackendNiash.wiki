@@ -1,0 +1,12 @@
+#summary Scanners supported by the niash backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[NiashScanJet3400c ScanJet 3400c]||USB||0x03f0 0x0405||complete|| ||
+||[NiashScanJet4300cSilitek ScanJet 4300c/Silitek]||USB||0x047b 0x1002||complete||http://www.agfa.com||
+||[NiashSnapscanTouch Snapscan Touch]||USB||0x06bd 0x0100||complete||http://www.trust.com||
+||[NiashOfficeScanUSB19200 Office Scan USB 19200]||USB||0x047b 0x1000||complete|| ||
+||[NiashScanJet4300c ScanJet 4300c]||USB||0x03f0 0x0305||complete|| ||
+||[NiashScanJet3300c ScanJet 3300c]||USB||0x03f0 0x0205||complete|| ||

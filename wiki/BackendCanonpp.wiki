@@ -1,0 +1,15 @@
+#summary Scanners supported by the canon_pp backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[CanonppCanoScanFB630P CanoScan FB630P]||Parport (ECP)|| ||good|| ||
+||[CanonppCanoScanFB620P CanoScan FB620P]||Parport (ECP)|| ||basic|| ||
+||[CanonppCanoScanFB310P CanoScan FB310P]||Parport (ECP)|| ||unsupported|| ||
+||[CanonppCanoScanN640P CanoScan N640P]||Parport (ECP)|| ||good|| ||
+||[CanonppCanoScanFB330P CanoScan FB330P]||Parport (ECP)|| ||good|| ||
+||[CanonppCanoScanFB610P CanoScan FB610P]||Parport (ECP)|| ||unsupported|| ||
+||[CanonppCanoScanN640Pex CanoScan N640P ex]||Parport (ECP)|| ||good|| ||
+||[CanonppCanoScanFB320P CanoScan FB320P]||Parport (ECP)|| ||basic|| ||
+||[CanonppCanoScanN340P CanoScan N340P]||Parport (ECP)|| ||good|| ||

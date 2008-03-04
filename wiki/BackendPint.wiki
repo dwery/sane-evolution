@@ -1,0 +1,7 @@
+#summary Scanners supported by the pint backend
+
+This list is automatically generated. Do not edit.
+
+Haven't been tested for a long time. Handle with care.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||

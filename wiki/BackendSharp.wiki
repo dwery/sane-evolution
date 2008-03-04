@@ -1,0 +1,12 @@
+#summary Scanners supported by the sharp backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[SharpJX320 JX-320]||SCSI|| ||good|| ||
+||[SharpJX610 JX-610]||SCSI|| ||good|| ||
+||[SharpJX350 JX-350]||SCSI|| ||good|| ||
+||[SharpJX330 JX-330]||SCSI|| ||good|| ||
+||[SharpJX325 JX-325]||SCSI|| ||untested|| ||
+||[SharpJX250 JX-250]||SCSI|| ||good|| ||

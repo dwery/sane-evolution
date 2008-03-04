@@ -1,0 +1,9 @@
+#summary Scanners supported by the sm3600 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Sm3600ScanMaker3700 ScanMaker 3700]||USB||0x05da 0x40cb||basic|| ||
+||[Sm3600ScanMaker3600 ScanMaker 3600]||USB||0x05da 0x40ff||basic|| ||
+||[Sm3600ScanMaker3750 ScanMaker 3750]||USB||0x05da 0x40dd||basic|| ||

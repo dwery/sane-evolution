@@ -1,0 +1,9 @@
+#summary Scanners supported by the tamarack backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[TamarackArtiscan8000C Artiscan 8000C]||SCSI|| ||good|| ||
+||[TamarackArtiscan6000C Artiscan 6000C]||SCSI|| ||good|| ||
+||[TamarackArtiscan12000C Artiscan 12000C]||SCSI|| ||good|| ||

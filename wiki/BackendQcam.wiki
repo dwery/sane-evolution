@@ -1,0 +1,8 @@
+#summary Scanners supported by the qcam backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[QcamGreyscaleQuickCam Greyscale QuickCam]||Parport|| ||minimal|| ||
+||[QcamColorQuickCam Color QuickCam]||Parport|| ||good|| ||

@@ -1,0 +1,11 @@
+#summary Scanners supported by the hs2p backend
+
+This list is automatically generated. Do not edit.
+
+This backend has been tested with the IS450DE (Duplex/Endorser). All major functions necessary for scanning are supported. This backend should work with all Ricoh scanners in the IS450 family as well as the IS420 series, but the IS420 has not yet been tested. Features provided by the optional Image Processing Unit (IPU) are not yet integrated into the backend, as my scanner lacks the IPU.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hs2pIS420 IS-420]||SCSI|| ||untested|| ||
+||[Hs2pIS410 IS-410]||SCSI|| ||untested|| ||
+||[Hs2pIS430 IS-430]||SCSI|| ||untested|| ||
+||[Hs2pIS450 IS450]||SCSI|| ||complete|| ||

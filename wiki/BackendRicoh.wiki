@@ -1,0 +1,8 @@
+#summary Scanners supported by the ricoh backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[RicohRicohIS60 Ricoh IS60]||SCSI|| ||basic|| ||
+||[RicohRicohIS50 Ricoh IS50]||SCSI|| ||basic|| ||

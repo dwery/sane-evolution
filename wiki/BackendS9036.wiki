@@ -1,0 +1,7 @@
+#summary Scanners supported by the s9036 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[S90369036Flatbedscanner 9036 Flatbed scanner]||SCSI|| ||basic|| ||

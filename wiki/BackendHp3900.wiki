@@ -1,0 +1,15 @@
+#summary Scanners supported by the hp3900 backend
+
+This list is automatically generated. Do not edit.
+
+Still Beta
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hp3900ScanJetG3010 ScanJet G3010]||USB||0x03f0 0x4205||basic||http://www.umax.com||
+||[Hp3900ScanJetG2710 ScanJet G2710]||USB||0x03f0 0x2805||basic|| ||
+||[Hp39005550 5550]||USB||0x04a5 0x2211||minimal|| ||
+||[Hp3900ScanJet3970c ScanJet 3970c]||USB||0x03f0 0x2305||good|| ||
+||[Hp3900ScanJet4070Photosmart ScanJet 4070 Photosmart]||USB||0x03f0 0x2405||good|| ||
+||[Hp3900ScanJet3800 ScanJet 3800]||USB||0x03f0 0x2605||basic|| ||
+||[Hp3900Astra4900 Astra 4900]||USB||0x06dc 0x0020||minimal||http://www.benq.com/||
+||[Hp3900ScanJet4370 ScanJet 4370]||USB||0x03f0 0x4105||basic|| ||

@@ -1,0 +1,7 @@
+#summary Scanners supported by the hpsj5s backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hpsj5sScanJet5s ScanJet 5s]||Parport (EPP)|| ||minimal|| ||

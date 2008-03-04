@@ -1,0 +1,10 @@
+#summary Scanners supported by the hp3500 backend
+
+This list is automatically generated. Do not edit.
+
+HP3500 series scanners.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hp3500ScanJet3500C ScanJet 3500C]||USB||0x03f0 0x2205||good|| ||
+||[Hp3500ScanJet3530C ScanJet 3530C]||USB||0x03f0 0x2005||good|| ||
+||[Hp3500ScanJet3570C ScanJet 3570C]||USB||0x03f0 0x2005||good|| ||

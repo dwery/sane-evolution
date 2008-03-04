@@ -1,0 +1,15 @@
+#summary Scanners supported by the genesys backend
+
+This list is automatically generated. Do not edit.
+
+Only the USB scanners mentioned below are currently supported.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[GenesysCanoScanLiDE40 CanoScan LiDE 40]||USB||0x04a9 0x2213||untested|| ||
+||[GenesysMD6471 MD6471]||USB||0x0461 0x0377||complete||http://www.hp.com/||
+||[GenesysCanoScanLiDE50 CanoScan LiDE 50]||USB||0x04a9 0x2213||good|| ||
+||[GenesysScanJet2300C ScanJet 2300C]||USB||0x03f0 0x0901||complete||http://www.canon.com/||
+||[GenesysMD6228 MD6228]||USB||0x0461 0x0377||good|| ||
+||[GenesysMD5345 MD5345]||USB||0x0461 0x0377||good|| ||
+||[GenesysCanoScanLiDE35 CanoScan LiDE 35]||USB||0x04a9 0x2213||good|| ||
+||[GenesysCanoScanLiDE60 CanoScan LiDE 60]||USB||0x04a9 0x221c||good|| ||

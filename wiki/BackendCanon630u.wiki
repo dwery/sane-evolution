@@ -1,0 +1,8 @@
+#summary Scanners supported by the canon630u backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Canon630uCanoScanfb630u CanoScan fb630u]||USB||0x04a9 0x2204||good|| ||
+||[Canon630uCanoScanfb636u CanoScan fb636u]||USB||0x04a9 0x2204||good|| ||

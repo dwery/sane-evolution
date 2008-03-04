@@ -1,0 +1,12 @@
+#summary Scanners supported by the agfafocus backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[AgfafocusFocusLineartScanner Focus Lineart Scanner]||SCSI|| ||untested|| ||
+||[AgfafocusFocusGSScanner Focus GS Scanner]||SCSI|| ||untested|| ||
+||[AgfafocusFocusII Focus II]||SCSI|| ||untested|| ||
+||[AgfafocusS9036 S9036]||SCSI|| ||untested|| ||
+||[AgfafocusFocusColorPlus Focus Color Plus]||SCSI|| ||good|| ||
+||[AgfafocusFocusColor Focus Color]||SCSI|| ||good|| ||

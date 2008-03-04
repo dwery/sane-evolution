@@ -1,0 +1,18 @@
+#summary Scanners supported by the artec_eplus48u backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Arteceplus48uE48U E+ 48U]||USB||0x05d8 0x4003||good|| ||
+||[Arteceplus48uMD9693 MD9693]||USB||0x05d8 0x4003||good|| ||
+||[Arteceplus48uAstraSlimSE AstraSlim SE]||USB||0x05d8 0x4009||good|| ||
+||[Arteceplus48uEasyWebscan19200 Easy Webscan 19200]||USB||0x05d8 0x4006||good|| ||
+||[Arteceplus48uMR9791 MR 9791]||USB||0x05d8 0x4003||good||http://www.umax.com.cn||
+||[Arteceplus48uScan50 Scan50]||USB||0x05d8 0x4011||good|| ||
+||[Arteceplus48uEPro E+ Pro]||USB||0x05d8 0x4004||minimal||http://www.medion.com||
+||[Arteceplus48uMD9705 MD9705]||USB||0x05d8 0x4003||good|| ||
+||[Arteceplus48uAstraSlim1200SE AstraSlim 1200 SE]||USB||0x05d8 0x4010||good||http://www.yakumo.com/||
+||[Arteceplus48uMEM48U MEM 48U]||USB||0x05d8 0x4005||good||http://www.microstar.de/||
+||[Arteceplus48uMD4394 MD4394]||USB||0x05d8 0x4003||good||http://www.trust-site.com||
+||[Arteceplus48u240HEasyWebscanGold 240H Easy Webscan Gold]||USB||0x05d8 0x4007||basic||http://www.artecusa.com/||

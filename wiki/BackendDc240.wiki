@@ -1,0 +1,7 @@
+#summary Scanners supported by the dc240 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Dc240DC240 DC240]||Serial port|| ||good|| ||

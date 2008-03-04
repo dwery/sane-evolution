@@ -1,0 +1,30 @@
+#summary Scanners supported by the mustek_pp backend
+
+This list is automatically generated. Do not edit.
+
+Supports CIS and CCD type parallel port scanners from Mustek.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[MustekppEasyPlus30Bit Easy Plus 30 Bit]||Parport (EPP)|| ||good|| ||
+||[Mustekpp9352 9352]||Parport (EPP)|| ||good|| ||
+||[MustekppCompactII Compact II]||Parport (EPP)|| ||good|| ||
+||[MustekppScanExpress600CP ScanExpress 600 CP]||Parport (EPP)|| ||good|| ||
+||[Mustekpp96CP 96 CP]||Parport (EPP)|| ||good|| ||
+||[MustekppMM9851 MM-9851]||Parport (EPP)|| ||good|| ||
+||[MustekppMDLT9890 MD/LT 9890]||Parport (EPP)|| ||good|| ||
+||[MustekppScanExpress1200CP ScanExpress 1200 CP]||Parport (EPP)|| ||good|| ||
+||[MustekppScanExpress6000P ScanExpress 6000 P]||Parport (EPP)|| ||good|| ||
+||[MustekppScanMagic4800P ScanMagic 4800 P]||Parport (EPP)|| ||good|| ||
+||[MustekppEasyConnect19200 Easy Connect 19200+]||Parport (EPP)|| ||good|| ||
+||[MustekppMDLT935x MD/LT 935x]||Parport (EPP)|| ||good|| ||
+||[MustekppMDLT985x MD/LT 985x]||Parport (EPP)|| ||good|| ||
+||[Mustekpp4800 4800]||Parport (EPP)|| ||good|| ||
+||[MustekppScanExpress600SEP ScanExpress 600 SEP]||Parport (EPP)|| ||good|| ||
+||[MustekppEasyConnect9600 Easy Connect 9600+]||Parport (EPP)|| ||good|| ||
+||[MustekppFunlineTS12EP Funline TS12 EP]||Parport (EPP)|| ||good|| ||
+||[MustekppMD9848 MD 9848]||Parport (EPP)|| ||good|| ||
+||[MustekppMD9806 MD 9806]||Parport (EPP)|| ||good|| ||
+||[MustekppScanExpress1200CP ScanExpress 1200 CP+]||Parport (EPP)|| ||good||http://www.medion.de/||
+||[MustekppScanMagic600CP ScanMagic 600 CP]||Parport (EPP)|| ||good|| ||
+||[Mustekpp600IIIEPPlus 600 III EP Plus]||Parport (EPP)|| ||good|| ||
+||[MustekppFunlineTS6EP Funline TS6 EP]||Parport (EPP)|| ||good||http://www.trust-site.com/home/||

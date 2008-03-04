@@ -1,0 +1,8 @@
+#summary Scanners supported by the sp15c backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Sp15cScanPartner15C ScanPartner 15C]||SCSI|| ||good|| ||
+||[Sp15cScanPartner600C ScanPartner 600C]||SCSI|| ||good|| ||

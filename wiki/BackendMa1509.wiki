@@ -1,0 +1,8 @@
+#summary Scanners supported by the ma1509 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Ma1509BearPaw1200F BearPaw 1200 F]||USB||0x055f 0x0010||good||http://www.fujitsu.com/||
+||[Ma1509fi4110EOX23 fi-4110EOX/2/3]||USB|| ||unsupported|| ||

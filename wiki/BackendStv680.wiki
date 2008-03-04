@@ -1,0 +1,11 @@
+#summary Scanners supported by the stv680 backend
+
+This list is automatically generated. Do not edit.
+
+This vidcam backend is for the stv0680 chipset, See the website for more info.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Stv680lespionXS l' espion XS]||USB||0x1183 0x0001||untested||http://www.creative.com/||
+||[Stv680AiptekPencam Aiptek Pencam]||USB||0x0553 0x0202||minimal||http://www.konicaminolta.com||
+||[Stv680WebCamGoMini WebCam Go Mini]||USB||0x041e 0x4007||untested|| ||
+||[Stv680emini e-mini]||USB||0x04c8 0x0722||untested||http://www.digitaldreamco.com/en/index.shtml||

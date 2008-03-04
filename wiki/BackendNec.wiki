@@ -1,0 +1,7 @@
+#summary Scanners supported by the nec backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[NecPCIN5004C PC-IN500/4C]||SCSI|| ||good|| ||

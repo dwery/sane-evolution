@@ -1,0 +1,11 @@
+#summary Scanners supported by the ibm backend
+
+This list is automatically generated. Do not edit.
+
+This backend has had only limited testing. It needs more work especially for the Ricoh scanners. Patches are welcome.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[IbmIS420 IS-420]||SCSI|| ||basic|| ||
+||[Ibm2456 2456]||SCSI|| ||basic|| ||
+||[IbmIS410 IS-410]||SCSI|| ||untested|| ||
+||[IbmIS430 IS-430]||SCSI|| ||untested|| ||

@@ -1,0 +1,8 @@
+#summary Scanners supported by the cardscan backend
+
+This list is automatically generated. Do not edit.
+
+New for sane 1.0.19
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Cardscan800c 800c]||USB||0x08f0 0x2110||good|| ||

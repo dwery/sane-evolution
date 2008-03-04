@@ -1,0 +1,69 @@
+#summary Scanners supported by the epson backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[EpsonGT5500 GT-5500]||SCSI|| ||good|| ||
+||[EpsonGT5000 GT-5000]||SCSI Parport|| ||good|| ||
+||[EpsonAcuLaserCX11 AcuLaser CX11]||USB||0x04b8 0x0815||good|| ||
+||[EpsonPerfection1650 Perfection 1650]||USB||0x04b8 0x0110||complete|| ||
+||[EpsonV700 V700]||USB IEEE-1394||0x04b8 0x012c||good|| ||
+||[EpsonGT6500 GT-6500]||Parport|| ||good|| ||
+||[EpsonES300GS ES-300GS]||SCSI|| ||good|| ||
+||[EpsonCX4200 CX-4200]||USB||0x04b8 0x0820||good|| ||
+||[EpsonRX700 RX-700]||USB||0x04b8 0x0810||good|| ||
+||[EpsonCX5400 CX-5400]||USB||0x04b8 0x0808||good|| ||
+||[EpsonExpression1600 Expression 1600]||SCSI USB IEEE-1394||0x04b8 0x0107||complete|| ||
+||[EpsonPerfection1660 Perfection 1660]||USB||0x04b8 0x011e||complete|| ||
+||[EpsonRX500 RX-500]||USB||0x04b8 0x0807||good|| ||
+||[EpsonDX4050 DX-4050]||USB||0x04b8 0x082f||good|| ||
+||[EpsonPerfection3200 Perfection 3200]||USB||0x04b8 0x011c||complete|| ||
+||[EpsonES1200C ES-1200C]||Parport|| ||good|| ||
+||[EpsonCX6300 CX-6300]||USB||0x04b8 0x0805||good|| ||
+||[EpsonPerfection1200Photo Perfection 1200Photo]||USB||0x04b8 0x0104||complete|| ||
+||[EpsonPerfection4990 Perfection 4990]||USB||0x04b8 0x012a||complete|| ||
+||[EpsonCX4800 CX-4800]||USB||0x04b8 0x0819||good|| ||
+||[EpsonPerfection2400 Perfection 2400]||USB||0x04b8 0x011b||complete|| ||
+||[EpsonCX6500 CX-6500]||USB||0x04b8 0x0813||good|| ||
+||[EpsonCX5000 CX-5000]||USB||0x04b8 0x082b||good|| ||
+||[EpsonExpression1680 Expression 1680]||SCSI USB IEEE-1394||0x04b8 0x010e||complete|| ||
+||[EpsonPerfection636U Perfection 636U]||USB||0x04b8 0x0101||complete|| ||
+||[EpsonV750 V750]||USB IEEE-1394||0x04b8 0x012c||good|| ||
+||[EpsonExpression636 Expression 636]||SCSI|| ||complete|| ||
+||[EpsonFilmScan200 FilmScan 200]||SCSI|| ||unsupported||http://www.vjet.demon.co.uk/scanner/||
+||[EpsonRX600 RX-600]||USB||0x04b8 0x0806||good|| ||
+||[EpsonActionscannerII Actionscanner II]||SCSI Parport|| ||good|| ||
+||[EpsonES8500 ES-8500]||SCSI|| ||good|| ||
+||[EpsonPerfection1200S Perfection 1200S]||SCSI|| ||complete|| ||
+||[EpsonGT8000 GT-8000]||SCSI|| ||good|| ||
+||[EpsonCX3600 CX-3600]||USB||0x04b8 0x080e||good|| ||
+||[EpsonExpression800 Expression 800]||SCSI|| ||complete|| ||
+||[EpsonDX5000 DX-5000]||USB||0x04b8 0x082b||good|| ||
+||[EpsonGT6000 GT-6000]||SCSI Parport|| ||good|| ||
+||[EpsonPerfection2450 Perfection 2450]||USB IEEE-1394||0x04b8 0x0112||complete|| ||
+||[EpsonCX3700 CX-3700]||USB||0x04b8 0x0818||good|| ||
+||[EpsonAcuLaserCX11NF AcuLaser CX11NF]||USB||0x04b8 0x0815||good|| ||
+||[EpsonCX3650 CX-3650]||USB||0x04b8 0x080e||good|| ||
+||[EpsonPerfection4870 Perfection 4870]||USB||0x04b8 0x0128||complete|| ||
+||[EpsonDX5050 DX-5050]||USB||0x04b8 0x082b||good|| ||
+||[EpsonCX3800 CX-3800]||USB||0x04b8 0x0818||good|| ||
+||[EpsonRX425 RX-425]||USB||0x04b8 0x080f||good|| ||
+||[EpsonCX6600 CX-6600]||USB||0x04b8 0x0813||good|| ||
+||[EpsonPerfection1200U Perfection 1200U]||USB||0x04b8 0x0104||complete|| ||
+||[EpsonDX3800 DX-3800]||USB||0x04b8 0x0818||good|| ||
+||[EpsonPerfection1240 Perfection 1240]||SCSI USB||0x04b8 0x010b||complete|| ||
+||[EpsonCX4600 CX-4600]||USB||0x04b8 0x080d||good|| ||
+||[EpsonCX3200 CX-3200]||USB||0x04b8 0x0802||good|| ||
+||[EpsonDX7400 DX-7400]||USB||0x04b8 0x0838||good|| ||
+||[EpsonES600C ES-600C]||Parport|| ||good|| ||
+||[EpsonES300C ES-300C]||SCSI Parport|| ||good|| ||
+||[EpsonPerfection610 Perfection 610]||USB||0x04b8 0x0103||complete|| ||
+||[EpsonPerfection636S Perfection 636S]||SCSI|| ||complete|| ||
+||[EpsonDX3850 DX-3850]||USB||0x04b8 0x0818||good|| ||
+||[EpsonPerfection1640 Perfection 1640]||SCSI USB||0x04b8 0x010a||complete|| ||
+||[EpsonDX6000 DX-6000 ]||USB ||0x04b8 0x082e ||good || ||
+||[EpsonCX6400 CX-6400]||USB||0x04b8 0x0805||good|| ||
+||[EpsonGT7000 GT-7000]||SCSI|| ||good|| ||
+||[EpsonPerfection640 Perfection 640]||USB||0x04b8 0x010c||complete|| ||
+||[EpsonCX5200 CX-5200]||USB||0x04b8 0x0801||good|| ||

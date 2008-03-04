@@ -1,0 +1,39 @@
+#summary Scanners supported by the pixma backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[PixmaSmartBaseMP370 SmartBase MP370]||USB||0x04a9 0x263d||minimal|| ||
+||[PixmaPIXMAMP160 PIXMA MP160]||USB||0x04a9 0x1714||basic|| ||
+||[PixmaPIXMAMP960 PIXMA MP960]||USB||0x04a9 0x171b||minimal|| ||
+||[PixmaPIXMAMP760 PIXMA MP760]||USB||0x04a9 0x1708||minimal|| ||
+||[PixmaPIXMAMP610 PIXMA MP610]||USB||0x04a9 0x1725||good|| ||
+||[PixmaMultiPASSMP730 MultiPASS MP730]||USB||0x04a9 0x262f||minimal|| ||
+||[PixmaPIXMAMP210 PIXMA MP210]||USB||0x04a9 0x1721||good|| ||
+||[PixmaPIXMAMP470 PIXMA MP470]||USB||0x04a9 0x1723||good|| ||
+||[PixmaPIXMAMP600 PIXMA MP600]||USB||0x04a9 0x1718||basic|| ||
+||[PixmaSmartBaseMP360 SmartBase MP360]||USB||0x04a9 0x263c||minimal|| ||
+||[PixmaPIXMAMP510 PIXMA MP510]||USB||0x04a9 0x1717||basic|| ||
+||[PixmaPIXMAMP750 PIXMA MP750]||USB||0x04a9 0x1706||minimal|| ||
+||[PixmaMultiPASSMP700 MultiPASS MP700]||USB||0x04a9 0x2630||basic|| ||
+||[PixmaSmartBaseMP390 SmartBase MP390]||USB||0x04a9 0x263e||minimal|| ||
+||[PixmaPIXMAMP520 PIXMA MP520]||USB||0x04a9 0x1724||good|| ||
+||[PixmaPIXMAMP450 PIXMA MP450]||USB||0x04a9 0x170b||good|| ||
+||[PixmaPIXMAMP150 PIXMA MP150]||USB||0x04a9 0x1709||good|| ||
+||[PixmaPIXMAMP800 PIXMA MP800]||USB||0x04a9 0x170d||basic|| ||
+||[PixmaPIXMAMP710 PIXMA MP710]||USB||0x04a9 0x264d||good|| ||
+||[PixmaPIXMAMP830 PIXMA MP830]||USB||0x04a9 0x1713||basic|| ||
+||[PixmaPIXMAMP460 PIXMA MP460]||USB||0x04a9 0x1716||basic|| ||
+||[PixmaPIXMAMP740 PIXMA MP740]||USB||0x04a9 0x264c||untested|| ||
+||[PixmaPIXMAMP780 PIXMA MP780]||USB||0x04a9 0x1707||minimal|| ||
+||[PixmaPIXMAMP140 PIXMA MP140]||USB||0x04a9 0x172b||good|| ||
+||[PixmaPIXMAMP180 PIXMA MP180]||USB||0x04a9 0x1715||basic|| ||
+||[PixmaPIXMAMP600R PIXMA MP600R]||USB||0x04a9 0x1719||minimal|| ||
+||[PixmaPIXMAMP800R PIXMA MP800R]||USB||0x04a9 0x170e||basic|| ||
+||[PixmaPIXMAMP220 PIXMA MP220]||USB||0x04a9 0x1722||untested|| ||
+||[PixmaPIXMAMP810 PIXMA MP810]||USB||0x04a9 0x171a||untested|| ||
+||[PixmaPIXMAMP500 PIXMA MP500]||USB||0x04a9 0x170c||good|| ||
+||[PixmaPIXMAMP530 PIXMA MP530]||USB||0x04a9 0x1712||good|| ||
+||[PixmaPIXMAMP970 PIXMA MP970]||USB||0x04a9 0x1726||untested|| ||
+||[PixmaPIXMAMP170 PIXMA MP170]||USB||0x04a9 0x170a||good|| ||

@@ -1,0 +1,17 @@
+#summary Scanners supported by the lexmark backend
+
+This list is automatically generated. Do not edit.
+
+This backend supports lexmark x1100 series scanners. 
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[LexmarkX1140 X1140]||USB||0x043d 0x007c||untested|| ||
+||[LexmarkX1195 X1195]||USB||0x043d 0x007c||untested|| ||
+||[LexmarkX1110 X1110]||USB||0x043d 0x007c||untested|| ||
+||[LexmarkX1130 X1130]||USB||0x043d 0x007c||good|| ||
+||[LexmarkX1150 X1150]||USB||0x043d 0x007c||good||/unsupported/lexmark-x1150.html||
+||[LexmarkX12xx X12xx]||USB||0x043d 0x007d||good|| ||
+||[LexmarkX1185 X1185]||USB||0x043d 0x007c||good|| ||
+||[LexmarkX1170 X1170]||USB||0x043d 0x007c||good|| ||
+||[LexmarkA920 A920]||USB||0x413c 0x5105||good|| ||
+||[LexmarkX1180 X1180]||USB||0x043d 0x007c||good|| ||

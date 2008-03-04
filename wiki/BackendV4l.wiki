@@ -1,0 +1,7 @@
+#summary Scanners supported by the v4l backend
+
+This list is automatically generated. Do not edit.
+
+Supports video cameras and other devices accessed by the v4l kernel API, e.g. bttv devices. Quite a lot of known bugs.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||

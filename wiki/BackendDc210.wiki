@@ -1,0 +1,7 @@
+#summary Scanners supported by the dc210 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Dc210DC210 DC210]||Serial port|| ||basic|| ||

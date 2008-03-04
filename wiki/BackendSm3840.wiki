@@ -1,0 +1,9 @@
+#summary Scanners supported by the sm3840 backend
+
+This list is automatically generated. Do not edit.
+
+Microtek makes a wide variety of devices.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Sm3840ScanMaker3840 ScanMaker 3840]||USB||0x05da 0x30d4||good|| ||
+||[Sm3840ScanMaker4800 ScanMaker 4800]||USB||0x05da 0x30cf||good|| ||

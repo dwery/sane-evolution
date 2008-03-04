@@ -1,0 +1,7 @@
+#summary Scanners supported by the net backend
+
+This list is automatically generated. Do not edit.
+
+Can be used to access any scanner supported by SANE over the net. Supports IPv4 and IPv6.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||

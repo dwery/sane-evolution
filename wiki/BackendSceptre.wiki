@@ -1,0 +1,8 @@
+#summary Scanners supported by the sceptre backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[SceptreVividscanS1200 Vividscan S1200 ]||SCSI|| ||basic||http://www.komodo.com/||
+||[SceptreS1200 S1200 ]||SCSI|| ||untested|| ||

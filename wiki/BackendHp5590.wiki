@@ -1,0 +1,9 @@
+#summary Scanners supported by the hp5590 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hp5590ScanJet5550C ScanJet 5550C]||USB||0x03f0 0x1205||basic|| ||
+||[Hp5590ScanJet7650 ScanJet 7650]||USB||0x03f0 0x1805||basic|| ||
+||[Hp5590ScanJet5590 ScanJet 5590]||USB||0x03f0 0x1705||basic|| ||

@@ -1,0 +1,8 @@
+#summary Scanners supported by the mustek_usb2 backend
+
+This list is automatically generated. Do not edit.
+
+Only BearPaw 2448TA Pro is supported at the moment
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Mustekusb2BearPaw2448TAPro BearPaw 2448TA Pro]||USB||0x055f 0x0409||good|| ||

@@ -1,0 +1,7 @@
+#summary Scanners supported by the test backend
+
+This list is automatically generated. Do not edit.
+
+Backend for testing frontends. Also serves as example for SANE backend options.
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||

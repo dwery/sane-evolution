@@ -1,0 +1,7 @@
+#summary Scanners supported by the dell1600n_net backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Dell1600nnet1600n 1600n]||Ethernet USB||0x413c 0x5250||basic|| ||

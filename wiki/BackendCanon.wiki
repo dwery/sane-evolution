@@ -1,0 +1,12 @@
+#summary Scanners supported by the canon backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[CanonCanoScan300 CanoScan 300]||SCSI|| ||good|| ||
+||[CanonCanoScan1200S CanoScan 1200S]||SCSI|| ||good|| ||
+||[CanonCanoScan2700F CanoScan 2700F]||SCSI|| ||good|| ||
+||[CanonCanoScan2710S CanoScan 2710S]||SCSI|| ||good|| ||
+||[CanonCanoScan600 CanoScan 600]||SCSI|| ||good|| ||
+||[CanonCanoScan620S CanoScan 620S]||SCSI|| ||good|| ||

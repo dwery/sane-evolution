@@ -1,0 +1,9 @@
+#summary Scanners supported by the hpljm1005 backend
+
+This list is automatically generated. Do not edit.
+
+
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+||[Hpljm1005LaserJetM1120MFP LaserJet M1120 MFP]||USB||0x03f0 0x5617||good|| ||
+||[Hpljm1005LaserJetM1005MFP LaserJet M1005 MFP]||USB||0x03f0 0x3b17||good|| ||
+||[Hpljm1005LaserJetM1120nMFP LaserJet M1120n MFP]||USB||0x03f0 0x5717||good|| ||

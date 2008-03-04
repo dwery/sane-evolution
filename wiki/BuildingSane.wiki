@@ -1,4 +1,5 @@
 #summary Building instructions
+#labels Featured
 
  * get the latest version at http://code.google.com/p/sane-evolution/source/checkout
 {{{

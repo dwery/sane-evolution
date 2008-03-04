@@ -1,3 +1,6 @@
+Manufacturer: Epson
+URL: http://www.epson.com
+
 || *Model* || *Interfaces* || *USB ids* || *Status* ||
 ||[Epson2GT5500 GT-5500]||SCSI|| ||:good||
 ||[Epson2GT5000 GT-5000]||SCSI Parport|| ||:good||

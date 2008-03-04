@@ -1,10 +1,12 @@
 #summary Scanners supported by the hp5400 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
-
+= hp5400 (1.0-2) =
+Hewlett-Packard
+http://www.hp.com
 HP5400 and HP5470 scanners. Prototype backend available
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Hp5400ScanJet5490c ScanJet 5490c]||USB|| ||basic|| ||
-||[Hp5400ScanJet5470c ScanJet 5470c]||USB||0x03f0 0x1105||basic|| ||
-||[Hp5400ScanJet5400c ScanJet 5400c]||USB||0x03f0 0x1005||basic|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Hp5400ScanJet5490c ScanJet 5490c]||USB|| ||basic|| || ||
+||[Hp5400ScanJet5470c ScanJet 5470c]||USB||0x03f0 0x1105||basic|| || ||
+||[Hp5400ScanJet5400c ScanJet 5400c]||USB||0x03f0 0x1005||basic|| || ||

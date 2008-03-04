@@ -1,9 +1,11 @@
 #summary Scanners supported by the hpljm1005 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= hpljm1005 (0) =
+Hewlett-Packard
+http://www.hp.com
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Hpljm1005LaserJetM1120MFP LaserJet M1120 MFP]||USB||0x03f0 0x5617||good|| ||
-||[Hpljm1005LaserJetM1005MFP LaserJet M1005 MFP]||USB||0x03f0 0x3b17||good|| ||
-||[Hpljm1005LaserJetM1120nMFP LaserJet M1120n MFP]||USB||0x03f0 0x5717||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Hpljm1005LaserJetM1120MFP LaserJet M1120 MFP]||USB||0x03f0 0x5617||good|| ||grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI||
+||[Hpljm1005LaserJetM1005MFP LaserJet M1005 MFP]||USB||0x03f0 0x3b17||good|| ||grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI||
+||[Hpljm1005LaserJetM1120nMFP LaserJet M1120n MFP]||USB||0x03f0 0x5717||good|| ||grayscale/color (24 bit), 75/100/150/200/300/600/1200 DPI||

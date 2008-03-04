@@ -1,9 +1,11 @@
 #summary Scanners supported by the apple backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= apple (unmaintained) =
+Apple
+http://developer.apple.com/	
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[AppleOneScanner OneScanner]||SCSI|| ||basic|| ||
-||[AppleAppleScanner Apple Scanner]||SCSI|| ||good|| ||
-||[AppleColorOneScanner ColorOneScanner]||SCSI|| ||minimal|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[AppleOneScanner OneScanner]||SCSI|| ||basic|| ||8bit, 256 shades of gray. The backend needs work especially in the quantization code but it may work.||
+||[AppleAppleScanner Apple Scanner]||SCSI|| ||good|| ||4bit, 16 shades of gray||
+||[AppleColorOneScanner ColorOneScanner]||SCSI|| ||minimal|| ||truecolor (needs much work) but it scans in non color modes.||

@@ -1,13 +1,15 @@
 #summary Scanners supported by the umax_pp backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= umax_pp (1) =
+UMAX
+http://www.umax.com.tw/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[UmaxppAstra610P Astra 610P]||Parport (SPP/ECP)|| ||good      || ||
-||[UmaxppColorPageLifePro ColorPage-Life Pro]||Parport (EPP/ECP)|| ||good      || ||
-||[UmaxppAstra1220P Astra 1220P]||Parport (EPP/ECP)|| ||good      || ||
-||[UmaxppScanjet3200C Scanjet 3200C]||Parport (EPP/ECP)|| ||good      || ||
-||[UmaxppAstra1600P Astra 1600P]||Parport (EPP/ECP)|| ||good      || ||
-||[UmaxppAstra600P Astra 600P]||Parport (SPP/ECP)|| ||unsupported      || ||
-||[UmaxppAstra2000P Astra 2000P]||Parport (EPP/ECP)|| ||good      || ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[UmaxppAstra610P Astra 610P]||Parport (SPP/ECP)|| ||good      || || ||
+||[UmaxppColorPageLifePro ColorPage-Life Pro]||Parport (EPP/ECP)|| ||good      || ||works (relabelled 1220P and 2000P)||
+||[UmaxppAstra1220P Astra 1220P]||Parport (EPP/ECP)|| ||good      || || ||
+||[UmaxppScanjet3200C Scanjet 3200C]||Parport (EPP/ECP)|| ||good      || ||works (relabelled 1220P and 2000P)||
+||[UmaxppAstra1600P Astra 1600P]||Parport (EPP/ECP)|| ||good      || || ||
+||[UmaxppAstra600P Astra 600P]||Parport (SPP/ECP)|| ||unsupported      || ||untested, but should be close to 610P||
+||[UmaxppAstra2000P Astra 2000P]||Parport (EPP/ECP)|| ||good      || || ||

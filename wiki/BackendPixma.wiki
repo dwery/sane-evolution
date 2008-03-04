@@ -1,39 +1,41 @@
 #summary Scanners supported by the pixma backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= pixma (0.14.3) =
+Canon
+http://www.canon.com/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[PixmaSmartBaseMP370 SmartBase MP370]||USB||0x04a9 0x263d||minimal|| ||
-||[PixmaPIXMAMP160 PIXMA MP160]||USB||0x04a9 0x1714||basic|| ||
-||[PixmaPIXMAMP960 PIXMA MP960]||USB||0x04a9 0x171b||minimal|| ||
-||[PixmaPIXMAMP760 PIXMA MP760]||USB||0x04a9 0x1708||minimal|| ||
-||[PixmaPIXMAMP610 PIXMA MP610]||USB||0x04a9 0x1725||good|| ||
-||[PixmaMultiPASSMP730 MultiPASS MP730]||USB||0x04a9 0x262f||minimal|| ||
-||[PixmaPIXMAMP210 PIXMA MP210]||USB||0x04a9 0x1721||good|| ||
-||[PixmaPIXMAMP470 PIXMA MP470]||USB||0x04a9 0x1723||good|| ||
-||[PixmaPIXMAMP600 PIXMA MP600]||USB||0x04a9 0x1718||basic|| ||
-||[PixmaSmartBaseMP360 SmartBase MP360]||USB||0x04a9 0x263c||minimal|| ||
-||[PixmaPIXMAMP510 PIXMA MP510]||USB||0x04a9 0x1717||basic|| ||
-||[PixmaPIXMAMP750 PIXMA MP750]||USB||0x04a9 0x1706||minimal|| ||
-||[PixmaMultiPASSMP700 MultiPASS MP700]||USB||0x04a9 0x2630||basic|| ||
-||[PixmaSmartBaseMP390 SmartBase MP390]||USB||0x04a9 0x263e||minimal|| ||
-||[PixmaPIXMAMP520 PIXMA MP520]||USB||0x04a9 0x1724||good|| ||
-||[PixmaPIXMAMP450 PIXMA MP450]||USB||0x04a9 0x170b||good|| ||
-||[PixmaPIXMAMP150 PIXMA MP150]||USB||0x04a9 0x1709||good|| ||
-||[PixmaPIXMAMP800 PIXMA MP800]||USB||0x04a9 0x170d||basic|| ||
-||[PixmaPIXMAMP710 PIXMA MP710]||USB||0x04a9 0x264d||good|| ||
-||[PixmaPIXMAMP830 PIXMA MP830]||USB||0x04a9 0x1713||basic|| ||
-||[PixmaPIXMAMP460 PIXMA MP460]||USB||0x04a9 0x1716||basic|| ||
-||[PixmaPIXMAMP740 PIXMA MP740]||USB||0x04a9 0x264c||untested|| ||
-||[PixmaPIXMAMP780 PIXMA MP780]||USB||0x04a9 0x1707||minimal|| ||
-||[PixmaPIXMAMP140 PIXMA MP140]||USB||0x04a9 0x172b||good|| ||
-||[PixmaPIXMAMP180 PIXMA MP180]||USB||0x04a9 0x1715||basic|| ||
-||[PixmaPIXMAMP600R PIXMA MP600R]||USB||0x04a9 0x1719||minimal|| ||
-||[PixmaPIXMAMP800R PIXMA MP800R]||USB||0x04a9 0x170e||basic|| ||
-||[PixmaPIXMAMP220 PIXMA MP220]||USB||0x04a9 0x1722||untested|| ||
-||[PixmaPIXMAMP810 PIXMA MP810]||USB||0x04a9 0x171a||untested|| ||
-||[PixmaPIXMAMP500 PIXMA MP500]||USB||0x04a9 0x170c||good|| ||
-||[PixmaPIXMAMP530 PIXMA MP530]||USB||0x04a9 0x1712||good|| ||
-||[PixmaPIXMAMP970 PIXMA MP970]||USB||0x04a9 0x1726||untested|| ||
-||[PixmaPIXMAMP170 PIXMA MP170]||USB||0x04a9 0x170a||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[PixmaSmartBaseMP370 SmartBase MP370]||USB||0x04a9 0x263d||minimal|| ||The scanner locks up sometimes.||
+||[PixmaPIXMAMP160 PIXMA MP160]||USB||0x04a9 0x1714||basic|| || ||
+||[PixmaPIXMAMP960 PIXMA MP960]||USB||0x04a9 0x171b||minimal|| || ||
+||[PixmaPIXMAMP760 PIXMA MP760]||USB||0x04a9 0x1708||minimal|| ||No grayscale. The scanner sometimes hangs!||
+||[PixmaPIXMAMP610 PIXMA MP610]||USB||0x04a9 0x1725||good|| ||up to 4800DPI||
+||[PixmaMultiPASSMP730 MultiPASS MP730]||USB||0x04a9 0x262f||minimal|| ||Do grayscale and ADF work? Same model as SmartBase MP730 Photo?||
+||[PixmaPIXMAMP210 PIXMA MP210]||USB||0x04a9 0x1721||good|| ||up to 600DPI||
+||[PixmaPIXMAMP470 PIXMA MP470]||USB||0x04a9 0x1723||good|| ||up to 2400DPI||
+||[PixmaPIXMAMP600 PIXMA MP600]||USB||0x04a9 0x1718||basic|| ||2400DPI doesn't work.||
+||[PixmaSmartBaseMP360 SmartBase MP360]||USB||0x04a9 0x263c||minimal|| ||The scanner locks up sometimes.||
+||[PixmaPIXMAMP510 PIXMA MP510]||USB||0x04a9 0x1717||basic|| || ||
+||[PixmaPIXMAMP750 PIXMA MP750]||USB||0x04a9 0x1706||minimal|| ||No grayscale. Canceling scan in ADF mode doesn't eject the paper!||
+||[PixmaMultiPASSMP700 MultiPASS MP700]||USB||0x04a9 0x2630||basic|| ||Same model as SmartBase MP700 Photo?||
+||[PixmaSmartBaseMP390 SmartBase MP390]||USB||0x04a9 0x263e||minimal|| ||The scanner locks up sometimes.||
+||[PixmaPIXMAMP520 PIXMA MP520]||USB||0x04a9 0x1724||good|| ||up to 2400DPI||
+||[PixmaPIXMAMP450 PIXMA MP450]||USB||0x04a9 0x170b||good|| ||Scanner makes loud noise at 600 DPI.||
+||[PixmaPIXMAMP150 PIXMA MP150]||USB||0x04a9 0x1709||good|| || ||
+||[PixmaPIXMAMP800 PIXMA MP800]||USB||0x04a9 0x170d||basic|| ||No film scan.||
+||[PixmaPIXMAMP710 PIXMA MP710]||USB||0x04a9 0x264d||good|| ||up to 1200DPI||
+||[PixmaPIXMAMP830 PIXMA MP830]||USB||0x04a9 0x1713||basic|| ||Sigle-side ADF works but duplex doesn't work yet.||
+||[PixmaPIXMAMP460 PIXMA MP460]||USB||0x04a9 0x1716||basic|| || ||
+||[PixmaPIXMAMP740 PIXMA MP740]||USB||0x04a9 0x264c||untested|| ||Same protocol as Pixma MP710? Testers needed!||
+||[PixmaPIXMAMP780 PIXMA MP780]||USB||0x04a9 0x1707||minimal|| ||No grayscale. The scanner sometimes hangs!||
+||[PixmaPIXMAMP140 PIXMA MP140]||USB||0x04a9 0x172b||good|| ||up to 600 DPI||
+||[PixmaPIXMAMP180 PIXMA MP180]||USB||0x04a9 0x1715||basic|| || ||
+||[PixmaPIXMAMP600R PIXMA MP600R]||USB||0x04a9 0x1719||minimal|| ||2400DPI doesn't work.||
+||[PixmaPIXMAMP800R PIXMA MP800R]||USB||0x04a9 0x170e||basic|| ||No film scan.||
+||[PixmaPIXMAMP220 PIXMA MP220]||USB||0x04a9 0x1722||untested|| ||Testers needed! Likely to use generation 3 protocol.||
+||[PixmaPIXMAMP810 PIXMA MP810]||USB||0x04a9 0x171a||untested|| ||Testers needed!||
+||[PixmaPIXMAMP500 PIXMA MP500]||USB||0x04a9 0x170c||good|| || ||
+||[PixmaPIXMAMP530 PIXMA MP530]||USB||0x04a9 0x1712||good|| || ||
+||[PixmaPIXMAMP970 PIXMA MP970]||USB||0x04a9 0x1726||untested|| ||Testers needed!||
+||[PixmaPIXMAMP170 PIXMA MP170]||USB||0x04a9 0x170a||good|| || ||

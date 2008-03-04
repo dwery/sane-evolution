@@ -1,10 +1,12 @@
 #summary Scanners supported by the umax1220u backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= umax1220u (unmaintained) =
+UMAX
+http://www.umax.com/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Umax1220uAstra2100U Astra 2100U]||USB||0x1606 0x0130||good|| ||
-||[Umax1220uAstra1600U Astra 1600U]||USB||0x1606 0x0030||untested|| ||
-||[Umax1220uAstra2000U Astra 2000U]||USB||0x1606 0x0030||good|| ||
-||[Umax1220uAstra1220U Astra 1220U]||USB||0x1606 0x0010||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Umax1220uAstra2100U Astra 2100U]||USB||0x1606 0x0130||good|| || ||
+||[Umax1220uAstra1600U Astra 1600U]||USB||0x1606 0x0030||untested|| ||Untested but probably works. Please tell us how well the scanner works.||
+||[Umax1220uAstra2000U Astra 2000U]||USB||0x1606 0x0030||good|| || ||
+||[Umax1220uAstra1220U Astra 1220U]||USB||0x1606 0x0010||good|| || ||

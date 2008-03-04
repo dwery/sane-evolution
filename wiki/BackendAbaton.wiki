@@ -1,8 +1,9 @@
 #summary Scanners supported by the abaton backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= abaton (unmaintained) =
+Abaton
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[AbatonScan300S Scan 300/S]||SCSI|| ||untested|| ||
-||[AbatonScan300GS Scan 300/GS]||SCSI|| ||complete|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[AbatonScan300S Scan 300/S]||SCSI|| ||untested|| ||Untested, use with caution||
+||[AbatonScan300GS Scan 300/GS]||SCSI|| ||complete|| ||All known modes and functions supported||

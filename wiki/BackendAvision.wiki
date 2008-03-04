@@ -1,94 +1,96 @@
 #summary Scanners supported by the avision backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= avision (Build: 201) =
+Avision
+http://www.avision.com
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Avisioni50 i50]||USB||0x040a 0x6003||untested|| ||
-||[AvisionDocuMate262 DocuMate262]||USB||0x04a7 0x044c||good|| ||
-||[AvisionMCAADFC MCA-ADFC]||SCSI|| ||untested|| ||
-||[AvisionAV260CS AV260CS]||SCSI|| ||untested|| ||
-||[Avision1200U 1200U]||USB||0x0638 0x0268||untested|| ||
-||[AvisionScanPartner620C ScanPartner 620C]||SCSI|| ||good|| ||
-||[AvisionAV8350 AV8350]||USB||0x0638 0x0a68||complete|| ||
-||[AvisionSS600 SS600]||SCSI|| ||good||http://www.fujitsu.com||
-||[AvisionScanJet5300C ScanJet 5300C]||USB||0x03f0 0x0701||complete|| ||
-||[AvisionAV360CS AV360CS]||SCSI|| ||untested|| ||
-||[AvisionScanPartner ScanPartner]||SCSI|| ||untested|| ||
-||[AvisionAV3850SU AV3850SU]||USB||0x0638 0x0a66||complete|| ||
-||[AvisionAV830C AV830C]||SCSI|| ||untested|| ||
-||[AvisionScanPartner10 ScanPartner 10]||SCSI|| ||untested|| ||
-||[AvisionAV620CSPlus AV620CS Plus]||SCSI|| ||complete|| ||
-||[Avisioni40 i40]||USB||0x040a 0x6002||basic|| ||
-||[AvisionScanPartner300C ScanPartner 300C]||SCSI|| ||untested|| ||
-||[AvisionScanJet7490c ScanJet 7490c]||USB||0x03f0 0x0801||good|| ||
-||[AvisionAV210 AV210]||USB||0x0638 0x0a25||complete|| ||
-||[AvisionAV6120 AV6120]||SCSI|| ||untested|| ||
-||[AvisionEliteII Elite II]||USB||0x0686 0x4004||untested|| ||
-||[AvisionDimageScanDualI Dimage Scan Dual I]||SCSI|| ||basic|| ||
-||[AvisionAV8300 AV8300]||USB||0x0638 0x0a40||complete|| ||
-||[AvisionAV220 AV220]||USB||0x0638 0x0a23||complete|| ||
-||[AvisionDimageScanElite5400 Dimage Scan Elite 5400]||USB||0x0686 0x400e||untested|| ||
-||[AvisionS1200C S1200C]||SCSI|| ||untested|| ||
-||[AvisionAV420CS AV420CS]||SCSI|| ||untested|| ||
-||[AvisionV5100 @V5100]||USB||0x0638 0x0a45||complete|| ||
-||[AvisionDimageScanDualIII Dimage Scan Dual III]||USB||0x0686 0x400d||basic|| ||
-||[AvisionAVA3 AVA3]||SCSI|| ||basic||http://www.hp.com||
-||[AvisionAV120 AV120]||USB||0x0638 0x0a27||complete|| ||
-||[AvisionScanJet7400c ScanJet 7400c]||USB||0x03f0 0x0801||good|| ||
-||[AvisionAV100S AV100S]||SCSI|| ||untested|| ||
-||[AvisionScanJet8250 ScanJet 8250]||USB||0x03f0 0x0b01||good|| ||
-||[AvisionAV630CSL AV630CSL]||SCSI|| ||untested|| ||
-||[Avisioni60 i60]||USB||0x040a 0x6004||untested|| ||
-||[AvisionAV660S AV660S]||SCSI|| ||untested|| ||
-||[AvisionAV600UPlus AV600U Plus]||USB||0x0638 0x0a18||untested|| ||
-||[AvisionIT8300 IT8300]||USB||0x0638 0x0a61||good|| ||
-||[AvisionDocuMate252 DocuMate252]||USB||0x04a7 0x0449||untested|| ||
-||[AvisionScanJet8200 ScanJet 8200]||USB||0x03f0 0x0b01||good|| ||
-||[AvisionAV363CS AV363CS]||SCSI|| ||untested|| ||
-||[AvisionAV121 AV121]||USB||0x0638 0x0a3c||untested|| ||
-||[AvisionAV630CS AV630CS]||SCSI|| ||complete|| ||
-||[AvisionAV620CS AV620CS]||SCSI|| ||complete|| ||
-||[AvisionAM3000Series AM3000 Series]||USB||0x0638 0x0a41||basic|| ||
-||[AvisionDS610CUScancopier DS610CU Scancopier]||USB||0x0638 0x0a16||good|| ||
-||[AvisionAV680S AV680S]||SCSI|| ||untested|| ||
-||[AvisionScanJet7450c ScanJet 7450c]||USB||0x03f0 0x0801||good|| ||
-||[AvisionAV6240 AV6240]||SCSI|| ||complete|| ||
-||[Avision2000F 2000F]||SCSI|| ||basic|| ||
-||[AvisionAV610 AV610]||USB||0x0638 0x0a19||good|| ||
-||[AvisionDimageScanDualII Dimage Scan Dual II]||USB||0x0638 0x026a||good|| ||
-||[AvisionAV3200C AV3200C]||SCSI|| ||complete|| ||
-||[AvisionScanStation ScanStation]||SCSI|| ||untested|| ||
-||[Avisioni30 i30]||USB||0x040a 0x6001||untested|| ||
-||[AvisionScanPartnerJr ScanPartner Jr]||SCSI|| ||untested|| ||
-||[AvisionAV880 AV880]||SCSI|| ||untested|| ||
-||[AvisionAV220C2 AV220C2]||USB||0x0638 0x0a2a||complete|| ||
-||[AvisionAV800S AV800S]||SCSI|| ||untested|| ||
-||[AvisionScanPartner10C ScanPartner 10C]||SCSI|| ||untested|| ||
-||[AvisionAV810C AV810C]||SCSI|| ||untested|| ||
-||[AvisionAV820C AV820C]||SCSI|| ||complete|| ||
-||[AvisionFB6000E FB6000E]||SCSI|| ||complete|| ||
-||[AvisionAV830CPlus AV830C Plus]||SCSI|| ||untested|| ||
-||[AvisionAV820CPlus AV820C Plus]||SCSI|| ||complete|| ||
-||[AvisionAV880C AV880C]||SCSI|| ||untested|| ||
-||[AvisionScanPartner15C ScanPartner 15C]||SCSI|| ||untested|| ||
-||[AvisionDocuMate272 DocuMate272]||USB||0x04a7 0x0475||untested|| ||
-||[AvisionScanPartner600C ScanPartner 600C]||SCSI|| ||untested|| ||
-||[AvisionS600C S600C]||SCSI|| ||untested|| ||
-||[AvisionAV8000S AV8000S]||SCSI|| ||complete|| ||
-||[AvisionAV690U AV690U]||SCSI|| ||untested|| ||
-||[AvisionAV210C2 AV210C2]||USB||0x0638 0x0a3a||complete|| ||
-||[AvisionSC110 SC-110]||USB||0x0638 0x0a15||untested|| ||
-||[AvisionAV122 AV122]||USB||0x0638 0x0a33||good|| ||
-||[AvisionScanJet8290 ScanJet 8290]||USB||0x03f0 0x0b01||good||http://www.minolta.com||
-||[AvisionAV3800C AV3800C]||SCSI|| ||complete|| ||
-||[AvisionScanJet5370C ScanJet 5370C]||USB||0x03f0 0x0701||good|| ||
-||[AvisionAV820 AV820]||SCSI|| ||untested|| ||
-||[Avisioni80 i80]||USB||0x040a 0x6005||untested|| ||
-||[AvisionAV100CS AV100CS]||SCSI|| ||untested|| ||
-||[AvisionAV100IIICS AV100IIICS]||SCSI|| ||untested|| ||
-||[AvisionAV240SC AV240SC]||SCSI|| ||untested|| ||
-||[Avisionfi4010C fi-4010C]||USB||0x04c5 0x1029||untested|| ||
-||[Avisionfi4110CUSSF fi-4110CU/SSF]||USB||0x04c5 0x1033||untested||http://www.kodak.com||
-||[AvisionAV600U AV600U]||USB||0x0638 0x0a13||good|| ||
-||[AvisionSC215 SC-215]||USB||0x0638 0x0a16||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[AvisionI50 i50]||USB||0x040a 0x6003||untested|| || ||
+||[AvisionDocuMate262 DocuMate262]||USB||0x04a7 0x044c||good|| || ||
+||[AvisionMCAADFC MCA-ADFC]||SCSI|| ||untested|| || ||
+||[AvisionAV260CS AV260CS]||SCSI|| ||untested|| || ||
+||[Avision1200U 1200U]||USB||0x0638 0x0268||untested|| || ||
+||[AvisionScanPartner620C ScanPartner 620C]||SCSI|| ||good|| || ||
+||[AvisionAV8350 AV8350]||USB||0x0638 0x0a68||complete|| ||1 pass, 1200 dpi, A3 - duplex!||
+||[AvisionSS600 SS600]||SCSI|| ||good||http://www.fujitsu.com|| ||
+||[AvisionScanJet5300C ScanJet 5300C]||USB||0x03f0 0x0701||complete|| ||1 pass, 2400 dpi - regularly tested - some FW revisions have x-axis image scaling problems over 1200 dpi||
+||[AvisionAV360CS AV360CS]||SCSI|| ||untested|| || ||
+||[AvisionScanPartner ScanPartner]||SCSI|| ||untested|| || ||
+||[AvisionAV3850SU AV3850SU]||USB||0x0638 0x0a66||complete|| ||1 pass, ??? dpi||
+||[AvisionAV830C AV830C]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionScanPartner10 ScanPartner 10]||SCSI|| ||untested|| || ||
+||[AvisionAV620CSPlus AV620CS Plus]||SCSI|| ||complete|| ||1 pass, 1200 dpi||
+||[AvisionI40 i40]||USB||0x040a 0x6002||basic|| || ||
+||[AvisionScanPartner300C ScanPartner 300C]||SCSI|| ||untested|| || ||
+||[AvisionScanJet7490c ScanJet 7490c]||USB||0x03f0 0x0801||good|| ||1 pass, 1200 dpi - dual USB/SCSI interface||
+||[AvisionAV210 AV210]||USB||0x0638 0x0a25||complete|| ||sheetfed scanner||
+||[AvisionAV6120 AV6120]||SCSI|| ||untested|| || ||
+||[AvisionEliteII Elite II]||USB||0x0686 0x4004||untested|| ||1 pass, film-scanner||
+||[AvisionDimageScanDualI Dimage Scan Dual I]||SCSI|| ||basic|| || ||
+||[AvisionAV8300 AV8300]||USB||0x0638 0x0a40||complete|| ||1 pass, 1200 dpi, A3 - duplex!||
+||[AvisionAV220 AV220]||USB||0x0638 0x0a23||complete|| ||duplex! sheetfed scanner||
+||[AvisionDimageScanElite5400 Dimage Scan Elite 5400]||USB||0x0686 0x400e||untested|| ||1 pass, film-scanner||
+||[AvisionS1200C S1200C]||SCSI|| ||untested|| || ||
+||[AvisionAV420CS AV420CS]||SCSI|| ||untested|| || ||
+||[AvisionV5100 @V5100]||USB||0x0638 0x0a45||complete|| ||1 pass, 1200 dpi, A3 - duplex!, LCD screen, paper sensors||
+||[AvisionDimageScanDualIII Dimage Scan Dual III]||USB||0x0686 0x400d||basic|| ||1 pass, film-scanner||
+||[AvisionAVA3 AVA3]||SCSI|| ||basic||http://www.hp.com||1 pass, 600 dpi, A3||
+||[AvisionAV120 AV120]||USB||0x0638 0x0a27||complete|| ||sheetfed scanner||
+||[AvisionScanJet7400c ScanJet 7400c]||USB||0x03f0 0x0801||good|| ||1 pass, 2400 dpi - dual USB/SCSI interface||
+||[AvisionAV100S AV100S]||SCSI|| ||untested|| || ||
+||[AvisionScanJet8250 ScanJet 8250]||USB||0x03f0 0x0b01||good|| ||1 pass, 4800 (?) dpi - USB 2.0||
+||[AvisionAV630CSL AV630CSL]||SCSI|| ||untested|| ||1 pass, 1200 dpi||
+||[AvisionI60 i60]||USB||0x040a 0x6004||untested|| || ||
+||[AvisionAV660S AV660S]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionAV600UPlus AV600U Plus]||USB||0x0638 0x0a18||untested|| ||1 pass, ??? dpi||
+||[AvisionIT8300 IT8300]||USB||0x0638 0x0a61||good|| ||1 pass, 1200 dpi, A3 - duplex!, LCD screen, paper sensors||
+||[AvisionDocuMate252 DocuMate252]||USB||0x04a7 0x0449||untested|| || ||
+||[AvisionScanJet8200 ScanJet 8200]||USB||0x03f0 0x0b01||good|| ||1 pass, 4800 (?) dpi - USB 2.0||
+||[AvisionAV363CS AV363CS]||SCSI|| ||untested|| || ||
+||[AvisionAV121 AV121]||USB||0x0638 0x0a3c||untested|| ||sheetfed scanner||
+||[AvisionAV630CS AV630CS]||SCSI|| ||complete|| ||1 pass, 1200 dpi - regularly tested||
+||[AvisionAV620CS AV620CS]||SCSI|| ||complete|| ||1 pass, 600 dpi||
+||[AvisionAM3000Series AM3000 Series]||USB||0x0638 0x0a41||basic|| ||MFD||
+||[AvisionDS610CUScancopier DS610CU Scancopier]||USB||0x0638 0x0a16||good|| ||1 pass, 600 dpi, A4||
+||[AvisionAV680S AV680S]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionScanJet7450c ScanJet 7450c]||USB||0x03f0 0x0801||good|| ||1 pass, 2400 dpi - dual USB/SCSI interface - regularly tested||
+||[AvisionAV6240 AV6240]||SCSI|| ||complete|| ||1 pass, ??? dpi||
+||[Avision2000F 2000F]||SCSI|| ||basic|| ||1 pass, ??? dpi, A4||
+||[AvisionAV610 AV610]||USB||0x0638 0x0a19||good|| || ||
+||[AvisionDimageScanDualII Dimage Scan Dual II]||USB||0x0638 0x026a||good|| ||1 pass, film-scanner||
+||[AvisionAV3200C AV3200C]||SCSI|| ||complete|| ||1 pass, ??? dpi||
+||[AvisionScanStation ScanStation]||SCSI|| ||untested|| || ||
+||[AvisionI30 i30]||USB||0x040a 0x6001||untested|| || ||
+||[AvisionScanPartnerJr ScanPartner Jr]||SCSI|| ||untested|| || ||
+||[AvisionAV880 AV880]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionAV220C2 AV220C2]||USB||0x0638 0x0a2a||complete|| ||duplex! sheetfed scanner||
+||[AvisionAV800S AV800S]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionScanPartner10C ScanPartner 10C]||SCSI|| ||untested|| || ||
+||[AvisionAV810C AV810C]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionAV820C AV820C]||SCSI|| ||complete|| ||1 pass, ??? dpi||
+||[AvisionFB6000E FB6000E]||SCSI|| ||complete|| ||1 pass, 1200 dpi, A3 - duplex! - zero edge!||
+||[AvisionAV830CPlus AV830C Plus]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionAV820CPlus AV820C Plus]||SCSI|| ||complete|| ||1 pass, ??? dpi||
+||[AvisionAV880C AV880C]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionScanPartner15C ScanPartner 15C]||SCSI|| ||untested|| || ||
+||[AvisionDocuMate272 DocuMate272]||USB||0x04a7 0x0475||untested|| || ||
+||[AvisionScanPartner600C ScanPartner 600C]||SCSI|| ||untested|| || ||
+||[AvisionS600C S600C]||SCSI|| ||untested|| || ||
+||[AvisionAV8000S AV8000S]||SCSI|| ||complete|| ||1 pass, 1200 dpi, A3 - regularly tested||
+||[AvisionAV690U AV690U]||SCSI|| ||untested|| ||1 pass, 2400 dpi||
+||[AvisionAV210C2 AV210C2]||USB||0x0638 0x0a3a||complete|| ||sheetfed scanner||
+||[AvisionSC110 SC-110]||USB||0x0638 0x0a15||untested|| || ||
+||[AvisionAV122 AV122]||USB||0x0638 0x0a33||good|| ||sheetfed duplex scanner||
+||[AvisionScanJet8290 ScanJet 8290]||USB||0x03f0 0x0b01||good||http://www.minolta.com||1 pass, 4800 (?) dpi - USB 2.0 and SCSI - only SCSI tested so far||
+||[AvisionAV3800C AV3800C]||SCSI|| ||complete|| ||1 pass, ??? dpi||
+||[AvisionScanJet5370C ScanJet 5370C]||USB||0x03f0 0x0701||good|| ||1 pass, 2400 dpi - some FW revisions have x-axis image scaling problems over 1200 dpi||
+||[AvisionAV820 AV820]||SCSI|| ||untested|| ||1 pass, ??? dpi||
+||[AvisionI80 i80]||USB||0x040a 0x6005||untested|| || ||
+||[AvisionAV100CS AV100CS]||SCSI|| ||untested|| || ||
+||[AvisionAV100IIICS AV100IIICS]||SCSI|| ||untested|| || ||
+||[AvisionAV240SC AV240SC]||SCSI|| ||untested|| || ||
+||[AvisionFi4010C fi-4010C]||USB||0x04c5 0x1029||untested|| || ||
+||[AvisionFi4110CUSSF fi-4110CU/SSF]||USB||0x04c5 0x1033||untested||http://www.kodak.com|| ||
+||[AvisionAV600U AV600U]||USB||0x0638 0x0a13||good|| ||1 pass, 600 dpi||
+||[AvisionSC215 SC-215]||USB||0x0638 0x0a16||good|| || ||

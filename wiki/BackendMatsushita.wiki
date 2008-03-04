@@ -1,17 +1,19 @@
 #summary Scanners supported by the matsushita backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= matsushita (1.0-7) =
+Panasonic
+http://www.panasonic.com/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[MatsushitaKVSS50EX KV-SS50EX]||SCSI|| ||untested|| ||
-||[MatsushitaKVSS50 KV-SS50]||SCSI|| ||untested|| ||
-||[MatsushitaKVSS855 KV-SS855]||SCSI|| ||untested|| ||
-||[MatsushitaKVSS25D KV-SS25D]||SCSI|| ||complete|| ||
-||[MatsushitaKVS2025C KV-S2025C]||SCSI|| ||minimal|| ||
-||[MatsushitaKVS2065L KV-S2065L]||SCSI|| ||minimal|| ||
-||[MatsushitaKVS2045C KV-S2045C]||SCSI|| ||minimal|| ||
-||[MatsushitaKVSS55EX KV-SS55EX]||SCSI|| ||minimal|| ||
-||[MatsushitaKVSS55 KV-SS55]||SCSI|| ||untested|| ||
-||[MatsushitaKVSS25 KV-SS25]||SCSI|| ||complete|| ||
-||[MatsushitaKVSS850 KV-SS850]||SCSI|| ||untested|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[MatsushitaKVSS50EX KV-SS50EX]||SCSI|| ||untested|| || ||
+||[MatsushitaKVSS50 KV-SS50]||SCSI|| ||untested|| || ||
+||[MatsushitaKVSS855 KV-SS855]||SCSI|| ||untested|| || ||
+||[MatsushitaKVSS25D KV-SS25D]||SCSI|| ||complete|| || ||
+||[MatsushitaKVS2025C KV-S2025C]||SCSI|| ||minimal|| ||no color, no high resolution, no automatic cropping||
+||[MatsushitaKVS2065L KV-S2065L]||SCSI|| ||minimal|| ||no color, no high resolution, no automatic cropping||
+||[MatsushitaKVS2045C KV-S2045C]||SCSI|| ||minimal|| ||no color, no high resolution, no automatic cropping||
+||[MatsushitaKVSS55EX KV-SS55EX]||SCSI|| ||minimal|| ||no color, no high resolution, no automatic cropping||
+||[MatsushitaKVSS55 KV-SS55]||SCSI|| ||untested|| || ||
+||[MatsushitaKVSS25 KV-SS25]||SCSI|| ||complete|| || ||
+||[MatsushitaKVSS850 KV-SS850]||SCSI|| ||untested|| || ||

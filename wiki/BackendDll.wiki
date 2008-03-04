@@ -1,6 +1,7 @@
 #summary Scanners supported by the dll backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= dll (1.0.12) =
+mailto:henning@meier-geinitz.de
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||

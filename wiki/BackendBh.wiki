@@ -1,13 +1,15 @@
 #summary Scanners supported by the bh backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
-
+= bh (1.0-4) =
+Bell and Howell
+http://www.bhscanners.com/
 Supports Copiscan II scanners with Remote SCSI Controller (RSC) interface
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[BhCOPISCANII2138A COPISCAN II 2138A]||SCSI|| ||untested|| ||
-||[BhCOPISCANII2135 COPISCAN II 2135]||SCSI|| ||untested|| ||
-||[BhCOPISCANII6338 COPISCAN II 6338]||SCSI|| ||good|| ||
-||[BhCOPISCANII2137A COPISCAN II 2137(A)]||SCSI|| ||good|| ||
-||[BhCOPISCANII3338A COPISCAN II 3338(A)]||SCSI|| ||untested|| ||
-||[BhCOPISCANII3238 COPISCAN II 3238]||SCSI|| ||untested|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[BhCOPISCANII2138A COPISCAN II 2138A]||SCSI|| ||untested|| ||Simplex Scanner with ACE||
+||[BhCOPISCANII2135 COPISCAN II 2135]||SCSI|| ||untested|| ||Simplex Scanner||
+||[BhCOPISCANII6338 COPISCAN II 6338]||SCSI|| ||good|| ||Duplex Scanner with ACE - development model||
+||[BhCOPISCANII2137A COPISCAN II 2137(A)]||SCSI|| ||good|| ||Simplex Scanner (with ACE) - limited testing||
+||[BhCOPISCANII3338A COPISCAN II 3338(A)]||SCSI|| ||untested|| ||Simplex Scanner (with ACE)||
+||[BhCOPISCANII3238 COPISCAN II 3238]||SCSI|| ||untested|| ||Simplex Scanner||

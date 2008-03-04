@@ -1,14 +1,16 @@
 #summary Scanners supported by the artec backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= artec (unmaintained) =
+Artec/Ultima
+http://www.artecusa.com/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[ArtecAM12S AM12S]||SCSI|| ||complete||http://www.blackwidow.co.uk/||
-||[ArtecBW4800SP BW4800SP]||SCSI|| ||complete||http://www.plustek.com/||
-||[ArtecAT12 AT12]||SCSI|| ||complete|| ||
-||[ArtecAT3 AT3]||SCSI|| ||complete|| ||
-||[ArtecA6000CPLUS A6000C PLUS]||SCSI|| ||complete|| ||
-||[ArtecAT6 AT6]||SCSI|| ||good|| ||
-||[ArtecOpticPro19200S OpticPro 19200S]||SCSI|| ||complete|| ||
-||[ArtecA6000C A6000C]||SCSI|| ||complete|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[ArtecAM12S AM12S]||SCSI|| ||complete||http://www.blackwidow.co.uk/||all modes working||
+||[ArtecBW4800SP BW4800SP]||SCSI|| ||complete||http://www.plustek.com/||rebadged Artec AT3||
+||[ArtecAT12 AT12]||SCSI|| ||complete|| ||all modes working||
+||[ArtecAT3 AT3]||SCSI|| ||complete|| ||all modes working||
+||[ArtecA6000CPLUS A6000C PLUS]||SCSI|| ||complete|| ||f/w <= v1.92 basic, f/w >= v1.93 OK||
+||[ArtecAT6 AT6]||SCSI|| ||good|| ||Scan head needs to return home before another scan can be started.||
+||[ArtecOpticPro19200S OpticPro 19200S]||SCSI|| ||complete|| ||rebadged Artec AM12S||
+||[ArtecA6000C A6000C]||SCSI|| ||complete|| ||all modes working||

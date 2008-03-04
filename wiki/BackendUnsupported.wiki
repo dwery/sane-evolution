@@ -1,389 +1,391 @@
 #summary Scanners supported by the unsupported backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
-
+= unsupported (2007-01-28) =
+Agfa
+/contrib.html
 The devices mentioned here are not supported by any SANE backend. However, there may be links to information about them or stand-alone programs.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[UnsupportedDR3060 DR-3060]||SCSI|| ||unsupported|| ||
-||[UnsupportedOpticProA3U OpticPro A3U]||USB|| ||unsupported|| ||
-||[UnsupportedPhotoMaker3C PhotoMaker 3C]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedOneTouch5300 OneTouch 5300]||USB||0x04a7 0x0221||unsupported|| ||
-||[UnsupportedScanJet3770 ScanJet 3770]||USB||0x03f0 0x2505||unsupported|| ||
-||[UnsupportedAstra4100 Astra 4100]||USB||0x0461 0x038c||unsupported||/unsupported/umax-astra-4100.html||
-||[UnsupportedS200 S200]||USB||0x049f 0x0021||unsupported|| ||
-||[UnsupportedOneTouch5800USB OneTouch 5800 USB]||USB||0x04a7 0x0226||unsupported||/unsupported/visioneer-onetouch5800.html||
-||[UnsupportedOnetouchPro8820 Onetouch Pro 8820]||USB||0x04a7 0x0410||unsupported||/unsupported/visioneer-onetouch8820.html||
-||[UnsupportedOneTouch8100 OneTouch 8100]||USB||0x04a7 0x0321||unsupported||/unsupported/visioneer-onetouch8100.html||
-||[UnsupportedMFC9600 MFC 9600]||USB||0x04f9 0x0101||unsupported||http://www.c-channel.ch/||
-||[UnsupportedPrimefilm3600PRO Primefilm 3600PRO]||USB IEEE-1394|| ||unsupported|| ||
-||[UnsupportedBizCardReader900C BizCardReader 900C]||USB||0x0a53 0x5001||unsupported||/unsupported/edt-900c.html||
-||[UnsupportedDocuImage620S DocuImage 620S]||SCSI|| ||unsupported||/unsupported/xerox-docuimage-620s.html||
-||[UnsupportedVM6509F VM6509F]||USB||0x080d 0x0102||unsupported||/unsupported/teco-vm6509.html||
-||[UnsupportedArtixScan4000tf ArtixScan 4000tf]||USB|| ||unsupported|| ||
-||[UnsupportedCanoScanD646U CanoScan D646U]||USB||0x04a9 0x220b||unsupported||/unsupported/canon-d646u.html||
-||[Unsupported6136u 6136u]||USB||0x0461 0x0346||unsupported||/unsupported/memorex-maxx-6136u.html||
-||[UnsupportedXFinity X-Finity]||SCSI|| ||unsupported|| ||
-||[UnsupportedDS3000 DS-3000]||Parport Serial Port|| ||unsupported||http://www.compaq.com/||
-||[UnsupportedScanMaker3880 ScanMaker 3880]||USB||0x05da 0x3021||unsupported||/unsupported/microtek-scanmaker-3880.html||
-||[UnsupportedIriScan IriScan]||USB||0x0a53 0x1000||unsupported||/unsupported/iris-iriscan.html||
-||[UnsupportedOnetouch9020 Onetouch 9020]||USB||0x04a7 0x022c||unsupported||/unsupported/visioneer-onetouch9020.html||
-||[UnsupportedPageScanColor PageScan Color]||Parport|| ||unsupported|| ||
-||[UnsupportedOpticProS6 OpticPro S6]||USB|| ||unsupported|| ||
-||[UnsupportedOpticFilm7200 OpticFilm 7200]||USB||0x07b3 0x0807||unsupported||/unsupported/plustek-opticfilm-7200.html||
-||[Unsupported9420 9420]||USB||0x0461 0x03a8||unsupported||/unsupported/visioneer-9420.html||
-||[UnsupportedXFinityUltra X-Finity Ultra]||USB IEEE-1394|| ||unsupported|| ||
-||[UnsupportedPowerlook180 Powerlook 180]||USB|| ||unsupported||/unsupported/umax-powerlook-180.html||
-||[UnsupportedDS310F DS310F]||Parport|| ||unsupported|| ||
-||[UnsupportedArtiscan9600pro36 Artiscan 9600 pro 36]||Parport|| ||unsupported||http://www.autistici.org/tamarhack/||
-||[UnsupportedX5130 X5130]||USB||0x043d 0x0065||unsupported||/unsupported/lexmark-x5130.html||
-||[UnsupportedCanoScan5200F CanoScan 5200F]||USB||0x04a9 0x2217||unsupported||/unsupported/canon-5200f.html||
-||[UnsupportedCanoScanLiDE80 CanoScan LiDE 80]||USB||0x04a9 0x2214||unsupported||/unsupported/canon-lide-80.html||
-||[UnsupportedDMS2000 DMS 2000]||proprietary|| ||unsupported||http://www.siemens.com/||
-||[UnsupportedScanJet4670 ScanJet 4670]||USB||0x03f0 0x3005||unsupported||/unsupported/hp-scanjet-4600.html||
-||[Unsupported6200EPPUSB 6200 EPP/USB]||USB||0x04a7 0x0311||unsupported|| ||
-||[UnsupportedCherryFingerTIPIDBoardSensor Cherry FingerTIP ID Board - Sensor]||USB||0x0681 0x0010||unsupported|| ||
-||[UnsupportedCanoScanFB1210U CanoScan FB1210U]||USB||0x04a9 0x2205||unsupported||http://sourceforge.net/projects/canonscanner/||
-||[UnsupportedCombiScan19200 CombiScan 19200]||Parport USB||0x05cb 0x1483||unsupported||/unsupported/trust-combiscan-19200.html||
-||[UnsupportedScanMaker3630 ScanMaker 3630]||USB||0x0461 0x0347||unsupported||/unsupported/microtek-scanmaker-3630.html||
-||[UnsupportedCanoScanD646Uex CanoScan D646U ex]||USB||0x04a9 0x220b||unsupported||/unsupported/canon-d646u.html||
-||[UnsupportedAstra6700 Astra 6700]||USB|| ||unsupported|| ||
-||[UnsupportedIDMouseProfessional ID Mouse Professional]||USB||0x0681 0x0005||unsupported|| ||
-||[UnsupportedScanMaker5700 ScanMaker 5700]||USB||0x05da 0x20bd||unsupported|| ||
-||[UnsupportedArtixScanDI2020 ArtixScanDI 2020]||USB||0x05da 0x202e||unsupported||/unsupported/microtek-artixscan-2020.html||
-||[UnsupportedMobileScanUSB MobileScan USB]||USB Parport||0x05cb 0x1483||unsupported||http://irislink.com/||
-||[UnsupportedOpticProS24 OpticPro S24]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||
-||[UnsupportedCanoScanLiDE70 CanoScan LiDE 70]||USB||0x04a9 0x2225||unsupported||/unsupported/canon-lide-70.html||
-||[UnsupportedOneTouch6600 OneTouch 6600]||USB||0x04a7 0x022a||unsupported||/unsupported/visioneer-onetouch6600.html||
-||[UnsupportedIRISCardProIBCRII IRISCard Pro (IBCR II)]||USB||0x0a38 0x0301||unsupported||http://www.kodak.com||
-||[UnsupportedScanJet4500C ScanJet 4500C]||USB||0x03f0 0x1205||unsupported||/unsupported/hp-scanjet-4500c.html||
-||[UnsupportedG26002 G2-600 #2]||USB||0x0461 0x0382||unsupported|| ||
-||[Unsupported620PT 620PT]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedParagon800IIEP Paragon 800 II EP]||Parport|| ||unsupported|| ||
-||[UnsupportedReadyScan636i ReadyScan 636i]||USB||0x0461 0x0381||unsupported|| ||
-||[UnsupportedAstra4000 Astra 4000]||USB||0x1606 0x1030||unsupported||/unsupported/umax-astra-4000.html||
-||[UnsupportedScanJet4850C ScanJet 4850C]||USB||0x03f0 0x1b05||unsupported||/unsupported/hp-scanjet-4850.html||
-||[UnsupportediVinaFB1800 iVina FB1800]||USB||0x0638 0x0a20||unsupported||http://www.benq.com||
-||[UnsupportedCanoScanD1250U2 CanoScan D1250U2]||USB||0x04a9 0x220c||unsupported||/unsupported/canon-d1250u2.html||
-||[UnsupportedOptiCard600 OptiCard 600+]||USB|| ||unsupported|| ||
-||[UnsupportedStylusCX5800 Stylus CX-5800]||USB|| ||unsupported||http://www.bizcardreader.com/||
-||[UnsupportedAstraSlim1200 AstraSlim 1200]||USB||0x080d 0x0110||unsupported||/unsupported/umax-astraslim-1200.html||
-||[UnsupportedOpticProST48 OpticPro ST48]||USB||0x07b3 0x0800||unsupported||/unsupported/plustek-opticpro-st48.html||
-||[UnsupportedScanMaker5900 ScanMaker 5900]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5900.html||
-||[UnsupportedMyPenLight MyPen Light]||USB||0x0a93 0x0005||unsupported|| ||
-||[UnsupportedOpticProUA18 OpticPro UA18]||USB|| ||unsupported|| ||
-||[UnsupportedPF3650Pro3FilmScanner PF3650 Pro3 Film Scanner]||USB IEEE-1394||0x05e3 0x0143||unsupported||http://www.plustek.com/||
-||[Unsupported6200 6200]||USB||0x0461 0x0345||unsupported|| ||
-||[UnsupportedMD85264 MD 85264]||USB||0x08ff 0x2580||unsupported||http://gkall.hobby.nl/authentec.html||
-||[UnsupportedCanoScanFB620U CanoScan FB620U]||USB||0x04a9 0x2202||unsupported||/unsupported/canon-fb620u.html||
-||[UnsupportedScanPort3000 ScanPort 3000]||USB||0x04a7 0x0224||unsupported||http://www.konicaminolta.com/||
-||[UnsupportedScanMaker4600 ScanMaker 4600]||USB||0x05da 0x40c7||unsupported||/unsupported/microtek-scanmaker-4600.html||
-||[UnsupportedX5250 X5250]||USB||0x043d 0x0093||unsupported||/unsupported/lexmark-x5250.html||
-||[Unsupported610PT 610PT]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedStylusDX4450 Stylus DX4450]||USB||0x04b8 0x083f||unsupported||/unsupported/epson-stylus-dx4450.html||
-||[UnsupportedCanoScan8600F CanoScan 8600F]||USB||0x04a9 0x2229||unsupported||/unsupported/canon-8600.html||
-||[UnsupportedAstra4600 Astra 4600]||USB|| ||unsupported|| ||
-||[UnsupportedMoneyPenII MoneyPen II]||USB|| ||unsupported||http://www.canon.com/||
-||[UnsupportedOpticSlim500 OpticSlim 500]||USB||0x07b3 0x0458||unsupported||/unsupported/plustek-opticslim-500.html||
-||[UnsupportedG2E300 G2E-300]||USB||0x0461 0x0301||unsupported|| ||
-||[UnsupportedScanMaker4850II ScanMaker 4850 II]||USB||0x05da 0x3008||unsupported||/unsupported/microtek-scanmaker-4850-2.html||
-||[UnsupportedCanoScanDR2580C CanoScan DR2580C]||USB||0x04a9 0x1608||unsupported||/unsupported/canon-dr2580c.html||
-||[UnsupportedScanmaker1850S Scanmaker 1850S]||SCSI|| ||unsupported||/unsupported/microtek-scanmaker-1850s.html||
-||[UnsupportedColorado1200u Colorado 1200u]||USB||0x0461 0x0361||unsupported|| ||
-||[UnsupportedKVSS905C KV-SS905C]||SCSI|| ||unsupported|| ||
-||[UnsupportedX83 X83]||USB||0x043d 0x003d||unsupported||/unsupported/lexmark-x83.html||
-||[UnsupportedAstraSlim AstraSlim]||USB||0x080d 0x0104||unsupported||/unsupported/umax-astraslim.html||
-||[UnsupportedScanMagic9636P ScanMagic 9636P]||Parport|| ||unsupported||http://www.nevt.co.jp/||
-||[Unsupported1200IIIEP 1200 III EP]||Parport|| ||unsupported|| ||
-||[UnsupportedOpticProST12 OpticPro ST12]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st12.html||
-||[Unsupported4800OneTouch 4800 One Touch]||USB||0x04a7 0x03a0||unsupported||/unsupported/xerox-4800-onetouch.html||
-||[Unsupported1236USB 1236 USB]||USB||0x05d8 0x4001||unsupported||/unsupported/artec_1236usb.html||
-||[UnsupportedArtiscan2400FS Artiscan 2400FS]||USB||0x05e3 0x0100||unsupported||http://www.tce.com.br/||
-||[UnsupportedDSmobileUSB DSmobile USB]||USB||0x0a82 0x2000||unsupported||http://www.scanace.com/||
-||[UnsupportedCanoScanD2400UF CanoScan D2400UF]||USB||0x04a9 0x220a||unsupported||/unsupported/canon-d2400uf.html||
-||[UnsupportedIS12 IS 12]||USB|| ||unsupported||/unsupported/canon-is-12.html||
-||[UnsupportedPowerslide3600 Powerslide 3600]||USB IEEE-1394||0x05e3 0x0142||unsupported||/unsupported/reflecta-digitdia-3600.html||
-||[UnsupportedPageScanUSB PageScan USB]||USB||0x046d 0x040f||unsupported||http://www.medion.de/||
-||[UnsupportedWinscanPro2000 Winscan Pro 2000]||USB Parport|| ||unsupported||http://www.quato.de/||
-||[UnsupportedArtixScan2020 ArtixScan 2020]||SCSI|| ||unsupported|| ||
-||[UnsupportedScanMaker3860 ScanMaker 3860]||USB||0x05da 0x3023||unsupported||/unsupported/microtek-scanmaker-3880.html||
-||[UnsupportedMD41985 MD 41985]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||
-||[UnsupportedScanMaker336CX ScanMaker 336 CX]||SCSI|| ||unsupported|| ||
-||[UnsupportedKVS2065W KV-S2065W]||SCSI|| ||unsupported|| ||
-||[UnsupportedScanMaker3830 ScanMaker 3830]||USB||0x05da 0x30ce||unsupported||/unsupported/microtek-scanmaker-3830.html||
-||[UnsupportedIS32 IS 32]||USB||0x04a9 0x105d||unsupported||/unsupported/canon-is-32.html||
-||[UnsupportedKVS6045W KV-S6045W]||SCSI|| ||unsupported|| ||
-||[UnsupportedSimplex1236C Simplex 1236C]||Parport USB||0x05cb 0x1483||unsupported||http://www.cardscan.com/||
-||[UnsupportedCanoScan8000F CanoScan 8000F]||USB||0x04a9 0x220f||unsupported||/unsupported/canon-8000f.html||
-||[UnsupportedLS9000ED LS-9000 ED]||IEEE-1394|| ||unsupported||http://www.olivetti.com||
-||[UnsupportedScanJet5500C ScanJet 5500C]||USB||0x03f0 0x1305||unsupported||/unsupported/hp-scanjet-5500c.html||
-||[UnsupportedMD90009 MD 90009]||USB||0x05da 0x30e5||unsupported||/unsupported/tevion-md90009.html||
-||[UnsupportedWorkCentreXK35c WorkCentre XK35c]||USB Parport||0x043d 0x0020||unsupported||/unsupported/xerox-workcentre-xk35c.html||
-||[UnsupportedMFC7300c MFC 7300c]||Parport USB||0x04f9 0x0106||unsupported||/unsupported/brother-mfc-7300.html||
-||[UnsupportedKVS6055W KV-S6055W]||SCSI|| ||unsupported|| ||
-||[UnsupportedWorkCentreXK50cx WorkCentre XK50cx]||USB||0x04e8 0x3903||unsupported||/unsupported/xerox-workcentre-xk50cx.html||
-||[UnsupportedAstra4400 Astra 4400]||USB||0x1606 0x0070||unsupported||/unsupported/umax-astra-4400.html||
-||[UnsupportedOpticWorks2000 OpticWorks 2000]||Parport|| ||unsupported|| ||
-||[UnsupportedSCSIScan19200ExcellenceSeries SCSI Scan 19200 -Excellence Series-]||SCSI|| ||unsupported||http://www.umax.com/||
-||[UnsupportedCanoScan3000 CanoScan 3000]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||
-||[UnsupportedWorkCentrePE120i WorkCentre PE120i]||USB||0x0924 0x4237||unsupported||/unsupported/xerox-workcentre-pe120i.html||
-||[Unsupported922 922]||USB||0x413c 0x5109||unsupported||http://www.epson.com/||
-||[UnsupportedColorPageSlim1200USB2 ColorPage-Slim 1200 USB2]||USB||0x0458 0x2020||unsupported||/unsupported/genius-colorpage-slim-1200-usb2.html||
-||[UnsupportedColorado1200p Colorado 1200p]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||
-||[UnsupportedScanMakeri320 ScanMaker i320]||USB||0x05da 0x30e6||unsupported||/unsupported/microtek-scanmaker-i320.html||
-||[UnsupportedPaperPort6100 PaperPort 6100]||Parport|| ||unsupported|| ||
-||[UnsupportedScorpioUltra3 Scorpio Ultra 3]||USB||0x0475 0x0210||unsupported||/unsupported/relisys-scorpio-ultra3.html||
-||[UnsupportedOpticSlim2420 OpticSlim 2420+]||USB||0x07b3 0x0914||unsupported||/unsupported/plustek-opticslim-2420plus.html||
-||[UnsupportedP6250 P6250]||USB||0x043d 0x0097||unsupported||/unsupported/lexmark-p6250.html||
-||[Unsupportedj6121 j-6121]||Parport|| ||unsupported|| ||
-||[UnsupportedOneTouch5300USB OneTouch 5300 USB]||USB||0x04a7 0x0226||unsupported||/unsupported/visioneer-onetouch5300.html||
-||[UnsupportedOpticProS12 OpticPro S12]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st12.html||
-||[UnsupportedSCX4725FN SCX-4725FN]||USB||0x04e8 0x341f||unsupported||/unsupported/samsung-scx-4725.html||
-||[UnsupportedPL806 PL 806]||USB||0x07b3 0x0c0c||unsupported||/unsupported/plustek-pl806.html||
-||[Unsupported620P 620P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedMK600U MK600U]||USB||0x0461 0x0346||unsupported||/unsupported/memorex-maxx-6136u.html||
-||[UnsupportedCardscan700C Cardscan 700 C]||USB||0x08f0 0x0004||unsupported||http://www.dell.com/||
-||[UnsupportedScanJet2400c ScanJet 2400c]||USB||0x03f0 0x0a01||unsupported||/unsupported/hp-scanjet-2400c.html||
-||[UnsupportedWorkCentrePE16 WorkCentre PE16]||USB Parport||0x0924 0x4220||unsupported||/unsupported/xerox-workcentre-pe16.html||
-||[UnsupportedES10S ES-10S]||SCSI|| ||unsupported||/unsupported/olympus-es10s.html||
-||[UnsupportedOpticProST64 OpticPro ST64+]||USB||0x07b3 0x0c03||unsupported||/unsupported/plustek-opticpro-st64plus.html||
-||[UnsupportedPaperPort3100b PaperPort 3100b]||Parport|| ||unsupported||/unsupported/visioneer-paperport-3100b.html||
-||[UnsupportedPhoto3150 Photo 3150]||USB||0x043d 0x007d||unsupported||/unsupported/lexmark-3150.html||
-||[UnsupportedFS4000 FS4000]||USB SCSI||0x04a9 0x3042||unsupported||/unsupported/canon-fs4000.html||
-||[UnsupportedUltima20000x4001 Ultima 2000 (0x4001)]||USB||0x05d8 0x4001||unsupported||/unsupported/artec-ultima-2000-2.html||
-||[UnsupportedStrobeXP300 Strobe XP 300]||USB||0x04a7 0x0474||unsupported||http://www.xerox.com/||
-||[UnsupportedX5150 X5150]||USB||0x043d 0x0065||unsupported||/unsupported/lexmark-x5130.html||
-||[UnsupportedFilmScan35 FilmScan 35]||USB||0x05e3 0x0120||unsupported||/unsupported/microtek-filmscan-35.html||
-||[UnsupportedX2330 X2330]||USB||0x043d 0x00bb||unsupported||/unsupported/lexmark-x2330.html||
-||[Unsupported310P 310P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedScanMaker8700 ScanMaker 8700]||USB IEEE-1394||0x05da 0x20b1||unsupported||/unsupported/microtek-scanmaker-8700.html||
-||[UnsupportedDocuPenRC800 DocuPen RC800]||USB|| ||unsupported|| ||
-||[UnsupportedKVS2055W KV-S2055W]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedDualScanIII Dual Scan III]||USB||0x0686 0x400d||unsupported||/unsupported/minolta-dual-scan-III.html||
-||[Unsupported320P 320P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedScanJetG4050 ScanJet G4050]||USB||0x03f0 0x4605||unsupported||http://www.ibm.com||
-||[UnsupportedScanJet8390 ScanJet 8390]||USB||0x03f0 0x3805||unsupported||/unsupported/hp-scanjet-8390.html||
-||[UnsupportedTravelScanPro TravelScan Pro]||USB||0x0a82 0x2000||unsupported||/unsupported/syscan-travelscan-pro.html||
-||[Unsupportedi260 i260]||IEEE-1394|| ||unsupported||/unsupported/kodak-i200.html||
-||[UnsupportedColorPageHR8 ColorPage HR8]||USB||0x0458 0x201c||unsupported||/unsupported/genius-colorpage-hr8.html||
-||[UnsupportedPaperPortOneTouch PaperPort OneTouch]||Parport|| ||unsupported||/unsupported/visioneer-paperport-onetouch.html||
-||[UnsupportedScanMaker3800 ScanMaker 3800]||USB||0x05da 0x30ce||unsupported||/unsupported/microtek-scanmaker-3800.html||
-||[UnsupportedScanMaker6100 ScanMaker 6100]||USB||0x05da 0x30e5||unsupported||/unsupported/microtek-scanmaker-6100.html||
-||[UnsupportedScanMaker5600 ScanMaker 5600]||USB||0x05da 0x20a7||unsupported||/unsupported/microtek-scanmaker-5600.html||
-||[UnsupportedSpectraADF Spectra ADF]||Proprietary|| ||unsupported|| ||
-||[UnsupportedM3630A M-3630 A]||Parport|| ||unsupported||http://www.genius-kye.com/||
-||[UnsupportedDuoScanf40 DuoScan f40]||USB IEEE-1394||0x06bd 0x02bf||unsupported||/unsupported/agfa-duoscan-f40.html||
-||[UnsupportedMinidoc Minidoc]||USB Parport||0x05cb 0x1483||unsupported||http://www.avision.com/||
-||[UnsupportedOpticProST64 OpticPro ST64]||USB||0x07b3 0x0c00||unsupported||/unsupported/plustek-opticpro-st64.html||
-||[UnsupportedDR3080C DR-3080C]||SCSI|| ||unsupported|| ||
-||[UnsupportedOpticBook3600 OpticBook 3600]||USB||0x07b3 0x0900||unsupported||/unsupported/plustek-opticbook-3600.html||
-||[UnsupportedPhotosmartS20C5101A Photosmart S20 (C5101A)]||USB||0x03f0 0x0102||unsupported||/unsupported/hp-photosmart-s20xi.html||
-||[Unsupported610P 610P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedDR7580 DR-7580]||USB SCSI||0x04a9 0x160b||unsupported||/unsupported/canon-dr7580.html||
-||[UnsupportedX6170 X6170]||USB||0x043d 0x0072||unsupported||/unsupported/lexmark-x6170.html||
-||[UnsupportedSmartOfficePL812 SmartOffice PL 812]||USB||0x07b3 0x0c0d||unsupported||/unsupported/plustek-pl812.html||
-||[UnsupportedOpticProS28 OpticPro S28]||USB||0x07b3 0x0801||unsupported||/unsupported/plustek-opticpro-s28.html||
-||[UnsupportedDigitDia3600 DigitDia 3600]||USB IEEE-1394||0x05e3 0x0142||unsupported||/unsupported/reflecta-digitdia-3600.html||
-||[UnsupportedDocuMate510 DocuMate 510]||USB||0x04a7 0x047c||unsupported||/unsupported/xerox-documate-510.html||
-||[UnsupportedJobJetM400 Job-Jet M400]||USB||0x0b3c 0xa880||unsupported||http://www.olympus.com||
-||[UnsupportedOnetouch9000 Onetouch 9000]||USB||0x04a7 0x022c||unsupported||/unsupported/visioneer-onetouch9020.html||
-||[UnsupportedOnetouch8900 Onetouch 8900]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||
-||[UnsupportedDiMAGEScanElite5400 DiMAGE Scan Elite 5400]||USB IEEE-1394||0x0686 0x400e||unsupported||/unsupported/minolta-dse-5400.html||
-||[UnsupportedCanoScanLiDE600F CanoScan LiDE 600F]||USB||0x04a9 0x2224||unsupported||http://www.juergen-ernst.de/info_sane.html||
-||[UnsupportedImageRunneriR1018 ImageRunner iR1018]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||
-||[UnsupportedG2E3002 G2E-300 #2]||USB||0x0461 0x0303||unsupported|| ||
-||[UnsupportedX75 X75]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||
-||[UnsupportedCanoScanLiDE600 CanoScan LiDE 600]||USB||0x04a9 0x2224||unsupported||http://www.juergen-ernst.de/info_sane.html||
-||[UnsupportedColorPageCS ColorPage CS]||SCSI|| ||unsupported||/unsupported/genius-colorpage-cs.html||
-||[UnsupportedPhotoMaker3S PhotoMaker 3S]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedOpticProST28 OpticPro ST28]||USB||0x07b3 0x0801||unsupported||/unsupported/plustek-opticpro-s28.html||
-||[UnsupportedColoradoDirect9600 Colorado Direct 9600]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||
-||[UnsupportedKVS2055L KV-S2055L]||SCSI|| ||unsupported|| ||
-||[UnsupportedPhotoMaker6F PhotoMaker 6F]||Proprietary|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedAstra3000 Astra 3000]||USB||0x0461 0x038a||unsupported||/unsupported/umax-astra-3000.html||
-||[UnsupportedArtiscan9600 Artiscan 9600]||Parport|| ||unsupported||http://www.autistici.org/tamarhack/||
-||[UnsupportedOpticSlim2420 OpticSlim 2420]||USB||0x07b3 0x0806||unsupported||/unsupported/plustek-opticslim-2420.html||
-||[UnsupportedMyPenPro MyPen Pro]||USB|| ||unsupported||/unsupported/c-channel-mypen-pro.html||
-||[UnsupportedSnapScanEZ SnapScan EZ]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedScanJet5530CPhotosmart ScanJet 5530C Photosmart]||USB||0x03f0 0x1605||unsupported||/unsupported/hp-scanjet-5530.html||
-||[UnsupportedScanTak3c ScanTak 3c]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset||
-||[UnsupportedDR9080C DR-9080C]||SCSI|| ||unsupported|| ||
-||[Unsupported5550 5550]||USB||0x04a5 0x2211||unsupported||/unsupported/benq-5550.html||
-||[UnsupportedScanJet3690c ScanJet 3690c]||USB||0x03f0 0x1405||unsupported||/unsupported/hp-scanjet-3690.html||
-||[UnsupportedMFC2500 MFC 2500]||USB||0x04f9 0x000a||unsupported||/unsupported/brother-mfc-2500.html||
-||[UnsupportedScanExpress1200USB ScanExpress 1200 USB]||USB||0x055f 0x0003||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedKVS2026C KV-S2026C]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedIS52 IS 52]||USB|| ||unsupported||/unsupported/canon-is-52.html||
-||[Unsupported800N 800N]||USB||0x0a82 0x6605||unsupported||/unsupported/scanshell-800n.html||
-||[UnsupportedDR3020C DR-3020C]||SCSI|| ||unsupported|| ||
-||[UnsupportedX8350 X8350]||USB||0x043d 0x00b9||unsupported||/unsupported/lexmark-x8350.html||
-||[UnsupportedAVECIIE3 AVEC II E3]||Parport|| ||unsupported|| ||
-||[UnsupportedScanMaker5800 ScanMaker 5800]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5800.html||
-||[UnsupportedDiMAGEScanMultiPro DiMAGE Scan Multi Pro]||IEEE-1394|| ||unsupported||http://www.mustek.com.tw/||
-||[UnsupportedCanoScan3000ex CanoScan 3000ex]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||
-||[UnsupportedADFColorScanner ADF Color Scanner]||Proprietary|| ||unsupported||http://www.iomagic.com/||
-||[UnsupportedAstra2850 Astra 2850]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||
-||[UnsupportedG23002 G2-300 #2]||USB||0x0461 0x0302||unsupported|| ||
-||[UnsupportedColoradoUSB9600 Colorado USB 9600]||USB||0x0461 0x0340||unsupported||/unsupported/primax-colorado-usb-9600.html||
-||[UnsupportedScanJet4890C ScanJet 4890C]||USB||0x03f0 0x1b05||unsupported||/unsupported/hp-scanjet-4850.html||
-||[UnsupportedPhotoMaker6E PhotoMaker 6E]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedScanExpressCardSmart ScanExpress CardSmart]||USB|| ||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedPhotosmartC5100series Photosmart C5100 series]||USB||0x03f0 0x5811||unsupported||/unsupported/hp-photosmart-5100.html||
-||[UnsupportedWorkCentrePro412 WorkCentre Pro 412]||USB Parport||0x043d 0x4303||unsupported||/unsupported/xerox-workcentre-pro412.html||
-||[UnsupportedMD90090 MD 90090]||USB||0x05da 0x3022||unsupported||http://www.memorex.com/||
-||[UnsupportedUnknownPlustekDevice Unknown Plustek Device]||USB||0x07b3 0x0016||unsupported||http://www.planon.com/||
-||[UnsupportedPhotosmartC3180 Photosmart C3180]||USB||0x03f0 0x5611||unsupported||/unsupported/hp-photosmart-3180.html||
-||[UnsupportedCanoScan9900F CanoScan 9900F]||USB||0x04a9 0x2210||unsupported||/unsupported/canon-9900f.html||
-||[UnsupportedMD42666 MD 42666]||USB||0x05da 0x3008||unsupported||/unsupported/tevion-md40420.html||
-||[UnsupportedDR2080C DR-2080C]||USB SCSI||0x04a9 0x1601||unsupported||/unsupported/canon-dr2080c.html||
-||[UnsupportedMaxiScanA4Parallel36bit Maxi Scan A4 Parallel 36 bit]||Parport|| ||unsupported|| ||
-||[UnsupportedOneTouch4800USB OneTouch 4800 USB]||USB||0x04a7 0x0224||unsupported||/unsupported/visioneer-onetouch4800.html||
-||[UnsupportedScanMaker4700 ScanMaker 4700]||USB||0x05da 0x20b4||unsupported||/unsupported/microtek-scanmaker-4700.html||
-||[UnsupportedScanMakerS400 ScanMaker S400]||USB||0x05da 0x300b||unsupported||/unsupported/microtek-scanmaker-s400.html||
-||[UnsupportedKVS3065CW KV-S3065CW]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedPhotoMaker3F PhotoMaker 3F]||Proprietary|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedKVS6050W KV-S6050W]||SCSI|| ||unsupported|| ||
-||[UnsupportedKVS2046C KV-S2046C]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedS450 S450]||Parport|| ||unsupported||http://www.tecoimage.com.tw/||
-||[UnsupportedColorado600U Colorado 600U]||USB||0x0461 0x0341||unsupported||/unsupported/primax-colorado-600u.html||
-||[UnsupportedDiMAGEScanElite54002 DiMAGE Scan Elite 5400 2]||USB||0x132b 0x0012||unsupported||/unsupported/minolta-dse-5400-2.html||
-||[UnsupportedScanExpressA3EP ScanExpress A3 EP]||Parport|| ||unsupported|| ||
-||[UnsupportediVinaFB2400 iVina FB2400]||USB|| ||unsupported|| ||
-||[UnsupportediScan1800 iScan 1800]||USB||0x05e3 0x0120||unsupported||/unsupported/reflecta-iscan-1800.html||
-||[UnsupportedColorPageHR7X ColorPage HR7X]||USB||0x0458 0x2018||unsupported||/unsupported/genius-colorpage-hr7x.html||
-||[UnsupportedG2600 G2-600]||USB||0x0461 0x0380||unsupported|| ||
-||[UnsupportedStrobeProUSB Strobe Pro USB]||USB||0x04a7 0x0102||unsupported||/unsupported/visioneer-strobe-pro-usb.html||
-||[UnsupportedG2E600 G2E-600]||USB||0x0461 0x0383||unsupported|| ||
-||[UnsupportedScanMaker4850 ScanMaker 4850]||USB||0x05da 0x30d9||unsupported||/unsupported/microtek-scanmaker-4900.html||
-||[Unsupported2400Onetouch 2400 Onetouch]||USB||0x0461 0x038b||unsupported||/unsupported/xerox-2400-onetouch.html||
-||[UnsupportedCanoScan4400F CanoScan 4400F]||USB||0x04a9 0x2228||unsupported||/unsupported/canon-4400.html||
-||[UnsupportedDualScanIV Dual Scan IV]||USB||0x132b 0x000a||unsupported||/unsupported/minolta-dual-scan-IV.html||
-||[UnsupportedOpticProST24 OpticPro ST24]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||
-||[UnsupportedSnapScan310P SnapScan 310P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedPrimefilm1800u Primefilm 1800u]||USB||0x05e3 0x0120||unsupported||/unsupported/pie-1800u.html||
-||[UnsupportedKVS3085 KV-S3085]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedDocuPenDPENBW DocuPen (DPEN-BW)]||USB|| ||unsupported||http://www.primax.nl/||
-||[UnsupportedBearPaw2448CUPro BearPaw 2448 CU Pro]||USB||0x055f 0x0408||unsupported||/unsupported/mustek-bearpaw-2448-cu-pro.html||
-||[UnsupportediVina1600 iVina 1600]||USB||0x0638 0x0a10||unsupported||/unsupported/umax-astra-4500.html||
-||[UnsupportedScanMaker6000 ScanMaker 6000]||USB||0x05da 0x30e5||unsupported||/unsupported/microtek-scanmaker-6000.html||
-||[UnsupportedKVS3065CL KV-S3065CL]||USB SCSI|| ||unsupported|| ||
-||[Unsupported3000 3000]||USB||0x04a7 0x0224||unsupported||http://www.visioneer.com/||
-||[UnsupportedNete3470 Nete3470']||Parport|| ||unsupported|| ||
-||[UnsupportedCanoScan3000F CanoScan 3000F]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||
-||[Unsupported640P 640P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedDocuPenR700 DocuPen R700]||USB||0x10c4 0xea60||unsupported||/unsupported/planon-docupen-r700.html||
-||[UnsupportedOpticFilm7200i OpticFilm 7200i]||USB||0x07b3 0x0c04||unsupported|| ||
-||[UnsupportedCanoScan9950F CanoScan 9950F]||USB||0x04a9 0x2219||unsupported||/unsupported/canon-9950f.html||
-||[UnsupportedSCANHOME48USB SCAN@HOME 48 USB]||USB||0x080d 0x0102||unsupported||http://www.hp.com/||
-||[UnsupportedOnetouch8920 Onetouch 8920]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||
-||[UnsupportedCanoScanLiDE500F CanoScan LiDE 500F]||USB||0x04a9 0x221f||unsupported||/unsupported/canon-canoscan-lide-500f.html||
-||[Unsupported2400M 2400 M]||USB|| ||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedAstra4700 Astra 4700]||USB||0x0638 0x0a20||unsupported||/unsupported/umax-astra-4700.html||
-||[UnsupportedDR6080 DR-6080]||USB SCSI||0x04a9 0x1607||unsupported||/unsupported/canon-dr6080.html||
-||[UnsupportedBearPaw4800TAPro BearPaw 4800 TA Pro]||USB||0x055f 0x1000||unsupported||/unsupported/mustek-bearpaw-4800ta-pro.html||
-||[UnsupportedAstra4500 Astra 4500]||USB||0x0638 0x0a10||unsupported||/unsupported/umax-astra-4500.html||
-||[UnsupportedSnapshotPhotoScanner1 Snapshot Photo Scanner 1]||Parport|| ||unsupported||http://www.lexmark.com/||
-||[UnsupportedStrobeXP100 Strobe XP 100]||USB||0x04a7 0x0427||unsupported||/unsupported/visioneer-strobe-xp-100.html||
-||[UnsupportedOpticProST16 OpticPro ST16]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st16.html||
-||[UnsupportedAM12e AM12e+]||Parport|| ||unsupported|| ||
-||[UnsupportedImageRunneriR1022 ImageRunner iR1022]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||
-||[UnsupportedScanJetG4010 ScanJet G4010]||USB||0x03f0 0x4505||unsupported||/unsupported/hp-g4000.html||
-||[UnsupportedScanMaker4900 ScanMaker 4900]||USB||0x05da 0x30b9||unsupported||/unsupported/microtek-scanmaker-4900.html||
-||[UnsupportedOnetouch4400 Onetouch 4400]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||
-||[UnsupportedX74 X74]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||
-||[UnsupportedSmartScan3600 SmartScan 3600]||USB IEEE-1394|| ||unsupported|| ||
-||[UnsupportedScanJet4570C ScanJet 4570C]||USB||0x03f0 0x1305||unsupported||/unsupported/hp-scanjet-4570c.html||
-||[UnsupportedX75PrinTrio X75 PrinTrio]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||
-||[UnsupportedCanoScan5000F CanoScan 5000F]||USB||0x04a9 0x2212||unsupported||/unsupported/canon-5000f.html||
-||[UnsupportedMaxxScan6122 MaxxScan 6122]||USB Parport||0x05cb 0x1483||unsupported||/unsupported/trust-combiscan-19200.html||
-||[UnsupportedBearPaw6400TAPro BearPaw 6400 TA Pro]||USB||0x055f 0x040b||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedBearPaw2400TAPro BearPaw 2400 TA Pro]||USB||0x055f 0x0400||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedColoradoDirect600 Colorado Direct 600]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||
-||[UnsupportedD1230U D1230U]||USB||0x04a9 0x2209||unsupported||/unsupported/canon-d1230u.html||
-||[UnsupportedMD90070 MD 90070]||USB||0x05da 0x3022||unsupported||/unsupported/tevion-md90070.html||
-||[UnsupportedCardscan500 Cardscan 500]||USB||0x08f0 0x0001||unsupported||/unsupported/corex-cardscan-500.html||
-||[UnsupportedKVS6040W KV-S6040W]||SCSI|| ||unsupported|| ||
-||[UnsupportedScanExpress1200USBPlus ScanExpress 1200 USB Plus]||USB||0x055f 0x0007||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedScanMaker6700 ScanMaker 6700]||USB IEEE-1394||0x05da 0x20c9||unsupported||/unsupported/microtek-scanmaker-6700.html||
-||[UnsupportedOnetouch7700 Onetouch 7700]||USB||0x04a7 0x0380||unsupported||/unsupported/visioneer-onetouch7700.html||
-||[UnsupportedOnetouch7100 Onetouch 7100]||USB||0x04a7 0x0229||unsupported||/unsupported/visioneer-onetouch7100.html||
-||[UnsupportedPhotosmart1200Photo Photosmart 1200 Photo]||USB|| ||unsupported|| ||
-||[UnsupportedColorPageHR6XSlim ColorPage HR6X Slim]||USB||0x0458 0x2019||unsupported||/unsupported/genius-colorpage-hr6x.html||
-||[UnsupportedOnetouch9320 Onetouch 9320]||USB||0x04a7 0x0362||unsupported||/unsupported/visioneer-onetouch9320.html||
-||[Unsupported5450 5450]||USB||0x04a5 0x211e||unsupported|| ||
-||[UnsupportedSnapScan1200P SnapScan 1200P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[UnsupportedCanoScan4200F CanoScan 4200F]||USB||0x04a9 0x221b||unsupported||/unsupported/canon-4200f.html||
-||[UnsupportedSlimLine1200 Slim-Line 1200]||USB|| ||unsupported|| ||
-||[UnsupportedMD41260 MD 41260]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||
-||[UnsupportedSCF9612P SCF 9612P]||Parport|| ||unsupported||http://www.microtek.com/||
-||[UnsupportedKVS3105C KV-S3105C]||USB SCSI|| ||unsupported|| ||
-||[Unsupported6142u 6142u]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||
-||[UnsupportedScanCopy115 ScanCopy 115]||USB||0x07b3 0x081c||unsupported||/unsupported/plustek-scancopy-115.html||
-||[UnsupportedScanMaker9800XL ScanMaker 9800XL]||USB SCSI||0x05da 0x20de||unsupported||/unsupported/microtek-scanmaker-9800.html||
-||[UnsupportedWinscanPro2448U Winscan Pro 2448U]||USB||0x06dc 0x0014||unsupported||/unsupported/prolink-2448u.html||
-||[UnsupportedMD6190 MD 6190]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||
-||[UnsupportedOnetouchPro8800 Onetouch Pro 8800]||USB||0x04a7 0x0410||unsupported||/unsupported/visioneer-onetouch8820.html||
-||[UnsupportedSnapScan1212P SnapScan 1212P]||Parport|| ||unsupported||http://www.artecusa.com/||
-||[UnsupportedArtixscan2500f Artixscan 2500f]||SCSI IEEE-1384|| ||unsupported|| ||
-||[UnsupportedIRISPenTranslatorExecutive IRISPen Translator Executive]||USB||0x0f43 0x015a||unsupported||/unsupported/iris-irispen-translator.html||
-||[UnsupportedPIXMAMP110 PIXMA MP110]||USB||0x04a9 0x1700||unsupported||/unsupported/canon-pixma-mp110.html||
-||[UnsupportedBearPaw4800TAProII BearPaw 4800 TA Pro II]||USB||0x055f 0x040a||unsupported||/unsupported/mustek-bearpaw-4800ta-pro-ii.html||
-||[UnsupportedMFC4600 MFC 4600]||Parport|| ||unsupported||http://sourceforge.net/projects/brother-mfc||
-||[UnsupportedStylusScan2000 StylusScan 2000]||USB||0x04b8 0x0105||unsupported|| ||
-||[UnsupportedX3450 X3450]||USB||0x043d 0x00f6||unsupported||/unsupported/lexmark-x3450.html||
-||[Unsupported654micrOcular 654 (micrOcular)]||USB||0x0923 0x010f||unsupported||/unsupported/biolux-654.html||
-||[UnsupportedPIXMAMP130 PIXMA MP130]||USB||0x04a9 0x1701||unsupported||/unsupported/canon-pixma-mp130.html||
-||[UnsupportedScanMaker5950 ScanMaker 5950]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5950.html||
-||[UnsupportedDuoScanT2500 DuoScan T2500]||SCSI IEEE-1384|| ||unsupported|| ||
-||[UnsupportedFU661E FU661E]||USB||0x0461 0x0347||unsupported||http://www.trust-site.com||
-||[UnsupportedScanJetG4000 ScanJet G4000]||USB||0x03f0 0x4505||unsupported||/unsupported/hp-g4000.html||
-||[UnsupportedMaxiscanA4 Maxiscan A4]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset/||
-||[Unsupported7400UT 7400UT]||USB||0x04a5 0x2202||unsupported||/unsupported/benq-7400ut.html||
-||[UnsupportedCanoScanLiDE90 CanoScan LiDE 90]||USB||0x04a9 0x1900||unsupported||/unsupported/canon-lide-90.html||
-||[UnsupportedScanJet4600 ScanJet 4600]||USB||0x03f0 0x3005||unsupported||/unsupported/hp-scanjet-4600.html||
-||[UnsupportedColorPageHR7XE ColorPage HR7XE]||USB||0x06dc 0x0012||unsupported||/unsupported/genius-colorpage-hr7xe.html||
-||[UnsupportedScanExpress12000P ScanExpress 12000 P]||Parport|| ||unsupported||http://penguin-breeder.org/?page=mustek_pp||
-||[Unsupported340P 340P]||Parport|| ||unsupported||/unsupported/acer-parport.html||
-||[Unsupported8x30BinocularDigitalCamera 8x30 Binocular & Digital Camera]||USB||0x0797 0x801c||unsupported||/unsupported/grandtech-scopecam.html||
-||[UnsupportedA960 A960]||USB||0x413c 0x5107||unsupported||/unsupported/dell-a960.html||
-||[UnsupportedScanMakers400 ScanMaker s400]||USB||0x05da 0x201c||unsupported||/unsupported/microtek-scanmaker-s400.html||
-||[UnsupportedAstra4450 Astra 4450]||USB||0x1606 0x0070||unsupported||/unsupported/umax-astra-4450.html||
-||[UnsupportedX7350 X7350]||USB||0x043d 0x00b8||unsupported||/unsupported/lexmark-x7350.html||
-||[UnsupportedImageRunneriR1023 ImageRunner iR1023]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||
-||[UnsupportedIS22 IS 22]||Parport|| ||unsupported||/unsupported/canon-is-22.html||
-||[UnsupportedAstra3600 Astra 3600]||USB||0x0461 0x038a||unsupported||/unsupported/umax-astra-3600.html||
-||[UnsupportedPrimascanColorado2600u Primascan Colorado 2600u]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||
-||[UnsupportedUnknownPlustekDeviceUT12 Unknown Plustek Device (UT12?)]||USB||0x07b3 0x0013||unsupported|| ||
-||[UnsupportedGT2200 GT-2200]||USB||0x04b8 0x0102||unsupported|| ||
-||[UnsupportedPowerlook1000USB Powerlook 1000 USB]||USB|| ||unsupported|| ||
-||[UnsupportedCanoScan8400F CanoScan 8400F]||USB||0x04a9 0x221e||unsupported||/unsupported/canon-8400f.html||
-||[UnsupportedWorkCentre470cx WorkCentre 470cx]||Parport|| ||unsupported||/unsupported/xerox-workcentre-470cx.html||
-||[UnsupportedDR4010C DR-4010C]||USB||0x1083 0x1614||unsupported||/unsupported/canon-dr4010.html||
-||[Unsupportedi30 i30]||USB||0x040a 0x6001||unsupported||/unsupported/kodak-i30.html||
-||[UnsupportedWorkCentreM15i WorkCentre M15i]||USB||0x0924 0xffef||unsupported||/unsupported/xerox-workcentre-m15i.html||
-||[UnsupportedMD40420 MD 40420]||USB||0x05da 0x3008||unsupported||/unsupported/tevion-md40420.html||
-||[UnsupportedScanMaker5 ScanMaker 5]||SCSI|| ||unsupported||/unsupported/microtek-scanmaker-5600.html||
-||[UnsupportedOneTouch4800 One Touch 4800]||USB||0x04a7 0x0224||unsupported||/unsupported/visioneer-onetouch4800.html||
-||[UnsupportedScanJet3670c ScanJet 3670c]||USB||0x03f0 0x1405||unsupported||/unsupported/hp-scanjet-3670c.html||
-||[UnsupportedAstra2500 Astra 2500]||USB||0x0461 0x0374||unsupported||/unsupported/umax-astra-2500.html||
-||[UnsupportedProScan4000 ProScan 4000]||USB IEEE-1394||0x05e3 0x0143||unsupported||/unsupported/reflecta-proscan-4000.html||
-||[UnsupportedSmrtScanOffice Sm@rtScan Office]||Parport USB||0x05cb 0x1483||unsupported||http://www.brother.com/||
-||[UnsupportedScanMaker9600XL ScanMaker 9600XL]||USB IEEE-1394||0x05da 0x20de||unsupported|| ||
-||[Unsupported9450USB 9450 USB]||USB||0x04a7 0x0421||unsupported||/unsupported/visioneer-9450-usb.html||
-||[UnsupportedTravelScanFS531 TravelScan FS-531]||USB||0x0a82 0x0530||unsupported||/unsupported/syscan-travelscan-fs531.html||
-||[UnsupportedBarcodescanner Barcode scanner]||USB||0x065a 0x0001||unsupported|| ||
-||[UnsupportedOnetouch8700 Onetouch 8700]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||
-||[UnsupportedPhotoScanner1000 Photo Scanner 1000]||USB||0x03f0 0x1001||unsupported||/unsupported/hp-photo-1000.html||
-||[UnsupportedDuoScanT2000XL DuoScan T2000XL]||SCSI|| ||unsupported||/unsupported/agfa-duoscan-t2000xl.html||
-||[UnsupportedScanExpress600USB ScanExpress 600 USB]||USB||0x055f 0x0873||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||
-||[UnsupportedPhotosmartS20xiC7150A Photosmart S20xi (C7150A)]||USB||0x03f0 0x0102||unsupported||/unsupported/hp-photosmart-s20xi.html||
-||[UnsupportedPetiscan Petiscan]||USB||0x0475 0x0100||unsupported||http://www.nikon.com/||
-||[UnsupportedMultipass390 Multipass 390]||USB||0x04a9 0x263e||unsupported||/unsupported/canon-multipass-390.html||
-||[UnsupportedKVS7065C KV-S7065C]||USB SCSI|| ||unsupported|| ||
-||[UnsupportedAstraSlim6000 AstraSlim 6000]||USB||0x080d 0x0104||unsupported||/unsupported/umax-astraslim-6000.html||
-||[UnsupportedCanoScanFB320U CanoScan FB320U]||USB||0x04a9 0x2201||unsupported|| ||
-||[UnsupportedEclipse1200U Eclipse 1200U]||USB||0x0475 0x0103||unsupported||/unsupported/relisys-eclipse-1200u.html||
-||[UnsupportedG2300 G2-300]||USB||0x0461 0x0300||unsupported|| ||
-||[UnsupportedPhotoMaker3E PhotoMaker 3E]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||
-||[UnsupportedEpisode Episode]||USB||0x0475 0x0103||unsupported||/unsupported/relisys-episode.html||
-||[UnsupportedScanTak2c ScanTak 2c]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[UnsupportedDR3060 DR-3060]||SCSI|| ||unsupported|| ||Probably not supported. High-speed pass-trough (ADF) scanner.||
+||[UnsupportedOpticProA3U OpticPro A3U]||USB|| ||unsupported|| ||Uses Plustek ASIC P99002||
+||[UnsupportedPhotoMaker3C PhotoMaker 3C]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/|| ||
+||[UnsupportedOneTouch5300 OneTouch 5300]||USB||0x04a7 0x0221||unsupported|| ||Not supported. Yet another scanner with this name?||
+||[UnsupportedScanJet3770 ScanJet 3770]||USB||0x03f0 0x2505||unsupported|| ||While an external binary-only backend exists, it works only on Linux i386. Therefore the scanner is unsupported on other platforms.||
+||[UnsupportedAstra4100 Astra 4100]||USB||0x0461 0x038c||unsupported||/unsupported/umax-astra-4100.html||Not supported, to be added to genesys backend.||
+||[UnsupportedS200 S200]||USB||0x049f 0x0021||unsupported|| ||Not supported. 2400x1200 dpi. One bulk-in, one bulk-out and one interrupt endpoint. Type-number: U0001-HB21, another type nr on the inside: 75100512-00||
+||[UnsupportedOneTouch5800USB OneTouch 5800 USB]||USB||0x04a7 0x0226||unsupported||/unsupported/visioneer-onetouch5800.html||Unsupported. 48 bit scanner, doesn't work with viceo backend. RTS8801C.||
+||[UnsupportedOnetouchPro8820 Onetouch Pro 8820]||USB||0x04a7 0x0410||unsupported||/unsupported/visioneer-onetouch8820.html||Probably not supported. See link for details.||
+||[UnsupportedOneTouch8100 OneTouch 8100]||USB||0x04a7 0x0321||unsupported||/unsupported/visioneer-onetouch8100.html||Unsupported. See link for details.||
+||[UnsupportedMFC9600 MFC 9600]||USB||0x04f9 0x0101||unsupported||http://www.c-channel.ch/|| ||
+||[UnsupportedPrimefilm3600PRO Primefilm 3600PRO]||USB IEEE-1394|| ||unsupported|| ||Probably not supported. ||
+||[UnsupportedBizCardReader900C BizCardReader 900C]||USB||0x0a53 0x5001||unsupported||/unsupported/edt-900c.html||E-Lux and Enhans seem to have been purchased by dysan, now known as MEMOREX||
+||[UnsupportedDocuImage620S DocuImage 620S]||SCSI|| ||unsupported||/unsupported/xerox-docuimage-620s.html||Not supported. See link for more details.||
+||[UnsupportedVM6509F VM6509F]||USB||0x080d 0x0102||unsupported||/unsupported/teco-vm6509.html||Probably unsupported. See link for details.||
+||[UnsupportedArtixScan4000tf ArtixScan 4000tf]||USB|| ||unsupported|| ||Unsupported. Uses ALI M5611B.||
+||[UnsupportedCanoScanD646U CanoScan D646U]||USB||0x04a9 0x220b||unsupported||/unsupported/canon-d646u.html||Probably not supported. See link for more information and test program.||
+||[Unsupported6136u 6136u]||USB||0x0461 0x0346||unsupported||/unsupported/memorex-maxx-6136u.html||Probably unsupported.||
+||[UnsupportedXFinity X-Finity]||SCSI|| ||unsupported|| ||Probably not supported. No details yet. Originally manufactured by PFU?||
+||[UnsupportedDS3000 DS-3000]||Parport Serial Port|| ||unsupported||http://www.compaq.com/||Unsupported at the moment, but a backend is in preparation. See link.||
+||[UnsupportedScanMaker3880 ScanMaker 3880]||USB||0x05da 0x3021||unsupported||/unsupported/microtek-scanmaker-3880.html||Unsupported. SQ113 chip. See link for more details.||
+||[UnsupportedIriScan IriScan]||USB||0x0a53 0x1000||unsupported||/unsupported/iris-iriscan.html||Unsupported. LM9832/3. See link for details.||
+||[UnsupportedOnetouch9020 Onetouch 9020]||USB||0x04a7 0x022c||unsupported||/unsupported/visioneer-onetouch9020.html||Not supported. See link for details.||
+||[UnsupportedPageScanColor PageScan Color]||Parport|| ||unsupported|| ||Most probably unsupported.||
+||[UnsupportedOpticProS6 OpticPro S6]||USB|| ||unsupported|| ||Uses RealTek chipset (RTL8801D)||
+||[UnsupportedOpticFilm7200 OpticFilm 7200]||USB||0x07b3 0x0807||unsupported||/unsupported/plustek-opticfilm-7200.html||GL842 based, maybe to be added to genesys backend||
+||[Unsupported9420 9420]||USB||0x0461 0x03a8||unsupported||/unsupported/visioneer-9420.html||Unsupported. See link for details.||
+||[UnsupportedXFinityUltra X-Finity Ultra]||USB IEEE-1394|| ||unsupported|| ||Probably not supported. No details yet.||
+||[UnsupportedPowerlook180 Powerlook 180]||USB|| ||unsupported||/unsupported/umax-powerlook-180.html||Probably not supported. See link for details.||
+||[UnsupportedDS310F DS310F]||Parport|| ||unsupported|| ||Probably not supported. Scanner/printer/copier combination.||
+||[UnsupportedArtiscan9600pro36 Artiscan 9600 pro 36]||Parport|| ||unsupported||http://www.autistici.org/tamarhack/||Unsupported at the moment. See link for a project for that scanner.||
+||[UnsupportedX5130 X5130]||USB||0x043d 0x0065||unsupported||/unsupported/lexmark-x5130.html||Unsupported.||
+||[UnsupportedCanoScan5200F CanoScan 5200F]||USB||0x04a9 0x2217||unsupported||/unsupported/canon-5200f.html||Probably unsupported. See link for details.||
+||[UnsupportedCanoScanLiDE80 CanoScan LiDE 80]||USB||0x04a9 0x2214||unsupported||/unsupported/canon-lide-80.html||GL841 based, to be added to genesys backend||
+||[UnsupportedDMS2000 DMS 2000]||proprietary|| ||unsupported||http://www.siemens.com/||Not supported until now. Work on a backend has started, contact the author for details (see link)||
+||[UnsupportedScanJet4670 ScanJet 4670]||USB||0x03f0 0x3005||unsupported||/unsupported/hp-scanjet-4600.html||Not supported. See link for details.||
+||[Unsupported6200EPPUSB 6200 EPP/USB]||USB||0x04a7 0x0311||unsupported|| ||Not supported. Id is from Primax? Yet another scanner with the same name?||
+||[UnsupportedCherryFingerTIPIDBoardSensor Cherry FingerTIP ID Board - Sensor]||USB||0x0681 0x0010||unsupported|| ||Not supported.||
+||[UnsupportedCanoScanFB1210U CanoScan FB1210U]||USB||0x04a9 0x2205||unsupported||http://sourceforge.net/projects/canonscanner/||Not supported. However, a stand-alone program for FreeBSD is available.||
+||[UnsupportedCombiScan19200 CombiScan 19200]||Parport USB||0x05cb 0x1483||unsupported||/unsupported/trust-combiscan-19200.html||Unsupported. See link for details.||
+||[UnsupportedScanMaker3630 ScanMaker 3630]||USB||0x0461 0x0347||unsupported||/unsupported/microtek-scanmaker-3630.html||Unsupported. Doesn't seem to be compatible to 3600 series, see link.||
+||[UnsupportedCanoScanD646Uex CanoScan D646U ex]||USB||0x04a9 0x220b||unsupported||/unsupported/canon-d646u.html||Probably not supported. See D646.||
+||[UnsupportedAstra6700 Astra 6700]||USB|| ||unsupported|| ||Not supported. No chipset information available. Same as Avision iVina FB2400.||
+||[UnsupportedIDMouseProfessional ID Mouse Professional]||USB||0x0681 0x0005||unsupported|| ||Not supported.||
+||[UnsupportedScanMaker5700 ScanMaker 5700]||USB||0x05da 0x20bd||unsupported|| ||Unsupported. Uses ALI M5615 like the ScanMaker 4700.||
+||[UnsupportedArtixScanDI2020 ArtixScanDI 2020]||USB||0x05da 0x202e||unsupported||/unsupported/microtek-artixscan-2020.html||Unsupported. See link for details.||
+||[UnsupportedMobileScanUSB MobileScan USB]||USB Parport||0x05cb 0x1483||unsupported||http://irislink.com/||Unsupported. See link for details.||
+||[UnsupportedOpticProS24 OpticPro S24]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||Product id 0x0601 is unsupported but may be supported by the genesys backend in future /GL646). Product id 0x040e is supported by the gt68xx backend.||
+||[UnsupportedCanoScanLiDE70 CanoScan LiDE 70]||USB||0x04a9 0x2225||unsupported||/unsupported/canon-lide-70.html||See link for details||
+||[UnsupportedOneTouch6600 OneTouch 6600]||USB||0x04a7 0x022a||unsupported||/unsupported/visioneer-onetouch6600.html||Unsupported. See link for details.||
+||[UnsupportedIRISCardProIBCRII IRISCard Pro (IBCR II)]||USB||0x0a38 0x0301||unsupported||http://www.kodak.com||Unsupported. See link for details.||
+||[UnsupportedScanJet4500C ScanJet 4500C]||USB||0x03f0 0x1205||unsupported||/unsupported/hp-scanjet-4500c.html||Probably unsupported, see link for details.||
+||[UnsupportedG26002 G2-600 #2]||USB||0x0461 0x0382||unsupported|| ||Probably unsupported. No details known.||
+||[Unsupported620PT 620PT]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedParagon800IIEP Paragon 800 II EP]||Parport|| ||unsupported|| ||Not supported. Maybe similar to 600 II EP (SCSI_over-parport)? In this case it could be supported by the mustek SCSI backend.||
+||[UnsupportedReadyScan636i ReadyScan 636i]||USB||0x0461 0x0381||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedAstra4000 Astra 4000]||USB||0x1606 0x1030||unsupported||/unsupported/umax-astra-4000.html||Not supported. See link for details.||
+||[UnsupportedScanJet4850C ScanJet 4850C]||USB||0x03f0 0x1b05||unsupported||/unsupported/hp-scanjet-4850.html||GL841, maybe can be added to genesys backend ||
+||[UnsupportedIVinaFB1800 iVina FB1800]||USB||0x0638 0x0a20||unsupported||http://www.benq.com||Formerly Acer Peripherals||
+||[UnsupportedCanoScanD1250U2 CanoScan D1250U2]||USB||0x04a9 0x220c||unsupported||/unsupported/canon-d1250u2.html||Not supported. However, someone started working on this scanner and some information is available (see link).||
+||[UnsupportedOptiCard600 OptiCard 600+]||USB|| ||unsupported|| ||Business card reader. No further information available.||
+||[UnsupportedStylusCX5800 Stylus CX-5800]||USB|| ||unsupported||http://www.bizcardreader.com/||Probably unsupported at the moment. Not compatible to snapscan backend. It's not known if it may work with epson or epkowa backend.||
+||[UnsupportedAstraSlim1200 AstraSlim 1200]||USB||0x080d 0x0110||unsupported||/unsupported/umax-astraslim-1200.html||See link for more details.||
+||[UnsupportedOpticProST48 OpticPro ST48]||USB||0x07b3 0x0800||unsupported||/unsupported/plustek-opticpro-st48.html||GL841 based, to be added to genesys backend||
+||[UnsupportedScanMaker5900 ScanMaker 5900]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5900.html||Unsupported. See link for more details.||
+||[UnsupportedMyPenLight MyPen Light]||USB||0x0a93 0x0005||unsupported|| ||See bug #306792 for details.||
+||[UnsupportedOpticProUA18 OpticPro UA18]||USB|| ||unsupported|| ||Probably LM983x based.||
+||[UnsupportedPF3650Pro3FilmScanner PF3650 Pro3 Film Scanner]||USB IEEE-1394||0x05e3 0x0143||unsupported||http://www.plustek.com/||Not supported. See link for details.||
+||[Unsupported6200 6200]||USB||0x0461 0x0345||unsupported|| ||Not supported. Is reported to use the E5 chipset. Uses a Primax ID. Looks similar to Primascan Colorado 2600u.||
+||[UnsupportedMD85264 MD 85264]||USB||0x08ff 0x2580||unsupported||http://gkall.hobby.nl/authentec.html||Fingerprint sensor. See link for details.||
+||[UnsupportedCanoScanFB620U CanoScan FB620U]||USB||0x04a9 0x2202||unsupported||/unsupported/canon-fb620u.html||Probably not supported. Some information is available.||
+||[UnsupportedScanPort3000 ScanPort 3000]||USB||0x04a7 0x0224||unsupported||http://www.konicaminolta.com/||Unsupported. Vendor/Product ids: 0x04a7/0x0224. Realtek RTS8801B?. See link for details.||
+||[UnsupportedScanMaker4600 ScanMaker 4600]||USB||0x05da 0x40c7||unsupported||/unsupported/microtek-scanmaker-4600.html||Unsupported. See link for more details.||
+||[UnsupportedX5250 X5250]||USB||0x043d 0x0093||unsupported||/unsupported/lexmark-x5250.html||Unsupported.||
+||[Unsupported610PT 610PT]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedStylusDX4450 Stylus DX4450]||USB||0x04b8 0x083f||unsupported||/unsupported/epson-stylus-dx4450.html||Probably unsupported. See link for details.||
+||[UnsupportedCanoScan8600F CanoScan 8600F]||USB||0x04a9 0x2229||unsupported||/unsupported/canon-8600.html||GL841 based, to be added to genesys backend||
+||[UnsupportedAstra4600 Astra 4600]||USB|| ||unsupported|| ||Probably not supported, no details known.||
+||[UnsupportedMoneyPenII MoneyPen II]||USB|| ||unsupported||http://www.canon.com/||Probably unsupported.||
+||[UnsupportedOpticSlim500 OpticSlim 500]||USB||0x07b3 0x0458||unsupported||/unsupported/plustek-opticslim-500.html||Unsupported. See link for more details.||
+||[UnsupportedG2E300 G2E-300]||USB||0x0461 0x0301||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedScanMaker4850II ScanMaker 4850 II]||USB||0x05da 0x3008||unsupported||/unsupported/microtek-scanmaker-4850-2.html||Probably unsupported. See link for details.||
+||[UnsupportedCanoScanDR2580C CanoScan DR2580C]||USB||0x04a9 0x1608||unsupported||/unsupported/canon-dr2580c.html||Not supported. See link.||
+||[UnsupportedScanmaker1850S Scanmaker 1850S]||SCSI|| ||unsupported||/unsupported/microtek-scanmaker-1850s.html||Unsupported. See link for details.||
+||[UnsupportedColorado1200u Colorado 1200u]||USB||0x0461 0x0361||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedKVSS905C KV-SS905C]||SCSI|| ||unsupported|| ||might be supported by matsushita backend. See http://code.google.com/p/kvss905c/ for a standalone scanning tool.||
+||[UnsupportedX83 X83]||USB||0x043d 0x003d||unsupported||/unsupported/lexmark-x83.html||Unsupported. GL640.||
+||[UnsupportedAstraSlim AstraSlim]||USB||0x080d 0x0104||unsupported||/unsupported/umax-astraslim.html||Probably not supported currently. See link for more details.||
+||[UnsupportedScanMagic9636P ScanMagic 9636P]||Parport|| ||unsupported||http://www.nevt.co.jp/||Probably not supported. Same as Mustek 12000 P?. ASIC 1505.||
+||[Unsupported1200IIIEP 1200 III EP]||Parport|| ||unsupported|| ||Probably not supported. quarlewm at jmu dot edu offers to temporarily loan such a scanner to anyone who is interested in writing a driver.||
+||[UnsupportedOpticProST12 OpticPro ST12]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st12.html||Product id 0x0600 is unsupported but may be supported by the genesys backend in future. Product id 0x040b is supported by the gt68xx backend.||
+||[Unsupported4800OneTouch 4800 One Touch]||USB||0x04a7 0x03a0||unsupported||/unsupported/xerox-4800-onetouch.html||Unsupported. See link for details. Different id compared to One Touch 4800?||
+||[Unsupported1236USB 1236 USB]||USB||0x05d8 0x4001||unsupported||/unsupported/artec_1236usb.html||Unsupported. See link for details.||
+||[UnsupportedArtiscan2400FS Artiscan 2400FS]||USB||0x05e3 0x0100||unsupported||http://www.tce.com.br/||Brasilian vendor.||
+||[UnsupportedDSmobileUSB DSmobile USB]||USB||0x0a82 0x2000||unsupported||http://www.scanace.com/||Pacific Image Electronics||
+||[UnsupportedCanoScanD2400UF CanoScan D2400UF]||USB||0x04a9 0x220a||unsupported||/unsupported/canon-d2400uf.html||Not supported. See link.||
+||[UnsupportedIS12 IS 12]||USB|| ||unsupported||/unsupported/canon-is-12.html||Probably not supported. Scanner cardridge for Canon inkjet printers.||
+||[UnsupportedPowerslide3600 Powerslide 3600]||USB IEEE-1394||0x05e3 0x0142||unsupported||/unsupported/reflecta-digitdia-3600.html||Probably unsupported. Film scanner that can scan directly from the magazine.||
+||[UnsupportedPageScanUSB PageScan USB]||USB||0x046d 0x040f||unsupported||http://www.medion.de/||Probably unsupported. See link for details.||
+||[UnsupportedWinscanPro2000 Winscan Pro 2000]||USB Parport|| ||unsupported||http://www.quato.de/||Not supported. No further information available.||
+||[UnsupportedArtixScan2020 ArtixScan 2020]||SCSI|| ||unsupported|| ||Unsupported. Same as Agfa DuoScan T2000XL?||
+||[UnsupportedScanMaker3860 ScanMaker 3860]||USB||0x05da 0x3023||unsupported||/unsupported/microtek-scanmaker-3880.html||Unsupported. See link for more details. Appears to be similar to ScanMaker 3880.||
+||[UnsupportedMD41985 MD 41985]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||Probably unsupported. See link for details.||
+||[UnsupportedScanMaker336CX ScanMaker 336 CX]||SCSI|| ||unsupported|| ||Probably unsupported. Seems to be similar to the Microtek 330 CX and is detected by the microtek2 backend. Scanning doesn't seem to work however.||
+||[UnsupportedKVS2065W KV-S2065W]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedScanMaker3830 ScanMaker 3830]||USB||0x05da 0x30ce||unsupported||/unsupported/microtek-scanmaker-3830.html||Unsupported. See link for more details.||
+||[UnsupportedIS32 IS 32]||USB||0x04a9 0x105d||unsupported||/unsupported/canon-is-32.html||Probably not supported. Scanner cardridge for Canon inkjet printers.||
+||[UnsupportedKVS6045W KV-S6045W]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedSimplex1236C Simplex 1236C]||Parport USB||0x05cb 0x1483||unsupported||http://www.cardscan.com/||Unsupported. See link for details.||
+||[UnsupportedCanoScan8000F CanoScan 8000F]||USB||0x04a9 0x220f||unsupported||/unsupported/canon-8000f.html||Not supported. See link for more information. With transparency adapter.||
+||[UnsupportedLS9000ED LS-9000 ED]||IEEE-1394|| ||unsupported||http://www.olivetti.com||Probably not supported. See link for details. Possibly similar to LS-8000 ED.||
+||[UnsupportedScanJet5500C ScanJet 5500C]||USB||0x03f0 0x1305||unsupported||/unsupported/hp-scanjet-5500c.html||Maybe GL841_HP, but not confirmed, maybe can be added to genesys backend||
+||[UnsupportedMD90009 MD 90009]||USB||0x05da 0x30e5||unsupported||/unsupported/tevion-md90009.html||Probably unsupported. See link for details.||
+||[UnsupportedWorkCentreXK35c WorkCentre XK35c]||USB Parport||0x043d 0x0020||unsupported||/unsupported/xerox-workcentre-xk35c.html||Not supported. See link for more details.||
+||[UnsupportedMFC7300c MFC 7300c]||Parport USB||0x04f9 0x0106||unsupported||/unsupported/brother-mfc-7300.html|| ||
+||[UnsupportedKVS6055W KV-S6055W]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedWorkCentreXK50cx WorkCentre XK50cx]||USB||0x04e8 0x3903||unsupported||/unsupported/xerox-workcentre-xk50cx.html||Not supported. See link for more details.||
+||[UnsupportedAstra4400 Astra 4400]||USB||0x1606 0x0070||unsupported||/unsupported/umax-astra-4400.html||Probably not supported. See link for details.||
+||[UnsupportedOpticWorks2000 OpticWorks 2000]||Parport|| ||unsupported|| ||Multifunction device. No further information available.||
+||[UnsupportedSCSIScan19200ExcellenceSeries SCSI Scan 19200 -Excellence Series-]||SCSI|| ||unsupported||http://www.umax.com/||Unsupported. See link for details.||
+||[UnsupportedCanoScan3000 CanoScan 3000]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||GL660+GL646 based.||
+||[UnsupportedWorkCentrePE120i WorkCentre PE120i]||USB||0x0924 0x4237||unsupported||/unsupported/xerox-workcentre-pe120i.html||Not supported. See link for more details.||
+||[Unsupported922 922]||USB||0x413c 0x5109||unsupported||http://www.epson.com/||Probably not supported. See link for details.||
+||[UnsupportedColorPageSlim1200USB2 ColorPage-Slim 1200 USB2]||USB||0x0458 0x2020||unsupported||/unsupported/genius-colorpage-slim-1200-usb2.html||GL841 based, to be added to genesys backend.||
+||[UnsupportedColorado1200p Colorado 1200p]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||Unsupported by SANE. But is reported to partly work with pxscan. See link.||
+||[UnsupportedScanMakeri320 ScanMaker i320]||USB||0x05da 0x30e6||unsupported||/unsupported/microtek-scanmaker-i320.html||Unsupported. See link.||
+||[UnsupportedPaperPort6100 PaperPort 6100]||Parport|| ||unsupported|| ||Most probably not supported. More details would be appreciated.||
+||[UnsupportedScorpioUltra3 Scorpio Ultra 3]||USB||0x0475 0x0210||unsupported||/unsupported/relisys-scorpio-ultra3.html||Probably unsupported. See link for details.||
+||[UnsupportedOpticSlim2420 OpticSlim 2420+]||USB||0x07b3 0x0914||unsupported||/unsupported/plustek-opticslim-2420plus.html||GL841 based, to be added to genesys backend||
+||[UnsupportedP6250 P6250]||USB||0x043d 0x0097||unsupported||/unsupported/lexmark-p6250.html||Unsupported. See link for details.||
+||[UnsupportedJ6121 j-6121]||Parport|| ||unsupported|| ||Probably unsupported. Sold 1998. Same as E-Lux j-6121.||
+||[UnsupportedOneTouch5300USB OneTouch 5300 USB]||USB||0x04a7 0x0226||unsupported||/unsupported/visioneer-onetouch5300.html||Not supported. Chipset is RTS8801B(?). See link for output of /proc/bus/usb/devices.||
+||[UnsupportedOpticProS12 OpticPro S12]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st12.html||Product id 0x0600 is unsupported but may be supported by the genesys backend in future. Product id 0x040b is supported by the gt68xx backend.||
+||[UnsupportedSCX4725FN SCX-4725FN]||USB||0x04e8 0x341f||unsupported||/unsupported/samsung-scx-4725.html||Not supported. See link for details.||
+||[UnsupportedPL806 PL 806]||USB||0x07b3 0x0c0c||unsupported||/unsupported/plustek-pl806.html||Unsupported. See link for more details.||
+||[Unsupported620P 620P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedMK600U MK600U]||USB||0x0461 0x0346||unsupported||/unsupported/memorex-maxx-6136u.html||Not supported. Some information is available.||
+||[UnsupportedCardscan700C Cardscan 700 C]||USB||0x08f0 0x0004||unsupported||http://www.dell.com/||Probably not supported.||
+||[UnsupportedScanJet2400c ScanJet 2400c]||USB||0x03f0 0x0a01||unsupported||/unsupported/hp-scanjet-2400c.html||GL646 based, to be added to genesys backend||
+||[UnsupportedWorkCentrePE16 WorkCentre PE16]||USB Parport||0x0924 0x4220||unsupported||/unsupported/xerox-workcentre-pe16.html||Not supported. See link for more details.||
+||[UnsupportedES10S ES-10S]||SCSI|| ||unsupported||/unsupported/olympus-es10s.html||Probably not supported. See link for details.||
+||[UnsupportedOpticProST64 OpticPro ST64+]||USB||0x07b3 0x0c03||unsupported||/unsupported/plustek-opticpro-st64plus.html||GL843 based. See link for more details.||
+||[UnsupportedPaperPort3100b PaperPort 3100b]||Parport|| ||unsupported||/unsupported/visioneer-paperport-3100b.html||Most probably not supported. See link for details.||
+||[UnsupportedPhoto3150 Photo 3150]||USB||0x043d 0x007d||unsupported||/unsupported/lexmark-3150.html||Unsupported. See link for details.||
+||[UnsupportedFS4000 FS4000]||USB SCSI||0x04a9 0x3042||unsupported||/unsupported/canon-fs4000.html||Not supported. See link for more details.||
+||[UnsupportedUltima20000x4001 Ultima 2000 (0x4001)]||USB||0x05d8 0x4001||unsupported||/unsupported/artec-ultima-2000-2.html||Same name, but different ids: This scanner is not supported. The scanner with product id 0x4002 is supported by the gt68xx backend, however.||
+||[UnsupportedStrobeXP300 Strobe XP 300]||USB||0x04a7 0x0474||unsupported||http://www.xerox.com/||Not supported. See link for details.||
+||[UnsupportedX5150 X5150]||USB||0x043d 0x0065||unsupported||/unsupported/lexmark-x5130.html||Probably unsupported. See link for details.||
+||[UnsupportedFilmScan35 FilmScan 35]||USB||0x05e3 0x0120||unsupported||/unsupported/microtek-filmscan-35.html||Probably unsupported. See link for details.||
+||[UnsupportedX2330 X2330]||USB||0x043d 0x00bb||unsupported||/unsupported/lexmark-x2330.html||Unsupported. See link for details.||
+||[Unsupported310P 310P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedScanMaker8700 ScanMaker 8700]||USB IEEE-1394||0x05da 0x20b1||unsupported||/unsupported/microtek-scanmaker-8700.html||Unsupported. See link for details. USB vendor and product ids to be checked.||
+||[UnsupportedDocuPenRC800 DocuPen RC800]||USB|| ||unsupported|| ||Probably not supported. No details known.||
+||[UnsupportedKVS2055W KV-S2055W]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedDualScanIII Dual Scan III]||USB||0x0686 0x400d||unsupported||/unsupported/minolta-dual-scan-III.html||Unsupported. May work with vuescan. See link for details.||
+||[Unsupported320P 320P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedScanJetG4050 ScanJet G4050]||USB||0x03f0 0x4605||unsupported||http://www.ibm.com||Probably not supported. See link for details.||
+||[UnsupportedScanJet8390 ScanJet 8390]||USB||0x03f0 0x3805||unsupported||/unsupported/hp-scanjet-8390.html||Probably not supported. See link for details.||
+||[UnsupportedTravelScanPro TravelScan Pro]||USB||0x0a82 0x2000||unsupported||/unsupported/syscan-travelscan-pro.html||Probably not supported. Some information is available.||
+||[UnsupportedI260 i260]||IEEE-1394|| ||unsupported||/unsupported/kodak-i200.html||Probably unsupported. See link for details.||
+||[UnsupportedColorPageHR8 ColorPage HR8]||USB||0x0458 0x201c||unsupported||/unsupported/genius-colorpage-hr8.html||GL841 based, to be added to genesys backend||
+||[UnsupportedPaperPortOneTouch PaperPort OneTouch]||Parport|| ||unsupported||/unsupported/visioneer-paperport-onetouch.html||Most probably not supported. See link for details.||
+||[UnsupportedScanMaker3800 ScanMaker 3800]||USB||0x05da 0x30ce||unsupported||/unsupported/microtek-scanmaker-3800.html||Unsupported. See link for more details.||
+||[UnsupportedScanMaker6100 ScanMaker 6100]||USB||0x05da 0x30e5||unsupported||/unsupported/microtek-scanmaker-6100.html||Unsupported. See link for more details.||
+||[UnsupportedScanMaker5600 ScanMaker 5600]||USB||0x05da 0x20a7||unsupported||/unsupported/microtek-scanmaker-5600.html||Unsupported. See link for more details.||
+||[UnsupportedSpectraADF Spectra ADF]||Proprietary|| ||unsupported|| ||Unsupported. Uses proprietary ISA card that also provides power and is labelled GPS-1 PAGE-A from Taiwan. Other labels on the scanner include ADF Color Scanner and SF600AS. Maybe the same as the IBM ADF Color Scanner?||
+||[UnsupportedM3630A M-3630 A]||Parport|| ||unsupported||http://www.genius-kye.com/||Probably unsupported. ||
+||[UnsupportedDuoScanf40 DuoScan f40]||USB IEEE-1394||0x06bd 0x02bf||unsupported||/unsupported/agfa-duoscan-f40.html||Unsupported. See link for details.||
+||[UnsupportedMinidoc Minidoc]||USB Parport||0x05cb 0x1483||unsupported||http://www.avision.com/||Not supported. See link for details.||
+||[UnsupportedOpticProST64 OpticPro ST64]||USB||0x07b3 0x0c00||unsupported||/unsupported/plustek-opticpro-st64.html||GL843 based, maybe to be added to genesys backend||
+||[UnsupportedDR3080C DR-3080C]||SCSI|| ||unsupported|| ||Probably not supported. High-speed pass-trough (ADF) color scanner.||
+||[UnsupportedOpticBook3600 OpticBook 3600]||USB||0x07b3 0x0900||unsupported||/unsupported/plustek-opticbook-3600.html||GL842 based (similar to GL841?), maybe to be added to genesys backend. Bookscanner.||
+||[UnsupportedPhotosmartS20C5101A Photosmart S20 (C5101A)]||USB||0x03f0 0x0102||unsupported||/unsupported/hp-photosmart-s20xi.html||Not supported yet by SANE. See link for details.||
+||[Unsupported610P 610P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedDR7580 DR-7580]||USB SCSI||0x04a9 0x160b||unsupported||/unsupported/canon-dr7580.html||Not supported. See link for details.||
+||[UnsupportedX6170 X6170]||USB||0x043d 0x0072||unsupported||/unsupported/lexmark-x6170.html||Unsupported. See link for details.||
+||[UnsupportedSmartOfficePL812 SmartOffice PL 812]||USB||0x07b3 0x0c0d||unsupported||/unsupported/plustek-pl812.html||Unsupported. See link for more details.||
+||[UnsupportedOpticProS28 OpticPro S28]||USB||0x07b3 0x0801||unsupported||/unsupported/plustek-opticpro-s28.html||GL841 based, to be added to genesys backend||
+||[UnsupportedDigitDia3600 DigitDia 3600]||USB IEEE-1394||0x05e3 0x0142||unsupported||/unsupported/reflecta-digitdia-3600.html||Film scanner that can scan directly from the magazine.||
+||[UnsupportedDocuMate510 DocuMate 510]||USB||0x04a7 0x047c||unsupported||/unsupported/xerox-documate-510.html||Not supported. See link for more details. Yet another USB id.||
+||[UnsupportedJobJetM400 Job-Jet M400]||USB||0x0b3c 0xa880||unsupported||http://www.olympus.com||Probably not supported. See link for details.||
+||[UnsupportedOnetouch9000 Onetouch 9000]||USB||0x04a7 0x022c||unsupported||/unsupported/visioneer-onetouch9020.html||Not supported. See link for details.||
+||[UnsupportedOnetouch8900 Onetouch 8900]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||Not supported. Same as 8920 but without TA?||
+||[UnsupportedDiMAGEScanElite5400 DiMAGE Scan Elite 5400]||USB IEEE-1394||0x0686 0x400e||unsupported||/unsupported/minolta-dse-5400.html||Probably unsupported. May work with vuescan. See link for details.||
+||[UnsupportedCanoScanLiDE600F CanoScan LiDE 600F]||USB||0x04a9 0x2224||unsupported||http://www.juergen-ernst.de/info_sane.html||Same as LiDE 600?, see link for details||
+||[UnsupportedImageRunneriR1018 ImageRunner iR1018]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||Probably not supported. See link for details.||
+||[UnsupportedG2E3002 G2E-300 #2]||USB||0x0461 0x0303||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedX75 X75]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||Unsupported. See link for details.||
+||[UnsupportedCanoScanLiDE600 CanoScan LiDE 600]||USB||0x04a9 0x2224||unsupported||http://www.juergen-ernst.de/info_sane.html||Same as LiDE 600F? see link for details||
+||[UnsupportedColorPageCS ColorPage CS]||SCSI|| ||unsupported||/unsupported/genius-colorpage-cs.html||Probably unsupported, see link for details.||
+||[UnsupportedPhotoMaker3S PhotoMaker 3S]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/|| ||
+||[UnsupportedOpticProST28 OpticPro ST28]||USB||0x07b3 0x0801||unsupported||/unsupported/plustek-opticpro-s28.html||GL841 based, to be added to genesys backend||
+||[UnsupportedColoradoDirect9600 Colorado Direct 9600]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||Not supported. However, a stand-alone program is available.||
+||[UnsupportedKVS2055L KV-S2055L]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedPhotoMaker6F PhotoMaker 6F]||Proprietary|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||Special ISA card||
+||[UnsupportedAstra3000 Astra 3000]||USB||0x0461 0x038a||unsupported||/unsupported/umax-astra-3000.html||Probably not supported. See link for details.||
+||[UnsupportedArtiscan9600 Artiscan 9600]||Parport|| ||unsupported||http://www.autistici.org/tamarhack/||Unsupported at the moment. See link for a project for that scanner taht may support it in future.||
+||[UnsupportedOpticSlim2420 OpticSlim 2420]||USB||0x07b3 0x0806||unsupported||/unsupported/plustek-opticslim-2420.html||GL841 based, to be added to genesys backend||
+||[UnsupportedMyPenPro MyPen Pro]||USB|| ||unsupported||/unsupported/c-channel-mypen-pro.html||Probably unsupported. See link for details.||
+||[UnsupportedSnapScanEZ SnapScan EZ]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedScanJet5530CPhotosmart ScanJet 5530C Photosmart]||USB||0x03f0 0x1605||unsupported||/unsupported/hp-scanjet-5530.html||Maybe GL841_HP, but not confirmed, maybe can be added to genesys backend||
+||[UnsupportedScanTak3c ScanTak 3c]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset||Not supported. Work on a backend has started, see link for more information.||
+||[UnsupportedDR9080C DR-9080C]||SCSI|| ||unsupported|| ||Probably not supported. High-speed pass-trough (ADF) color scanner. Similar to DR-6080C, but can scan in color.||
+||[Unsupported5550 5550]||USB||0x04a5 0x2211||unsupported||/unsupported/benq-5550.html||Unsupported, see link for details.||
+||[UnsupportedScanJet3690c ScanJet 3690c]||USB||0x03f0 0x1405||unsupported||/unsupported/hp-scanjet-3690.html||GL646 based, to be added to genesys backend||
+||[UnsupportedMFC2500 MFC 2500]||USB||0x04f9 0x000a||unsupported||/unsupported/brother-mfc-2500.html||Not supported. See link for details.||
+||[UnsupportedScanExpress1200USB ScanExpress 1200 USB]||USB||0x055f 0x0003||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Unsupported. Programming information is available.||
+||[UnsupportedKVS2026C KV-S2026C]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedIS52 IS 52]||USB|| ||unsupported||/unsupported/canon-is-52.html||Probably not supported. Scanner cardridge for Canon inkjet printers.||
+||[Unsupported800N 800N]||USB||0x0a82 0x6605||unsupported||/unsupported/scanshell-800n.html||Not supported. See link for details.||
+||[UnsupportedDR3020C DR-3020C]||SCSI|| ||unsupported|| ||Not supported. High-speed pass-trough (ADF) scanner.||
+||[UnsupportedX8350 X8350]||USB||0x043d 0x00b9||unsupported||/unsupported/lexmark-x8350.html||Unsupported. See link for details.||
+||[UnsupportedAVECIIE3 AVEC II E3]||Parport|| ||unsupported|| ||Parport version of AVEC II S3?. See bug #304992 for details||
+||[UnsupportedScanMaker5800 ScanMaker 5800]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5800.html||Unsupported. See link for details.||
+||[UnsupportedDiMAGEScanMultiPro DiMAGE Scan Multi Pro]||IEEE-1394|| ||unsupported||http://www.mustek.com.tw/||Probably unsupported. See link for details.||
+||[UnsupportedCanoScan3000ex CanoScan 3000ex]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||GL660+GL646 based.||
+||[UnsupportedADFColorScanner ADF Color Scanner]||Proprietary|| ||unsupported||http://www.iomagic.com/||Unsupported. Uses proprietary ISA card. Maybe the same as the Plustek Spectra ADF?||
+||[UnsupportedAstra2850 Astra 2850]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||Probably not supported. Same IDs as Plustek OpticPro ST24. See link for details.||
+||[UnsupportedG23002 G2-300 #2]||USB||0x0461 0x0302||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedColoradoUSB9600 Colorado USB 9600]||USB||0x0461 0x0340||unsupported||/unsupported/primax-colorado-usb-9600.html||Not supported. See link for details.||
+||[UnsupportedScanJet4890C ScanJet 4890C]||USB||0x03f0 0x1b05||unsupported||/unsupported/hp-scanjet-4850.html||GL843, maybe can be added to genesys backend ||
+||[UnsupportedPhotoMaker6E PhotoMaker 6E]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/|| ||
+||[UnsupportedScanExpressCardSmart ScanExpress CardSmart]||USB|| ||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Probably unsupported. USB business card scanner. Maybe works as USB storage device?||
+||[UnsupportedPhotosmartC5100series Photosmart C5100 series]||USB||0x03f0 0x5811||unsupported||/unsupported/hp-photosmart-5100.html||Not supported yet by SANE. See link for details.||
+||[UnsupportedWorkCentrePro412 WorkCentre Pro 412]||USB Parport||0x043d 0x4303||unsupported||/unsupported/xerox-workcentre-pro412.html||Not supported. See link for more details.||
+||[UnsupportedMD90090 MD 90090]||USB||0x05da 0x3022||unsupported||http://www.memorex.com/||Unsupported. See link for details.||
+||[UnsupportedUnknownPlustekDevice Unknown Plustek Device]||USB||0x07b3 0x0016||unsupported||http://www.planon.com/||Probably unsupported. Scanner name not known yet.||
+||[UnsupportedPhotosmartC3180 Photosmart C3180]||USB||0x03f0 0x5611||unsupported||/unsupported/hp-photosmart-3180.html||Not supported yet by SANE. See link for details.||
+||[UnsupportedCanoScan9900F CanoScan 9900F]||USB||0x04a9 0x2210||unsupported||/unsupported/canon-9900f.html||Probably unsupported, similar to 8000F. 3200x6400 dpi USB2. With transparency adapter.||
+||[UnsupportedMD42666 MD 42666]||USB||0x05da 0x3008||unsupported||/unsupported/tevion-md40420.html||Probably unsupported. See link for details.||
+||[UnsupportedDR2080C DR-2080C]||USB SCSI||0x04a9 0x1601||unsupported||/unsupported/canon-dr2080c.html||Probably not supported. Pass-trough (ADF) scanner.||
+||[UnsupportedMaxiScanA4Parallel36bit Maxi Scan A4 Parallel 36 bit]||Parport|| ||unsupported|| ||Probably unsupported. Identical to the Benq Prisa 620P.||
+||[UnsupportedOneTouch4800USB OneTouch 4800 USB]||USB||0x04a7 0x0224||unsupported||/unsupported/visioneer-onetouch4800.html||Unsupported. Seems to use Realtek RTS8801B. Same as Microtek Scanport 3000. See link for details.||
+||[UnsupportedScanMaker4700 ScanMaker 4700]||USB||0x05da 0x20b4||unsupported||/unsupported/microtek-scanmaker-4700.html||Unsupported. See link for more details.||
+||[UnsupportedScanMakerS400 ScanMaker S400]||USB||0x05da 0x300b||unsupported||/unsupported/microtek-scanmaker-s400.html||Unsupported. See link.||
+||[UnsupportedKVS3065CW KV-S3065CW]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedPhotoMaker3F PhotoMaker 3F]||Proprietary|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/||Special ISA card||
+||[UnsupportedKVS6050W KV-S6050W]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedKVS2046C KV-S2046C]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedS450 S450]||Parport|| ||unsupported||http://www.tecoimage.com.tw/||Not supported by SANE but is reported to work with pxscan (see link).||
+||[UnsupportedColorado600U Colorado 600U]||USB||0x0461 0x0341||unsupported||/unsupported/primax-colorado-600u.html||Not supported. Some information is available.||
+||[UnsupportedDiMAGEScanElite54002 DiMAGE Scan Elite 5400 2]||USB||0x132b 0x0012||unsupported||/unsupported/minolta-dse-5400-2.html||Probably unsupported. See link for details.||
+||[UnsupportedScanExpressA3EP ScanExpress A3 EP]||Parport|| ||unsupported|| ||Not supported. Maybe it will be supported by the mustek_pp backend in future.||
+||[UnsupportedIVinaFB2400 iVina FB2400]||USB|| ||unsupported|| ||Not supported. No chipset information available. Same as UMAX Astra 6700.||
+||[UnsupportedIScan1800 iScan 1800]||USB||0x05e3 0x0120||unsupported||/unsupported/reflecta-iscan-1800.html||Probably unsupported. See link for details.||
+||[UnsupportedColorPageHR7X ColorPage HR7X]||USB||0x0458 0x2018||unsupported||/unsupported/genius-colorpage-hr7x.html||GL646 based, to be added to genesys backend||
+||[UnsupportedG2600 G2-600]||USB||0x0461 0x0380||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedStrobeProUSB Strobe Pro USB]||USB||0x04a7 0x0102||unsupported||/unsupported/visioneer-strobe-pro-usb.html||Not supported. See link for details.||
+||[UnsupportedG2E600 G2E-600]||USB||0x0461 0x0383||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedScanMaker4850 ScanMaker 4850]||USB||0x05da 0x30d9||unsupported||/unsupported/microtek-scanmaker-4900.html||Probably unsupported. See link for details.||
+||[Unsupported2400Onetouch 2400 Onetouch]||USB||0x0461 0x038b||unsupported||/unsupported/xerox-2400-onetouch.html||Probably GL646_HP based, maybe can be added to genesys backend||
+||[UnsupportedCanoScan4400F CanoScan 4400F]||USB||0x04a9 0x2228||unsupported||/unsupported/canon-4400.html||GL841 based, to be added to genesys backend||
+||[UnsupportedDualScanIV Dual Scan IV]||USB||0x132b 0x000a||unsupported||/unsupported/minolta-dual-scan-IV.html||Unsupported. Works with vuescan. See link for details.||
+||[UnsupportedOpticProST24 OpticPro ST24]||USB||0x07b3 0x0601||unsupported||/unsupported/plustek-opticpro-st24.html||GL646 based, to be added to genesys backend||
+||[UnsupportedSnapScan310P SnapScan 310P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedPrimefilm1800u Primefilm 1800u]||USB||0x05e3 0x0120||unsupported||/unsupported/pie-1800u.html||Not supported. See link for details.||
+||[UnsupportedKVS3085 KV-S3085]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedDocuPenDPENBW DocuPen (DPEN-BW)]||USB|| ||unsupported||http://www.primax.nl/||Probably not supported. No details known.||
+||[UnsupportedBearPaw2448CUPro BearPaw 2448 CU Pro]||USB||0x055f 0x0408||unsupported||/unsupported/mustek-bearpaw-2448-cu-pro.html||Not supported. May be supported by mustek_usb2 backend later. See link for some information.||
+||[UnsupportedIVina1600 iVina 1600]||USB||0x0638 0x0a10||unsupported||/unsupported/umax-astra-4500.html||GL646 based, to be added to genesys backend. Same as UMAX Astra 4500.||
+||[UnsupportedScanMaker6000 ScanMaker 6000]||USB||0x05da 0x30e5||unsupported||/unsupported/microtek-scanmaker-6000.html||Unsupported. See link for more details.||
+||[UnsupportedKVS3065CL KV-S3065CL]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[Unsupported3000 3000]||USB||0x04a7 0x0224||unsupported||http://www.visioneer.com/||Not supported. See link for more details.||
+||[UnsupportedNete3470 Nete3470']||Parport|| ||unsupported|| ||Probably not supported. No details known..||
+||[UnsupportedCanoScan3000F CanoScan 3000F]||USB||0x04a9 0x2215||unsupported||/unsupported/canon-3000.html||GL660+GL646 based.||
+||[Unsupported640P 640P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedDocuPenR700 DocuPen R700]||USB||0x10c4 0xea60||unsupported||/unsupported/planon-docupen-r700.html||Probably not supported. See link for details.||
+||[UnsupportedOpticFilm7200i OpticFilm 7200i]||USB||0x07b3 0x0c04||unsupported|| ||GL843 based, maybe to be added to genesys backend||
+||[UnsupportedCanoScan9950F CanoScan 9950F]||USB||0x04a9 0x2219||unsupported||/unsupported/canon-9950f.html||Probably unsupported.||
+||[UnsupportedSCANHOME48USB SCAN@HOME 48 USB]||USB||0x080d 0x0102||unsupported||http://www.hp.com/||Probably unsupported. See link for details.||
+||[UnsupportedOnetouch8920 Onetouch 8920]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||Not supported. Same as 8700 and 8900 but includes a TA. Uses a Primax ID. Chipset is RTS8801C. See link for output of /proc/bus/usb/devices.||
+||[UnsupportedCanoScanLiDE500F CanoScan LiDE 500F]||USB||0x04a9 0x221f||unsupported||/unsupported/canon-canoscan-lide-500f.html||GL841 based, to be added to genesys backend||
+||[Unsupported2400M 2400 M]||USB|| ||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Probably unsupported. No details known.||
+||[UnsupportedAstra4700 Astra 4700]||USB||0x0638 0x0a20||unsupported||/unsupported/umax-astra-4700.html||GL646/GL660 based. Avision iVina FB1800 clone.||
+||[UnsupportedDR6080 DR-6080]||USB SCSI||0x04a9 0x1607||unsupported||/unsupported/canon-dr6080.html||Probably not supported. High-speed pass-trough (ADF) scanner.||
+||[UnsupportedBearPaw4800TAPro BearPaw 4800 TA Pro]||USB||0x055f 0x1000||unsupported||/unsupported/mustek-bearpaw-4800ta-pro.html||Not supported. See link for some information.||
+||[UnsupportedAstra4500 Astra 4500]||USB||0x0638 0x0a10||unsupported||/unsupported/umax-astra-4500.html||GL646 based, to be added to genesys backend. Avision iVina FB1600 clone||
+||[UnsupportedSnapshotPhotoScanner1 Snapshot Photo Scanner 1]||Parport|| ||unsupported||http://www.lexmark.com/||Unsupported. FCC ID HWF96PHS||
+||[UnsupportedStrobeXP100 Strobe XP 100]||USB||0x04a7 0x0427||unsupported||/unsupported/visioneer-strobe-xp-100.html||Not supported but may work in future. See link for details.||
+||[UnsupportedOpticProST16 OpticPro ST16]||USB||0x07b3 0x0600||unsupported||/unsupported/plustek-opticpro-st16.html||GL646 based, to be added to genesys backend||
+||[UnsupportedAM12e AM12e+]||Parport|| ||unsupported|| ||Unsupported. Chips found inside: AT015, AD9816JS. Maybe similar to SCSI version or as6e?||
+||[UnsupportedImageRunneriR1022 ImageRunner iR1022]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||Probably not supported. See link for details.||
+||[UnsupportedScanJetG4010 ScanJet G4010]||USB||0x03f0 0x4505||unsupported||/unsupported/hp-g4000.html||Probably not supported. See link for details.||
+||[UnsupportedScanMaker4900 ScanMaker 4900]||USB||0x05da 0x30b9||unsupported||/unsupported/microtek-scanmaker-4900.html||Unsupported. See link for more details.||
+||[UnsupportedOnetouch4400 Onetouch 4400]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||Not supported. E5 chipset? See link for more details.||
+||[UnsupportedX74 X74]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||Unsupported. See link for details.||
+||[UnsupportedSmartScan3600 SmartScan 3600]||USB IEEE-1394|| ||unsupported|| ||Spot seems have gone out of business.||
+||[UnsupportedScanJet4570C ScanJet 4570C]||USB||0x03f0 0x1305||unsupported||/unsupported/hp-scanjet-4570c.html||Maybe GL841_HP, but not confirmed, maybe can be added to genesys backend ||
+||[UnsupportedX75PrinTrio X75 PrinTrio]||USB||0x043d 0x0060||unsupported||/unsupported/lexmark-x75.html||Unsupported. See link for details.||
+||[UnsupportedCanoScan5000F CanoScan 5000F]||USB||0x04a9 0x2212||unsupported||/unsupported/canon-5000f.html||Unsupported. See link for details.||
+||[UnsupportedMaxxScan6122 MaxxScan 6122]||USB Parport||0x05cb 0x1483||unsupported||/unsupported/trust-combiscan-19200.html||Unsupported. See link for details.||
+||[UnsupportedBearPaw6400TAPro BearPaw 6400 TA Pro]||USB||0x055f 0x040b||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Not supported. May be supported by mustek_usb2 backend later. See link for some information.||
+||[UnsupportedBearPaw2400TAPro BearPaw 2400 TA Pro]||USB||0x055f 0x0400||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Not supported. May be supported by mustek_usb2 backend later. See link for some information.||
+||[UnsupportedColoradoDirect600 Colorado Direct 600]||Parport|| ||unsupported||http://home2.swipnet.se/~w-25069/pxscan.html||Not supported. However, a stand-alone program is available.||
+||[UnsupportedD1230U D1230U]||USB||0x04a9 0x2209||unsupported||/unsupported/canon-d1230u.html||Probably not supported. ||
+||[UnsupportedMD90070 MD 90070]||USB||0x05da 0x3022||unsupported||/unsupported/tevion-md90070.html||Unsupported. See link for details.||
+||[UnsupportedCardscan500 Cardscan 500]||USB||0x08f0 0x0001||unsupported||/unsupported/corex-cardscan-500.html||Probably not supported. Businesscard reader.||
+||[UnsupportedKVS6040W KV-S6040W]||SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedScanExpress1200USBPlus ScanExpress 1200 USB Plus]||USB||0x055f 0x0007||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Unsupported.||
+||[UnsupportedScanMaker6700 ScanMaker 6700]||USB IEEE-1394||0x05da 0x20c9||unsupported||/unsupported/microtek-scanmaker-6700.html||Unsupported. See link.||
+||[UnsupportedOnetouch7700 Onetouch 7700]||USB||0x04a7 0x0380||unsupported||/unsupported/visioneer-onetouch7700.html||LM9832/3 based, to be added to plustek backend||
+||[UnsupportedOnetouch7100 Onetouch 7100]||USB||0x04a7 0x0229||unsupported||/unsupported/visioneer-onetouch7100.html||GL646 based, to be added to genesys backend||
+||[UnsupportedPhotosmart1200Photo Photosmart 1200 Photo]||USB|| ||unsupported|| ||Probably not supported by SANE. No details known. 10x15 cm. Maybe similar to Photo Scanner 1000?||
+||[UnsupportedColorPageHR6XSlim ColorPage HR6X Slim]||USB||0x0458 0x2019||unsupported||/unsupported/genius-colorpage-hr6x.html||GL646 based, to be added to genesys backend||
+||[UnsupportedOnetouch9320 Onetouch 9320]||USB||0x04a7 0x0362||unsupported||/unsupported/visioneer-onetouch9320.html||Probably not supported. See link for details.||
+||[Unsupported5450 5450]||USB||0x04a5 0x211e||unsupported|| ||Unsupported.||
+||[UnsupportedSnapScan1200P SnapScan 1200P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[UnsupportedCanoScan4200F CanoScan 4200F]||USB||0x04a9 0x221b||unsupported||/unsupported/canon-4200f.html||Probably unsupported. See link.||
+||[UnsupportedSlimLine1200 Slim-Line 1200]||USB|| ||unsupported|| ||Maybe GL646. Maybe similar to Medion MD 6228?||
+||[UnsupportedMD41260 MD 41260]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||Probably unsupported. See link for details.||
+||[UnsupportedSCF9612P SCF 9612P]||Parport|| ||unsupported||http://www.microtek.com/||Probably unsupported. See link for details.||
+||[UnsupportedKVS3105C KV-S3105C]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend. See http://code.google.com/p/kvss905c/ for a standalone scanning tool.||
+||[Unsupported6142u 6142u]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||Probably unsupported. Same as Visioneer Onetouch 4400. See link for details.||
+||[UnsupportedScanCopy115 ScanCopy 115]||USB||0x07b3 0x081c||unsupported||/unsupported/plustek-scancopy-115.html||GL841 based, to be added to genesys backend||
+||[UnsupportedScanMaker9800XL ScanMaker 9800XL]||USB SCSI||0x05da 0x20de||unsupported||/unsupported/microtek-scanmaker-9800.html||Partly unsupported. IEEE-1394 works with microtek2 backend. See link.||
+||[UnsupportedWinscanPro2448U Winscan Pro 2448U]||USB||0x06dc 0x0014||unsupported||/unsupported/prolink-2448u.html||Not supported. Some information is available. RealTek RTS8801.||
+||[UnsupportedMD6190 MD 6190]||USB||0x0461 0x037b||unsupported||/unsupported/medion-md6190.html||Probably unsupported. There seem to exist two different scanners with that name. See link for details.||
+||[UnsupportedOnetouchPro8800 Onetouch Pro 8800]||USB||0x04a7 0x0410||unsupported||/unsupported/visioneer-onetouch8820.html||Probably not supported. See link for details.||
+||[UnsupportedSnapScan1212P SnapScan 1212P]||Parport|| ||unsupported||http://www.artecusa.com/||Unsupported, see link for details.||
+||[UnsupportedArtixscan2500f Artixscan 2500f]||SCSI IEEE-1384|| ||unsupported|| ||Unsupported. Same as Agfa DuoScan T2500?||
+||[UnsupportedIRISPenTranslatorExecutive IRISPen Translator Executive]||USB||0x0f43 0x015a||unsupported||/unsupported/iris-irispen-translator.html||Unsupported. See link for details.||
+||[UnsupportedPIXMAMP110 PIXMA MP110]||USB||0x04a9 0x1700||unsupported||/unsupported/canon-pixma-mp110.html||Probably not supported. See link for details.||
+||[UnsupportedBearPaw4800TAProII BearPaw 4800 TA Pro II]||USB||0x055f 0x040a||unsupported||/unsupported/mustek-bearpaw-4800ta-pro-ii.html||Not supported.  May be supported by mustek_usb2 backend later. See link for some information.||
+||[UnsupportedMFC4600 MFC 4600]||Parport|| ||unsupported||http://sourceforge.net/projects/brother-mfc||The parport 200x400dpi grayscale version of this scanner is unsupported. Dmitri Katchalov did some investigations on this scanner. If you want to write a backend, contact him (see link).||
+||[UnsupportedStylusScan2000 StylusScan 2000]||USB||0x04b8 0x0105||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedX3450 X3450]||USB||0x043d 0x00f6||unsupported||/unsupported/lexmark-x3450.html||Unsupported. See link for details.||
+||[Unsupported654micrOcular 654 (micrOcular)]||USB||0x0923 0x010f||unsupported||/unsupported/biolux-654.html||Not supported yet. See link for more details.||
+||[UnsupportedPIXMAMP130 PIXMA MP130]||USB||0x04a9 0x1701||unsupported||/unsupported/canon-pixma-mp130.html||Probably not supported. See link for details.||
+||[UnsupportedScanMaker5950 ScanMaker 5950]||USB||0x05da 0x30d8||unsupported||/unsupported/microtek-scanmaker-5950.html||Unsupported. See link for more details.||
+||[UnsupportedDuoScanT2500 DuoScan T2500]||SCSI IEEE-1384|| ||unsupported|| ||Unsupported. Same as Microtek Artixscan 2500f||
+||[UnsupportedFU661E FU661E]||USB||0x0461 0x0347||unsupported||http://www.trust-site.com||Unsupported. See link for details.||
+||[UnsupportedScanJetG4000 ScanJet G4000]||USB||0x03f0 0x4505||unsupported||/unsupported/hp-g4000.html||Probably not supported. See link for details.||
+||[UnsupportedMaxiscanA4 Maxiscan A4]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset/||Not supported until now. Work on a backend has started, see link for more information.||
+||[Unsupported7400UT 7400UT]||USB||0x04a5 0x2202||unsupported||/unsupported/benq-7400ut.html|| ||
+||[UnsupportedCanoScanLiDE90 CanoScan LiDE 90]||USB||0x04a9 0x1900||unsupported||/unsupported/canon-lide-90.html||Unsupported. See link for details.||
+||[UnsupportedScanJet4600 ScanJet 4600]||USB||0x03f0 0x3005||unsupported||/unsupported/hp-scanjet-4600.html||Not supported. See link for details.||
+||[UnsupportedColorPageHR7XE ColorPage HR7XE]||USB||0x06dc 0x0012||unsupported||/unsupported/genius-colorpage-hr7xe.html||Unsuported. See link for details.||
+||[UnsupportedScanExpress12000P ScanExpress 12000 P]||Parport|| ||unsupported||http://penguin-breeder.org/?page=mustek_pp||Not supported. Asic 1505/05.||
+||[Unsupported340P 340P]||Parport|| ||unsupported||/unsupported/acer-parport.html||Unsupported, see link for details.||
+||[Unsupported8x30BinocularDigitalCamera 8x30 Binocular & Digital Camera]||USB||0x0797 0x801c||unsupported||/unsupported/grandtech-scopecam.html||Not Supported yet. See link for more details.||
+||[UnsupportedA960 A960]||USB||0x413c 0x5107||unsupported||/unsupported/dell-a960.html||Probably not supported. See link for details.||
+||[UnsupportedScanMakers400 ScanMaker s400]||USB||0x05da 0x201c||unsupported||/unsupported/microtek-scanmaker-s400.html||Unsupported. See link.||
+||[UnsupportedAstra4450 Astra 4450]||USB||0x1606 0x0070||unsupported||/unsupported/umax-astra-4450.html||Probably not supported. See link for details.||
+||[UnsupportedX7350 X7350]||USB||0x043d 0x00b8||unsupported||/unsupported/lexmark-x7350.html||Unsupported. See link for details.||
+||[UnsupportedImageRunneriR1023 ImageRunner iR1023]||USB||0x04a9 0x269d||unsupported||/unsupported/canon-imagerunner.html||Probably not supported. See link for details.||
+||[UnsupportedIS22 IS 22]||Parport|| ||unsupported||/unsupported/canon-is-22.html||Probably not supported. Scanner cardridge for Canon inkjet printers.||
+||[UnsupportedAstra3600 Astra 3600]||USB||0x0461 0x038a||unsupported||/unsupported/umax-astra-3600.html||Probably not supported. See link for details.||
+||[UnsupportedPrimascanColorado2600u Primascan Colorado 2600u]||USB||0x0461 0x0347||unsupported||/unsupported/visioneer-onetouch4400.html||Not supported. See Visioneer Onetouch 4400.||
+||[UnsupportedUnknownPlustekDeviceUT12 Unknown Plustek Device (UT12?)]||USB||0x07b3 0x0013||unsupported|| ||Probably unsupported. Scanner name not known yet.||
+||[UnsupportedGT2200 GT-2200]||USB||0x04b8 0x0102||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedPowerlook1000USB Powerlook 1000 USB]||USB|| ||unsupported|| ||Probably not supported. No further information available.||
+||[UnsupportedCanoScan8400F CanoScan 8400F]||USB||0x04a9 0x221e||unsupported||/unsupported/canon-8400f.html||GL841 based, to be added to genesys backend||
+||[UnsupportedWorkCentre470cx WorkCentre 470cx]||Parport|| ||unsupported||/unsupported/xerox-workcentre-470cx.html||Not supported. See link for more details.||
+||[UnsupportedDR4010C DR-4010C]||USB||0x1083 0x1614||unsupported||/unsupported/canon-dr4010.html||Not supported. See link for details.||
+||[UnsupportedI30 i30]||USB||0x040a 0x6001||unsupported||/unsupported/kodak-i30.html||Probably unsupported. See link for details.||
+||[UnsupportedWorkCentreM15i WorkCentre M15i]||USB||0x0924 0xffef||unsupported||/unsupported/xerox-workcentre-m15i.html||Not supported. See link for more details.||
+||[UnsupportedMD40420 MD 40420]||USB||0x05da 0x3008||unsupported||/unsupported/tevion-md40420.html||Probably unsupported. See link for details.||
+||[UnsupportedScanMaker5 ScanMaker 5]||SCSI|| ||unsupported||/unsupported/microtek-scanmaker-5600.html||Probably unsupported. See link for more details.||
+||[UnsupportedOneTouch4800 One Touch 4800]||USB||0x04a7 0x0224||unsupported||/unsupported/visioneer-onetouch4800.html||Unsupported. See link for details. Different id compared to 4800 One Touch?||
+||[UnsupportedScanJet3670c ScanJet 3670c]||USB||0x03f0 0x1405||unsupported||/unsupported/hp-scanjet-3670c.html||GL646 based, to be added to genesys backend||
+||[UnsupportedAstra2500 Astra 2500]||USB||0x0461 0x0374||unsupported||/unsupported/umax-astra-2500.html||Probably not supported. See link for details.||
+||[UnsupportedProScan4000 ProScan 4000]||USB IEEE-1394||0x05e3 0x0143||unsupported||/unsupported/reflecta-proscan-4000.html||Probably unsupported. See link for details.||
+||[UnsupportedSmrtScanOffice Sm@rtScan Office]||Parport USB||0x05cb 0x1483||unsupported||http://www.brother.com/||Unsupported. See link for details.||
+||[UnsupportedScanMaker9600XL ScanMaker 9600XL]||USB IEEE-1394||0x05da 0x20de||unsupported|| ||Probably unsupported. SCSI seems to work with microtek2 backend.||
+||[Unsupported9450USB 9450 USB]||USB||0x04a7 0x0421||unsupported||/unsupported/visioneer-9450-usb.html||Unsupported. See link for details.||
+||[UnsupportedTravelScanFS531 TravelScan FS-531]||USB||0x0a82 0x0530||unsupported||/unsupported/syscan-travelscan-fs531.html||Not supported. May work with the Plustek backend in future. See link for details.||
+||[UnsupportedBarcodescanner Barcode scanner]||USB||0x065a 0x0001||unsupported|| ||Probably not supported.||
+||[UnsupportedOnetouch8700 Onetouch 8700]||USB||0x04a7 0x0371||unsupported||/unsupported/visioneer-onetouch8920.html||Not supported. See link for details.||
+||[UnsupportedPhotoScanner1000 Photo Scanner 1000]||USB||0x03f0 0x1001||unsupported||/unsupported/hp-photo-1000.html||Not supported by SANE. However, it's detected as mass storage device so just mounting it is reported to work. See link for device data.||
+||[UnsupportedDuoScanT2000XL DuoScan T2000XL]||SCSI|| ||unsupported||/unsupported/agfa-duoscan-t2000xl.html||Unsupported. Same as Microtek ArtixScan 2020?||
+||[UnsupportedScanExpress600USB ScanExpress 600 USB]||USB||0x055f 0x0873||unsupported||http://www.meier-geinitz.de/sane/misc/mustek-scanners.html#UNSUPPORTED||Unsupported. Programming information is available.||
+||[UnsupportedPhotosmartS20xiC7150A Photosmart S20xi (C7150A)]||USB||0x03f0 0x0102||unsupported||/unsupported/hp-photosmart-s20xi.html||Not supported yet by SANE. See link for details.||
+||[UnsupportedPetiscan Petiscan]||USB||0x0475 0x0100||unsupported||http://www.nikon.com/||Most probably unsupported. See link for details. Vendor ID is Relisys/Teco. Not known if it is similar to other Relisys/Teco USB scanners.||
+||[UnsupportedMultipass390 Multipass 390]||USB||0x04a9 0x263e||unsupported||/unsupported/canon-multipass-390.html||Probably not supported. See link for details.||
+||[UnsupportedKVS7065C KV-S7065C]||USB SCSI|| ||unsupported|| ||might be supported by matsushita backend.||
+||[UnsupportedAstraSlim6000 AstraSlim 6000]||USB||0x080d 0x0104||unsupported||/unsupported/umax-astraslim-6000.html||Probably not supported currently. See link for more details.||
+||[UnsupportedCanoScanFB320U CanoScan FB320U]||USB||0x04a9 0x2201||unsupported|| ||Probably not supported. No details known.||
+||[UnsupportedEclipse1200U Eclipse 1200U]||USB||0x0475 0x0103||unsupported||/unsupported/relisys-eclipse-1200u.html||Probably unsupported. See link for details.||
+||[UnsupportedG2300 G2-300]||USB||0x0461 0x0300||unsupported|| ||Probably unsupported. No details known.||
+||[UnsupportedPhotoMaker3E PhotoMaker 3E]||Parport|| ||unsupported||http://www.df.lth.se/~triad/krad/optrox/|| ||
+||[UnsupportedEpisode Episode]||USB||0x0475 0x0103||unsupported||/unsupported/relisys-episode.html||Probably unsupported. See link for details.||
+||[UnsupportedScanTak2c ScanTak 2c]||proprietary|| ||unsupported||http://www.el-profesor.net/spoonset||Not supported. Work on a backend has started, see link for more information.||

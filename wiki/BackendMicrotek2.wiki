@@ -1,31 +1,33 @@
 #summary Scanners supported by the microtek2 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= microtek2 (unmaintained) =
+Microtek
+http://www.microtek.com/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Microtek2Phantom636 Phantom 636]||SCSI|| ||complete|| ||
-||[Microtek2ScanMakerV310 ScanMaker V310]||Parport|| ||basic|| ||
-||[Microtek2ScanMakerV300 ScanMaker V300]||Parport|| ||good|| ||
-||[Microtek2Phantom330CX Phantom 330CX]||Parport|| ||complete|| ||
-||[Microtek2ScanMakerE3plus ScanMaker E3plus]||SCSI|| ||complete|| ||
-||[Microtek2Phantom636CX Phantom 636CX]||Parport|| ||complete|| ||
-||[Microtek2SlimScanC3 SlimScan C3]||Parport|| ||complete|| ||
-||[Microtek2ScanMakerX6 ScanMaker X6]||SCSI|| ||complete|| ||
-||[Microtek2ScanMaker636 ScanMaker 636]||SCSI|| ||complete|| ||
-||[Microtek2ScanMaker9800XL ScanMaker 9800XL]||IEEE-1394|| ||minimal||/unsupported/microtek-scanmaker-9800.html||
-||[Microtek2ScanMakerX6EL ScanMaker X6EL]||SCSI|| ||basic|| ||
-||[Microtek2ScanMakerX6USB ScanMaker X6USB]||USB||0x05da 0x0099||good|| ||
-||[Microtek2SQ300 SQ300]||Parport?|| ||basic|| ||
-||[Microtek2SlimScanC6 SlimScan C6]||USB||0x05da 0x009a||complete|| ||
-||[Microtek2SQ2030 SQ2030]||Parport|| ||basic|| ||
-||[Microtek2HighScan HighScan]||SCSI|| ||complete||http://www.scanport.com/||
-||[Microtek2ScanMakerV6UPL ScanMaker V6UPL]||USB||0x05da 0x00b6||basic|| ||
-||[Microtek2SQ4836 SQ4836]||SCSI|| ||basic||http://www.geniusmouse.co.uk/||
-||[Microtek2ScanMaker330 ScanMaker 330]||SCSI|| ||basic|| ||
-||[Microtek2ScanMaker630 ScanMaker 630]||SCSI|| ||basic|| ||
-||[Microtek2ScanMakerV6USL ScanMaker V6USL]||USB||0x05da 0x80a3||complete|| ||
-||[Microtek2ScanMakerX12USL ScanMaker X12USL]||SCSI|| ||good||http://www.vobis.de/||
-||[Microtek2ScanMakerV600 ScanMaker V600]||Parport|| ||basic|| ||
-||[Microtek2ColorPageEP ColorPage-EP]||Parport|| ||good|| ||
-||[Microtek2ScanMaker9600XL ScanMaker 9600XL]||SCSI|| ||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Microtek2Phantom636 Phantom 636]||SCSI|| ||complete|| || ||
+||[Microtek2ScanMakerV310 ScanMaker V310]||Parport|| ||basic|| || ||
+||[Microtek2ScanMakerV300 ScanMaker V300]||Parport|| ||good|| || ||
+||[Microtek2Phantom330CX Phantom 330CX]||Parport|| ||complete|| || ||
+||[Microtek2ScanMakerE3plus ScanMaker E3plus]||SCSI|| ||complete|| || ||
+||[Microtek2Phantom636CX Phantom 636CX]||Parport|| ||complete|| || ||
+||[Microtek2SlimScanC3 SlimScan C3]||Parport|| ||complete|| || ||
+||[Microtek2ScanMakerX6 ScanMaker X6]||SCSI|| ||complete|| || ||
+||[Microtek2ScanMaker636 ScanMaker 636]||SCSI|| ||complete|| || ||
+||[Microtek2ScanMaker9800XL ScanMaker 9800XL]||IEEE-1394|| ||minimal||/unsupported/microtek-scanmaker-9800.html||IEEE-1394 seems to work. See link. More reports welcome.||
+||[Microtek2ScanMakerX6EL ScanMaker X6EL]||SCSI|| ||basic|| || ||
+||[Microtek2ScanMakerX6USB ScanMaker X6USB]||USB||0x05da 0x0099||good|| || ||
+||[Microtek2SQ300 SQ300]||Parport?|| ||basic|| || ||
+||[Microtek2SlimScanC6 SlimScan C6]||USB||0x05da 0x009a||complete|| || ||
+||[Microtek2SQ2030 SQ2030]||Parport|| ||basic|| || ||
+||[Microtek2HighScan HighScan]||SCSI|| ||complete||http://www.scanport.com/||only E3plus based models||
+||[Microtek2ScanMakerV6UPL ScanMaker V6UPL]||USB||0x05da 0x00b6||basic|| ||Sometimes scan speed goes to fast and results look badly smudged.||
+||[Microtek2SQ4836 SQ4836]||SCSI|| ||basic||http://www.geniusmouse.co.uk/|| ||
+||[Microtek2ScanMaker330 ScanMaker 330]||SCSI|| ||basic|| || ||
+||[Microtek2ScanMaker630 ScanMaker 630]||SCSI|| ||basic|| || ||
+||[Microtek2ScanMakerV6USL ScanMaker V6USL]||USB||0x05da 0x80a3||complete|| || ||
+||[Microtek2ScanMakerX12USL ScanMaker X12USL]||SCSI|| ||good||http://www.vobis.de/||only Flatbed mode ?||
+||[Microtek2ScanMakerV600 ScanMaker V600]||Parport|| ||basic|| || ||
+||[Microtek2ColorPageEP ColorPage-EP]||Parport|| ||good|| || ||
+||[Microtek2ScanMaker9600XL ScanMaker 9600XL]||SCSI|| ||good|| ||only flatbed mode ?||

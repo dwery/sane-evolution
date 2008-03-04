@@ -1,12 +1,14 @@
 #summary Scanners supported by the teco3 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= teco3 (1.0-1) =
+Relisys
+http://www.tecoimage.com.tw/
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Teco3Imagery2400SP Imagery 2400 SP]||SCSI|| ||good|| ||
-||[Teco3Imagery4800SP Imagery 4800 SP+]||SCSI|| ||good|| ||
-||[Teco3Imagery9600SP Imagery 9600 SP]||SCSI|| ||untested|| ||
-||[Teco3InfinityScorpio Infinity Scorpio]||SCSI|| ||good|| ||
-||[Teco3Splendeur3024 Splendeur 3024]||SCSI|| ||good|| ||
-||[Teco3OpticPro2400SP OpticPro 2400SP]||SCSI|| ||untested||http://www.image-land.com/||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Teco3Imagery2400SP Imagery 2400 SP]||SCSI|| ||good|| ||sub model VM3552||
+||[Teco3Imagery4800SP Imagery 4800 SP+]||SCSI|| ||good|| ||sub model VM3552||
+||[Teco3Imagery9600SP Imagery 9600 SP]||SCSI|| ||untested|| ||sub model VM3552||
+||[Teco3InfinityScorpio Infinity Scorpio]||SCSI|| ||good|| ||sub model VM3552||
+||[Teco3Splendeur3024 Splendeur 3024]||SCSI|| ||good|| ||sub model VM3552||
+||[Teco3OpticPro2400SP OpticPro 2400SP]||SCSI|| ||untested||http://www.image-land.com/||sub model VM3552||

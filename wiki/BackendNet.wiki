@@ -1,7 +1,8 @@
 #summary Scanners supported by the net backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
-
+= net (1.0.14) =
+http://www.penguin-breeder.org/?page=sane-net
 Can be used to access any scanner supported by SANE over the net. Supports IPv4 and IPv6.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||

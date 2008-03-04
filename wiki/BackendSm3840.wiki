@@ -1,9 +1,11 @@
 #summary Scanners supported by the sm3840 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
-
+= sm3840 (1.1) =
+Microtek
+http://www.microtek.com/
 Microtek makes a wide variety of devices.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Sm3840ScanMaker3840 ScanMaker 3840]||USB||0x05da 0x30d4||good|| ||
-||[Sm3840ScanMaker4800 ScanMaker 4800]||USB||0x05da 0x30cf||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Sm3840ScanMaker3840 ScanMaker 3840]||USB||0x05da 0x30d4||good|| ||8 and 16 bit, color and grayscale||
+||[Sm3840ScanMaker4800 ScanMaker 4800]||USB||0x05da 0x30cf||good|| ||Same hardware as SM3840, different color box||

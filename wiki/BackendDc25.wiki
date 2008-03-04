@@ -1,8 +1,10 @@
 #summary Scanners supported by the dc25 backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= dc25 (1.2) =
+Kodak
+http://www.kodak.com/global/en/service/digCam/dc25/dc25.shtml;
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[Dc25DC20 DC20 				;]||Serial port|| ||basic|| ||
-||[Dc25DC25 DC25				;]||Serial port|| ||complete|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[Dc25DC20 DC20 				;]||Serial port|| ||basic|| ||DC-20 untested by author but reported to work||
+||[Dc25DC25 DC25				;]||Serial port|| ||complete|| || ||

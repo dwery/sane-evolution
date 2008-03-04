@@ -1,9 +1,10 @@
 #summary Scanners supported by the tamarack backend
+_This list is automatically generated. Do not edit._
 
-This list is automatically generated. Do not edit.
+= tamarack (unmaintained) =
+Tamarack
 
-
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *URL ||
-||[TamarackArtiscan8000C Artiscan 8000C]||SCSI|| ||good|| ||
-||[TamarackArtiscan6000C Artiscan 6000C]||SCSI|| ||good|| ||
-||[TamarackArtiscan12000C Artiscan 12000C]||SCSI|| ||good|| ||
+|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||[TamarackArtiscan8000C Artiscan 8000C]||SCSI|| ||good|| ||3 pass, 400 DPI||
+||[TamarackArtiscan6000C Artiscan 6000C]||SCSI|| ||good|| ||3 pass, 300 DPI||
+||[TamarackArtiscan12000C Artiscan 12000C]||SCSI|| ||good|| ||3 pass, 600 DPI||

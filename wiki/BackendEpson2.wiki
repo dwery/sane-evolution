@@ -1,4 +1,4 @@
-||*Model*||*Interfaces*||*USB ids*||*Status*||
+|| *Model* || *Interfaces* || *USB ids* || *Status* ||
 ||[Epson2GT5500 GT-5500]||SCSI|| ||:good||
 ||[Epson2GT5000 GT-5000]||SCSI Parport|| ||:good||
 ||[Epson2Perfection1650 Perfection 1650]||USB||0x04b8 0x0110||:complete||
@@ -8,4 +8,4 @@
 ||[Epson2CX4200 CX-4200]||USB||0x04b8 0x0820||:good||
 ||[Epson2RX700 RX-700]||USB||0x04b8 0x0810||:good||
 ||[Epson2CX5400 CX-5400]||USB||0x04b8 0x0808||:good||
-||[Epson2Expression1600 Expression 1600]||SCSI USB IEEE-1394||0x04b8 0x0107||:comp
+||[Epson2Expression1600 Expression 1600]||SCSI USB IEEE-1394||0x04b8 0x0107||:comp||

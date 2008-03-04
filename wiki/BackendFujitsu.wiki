@@ -2,55 +2,54 @@
 _This list is automatically generated. Do not edit._
 
 = fujitsu (1.0.55) =
-Fujitsu
 http://www.fujitsu.com/
 Backend re-written for SANE release 1.0.18, see sane-fujitsu manpage
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[FujitsuM3091DC M3091DC]||SCSI|| ||good||http://www.remote.org/frederik/projects/software/sane/ ||workgroup, old, discontinued||
-||[FujitsuM3097DG M3097DG]||SCSI|| ||good|| ||departmental, old, discontinued||
-||[FujitsuS500M S500M]||USB||0x04c5 0x1135||good|| ||workgroup, current, no TWAIN driver, Mac only||
-||[FujitsuS500 S500]||USB||0x04c5 0x10fe||good|| ||workgroup, current, no TWAIN driver||
-||[FujitsuFi4530C fi-4530C]||SCSI USB|| ||good|| ||departmental, recent, discontinued||
-||[FujitsuS510 S510]||USB||0x04c5 0x1155||good|| ||workgroup, current, no TWAIN driver||
-||[FujitsuFi4750C fi-4750C]||SCSI|| ||good|| ||departmental, recent, discontinued||
-||[FujitsuFi5900C fi-5900C]||SCSI USB||0x04c5 0x10e7||good|| ||production, current||
-||[FujitsuM3099EX M3099EX]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
-||[FujitsuFi5110C fi-5110C]||USB||0x04c5 0x1097||good|| ||workgroup, current||
-||[FujitsuM3096GX M3096GX]||SCSI|| ||good|| ||departmental, old, discontinued||
-||[FujitsuFi5750C fi-5750C]||SCSI USB||0x04c5 0x1095||good|| ||production, current||
-||[FujitsuFi4340C fi-4340C]||SCSI USB|| ||good|| ||departmental, current||
-||[FujitsuM3097E M3097E+]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
-||[FujitsuFi5110EOX2 fi-5110EOX2]||USB|| ||good|| ||workgroup, recent, discontinued, no TWAIN driver||
-||[FujitsuM3093GX M3093GX]||SCSI|| ||good|| ||departmental, old, discontinued||
-||[FujitsuFi5110EOX fi-5110EOX]||USB||0x04c5 0x1096||good|| ||workgroup, recent, discontinued, no TWAIN driver||
-||[FujitsuM3093DE M3093DE]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
-||[FujitsuM3093EX M3093EX]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
-||[FujitsuFi4220C fi-4220C]||SCSI USB||0x04c5 0x1042||good|| ||workgroup, recent, discontinued, usb 1.1||
-||[FujitsuFi4860C2 fi-4860C2]||SCSI|| ||good|| ||production, current||
-||[FujitsuM3099G M3099G]||SCSI|| ||good|| ||production, old, discontinued||
-||[FujitsuFi5015C fi-5015C]||USB|| ||untested|| ||workgroup, current, unknown chipset, maybe Avision OEM?||
-||[FujitsuFi5120C fi-5120C]||SCSI USB||0x04c5 0x10e0||good|| ||workgroup, current||
-||[FujitsuM4097D M4097D]||SCSI|| ||good|| ||production, old, discontinued||
-||[FujitsuFi4220C2 fi-4220C2]||SCSI USB||0x04c5 0x10af||good|| ||workgroup, recent, discontinued, usb 2.0||
-||[FujitsuFi5220C fi-5220C]||SCSI USB||0x04c5 0x10e1||good|| ||workgroup, current||
-||[FujitsuFi4120C2 fi-4120C2]||SCSI USB||0x04c5 0x10ae||good|| ||workgroup, recent, discontinued, usb 2.0||
-||[FujitsuFi4120C fi-4120C]||SCSI USB||0x04c5 0x1041||good|| ||workgroup, recent, discontinued, usb 1.1||
-||[FujitsuFi4640S fi-4640S]||SCSI|| ||good|| ||departmental, recent, discontinued||
-||[FujitsuFi4750L fi-4750L]||SCSI|| ||good|| ||production, recent, discontinued||
-||[FujitsuM3099EH M3099EH]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
-||[FujitsuM3099A M3099A]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
-||[FujitsuFi5530C fi-5530C]||SCSI USB||0x04c5 0x10e2||good|| ||departmental, current||
-||[FujitsuM3092DC M3092DC]||SCSI|| ||good|| ||workgroup, old, discontinued||
-||[FujitsuFi5110EOXM fi-5110EOXM]||USB||0x04c5 0x10f2||good|| ||workgroup, current||
-||[FujitsuFi4990C fi-4990C]||SCSI|| ||good|| ||production, recent, discontinued||
-||[FujitsuM3099GX M3099GX]||SCSI|| ||good|| ||production, old, discontinued||
-||[FujitsuM3093DG M3093DG]||SCSI|| ||good|| ||departmental, old, discontinued||
-||[FujitsuFi4860C fi-4860C]||SCSI|| ||good|| ||production, current||
-||[FujitsuM3093E M3093E]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
-||[FujitsuM3096EX M3096EX]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
-||[FujitsuM3097G M3097G+]||SCSI|| ||good|| ||departmental, old, discontinued||
-||[FujitsuFi5650C fi-5650C]||SCSI USB||0x04c5 0x10ad||good|| ||production, current||
-||[FujitsuM4099D M4099D]||SCSI|| ||good|| ||production, old, discontinued||
-||[FujitsuM3099GH M3099GH]||SCSI|| ||good|| ||production, old, discontinued||
-||[FujitsuM3097DE M3097DE]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Fujitsu||[FujitsuM3091DC M3091DC]||SCSI|| ||good||http://www.remote.org/frederik/projects/software/sane/ ||workgroup, old, discontinued||
+||Fujitsu||[FujitsuM3097DG M3097DG]||SCSI|| ||good|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuS500M S500M]||USB||0x04c5 0x1135||good|| ||workgroup, current, no TWAIN driver, Mac only||
+||Fujitsu||[FujitsuS500 S500]||USB||0x04c5 0x10fe||good|| ||workgroup, current, no TWAIN driver||
+||Fujitsu||[FujitsuFi4530C fi-4530C]||SCSI USB|| ||good|| ||departmental, recent, discontinued||
+||Fujitsu||[FujitsuS510 S510]||USB||0x04c5 0x1155||good|| ||workgroup, current, no TWAIN driver||
+||Fujitsu||[FujitsuFi4750C fi-4750C]||SCSI|| ||good|| ||departmental, recent, discontinued||
+||Fujitsu||[FujitsuFi5900C fi-5900C]||SCSI USB||0x04c5 0x10e7||good|| ||production, current||
+||Fujitsu||[FujitsuM3099EX M3099EX]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
+||Fujitsu||[FujitsuFi5110C fi-5110C]||USB||0x04c5 0x1097||good|| ||workgroup, current||
+||Fujitsu||[FujitsuM3096GX M3096GX]||SCSI|| ||good|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi5750C fi-5750C]||SCSI USB||0x04c5 0x1095||good|| ||production, current||
+||Fujitsu||[FujitsuFi4340C fi-4340C]||SCSI USB|| ||good|| ||departmental, current||
+||Fujitsu||[FujitsuM3097E M3097E+]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi5110EOX2 fi-5110EOX2]||USB|| ||good|| ||workgroup, recent, discontinued, no TWAIN driver||
+||Fujitsu||[FujitsuM3093GX M3093GX]||SCSI|| ||good|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi5110EOX fi-5110EOX]||USB||0x04c5 0x1096||good|| ||workgroup, recent, discontinued, no TWAIN driver||
+||Fujitsu||[FujitsuM3093DE M3093DE]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuM3093EX M3093EX]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi4220C fi-4220C]||SCSI USB||0x04c5 0x1042||good|| ||workgroup, recent, discontinued, usb 1.1||
+||Fujitsu||[FujitsuFi4860C2 fi-4860C2]||SCSI|| ||good|| ||production, current||
+||Fujitsu||[FujitsuM3099G M3099G]||SCSI|| ||good|| ||production, old, discontinued||
+||Fujitsu||[FujitsuFi5015C fi-5015C]||USB|| ||untested|| ||workgroup, current, unknown chipset, maybe Avision OEM?||
+||Fujitsu||[FujitsuFi5120C fi-5120C]||SCSI USB||0x04c5 0x10e0||good|| ||workgroup, current||
+||Fujitsu||[FujitsuM4097D M4097D]||SCSI|| ||good|| ||production, old, discontinued||
+||Fujitsu||[FujitsuFi4220C2 fi-4220C2]||SCSI USB||0x04c5 0x10af||good|| ||workgroup, recent, discontinued, usb 2.0||
+||Fujitsu||[FujitsuFi5220C fi-5220C]||SCSI USB||0x04c5 0x10e1||good|| ||workgroup, current||
+||Fujitsu||[FujitsuFi4120C2 fi-4120C2]||SCSI USB||0x04c5 0x10ae||good|| ||workgroup, recent, discontinued, usb 2.0||
+||Fujitsu||[FujitsuFi4120C fi-4120C]||SCSI USB||0x04c5 0x1041||good|| ||workgroup, recent, discontinued, usb 1.1||
+||Fujitsu||[FujitsuFi4640S fi-4640S]||SCSI|| ||good|| ||departmental, recent, discontinued||
+||Fujitsu||[FujitsuFi4750L fi-4750L]||SCSI|| ||good|| ||production, recent, discontinued||
+||Fujitsu||[FujitsuM3099EH M3099EH]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
+||Fujitsu||[FujitsuM3099A M3099A]||RS232C/Video|| ||unsupported|| ||production, old, discontinued||
+||Fujitsu||[FujitsuFi5530C fi-5530C]||SCSI USB||0x04c5 0x10e2||good|| ||departmental, current||
+||Fujitsu||[FujitsuM3092DC M3092DC]||SCSI|| ||good|| ||workgroup, old, discontinued||
+||Fujitsu||[FujitsuFi5110EOXM fi-5110EOXM]||USB||0x04c5 0x10f2||good|| ||workgroup, current||
+||Fujitsu||[FujitsuFi4990C fi-4990C]||SCSI|| ||good|| ||production, recent, discontinued||
+||Fujitsu||[FujitsuM3099GX M3099GX]||SCSI|| ||good|| ||production, old, discontinued||
+||Fujitsu||[FujitsuM3093DG M3093DG]||SCSI|| ||good|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi4860C fi-4860C]||SCSI|| ||good|| ||production, current||
+||Fujitsu||[FujitsuM3093E M3093E]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuM3096EX M3096EX]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuM3097G M3097G+]||SCSI|| ||good|| ||departmental, old, discontinued||
+||Fujitsu||[FujitsuFi5650C fi-5650C]||SCSI USB||0x04c5 0x10ad||good|| ||production, current||
+||Fujitsu||[FujitsuM4099D M4099D]||SCSI|| ||good|| ||production, old, discontinued||
+||Fujitsu||[FujitsuM3099GH M3099GH]||SCSI|| ||good|| ||production, old, discontinued||
+||Fujitsu||[FujitsuM3097DE M3097DE]||RS232C/Video|| ||unsupported|| ||departmental, old, discontinued||

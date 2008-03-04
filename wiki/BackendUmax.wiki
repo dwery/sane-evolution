@@ -2,69 +2,68 @@
 _This list is automatically generated. Do not edit._
 
 = umax (1.0-41) =
-UMAX
 http://www.umax.com.cn
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[UmaxHighscreenScanboostarPremium Highscreen Scanboostar Premium]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell Office2||
-||[UmaxAstra1220S Astra 1220S]||SCSI|| ||good|| ||OK||
-||[UmaxUMAXS12 UMAX S-12]||SCSI|| ||good|| ||OK||
-||[UmaxOpalUltra Opal Ultra]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
-||[UmaxMirageII Mirage II]||SCSI|| ||good|| ||OK||
-||[UmaxOpal2 Opal2]||SCSI|| ||good|| ||OK||
-||[UmaxUG630 UG 630]||SCSI|| ||good|| ||OK||
-||[UmaxImageScanner256 Image Scanner 256]||SCSI|| ||good|| ||OK, SCSI-ID=UMAX UG 80||
-||[UmaxPowerLook2000 PowerLook 2000]||SCSI|| ||good|| ||OK||
-||[UmaxVistaT630 Vista-T630]||SCSI|| ||good|| ||OK for some firmwareversions, on others only lineart OK||
-||[UmaxAstra2100S Astra 2100S]||SCSI|| ||good|| ||OK||
-||[UmaxAstra6450 Astra 6450]||IEEE-1394|| ||unsupported|| ||will propably work one day||
-||[UmaxKTX9600US KTX-9600US]||SCSI|| ||untested||http://www.epson.com/||no feedback||
-||[UmaxAstra1200S Astra 1200S]||SCSI|| ||good|| ||OK||
-||[UmaxUMAXVT600 UMAX VT600]||SCSI|| ||untested|| ||may work, please test and give feedback||
-||[UmaxAstra6400 Astra 6400]||IEEE-1394|| ||unsupported|| ||will propably work one day||
-||[UmaxPLII PL-II]||SCSI|| ||good|| ||OK||
-||[UmaxVistaS6 Vista S6]||SCSI|| ||good|| ||OK||
-||[UmaxAstra2200SU Astra 2200 (SU)]||USB||0x1606 0x0230||good|| ||OK, needs USB control messages||
-||[UmaxPerfection600 Perfection 600]||SCSI|| ||good|| ||OK, SCSI-ID=EPSON Perfection600||
-||[UmaxUG80 UG 80]||SCSI|| ||good|| ||OK||
-||[UmaxUC840 UC 840]||SCSI|| ||good|| ||Version 1.6 OK, others only lineart OK||
-||[UmaxAstraMX3 Astra MX3]||USB|| ||good|| ||OK, needs USB control messages||
-||[UmaxPowerLook270plus PowerLook 270plus]||SCSI|| ||unsupported|| ||incompatible||
-||[UmaxColorPageHR5Pro ColorPage-HR5 (Pro)]||SCSI|| ||good||http://www.nikon.com/||OK, SCSI-ID=KYE ColorPage-HR5||
-||[UmaxAstra600S Astra 600S]||SCSI|| ||good|| ||OK||
-||[UmaxMirageIIse Mirage IIse]||SCSI|| ||good|| ||OK||
-||[UmaxPowerScanII PowerScanII]||SCSI|| ||good|| ||OK||
-||[UmaxAX210 AX-210]||SCSI|| ||good||http://www.nikon.com/||OK||
-||[UmaxSaphirUltraII Saphir Ultra II]||SCSI|| ||good|| ||OK, SCSI-ID=Linotype SAPHIR4||
-||[UmaxAstra610S Astra 610S]||SCSI|| ||good|| ||OK||
-||[UmaxUC1200S UC 1200S]||SCSI|| ||untested|| ||may work, please test and give feedback||
-||[UmaxVistaS6E Vista S6E]||SCSI|| ||good|| ||OK||
-||[UmaxAstra2400S Astra 2400S]||SCSI|| ||good|| ||OK||
-||[UmaxLinoscan1400 Linoscan 1400]||SCSI|| ||good||http://www.vobis.de/||OK, SCSI-ID=HDM LS4H1S||
-||[UmaxUMAXS6E UMAX S-6E]||SCSI|| ||good|| ||OK||
-||[UmaxUMAXS6EG UMAX S-6EG]||SCSI|| ||good|| ||OK||
-||[UmaxOpal Opal]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
-||[UmaxSaphirHiRes Saphir HiRes]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
-||[UmaxPowerLook3000 PowerLook 3000]||SCSI|| ||good|| ||OK||
-||[UmaxJade Jade]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell JADE||
-||[UmaxAX110Scantouch110 AX-110 / Scantouch 110]||SCSI|| ||untested|| ||may work, please test and give feedback||
-||[UmaxGalleria600 Galleria 600]||SCSI|| ||untested|| ||untested, SCSI-ID=ESCORT Galleria 600S||
-||[UmaxPowerLook2100XL PowerLook 2100XL]||SCSI|| ||good|| ||OK||
-||[UmaxPowerLook270 PowerLook 270]||SCSI|| ||unsupported|| ||incompatible||
-||[UmaxUMAXS12G UMAX S-12G]||SCSI|| ||good|| ||OK||
-||[UmaxMirageD16L Mirage D-16L]||SCSI|| ||good|| ||OK||
-||[UmaxSaphir2 Saphir2]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell SAPHIR2||
-||[UmaxUC630 UC 630]||SCSI|| ||good|| ||Version 2.8 OK, others only lineart OK||
-||[UmaxJade2 Jade2]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell Office2||
-||[UmaxSaphirUltra Saphir Ultra]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
-||[UmaxSaphir3 Saphir3]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell SAPHIR3||
-||[UmaxSaphir Saphir]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
-||[UmaxGeminiD16 Gemini D-16]||SCSI|| ||good|| ||OK||
-||[UmaxVistaS8 Vista-S8]||SCSI|| ||good|| ||OK||
-||[UmaxSupervistaS12 Supervista S-12]||SCSI|| ||good|| ||OK||
-||[UmaxPowerLook1100 PowerLook 1100]||IEEE-1394|| ||unsupported|| ||will propably work one day||
-||[UmaxPowerLook PowerLook]||SCSI|| ||good|| ||OK, SCSI-ID=PS-2400X||
-||[UmaxUC1260 UC 1260]||SCSI|| ||good||http://www.heidelberg.com/||Version 1.6 OK, others unknown||
-||[UmaxPSD PSD]||SCSI|| ||good|| ||OK||
-||[UmaxUC1200SE UC 1200SE]||SCSI|| ||good|| ||Version 3.0 OK, others unknown||
-||[UmaxPowerLookIII PowerLook III]||SCSI|| ||good|| ||OK||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||EDGE||[UmaxHighscreenScanboostarPremium Highscreen Scanboostar Premium]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell Office2||
+||UMAX||[UmaxAstra1220S Astra 1220S]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUMAXS12 UMAX S-12]||SCSI|| ||good|| ||OK||
+||Linotype Hell||[UmaxOpalUltra Opal Ultra]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
+||UMAX||[UmaxMirageII Mirage II]||SCSI|| ||good|| ||OK||
+||Linotype Hell||[UmaxOpal2 Opal2]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUG630 UG 630]||SCSI|| ||good|| ||OK||
+||Escort||[UmaxImageScanner256 Image Scanner 256]||SCSI|| ||good|| ||OK, SCSI-ID=UMAX UG 80||
+||UMAX||[UmaxPowerLook2000 PowerLook 2000]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxVistaT630 Vista-T630]||SCSI|| ||good|| ||OK for some firmwareversions, on others only lineart OK||
+||UMAX||[UmaxAstra2100S Astra 2100S]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxAstra6450 Astra 6450]||IEEE-1394|| ||unsupported|| ||will propably work one day||
+||Epson||[UmaxKTX9600US KTX-9600US]||SCSI|| ||untested||http://www.epson.com/||no feedback||
+||UMAX||[UmaxAstra1200S Astra 1200S]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUMAXVT600 UMAX VT600]||SCSI|| ||untested|| ||may work, please test and give feedback||
+||UMAX||[UmaxAstra6400 Astra 6400]||IEEE-1394|| ||unsupported|| ||will propably work one day||
+||UMAX||[UmaxPLII PL-II]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxVistaS6 Vista S6]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxAstra2200SU Astra 2200 (SU)]||USB||0x1606 0x0230||good|| ||OK, needs USB control messages||
+||Escom||[UmaxPerfection600 Perfection 600]||SCSI|| ||good|| ||OK, SCSI-ID=EPSON Perfection600||
+||UMAX||[UmaxUG80 UG 80]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUC840 UC 840]||SCSI|| ||good|| ||Version 1.6 OK, others only lineart OK||
+||UMAX||[UmaxAstraMX3 Astra MX3]||USB|| ||good|| ||OK, needs USB control messages||
+||UMAX||[UmaxPowerLook270plus PowerLook 270plus]||SCSI|| ||unsupported|| ||incompatible||
+||Nikon||[UmaxColorPageHR5Pro ColorPage-HR5 (Pro)]||SCSI|| ||good||http://www.nikon.com/||OK, SCSI-ID=KYE ColorPage-HR5||
+||UMAX||[UmaxAstra600S Astra 600S]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxMirageIIse Mirage IIse]||SCSI|| ||good|| ||OK||
+||TriGem||[UmaxPowerScanII PowerScanII]||SCSI|| ||good|| ||OK||
+||TriGem||[UmaxAX210 AX-210]||SCSI|| ||good||http://www.nikon.com/||OK||
+||Linotype Hell||[UmaxSaphirUltraII Saphir Ultra II]||SCSI|| ||good|| ||OK, SCSI-ID=Linotype SAPHIR4||
+||UMAX||[UmaxAstra610S Astra 610S]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUC1200S UC 1200S]||SCSI|| ||untested|| ||may work, please test and give feedback||
+||UMAX||[UmaxVistaS6E Vista S6E]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxAstra2400S Astra 2400S]||SCSI|| ||good|| ||OK||
+||Vobis||[UmaxLinoscan1400 Linoscan 1400]||SCSI|| ||good||http://www.vobis.de/||OK, SCSI-ID=HDM LS4H1S||
+||UMAX||[UmaxUMAXS6E UMAX S-6E]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUMAXS6EG UMAX S-6EG]||SCSI|| ||good|| ||OK||
+||Linotype Hell||[UmaxOpal Opal]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
+||Linotype Hell||[UmaxSaphirHiRes Saphir HiRes]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
+||UMAX||[UmaxPowerLook3000 PowerLook 3000]||SCSI|| ||good|| ||OK||
+||Linotype Hell||[UmaxJade Jade]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell JADE||
+||Nikon||[UmaxAX110Scantouch110 AX-110 / Scantouch 110]||SCSI|| ||untested|| ||may work, please test and give feedback||
+||Genius||[UmaxGalleria600 Galleria 600]||SCSI|| ||untested|| ||untested, SCSI-ID=ESCORT Galleria 600S||
+||UMAX||[UmaxPowerLook2100XL PowerLook 2100XL]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxPowerLook270 PowerLook 270]||SCSI|| ||unsupported|| ||incompatible||
+||UMAX||[UmaxUMAXS12G UMAX S-12G]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxMirageD16L Mirage D-16L]||SCSI|| ||good|| ||OK||
+||Linotype Hell||[UmaxSaphir2 Saphir2]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell SAPHIR2||
+||UMAX||[UmaxUC630 UC 630]||SCSI|| ||good|| ||Version 2.8 OK, others only lineart OK||
+||Linotype Hell||[UmaxJade2 Jade2]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell Office2||
+||Linotype Hell||[UmaxSaphirUltra Saphir Ultra]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
+||Linotype Hell||[UmaxSaphir3 Saphir3]||SCSI|| ||good|| ||OK, SCSI-ID=LinoHell SAPHIR3||
+||Linotype Hell||[UmaxSaphir Saphir]||SCSI|| ||untested|| ||support disabled until tested - please contact author||
+||UMAX||[UmaxGeminiD16 Gemini D-16]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxVistaS8 Vista-S8]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxSupervistaS12 Supervista S-12]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxPowerLook1100 PowerLook 1100]||IEEE-1394|| ||unsupported|| ||will propably work one day||
+||UMAX||[UmaxPowerLook PowerLook]||SCSI|| ||good|| ||OK, SCSI-ID=PS-2400X||
+||Linotype Hell||[UmaxUC1260 UC 1260]||SCSI|| ||good||http://www.heidelberg.com/||Version 1.6 OK, others unknown||
+||UMAX||[UmaxPSD PSD]||SCSI|| ||good|| ||OK||
+||UMAX||[UmaxUC1200SE UC 1200SE]||SCSI|| ||good|| ||Version 3.0 OK, others unknown||
+||UMAX||[UmaxPowerLookIII PowerLook III]||SCSI|| ||good|| ||OK||

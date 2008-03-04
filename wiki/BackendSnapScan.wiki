@@ -2,62 +2,61 @@
 _This list is automatically generated. Do not edit._
 
 = SnapScan (1.4) =
-AGFA
 http://www.agfa.com/
 Supported  bit depths: 24 bit (color), 48 bit (color, Epson) 8 bit (gray)
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[SnapScan310U 310U]||USB||0x04a5 0x1a20||good|| || ||
-||[SnapScan640U 640U]||USB||0x04a5 0x2060||good|| ||Optional tranparency unit supported||
-||[SnapScanMaxiScanA4USB640U Maxi Scan A4 USB 640U]||USB||0x04a5 0x2060||good|| ||Rebadged Benq 640U.||
-||[SnapScan3300 3300]||USB||0x04a5 0x20de||good|| || ||
-||[SnapScan5250 5250]||USB||0x04a5 0x2137||basic|| ||Same hardware as 5150 (?), Calibration algorithm unknown||
-||[SnapScan310s 310s]||SCSI|| ||good|| || ||
-||[SnapScanPerfection3490 Perfection 3490]||USB||0x04b8 0x0122||good|| || ||
-||[SnapScanArcus1200 Arcus 1200]||SCSI|| ||good|| ||Optional transparency unit supported.||
-||[SnapScanSnapScane20 SnapScan e20]||USB||0x06bd 0x2091||good|| || ||
-||[SnapScanPerfection3590 Perfection 3590]||USB||0x04b8 0x0122||basic|| ||Film scanning unit unsupported||
-||[SnapScan300f 300f]||SCSI|| ||good|| || ||
-||[SnapScanMaxiScanA4DeluxeSCSI Maxi Scan A4 Deluxe (SCSI)]||SCSI|| ||good|| ||Rebadged SnapScan 310s.||
-||[SnapScan5000U 5000U]||USB||0x04a5 0x20fc||basic|| ||Same as 5000E, working up to 600 DPI||
-||[SnapScan610s 610s]||SCSI|| ||good|| || ||
-||[SnapScanSnapScan1236s SnapScan 1236s]||SCSI|| ||good|| ||Optional ADF and transparency unit supported.||
-||[SnapScan5300 5300]||USB||0x04a5 0x20fe||basic||http://www.guillemot.com||Problems with firmware upload reported||
-||[SnapScanPerfection660 Perfection 660]||USB||0x04b8 0x0114||good|| || ||
-||[SnapScanSnapScan300 SnapScan 300]||SCSI|| ||good|| || ||
-||[SnapScanPerfection1670 Perfection 1670]||USB||0x04b8 0x011f||good|| || ||
-||[SnapScan340U 340U]||USB||0x04a5 0x2022||good|| || ||
-||[SnapScanMaxiA436bit Maxi A4 36 bit]||USB||0x04a5 0x2060||good||http://www.mitsubishi.com||Rebadged Benq 620U, needs Benq firmware file u96v???.bin||
-||[SnapScanSnapScan SnapScan]||SCSI|| ||good|| || ||
-||[SnapScanSnapScan310 SnapScan 310]||SCSI|| ||good|| || ||
-||[SnapScan610plus 610plus]||SCSI|| ||good|| || ||
-||[SnapScanSnapScan1212U2 SnapScan 1212U_2]||USB||0x06bd 0x2061||good|| || ||
-||[SnapScan620UT 620UT]||USB||0x04a5 0x2040||good|| ||Optional tranparency unit supported||
-||[SnapScanSnapScan600 SnapScan 600]||SCSI|| ||good|| ||Optional ADF supported.||
-||[SnapScan5000E 5000E]||USB||0x04a5 0x20fc||basic|| ||Same as 5000U, working up to 600 DPI||
-||[SnapScanDiamondview648UT Diamondview 648UT]||USB||0x04a5 0x2022||good|| ||Rebadged Benq 320u.||
-||[SnapScan1240 1240]||USB||0x04a5 0x20c0||good|| ||Optional tranparency unit supported||
-||[SnapScanPerfection1270 Perfection 1270]||USB||0x04b8 0x0120||good|| || ||
-||[SnapScan620s 620s]||SCSI|| ||good|| || ||
-||[SnapScanSnapScane42 SnapScan e42]||USB||0x06bd 0x20ff||good|| || ||
-||[SnapScan620U 620U]||USB||0x04a5 0x1a2a||good|| ||Optional tranparency unit supported||
-||[SnapScanPerfection2480 Perfection 2480]||USB||0x04b8 0x0121||good|| || ||
-||[SnapScanScanhomeTouch1248USB Scan@home Touch 1248 (USB)]||USB||0x04a5 0x20de||good|| ||Rebadged Benq 3300.||
-||[SnapScanSnapScane50 SnapScan e50]||USB||0x06bd 0x208f||good|| ||Optional tranparency unit supported||
-||[SnapScan5000 5000]||USB||0x04a5 0x20f8||good|| ||USB ID 0x04a5,0x20f8: Color / grayscale scans working up to 1200 DPI||
-||[SnapScan320U 320U]||USB||0x04a5 0x2022||good|| || ||
-||[SnapScanSnapScane40 SnapScan e40]||USB||0x06bd 0x208d||good|| || ||
-||[SnapScanSnapScane26 SnapScan e26]||USB||0x06bd 0x2097||good|| || ||
-||[SnapScan640BT 640BT]||USB||0x04a5 0x20be||good|| ||Optional tranparency unit supported||
-||[SnapScan5150 5150]||USB||0x04a5 0x2137||basic|| ||Calibration algorithm unknown||
-||[SnapScanSnapScane60 SnapScan e60]||USB|| ||untested||http://www.benq.com||Formerly Acer Peripherals||
-||[SnapScanPerfection2580 Perfection 2580]||USB||0x04b8 0x0121||basic|| ||Film scanning unit unsupported||
-||[SnapScanSnapScan1212U SnapScan 1212U]||USB||0x06bd 0x0001||good|| || ||
-||[SnapScanSnapScane10 SnapScan e10]||USB||0x06bd 0x2093||good|| || ||
-||[SnapScanSnapScane25 SnapScan e25]||USB||0x06bd 0x2095||good|| || ||
-||[SnapScanSnapScane52 SnapScan e52]||USB||0x06bd 0x20fd||good|| ||Optional tranparency unit supported||
-||[SnapScan640bu 640bu]||USB||0x04a5 0x207e||good|| || ||
-||[SnapScanSnapScan1236u SnapScan 1236u]||USB||0x06bd 0x0002||good|| ||Optional ADF and transparency unit supported.||
-||[SnapScan4300 4300]||USB||0x04a5 0x20de||good|| || ||
-||[SnapScanDiamondview650U Diamondview 650U]||USB||0x04a5 0x20b0||good||http://www.epson.com||Rebadged Benq 4300.||
-||[SnapScanStylusCX1500 Stylus CX-1500]||USB||0x04b8 0x080c||good|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Benq (Acer)||[SnapScan310U 310U]||USB||0x04a5 0x1a20||good|| || ||
+||Benq (Acer)||[SnapScan640U 640U]||USB||0x04a5 0x2060||good|| ||Optional tranparency unit supported||
+||Guillemot / Hercules||[SnapScanMaxiScanA4USB640U Maxi Scan A4 USB 640U]||USB||0x04a5 0x2060||good|| ||Rebadged Benq 640U.||
+||Benq (Acer)||[SnapScan3300 3300]||USB||0x04a5 0x20de||good|| || ||
+||Benq (Acer)||[SnapScan5250 5250]||USB||0x04a5 0x2137||basic|| ||Same hardware as 5150 (?), Calibration algorithm unknown||
+||Benq (Acer)||[SnapScan310s 310s]||SCSI|| ||good|| || ||
+||Epson||[SnapScanPerfection3490 Perfection 3490]||USB||0x04b8 0x0122||good|| || ||
+||AGFA||[SnapScanArcus1200 Arcus 1200]||SCSI|| ||good|| ||Optional transparency unit supported.||
+||AGFA||[SnapScanSnapScane20 SnapScan e20]||USB||0x06bd 0x2091||good|| || ||
+||Epson||[SnapScanPerfection3590 Perfection 3590]||USB||0x04b8 0x0122||basic|| ||Film scanning unit unsupported||
+||Benq (Acer)||[SnapScan300f 300f]||SCSI|| ||good|| || ||
+||Guillemot / Hercules||[SnapScanMaxiScanA4DeluxeSCSI Maxi Scan A4 Deluxe (SCSI)]||SCSI|| ||good|| ||Rebadged SnapScan 310s.||
+||Benq (Acer)||[SnapScan5000U 5000U]||USB||0x04a5 0x20fc||basic|| ||Same as 5000E, working up to 600 DPI||
+||Benq (Acer)||[SnapScan610s 610s]||SCSI|| ||good|| || ||
+||AGFA||[SnapScanSnapScan1236s SnapScan 1236s]||SCSI|| ||good|| ||Optional ADF and transparency unit supported.||
+||Guillemot / Hercules||[SnapScan5300 5300]||USB||0x04a5 0x20fe||basic||http://www.guillemot.com||Problems with firmware upload reported||
+||Epson||[SnapScanPerfection660 Perfection 660]||USB||0x04b8 0x0114||good|| || ||
+||AGFA||[SnapScanSnapScan300 SnapScan 300]||SCSI|| ||good|| || ||
+||Epson||[SnapScanPerfection1670 Perfection 1670]||USB||0x04b8 0x011f||good|| || ||
+||Benq (Acer)||[SnapScan340U 340U]||USB||0x04a5 0x2022||good|| || ||
+||Mitsubishi||[SnapScanMaxiA436bit Maxi A4 36 bit]||USB||0x04a5 0x2060||good||http://www.mitsubishi.com||Rebadged Benq 620U, needs Benq firmware file u96v???.bin||
+||AGFA||[SnapScanSnapScan SnapScan]||SCSI|| ||good|| || ||
+||AGFA||[SnapScanSnapScan310 SnapScan 310]||SCSI|| ||good|| || ||
+||Benq (Acer)||[SnapScan610plus 610plus]||SCSI|| ||good|| || ||
+||AGFA||[SnapScanSnapScan1212U2 SnapScan 1212U_2]||USB||0x06bd 0x2061||good|| || ||
+||Benq (Acer)||[SnapScan620UT 620UT]||USB||0x04a5 0x2040||good|| ||Optional tranparency unit supported||
+||AGFA||[SnapScanSnapScan600 SnapScan 600]||SCSI|| ||good|| ||Optional ADF supported.||
+||Benq (Acer)||[SnapScan5000E 5000E]||USB||0x04a5 0x20fc||basic|| ||Same as 5000U, working up to 600 DPI||
+||Mitsubishi||[SnapScanDiamondview648UT Diamondview 648UT]||USB||0x04a5 0x2022||good|| ||Rebadged Benq 320u.||
+||Benq (Acer)||[SnapScan1240 1240]||USB||0x04a5 0x20c0||good|| ||Optional tranparency unit supported||
+||Epson||[SnapScanPerfection1270 Perfection 1270]||USB||0x04b8 0x0120||good|| || ||
+||Benq (Acer)||[SnapScan620s 620s]||SCSI|| ||good|| || ||
+||AGFA||[SnapScanSnapScane42 SnapScan e42]||USB||0x06bd 0x20ff||good|| || ||
+||Benq (Acer)||[SnapScan620U 620U]||USB||0x04a5 0x1a2a||good|| ||Optional tranparency unit supported||
+||Epson||[SnapScanPerfection2480 Perfection 2480]||USB||0x04b8 0x0121||good|| || ||
+||Guillemot / Hercules||[SnapScanScanhomeTouch1248USB Scan@home Touch 1248 (USB)]||USB||0x04a5 0x20de||good|| ||Rebadged Benq 3300.||
+||AGFA||[SnapScanSnapScane50 SnapScan e50]||USB||0x06bd 0x208f||good|| ||Optional tranparency unit supported||
+||Benq (Acer)||[SnapScan5000 5000]||USB||0x04a5 0x20f8||good|| ||USB ID 0x04a5,0x20f8: Color / grayscale scans working up to 1200 DPI||
+||Benq (Acer)||[SnapScan320U 320U]||USB||0x04a5 0x2022||good|| || ||
+||AGFA||[SnapScanSnapScane40 SnapScan e40]||USB||0x06bd 0x208d||good|| || ||
+||AGFA||[SnapScanSnapScane26 SnapScan e26]||USB||0x06bd 0x2097||good|| || ||
+||Benq (Acer)||[SnapScan640BT 640BT]||USB||0x04a5 0x20be||good|| ||Optional tranparency unit supported||
+||Benq (Acer)||[SnapScan5150 5150]||USB||0x04a5 0x2137||basic|| ||Calibration algorithm unknown||
+||Benq (Acer)||[SnapScanSnapScane60 SnapScan e60]||USB|| ||untested||http://www.benq.com||Formerly Acer Peripherals||
+||Epson||[SnapScanPerfection2580 Perfection 2580]||USB||0x04b8 0x0121||basic|| ||Film scanning unit unsupported||
+||AGFA||[SnapScanSnapScan1212U SnapScan 1212U]||USB||0x06bd 0x0001||good|| || ||
+||AGFA||[SnapScanSnapScane10 SnapScan e10]||USB||0x06bd 0x2093||good|| || ||
+||AGFA||[SnapScanSnapScane25 SnapScan e25]||USB||0x06bd 0x2095||good|| || ||
+||AGFA||[SnapScanSnapScane52 SnapScan e52]||USB||0x06bd 0x20fd||good|| ||Optional tranparency unit supported||
+||Benq (Acer)||[SnapScan640bu 640bu]||USB||0x04a5 0x207e||good|| || ||
+||AGFA||[SnapScanSnapScan1236u SnapScan 1236u]||USB||0x06bd 0x0002||good|| ||Optional ADF and transparency unit supported.||
+||Benq (Acer)||[SnapScan4300 4300]||USB||0x04a5 0x20de||good|| || ||
+||Epson||[SnapScanDiamondview650U Diamondview 650U]||USB||0x04a5 0x20b0||good||http://www.epson.com||Rebadged Benq 4300.||
+||Epson||[SnapScanStylusCX1500 Stylus CX-1500]||USB||0x04b8 0x080c||good|| || ||

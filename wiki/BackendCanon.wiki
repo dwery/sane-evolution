@@ -2,13 +2,12 @@
 _This list is automatically generated. Do not edit._
 
 = canon (1.12) =
-Canon
 http://www.canon.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[CanonCanoScan300 CanoScan 300]||SCSI|| ||good|| ||1 pass||
-||[CanonCanoScan1200S CanoScan 1200S]||SCSI|| ||good|| ||1 pass||
-||[CanonCanoScan2700F CanoScan 2700F]||SCSI|| ||good|| ||1 pass||
-||[CanonCanoScan2710S CanoScan 2710S]||SCSI|| ||good|| ||1 pass||
-||[CanonCanoScan600 CanoScan 600]||SCSI|| ||good|| ||1 pass||
-||[CanonCanoScan620S CanoScan 620S]||SCSI|| ||good|| ||1 pass||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Canon||[CanonCanoScan300 CanoScan 300]||SCSI|| ||good|| ||1 pass||
+||Canon||[CanonCanoScan1200S CanoScan 1200S]||SCSI|| ||good|| ||1 pass||
+||Canon||[CanonCanoScan2700F CanoScan 2700F]||SCSI|| ||good|| ||1 pass||
+||Canon||[CanonCanoScan2710S CanoScan 2710S]||SCSI|| ||good|| ||1 pass||
+||Canon||[CanonCanoScan600 CanoScan 600]||SCSI|| ||good|| ||1 pass||
+||Canon||[CanonCanoScan620S CanoScan 620S]||SCSI|| ||good|| ||1 pass||

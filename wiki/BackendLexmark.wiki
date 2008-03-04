@@ -2,18 +2,17 @@
 _This list is automatically generated. Do not edit._
 
 = lexmark (1.0-0) =
-Lexmark
 http://www.lexmark.com/
 This backend supports lexmark x1100 series scanners. 
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[LexmarkX1140 X1140]||USB||0x043d 0x007c||untested|| || ||
-||[LexmarkX1195 X1195]||USB||0x043d 0x007c||untested|| || ||
-||[LexmarkX1110 X1110]||USB||0x043d 0x007c||untested|| || ||
-||[LexmarkX1130 X1130]||USB||0x043d 0x007c||good|| ||Supports 75, 150, 300, 600 dpi||
-||[LexmarkX1150 X1150]||USB||0x043d 0x007c||good||/unsupported/lexmark-x1150.html||Supports 75, 150, 300, 600 dpi||
-||[LexmarkX12xx X12xx]||USB||0x043d 0x007d||good|| ||USB1.1 is OK, USB2.0 needs testing||
-||[LexmarkX1185 X1185]||USB||0x043d 0x007c||good|| ||Tested with xscanimage. Supports 75, 150, 300, 600, 1200(600x1200) dpi resolutions. Does grayscale or colour scans in the following sizes: wallet, 3x5, 4x6, 5x7, 8x10, letter.||
-||[LexmarkX1170 X1170]||USB||0x043d 0x007c||good|| ||Supports 75, 150, 300, 600 dpi||
-||[LexmarkA920 A920]||USB||0x413c 0x5105||good|| ||Relabelled X11xx model||
-||[LexmarkX1180 X1180]||USB||0x043d 0x007c||good|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Lexmark||[LexmarkX1140 X1140]||USB||0x043d 0x007c||untested|| || ||
+||Lexmark||[LexmarkX1195 X1195]||USB||0x043d 0x007c||untested|| || ||
+||Lexmark||[LexmarkX1110 X1110]||USB||0x043d 0x007c||untested|| || ||
+||Lexmark||[LexmarkX1130 X1130]||USB||0x043d 0x007c||good|| ||Supports 75, 150, 300, 600 dpi||
+||Lexmark||[LexmarkX1150 X1150]||USB||0x043d 0x007c||good||/unsupported/lexmark-x1150.html||Supports 75, 150, 300, 600 dpi||
+||Dell||[LexmarkX12xx X12xx]||USB||0x043d 0x007d||good|| ||USB1.1 is OK, USB2.0 needs testing||
+||Lexmark||[LexmarkX1185 X1185]||USB||0x043d 0x007c||good|| ||Tested with xscanimage. Supports 75, 150, 300, 600, 1200(600x1200) dpi resolutions. Does grayscale or colour scans in the following sizes: wallet, 3x5, 4x6, 5x7, 8x10, letter.||
+||Lexmark||[LexmarkX1170 X1170]||USB||0x043d 0x007c||good|| ||Supports 75, 150, 300, 600 dpi||
+||Dell||[LexmarkA920 A920]||USB||0x413c 0x5105||good|| ||Relabelled X11xx model||
+||Lexmark||[LexmarkX1180 X1180]||USB||0x043d 0x007c||good|| || ||

@@ -2,40 +2,39 @@
 _This list is automatically generated. Do not edit._
 
 = mustek (1.0-138) =
-Mustek
 http://www.mustek.de/
 Most Mustek SCSI scanners are supported by this backend. For USB scanners, look at the mustek_usb backend.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[MustekParagon1200IIISP Paragon 1200 III SP]||SCSI|| ||complete|| || ||
-||[MustekParagonMFC800S Paragon MFC-800S]||SCSI|| ||complete|| || ||
-||[MustekScanExpress12000SPPlus ScanExpress 12000SP Plus]||SCSI|| ||complete|| || ||
-||[MustekScanMagic9636SPlus ScanMagic 9636S Plus]||SCSI|| ||complete|| || ||
-||[MustekParagon600IICD Paragon 600 II CD]||SCSI|| ||complete|| || ||
-||[MustekCompact4800SCSI Compact 4800 SCSI]||SCSI|| ||complete|| ||Mustek 600 II CD compatible||
-||[MustekParagon600IIN Paragon 600 II N]||Proprietary|| ||basic||http://www.trust-site.com||Carefully check the model names. Trust uses similar names for completely different hardware.||
-||[MustekParagon1200SPPro Paragon 1200 SP Pro]||SCSI|| ||good|| || ||
-||[MustekParagonMFS12000CX Paragon MFS-12000CX]||SCSI|| ||good|| ||3-pass||
-||[MustekImagery1200 Imagery 1200]||SCSI|| ||good|| ||3-pass, Mustek Paragon MFS-6000CX compatible||
-||[MustekScanMagic600IISP ScanMagic 600 II SP]||SCSI|| ||complete|| || ||
-||[MustekParagonMFS6000SP Paragon MFS-6000SP]||SCSI|| ||complete|| || ||
-||[MustekParagon600IIEP Paragon 600 II EP]||Parport|| ||minimal|| ||Works, however only low resolutions and quality in color mode is bad.||
-||[MustekParagonMFS1200SP Paragon MFS-1200SP]||SCSI|| ||complete|| || ||
-||[MustekScanExpressA3SP ScanExpress A3 SP]||SCSI|| ||basic|| ||Please test!||
-||[MustekScanExpress1200FS ScanExpress 1200 FS]||SCSI|| ||untested|| ||One report that it crashes the computer. SCSI driver issue? Please contact me if you own such a device.||
-||[MustekImagery1200SP Imagery 1200 SP]||SCSI|| ||complete|| ||Mustek Paragon MFS-6000SP compatible||
-||[MustekParagon600IIED Paragon 600 II ED]||Parport|| ||untested|| ||Completely untested. If it's the same as the 600 II EP, it may work. Please contact me if you own such a device.||
-||[MustekScanExpress12000SP ScanExpress 12000SP]||SCSI|| ||complete|| || ||
-||[MustekScanExpress6000SP ScanExpress 6000SP]||SCSI|| ||complete|| || ||
-||[MustekParagon800IISP Paragon 800 II SP]||SCSI|| ||complete|| || ||
-||[MustekSCSIConnect19200 SCSI Connect 19200]||SCSI|| ||complete|| ||Mustek ScanExpress 12000SP compatible||
-||[MustekParagon1200LS Paragon 1200 LS]||SCSI|| ||complete|| || ||
-||[MustekParagonMFS6000CX Paragon MFS-6000CX]||SCSI|| ||good|| ||3-pass||
-||[MustekParagonMFS8000SP Paragon MFS-8000SP]||SCSI|| ||complete|| || ||
-||[MustekTwainScanIISP TwainScan II SP]||SCSI|| ||complete|| || ||
-||[MustekParagonMFS12000SP Paragon MFS-12000SP]||SCSI|| ||complete|| || ||
-||[MustekSCSIexcellenceseries19200 SCSI excellence series 19200]||SCSI|| ||complete||http://www.primax.nl/||Mustek ScanExpress 12000SP compatible||
-||[MustekParagon1200A3Pro Paragon 1200 A3 Pro]||SCSI|| ||complete|| ||ADF and TA untested. Please contact me if you own such equipment.||
-||[MustekParagonMFC600S Paragon MFC-600S]||SCSI|| ||complete|| || ||
-||[MustekImagery4800SP Imagery 4800 SP]||SCSI|| ||complete|| ||Mustek Paragon 600 II CD compatible||
-||[MustekScanMagic9636S ScanMagic 9636S]||SCSI|| ||complete|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Mustek||[MustekParagon1200IIISP Paragon 1200 III SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagonMFC800S Paragon MFC-800S]||SCSI|| ||complete|| || ||
+||Mustek||[MustekScanExpress12000SPPlus ScanExpress 12000SP Plus]||SCSI|| ||complete|| || ||
+||Mustek||[MustekScanMagic9636SPlus ScanMagic 9636S Plus]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagon600IICD Paragon 600 II CD]||SCSI|| ||complete|| || ||
+||Primax||[MustekCompact4800SCSI Compact 4800 SCSI]||SCSI|| ||complete|| ||Mustek 600 II CD compatible||
+||Trust||[MustekParagon600IIN Paragon 600 II N]||Proprietary|| ||basic||http://www.trust-site.com||Carefully check the model names. Trust uses similar names for completely different hardware.||
+||Mustek||[MustekParagon1200SPPro Paragon 1200 SP Pro]||SCSI|| ||good|| || ||
+||Mustek||[MustekParagonMFS12000CX Paragon MFS-12000CX]||SCSI|| ||good|| ||3-pass||
+||Trust||[MustekImagery1200 Imagery 1200]||SCSI|| ||good|| ||3-pass, Mustek Paragon MFS-6000CX compatible||
+||Mustek||[MustekScanMagic600IISP ScanMagic 600 II SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagonMFS6000SP Paragon MFS-6000SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagon600IIEP Paragon 600 II EP]||Parport|| ||minimal|| ||Works, however only low resolutions and quality in color mode is bad.||
+||Mustek||[MustekParagonMFS1200SP Paragon MFS-1200SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekScanExpressA3SP ScanExpress A3 SP]||SCSI|| ||basic|| ||Please test!||
+||Mustek||[MustekScanExpress1200FS ScanExpress 1200 FS]||SCSI|| ||untested|| ||One report that it crashes the computer. SCSI driver issue? Please contact me if you own such a device.||
+||Trust||[MustekImagery1200SP Imagery 1200 SP]||SCSI|| ||complete|| ||Mustek Paragon MFS-6000SP compatible||
+||Mustek||[MustekParagon600IIED Paragon 600 II ED]||Parport|| ||untested|| ||Completely untested. If it's the same as the 600 II EP, it may work. Please contact me if you own such a device.||
+||Mustek||[MustekScanExpress12000SP ScanExpress 12000SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekScanExpress6000SP ScanExpress 6000SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagon800IISP Paragon 800 II SP]||SCSI|| ||complete|| || ||
+||Trust||[MustekSCSIConnect19200 SCSI Connect 19200]||SCSI|| ||complete|| ||Mustek ScanExpress 12000SP compatible||
+||Mustek||[MustekParagon1200LS Paragon 1200 LS]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagonMFS6000CX Paragon MFS-6000CX]||SCSI|| ||good|| ||3-pass||
+||Mustek||[MustekParagonMFS8000SP Paragon MFS-8000SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekTwainScanIISP TwainScan II SP]||SCSI|| ||complete|| || ||
+||Mustek||[MustekParagonMFS12000SP Paragon MFS-12000SP]||SCSI|| ||complete|| || ||
+||Primax||[MustekSCSIexcellenceseries19200 SCSI excellence series 19200]||SCSI|| ||complete||http://www.primax.nl/||Mustek ScanExpress 12000SP compatible||
+||Mustek||[MustekParagon1200A3Pro Paragon 1200 A3 Pro]||SCSI|| ||complete|| ||ADF and TA untested. Please contact me if you own such equipment.||
+||Mustek||[MustekParagonMFC600S Paragon MFC-600S]||SCSI|| ||complete|| || ||
+||Trust||[MustekImagery4800SP Imagery 4800 SP]||SCSI|| ||complete|| ||Mustek Paragon 600 II CD compatible||
+||Mustek||[MustekScanMagic9636S ScanMagic 9636S]||SCSI|| ||complete|| || ||

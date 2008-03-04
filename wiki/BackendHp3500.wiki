@@ -2,11 +2,10 @@
 _This list is automatically generated. Do not edit._
 
 = hp3500 (1.1) =
-Hewlett-Packard
 http://www.hp.com
 HP3500 series scanners.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[Hp3500ScanJet3500C ScanJet 3500C]||USB||0x03f0 0x2205||good|| || ||
-||[Hp3500ScanJet3530C ScanJet 3530C]||USB||0x03f0 0x2005||good|| || ||
-||[Hp3500ScanJet3570C ScanJet 3570C]||USB||0x03f0 0x2005||good|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Hewlett-Packard||[Hp3500ScanJet3500C ScanJet 3500C]||USB||0x03f0 0x2205||good|| || ||
+||Hewlett-Packard||[Hp3500ScanJet3530C ScanJet 3530C]||USB||0x03f0 0x2005||good|| || ||
+||Hewlett-Packard||[Hp3500ScanJet3570C ScanJet 3570C]||USB||0x03f0 0x2005||good|| || ||

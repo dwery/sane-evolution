@@ -2,40 +2,39 @@
 _This list is automatically generated. Do not edit._
 
 = plustek (0.52) =
-Plustek
 http://www.plustek.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[PlustekBearPaw1200 BearPaw 1200]||USB||0x0400 0x1001||complete|| ||both product versions are supported, see backends' man-page||
-||[PlustekVisigoA4 Visigo A4]||USB||0x0a82 0x4600||complete||http://www.pandp.com.tw/||Rebaged Travelscan 464||
-||[PlustekOpticProUT16 OpticPro UT16]||USB||0x07b3 0x0017||complete|| || ||
-||[PlustekCanoScanN650UN656U CanoScan N650U/N656U]||USB||0x04a9 0x2206||complete|| || ||
-||[PlustekTravelScan460464 TravelScan 460/464]||USB||0x0a82 0x4600||complete|| || ||
-||[PlustekColorpageHR6X Colorpage HR6X]||USB||0x0458 0x2016||untested||http://www.mustek.com/|| ||
-||[PlustekOpticProUT24 OpticPro UT24]||USB||0x07b3 0x0017||complete||http://www.geniusnet.com.tw/|| ||
-||[PlustekOpticProU12 OpticPro U12]||USB||0x07b3 0x0010||complete|| ||NOTE: Devices with product ID 0x0001 are not supported!||
-||[PlustekUMAX3400 UMAX 3400]||USB||0x1606 0x0060||complete|| ||there are some UMAX 3400 outside the U.S. which are not supported, as they use another chipset than the LM983x||
-||[PlustekCanoScanN670UN676ULiDE20 CanoScan N670U/N676U/LiDE20]||USB||0x04a9 0x220d||complete|| || ||
-||[PlustekColorpageHR7LE Colorpage HR7LE]||USB||0x0458 0x2015||untested|| || ||
-||[PlustekCanoScanD660U CanoScan D660U]||USB||0x04a9 0x2208||good||http://www.syscaninc.com/||TPA scans not perfect||
-||[PlustekCanoScanN1220U CanoScan N1220U]||USB||0x04a9 0x2207||complete|| || ||
-||[PlustekUMAX3450 UMAX 3450]||USB||0x1606 0x0060||complete|| || ||
-||[PlustekBearPaw2400 BearPaw 2400]||USB||0x0400 0x1001||complete||http://www.hp.com/|| ||
-||[PlustekScanJet2100C ScanJet 2100C]||USB||0x03f0 0x0505||complete|| || ||
-||[PlustekColorpageHR6A Colorpage HR6A]||USB||0x0458 0x2009||untested|| || ||
-||[PlustekPerfection1260 Perfection 1260]||USB||0x04b8 0x011d||complete|| || ||
-||[PlustekPerfection1260Photo Perfection 1260Photo]||USB||0x04b8 0x011d||good||http://www.umax.com/||TPA scans not perfect||
-||[PlustekTravelScan662 TravelScan 662]||USB||0x0a82 0x6620||complete|| || ||
-||[PlustekColorpageHR6V2 Colorpage HR6 V2]||USB||0x0458 0x2008||complete|| || ||
-||[PlustekColorpageHR7 Colorpage HR7]||USB||0x0458 0x2013||complete|| || ||
-||[PlustekOpticProUT12 OpticPro UT12]||USB||0x07b3 0x0017||complete|| ||Note: Devices with product ID 0x0001 are not supported!||
-||[PlustekCanoScanLiDE25 CanoScan LiDE25]||USB||0x04a9 0x2220||good|| || ||
-||[PlustekS4100 S4-100]||USB||0x049f 0x001a||complete||http://www.canon.com/||Identical to UMAX 3400||
-||[PlustekPerfection1250 Perfection 1250]||USB||0x04b8 0x010f||complete|| || ||
-||[PlustekOpticProU24 OpticPro U24]||USB||0x07b3 0x0015||complete|| || ||
-||[PlustekUMAXAstranetia101 UMAX Astranet ia101]||USB||0x1606 0x0060||complete|| ||seems to be a renamed UMAX 3400||
-||[PlustekUMAX5400 UMAX 5400]||USB||0x1606 0x0160||complete||http://www.compaq.com/|| ||
-||[PlustekQScanUSB001A4portablescanner Q-Scan USB001 (A4 portable scanner)]||USB||0x0a53 0x1000||complete|| || ||
-||[PlustekScanJet2200C ScanJet 2200C]||USB||0x03f0 0x0605||complete||http://www.epson.com/|| ||
-||[PlustekCanoScanN1240ULiDE30 CanoScan N1240U/LiDE30]||USB||0x04a9 0x220e||complete|| || ||
-||[PlustekPerfection1250Photo Perfection 1250Photo]||USB||0x04b8 0x010f||good|| ||TPA scans not perfect||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Mustek||[PlustekBearPaw1200 BearPaw 1200]||USB||0x0400 0x1001||complete|| ||both product versions are supported, see backends' man-page||
+||Portable Peripheral Co., Ltd.||[PlustekVisigoA4 Visigo A4]||USB||0x0a82 0x4600||complete||http://www.pandp.com.tw/||Rebaged Travelscan 464||
+||Plustek||[PlustekOpticProUT16 OpticPro UT16]||USB||0x07b3 0x0017||complete|| || ||
+||Canon||[PlustekCanoScanN650UN656U CanoScan N650U/N656U]||USB||0x04a9 0x2206||complete|| || ||
+||Syscan||[PlustekTravelScan460464 TravelScan 460/464]||USB||0x0a82 0x4600||complete|| || ||
+||Mustek||[PlustekColorpageHR6X Colorpage HR6X]||USB||0x0458 0x2016||untested||http://www.mustek.com/|| ||
+||Genius||[PlustekOpticProUT24 OpticPro UT24]||USB||0x07b3 0x0017||complete||http://www.geniusnet.com.tw/|| ||
+||Plustek||[PlustekOpticProU12 OpticPro U12]||USB||0x07b3 0x0010||complete|| ||NOTE: Devices with product ID 0x0001 are not supported!||
+||Umax||[PlustekUMAX3400 UMAX 3400]||USB||0x1606 0x0060||complete|| ||there are some UMAX 3400 outside the U.S. which are not supported, as they use another chipset than the LM983x||
+||Canon||[PlustekCanoScanN670UN676ULiDE20 CanoScan N670U/N676U/LiDE20]||USB||0x04a9 0x220d||complete|| || ||
+||Genius||[PlustekColorpageHR7LE Colorpage HR7LE]||USB||0x0458 0x2015||untested|| || ||
+||Syscan||[PlustekCanoScanD660U CanoScan D660U]||USB||0x04a9 0x2208||good||http://www.syscaninc.com/||TPA scans not perfect||
+||Canon||[PlustekCanoScanN1220U CanoScan N1220U]||USB||0x04a9 0x2207||complete|| || ||
+||Umax||[PlustekUMAX3450 UMAX 3450]||USB||0x1606 0x0060||complete|| || ||
+||Hewlett-Packard||[PlustekBearPaw2400 BearPaw 2400]||USB||0x0400 0x1001||complete||http://www.hp.com/|| ||
+||Hewlett-Packard||[PlustekScanJet2100C ScanJet 2100C]||USB||0x03f0 0x0505||complete|| || ||
+||Genius||[PlustekColorpageHR6A Colorpage HR6A]||USB||0x0458 0x2009||untested|| || ||
+||Epson||[PlustekPerfection1260 Perfection 1260]||USB||0x04b8 0x011d||complete|| || ||
+||Umax||[PlustekPerfection1260Photo Perfection 1260Photo]||USB||0x04b8 0x011d||good||http://www.umax.com/||TPA scans not perfect||
+||Ambir||[PlustekTravelScan662 TravelScan 662]||USB||0x0a82 0x6620||complete|| || ||
+||Genius||[PlustekColorpageHR6V2 Colorpage HR6 V2]||USB||0x0458 0x2008||complete|| || ||
+||Genius||[PlustekColorpageHR7 Colorpage HR7]||USB||0x0458 0x2013||complete|| || ||
+||Plustek||[PlustekOpticProUT12 OpticPro UT12]||USB||0x07b3 0x0017||complete|| ||Note: Devices with product ID 0x0001 are not supported!||
+||Canon||[PlustekCanoScanLiDE25 CanoScan LiDE25]||USB||0x04a9 0x2220||good|| || ||
+||Canon||[PlustekS4100 S4-100]||USB||0x049f 0x001a||complete||http://www.canon.com/||Identical to UMAX 3400||
+||Epson||[PlustekPerfection1250 Perfection 1250]||USB||0x04b8 0x010f||complete|| || ||
+||Plustek||[PlustekOpticProU24 OpticPro U24]||USB||0x07b3 0x0015||complete|| || ||
+||Umax||[PlustekUMAXAstranetia101 UMAX Astranet ia101]||USB||0x1606 0x0060||complete|| ||seems to be a renamed UMAX 3400||
+||Compaq||[PlustekUMAX5400 UMAX 5400]||USB||0x1606 0x0160||complete||http://www.compaq.com/|| ||
+||Portable Peripheral Co., Ltd.||[PlustekQScanUSB001A4portablescanner Q-Scan USB001 (A4 portable scanner)]||USB||0x0a53 0x1000||complete|| || ||
+||Epson||[PlustekScanJet2200C ScanJet 2200C]||USB||0x03f0 0x0605||complete||http://www.epson.com/|| ||
+||Canon||[PlustekCanoScanN1240ULiDE30 CanoScan N1240U/LiDE30]||USB||0x04a9 0x220e||complete|| || ||
+||Epson||[PlustekPerfection1250Photo Perfection 1250Photo]||USB||0x04b8 0x010f||good|| ||TPA scans not perfect||

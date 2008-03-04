@@ -2,13 +2,12 @@
 _This list is automatically generated. Do not edit._
 
 = u12 (0.02) =
-Plustek
 http://www.plustek.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[U12ColorPageHR6V1 ColorPage HR6 V1]||USB||0x0458 0x2004||basic|| || ||
-||[U12RevScanOrangeR48Ti RevScan Orange R48Ti]||USB||0x07b3 0x0001||basic||http://www.geniusnet.com.tw/||Rebadged Plustek OpticPro UT12||
-||[U12OpticPro1212U OpticPro 1212U]||USB||0x07b3 0x0001||basic|| || ||
-||[U12OpticProUT12 OpticPro UT12]||USB||0x07b3 0x0001||basic|| ||Note: Only devices with product ID 0x0001 are supported!||
-||[U12ColorPageVividIIIUSB ColorPage Vivid III USB]||USB||0x07b3 0x0001||untested|| ||Note: Device has Plustek vendor and product ID (0x07b3/0x0001)||
-||[U12OpticProU12 OpticPro U12]||USB||0x07b3 0x0001||basic|| ||Note: Only devices with product ID 0x0001 are supported!||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Genius||[U12ColorPageHR6V1 ColorPage HR6 V1]||USB||0x0458 0x2004||basic|| || ||
+||Genius||[U12RevScanOrangeR48Ti RevScan Orange R48Ti]||USB||0x07b3 0x0001||basic||http://www.geniusnet.com.tw/||Rebadged Plustek OpticPro UT12||
+||RevScan||[U12OpticPro1212U OpticPro 1212U]||USB||0x07b3 0x0001||basic|| || ||
+||Plustek||[U12OpticProUT12 OpticPro UT12]||USB||0x07b3 0x0001||basic|| ||Note: Only devices with product ID 0x0001 are supported!||
+||Genius||[U12ColorPageVividIIIUSB ColorPage Vivid III USB]||USB||0x07b3 0x0001||untested|| ||Note: Device has Plustek vendor and product ID (0x07b3/0x0001)||
+||Plustek||[U12OpticProU12 OpticPro U12]||USB||0x07b3 0x0001||basic|| ||Note: Only devices with product ID 0x0001 are supported!||

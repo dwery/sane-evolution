@@ -2,13 +2,12 @@
 _This list is automatically generated. Do not edit._
 
 = agfafocus (unmaintained) =
-AGFA
 http://www.agfa.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[AgfafocusFocusLineartScanner Focus Lineart Scanner]||SCSI|| ||untested|| ||Lineart only? Untested.||
-||[AgfafocusFocusGSScanner Focus GS Scanner]||SCSI|| ||untested|| ||6 bit gray||
-||[AgfafocusFocusII Focus II]||SCSI|| ||untested|| ||gray only||
-||[AgfafocusS9036 S9036]||SCSI|| ||untested|| ||gray only||
-||[AgfafocusFocusColorPlus Focus Color Plus]||SCSI|| ||good|| ||3-pass||
-||[AgfafocusFocusColor Focus Color]||SCSI|| ||good|| ||3-pass||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||AGFA||[AgfafocusFocusLineartScanner Focus Lineart Scanner]||SCSI|| ||untested|| ||Lineart only? Untested.||
+||AGFA||[AgfafocusFocusGSScanner Focus GS Scanner]||SCSI|| ||untested|| ||6 bit gray||
+||AGFA||[AgfafocusFocusII Focus II]||SCSI|| ||untested|| ||gray only||
+||Siemens||[AgfafocusS9036 S9036]||SCSI|| ||untested|| ||gray only||
+||Siemens||[AgfafocusFocusColorPlus Focus Color Plus]||SCSI|| ||good|| ||3-pass||
+||AGFA||[AgfafocusFocusColor Focus Color]||SCSI|| ||good|| ||3-pass||

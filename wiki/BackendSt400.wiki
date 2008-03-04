@@ -2,9 +2,8 @@
 _This list is automatically generated. Do not edit._
 
 = st400 (1.6) =
-Siemens
 http://www.siemens.de/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[St400ST400 ST400]||SCSI|| ||basic|| ||6 bit gray||
-||[St400ST800 ST800]||SCSI|| ||basic|| ||6 bit gray||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Siemens||[St400ST400 ST400]||SCSI|| ||basic|| ||6 bit gray||
+||Siemens||[St400ST800 ST800]||SCSI|| ||basic|| ||6 bit gray||

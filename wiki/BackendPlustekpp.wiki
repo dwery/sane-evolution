@@ -2,33 +2,32 @@
 _This list is automatically generated. Do not edit._
 
 = plustek_pp (0.43) =
-Plustek
 http://www.plustek.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[PlustekppOpticPro4800P OpticPro 4800P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppColorpageVividIIIV2 Colorpage Vivid III V2]||Parport (SPP, EPP)|| ||complete|| ||Reported as PT12||
-||[PlustekppOpticPro9630PL OpticPro 9630PL]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=1||
-||[PlustekppOpticPro4831P OpticPro 4831P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticPro12000P96000P OpticPro 12000P/96000P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticPro9630P OpticPro 9630P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticProP12 OpticPro P12]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticPro9636T OpticPro 9636T]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticPro600P6000P OpticPro 600P/6000P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticProAI3 OpticPro AI3]||Parport (SPP, EPP)|| ||basic|| ||use driver-switch mov=5, poor picture quality||
-||[PlustekppCompact4800Direct30 Compact 4800 Direct-30]||Parport (SPP, EPP)|| ||complete|| ||same as OpticPro 4830P, use driver-switch mov=7||
-||[PlustekppColorado4800 Colorado 4800]||Parport (SPP, EPP)|| ||untested|| ||same as OpticPro 4800P||
-||[PlustekppOpticPro1236P OpticPro 1236P]||Parport (SPP, EPP)|| ||complete|| ||reported as OpticPro 12000P/96000P||
-||[PlustekppOpticPro9636PTurbo OpticPro 9636P+/Turbo]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=3||
-||[PlustekppBrighScanOpticPro BrighScan OpticPro]||Parport (SPP, EPP)|| ||complete|| ||Reported as P12||
-||[PlustekppOpticPro9600P OpticPro 9600P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppColorpageHR6XEPP Colorpage HR6X EPP]||Parport (SPP, EPP)|| ||good|| ||Negative scanning does not work correctly||
-||[PlustekppCompact4800Direct Compact 4800 Direct]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=2||
-||[PlustekppOpticPro12000T OpticPro 12000T]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppScanItPro4800 Scan-It Pro 4800]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=2||
-||[PlustekppCompact9600Direct30 Compact 9600 Direct-30]||Parport (SPP, EPP)|| ||complete||http://www.geniusnet.com.tw/||same as OpticPro 9630P||
-||[PlustekppOpticPro4830P OpticPro 4830P]||Parport (SPP, EPP)|| ||complete|| || ||
-||[PlustekppOpticPro9636P OpticPro 9636P]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=4||
-||[PlustekppOpticProP8 OpticPro P8]||Parport|| ||untested|| || ||
-||[PlustekppColorpageVividProIIFilm Colorpage Vivid Pro II Film]||Parport (SPP, EPP)|| ||complete|| ||Reported as OP9636T/12000T||
-||[PlustekppOpticProPT12 OpticPro PT12]||Parport (SPP, EPP)|| ||complete||http://www.primax.nl/|| ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Plustek||[PlustekppOpticPro4800P OpticPro 4800P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Genius||[PlustekppColorpageVividIIIV2 Colorpage Vivid III V2]||Parport (SPP, EPP)|| ||complete|| ||Reported as PT12||
+||Plustek||[PlustekppOpticPro9630PL OpticPro 9630PL]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=1||
+||Plustek||[PlustekppOpticPro4831P OpticPro 4831P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticPro12000P96000P OpticPro 12000P/96000P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticPro9630P OpticPro 9630P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticProP12 OpticPro P12]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticPro9636T OpticPro 9636T]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticPro600P6000P OpticPro 600P/6000P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticProAI3 OpticPro AI3]||Parport (SPP, EPP)|| ||basic|| ||use driver-switch mov=5, poor picture quality||
+||Primax||[PlustekppCompact4800Direct30 Compact 4800 Direct-30]||Parport (SPP, EPP)|| ||complete|| ||same as OpticPro 4830P, use driver-switch mov=7||
+||Primax||[PlustekppColorado4800 Colorado 4800]||Parport (SPP, EPP)|| ||untested|| ||same as OpticPro 4800P||
+||Plustek||[PlustekppOpticPro1236P OpticPro 1236P]||Parport (SPP, EPP)|| ||complete|| ||reported as OpticPro 12000P/96000P||
+||Plustek||[PlustekppOpticPro9636PTurbo OpticPro 9636P+/Turbo]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=3||
+||BrightScan||[PlustekppBrighScanOpticPro BrighScan OpticPro]||Parport (SPP, EPP)|| ||complete|| ||Reported as P12||
+||Plustek||[PlustekppOpticPro9600P OpticPro 9600P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Aries||[PlustekppColorpageHR6XEPP Colorpage HR6X EPP]||Parport (SPP, EPP)|| ||good|| ||Negative scanning does not work correctly||
+||Primax||[PlustekppCompact4800Direct Compact 4800 Direct]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=2||
+||Plustek||[PlustekppOpticPro12000T OpticPro 12000T]||Parport (SPP, EPP)|| ||complete|| || ||
+||BrightScan||[PlustekppScanItPro4800 Scan-It Pro 4800]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=2||
+||Genius||[PlustekppCompact9600Direct30 Compact 9600 Direct-30]||Parport (SPP, EPP)|| ||complete||http://www.geniusnet.com.tw/||same as OpticPro 9630P||
+||Plustek||[PlustekppOpticPro4830P OpticPro 4830P]||Parport (SPP, EPP)|| ||complete|| || ||
+||Plustek||[PlustekppOpticPro9636P OpticPro 9636P]||Parport (SPP, EPP)|| ||complete|| ||use driver-switch mov=4||
+||Plustek||[PlustekppOpticProP8 OpticPro P8]||Parport|| ||untested|| || ||
+||Genius||[PlustekppColorpageVividProIIFilm Colorpage Vivid Pro II Film]||Parport (SPP, EPP)|| ||complete|| ||Reported as OP9636T/12000T||
+||Primax||[PlustekppOpticProPT12 OpticPro PT12]||Parport (SPP, EPP)|| ||complete||http://www.primax.nl/|| ||

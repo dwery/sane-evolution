@@ -2,31 +2,30 @@
 _This list is automatically generated. Do not edit._
 
 = mustek_pp (13) =
-Mustek
 http://www.mustek.de/
 Supports CIS and CCD type parallel port scanners from Mustek.
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[MustekppEasyPlus30Bit Easy Plus 30 Bit]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[Mustekpp9352 9352]||Parport (EPP)|| ||good|| ||CIS scanner||
-||[MustekppCompactII Compact II]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppScanExpress600CP ScanExpress 600 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[Mustekpp96CP 96 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[MustekppMM9851 MM-9851]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[MustekppMDLT9890 MD/LT 9890]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
-||[MustekppScanExpress1200CP ScanExpress 1200 CP]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
-||[MustekppScanExpress6000P ScanExpress 6000 P]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppScanMagic4800P ScanMagic 4800 P]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppEasyConnect19200 Easy Connect 19200+]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[MustekppMDLT935x MD/LT 935x]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
-||[MustekppMDLT985x MD/LT 985x]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
-||[Mustekpp4800 4800]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppScanExpress600SEP ScanExpress 600 SEP]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppEasyConnect9600 Easy Connect 9600+]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[MustekppFunlineTS12EP Funline TS12 EP]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
-||[MustekppMD9848 MD 9848]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppMD9806 MD 9806]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppScanExpress1200CP ScanExpress 1200 CP+]||Parport (EPP)|| ||good||http://www.medion.de/||Those scanners are also known as \Aldi Scanner\ or \Tchibo Scanners\||
-||[MustekppScanMagic600CP ScanMagic 600 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
-||[Mustekpp600IIIEPPlus 600 III EP Plus]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
-||[MustekppFunlineTS6EP Funline TS6 EP]||Parport (EPP)|| ||good||http://www.trust-site.com/home/||300x600 dpi CIS scanner||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Micromaxx||[MustekppEasyPlus30Bit Easy Plus 30 Bit]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Gallery||[Mustekpp9352 9352]||Parport (EPP)|| ||good|| ||CIS scanner||
+||Cybercom||[MustekppCompactII Compact II]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Mustek||[MustekppScanExpress600CP ScanExpress 600 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Mustek||[Mustekpp96CP 96 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Micromaxx||[MustekppMM9851 MM-9851]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Targa||[MustekppMDLT9890 MD/LT 9890]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
+||Mustek||[MustekppScanExpress1200CP ScanExpress 1200 CP]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
+||Mustek||[MustekppScanExpress6000P ScanExpress 6000 P]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Mustek||[MustekppScanMagic4800P ScanMagic 4800 P]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Viviscan||[MustekppEasyConnect19200 Easy Connect 19200+]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Medion/Lifetec/Tevion/Cytron||[MustekppMDLT935x MD/LT 935x]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
+||Medion/Lifetec/Tevion/Cytron||[MustekppMDLT985x MD/LT 985x]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
+||Network||[Mustekpp4800 4800]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Mustek||[MustekppScanExpress600SEP ScanExpress 600 SEP]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Trust||[MustekppEasyConnect9600 Easy Connect 9600+]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Targa||[MustekppFunlineTS12EP Funline TS12 EP]||Parport (EPP)|| ||good|| ||600x1200 dpi CIS scanner||
+||Medion/Lifetec/Tevion/Cytron||[MustekppMD9848 MD 9848]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Medion/Lifetec/Tevion/Cytron||[MustekppMD9806 MD 9806]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Medion/Lifetec/Tevion/Cytron||[MustekppScanExpress1200CP ScanExpress 1200 CP+]||Parport (EPP)|| ||good||http://www.medion.de/||Those scanners are also known as \Aldi Scanner\ or \Tchibo Scanners\||
+||Mustek||[MustekppScanMagic600CP ScanMagic 600 CP]||Parport (EPP)|| ||good|| ||300x600 dpi CIS scanner||
+||Mustek||[Mustekpp600IIIEPPlus 600 III EP Plus]||Parport (EPP)|| ||good|| ||300 dpi CCD scanner||
+||Trust||[MustekppFunlineTS6EP Funline TS6 EP]||Parport (EPP)|| ||good||http://www.trust-site.com/home/||300x600 dpi CIS scanner||

@@ -2,9 +2,8 @@
 _This list is automatically generated. Do not edit._
 
 = canon630u (0.1) =
-Canon
 http://www.canon.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[Canon630uCanoScanfb630u CanoScan fb630u]||USB||0x04a9 0x2204||good|| ||OK||
-||[Canon630uCanoScanfb636u CanoScan fb636u]||USB||0x04a9 0x2204||good|| ||OK||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Canon||[Canon630uCanoScanfb630u CanoScan fb630u]||USB||0x04a9 0x2204||good|| ||OK||
+||Canon||[Canon630uCanoScanfb636u CanoScan fb636u]||USB||0x04a9 0x2204||good|| ||OK||

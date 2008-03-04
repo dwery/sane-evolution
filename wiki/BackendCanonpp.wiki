@@ -2,16 +2,15 @@
 _This list is automatically generated. Do not edit._
 
 = canon_pp (0.33) =
-Canon
 http://www.canon.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[CanonppCanoScanFB630P CanoScan FB630P]||Parport (ECP)|| ||good|| || ||
-||[CanonppCanoScanFB620P CanoScan FB620P]||Parport (ECP)|| ||basic|| ||Newly added support||
-||[CanonppCanoScanFB310P CanoScan FB310P]||Parport (ECP)|| ||unsupported|| ||Rebadged Avision, different command set||
-||[CanonppCanoScanN640P CanoScan N640P]||Parport (ECP)|| ||good|| || ||
-||[CanonppCanoScanFB330P CanoScan FB330P]||Parport (ECP)|| ||good|| || ||
-||[CanonppCanoScanFB610P CanoScan FB610P]||Parport (ECP)|| ||unsupported|| ||Rebadged Avision, different command set||
-||[CanonppCanoScanN640Pex CanoScan N640P ex]||Parport (ECP)|| ||good|| ||Just an N640P in a different box?||
-||[CanonppCanoScanFB320P CanoScan FB320P]||Parport (ECP)|| ||basic|| ||Newly added support||
-||[CanonppCanoScanN340P CanoScan N340P]||Parport (ECP)|| ||good|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Canon||[CanonppCanoScanFB630P CanoScan FB630P]||Parport (ECP)|| ||good|| || ||
+||Canon||[CanonppCanoScanFB620P CanoScan FB620P]||Parport (ECP)|| ||basic|| ||Newly added support||
+||Canon||[CanonppCanoScanFB310P CanoScan FB310P]||Parport (ECP)|| ||unsupported|| ||Rebadged Avision, different command set||
+||Canon||[CanonppCanoScanN640P CanoScan N640P]||Parport (ECP)|| ||good|| || ||
+||Canon||[CanonppCanoScanFB330P CanoScan FB330P]||Parport (ECP)|| ||good|| || ||
+||Canon||[CanonppCanoScanFB610P CanoScan FB610P]||Parport (ECP)|| ||unsupported|| ||Rebadged Avision, different command set||
+||Canon||[CanonppCanoScanN640Pex CanoScan N640P ex]||Parport (ECP)|| ||good|| ||Just an N640P in a different box?||
+||Canon||[CanonppCanoScanFB320P CanoScan FB320P]||Parport (ECP)|| ||basic|| ||Newly added support||
+||Canon||[CanonppCanoScanN340P CanoScan N340P]||Parport (ECP)|| ||good|| || ||

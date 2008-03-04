@@ -2,10 +2,9 @@
 _This list is automatically generated. Do not edit._
 
 = epjitsu (1.0.10) =
-Fujitsu
 http://www.fujitsu.com/
 Only basic support provided, see sane-epjitsu manpage
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[EpjitsuFi60F fi-60F]||USB||0x04c5 0x10c7||basic|| ||A6-size flatbed, 300/600 dpi, color/grayscale in hardware||
-||[EpjitsuScanSnapS300 ScanSnap S300]||USB||0x04c5 0x1156||basic|| ||10 sheet ADF, 150/300 dpi, always scans in triplex color, no TWAIN driver||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Fujitsu||[EpjitsuFi60F fi-60F]||USB||0x04c5 0x10c7||basic|| ||A6-size flatbed, 300/600 dpi, color/grayscale in hardware||
+||Fujitsu||[EpjitsuScanSnapS300 ScanSnap S300]||USB||0x04c5 0x1156||basic|| ||10 sheet ADF, 150/300 dpi, always scans in triplex color, no TWAIN driver||

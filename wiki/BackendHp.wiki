@@ -2,26 +2,25 @@
 _This list is automatically generated. Do not edit._
 
 = hp (1.06) =
-Hewlett-Packard
 http://www.hp.com/
 
-|| *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
-||[HpScanJet3p ScanJet 3p]||SCSI|| ||complete|| || ||
-||[HpScanJet6350C ScanJet 6350C]||SCSI USB||0x03f0 0x0601||complete|| || ||
-||[HpScanJetIIcx ScanJet IIcx]||SCSI|| ||complete|| || ||
-||[HpScanJet5p ScanJet 5p]||SCSI|| ||complete|| || ||
-||[HpScanJet6390C ScanJet 6390C]||SCSI USB||0x03f0 0x0601||complete|| || ||
-||[HpPhotoSmartPhotoScanner PhotoSmart PhotoScanner]||SCSI|| ||complete|| || ||
-||[HpScanJet5200C ScanJet 5200C]||Parport USB||0x03f0 0x0401||complete|| ||Parallel interface requires ppscsi driver and epst module||
-||[HpScanJetIIc ScanJet IIc]||SCSI|| ||complete|| || ||
-||[HpScanJet4100C ScanJet 4100C]||USB||0x03f0 0x0101||complete|| || ||
-||[HpScanJetPlus ScanJet Plus]||Propietary|| ||complete|| ||Driver for HP parallel interface card required||
-||[HpScanJet6250C ScanJet 6250C]||SCSI USB||0x03f0 0x0201||complete|| || ||
-||[HpScanJet4p ScanJet 4p]||SCSI|| ||complete|| || ||
-||[HpScanJet6100C ScanJet 6100C]||SCSI|| ||complete|| || ||
-||[HpScanJet4c ScanJet 4c]||SCSI|| ||complete|| || ||
-||[HpScanJet3c ScanJet 3c]||SCSI|| ||complete|| || ||
-||[HpScanJet6200C ScanJet 6200C]||SCSI USB||0x03f0 0x0201||complete|| || ||
-||[HpScanJet5100C ScanJet 5100C]||Parport|| ||complete|| ||Requires ppscsi driver and epst module||
-||[HpScanJetIIp ScanJet IIp]||SCSI|| ||complete|| || ||
-||[HpScanJet6300C ScanJet 6300C]||SCSI USB||0x03f0 0x0601||complete|| || ||
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Hewlett-Packard||[HpScanJet3p ScanJet 3p]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet6350C ScanJet 6350C]||SCSI USB||0x03f0 0x0601||complete|| || ||
+||Hewlett-Packard||[HpScanJetIIcx ScanJet IIcx]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet5p ScanJet 5p]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet6390C ScanJet 6390C]||SCSI USB||0x03f0 0x0601||complete|| || ||
+||Hewlett-Packard||[HpPhotoSmartPhotoScanner PhotoSmart PhotoScanner]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet5200C ScanJet 5200C]||Parport USB||0x03f0 0x0401||complete|| ||Parallel interface requires ppscsi driver and epst module||
+||Hewlett-Packard||[HpScanJetIIc ScanJet IIc]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet4100C ScanJet 4100C]||USB||0x03f0 0x0101||complete|| || ||
+||Hewlett-Packard||[HpScanJetPlus ScanJet Plus]||Propietary|| ||complete|| ||Driver for HP parallel interface card required||
+||Hewlett-Packard||[HpScanJet6250C ScanJet 6250C]||SCSI USB||0x03f0 0x0201||complete|| || ||
+||Hewlett-Packard||[HpScanJet4p ScanJet 4p]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet6100C ScanJet 6100C]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet4c ScanJet 4c]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet3c ScanJet 3c]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet6200C ScanJet 6200C]||SCSI USB||0x03f0 0x0201||complete|| || ||
+||Hewlett-Packard||[HpScanJet5100C ScanJet 5100C]||Parport|| ||complete|| ||Requires ppscsi driver and epst module||
+||Hewlett-Packard||[HpScanJetIIp ScanJet IIp]||SCSI|| ||complete|| || ||
+||Hewlett-Packard||[HpScanJet6300C ScanJet 6300C]||SCSI USB||0x03f0 0x0601||complete|| || ||

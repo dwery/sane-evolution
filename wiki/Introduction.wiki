@@ -1,4 +1,5 @@
 #summary A quick introduction to SANE Evolution
+#labels Featured
 
 SANE Evolution is a fork of the [http://www.sane-project.org SANE project]. It aims to produce an evolved version of SANE by adding features and small improvements
 while keeping compatibility.

@@ -1,0 +1,9 @@
+01_disable_epson2
+02_pixma_update
+11_minimum_linkage
+12_new_configure
+21_sane-config.in_no_rpath
+22_dll_backend_conf
+23_unneeded_doc
+24_sane-desc.c_debian_mods
+

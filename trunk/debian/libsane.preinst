@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+## Transition from the old-style udev setup to the old-style dh_installudev setup
+## Then dh_installudev will take care of the transition to the new dh_installudev setup
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+    if [ -e "/etc/udev/rules.d/025_libsane.rules" ]; then
+        mv /etc/udev/rules.d/025_libsane.rules /etc/udev/rules.d/z60_libsane.rules
+    fi
+fi
+
+#DEBHELPER#

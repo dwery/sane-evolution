@@ -1,0 +1,63 @@
+#!/bin/sh -e
+## 04_unneeded_doc.dpatch by Julien BLACHE <jblache@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Do not generate some documentation we do not want; do not include
+## DP: sane.png in the html documentation, as it is not distributed in the
+## DP: source tarball.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+       -patch) patch $patch_opts -p1 < $0;;
+       -unpatch) patch $patch_opts -p1 -R < $0;;
+        *)
+                echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+                exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+diff -urNad sane-backends-1.0.19~cvs20071213~/doc/Makefile.in sane-backends-1.0.19~cvs20071213/doc/Makefile.in
+--- sane-backends-1.0.19~cvs20071213~/doc/Makefile.in	2007-12-13 21:16:33.000000000 +0100
++++ sane-backends-1.0.19~cvs20071213/doc/Makefile.in	2007-12-13 21:31:07.239481854 +0100
+@@ -42,7 +42,7 @@
+           sane-dc25.5 sane-dmc.5 sane-epson.5 sane-hp.5 sane-gphoto2.5 \
+           sane-leo.5 sane-lexmark.5 sane-matsushita.5 sane-microtek.5 \
+           sane-microtek2.5 sane-mustek.5 sane-nec.5 sane-net.5 sane-pie.5 \
+-          sane-pint.5 sane-pnm.5 sane-umax.5 sane-qcam.5 sane-scsi.5 \
++          sane-umax.5 sane-qcam.5 sane-scsi.5 \
+           sane-artec.5 sane-fujitsu.5 sane-sharp.5 sane-s9036.5 \
+           sane-tamarack.5 sane-ricoh.5 sane-avision.5 sane-plustek.5 \
+           sane-st400.5 sane-mustek_pp.5 sane-dc210.5 sane-v4l.5 \
+@@ -58,12 +58,8 @@
+ SECT7   = sane.7
+ SECT8	= saned.8
+ MANPAGES = $(SECT1) $(SECT5) $(SECT7) $(SECT8)
+-READMES = README AUTHORS COPYING ChangeLog LICENSE NEWS PROBLEMS \
+-          PROJECTS README README.aix README.beos README.darwin README.freebsd \
+-	  README.djpeg \
+-          README.hp-ux README.linux README.netbsd README.openbsd README.os2 \
+-          README.solaris README.unixware2 README.unixware7 README.windows README.zeta
+-DOCS    = backend-writing.txt sane.ps sane.dvi
++READMES = README AUTHORS NEWS PROBLEMS PROJECTS
++DOCS    = backend-writing.txt sane.ps
+ BACKDIRS= canon leo matsushita mustek mustek_usb plustek u12 umax sceptre teco \
+ 	  gt68xx niash mustek_usb2
+ LATEX	= TEXINPUTS=$(srcdir):$$TEXINPUTS @LATEX@
+@@ -73,7 +69,7 @@
+ MAN2HTML= nroff -man |\
+ 	  man2html -compress -topm 6 -botm 6 -nodepage -title $${page} \
+           -cgiurl '$$title.$$section.html'|\
+-	  sed 's,<BODY>,<BODY BGCOLOR=\#FFFFFF TEXT=\#000000><H1 ALIGN=CENTER><IMG SRC="/images/sane.png" HEIGHT=117 WIDTH=346></H1>,'
++	  sed 's,<BODY>,<BODY BGCOLOR=\#FFFFFF TEXT=\#000000></H1>,'
+ 
+ ifeq (@CROSS_COMPILING@,no)
+ HTML_PAGES = sane-backends.html sane-backends-external.html \

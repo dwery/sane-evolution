@@ -1,0 +1,10 @@
+usr/share/man/man7
+usr/share/doc/
+usr/share/locale/
+usr/lib/sane/*.so.*
+usr/lib/sane/*.la
+usr/lib/*.so.*
+usr/lib/*.la
+etc/
+usr/share/man/man5/sane-scsi.5
+usr/share/man/man5/sane-usb.5

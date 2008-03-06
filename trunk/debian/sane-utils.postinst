@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ "$1" = configure ]; then
+    # Create saned user/group if they do not exist
+    if ! getent passwd | grep -q "^saned:"; then
+	echo "Adding saned group and user..."
+	adduser --quiet --system --no-create-home --group saned || true
+    fi
+
+    # Add saned service, disabled by default
+    if [ -x /usr/sbin/update-inetd ]; then
+	update-inetd --add "#<off># sane-port\tstream\ttcp\tnowait\tsaned:saned\t/usr/sbin/saned saned"
+    fi
+fi
+
+
+
+#DEBHELPER#
+

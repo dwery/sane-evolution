@@ -91,6 +91,8 @@
 #endif
 
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
 
 #include "sane/sane.h"
 #include "sane/sanei.h"
@@ -523,7 +525,7 @@ load(struct backend *be)
 	funcname = malloc(strlen(be->name) + 64);
 	if (funcname == NULL)
 		return SANE_STATUS_NO_MEM;
-	
+
 	for (i = 0; i < NUM_OPS; ++i) {
 		void *(*op) (void);
 
@@ -715,12 +717,108 @@ add_alias(const char *line_param)
 }
 
 
+static void
+read_config(const char *conffile)
+{
+	FILE *fp;
+	char config_line[PATH_MAX];
+	char *backend_name;
+
+	fp = sanei_config_open(conffile);
+	if (!fp) {
+		DBG(1,
+		    "sane_init/read_config: Couldn't open config file (%s): %s\n",
+		    conffile, strerror(errno));
+		return;		/* don't insist on config file */
+	}
+
+	DBG(5, "sane_init/read_config: reading %s\n", conffile);
+	while (sanei_config_read(config_line, sizeof(config_line), fp)) {
+		char *comment;
+		SANE_String_Const cp;
+
+		cp = sanei_config_get_string(config_line, &backend_name);
+		/* ignore empty lines */
+		if (!backend_name || cp == config_line) {
+			if (backend_name)
+				free(backend_name);
+			continue;
+		}
+		/* ignore line comments */
+		if (backend_name[0] == '#') {
+			free(backend_name);
+			continue;
+		}
+		/* ignore comments after backend names */
+		comment = strchr(backend_name, '#');
+		if (comment)
+			*comment = '\0';
+		add_backend(backend_name, 0);
+		free(backend_name);
+	}
+	fclose(fp);
+}
+
+static void
+read_dlld(void)
+{
+	DIR *dlld;
+	struct dirent *dllconf;
+	struct stat st;
+	char conffile[PATH_MAX];
+	size_t len, plen;
+
+	DBG(5, "sane_init/read_dlld: processing %s ...\n",
+	    STRINGIFY(PATH_SANE_CONFIG_DIR) "/dll.d");
+
+	/* Debian specific: read files under $sysconfdir/sane.d/dll.d */
+	dlld = opendir(STRINGIFY(PATH_SANE_CONFIG_DIR) "/dll.d");
+
+	if (dlld == NULL) {
+		DBG(1, "sane_init/read_dlld: opendir failed: %s\n",
+		    strerror(errno));
+		return;
+	}
+
+	plen = strlen(STRINGIFY(PATH_SANE_CONFIG_DIR)) + 1;
+
+	while ((dllconf = readdir(dlld)) != NULL) {
+		/* dotfile (or directory) */
+		if (dllconf->d_name[0] == '.')
+			continue;
+
+		len = strlen(dllconf->d_name);
+
+		/* backup files */
+		if ((dllconf->d_name[len - 1] == '~')
+		    || (dllconf->d_name[len - 1] == '#'))
+			continue;
+
+		snprintf(conffile, PATH_MAX, "%s/dll.d/%s",
+			 STRINGIFY(PATH_SANE_CONFIG_DIR), dllconf->d_name);
+
+		DBG(5, "sane_init/read_dlld: considering %s\n", conffile);
+
+		if (lstat(conffile, &st) != 0)
+			continue;
+
+		if (!S_ISREG(st.st_mode))
+			continue;
+
+		/* expects a path relative to PATH_SANE_CONFIG_DIR */
+		read_config(conffile + plen);
+	}
+
+	closedir(dlld);
+
+	DBG(5, "sane_init/read_dlld: done.\n");
+}
+
 SANE_Status
 sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
 #ifndef __BEOS__
 	char config_line[PATH_MAX];
-	char *backend_name;
 	size_t len;
 	FILE *fp;
 	int i;
@@ -761,38 +859,12 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 			SANE_VERSION_CODE(SANE_DLL_V_MAJOR, SANE_DLL_V_MINOR,
 					  SANE_DLL_V_BUILD);
 
-	fp = sanei_config_open(DLL_CONFIG_FILE);
-	if (!fp) {
-		DBG(1, "sane_init: Couldn't open config file (%s): %s\n",
-		    DLL_CONFIG_FILE, strerror(errno));
-		return SANE_STATUS_GOOD;	/* don't insist on config file */
-	}
-
-	DBG(5, "sane_init: reading %s\n", DLL_CONFIG_FILE);
-	while (sanei_config_read(config_line, sizeof(config_line), fp)) {
-		char *comment;
-		SANE_String_Const cp;
-
-		cp = sanei_config_get_string(config_line, &backend_name);
-		/* ignore empty lines */
-		if (!backend_name || cp == config_line) {
-			if (backend_name)
-				free(backend_name);
-			continue;
-		}
-		/* ignore line comments */
-		if (backend_name[0] == '#') {
-			free(backend_name);
-			continue;
-		}
-		/* ignore comments after backend names */
-		comment = strchr(backend_name, '#');
-		if (comment)
-			*comment = '\0';
-		add_backend(backend_name, 0);
-		free(backend_name);
-	}
-	fclose(fp);
+	/*
+	 * Read dll.conf & dll.d
+	 * Read dll.d first, so that the extras backends will be tried last
+	 */
+	read_dlld();
+	read_config(DLL_CONFIG_FILE);
 
 	fp = sanei_config_open(DLL_ALIASES_FILE);
 	if (!fp)
@@ -1095,10 +1167,10 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 	*meta_handle = s;
 
 	DBG(3, "sane_open: open successful\n");
-exit:
+      exit:
 
 	free(be_name);
-	
+
 	return status;
 }
 

@@ -1,0 +1,73 @@
+#!/bin/sh -e
+## 05_sane-desc.c_debian_mods.dpatch by Julien BLACHE <jblache@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Do not link to HTML manpages, we do not have them installed. Also,
+## DP: do not use sane.png, as it's not distributed in the source tarball.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+       -patch) patch $patch_opts -p1 < $0;;
+       -unpatch) patch $patch_opts -p1 -R < $0;;
+        *)
+                echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+                exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+diff -urNad sane-backends-1.0.19~cvs20071213~/tools/sane-desc.c sane-backends-1.0.19~cvs20071213/tools/sane-desc.c
+--- sane-backends-1.0.19~cvs20071213~/tools/sane-desc.c	2007-07-30 12:58:08.000000000 +0200
++++ sane-backends-1.0.19~cvs20071213/tools/sane-desc.c	2007-12-13 21:31:29.719481442 +0100
+@@ -25,7 +25,7 @@
+ 
+ #define SANE_DESC_VERSION "3.3"
+ 
+-#define MAN_PAGE_LINK "http://www.sane-project.org/man/%s.5.html"
++#define MAN_PAGE_LINK "/usr/share/doc/libsane/html/%s.5.html"
+ #define COLOR_MINIMAL      "\"#B00000\""
+ #define COLOR_BASIC        "\"#FF9000\""
+ #define COLOR_GOOD         "\"#90B000\""
+@@ -2362,8 +2362,8 @@
+ 		  printf ("<br>\n");
+ 		}
+ 	      if (be->manpage)
+-		printf ("<b>Manual page:</b> <a href=\"" MAN_PAGE_LINK
+-			"\">%s</a><br>\n", be->manpage, be->manpage);
++		printf ("<b>Manual page:</b>"
++			"%s<br>\n", be->manpage);
+ 
+ 	      if (be->comment)
+ 		printf ("<b>Comment:</b> %s<br>\n", be->comment);
+@@ -2597,9 +2597,9 @@
+ 
+ 	  printf ("</td>\n");
+ 	  if (model_record->be->manpage)
+-	    printf ("<td align=center><a href=\""
+-		    MAN_PAGE_LINK "\">%s</a></td>\n",
+-		    model_record->be->manpage, model_record->be->manpage);
++	    printf ("<td align=center>"
++		    "%s</td>\n",
++		    model_record->be->manpage);
+ 	  else
+ 	    printf ("<td align=center>?</td>\n");
+ 
+@@ -2624,8 +2624,8 @@
+   printf
+     ("</head>\n"
+      "<body bgcolor=FFFFFF>\n"
+-     "<div align=center>\n"
+-     "<img src=\"http://www.sane-project.org/images/sane.png\" alt=\"SANE\">\n");
++     "<div align=center>\n");
++  /*     "<img src=\"http://www.sane-project.org/images/sane.png\" alt=\"SANE\">\n"); */
+   printf ("<h1>%s</h1>\n", title);
+   printf ("</div>\n" "<hr>\n");
+   printf ("%s\n", intro);

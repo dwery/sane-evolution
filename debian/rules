@@ -1,0 +1,193 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Include dpatch rules
+include /usr/share/dpatch/dpatch.make
+
+# These are used for cross-compiling and for saving the configure script
+# from having to guess our platform (since we know it already)
+DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_ARCH_OS ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+ifeq ($(DEB_HOST_ARCH_OS),)
+  DEB_HOST_ARCH_OS := $(subst -gnu,,$(shell dpkg-architecture -qDEB_HOST_GNU_SYSTEM))
+  ifeq ($(DEB_HOST_ARCH_OS),gnu)
+      DEB_HOST_ARCH_OS := hurd
+  endif
+endif
+	  
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -g
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+autotools: autotools-stamp
+autotools-stamp:
+	-rm -f config.sub config.guess
+	ln -s /usr/share/misc/config.sub config.sub
+	ln -s /usr/share/misc/config.guess config.guess
+	touch autotools-stamp
+
+config.status: autotools-stamp configure
+	dh_testdir
+
+	# Add here commands to configure the package.
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--datadir=\$${prefix}/share \
+		--mandir=\$${prefix}/share/man \
+		--with-docdir=\$${prefix}/share/doc/libsane \
+		--disable-locking \
+		--enable-static \
+		--with-gphoto2 \
+		--enable-translations
+
+	# generate POT file for translators
+	(cd po && make sane-backends.pot)
+
+build: build-stamp
+build-stamp: patch-stamp config.status
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+
+	touch build-stamp
+
+clean: real-clean unpatch
+real-clean:
+	dh_testdir
+	dh_testroot
+	rm -f autotools-stamp build-stamp
+
+	# Autoconf-generated files
+	rm -f include/byteorder.h include/_stdint.h
+
+	# Add here commands to clean up after the build process.
+	[ ! -f Makefile ] || $(MAKE) distclean
+
+	rm -f debian/libsane.install debian/libsane.docs debian/libsane.dirs debian/libsane.udev
+	rm -f config.sub config.guess
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+	cp debian/libsane.dirs.linux debian/libsane.dirs
+endif
+	dh_installdirs
+
+	# Add here commands to install the package into debian/tmp
+	$(MAKE) install prefix=$(CURDIR)/debian/tmp/usr \
+			sysconfdir=$(CURDIR)/debian/tmp/etc \
+			docdir=$(CURDIR)/debian/tmp/usr/share/doc/libsane
+
+	# remove /usr/lib/sane/libsane.so.1 (libtool side-effect ?)
+	rm -f debian/tmp/usr/lib/sane/libsane.so.1
+
+	# remove libsane-dll, same as regular libsane
+	rm -f debian/tmp/usr/lib/sane/libsane-dll.*
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+
+	# install only the manpages for the backends which have been built
+	cp debian/libsane.install.in debian/libsane.install
+	ls debian/tmp/usr/lib/sane/*.so | sed -e "s#.*/lib\([^.]\+\)[.]so#usr/share/man/man5/\1.5#" | { while read mp; do \
+		test -e debian/tmp/$$mp && echo $$mp >> debian/libsane.install; done }
+
+	dh_install --sourcedir=debian/tmp
+
+ifeq (kfreebsd,$(DEB_HOST_ARCH_OS))
+	echo README.freebsd > debian/libsane.docs
+endif
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+	echo README.linux > debian/libsane.docs
+endif
+
+	dh_installdocs
+
+	# move files that belong to libsane-dev
+	mv debian/libsane/usr/share/doc/libsane/sane.ps debian/libsane-dev/usr/share/doc/libsane-dev/
+	mv debian/libsane/usr/share/doc/libsane/backend-writing.txt debian/libsane-dev/usr/share/doc/libsane-dev/
+	rm -f debian/libsane/etc/sane.d/saned.conf
+
+	# move the html files into html/
+	install -d debian/libsane/usr/share/doc/libsane/html
+	mv debian/libsane/usr/share/doc/libsane/*.html debian/libsane/usr/share/doc/libsane/html/
+
+	# create the PATH_SANE_DATA_DIR/gt68xx directory in libsane
+	install -d debian/libsane/usr/share/sane/gt68xx
+
+	# create the /etc/sane.d/dll.d directory in libsane
+	install -d debian/libsane/etc/sane.d/dll.d
+
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+	# udev support
+	# Generate the udev rules file
+	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m udev > $(CURDIR)/debian/libsane.udev
+	dh_installudev
+
+	# Generate a modprobe blacklist for scanner and hpusbscsi
+	echo "blacklist scanner" > $(CURDIR)/debian/libsane/etc/modprobe.d/libsane
+	echo "blacklist hpusbscsi" >> $(CURDIR)/debian/libsane/etc/modprobe.d/libsane
+endif
+
+	# Install HAL fdi file
+	mkdir -p $(CURDIR)/debian/libsane/usr/share/hal/fdi/preprobe/10osvendor
+	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m hal > $(CURDIR)/debian/libsane/usr/share/hal/fdi/preprobe/10osvendor/20-libsane.fdi
+
+	# remove rpath from the binaries (wonderful tool !)
+	chrpath -d debian/sane-utils/usr/sbin/saned
+	chrpath -d debian/sane-utils/usr/bin/scanimage
+
+	# install the xerox script as an example
+	dh_installexamples -plibsane tools/README tools/xerox
+
+#	dh_installdebconf	
+#	dh_installmenu
+#	dh_installman
+#	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs ChangeLog
+	dh_link
+	dh_strip -plibsane --dbg-package=libsane-dbg
+	dh_strip -Nlibsane
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+ifeq (linux,$(DEB_HOST_ARCH_OS))
+	dh_gencontrol -- -Vudev="udev (>= 0.88-1) | makedev (>= 2.3.1-58)"
+else
+  ifeq (kfreebsd,$(DEB_HOST_ARCH_OS))
+	dh_gencontrol -- -Vlibcam-dev="libcam-dev"
+  else
+	dh_gencontrol
+  endif
+endif
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install patch unpatch real-clean autotools

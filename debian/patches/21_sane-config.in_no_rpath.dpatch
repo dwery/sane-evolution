@@ -1,0 +1,43 @@
+#!/bin/sh -e
+## 02_sane-config.in_no_rpath.dpatch by Julien BLACHE <jblache@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Do not output rpath in --ldflags.
+
+if [ $# -ne 1 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+
+[ -f debian/patches/00patch-opts ] && . debian/patches/00patch-opts
+patch_opts="${patch_opts:--f --no-backup-if-mismatch}"
+
+case "$1" in
+       -patch) patch $patch_opts -p1 < $0;;
+       -unpatch) patch $patch_opts -p1 -R < $0;;
+        *)
+                echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+                exit 1;;
+esac
+
+exit 0
+
+@DPATCH@
+diff -urNad sane-backends-1.0.19~cvs20071213~/tools/sane-config.in sane-backends-1.0.19~cvs20071213/tools/sane-config.in
+--- sane-backends-1.0.19~cvs20071213~/tools/sane-config.in	2007-12-25 22:50:55.000000000 +0100
++++ sane-backends-1.0.19~cvs20071213/tools/sane-config.in	2007-12-25 22:52:02.244891946 +0100
+@@ -7,12 +7,12 @@
+ PACKAGE="@PACKAGE@"
+ scriptname="sane-config"
+ 
+-LINKER_RPATH="@LINKER_RPATH@"
++LINKER_RPATH=""
+ 
+ prefix="@prefix@"
+ exec_prefix="@exec_prefix@"
+ 
+-LIBS="@LIBS@ @DL_LIB@"
++LIBS="@LIBS@"
+ pkgincludedir="@pkgincludedir@"
+ pkglibdir="@pkglibdir@"
+ includedir="@includedir@"

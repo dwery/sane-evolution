@@ -1,0 +1,40 @@
+sane-utils (sane-backends) for Debian
+-------------------------------------
+
+This package contains various utilities shipped with sane-backends, among
+which saned, the network scanner daemon.
+
+This package added a saned user and a saned group to your system; it is highly
+recommended to run saned as user and group saned and NEVER EVER as root.
+
+
+To enable saned in the default configuration (running as user and group saned),
+use update-inetd to enable the service:
+ # update-inetd --enable sane-port
+To disable saned, use update-inetd to disable the service:
+ # update-inetd --disable sane-port
+
+If you want to run saned under another user and/or group, edit /etc/inetd.conf
+and change saned:saned for the appropriate user:group combination.
+
+
+To operate in this setup, saned must be able to access to your scanner;
+different setups are possible, depending on who should be able to access to the
+scanner:
+
+ * saned users only:
+   => device owned by saned:root or saned:saned
+ * saned users and local users:
+   => device owned by saned:scanner, with local users added to the scanner group
+ * local users only:
+   => device owned by root:scanner, local users added to the scanner group
+
+Note that by default the saned users is not part of the scanner group.
+
+If you intend to use saned with a USB scanner, note that the permissions for
+USB scanners are handled by udev.
+
+See /usr/share/doc/libsane/README.Debian.gz for more information on setting up
+appropriate permissions.
+
+-- Julien BLACHE <jblache@debian.org>, Sat, 01 Mar 2008 14:10:56 +0100

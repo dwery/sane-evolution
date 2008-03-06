@@ -1,0 +1,75 @@
+#!/bin/sh -e
+
+purge_devfs() {
+    if [ -f "/etc/devfs/conf.d/scanner" ] ; then
+	rm -f /etc/devfs/conf.d/scanner
+	rmdir --parents --ignore-fail-on-non-empty /etc/devfs/
+    fi
+}
+
+purge_hotplug() {
+    if [ -f "/etc/hotplug/usb/libsane.usermap" ] ; then
+	rm -f /etc/hotplug/usb/libsane.usermap
+    fi
+    if [ -f "/etc/hotplug/usb/libusbscanner" ] ; then
+	rm -f /etc/hotplug/usb/libusbscanner
+    fi
+}
+
+purge_hotplugng() {
+    if [ -f "/etc/hotplug.d/usb/libsane.hotplug" ]; then
+	rm -f /etc/hotplug.d/usb/libsane.hotplug
+	rmdir -p --ignore-fail-on-non-empty /etc/hotplug.d/usb
+    fi
+
+    if [ -f "/etc/hotplug/blacklist.d/libsane" ]; then
+	rm -f /etc/hotplug/blacklist.d/libsane
+	rmdir -p --ignore-fail-on-non-empty /etc/hotplug/blacklist.d
+    fi
+
+    if [ -f "/etc/sane.d/hotplug/libsane.db" ]; then
+	rm -f /etc/sane.d/hotplug/libsane.db
+	rmdir -p --ignore-fail-on-non-empty /etc/sane.d/hotplug
+    fi
+}
+
+case "$1" in
+    configure)
+    # Add the scanner system group if it doesn't exist
+    if ! getent group | grep -q "^scanner:"; then
+	echo "Adding scanner group..."
+	addgroup --quiet --system scanner || true
+    fi
+
+    if [ "$(uname -s)" = "Linux" ]; then
+	# remove devfs config as scanning through usbscanner is not supported anymore
+	purge_devfs
+	# remove old hotplug scripts
+	purge_hotplug
+	# remove old hotplug-ng scripts
+	purge_hotplugng
+
+	if [ -e /dev/MAKEDEV ]; then
+	    # create /dev/parport*
+	    if [ ! -c /dev/parport0 ]; then
+		(cd /dev && ./MAKEDEV parport) || true 
+	    fi
+	    # create /dev/sg*
+	    if [ ! -c /dev/sg0 ]; then
+		(cd /dev && ./MAKEDEV sg) || true 
+	    fi
+	fi
+    fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+    echo "$0 called with unknown argument '$1'" >&2
+    exit 1
+    ;;
+esac
+
+
+#DEBHELPER#

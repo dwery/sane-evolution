@@ -14,9 +14,10 @@ in a backend, the following procedure SHOULD be used:
         }
 }}}
 
-If the backed returns SANE_STATUS_GOOD to that sane_control_option
+If the backend returns SANE_STATUS_GOOD to that sane_control_option
 call, the frontend knows that the backend correctly handles any
-SANE 1.1 feature.
+SANE 1.1 feature. The backend will place its compatibility
+level in `level` .
 
 When in SANE 1.1 mode a frontend should make sure that it behaves
 correctly if the backend returns something that was unexpected at
@@ -24,3 +25,6 @@ the time of writing, like a new SANE_FRAME type.
 
 A frontend SHOULD NOT use this procedure to declare 1.0 compatibility
 as it would be pretty useless.
+
+You can take the coolscan3 driver as an example.
+

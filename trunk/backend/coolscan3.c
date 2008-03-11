@@ -243,6 +243,7 @@ typedef struct
 
 	/* SANE stuff */
 	SANE_Option_Descriptor option_list[CS3_N_OPTIONS];
+	int compat_level;
 }
 cs3_t;
 
@@ -972,6 +973,7 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 		s->option_list[i_option] = o;
 	}
 
+	s->compat_level = SANE_API_LEVEL(1, 0, 0); /* default level is 1.0 */
 	s->scanning = SANE_FALSE;
 	s->preview = SANE_FALSE;
 	s->negative = SANE_FALSE;
@@ -1048,6 +1050,11 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 	DBG(24, "%s, option %i, action %i.\n", __func__, n, a);
 
 	switch (a) {
+	case SANE_ACTION_CHECK_API_LEVEL:
+		s->compat_level = *(SANE_Word *)v;	/* frontend compat level */
+		*(SANE_Word *)v = SANE_API_LEVEL(1, 1, 0);	/* our level */
+		break;
+
 	case SANE_ACTION_GET_VALUE:
 
 		switch (n) {
@@ -1215,6 +1222,9 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 			s->negative = *(SANE_Word *) v;
 			break;
 		case CS3_OPTION_INFRARED:
+			if (s->compat_level < SANE_VERSION(1,1))
+				return SANE_STATUS_INVAL;
+
 			s->infrared = *(SANE_Word *) v;
 			/*      flags |= SANE_INFO_RELOAD_PARAMS; XXX */
 			break;

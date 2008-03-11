@@ -36,7 +36,6 @@
 #define TRUE 1
 #define FALSE 0
 
-
 #define SANE_FALSE	0
 #define SANE_TRUE	1
 

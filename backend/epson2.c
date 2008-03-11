@@ -2899,6 +2899,10 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 		*info = 0;
 
 	switch (action) {
+	case SANE_ACTION_CHECK_API_LEVEL:
+		*(SANE_Word *) value = SANE_API_LEVEL(1, 0, 0);
+		break;
+
 	case SANE_ACTION_GET_VALUE:
 		return getvalue(handle, option, value);
 

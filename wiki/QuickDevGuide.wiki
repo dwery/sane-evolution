@@ -27,4 +27,3 @@ A frontend SHOULD NOT use this procedure to declare 1.0 compatibility
 as it would be pretty useless.
 
 You can take the coolscan3 driver as an example.
-

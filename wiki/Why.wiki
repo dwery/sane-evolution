@@ -1,0 +1,18 @@
+#summary What lead to the SANE Evolution branch
+
+SANE development has been quite slow and no consensus could be reached
+to develop an improved version. The SANE 2.0 draft is still incomplete
+and no-one has committed building code arund it.
+
+Discussion has been long and took years, years in which no code
+has been developed toward the target of a newer SANE. In 2008
+a light consensus was reached to add new frame types to SANE.
+
+But then again, a few days after, the development was stopped due to no consensus
+to further improements.
+
+The only solution left was to fork SANE. SANE Evolution was then born
+in march 2008 and aims to produce a better SANE by slightly improving
+it over time.
+
+

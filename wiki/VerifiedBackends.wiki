@@ -1,12 +1,12 @@
 #summary Verified 1.1 backends
 (alphabetic order)
 
-= SANE_ACTION_CHECK_API_LEVEL aware =
+== SANE_ACTION_CHECK_API_LEVEL aware ==
 
  * coolscan3
  * epson2
 
-= sane_control_options handles unknown SANE_ACTION values =
+== sane_control_options handles unknown SANE_ACTION values ==
 
  * hp3500
  * hp5400
@@ -14,6 +14,6 @@
  * qcam
  * ricoh
 
-= to be patched =
+== to be patched ==
 
  * canon630u

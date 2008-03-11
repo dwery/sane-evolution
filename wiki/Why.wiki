@@ -1,4 +1,5 @@
 #summary The SANE Evolution fork
+#labels Featured
 
 SANE development has been quite slow and no consensus could be reached
 to develop an improved version. The SANE 2.0 draft is still incomplete

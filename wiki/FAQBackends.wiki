@@ -1,0 +1,9 @@
+#summary SANE Evolution FAQ for Backend authors
+
+Q. I'm a frontend author and I DO NOT want to support SANE 1.1
+A. That's fine, you current frontend will just work straight.
+
+Q. I'm a frontend author and I want to support SANE 1.1
+A. Nice move! Please read QuickDevGuide .
+
+

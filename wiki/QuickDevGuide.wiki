@@ -7,8 +7,8 @@ in a backend, the following procedure SHOULD be used:
         SANE_Int sane_version;
         sane_init(&sane_version, NULL);
 
-        if (sane_version >= SANE_VERSION(1,1)) {
-                SANE_Int level = SANE_API_LEVEL(1,1);
+        if (sane_version >= SANE_VERSION(1, 1, 0)) {
+                SANE_Int level = SANE_API_LEVEL(1, 1, 0);
                 result = sane_control_option(handle, 0,
                                 SANE_ACTION_CHECK_API_LEVEL, &level);
         }

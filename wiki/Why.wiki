@@ -1,4 +1,4 @@
-#summary What lead to the SANE Evolution branch
+#summary The SANE Evolution fork
 
 SANE development has been quite slow and no consensus could be reached
 to develop an improved version. The SANE 2.0 draft is still incomplete

@@ -1,0 +1,10 @@
+#summary New features since 1.1
+
+= API protection =
+
+Incompatible features will be developed around a protection framework
+that allows existing frontends to work nicely with the new, improved,
+1.1 backends. 
+
+Newer frontends can choice to support the 1.1 API and benefit from
+the new features we are going to introduce.

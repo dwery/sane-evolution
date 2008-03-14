@@ -1,6 +1,9 @@
-#summary Short term tasks in sparse order
+#summary Todo items in sparse order
 #labels Featured
 
+== Short term ==
+
+ * Finish [APIOneOneZero 1.1.0] specs
  * fixup code indentation to one common style
  * get rid of alloca() calls and of the related #include
  * add api level check and protection
@@ -12,6 +15,9 @@
  * sort backends wiki pages by mfr,model
  * add mfr wiki pages
 
+== Long term ==
+
+ * extrapolate linux scsi driver from the scsi code mess
 
 
 

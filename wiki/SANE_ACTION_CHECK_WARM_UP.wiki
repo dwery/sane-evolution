@@ -10,7 +10,7 @@ an error condition and [SANE_STATUS_UNSUPPORTED].
 {{{
 
 warmup:
-        if (s->compat_level >= SANE_API_LEVEL(1,1,0)) {
+        if (s->compat_level >= SANE_API(1,1,0)) {
                 SANE_Int interval = 2; /* default interval is two seconds */
 
                 result = sane_control_option(handle, 0,

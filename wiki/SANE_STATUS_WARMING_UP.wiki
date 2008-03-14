@@ -1,8 +1,8 @@
 #summary Documentation of the SANE_STATUS_WARMING_UP return code
 
 This return code might be used by a backend to inform
-any [[APIOneOneZero 1.1.0] compliant frontend that the scanner
+any [APIOneOneZero 1.1.0] compliant frontend that the scanner
 is warming up. It might be returned by
 
- * [[sane_start]]
- * [[SANE_ACTION_CHECK_WARM_UP]]
+ * [sane_start]
+ * [SANE_ACTION_CHECK_WARM_UP]

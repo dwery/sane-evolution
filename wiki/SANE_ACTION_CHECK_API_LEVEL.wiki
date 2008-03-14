@@ -6,8 +6,8 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 == frontend use ==
 
 The frontend must not make any assumption about the capabilities
-of the backend unless otherwise noted. Unsupported SANE_ACTION_ calls
-will just lead to an error, without altering ay functionality.
+of the backend unless otherwise noted. Unsupported SANE_ACTION_XXX calls
+will just lead to an error, without altering any functionality.
 
 {{{
         SANE_Int sane_version;

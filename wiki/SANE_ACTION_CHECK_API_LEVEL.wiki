@@ -1,3 +1,31 @@
 #summary SANE_ACTION_CHECK_API_LEVEL
 
-placeholder
+May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
+
+== frontend use ==
+
+{{{
+        SANE_Int sane_version;
+        sane_init(&sane_version, NULL);
+
+        if (sane_version >= SANE_VERSION(1, 1, 0)) {
+                SANE_Int level = SANE_API_LEVEL(1, 1, 0);
+                result = sane_control_option(handle, 0,
+                                SANE_ACTION_CHECK_API_LEVEL, &level);
+        }
+}}}
+
+== backend implementation ==
+
+{{{
+        ...
+
+        switch (action) {
+        case SANE_ACTION_CHECK_API_LEVEL:
+                s->compat_level = *(SANE_Word *) value; /* frontend level */
+                *(SANE_Word *) value = SANE_API_LEVEL(1, 1, 0); /* backend level */
+                break;
+
+        ...
+}}}
+

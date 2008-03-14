@@ -454,15 +454,6 @@ max_string_size(const SANE_String_Const strings[])
 	return max_size;
 }
 
-typedef struct
-{
-	unsigned char code;
-	unsigned char status;
-
-	unsigned char buf[4];
-
-} EpsonDataRec;
-
 static SANE_Status color_shuffle(SANE_Handle handle, int *new_length);
 static SANE_Status attach_one_usb(SANE_String_Const devname);
 static SANE_Status attach_one_net(SANE_String_Const devname);
@@ -676,6 +667,123 @@ open_scanner(Epson_Scanner * s)
 static int num_devices = 0;	/* number of scanners attached to backend */
 static Epson_Device *first_dev = NULL;	/* first EPSON scanner in list */
 static Epson_Scanner *first_handle = NULL;
+
+
+
+static SANE_Status
+e2_check_warm_up(Epson_Scanner * s)
+{
+	SANE_Status status;
+
+	DBG(5, "%s\n", __func__);
+
+	if (s->hw->extended_commands) {
+		unsigned char buf[16];
+
+		status = esci_request_scanner_status(s, buf);
+		if (status != SANE_STATUS_GOOD)
+			return status;
+
+		if (buf[0] & FSF_STATUS_MAIN_WU)
+			return SANE_STATUS_WARMING_UP;
+
+	} else {
+		unsigned char *es;
+
+		/* this command is not available on some scanners */
+		if (!s->hw->cmd->request_extended_status)
+			return SANE_STATUS_GOOD;
+
+		status = esci_request_extended_status(s, &es, NULL);
+		if (status != SANE_STATUS_GOOD)
+			return status;
+
+		if (es[0] & EXT_STATUS_WU) {
+			free(es);
+			return SANE_STATUS_WARMING_UP;
+		}
+	}
+
+	return status;
+}
+
+
+static SANE_Status
+e2_wait_warm_up(Epson_Scanner * s)
+{
+	SANE_Status status;
+
+	DBG(5, "%s\n", __func__);
+
+	s->retry_count = 0;
+
+	while (1) {
+		status = e2_check_warm_up(s);
+		if (status == SANE_STATUS_GOOD)
+			return status;
+
+		s->retry_count++;
+
+		if (s->retry_count > SANE_EPSON_MAX_RETRIES) {
+			DBG(1, "max retry count exceeded (%d)\n",
+			    s->retry_count);
+			return SANE_STATUS_DEVICE_BUSY;
+		}
+		sleep(5);
+	}
+
+	return SANE_STATUS_GOOD;
+}
+
+static SANE_Status
+e2_peek_info_block(Epson_Scanner * s)
+{
+	SANE_Status status;
+
+	e2_recv(s, s->peek_buf, s->block ? 6 : 4, &status);
+	if (status != SANE_STATUS_GOOD)
+		return status;
+
+	s->peeked = SANE_TRUE;
+
+	if (s->peek_buf->code != STX) {
+		DBG(1, "%s: got %02x, expected STX\n", __func__,
+		    s->peek_buf->code);
+		return SANE_STATUS_IO_ERROR;
+	}
+
+	if (s->peek_buf->status & STATUS_FER)
+		status = e2_check_warm_up(s);
+
+	return status;
+}
+
+static SANE_Status
+e2_read_info_block(Epson_Scanner * s, EpsonDataRec * result)
+{
+	SANE_Status status;
+
+	if (s->peeked) {
+		memcpy(result, s->peek_buf, s->block ? 6 : 4);
+		s->peeked = SANE_FALSE;
+	} else {
+		e2_recv(s, result, s->block ? 6 : 4, &status);
+		if (status != SANE_STATUS_GOOD)
+			return status;
+	}
+
+	if (result->code != STX) {
+		DBG(1, "%s: got %02x, expected STX\n", __func__,
+		    result->code);
+		return SANE_STATUS_INVAL;
+	}
+
+	if (result->status & STATUS_FER)
+		return SANE_STATUS_IO_ERROR;
+
+	return status;
+}
+
 
 static SANE_Status
 e2_set_model(Epson_Scanner * s, unsigned char *model, size_t len)
@@ -2334,6 +2442,7 @@ sane_open(SANE_String_Const name, SANE_Handle * handle)
 
 	s->fd = -1;
 	s->hw = dev;
+	s->compat_level = SANE_API_LEVEL(1, 0, 0);
 
 	init_options(s);
 
@@ -2892,6 +3001,8 @@ SANE_Status
 sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 		    void *value, SANE_Int * info)
 {
+	Epson_Scanner *s = (Epson_Scanner *) handle;
+
 	if (option < 0 || option >= NUM_OPTIONS)
 		return SANE_STATUS_INVAL;
 
@@ -2900,8 +3011,14 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 
 	switch (action) {
 	case SANE_ACTION_CHECK_API_LEVEL:
+		s->compat_level = *(SANE_Word *) value;
 		*(SANE_Word *) value = SANE_API_LEVEL(1, 0, 0);
 		break;
+
+	case SANE_ACTION_CHECK_WARM_UP:
+		if (value)
+			*(SANE_Int *) value = 2;
+		return e2_check_warm_up(s);
 
 	case SANE_ACTION_GET_VALUE:
 		return getvalue(handle, option, value);
@@ -2910,10 +3027,10 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 		return setvalue(handle, option, value, info);
 
 	default:
-		return SANE_STATUS_INVAL;
+		return SANE_STATUS_UNSUPPORTED;
 	}
 
-	return SANE_STATUS_GOOD;
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 static SANE_Status
@@ -3340,10 +3457,11 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 	/* XXX check this */
 	s->params.pixels_per_line =
 		(SANE_UNFIX(s->val[OPT_BR_X].w -
-			    s->val[OPT_TL_X].w) / (SANE_MM_PER_INCH * dpi)) + 0.5;
+			    s->val[OPT_TL_X].w) / (SANE_MM_PER_INCH * dpi)) +
+		0.5;
 	s->params.lines =
-		(SANE_UNFIX(s->val[OPT_BR_Y].w -
-			    s->val[OPT_TL_Y].w) / (SANE_MM_PER_INCH * dpi)) + 0.5;
+		(SANE_UNFIX(s->val[OPT_BR_Y].w - s->val[OPT_TL_Y].w) /
+		 (SANE_MM_PER_INCH * dpi)) + 0.5;
 
 	/*
 	 * Make sure that the number of lines is correct for color shuffling:
@@ -3607,8 +3725,8 @@ e2_init_parameters(Epson_Scanner * s)
 	if (SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH * dpi <
 	    (s->params.lines + s->top)) {
 		s->params.lines =
-			((int) SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH *
-			 dpi + 0.5) - s->top;
+			((int) SANE_UNFIX(s->val[OPT_BR_Y].w) /
+			 SANE_MM_PER_INCH * dpi + 0.5) - s->top;
 	}
 
 	s->block = SANE_FALSE;
@@ -3658,77 +3776,6 @@ e2_wait_button(Epson_Scanner * s)
 			s->hw->wait_for_button = SANE_FALSE;
 		}
 	}
-}
-
-
-static SANE_Status
-e2_check_warm_up(Epson_Scanner * s, SANE_Bool * wup)
-{
-	SANE_Status status;
-
-	DBG(5, "%s\n", __func__);
-
-	*wup = SANE_FALSE;
-
-	if (s->hw->extended_commands) {
-		unsigned char buf[16];
-
-		status = esci_request_scanner_status(s, buf);
-		if (status != SANE_STATUS_GOOD)
-			return status;
-
-		if (buf[0] & FSF_STATUS_MAIN_WU)
-			*wup = SANE_TRUE;
-
-	} else {
-		unsigned char *es;
-
-		/* this command is not available on some scanners */
-		if (!s->hw->cmd->request_extended_status)
-			return SANE_STATUS_GOOD;
-
-		status = esci_request_extended_status(s, &es, NULL);
-		if (status != SANE_STATUS_GOOD)
-			return status;
-
-		if (es[0] & EXT_STATUS_WU)
-			*wup = SANE_TRUE;
-
-		free(es);
-	}
-
-	return status;
-}
-
-static SANE_Status
-e2_wait_warm_up(Epson_Scanner * s)
-{
-	SANE_Status status;
-	SANE_Bool wup;
-
-	DBG(5, "%s\n", __func__);
-
-	s->retry_count = 0;
-
-	while (1) {
-		status = e2_check_warm_up(s, &wup);
-		if (status != SANE_STATUS_GOOD)
-			return status;
-
-		if (wup == SANE_FALSE)
-			break;
-
-		s->retry_count++;
-
-		if (s->retry_count > SANE_EPSON_MAX_RETRIES) {
-			DBG(1, "max retry count exceeded (%d)\n",
-			    s->retry_count);
-			return SANE_STATUS_DEVICE_BUSY;
-		}
-		sleep(5);
-	}
-
-	return SANE_STATUS_GOOD;
 }
 
 static SANE_Status
@@ -3990,89 +4037,59 @@ sane_start(SANE_Handle handle)
 			return status;
 	}
 
-	/* this seems to work only for some devices */
-	status = e2_wait_warm_up(s);
-	if (status != SANE_STATUS_GOOD)
-		return status;
+	/* 1.0 frontends can't handle the warming up condition */
+	if (s->compat_level == SANE_API_LEVEL(1, 0, 0)) {
+		/* this seems to work only for some devices */
+		status = e2_wait_warm_up(s);
+		if (status != SANE_STATUS_GOOD)
+			return status;
+	}
 
 	/* start scanning */
 	DBG(1, "%s: scanning...\n", __func__);
 
-	if (dev->extended_commands) {
-		status = e2_start_ext_scan(s);
 
-		/* this is a kind of read request */
-		if (dev->connection == SANE_EPSON_NET)
-			sanei_epson_net_write(s, 0x2000, NULL, 0,
-					      s->ext_block_len + 1, &status);
-	} else
+      start_scan:
+
+	if (dev->extended_commands)
+		status = e2_start_ext_scan(s);
+	else {
 		status = e2_start_std_scan(s);
+
+		/* check if the scanner signaled a warming up */
+		if (status == SANE_STATUS_GOOD)
+			status = e2_peek_info_block(s);
+	}
+
+	if (status == SANE_STATUS_WARMING_UP) {
+		/* return to frontend for newer apps */
+		if (s->compat_level >= SANE_API_LEVEL(1, 1, 0))
+			return status;
+
+		status = e2_wait_warm_up(s);
+		if (status == SANE_STATUS_GOOD)
+			goto start_scan;
+	}
 
 	if (status != SANE_STATUS_GOOD) {
 		DBG(1, "%s: start failed: %s\n", __func__,
 		    sane_strstatus(status));
+
+		/* XXX adapt for 1.1 */
 		if (status == SANE_STATUS_IO_ERROR)
 			status = fix_warmup_lamp(s, status);
 	}
 
-	return status;
-}
 
-/* XXX this routine is ugly and should be avoided */
-static SANE_Status
-read_info_block(Epson_Scanner * s, EpsonDataRec * result)
-{
-	SANE_Status status;
-	unsigned char params[2];
-
-      retry:
-	e2_recv(s, result, s->block ? 6 : 4, &status);
-	if (status != SANE_STATUS_GOOD)
-		return status;
-
-	if (result->code != STX) {
-		DBG(1, "error: got %02x, expected STX\n", result->code);
-		return SANE_STATUS_INVAL;
-	}
-
-	/* XXX */
-	if (result->status & STATUS_FER) {
-		unsigned char *ext_status;
-
-		DBG(1, "fatal error, status = %02x\n", result->status);
-
-		if (s->retry_count > SANE_EPSON_MAX_RETRIES) {
-			DBG(1, "max retry count exceeded (%d)\n",
-			    s->retry_count);
-			return SANE_STATUS_INVAL;
-		}
-
-		/* if the scanner is warming up, retry after a few secs */
-		status = esci_request_extended_status(s, &ext_status, NULL);
-		if (status != SANE_STATUS_GOOD)
-			return status;
-
-		if (ext_status[0] & EXT_STATUS_WU) {
-			free(ext_status);
-
-			sleep(5);	/* for the next attempt */
-
-			DBG(1, "retrying ESC G - %d\n", ++(s->retry_count));
-
-			params[0] = ESC;
-			params[1] = s->hw->cmd->start_scanning;
-
-			e2_send(s, params, 2, 0, &status);
-			if (status != SANE_STATUS_GOOD)
-				return status;
-
-			goto retry;
-		} else
-			free(ext_status);
+	/* this is a kind of read request */
+	if (dev->connection == SANE_EPSON_NET) {
+		sanei_epson_net_write(s, 0x2000, NULL, 0,
+				      s->ext_block_len + 1, &status);
 	}
 
 	return status;
 }
+
 
 static void
 e2_scan_finish(Epson_Scanner * s)
@@ -4256,10 +4273,9 @@ e2_block_sane_read(SANE_Handle handle)
 			return SANE_STATUS_EOF;
 		}
 
-		status = read_info_block(s, &result);
-		if (status != SANE_STATUS_GOOD) {
+		status = e2_read_info_block(s, &result);
+		if (status != SANE_STATUS_GOOD)
 			return status;
-		}
 
 		buf_len = result.buf[1] << 8 | result.buf[0];
 		buf_len *= (result.buf[3] << 8 | result.buf[2]);

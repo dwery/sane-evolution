@@ -973,7 +973,7 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 		s->option_list[i_option] = o;
 	}
 
-	s->compat_level = SANE_API_LEVEL(1, 0, 0); /* default level is 1.0 */
+	s->compat_level = SANE_API(1, 0, 0); /* default level is 1.0 */
 	s->scanning = SANE_FALSE;
 	s->preview = SANE_FALSE;
 	s->negative = SANE_FALSE;
@@ -1052,7 +1052,7 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 	switch (a) {
 	case SANE_ACTION_CHECK_API_LEVEL:
 		s->compat_level = *(SANE_Word *)v;	/* frontend compat level */
-		*(SANE_Word *)v = SANE_API_LEVEL(1, 1, 0);	/* our level */
+		*(SANE_Word *)v = SANE_API(1, 1, 0);	/* our level */
 		break;
 
 	case SANE_ACTION_GET_VALUE:

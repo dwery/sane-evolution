@@ -27,7 +27,7 @@
    | (((SANE_Word) (minor) &   0xff) << 16)	\
    | (((SANE_Word) (build) & 0xffff) <<  0))
 
-#define SANE_API_LEVEL(major, minor, build) (SANE_VERSION_CODE(major, minor, build))
+#define SANE_API(major, minor, build) (SANE_VERSION_CODE(major, minor, build))
 #define SANE_VERSION(major, minor, build) (SANE_VERSION_CODE(major, minor, build))
 
 #define SANE_VERSION_MAJOR(code)	((((SANE_Word)(code)) >> 24) &   0xff)

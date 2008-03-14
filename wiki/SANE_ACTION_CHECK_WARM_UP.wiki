@@ -2,9 +2,9 @@
 
 == frontend use ==
 
-If the returned code [SANE_STATUS_WARMING_UP] the frontend
+If the returned code is [SANE_STATUS_WARMING_UP] the frontend
 should repoll after a reasonable interval. In the event of any other
-result code, the sequence should proceed as usual. A frontend MAY differentiate between
+result code, the [SaneFlow] should proceed as usual. A frontend MAY differentiate between
 an error condition and [SANE_STATUS_UNSUPPORTED].
 
 {{{

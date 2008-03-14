@@ -2349,7 +2349,7 @@ sane_open(SANE_String_Const name, SANE_Handle * handle)
 
 	s->fd = -1;
 	s->hw = dev;
-	s->compat_level = SANE_API_LEVEL(1, 0, 0);
+	s->compat_level = SANE_API(1, 0, 0);
 
 	init_options(s);
 
@@ -2918,7 +2918,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 	switch (action) {
 	case SANE_ACTION_CHECK_API_LEVEL:
 		s->compat_level = *(SANE_Word *) value;
-		*(SANE_Word *) value = SANE_API_LEVEL(1, 0, 0);
+		*(SANE_Word *) value = SANE_API(1, 0, 0);
 		break;
 
 	case SANE_ACTION_CHECK_WARM_UP:
@@ -3944,7 +3944,7 @@ sane_start(SANE_Handle handle)
 	}
 
 	/* 1.0 frontends can't handle the warming up condition */
-	if (s->compat_level == SANE_API_LEVEL(1, 0, 0)) {
+	if (s->compat_level == SANE_API(1, 0, 0)) {
 		/* this seems to work only for some devices */
 		status = e2_wait_warm_up(s);
 		if (status != SANE_STATUS_GOOD)
@@ -3969,7 +3969,7 @@ sane_start(SANE_Handle handle)
 
 	if (status == SANE_STATUS_WARMING_UP) {
 		/* return to frontend for newer apps */
-		if (s->compat_level >= SANE_API_LEVEL(1, 1, 0))
+		if (s->compat_level >= SANE_API(1, 1, 0))
 			return status;
 
 		status = e2_wait_warm_up(s);

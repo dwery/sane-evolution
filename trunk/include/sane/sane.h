@@ -28,6 +28,7 @@
    | (((SANE_Word) (build) & 0xffff) <<  0))
 
 #define SANE_API_LEVEL(major, minor, build) (SANE_VERSION_CODE(major, minor, build))
+#define SANE_VERSION(major, minor, build) (SANE_VERSION_CODE(major, minor, build))
 
 #define SANE_VERSION_MAJOR(code)	((((SANE_Word)(code)) >> 24) &   0xff)
 #define SANE_VERSION_MINOR(code)	((((SANE_Word)(code)) >> 16) &   0xff)
@@ -164,7 +165,8 @@ typedef enum
 	SANE_ACTION_GET_VALUE = 0,
 	SANE_ACTION_SET_VALUE,
 	SANE_ACTION_SET_AUTO,
-	SANE_ACTION_CHECK_API_LEVEL
+	SANE_ACTION_CHECK_API_LEVEL,
+	SANE_ACTION_CHECK_WARM_UP
 }
 SANE_Action;
 

@@ -169,6 +169,15 @@
 
 typedef struct
 {
+        unsigned char code;
+        unsigned char status;
+  
+        unsigned char buf[4];
+
+} EpsonDataRec;
+
+typedef struct
+{
 	char *level;
 
 	unsigned char request_identity;
@@ -324,12 +333,17 @@ struct Epson_Scanner
 	unsigned char *netbuf, *netptr;
 	size_t netlen;
 
-
 	/* extended image data handshaking */
 	SANE_Int ext_block_len;
 	SANE_Int ext_last_len;
 	SANE_Int ext_blocks;
 	SANE_Int ext_counter;
+
+	SANE_Word compat_level;
+
+	/* peek info block support */
+	EpsonDataRec *peek_buf;
+	SANE_Bool peeked;
 };
 
 typedef struct Epson_Scanner Epson_Scanner;

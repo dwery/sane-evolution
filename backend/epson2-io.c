@@ -384,3 +384,96 @@ e2_ack_next(Epson_Scanner * s, size_t reply_len)
 	e2_send(s, S_ACK, 1, reply_len, &status);
 	return status;
 }
+
+
+/*
+ * e2_open_scanner()
+ *
+ * Open the scanner device. Depending on the connection method,
+ * different open functions are called.
+ */
+
+SANE_Status
+e2_open_scanner(Epson_Scanner * s)
+{
+	SANE_Status status = 0;
+
+	DBG(7, "%s\n", __func__);
+
+	if (s->fd != -1) {
+		DBG(5, "scanner is already open: fd = %d\n", s->fd);
+		return SANE_STATUS_GOOD;	/* no need to open the scanner */
+	}
+
+	if (s->hw->connection == SANE_EPSON_NET) {
+		unsigned char buf[5];
+
+		/* Sleep a bit or the network scanner will not be ready */
+		sleep(1);
+
+		status = sanei_tcp_open(s->hw->sane.name, 1865, &s->fd);
+		if (status != SANE_STATUS_GOOD)
+			goto end;
+
+		s->netlen = 0;
+		/* the scanner sends a kind of welcome msg */
+		e2_recv(s, buf, 5, &status);
+
+		/* lock the scanner for use by sane */
+		sanei_epson_net_lock(s);
+	} else if (s->hw->connection == SANE_EPSON_SCSI)
+		status = sanei_scsi_open(s->hw->sane.name, &s->fd,
+					 sanei_epson2_scsi_sense_handler,
+					 NULL);
+	else if (s->hw->connection == SANE_EPSON_PIO)
+		status = sanei_pio_open(s->hw->sane.name, &s->fd);
+	else if (s->hw->connection == SANE_EPSON_USB)
+		status = sanei_usb_open(s->hw->sane.name, &s->fd);
+
+      end:
+
+	if (status != SANE_STATUS_GOOD)
+		DBG(1, "%s open failed: %s\n", s->hw->sane.name,
+		    sane_strstatus(status));
+
+	return status;
+}
+
+/*
+ * e2_close_scanner()
+ *
+ * Close the open scanner. Depending on the connection method, a different
+ * close function is called.
+ */
+
+void
+e2_close_scanner(Epson_Scanner * s)
+{
+	DBG(7, "%s: fd = %d\n", __func__, s->fd);
+
+	if (s->fd == -1)
+		return;
+
+	/* send a request_status. This toggles w_cmd_count and r_cmd_count */
+	if (r_cmd_count % 2)
+		esci_request_status(s, NULL);
+
+	/* request extended status. This toggles w_cmd_count only */
+	if (w_cmd_count % 2) {
+		esci_request_extended_status(s, NULL, NULL);
+	}
+
+	if (s->hw->connection == SANE_EPSON_NET) {
+		sanei_epson_net_unlock(s);
+		sanei_tcp_close(s->fd);
+	} else if (s->hw->connection == SANE_EPSON_SCSI) {
+		sanei_scsi_close(s->fd);
+	} else if (s->hw->connection == SANE_EPSON_PIO) {
+		sanei_pio_close(s->fd);
+	} else if (s->hw->connection == SANE_EPSON_USB) {
+		sanei_usb_close(s->fd);
+	}
+
+	s->fd = -1;
+}
+

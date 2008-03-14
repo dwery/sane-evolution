@@ -46,4 +46,8 @@ SANE_Status e2_ack_next(Epson_Scanner * s, size_t reply_len);
 
 SANE_Status
 e2_esc_cmd(Epson_Scanner * s, unsigned char cmd, unsigned char val);
+
+SANE_Status e2_open_scanner(Epson_Scanner * s);
+void e2_close_scanner(Epson_Scanner * s);
+
 #endif /* epson2_io_h */

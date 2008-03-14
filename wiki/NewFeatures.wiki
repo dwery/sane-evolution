@@ -1,5 +1,7 @@
-#summary New features since 1.1
+#summary New features on SANE Evolution 1.1.0
 #labels Featured
+
+API details [APIOneOneZero here].
 
 == API protection ==
 
@@ -15,3 +17,13 @@ the new features we are going to introduce.
 Newer frame times have been introduced and protected by the API level
 framework. [SANE_FRAME_TEXT] has been obsoleted and replaced by
 [SANE_FRAME_XML] which will be fully doumented in this wiki.
+
+== Handling of warming up condition ==
+
+The backend can now tell to the frontend that the scanner is warming
+up. This is currently supported by the epson2 backend.
+
+
+
+
+

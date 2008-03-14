@@ -243,7 +243,7 @@ typedef struct
 
 	/* SANE stuff */
 	SANE_Option_Descriptor option_list[CS3_N_OPTIONS];
-	int compat_level;
+	SANE_Word compat_level;
 }
 cs3_t;
 

@@ -527,44 +527,6 @@ e2_set_cmd_level(SANE_Handle handle, unsigned char *level)
 	s->hw->level = dev->cmd->level[1] - '0';
 }
 
-/*
- * close_scanner()
- *
- * Close the open scanner. Depending on the connection method, a different
- * close function is called.
- */
-
-static void
-close_scanner(Epson_Scanner * s)
-{
-	DBG(7, "%s: fd = %d\n", __func__, s->fd);
-
-	if (s->fd == -1)
-		return;
-
-	/* send a request_status. This toggles w_cmd_count and r_cmd_count */
-	if (r_cmd_count % 2)
-		esci_request_status(s, NULL);
-
-	/* request extended status. This toggles w_cmd_count only */
-	if (w_cmd_count % 2) {
-		esci_request_extended_status(s, NULL, NULL);
-	}
-
-	if (s->hw->connection == SANE_EPSON_NET) {
-		sanei_epson_net_unlock(s);
-		sanei_tcp_close(s->fd);
-	} else if (s->hw->connection == SANE_EPSON_SCSI) {
-		sanei_scsi_close(s->fd);
-	} else if (s->hw->connection == SANE_EPSON_PIO) {
-		sanei_pio_close(s->fd);
-	} else if (s->hw->connection == SANE_EPSON_USB) {
-		sanei_usb_close(s->fd);
-	}
-
-	s->fd = -1;
-	return;
-}
 
 static void
 e2_network_discovery(void)
@@ -607,61 +569,6 @@ e2_network_discovery(void)
 	sanei_udp_close(fd);
 }
 
-
-
-
-/*
- * open_scanner()
- *
- * Open the scanner device. Depending on the connection method,
- * different open functions are called.
- */
-
-static SANE_Status
-open_scanner(Epson_Scanner * s)
-{
-	SANE_Status status = 0;
-
-	DBG(7, "%s\n", __func__);
-
-	if (s->fd != -1) {
-		DBG(5, "scanner is already open: fd = %d\n", s->fd);
-		return SANE_STATUS_GOOD;	/* no need to open the scanner */
-	}
-
-	if (s->hw->connection == SANE_EPSON_NET) {
-		unsigned char buf[5];
-
-		/* Sleep a bit or the network scanner will not be ready */
-		sleep(1);
-
-		status = sanei_tcp_open(s->hw->sane.name, 1865, &s->fd);
-		if (status != SANE_STATUS_GOOD)
-			goto end;
-
-		s->netlen = 0;
-		/* the scanner sends a kind of welcome msg */
-		e2_recv(s, buf, 5, &status);
-
-		/* lock the scanner for use by sane */
-		sanei_epson_net_lock(s);
-	} else if (s->hw->connection == SANE_EPSON_SCSI)
-		status = sanei_scsi_open(s->hw->sane.name, &s->fd,
-					 sanei_epson2_scsi_sense_handler,
-					 NULL);
-	else if (s->hw->connection == SANE_EPSON_PIO)
-		status = sanei_pio_open(s->hw->sane.name, &s->fd);
-	else if (s->hw->connection == SANE_EPSON_USB)
-		status = sanei_usb_open(s->hw->sane.name, &s->fd);
-
-      end:
-
-	if (status != SANE_STATUS_GOOD)
-		DBG(1, "%s open failed: %s\n", s->hw->sane.name,
-		    sane_strstatus(status));
-
-	return status;
-}
 
 
 static int num_devices = 0;	/* number of scanners attached to backend */
@@ -1431,7 +1338,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 		if (status != SANE_STATUS_GOOD) {
 			DBG(1, "%s: inquiry failed: %s\n", __func__,
 			    sane_strstatus(status));
-			close_scanner(s);
+			e2_close_scanner(s);
 			goto free;
 		}
 
@@ -1451,7 +1358,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 			DBG(1,
 			    "%s: device doesn't look like an EPSON scanner\n",
 			    __func__);
-			close_scanner(s);
+			e2_close_scanner(s);
 			return SANE_STATUS_INVAL;
 		}
 
@@ -1462,7 +1369,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 		    && strncmp(model, "GT", 2) != 0) {
 			DBG(1, "%s: this EPSON scanner is not supported\n",
 			    __func__);
-			close_scanner(s);
+			e2_close_scanner(s);
 			return SANE_STATUS_INVAL;
 		}
 
@@ -1642,7 +1549,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 		dev->need_reset_on_source_change = SANE_TRUE;
 	}
 
-	close_scanner(s);
+	e2_close_scanner(s);
 
 	/* we are done with this one, prepare for the next scanner */
 	num_devices++;
@@ -2452,7 +2359,7 @@ sane_open(SANE_String_Const name, SANE_Handle * handle)
 
 	*handle = (SANE_Handle) s;
 
-	status = open_scanner(s);
+	status = e2_open_scanner(s);
 	if (status != SANE_STATUS_GOOD)
 		return status;
 
@@ -2492,8 +2399,7 @@ sane_close(SANE_Handle handle)
 	else
 		first_handle = s->next;
 
-	if (s->fd != -1)
-		close_scanner(s);
+	e2_close_scanner(s);
 
 	for (i = 0; i < LINES_SHUFFLE_MAX; i++) {
 		if (s->line_buffer[i] != NULL)

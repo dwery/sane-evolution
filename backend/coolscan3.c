@@ -1222,7 +1222,7 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 			s->negative = *(SANE_Word *) v;
 			break;
 		case CS3_OPTION_INFRARED:
-			if (s->compat_level < SANE_VERSION(1,1))
+			if (s->compat_level < SANE_API(1,1,0))
 				return SANE_STATUS_INVAL;
 
 			s->infrared = *(SANE_Word *) v;

@@ -2,7 +2,12 @@
 
 May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 
+
 == frontend use ==
+
+The frontend must not make any assumption about the capabilities
+of the backend unless otherwise noted. Unsupported SANE_ACTION_ calls
+will just lead to an error, without altering ay functionality.
 
 {{{
         SANE_Int sane_version;
@@ -17,6 +22,9 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 
 == backend implementation ==
 
+A backend should use the level given by the frontend to determine
+if API level related features should be used. 
+
 {{{
         ...
 
@@ -27,5 +35,7 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
                 break;
 
         ...
-}}}
 
+        if (s->compat_level >= SANE_API_LEVEL(1, 1, 0))
+                ... 
+}}}

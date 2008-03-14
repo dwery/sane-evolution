@@ -2,10 +2,10 @@
 
 == frontend use ==
 
-If the returned code SANE_STATUS_WARMING_UP the frontend
+If the returned code [SANE_STATUS_WARMING_UP] the frontend
 should repoll after a reasonable interval. In the event of any other
 result code, the sequence should proceed as usual. A frontend MAY differentiate between
-an error condition and SANE_STATUS_UNSUPPORTED.
+an error condition and ]SANE_STATUS_UNSUPPORTED].
 
 {{{
 
@@ -47,13 +47,13 @@ condition.
 
 It should be noted that not every scanner is capable to tell that
 it is warming up until the scan command is issued, so a fronted should
-always be prepared to receive SANE_STATUS_WARMING_UP from sane_start().
+always be prepared to receive [SANE_STATUS_WARMING_UP] from sane_start().
 
 
 == backend implementation ==
 
 A backend MAY check the warming up condition and return
-SANE_STATUS_WARMING_UP if the scanner is warming up, SANE_STATUS_GOOD
+[SANE_STATUS_WARMING_UP] if the scanner is warming up, [SANE_STATUS_GOOD]
 if it is not or any error as appropriate.
 
 {{{

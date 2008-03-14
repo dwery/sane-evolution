@@ -3,9 +3,9 @@
 In order to comply to 1.1.0 a frontend
 MUST implement the following:
 
- * [[SANE_ACTION_CHECK_API_LEVEL]]
- * [[SANE_STATUS_WARMING_UP]]
+ * [SANE_ACTION_CHECK_API_LEVEL]
+ * [SANE_STATUS_WARMING_UP]
 
-A fontend MAY optionalli conform to:
+A frontend MAY conform to:
 
- * [[SANE_ACTION_CHECK_WARM_UP]]
+ * [SANE_ACTION_CHECK_WARM_UP]

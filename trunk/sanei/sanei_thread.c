@@ -50,7 +50,7 @@
    pthread or fork is used to achieve this goal.
 */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,9 +77,9 @@
 
 #define BACKEND_NAME sanei_thread      /**< name of this module for debugging */
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_thread.h"
 
 #ifndef _VAR_NOT_USED
 # define _VAR_NOT_USED(x)	((x)=(x))

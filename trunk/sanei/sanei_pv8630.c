@@ -47,16 +47,16 @@
 
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdlib.h>
 #include <unistd.h>
 
 #define BACKEND_NAME	sanei_pv8630
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_pv8630.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_pv8630.h"
 
 #define DBG_error   1
 #define DBG_info    5

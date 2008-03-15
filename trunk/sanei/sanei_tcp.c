@@ -39,7 +39,7 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <errno.h>
 #include <unistd.h>
@@ -54,9 +54,9 @@
 
 #define BACKEND_NAME sanei_tcp
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_tcp.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_tcp.h"
 
 SANE_Status
 sanei_tcp_open(const char *host, int port, int *fdp)

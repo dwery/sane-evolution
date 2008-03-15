@@ -56,7 +56,7 @@
  * SANE_DEBUG_SANEI_PP
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #define BACKEND_NAME sanei_pp
 
@@ -129,10 +129,10 @@ inb(u_long port)
 # define IO_SUPPORT_MISSING
 #endif
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_pp.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_pp.h"
 
 #if defined(STDC_HEADERS)
 # include <errno.h>

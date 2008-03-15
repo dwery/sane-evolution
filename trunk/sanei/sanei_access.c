@@ -39,7 +39,7 @@
    If you do not wish that, delete this exception notice.
 */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,9 +54,9 @@
 
 #define BACKEND_NAME sanei_access     /**< name of this module for debugging */
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_access.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_access.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX	1024

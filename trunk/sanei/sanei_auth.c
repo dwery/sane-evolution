@@ -40,7 +40,7 @@
 
    This file implements an interface for user authorization using MD5 digest */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -55,15 +55,15 @@
 
 
 #define BACKEND_NAME sanei_auth
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_debug.h"
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_auth.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_auth.h"
+#include "sane/sanei_config.h"
 
-#include "../include/md5.h"
+#include "md5.h"
 
 static int random_seeded = 0;
 

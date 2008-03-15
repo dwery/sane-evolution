@@ -35,7 +35,7 @@
 #define COLOR_NEW          "\"#F00000\""
 #define COLOR_UNKNOWN      "\"#000000\""
 
-#include <../include/sane/config.h>
+#include <sane/config.h>
 
 #include <getopt.h>
 #include <stdio.h>
@@ -51,9 +51,9 @@
 #include <ctype.h>
 #include <time.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_config.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX 1024

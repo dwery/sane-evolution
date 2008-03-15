@@ -1,4 +1,4 @@
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #ifndef HAVE_GETENV
 

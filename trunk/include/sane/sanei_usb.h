@@ -61,8 +61,8 @@
 #ifndef sanei_usb_h
 #define sanei_usb_h
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
+#include "sane/config.h"
+#include "sane/sane.h"
 
 #include <stdlib.h>		/* for size_t */
 

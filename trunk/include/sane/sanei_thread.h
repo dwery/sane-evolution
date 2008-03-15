@@ -58,7 +58,7 @@
 
 #ifndef sanei_thread_h
 #define sanei_thread_h
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 /** Initialize sanei_thread.
  *

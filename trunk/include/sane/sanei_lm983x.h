@@ -55,8 +55,8 @@
 #ifndef sanei_lm983x_h
 #define sanei_lm983x_h
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
+#include "sane/config.h"
+#include "sane/sane.h"
 
 /**
  * Read one data byte from a specific LM983x register.

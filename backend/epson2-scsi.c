@@ -1,7 +1,12 @@
+
+#define DEBUG_DECLARE_ONLY
+#undef BACKEND_NAME
+#define BACKEND_NAME epson2
+
 #include <sane/config.h>
 #include <sane/sanei_debug.h>
 #include <sane/sanei_scsi.h>
-#include "epson2_scsi.h"
+#include "epson2-scsi.h"
 
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>

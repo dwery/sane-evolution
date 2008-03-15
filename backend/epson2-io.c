@@ -33,9 +33,10 @@
 #include <sane/sanei_pio.h>
 #include <sane/sanei_tcp.h>
 
-#include "epson2_scsi.h"
+#include "epson2-scsi.h"
 #include "epson_usb.h"
-#include "epson2_net.h"
+#include "epson2-net.h"
+#include "epson2-commands.h"
 
 /* flaming hack to get USB scanners
  * working without timeouts under linux

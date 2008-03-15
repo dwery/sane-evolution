@@ -11,7 +11,7 @@
  * document frame types in the wiki
  * ~~fix MM_PER_INCH macros~~
  * find other duplicated macros
- * fix #include ../
+ * ~~fix #include ../~~
  * sort backends wiki pages by mfr,model
  * add mfr wiki pages
  * add debian package

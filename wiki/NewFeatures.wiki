@@ -23,7 +23,8 @@ framework. [SANE_FRAME_TEXT] has been obsoleted and replaced by
 The backend can now tell to the frontend that the scanner is warming
 up. This is currently supported by the epson2 backend.
 
+== Coding style and rules ==
 
-
-
+A few coding guidelines and rules have been set in place. You
+can give them a look at CodingGuidelines .
 

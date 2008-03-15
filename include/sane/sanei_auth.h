@@ -52,7 +52,7 @@
 #ifndef sanei_auth_h
 #define sanei_auth_h
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 /** Check authorization for a resource
  *

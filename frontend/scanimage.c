@@ -23,11 +23,11 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 #ifdef _AIX
-# include "../include/lalloca.h"	/* MUST come first for AIX! */
+# include "lalloca.h"	/* MUST come first for AIX! */
 #endif
 
-#include "../include/sane/config.h"
-#include "../include/lalloca.h"
+#include "sane/config.h"
+#include "lalloca.h"
 
 #include <assert.h>
 #include <getopt.h>
@@ -41,13 +41,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #include "stiff.h"
 
-#include "../include/md5.h"
+#include "md5.h"
 
 #ifndef PATH_MAX
 #define PATH_MAX 1024

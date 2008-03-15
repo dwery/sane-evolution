@@ -25,11 +25,11 @@
 */
 
 #ifdef _AIX
-# include "../include/lalloca.h"		/* MUST come first for AIX! */
+# include "lalloca.h"		/* MUST come first for AIX! */
 #endif
 
-#include "../include/sane/config.h"
-#include "../include/lalloca.h"
+#include "sane/config.h"
+#include "lalloca.h"
 #include <sys/types.h>
 
 #if defined(HAVE_GETADDRINFO) && defined (HAVE_GETNAMEINFO)
@@ -136,13 +136,13 @@ poll (struct pollfd *ufds, unsigned int nfds, int timeout)
 # endif /* HAVE_SYS_POLL_H && HAVE_POLL */
 #endif /* SANED_USES_AF_INDEP */
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_net.h"
-#include "../include/sane/sanei_codec_bin.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_net.h"
+#include "sane/sanei_codec_bin.h"
+#include "sane/sanei_config.h"
 
-#include "../include/sane/sanei_auth.h"
+#include "sane/sanei_auth.h"
 
 #ifndef EXIT_SUCCESS
 # define EXIT_SUCCESS   0

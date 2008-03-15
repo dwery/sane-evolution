@@ -24,7 +24,7 @@
 
 #define BUILD 18				/* 2003-02-22 */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <assert.h>
 #include <getopt.h>
@@ -38,9 +38,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 static struct option basic_options[] = {
 	{"device-name", required_argument, NULL, 'd'},

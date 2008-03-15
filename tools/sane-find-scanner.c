@@ -19,7 +19,7 @@
 
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -36,17 +36,17 @@
 #include <ddk/ntddscsi.h>
 #endif
 
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/sanei_pa4s2.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei.h"
+#include "sane/sanei_scsi.h"
+#include "sane/sanei_pa4s2.h"
+#include "sane/sanei_config.h"
 
 #ifdef HAVE_LIBUSB
 #include "usb.h"
 extern char * check_usb_chip (struct usb_device *dev, int verbosity, SANE_Bool from_file);
 #endif
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX 1024

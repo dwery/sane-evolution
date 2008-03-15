@@ -53,8 +53,8 @@
 #ifndef sanei_access_h
 #define sanei_access_h
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
+#include "sane/config.h"
+#include "sane/sane.h"
 
 /** Initialize sanei_access.
  *

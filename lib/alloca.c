@@ -22,7 +22,7 @@
    your main control loop, etc. to force garbage collection.  */
 
 #ifdef HAVE_CONFIG_H
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #endif
 
 #ifndef HAVE_ALLOCA

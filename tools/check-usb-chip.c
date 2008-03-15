@@ -26,8 +26,8 @@
 */
 
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
+#include "sane/config.h"
+#include "sane/sane.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>

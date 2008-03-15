@@ -22,14 +22,14 @@
    2002-08-27, OR: Added tiff tag for ICC profile
 */
 #ifdef _AIX
-# include "../include/lalloca.h"	/* MUST come first for AIX! */
+# include "lalloca.h"	/* MUST come first for AIX! */
 #endif
 
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
+#include "sane/config.h"
+#include "sane/sane.h"
 
 #include "stiff.h"
 

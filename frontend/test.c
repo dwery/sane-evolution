@@ -37,7 +37,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 void
 auth_callback (SANE_String_Const domain,

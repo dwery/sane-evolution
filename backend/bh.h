@@ -998,11 +998,6 @@ struct mode_page_33
 };
 
 #ifndef sane_isbasicframe
-#define SANE_FRAME_TEXT 10
-#define SANE_FRAME_JPEG 11
-#define SANE_FRAME_G31D 12
-#define SANE_FRAME_G32D 13
-#define SANE_FRAME_G42D 14
 #define sane_strframe(f) ( (f) == SANE_FRAME_GRAY ? "gray" : \
   (f) == SANE_FRAME_RGB ? "RGB" : \
   (f) == SANE_FRAME_RED ? "red" : \

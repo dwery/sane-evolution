@@ -7,13 +7,21 @@
  * epson2
 
 == sane_control_options handles unknown SANE_ACTION values ==
+(returning [SANE_STATUS_UNSUPPORTED])
 
+ * abaton
+ * agfafocus
+ * apple
+ * artec
+ * artec_eplus48u
+ * dc210
+ * dc240
+ * dmc
+ * epjitsu
  * hp3500
  * hp5400
  * lexmark
+ * microtek
  * qcam
  * ricoh
-
-== to be patched ==
-
- * canon630u
+ * sm3600

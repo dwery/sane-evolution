@@ -4027,7 +4027,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		}
 		break;
 	default:
-		return SANE_STATUS_INVAL;
+		return SANE_STATUS_UNSUPPORTED;
 	}
 	return SANE_STATUS_GOOD;
 }

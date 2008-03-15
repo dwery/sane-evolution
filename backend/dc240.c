@@ -984,15 +984,6 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	if (option < 0 || option >= NELEMS(sod))
 		return SANE_STATUS_INVAL;	/* Unknown option ... */
 
-	/* Need to put this DBG line after the range check on option */
-	DBG(127, "control_option(handle=%p,opt=%s,act=%s,val=%p,info=%p)\n",
-	    handle, sod[option].title,
-	    (action ==
-	     SANE_ACTION_SET_VALUE ? "SET" : (action ==
-					      SANE_ACTION_GET_VALUE ? "GET" :
-					      "SETAUTO")), value,
-	    (void *) info);
-
 	if (handle != MAGIC || !is_open)
 		return SANE_STATUS_INVAL;	/* Unknown handle ... */
 
@@ -1196,10 +1187,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		break;
 
 	case SANE_ACTION_SET_AUTO:
-		switch (option) {
-		default:
-			return SANE_STATUS_UNSUPPORTED;	/* We are DUMB */
-		}
+	default:
+		return SANE_STATUS_UNSUPPORTED;	/* We are DUMB */
 	}
 
 	if (info && action == SANE_ACTION_SET_VALUE) {

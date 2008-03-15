@@ -2000,34 +2000,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 
 
 	DBG(FLOW_CONTROL,
-	    "(%s): Entering on control_option for option %s (%d).\n",
-	    (action == SANE_ACTION_GET_VALUE) ? "get" : "set",
+	    "(%s): Entering on control_option for option %d.\n",
 	    s->opt[option].name, option);
-
-	if (val || action == SANE_ACTION_GET_VALUE)
-		switch (s->opt[option].type) {
-		case SANE_TYPE_STRING:
-			DBG(FLOW_CONTROL, "Value %s\n",
-			    (action ==
-			     SANE_ACTION_GET_VALUE) ? s->val[option].
-			    s : (char *) val);
-			break;
-		case SANE_TYPE_FIXED:
-		{
-			double v1, v2;
-			SANE_Fixed f;
-			v1 = SANE_UNFIX(s->val[option].w);
-			f = *(SANE_Fixed *) val;
-			v2 = SANE_UNFIX(f);
-			DBG(FLOW_CONTROL, "Value %g (Fixed)\n",
-			    (action == SANE_ACTION_GET_VALUE) ? v1 : v2);
-		}
-		default:
-			DBG(FLOW_CONTROL, "Value %u (Int).\n",
-			    (action == SANE_ACTION_GET_VALUE)
-			    ? s->val[option].w : *(SANE_Int *) val);
-			break;
-		}
 
 
 	if (info)
@@ -2282,7 +2256,8 @@ eliminated.
 
 		}		/* End of switch */
 	}			/* End of SET_VALUE */
-	return SANE_STATUS_INVAL;
+
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 SANE_Status

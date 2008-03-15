@@ -1107,63 +1107,63 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		}
 	}
 
-	if (action == SANE_ACTION_SET_AUTO) {
-		return SANE_STATUS_UNSUPPORTED;
-	}
-
-	switch (option) {
-	case OPT_IMAGE_MODE:
-		for (i = 0; i < NUM_IMAGE_MODES; i++) {
-			if (!strcmp(val, ValidModes[i])) {
-				status = DMCSetMode(c, i);
-				c->val[OPT_IMAGE_MODE].s =
-					(SANE_String) ValidModes[i];
+	if (action == SANE_ACTION_SET_VALUE) {
+		switch (option) {
+		case OPT_IMAGE_MODE:
+			for (i = 0; i < NUM_IMAGE_MODES; i++) {
+				if (!strcmp(val, ValidModes[i])) {
+					status = DMCSetMode(c, i);
+					c->val[OPT_IMAGE_MODE].s =
+						(SANE_String) ValidModes[i];
+					if (info)
+						*info |= SANE_INFO_RELOAD_PARAMS | SANE_INFO_RELOAD_OPTIONS;
+					return SANE_STATUS_GOOD;
+				}
+			}
+			break;
+		case OPT_WHITE_BALANCE:
+			for (i = 0; i <= WHITE_BALANCE_FLUORESCENT; i++) {
+				if (!strcmp(val, ValidBalances[i])) {
+					c->val[OPT_WHITE_BALANCE].s =
+						(SANE_String)
+						ValidBalances[i];
+					return SANE_STATUS_GOOD;
+				}
+			}
+			break;
+		case OPT_ASA:
+			for (i = 1; i <= ASA_100 + 1; i++) {
+				if (*((SANE_Int *) val) == ValidASAs[i]) {
+					c->val[OPT_ASA].w = ValidASAs[i];
+					return SANE_STATUS_GOOD;
+				}
+			}
+			break;
+		case OPT_SHUTTER_SPEED:
+			if (*(SANE_Int *) val < c->hw->shutterSpeedRange.min
+			    || *(SANE_Int *) val >
+			    c->hw->shutterSpeedRange.max) {
+				return SANE_STATUS_INVAL;
+			}
+			c->val[OPT_SHUTTER_SPEED].w = *(SANE_Int *) val;
+			/* Do any roundoff */
+			c->val[OPT_SHUTTER_SPEED].w =
+				TICKS_TO_MS(MS_TO_TICKS
+					    (c->val[OPT_SHUTTER_SPEED].w));
+			if (c->val[OPT_SHUTTER_SPEED].w != *(SANE_Int *) val) {
 				if (info)
-					*info |= SANE_INFO_RELOAD_PARAMS |
-						SANE_INFO_RELOAD_OPTIONS;
-				return SANE_STATUS_GOOD;
+					*info |= SANE_INFO_INEXACT;
 			}
-		}
-		break;
-	case OPT_WHITE_BALANCE:
-		for (i = 0; i <= WHITE_BALANCE_FLUORESCENT; i++) {
-			if (!strcmp(val, ValidBalances[i])) {
-				c->val[OPT_WHITE_BALANCE].s =
-					(SANE_String) ValidBalances[i];
-				return SANE_STATUS_GOOD;
-			}
-		}
-		break;
-	case OPT_ASA:
-		for (i = 1; i <= ASA_100 + 1; i++) {
-			if (*((SANE_Int *) val) == ValidASAs[i]) {
-				c->val[OPT_ASA].w = ValidASAs[i];
-				return SANE_STATUS_GOOD;
-			}
-		}
-		break;
-	case OPT_SHUTTER_SPEED:
-		if (*(SANE_Int *) val < c->hw->shutterSpeedRange.min ||
-		    *(SANE_Int *) val > c->hw->shutterSpeedRange.max) {
-			return SANE_STATUS_INVAL;
-		}
-		c->val[OPT_SHUTTER_SPEED].w = *(SANE_Int *) val;
-		/* Do any roundoff */
-		c->val[OPT_SHUTTER_SPEED].w =
-			TICKS_TO_MS(MS_TO_TICKS(c->val[OPT_SHUTTER_SPEED].w));
-		if (c->val[OPT_SHUTTER_SPEED].w != *(SANE_Int *) val) {
-			if (info)
-				*info |= SANE_INFO_INEXACT;
-		}
 
-		return SANE_STATUS_GOOD;
+			return SANE_STATUS_GOOD;
 
-	default:
-		/* Should really be INVAL, but just bit-bucket set requests... */
-		return SANE_STATUS_GOOD;
+		default:
+			/* Should really be INVAL, but just bit-bucket set requests... */
+			return SANE_STATUS_GOOD;
+		}
 	}
 
-	return SANE_STATUS_INVAL;
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 /**********************************************************************

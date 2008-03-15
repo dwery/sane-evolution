@@ -613,7 +613,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 			return SANE_STATUS_INVAL;
 		}		/* switch */
 	}			/* else */
-	return SANE_STATUS_INVAL;
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 /**

@@ -58,7 +58,7 @@
 #endif
 
 #define DEBUG_NOT_STATIC
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 
 #ifndef PACKAGE
 #define PACKAGE "Canon Parallel SANE Backend"

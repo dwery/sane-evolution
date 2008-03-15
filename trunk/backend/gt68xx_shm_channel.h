@@ -48,7 +48,7 @@
  * @brief Shared memory channel support.
  */
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 typedef struct Shm_Channel Shm_Channel;
 

@@ -167,7 +167,7 @@ struct video_channel
 /* end of kernel interface */
 
 
-#include <../include/sane/sane.h>
+#include <sane/sane.h>
 
 #define MAX_CHANNELS 32
 

@@ -50,7 +50,7 @@
 /* $Id: snapscan.c,v 1.71 2008-01-29 17:48:42 kitno-guest Exp $
    SANE SnapScan backend */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -67,11 +67,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_scsi.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_thread.h"
 
 #ifndef PATH_MAX
 #define PATH_MAX        1024
@@ -88,8 +88,8 @@
 #define UNUSEDARG
 #endif
 
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sanei_backend.h"
+#include "sane/saneopts.h"
 
 #include "snapscan.h"
 
@@ -101,7 +101,7 @@
 #define P_200_TO_255(per) SANE_UNFIX(255.0*((per + 100)/200.0))
 #endif
 
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_config.h"
 
 /* debug levels */
 #define DL_INFO         10

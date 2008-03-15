@@ -52,7 +52,7 @@
 
 #define DEBUG_NOT_STATIC
 #define DEBUG_DECLARE_ONLY
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 
 #define DBG_ASSERT  1
 #define DBG_ERR     16

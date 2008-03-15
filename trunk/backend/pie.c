@@ -92,7 +92,7 @@
 #include "sane/sanei_backend.h"
 #include "sane/sanei_config.h"
 	
-# include "../include/sane/sanei_thread.h"
+# include "sane/sanei_thread.h"
 	
 #include "pie-scsidef.h"
 	

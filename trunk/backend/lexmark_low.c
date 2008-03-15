@@ -43,7 +43,7 @@
 
    **************************************************************************/
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,14 +51,14 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 #include "lexmark.h"
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #include "lexmark_sensors.c"
 #include "lexmark_models.c"

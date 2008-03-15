@@ -46,7 +46,7 @@
    3. start scan while busy (status 0x1414)
    4. cancel using ctrl-c (must send abort command)
  */
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

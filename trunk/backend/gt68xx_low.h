@@ -49,7 +49,7 @@
  * @brief Low-level scanner interface functions.
  */
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 #include <stddef.h>
 

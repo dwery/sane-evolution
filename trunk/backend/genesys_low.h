@@ -52,7 +52,7 @@
 #define GENESYS_LOW_H
 
 #include <stddef.h>
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 #define DBG_error0      0	/* errors/warnings printed even with devuglevel 0 */
 #define DBG_error       1	/* fatal errors */

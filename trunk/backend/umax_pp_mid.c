@@ -40,14 +40,14 @@
 
    This file implements a SANE backend for Umax PP flatbed scanners.  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include <stdlib.h>
 #include <string.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <stdio.h>
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 
 #define __MAIN__
 

@@ -214,7 +214,7 @@ void pixma_hexdump(int level, const void *d_, unsigned len);
 void pixma_dump(int level, const char *type, const void *data, int len,
 		int size, int max);
 #  define DEBUG_DECLARE_ONLY
-#  include "../include/sane/sanei_debug.h"
+#  include "sane/sanei_debug.h"
 #endif /* NDEBUG */
 /** @} end of group debug */
 

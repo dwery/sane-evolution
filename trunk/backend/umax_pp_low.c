@@ -44,7 +44,7 @@
 
 
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,7 +65,7 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 #include <errno.h>
 
 #ifdef HAVE_DEV_PPBUS_PPI_H

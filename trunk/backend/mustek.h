@@ -46,7 +46,7 @@
 #ifndef mustek_h
 #define mustek_h
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include <sys/types.h>
 
 /* Some constants */

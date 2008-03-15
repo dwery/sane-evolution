@@ -51,7 +51,7 @@
 #define BUILD 138
 /**************************************************************************/
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -66,16 +66,16 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/sanei_ab306.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_scsi.h"
+#include "sane/sanei_ab306.h"
+#include "sane/sanei_thread.h"
 
 #define BACKEND_NAME	mustek
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
 
 #include "mustek.h"
 #include "mustek_scsi_pp.h"

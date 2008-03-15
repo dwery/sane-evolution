@@ -43,14 +43,14 @@
 #define HP3900_CONFIG_FILE "hp3900.conf"
 #define GAMMA_DEFAULT 1.0
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_debug.h"
+#include "sane/config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_debug.h"
 
 #include "hp3900_rts8822.c"
 

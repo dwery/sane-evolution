@@ -48,7 +48,7 @@
 #ifndef ma1509_h
 #define ma1509_h
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include <sys/types.h>
 
 /* Some constants */

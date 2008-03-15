@@ -40,7 +40,7 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.
  */
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

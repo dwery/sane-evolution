@@ -50,7 +50,7 @@
    */
 
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -70,14 +70,14 @@
 #include <sys/types.h>
 #endif
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_config.h"
 
 
 #define BACKEND_NAME	umax_pp
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #include "umax_pp_mid.h"
 #include "umax_pp.h"

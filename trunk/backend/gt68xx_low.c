@@ -48,9 +48,9 @@
 
 #include "gt68xx_low.h"
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_usb.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_usb.h"
 
 #include <stdlib.h>
 #include <string.h>

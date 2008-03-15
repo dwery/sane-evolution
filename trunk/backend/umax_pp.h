@@ -45,7 +45,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
-#include <../include/sane/sanei_debug.h>
+#include <sane/sanei_debug.h>
 
 
 enum Umax_PP_Option

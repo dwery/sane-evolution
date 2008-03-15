@@ -42,11 +42,11 @@
    If you do not wish that, delete this exception notice. */
 
 #include <time.h>
-#include "../include/sane/sane.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_scsi.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_thread.h"
 
 /* 1-2 SCSI STATUS BYTE KEYS                      */
 #define HS2P_SCSI_STATUS_GOOD			0x00

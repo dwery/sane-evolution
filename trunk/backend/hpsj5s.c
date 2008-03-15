@@ -43,13 +43,13 @@
 #define BACKEND_NAME	hpsj5s
 #define HPSJ5S_CONFIG_FILE "hpsj5s.conf"
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_backend.h"
 
 #include "hpsj5s.h"
 

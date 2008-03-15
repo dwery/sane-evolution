@@ -46,7 +46,7 @@
  * SANE backend for Grandtech GT-6801 and GT-6816 based scanners
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #define BUILD 84
 #define MAX_DEBUG
@@ -95,14 +95,14 @@
 #include <math.h>
 #include <dirent.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #define BACKEND_NAME gt68xx
 
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
 
 #ifndef SANE_I18N
 #define SANE_I18N(text) text

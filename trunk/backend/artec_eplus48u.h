@@ -1,9 +1,9 @@
 #ifndef ARTEC48U_H
 #define ARTEC48U_H
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 #include <sys/types.h>
 #ifdef HAVE_SYS_IPC_H
 #include <sys/ipc.h>
@@ -12,8 +12,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_thread.h"
 
 #define _MAX_ID_LEN 20
 

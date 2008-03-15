@@ -129,7 +129,7 @@
  *  @verbinclude Plustek-USB.txt
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -149,17 +149,17 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #define BACKEND_VERSION "0.52-7"
 
 #define BACKEND_NAME    plustek
-#include "../include/sane/sanei_access.h"
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sanei_access.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_thread.h"
 
 #define USE_IPC
 

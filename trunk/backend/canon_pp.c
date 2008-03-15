@@ -52,7 +52,7 @@
 #define TWO_BITS 0xC0
 
 #ifndef NOSANE
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #endif
 
 #ifndef VERSION
@@ -68,15 +68,15 @@
 #include <errno.h>
 #include <ieee1284.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/saneopts.h"
 
 #include "canon_pp-dev.h"
 #include "canon_pp-io.h"
 #include "canon_pp.h"
 
-#include  "../include/sane/sanei_config.h"
-#include  "../include/sane/sanei_backend.h"
+#include  "sane/sanei_config.h"
+#include  "sane/sanei_backend.h"
 
 
 /* Prototypes */

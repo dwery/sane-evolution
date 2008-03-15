@@ -40,7 +40,7 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.
  */
-# include "../include/sane/config.h"
+# include "sane/config.h"
 
 #include <errno.h>
 #include <string.h>
@@ -58,11 +58,11 @@
 #include "pixma.h"
 
 # define DEBUG_NOT_STATIC
-# include "../include/sane/sane.h"
-# include "../include/sane/sanei.h"
-# include "../include/sane/saneopts.h"
-# include "../include/sane/sanei_thread.h"
-# include "../include/sane/sanei_backend.h"
+# include "sane/sane.h"
+# include "sane/sanei.h"
+# include "sane/saneopts.h"
+# include "sane/sanei_thread.h"
+# include "sane/sanei_backend.h"
 
 #ifdef NDEBUG
 # define PDBG(x)

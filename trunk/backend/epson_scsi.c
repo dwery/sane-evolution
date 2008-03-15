@@ -1,7 +1,7 @@
 #ifdef _AIX
 #include "../include/lalloca.h"	/* MUST come first for AIX! */
 #endif
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include <sane/sanei_debug.h>
 #include <sane/sanei_scsi.h>
 #include "epson_scsi.h"

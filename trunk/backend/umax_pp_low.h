@@ -41,7 +41,7 @@
    This file implements a SANE backend for Umax PP flatbed scanners.  */
 
 #include <stdio.h>
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 /*****************************************************************************/
 /*                 set port to 'idle state' and get iopl                     */

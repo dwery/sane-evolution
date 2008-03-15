@@ -53,7 +53,7 @@
    (              karsten.festag@t-online.de)
  ***************************************************************************/
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,12 +71,12 @@
 #include <sys/stat.h>
 #endif
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_scsi.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_thread.h"
 
 #ifndef TESTBACKEND
 #define BACKEND_NAME microtek2
@@ -87,7 +87,7 @@
 /* for testing*/
 /*#define NO_PHANTOMTYPE_SHADING*/
 
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #include "microtek2.h"
 

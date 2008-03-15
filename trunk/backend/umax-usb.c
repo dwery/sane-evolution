@@ -49,7 +49,7 @@
 
 /* ---------------------------------------------------------------------- */
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 #include "sane/sanei_pv8630.h"
 

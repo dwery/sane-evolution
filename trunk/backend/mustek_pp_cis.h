@@ -45,7 +45,7 @@
 #ifndef mustek_pp_cis_h
 #define mustek_pp_cis_h
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 /******************************************************************************
  * Read register symbols.

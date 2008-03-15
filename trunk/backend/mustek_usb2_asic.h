@@ -48,7 +48,7 @@
 #ifndef MUSTEK_USB2_ASIC_H
 #define MUSTEK_USB2_ASIC_H
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 /* ---------------------- low level asic defines -------------------------- */
 

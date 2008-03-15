@@ -47,7 +47,7 @@
 # include "../include/lalloca.h"	/* MUST come first for AIX! */
 #endif
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include "../include/lalloca.h"
 
 #include <errno.h>
@@ -66,20 +66,20 @@
 #include <netinet/in.h>
 #include <netdb.h>		/* OS/2 needs this _after_ <netinet/in.h>, grrr... */
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_net.h"
-#include "../include/sane/sanei_codec_bin.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_net.h"
+#include "sane/sanei_codec_bin.h"
 #include "net.h"
 
 #define BACKEND_NAME    net
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX       1024
 #endif
 
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_config.h"
 #define NET_CONFIG_FILE "net.conf"
 
 /* Please increase version number with every change

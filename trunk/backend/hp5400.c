@@ -51,17 +51,17 @@
     Parts of this source were inspired by other backends.
 */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include "hp5400_debug.h"
 #include "hp5400.h"
 
-#include "../include/sane/config.h"
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/saneopts.h"
+#include "sane/config.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/saneopts.h"
 
 
 #include <stdlib.h>		/* malloc, free */

@@ -40,7 +40,7 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.
  */
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -50,7 +50,7 @@
 #include "pixma_common.h"
 #include "pixma_io.h"
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 
 #ifdef __GNUC__

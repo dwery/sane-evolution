@@ -49,7 +49,7 @@
 
 #define BUILD 5
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <limits.h>
 #include <stdlib.h>
@@ -59,18 +59,18 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_scsi.h"
+#include "sane/sane.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_scsi.h"
 
 #define BACKEND_NAME ibm
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX	1024
 #endif
 
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_config.h"
 #define IBM_CONFIG_FILE "ibm.conf"
 
 #include "ibm.h"

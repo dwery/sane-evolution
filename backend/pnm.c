@@ -42,7 +42,7 @@
 
 #define BUILD 8
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -51,12 +51,12 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #define BACKEND_NAME	pnm
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX	1024

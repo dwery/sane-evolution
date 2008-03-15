@@ -48,8 +48,8 @@
 
 #include <unistd.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_usb.h"
+#include "sane/sane.h"
+#include "sane/sanei_usb.h"
 #include "mustek_usb_low.h"
 
 

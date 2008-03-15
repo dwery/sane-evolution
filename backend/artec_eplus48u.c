@@ -69,7 +69,7 @@ Updates (C) 2001 by Henning Meier-Geinitz.
 
 #define BUILD 11
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -88,9 +88,9 @@ Updates (C) 2001 by Henning Meier-Geinitz.
 #include <sys/ioctl.h>
 
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #define BACKEND_NAME artec_eplus48u
 #include "sane/sanei_backend.h"

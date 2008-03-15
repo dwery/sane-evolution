@@ -40,7 +40,7 @@
 
    This file implements a SANE backend for Mustek PP flatbed scanners.  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #if defined(HAVE_STDLIB_H)
 # include <stdlib.h>
@@ -57,8 +57,8 @@
 
 #include "mustek_pp.h"
 #include "mustek_pp_decl.h"
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
 
 #define MUSTEK_PP_NULL_DRIVER	0
 

@@ -16,7 +16,7 @@
 #define BACKEND_NAME epson2
 
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <sane/sane.h>
 #include <sane/saneopts.h>

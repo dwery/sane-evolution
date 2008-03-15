@@ -44,7 +44,7 @@
 
 
 /**************************************************************************/
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -62,11 +62,11 @@
 
 #include <time.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_pa4s2.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_pa4s2.h"
 
 /*
  * Number of times to retry sending a SCSI command before giving up

@@ -50,7 +50,7 @@
    */
 
 #ifndef NOSANE
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #endif
 
 #include <sys/time.h>
@@ -84,8 +84,8 @@ DBG(int level, const char *format, ...)
 /* Fix problem with DBG macro definition having a - in the name */
 #define DEBUG_DECLARE_ONLY
 #include "canon_pp.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_config.h"
 
 #endif
 

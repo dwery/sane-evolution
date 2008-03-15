@@ -52,7 +52,7 @@
 #ifndef snapscan_h
 #define snapscan_h
 
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 #define UNREFERENCED_PARAMETER(x)           ((void) x)
 

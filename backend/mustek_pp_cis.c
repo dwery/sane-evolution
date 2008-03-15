@@ -87,7 +87,7 @@
 
 #define MUSTEK_PP_CIS_MOTOR_REVERSE 	0
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <assert.h>
 #include <string.h>
@@ -98,8 +98,8 @@
 #ifdef HAVE_SYS_SELECT_H
 # include <sys/select.h>
 #endif
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_pa4s2.h"
+#include "sane/sane.h"
+#include "sane/sanei_pa4s2.h"
 #define DEBUG_DECLARE_ONLY
 #include "mustek_pp.h"
 #include "mustek_pp_decl.h"

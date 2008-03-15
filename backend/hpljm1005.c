@@ -47,7 +47,7 @@
 
 #define BUILD 0
 
-#include  "../include/sane/config.h"
+#include  "sane/config.h"
 #include  <math.h>
 
 #include  <limits.h>
@@ -61,9 +61,9 @@
 #include  <stdint.h>
 #include <netinet/in.h>
 #define  BACKEND_NAME hpljm1005
-#include  "../include/sane/sanei_backend.h"
-#include  "../include/sane/sanei_usb.h"
-#include  "../include/sane/saneopts.h"
+#include  "sane/sanei_backend.h"
+#include  "sane/sanei_usb.h"
+#include  "sane/saneopts.h"
 
 #define MAGIC_NUMBER 0x41535001
 #define PKT_READ_STATUS 0x0

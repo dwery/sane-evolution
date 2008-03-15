@@ -49,7 +49,7 @@
 #endif
 
 #define DEBUG_NOT_STATIC
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 
 /* Please note: ASSERT won't go away if you define NDEBUG, it just won't
  * output a message when ASSERT failes. So if "cond" does anything, it will

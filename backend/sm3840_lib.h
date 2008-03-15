@@ -51,7 +51,7 @@ static usb_dev_handle *find_device(unsigned int idVendor,
 				   unsigned int idProduct);
 
 #else
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 #ifndef USBWRAPPER
 #define USBWRAPPER

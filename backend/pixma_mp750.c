@@ -46,7 +46,7 @@
  * the protocol of MP750.
  ****************************************************************************/
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdlib.h>
 #include <string.h>

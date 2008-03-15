@@ -50,7 +50,7 @@
 #define mustek_usb_mid_h
 
 #include "mustek_usb_low.h"
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 /* ---------------------------------- macros ------------------------------ */
 

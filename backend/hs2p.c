@@ -65,7 +65,7 @@
 #define BUILD 1
 
 /* Begin includes */
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <limits.h>
 #include <stdlib.h>
@@ -79,14 +79,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_scsi.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_thread.h"
+#include "sane/sane.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_scsi.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_thread.h"
 
 #define BACKEND_NAME hs2p
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX	1024

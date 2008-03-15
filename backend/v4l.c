@@ -45,7 +45,7 @@
 
 #define BUILD 4
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <assert.h>
 #include <ctype.h>
@@ -67,21 +67,21 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #include <sys/ioctl.h>
 #include <asm/types.h>		/* XXX glibc */
 
 #define BACKEND_NAME v4l
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
 # define PATH_MAX       1024
 #endif
 
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_config.h"
 #define V4L_CONFIG_FILE "v4l.conf"
 
 #include "v4l.h"

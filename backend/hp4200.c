@@ -49,7 +49,7 @@ TODO:
 #define BUILD 2
 #define BACKEND_NAME hp4200
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <sys/ioctl.h>
 #include <stdio.h>
@@ -65,14 +65,14 @@ TODO:
 #include <ctype.h>
 #include <assert.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_pv8630.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_backend.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_pv8630.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_backend.h"
 #include "hp4200.h"
 
 #include "hp4200_lm9830.c"

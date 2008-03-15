@@ -50,7 +50,7 @@
  * SANE backend for Genesys Logic GL646/GL841 based scanners
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #define BUILD 9
 
@@ -60,15 +60,15 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/saneopts.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/saneopts.h"
 
 #define BACKEND_NAME genesys
 
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_config.h"
 
 #include "genesys.h"
 #include "genesys_devices.c"

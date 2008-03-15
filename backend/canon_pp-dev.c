@@ -52,7 +52,7 @@
    */
 
 #ifndef NOSANE
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #endif
 
 #include <sys/time.h>
@@ -89,8 +89,8 @@ DBG(int level, const char *format, ...)
 
 #define DEBUG_DECLARE_ONLY
 #include "canon_pp.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_backend.h"
 
 #endif
 

@@ -49,7 +49,7 @@
  */
 
 #include "gt68xx_low.h"
-#include "../include/sane/sane.h"
+#include "sane/sane.h"
 
 typedef struct GT68xx_Delay_Buffer GT68xx_Delay_Buffer;
 typedef struct GT68xx_Line_Reader GT68xx_Line_Reader;

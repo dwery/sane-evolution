@@ -55,7 +55,7 @@ Start: 2.4.2001
 
 ====================================================================== */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -66,12 +66,12 @@ Start: 2.4.2001
 #define BACKEND_NAME sm3600
 #endif
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_backend.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/saneopts.h"
-#include "../include/sane/sanei_usb.h"
+#include "sane/sane.h"
+#include "sane/sanei.h"
+#include "sane/sanei_backend.h"
+#include "sane/sanei_config.h"
+#include "sane/saneopts.h"
+#include "sane/sanei_usb.h"
 
 #undef HAVE_LIBUSB
 

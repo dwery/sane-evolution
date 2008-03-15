@@ -56,7 +56,7 @@
 #include "hp5400_xfer.h"
 #include "hp5400_debug.h"
 #include <stdio.h>
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 #define CMD_INITBULK1   0x0087	/* send 0x14 */
 #define CMD_INITBULK2   0x0083	/* send 0x24 */

@@ -29,7 +29,7 @@
 
 #include "niash_xfer.h"
 
-#include "../include/sane/sanei_usb.h"
+#include "sane/sanei_usb.h"
 
 /* list of supported models */
 STATIC TScannerModel ScannerModels[] = {

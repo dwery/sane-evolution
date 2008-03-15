@@ -86,6 +86,9 @@ sane_strstatus(SANE_Status status)
 	case SANE_STATUS_ACCESS_DENIED:
 		return "Access to resource has been denied";
 
+	case SANE_STATUS_WARMING_UP:
+		return "Scanner is warming up";
+
 	default:
 		/* non-reentrant, but better than nothing */
 		sprintf(buf, "Unknown SANE status code %d", status);

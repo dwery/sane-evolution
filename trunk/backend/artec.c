@@ -2943,11 +2943,11 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 			if (info)
 				*info |= SANE_INFO_RELOAD_OPTIONS;
 
-			return (SANE_STATUS_GOOD);
+			return SANE_STATUS_GOOD;
 		}
 	}
 
-	return (SANE_STATUS_INVAL);
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 static void

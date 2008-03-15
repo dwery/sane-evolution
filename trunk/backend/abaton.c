@@ -1148,7 +1148,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 			return SANE_STATUS_GOOD;
 		}		/* End of switch */
 	}			/* End of SET_VALUE */
-	return SANE_STATUS_INVAL;
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 SANE_Status

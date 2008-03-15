@@ -704,7 +704,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	}
 
 	DBG(11, "<< sane_control_option\n");
-	return (SANE_STATUS_INVAL);
+	return (SANE_STATUS_UNSUPPORTED);
 }
 
 SANE_Status

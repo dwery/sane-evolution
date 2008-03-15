@@ -652,6 +652,7 @@ sane_control_option(SANE_Handle handle, SANE_Int iOpt,
 		}
 		break;
 	case SANE_ACTION_SET_AUTO:
+	default:
 		return SANE_STATUS_UNSUPPORTED;
 	}			/* switch action */
 	return rc;		/* normally GOOD */

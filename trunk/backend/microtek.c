@@ -4001,7 +4001,9 @@ sane_control_option(SANE_Handle handle,
 		break;
 
 	case SANE_ACTION_SET_AUTO:
+	default:
 		return SANE_STATUS_UNSUPPORTED;	/* We are DUMB. */
+
 	}
 	return SANE_STATUS_GOOD;
 }

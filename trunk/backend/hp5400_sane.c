@@ -820,7 +820,7 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action Action,
 
 	default:
 		HP5400_DBG(DBG_ERR, "Invalid action (%d)\n", Action);
-		return SANE_STATUS_INVAL;
+		return SANE_STATUS_UNSUPPORTED;
 	}
 
 	return SANE_STATUS_GOOD;

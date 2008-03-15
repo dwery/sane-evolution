@@ -239,7 +239,4 @@ extern SANE_Status sane_set_io_mode(SANE_Handle handle,
 extern SANE_Status sane_get_select_fd(SANE_Handle handle, SANE_Int * fd);
 extern SANE_String_Const sane_strstatus(SANE_Status status);
 
-/* XXX eventually convert to an helper function */
-#define sane_action(handle, action, value) (sane_control_option(handle, 0, action, value, NULL))
-
 #endif /* sane_h */

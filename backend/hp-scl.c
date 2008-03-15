@@ -62,7 +62,7 @@
 extern int sanei_debug_hp;*/
 #define DEBUG_DECLARE_ONLY
 #include "sane/config.h"
-#include "../include/lalloca.h"	/* Must be first */
+#include "lalloca.h"	/* Must be first */
 
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
@@ -72,7 +72,7 @@ extern int sanei_debug_hp;*/
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include "../include/lassert.h"
+#include "lassert.h"
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/stat.h>

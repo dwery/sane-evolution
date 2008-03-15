@@ -90,11 +90,11 @@
 #include "sane/sanei_debug.h"
 #include "sane/sanei_backend.h"
 #include "sane/sanei_config.h"
-#include "../include/lassert.h"
+#include "lassert.h"
 
 /* for add-text routine  */
 #include <time.h>
-#include "../include/font_6x11.h"
+#include "font_6x11.h"
 /*-----------------------*/
 
 #include "stv680.h"

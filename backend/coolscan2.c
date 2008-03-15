@@ -68,10 +68,10 @@
 /* ========================================================================= */
 
 #ifdef _AIX
-# include "../include/lalloca.h"	/* MUST come first for AIX! */
+# include "lalloca.h"	/* MUST come first for AIX! */
 #endif
 #include "sane/config.h"
-#include "../include/lalloca.h"
+#include "lalloca.h"
 
 #include <math.h>
 #include <stdio.h>

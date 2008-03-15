@@ -1,12 +1,12 @@
 #ifdef _AIX
-#include "../include/lalloca.h"	/* MUST come first for AIX! */
+#include "lalloca.h"	/* MUST come first for AIX! */
 #endif
 #include "sane/config.h"
 #include <sane/sanei_debug.h>
 #include <sane/sanei_scsi.h>
 #include "epson_scsi.h"
 
-#include "../include/lalloca.h"
+#include "lalloca.h"
 
 #ifdef HAVE_STDDEF_H
 #include <stddef.h>

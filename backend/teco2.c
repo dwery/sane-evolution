@@ -93,7 +93,7 @@
 #include "sane/sanei_debug.h"
 #include "sane/sanei_backend.h"
 #include "sane/sanei_config.h"
-#include "../include/lassert.h"
+#include "lassert.h"
 
 #include "teco2.h"
 

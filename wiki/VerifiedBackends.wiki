@@ -20,6 +20,7 @@
  * epjitsu
  * hp3500
  * hp5400
+ * leo
  * lexmark
  * microtek
  * qcam

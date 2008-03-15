@@ -6,19 +6,20 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 == frontend use ==
 
 The frontend must not make any assumption about the capabilities
-of the backend unless otherwise noted. Unsupported SANE_ACTION_XXX calls
-will just lead to an error, without altering any functionality.
+of the backend unless otherwise noted.
 
 {{{
+#include <sane/helper.h>
+
         SANE_Int sane_version;
         sane_init(&sane_version, NULL);
 
         if (sane_version >= SANE_VERSION(1, 1, 0)) {
-                SANE_Int level = SANE_API(1, 1, 0);
-                result = sane_control_option(handle, 0,
-                                SANE_ACTION_CHECK_API_LEVEL, &level);
+                SANE_Int level = SANE_API_LEVEL(1, 1, 0);
+                result = sane_check_api_level(handle, &level);
         }
 }}}
+
 
 == backend implementation ==
 
@@ -31,11 +32,11 @@ if API level related features should be used.
         switch (action) {
         case SANE_ACTION_CHECK_API_LEVEL:
                 s->compat_level = *(SANE_Word *) value; /* frontend level */
-                *(SANE_Word *) value = SANE_API(1, 1, 0); /* backend level */
+                *(SANE_Word *) value = SANE_API_LEVEL(1, 1, 0); /* backend level */
                 break;
 
         ...
 
-        if (s->compat_level >= SANE_API(1, 1, 0))
+        if (s->compat_level >= SANE_API_LEVEL(1, 1, 0))
                 ... 
 }}}

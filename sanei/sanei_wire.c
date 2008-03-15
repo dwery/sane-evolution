@@ -38,7 +38,7 @@
    whether to permit this exception to apply to your modifications.
    If you do not wish that, delete this exception notice.  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <errno.h>
 #include <stdlib.h>
@@ -46,11 +46,11 @@
 
 #include <sys/types.h>
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_wire.h"
+#include "sane/sane.h"
+#include "sane/sanei_wire.h"
 
 #define BACKEND_NAME	sanei_wire
-#include "../include/sane/sanei_backend.h"
+#include "sane/sanei_backend.h"
 
 void
 sanei_w_space(Wire * w, size_t howmuch)

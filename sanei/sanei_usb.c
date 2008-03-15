@@ -43,7 +43,7 @@
 
    This file provides a generic USB interface.  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <stdlib.h>
 #include <sys/types.h>
@@ -95,10 +95,10 @@ GetNextDescriptor(struct usb_descriptor_header *currHead, UCHAR * lastBytePtr)
 #endif
 
 #define BACKEND_NAME	sanei_usb
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_config.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_config.h"
 
 typedef enum
 {

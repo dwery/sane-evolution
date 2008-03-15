@@ -46,7 +46,7 @@
 
  */
 
-#include "../include/sane/config.h"
+#include "sane/config.h"
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -56,10 +56,10 @@
 
 #define BACKEND_NAME sanei_lm983x   /**< the name of this module for dbg  */
 
-#include "../include/sane/sane.h"
-#include "../include/sane/sanei_debug.h"
-#include "../include/sane/sanei_usb.h"
-#include "../include/sane/sanei_lm983x.h"
+#include "sane/sane.h"
+#include "sane/sanei_debug.h"
+#include "sane/sanei_usb.h"
+#include "sane/sanei_lm983x.h"
 
 /***************************** some definitions ******************************/
 

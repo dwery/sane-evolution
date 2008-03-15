@@ -23,9 +23,9 @@
    This file provides a SCSI interface for Linux >= 2.4.0
 */
 
-#include "../include/sane/config.h"
-#include "../include/lalloca.h"
-#include "../include/lassert.h"
+#include "sane/config.h"
+#include "lalloca.h"
+#include "lassert.h"
 
 #include <ctype.h>
 #include <errno.h>
@@ -44,12 +44,12 @@
 
 #include <scsi/sg.h>
 
-#include "../include/sane/sanei.h"
-#include "../include/sane/sanei_config.h"
-#include "../include/sane/sanei_scsi.h"
+#include "sane/sanei.h"
+#include "sane/sanei_config.h"
+#include "sane/sanei_scsi.h"
 
 #define BACKEND_NAME	sanei_scsi
-#include "../include/sane/sanei_debug.h"
+#include "sane/sanei_debug.h"
 
 #ifdef SG_BIG_BUFF
 #define MAX_DATA	SG_BIG_BUFF

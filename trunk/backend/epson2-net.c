@@ -11,6 +11,11 @@
  * published by the Free Software Foundation, version 2.
  */
 
+#define DEBUG_DECLARE_ONLY
+#undef BACKEND_NAME
+#define BACKEND_NAME epson2
+
+
 #include "../include/sane/config.h"
 
 #include <sane/sane.h>
@@ -20,12 +25,9 @@
 #include <sane/sanei_backend.h>
 
 #include "epson2.h"
-#include "epson2_net.h"
+#include "epson2-net.h"
 
 #include "byteorder.h"
-
-#undef BACKEND_NAME
-#define BACKEND_NAME epson2_net
 
 #include <sane/sanei_debug.h>
 

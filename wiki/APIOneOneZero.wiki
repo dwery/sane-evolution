@@ -3,7 +3,7 @@
 In order to comply to 1.1.0 a *frontend*
 MUST implement the following:
 
- * [SANE_ACTION_CHECK_API_LEVEL]
+ * [SANE_ACTION_CHECK_API_LEVEL] 
  * [SANE_STATUS_WARMING_UP]
 
 A *backend* MUST implement the following:
@@ -13,4 +13,4 @@ A *backend* MUST implement the following:
 Optionally, for both backends and frontends:
 
  * [SANE_ACTION_CHECK_WARM_UP]
-
+ * [SANE_ACTION_GET_SCANNER_INFO]

@@ -3,4 +3,6 @@
 The code base has been imported from SANE and
 some NewFeatures have been added. We are now testing them
 and verifying compatibility, while evolving a little bit
-more. The first release is expected for mid april.
+more. saned and the net backend still need some changes to cope with the new features.
+[APIOneOneZero] is almost finalized. 
+The first release is expected for mid april.

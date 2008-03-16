@@ -62,7 +62,6 @@
 extern int sanei_debug_hp;*/
 #define DEBUG_DECLARE_ONLY
 #include "sane/config.h"
-#include "lalloca.h"	/* Must be first */
 
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
@@ -1766,17 +1765,13 @@ sanei_hp_scsi_pipeout(HpScsi this, int outfd, HpProcessData * procdata)
  */
 
 static SANE_Status
-_hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
-	    void *valp, size_t * lengthp)
+__hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
+	    void *valp, size_t * lengthp, char *buf)
 {
 	size_t bufsize = 16 + (lengthp ? *lengthp : 0);
-	char *buf = alloca(bufsize);
 	char expect[16], expect_char;
 	int val, count;
 	SANE_Status status;
-
-	if (!buf)
-		return SANE_STATUS_NO_MEM;
 
 	/* Flush data before sending inquiry. */
 	/* Otherwise scanner might not generate a response. */
@@ -1842,22 +1837,39 @@ _hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 	return SANE_STATUS_GOOD;
 }
 
+static SANE_Status
+_hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
+	    void *valp, size_t * lengthp)
+{
+	SANE_Status status;
+	size_t bufsize = 16 + (lengthp ? *lengthp : 0);
+	
+	char *buf = malloc(bufsize);
+	if (buf == NULL)
+		return SANE_STATUS_NO_MEM;
+	
+	status = __hp_scl_inq(scsi, scl, inq_cmnd, valp, lengthp, buf);
+
+	free(buf);
+	return status;
+}
+
 
 SANE_Status
 sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl, size_t * lengthhp,
 			   char **bufhp)
 {
 	size_t bufsize = 16, sv;
-	char *buf = alloca(bufsize);
-	char *bufstart = buf;
+	char buffer[16];
+	char *buf, *bufstart;
 	char *hpdata;
 	char expect[16], expect_char;
 	int n, val, count;
 	SANE_Status status;
 
-	if (!buf)
-		return SANE_STATUS_NO_MEM;
+	buf = bufstart = &buffer[0];
 
+	
 	assert(IS_SCL_DATA_TYPE(scl));
 
 	/* Flush data before sending inquiry. */

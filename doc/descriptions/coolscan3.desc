@@ -1,0 +1,47 @@
+;
+; SANE Backend specification file for coolscan3
+
+:backend "coolscan3"
+:version "1.1.0"
+:manpage "sane-coolscan3"
+
+:devicetype :scanner
+:mfg "Nikon"
+:url "http://www.nikon.com/"
+
+:model "LS 30"
+:interface "SCSI"
+:status :complete
+
+:model "LS 2000"
+:interface "SCSI"
+:status :good
+
+:model "LS 40 ED"
+:interface "USB"
+:usbid "0x04b0" "0x4000"
+:status :complete
+
+:model "LS 4000 ED"
+:interface "IEEE-1394"
+:status :good
+
+:model "LS 50 ED"
+:interface "USB"
+:usbid "0x04b0" "0x4001"
+:status :minimal
+
+:model "Coolscan V ED"
+:interface "USB"
+:usbid "0x04b0" "0x4001"
+:status :minimal
+
+:model "Super Coolscan LS-5000 ED"
+:interface "USB"
+:usbid "0x04b0" "0x4002"
+:status :untested
+:comment "May work, similar to LS 50 ED, but untested. Please tell us if it works."
+
+:model "LS 8000 ED"
+:interface "IEEE-1394"
+:status :good

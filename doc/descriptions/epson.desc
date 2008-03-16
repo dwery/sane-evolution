@@ -11,7 +11,7 @@
 
 :backend "epson"                  ; name of backend
 ;:version "0.2.42"                ; version of backend
-:version "unmaintained"           ; version of backend
+:version "deprecated"             ; version of backend
 :new :no
 :manpage "sane-epson"             ; name of manpage (if it exists)
 :url "http://www.khk.net/sane"    ; backend's web page

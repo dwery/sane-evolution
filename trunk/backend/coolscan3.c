@@ -39,12 +39,13 @@
 #include <sane/sanei_config.h>
 
 #define BACKEND_NAME coolscan3
-#include <sane/sanei_backend.h>	/* must be last */
+#define BACKEND_VERSION "1.1.0"
+#define BACKEND_VERSION_MAJOR 1
+#define BACKEND_VERSION_MINOR 1
+#define BACKEND_VERSION_REVISION 0
+#define BACKEND_CONFIG_FILE "coolscan3.conf"
 
-#define CS3_VERSION_MAJOR 1
-#define CS3_VERSION_MINOR 0
-#define CS3_REVISION 0
-#define CS3_CONFIG_FILE "coolscan3.conf"
+#include <sane/sanei_backend.h>
 
 #define WSIZE (sizeof (SANE_Word))
 
@@ -307,8 +308,8 @@ SANE_Status
 sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
 	DBG_INIT();
-	DBG(1, "coolscan3 backend, version %i.%i.%i initializing.\n",
-	    CS3_VERSION_MAJOR, CS3_VERSION_MINOR, CS3_REVISION);
+	DBG(1, "coolscan3 backend, version %s initializing.\n",
+		BACKEND_VERSION);
 
 	authorize = authorize;	/* to shut up compiler */
 
@@ -356,7 +357,7 @@ sane_get_devices(const SANE_Device *** list, SANE_Bool local_only)
 			return SANE_STATUS_IO_ERROR;
 		}
 
-		config = sanei_config_open(CS3_CONFIG_FILE);
+		config = sanei_config_open(BACKEND_CONFIG_FILE);
 		if (config) {
 			DBG(4, "sane_get_devices(): Reading config file.\n");
 			while (sanei_config_read(line, sizeof(line), config)) {

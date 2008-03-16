@@ -21,6 +21,7 @@
  */
 
 #define SANE_CURRENT_MAJOR	1
+#define SANE_HAS_EVOLVED	1
 
 #define SANE_VERSION_CODE(major, minor, build)	\
   (  (((SANE_Word) (major) &   0xff) << 24)	\

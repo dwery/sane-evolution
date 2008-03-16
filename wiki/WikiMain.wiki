@@ -1,0 +1,22 @@
+#summary Wiki main page
+
+(wiki pages list [http://code.google.com/p/sane-evolution/w/list here])
+
+== About the project ==
+
+ * [Why]
+ * [Introduction]
+ * NewFeatures
+ * BuildingSane
+ * Backends
+ * CompatibleFrontends
+ * DeprecatedBackends
+
+== For developers ==
+
+ * [FAQBackends]
+ * SaneFlow
+ * VerifiedBackends
+ * APILevelReference
+ * CodingGuidelines
+ 

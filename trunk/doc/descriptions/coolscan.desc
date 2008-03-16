@@ -10,12 +10,12 @@
 ;
 
 :backend "coolscan"               ; name of backend
-:version "0.4.3"                  ; version of backend
+:version "deprecated"                  ; version of backend
 :url "http://andreas.rick.free.fr/sane/" ; backend's web page
 :manpage "sane-coolscan"
-:devicetype :scanner              ; start of a list of devices....
-                                  ; other types:  :stillcam, :vidcam,
-                                  ;               :meta, :api
+:comment "users are encouraged to try coolscan3 and report both successes and failures"
+:devicetype :scanner 
+
 
 :mfg "Nikon"                   ; name a manufacturer
 :url "http://www.nikon.com/"
@@ -38,6 +38,3 @@
 :interface "SCSI"
 :comment "Doesn't support gamma correction" 
 :status :basic
-
-; :comment and :url specifiers are optional after :mfg, :model, :desc,
-;  and at the top-level.

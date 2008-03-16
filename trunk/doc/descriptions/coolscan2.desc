@@ -10,8 +10,9 @@
 ;
 
 :backend "coolscan2"
-:version "0.1.8"
+:version "deprecated"
 :manpage "sane-coolscan2"
+:comment "users are encouraged to try coolscan3 and report both successes and failures"
 :url "http://coolscan2.sourceforge.net/"
 
 :devicetype :scanner

@@ -6,6 +6,7 @@
 
  * [Introduction]
  * [Why]
+ * EvolutionStatus
  * NewFeatures
  * BuildingSane
  * [Backends]
@@ -14,9 +15,10 @@
 
 == For developers ==
 
+ * ToDo
  * [FAQBackends]
  * SaneFlow
  * VerifiedBackends
  * [APILevelReference]
  * CodingGuidelines
- 
+ * QuickDevGuide

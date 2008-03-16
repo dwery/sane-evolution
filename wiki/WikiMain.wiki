@@ -4,11 +4,11 @@
 
 == About the project ==
 
- * [Why]
  * [Introduction]
+ * [Why]
  * NewFeatures
  * BuildingSane
- * Backends
+ * [Backends]
  * CompatibleFrontends
  * DeprecatedBackends
 
@@ -17,6 +17,6 @@
  * [FAQBackends]
  * SaneFlow
  * VerifiedBackends
- * APILevelReference
+ * [APILevelReference]
  * CodingGuidelines
  

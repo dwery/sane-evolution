@@ -14,7 +14,7 @@
  * ~~fix #include ../~~
  * sort backends wiki pages by mfr,model
  * add mfr wiki pages
- * add debian package
+ * fix debian pakcage in the svn
 
 == Long term ==
 

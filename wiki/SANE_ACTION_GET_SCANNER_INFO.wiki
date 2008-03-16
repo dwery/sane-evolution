@@ -1,1 +1,9 @@
 #summary SANE_ACTION_GET_SCANNER_INFO
+
+This will be used to tell the frontend about
+
+ * scanner vendor
+ * model
+ * serial number
+
+ anything else?

@@ -1,0 +1,6 @@
+#summary The status of the evolution
+
+The code base has been imported from SANE and
+some NewFeatures have been added. We are now testing them
+and verifying compatibility, while evolving a little bit
+more. The first release is expected for mid april.

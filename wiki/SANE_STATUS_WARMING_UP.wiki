@@ -5,4 +5,7 @@ any [APIOneOneZero 1.1.0] compliant frontend that the scanner
 is warming up. It might be returned by
 
  * [sane_start]
- * [SANE_ACTION_CHECK_WARM_UP]
+ * [SANE_ACTION_CHECK_WARM_UP sane_check_warm_up]
+
+A compliant frontend must inform the user of the warming
+up condition and retry scanning after a while.

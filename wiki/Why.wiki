@@ -1,4 +1,4 @@
-#summary The SANE Evolution fork
+#summary The origin of species
 #labels Featured
 
 SANE development has been quite slow and no consensus could be reached

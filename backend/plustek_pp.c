@@ -57,12 +57,7 @@
  *  @verbinclude Plustek-PARPORT.txt
  */
 
-#ifdef _AIX
-# include "lalloca.h"	/* MUST come first for AIX! */
-#endif
-
 #include "sane/config.h"
-#include "lalloca.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -85,6 +80,7 @@
 
 #define BACKEND_VERSION "0.43-13"
 #define BACKEND_NAME	plustek_pp
+
 #include "sane/sanei_backend.h"
 #include "sane/sanei_config.h"
 #include "sane/sanei_thread.h"

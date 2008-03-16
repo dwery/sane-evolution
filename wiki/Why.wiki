@@ -1,4 +1,4 @@
-#summary The origin of species
+#summary On the Origin of Species
 #labels Featured
 
 SANE development has been quite slow and no consensus could be reached

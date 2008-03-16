@@ -1,0 +1,15 @@
+#summary Scanners supported by the coolscan3 backend
+_This list is automatically generated. Do not edit._
+
+= coolscan3 (1.1.0) =
+http://www.nikon.com/
+
+|| *Manufacturer* || *Model* || *Interfaces* || *USB ids* || *Status* || *Comment* || *URL* ||
+||Nikon||[Coolscan3SuperCoolscanLS5000ED Super Coolscan LS-5000 ED]||USB||0x04b0 0x4002||untested|| ||May work, similar to LS 50 ED, but untested. Please tell us if it works.||
+||Nikon||[Coolscan3LS4000ED LS 4000 ED]||IEEE-1394|| ||good|| || ||
+||Nikon||[Coolscan3CoolscanVED Coolscan V ED]||USB||0x04b0 0x4001||minimal|| || ||
+||Nikon||[Coolscan3LS2000 LS 2000]||SCSI|| ||good|| || ||
+||Nikon||[Coolscan3LS50ED LS 50 ED]||USB||0x04b0 0x4001||minimal|| || ||
+||Nikon||[Coolscan3LS40ED LS 40 ED]||USB||0x04b0 0x4000||complete|| || ||
+||Nikon||[Coolscan3LS30 LS 30]||SCSI|| ||complete|| || ||
+||Nikon||[Coolscan3LS8000ED LS 8000 ED]||IEEE-1394|| ||good|| || ||

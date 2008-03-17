@@ -10,6 +10,7 @@
  * NewFeatures
  * BuildingSane
  * [Backends]
+ * NativeBackends
  * CompatibleFrontends
  * DeprecatedBackends
 

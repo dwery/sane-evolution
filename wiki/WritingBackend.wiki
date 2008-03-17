@@ -1,4 +1,3 @@
-
 (Slowly being compiled from doc/backend-writing.txt)
 
 == Getting started ==
@@ -25,7 +24,7 @@
 }}}
 
  * Include sanei_backend.h after the other includes. 
- * Declare the BACKEND_XXX as the example:
+ * Declare the BACKEND_XXX defines as the example:
 {{{
 #define BACKEND_NAME epson2
 #define BACKEND_VERSION "1.1.16"

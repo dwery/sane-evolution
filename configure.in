@@ -338,7 +338,7 @@ dnl ***********************************************************************
 CPPFLAGS="${CPPFLAGS} -DPATH_SANE_CONFIG_DIR=\$(configdir) \
 	  -DPATH_SANE_DATA_DIR=\$(datadir) \
 	  -DPATH_SANE_LOCK_DIR=\$(locksanedir) \
-	  -DV_MAJOR=${V_MAJOR} -DV_MINOR=${V_MINOR}"
+	  -DV_MAJOR=${V_MAJOR} -DV_MINOR=${V_MINOR} -DV_REV=${V_REV}"
 
 if test "${ac_cv_header_sys_socket_h}" = "no"; then
   echo "*** disabling saned (sys/socket.h not found)"

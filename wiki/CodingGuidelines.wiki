@@ -1,8 +1,8 @@
 #summary Coding guidelines
 
  Here you get some coding guidelines, in particular those that
- hav changed since SANE 1.0 . Please refer to doc/backend-writing.txt
- for further details
+ have changed since SANE 1.0 . Please refer to WritingBackend
+ for the complete specs.
 
  * Indentation should be kept using the indent utility with the
  following options:
@@ -16,9 +16,8 @@
 
  * Do not use a plethora of #ifdef like in sanei/sanei_scsi.c
  * Handle default condition appropriately in switch statements
- * Linking against a single backend is strongly deprecated. The dll layer should be used as it can provide support for further improvements to SANE
+ * Linking against a single backend is *strongly* deprecated. The dll layer should be used as it can provide support for further improvements to SANE
  * Use C99
  * Do not use alloca()
  * Use #include "xxx.h" instead of #include "../include/xxx.h"
-
-
+ * Use __sane_unused__ to mark unused variables

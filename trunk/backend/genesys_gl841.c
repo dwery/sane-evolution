@@ -253,7 +253,7 @@
 
 
 /* we don't need a genesys_sanei_gl841.h yet, declarations aren't numerous enough */
-																																										 /* writable registers *//*adapted to sanei_gl841 */
+																																													 /* writable registers *//*adapted to sanei_gl841 */
 enum
 {
 	reg_0x01 = 0,

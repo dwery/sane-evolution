@@ -1766,7 +1766,7 @@ sanei_hp_scsi_pipeout(HpScsi this, int outfd, HpProcessData * procdata)
 
 static SANE_Status
 __hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
-	    void *valp, size_t * lengthp, char *buf)
+	     void *valp, size_t * lengthp, char *buf)
 {
 	size_t bufsize = 16 + (lengthp ? *lengthp : 0);
 	char expect[16], expect_char;
@@ -1843,11 +1843,11 @@ _hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 {
 	SANE_Status status;
 	size_t bufsize = 16 + (lengthp ? *lengthp : 0);
-	
+
 	char *buf = malloc(bufsize);
 	if (buf == NULL)
 		return SANE_STATUS_NO_MEM;
-	
+
 	status = __hp_scl_inq(scsi, scl, inq_cmnd, valp, lengthp, buf);
 
 	free(buf);
@@ -1869,7 +1869,7 @@ sanei_hp_scl_upload_binary(HpScsi scsi, HpScl scl, size_t * lengthhp,
 
 	buf = bufstart = &buffer[0];
 
-	
+
 	assert(IS_SCL_DATA_TYPE(scl));
 
 	/* Flush data before sending inquiry. */

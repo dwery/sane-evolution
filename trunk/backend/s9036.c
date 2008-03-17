@@ -258,7 +258,8 @@ static SANE_Status
 set_window(S9036_Scanner * s)
 /* This function sets and sends the window for scanning */
 {
-	double pixels_per_mm = (double) s->val[OPT_RESOLUTION] / SANE_MM_PER_INCH;
+	double pixels_per_mm =
+		(double) s->val[OPT_RESOLUTION] / SANE_MM_PER_INCH;
 
 	SANE_Bool auto_bright =
 		!(s->opt[OPT_BRIGHT_ADJUST].cap & SANE_CAP_INACTIVE);

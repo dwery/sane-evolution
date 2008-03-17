@@ -3941,25 +3941,25 @@ attach(SANE_String_Const devname, Avision_ConnectionType con_type,
 		/* .1 to slightly increate the size to match the one of American standard paper
 		   formats that would otherwise be .1 mm too large to scan ... */
 		dev->inquiry_x_ranges[AV_NORMAL_DIM] =
-			(double) get_double(&(result[81])) * SANE_MM_PER_INCH /
-			base_dpi + .1;
+			(double) get_double(&(result[81])) *
+			SANE_MM_PER_INCH / base_dpi + .1;
 		dev->inquiry_y_ranges[AV_NORMAL_DIM] =
-			(double) get_double(&(result[83])) * SANE_MM_PER_INCH /
-			base_dpi;
+			(double) get_double(&(result[83])) *
+			SANE_MM_PER_INCH / base_dpi;
 
 		dev->inquiry_x_ranges[AV_TRANSPARENT_DIM] =
-			(double) get_double(&(result[77])) * SANE_MM_PER_INCH /
-			base_dpi + .1;
+			(double) get_double(&(result[77])) *
+			SANE_MM_PER_INCH / base_dpi + .1;
 		dev->inquiry_y_ranges[AV_TRANSPARENT_DIM] =
-			(double) get_double(&(result[79])) * SANE_MM_PER_INCH /
-			base_dpi;
+			(double) get_double(&(result[79])) *
+			SANE_MM_PER_INCH / base_dpi;
 
 		dev->inquiry_x_ranges[AV_ADF_DIM] =
-			(double) get_double(&(result[85])) * SANE_MM_PER_INCH /
-			base_dpi + .1;
+			(double) get_double(&(result[85])) *
+			SANE_MM_PER_INCH / base_dpi + .1;
 		dev->inquiry_y_ranges[AV_ADF_DIM] =
-			(double) get_double(&(result[87])) * SANE_MM_PER_INCH /
-			base_dpi;
+			(double) get_double(&(result[87])) *
+			SANE_MM_PER_INCH / base_dpi;
 	}
 
 	dev->inquiry_tune_scan_length = BIT(result[94], 2);
@@ -4009,9 +4009,11 @@ attach(SANE_String_Const devname, Avision_ConnectionType con_type,
 				} else if (dev->hw->
 					   feature_type & AV_FORCE_FILM) {
 					dev->inquiry_x_ranges[mode] =
-						FILM_X_RANGE * SANE_MM_PER_INCH;
+						FILM_X_RANGE *
+						SANE_MM_PER_INCH;
 					dev->inquiry_y_ranges[mode] =
-						FILM_Y_RANGE * SANE_MM_PER_INCH;
+						FILM_Y_RANGE *
+						SANE_MM_PER_INCH;
 				} else {
 					dev->inquiry_x_ranges[mode] =
 						A4_X_RANGE * SANE_MM_PER_INCH;
@@ -4142,7 +4144,8 @@ send_tune_scan_length(Avision_Scanner * s)
 
 	/* the SPEC says optical DPI, but real world meassuring suggests it is 1200
 	   as in the window descriptor */
-	top = 1200 * SANE_UNFIX(s->val[OPT_OVERSCAN_TOP].w) / SANE_MM_PER_INCH;
+	top = 1200 * SANE_UNFIX(s->val[OPT_OVERSCAN_TOP].w) /
+		SANE_MM_PER_INCH;
 	DBG(3, "send_tune_scan_length: top: %d\n", top);
 
 	set_double(scmd.datatypequal, 0x0001);	/* attach, 0x000 is shorten */

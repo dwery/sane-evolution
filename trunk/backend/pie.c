@@ -1125,10 +1125,12 @@ attach_scanner(const char *devicename, Pie_Device ** devp)
 	dev->sane.type = "flatbed scanner";
 	dev->x_range.min = SANE_FIX(0);
 	dev->x_range.quant = SANE_FIX(0);
-	dev->x_range.max = SANE_FIX(dev->inquiry_fb_width * SANE_MM_PER_INCH);
+	dev->x_range.max =
+		SANE_FIX(dev->inquiry_fb_width * SANE_MM_PER_INCH);
 	dev->y_range.min = SANE_FIX(0);
 	dev->y_range.quant = SANE_FIX(0);
-	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
+	dev->y_range.max =
+		SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
 	dev->dpi_range.min = SANE_FIX(25);
 	dev->dpi_range.quant = SANE_FIX(1);
 	dev->dpi_range.max =

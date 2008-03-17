@@ -91,8 +91,10 @@ static SANE_String_Const scan_mode_list[] = {
 /*--------------------------------------------------------------------------*/
 
 /* Minimum and maximum width and length supported. */
-static SANE_Range x_range = { SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0 };
-static SANE_Range y_range = { SANE_FIX(0), SANE_FIX(14 * SANE_MM_PER_INCH), 0 };
+static SANE_Range x_range =
+	{ SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0 };
+static SANE_Range y_range =
+	{ SANE_FIX(0), SANE_FIX(14 * SANE_MM_PER_INCH), 0 };
 
 /*--------------------------------------------------------------------------*/
 

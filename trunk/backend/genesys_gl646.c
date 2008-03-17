@@ -2610,7 +2610,8 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 		SANE_MM_PER_INCH;
 
 	/* add x coordinates */
-	start += (dev->settings.tl_x * dev->sensor.optical_res) / SANE_MM_PER_INCH;
+	start += (dev->settings.tl_x * dev->sensor.optical_res) /
+		SANE_MM_PER_INCH;
 	if (half_ccd)
 		start = start / 2;
 	if (stagger > 0)
@@ -2859,7 +2860,8 @@ gl646_init_regs_for_scan(Genesys_Device * dev)
 		move = 0;
 	DBG(DBG_info, "gl646_init_regs_for_scan: move=%d steps\n", move);
 
-	move += (SANE_UNFIX(dev->model->y_offset) * move_dpi) / SANE_MM_PER_INCH;
+	move += (SANE_UNFIX(dev->model->y_offset) * move_dpi) /
+		SANE_MM_PER_INCH;
 	if (move < 0) {
 		DBG(DBG_error,
 		    "gl646_init_regs_for_scan: overriding negative move value %d\n",

@@ -44,7 +44,7 @@
    This file implements a SANE network-based meta backend.  */
 
 #ifdef _AIX
-# include "lalloca.h"	/* MUST come first for AIX! */
+# include "lalloca.h"		/* MUST come first for AIX! */
 #endif
 
 #include "sane/config.h"
@@ -831,7 +831,7 @@ sane_exit(void)
 		next_device = dev->next;
 
 		DBG(2, "%s: closing dev %p, ctl = %d\n",
-			__func__, (void *) dev, dev->ctl);
+		    __func__, (void *) dev, dev->ctl);
 
 		if (dev->ctl >= 0) {
 			sanei_w_call(&dev->wire, SANE_NET_EXIT,
@@ -1390,7 +1390,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 			if ((action == SANE_ACTION_SET_VALUE)
 			    && (((int) strlen((SANE_String) value) + 1)
 				< s->opt.desc[option]->size))
-				req.value_size = strlen((SANE_String) value) + 1;
+				req.value_size =
+					strlen((SANE_String) value) + 1;
 			break;
 		default:
 			req.value_size = s->opt.desc[option]->size;
@@ -1432,7 +1433,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 			if (info)
 				*info = reply.info;
 			if (req.value_size > 0) {
-				if ((SANE_Word) req.value_size == reply.value_size)
+				if ((SANE_Word) req.value_size ==
+				    reply.value_size)
 					memcpy(value, reply.value,
 					       reply.value_size);
 				else

@@ -1587,13 +1587,15 @@ artec_get_cap_data(ARTEC_Device * dev, int fd)
 	}
 
 	dev->x_range.min = 0;
-	dev->x_range.max = SANE_FIX(cap_data[cap_model].width) * SANE_MM_PER_INCH;
+	dev->x_range.max =
+		SANE_FIX(cap_data[cap_model].width) * SANE_MM_PER_INCH;
 	dev->x_range.quant = 1;
 
 	dev->width = cap_data[cap_model].width;
 
 	dev->y_range.min = 0;
-	dev->y_range.max = SANE_FIX(cap_data[cap_model].height) * SANE_MM_PER_INCH;
+	dev->y_range.max =
+		SANE_FIX(cap_data[cap_model].height) * SANE_MM_PER_INCH;
 	dev->y_range.quant = 1;
 
 	dev->height = cap_data[cap_model].height;
@@ -3012,9 +3014,11 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		    (s->y_resolution > 0.0) &&
 		    (width > 0.0) && (height > 0.0)) {
 			s->params.pixels_per_line =
-				width * s->x_resolution / SANE_MM_PER_INCH + 1;
+				width * s->x_resolution / SANE_MM_PER_INCH +
+				1;
 			s->params.lines =
-				height * s->y_resolution / SANE_MM_PER_INCH + 1;
+				height * s->y_resolution / SANE_MM_PER_INCH +
+				1;
 		}
 
 		s->onepasscolor = SANE_FALSE;

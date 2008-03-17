@@ -1595,12 +1595,10 @@ attach_one_net(const char *dev)
 }
 
 SANE_Status
-sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code, __sane_unused__ SANE_Auth_Callback authorize)
 {
 	size_t len;
 	FILE *fp;
-
-	authorize = authorize;	/* get rid of compiler warning */
 
 	DBG_INIT();
 	DBG(2, "%s: " PACKAGE " " VERSION "\n", __func__);
@@ -4584,12 +4582,8 @@ filter_resolution_list(Epson_Scanner * s)
  */
 
 SANE_Status
-sane_set_io_mode(SANE_Handle handle, SANE_Bool non_blocking)
+sane_set_io_mode(__sane_unused__ SANE_Handle handle, __sane_unused__ SANE_Bool non_blocking)
 {
-	/* get rid of compiler warning */
-	handle = handle;
-	non_blocking = non_blocking;
-
 	return SANE_STATUS_UNSUPPORTED;
 }
 
@@ -4600,11 +4594,7 @@ sane_set_io_mode(SANE_Handle handle, SANE_Bool non_blocking)
  */
 
 SANE_Status
-sane_get_select_fd(SANE_Handle handle, SANE_Int * fd)
+sane_get_select_fd(__sane_unused__ SANE_Handle handle, __sane_unused__ SANE_Int * fd)
 {
-	/* get rid of compiler warnings */
-	handle = handle;
-	fd = fd;
-
 	return SANE_STATUS_UNSUPPORTED;
 }

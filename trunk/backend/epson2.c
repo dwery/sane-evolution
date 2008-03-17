@@ -15,9 +15,6 @@
  * published by the Free Software Foundation, version 2.
  */
 
-#define	SANE_EPSON2_VERSION	"SANE Epson 2 Backend v0.1.16 - 2007-12-30"
-#define SANE_EPSON2_BUILD	116
-
 /* debugging levels:
  *
  *     127	e2_recv buffer
@@ -64,6 +61,14 @@
 #include <sane/sanei_udp.h>
 #include <sane/sanei_backend.h>
 #include <sane/sanei_config.h>
+
+#define BACKEND_NAME epson2
+#define BACKEND_VERSION "1.1.16"
+#define BACKEND_VERSION_MAJOR 1
+#define BACKEND_VERSION_MINOR 1
+#define BACKEND_VERSION_REVISION 16
+#define BACKEND_CONFIG_FILE "epson2.conf"
+
 
 #include "epson2-io.h"
 #include "epson2-commands.h"
@@ -1206,7 +1211,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 	struct Epson_Device *dev;
 	int port;
 
-	DBG(1, "%s\n", SANE_EPSON2_VERSION);
+	DBG(1, "%s\n", BACKEND_VERSION);
 
 	DBG(7, "%s: devname = %s, type = %d\n", __func__, name, type);
 
@@ -1597,19 +1602,15 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 
 	authorize = authorize;	/* get rid of compiler warning */
 
-	/* sanei_authorization(devicename, STRINGIFY(BACKEND_NAME), auth_callback); */
-
 	DBG_INIT();
 	DBG(2, "%s: " PACKAGE " " VERSION "\n", __func__);
 
 	if (version_code != NULL)
-		*version_code =
-			SANE_VERSION_CODE(V_MAJOR, V_MINOR,
-					  SANE_EPSON2_BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	sanei_usb_init();
 
-	if ((fp = sanei_config_open(EPSON2_CONFIG_FILE))) {
+	if ((fp = sanei_config_open(BACKEND_CONFIG_FILE))) {
 		char line[PATH_MAX];
 
 		DBG(3, "%s: reading config file, %s\n", __func__,

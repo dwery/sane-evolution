@@ -305,13 +305,11 @@ static int open_devices = 0;
 /* SANE entry points */
 
 SANE_Status
-sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code, __sane_unused__ SANE_Auth_Callback authorize)
 {
 	DBG_INIT();
 	DBG(1, "coolscan3 backend, version %s initializing.\n",
 		BACKEND_VERSION);
-
-	authorize = authorize;	/* to shut up compiler */
 
 	if (version_code)
 		*version_code = SANE_CURRENT_VERSION;
@@ -338,12 +336,10 @@ sane_exit(void)
 }
 
 SANE_Status
-sane_get_devices(const SANE_Device *** list, SANE_Bool local_only)
+sane_get_devices(const SANE_Device *** list, __sane_unused__ SANE_Bool local_only)
 {
 	char line[PATH_MAX], *p;
 	FILE *config;
-
-	local_only = local_only;	/* to shut up compiler */
 
 	DBG(10, "%s\n", __func__);
 
@@ -1671,14 +1667,9 @@ sane_set_io_mode(SANE_Handle h, SANE_Bool m)
 }
 
 SANE_Status
-sane_get_select_fd(SANE_Handle h, SANE_Int * fd)
+sane_get_select_fd(__sane_unused__ SANE_Handle h, __sane_unused__ SANE_Int * fd)
 {
-	cs3_t *s = (cs3_t *) h;
-
 	DBG(10, "%s\n", __func__);
-
-	fd = fd;		/* to shut up compiler */
-	s = s;			/* to shut up compiler */
 
 	return SANE_STATUS_UNSUPPORTED;
 }
@@ -1953,11 +1944,9 @@ cs3_attach(const char *dev)
 }
 
 static SANE_Status
-cs3_scsi_sense_handler(int fd, u_char * sense_buffer, void *arg)
+cs3_scsi_sense_handler(__sane_unused__ int fd, u_char * sense_buffer, void *arg)
 {
 	cs3_t *s = (cs3_t *) arg;
-
-	fd = fd;		/* to shut up compiler */
 
 	/* sort this out ! XXX */
 

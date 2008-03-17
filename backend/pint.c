@@ -54,8 +54,6 @@ extern int errno;
 
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define PINT_CONFIG_FILE "pint.conf"

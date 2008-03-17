@@ -109,8 +109,6 @@ typedef struct AS6E_Scan
 } AS6E_Scan;
 
 
-#ifndef PATH_MAX
-#endif
 
 #define AS6E_CONFIG_FILE "as6e.conf"
 

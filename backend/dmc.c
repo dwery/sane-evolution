@@ -60,8 +60,6 @@
 #define BACKEND_NAME	dmc
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define DMC_CONFIG_FILE "dmc.conf"

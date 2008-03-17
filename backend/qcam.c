@@ -91,8 +91,6 @@
 #define BACKEND_NAME qcam
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define QCAM_CONFIG_FILE "qcam.conf"

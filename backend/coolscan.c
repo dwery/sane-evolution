@@ -98,8 +98,6 @@
 #include "coolscan-scsidef.h"
 
 
-#ifndef PATH_MAX
-#endif
 
 /* ------------------------------------------------------------------------- */
 static const SANE_Int resolution_list[] = {

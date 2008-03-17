@@ -58,8 +58,6 @@
 #define MA1509_BUFFER_SIZE (1024 * 128)
 #define MA1509_WARMUP_TIME 30
 
-#ifndef PATH_MAX
-#endif
 
 #define MA1509_CONFIG_FILE "ma1509.conf"
 

@@ -77,8 +77,6 @@
 #define BACKEND_NAME v4l
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define V4L_CONFIG_FILE "v4l.conf"

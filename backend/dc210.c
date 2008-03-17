@@ -77,8 +77,6 @@
 
 #include "dc210.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define MAGIC			(void *)0xab730324
 #define DC210_CONFIG_FILE 	"dc210.conf"

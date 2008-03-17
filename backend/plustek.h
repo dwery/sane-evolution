@@ -109,8 +109,6 @@
 
 #define PLUSTEK_CONFIG_FILE	"plustek.conf"
 
-#ifndef PATH_MAX
-#endif
 
 #define _MEASURE_BASE       300UL
 #define _DEF_DPI            50

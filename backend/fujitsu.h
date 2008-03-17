@@ -478,8 +478,6 @@ struct fujitsu
 
 #define FUJITSU_CONFIG_FILE "fujitsu.conf"
 
-#ifndef PATH_MAX
-#endif
 
 #ifndef PATH_SEP
 #ifdef HAVE_OS2_H

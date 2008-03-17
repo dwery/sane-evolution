@@ -124,8 +124,6 @@
 #define BACKEND_NAME nec
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define DEFAULT_MUD_1200 1200
 

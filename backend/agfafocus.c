@@ -43,8 +43,6 @@
 
 #include "agfafocus.h"
 
-#ifndef PATH_MAX
-#endif
 
 
 #undef Byte

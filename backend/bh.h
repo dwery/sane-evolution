@@ -44,8 +44,6 @@
 #ifndef BH_H
 #define BH_H 1
 
-#ifndef PATH_MAX
-#endif
 
 #define BH_CONFIG_FILE "bh.conf"
 

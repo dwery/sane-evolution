@@ -492,8 +492,6 @@ typedef struct
 
 #define PLUSTEK_CONFIG_FILE	"plustek_pp.conf"
 
-#ifndef PATH_MAX
-#endif
 
 /*
  * the default image size

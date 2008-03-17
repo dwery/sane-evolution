@@ -80,8 +80,6 @@
 
 #include "dc240.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define MAGIC			(void *)0xab730324
 #define DC240_CONFIG_FILE 	"dc240.conf"

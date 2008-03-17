@@ -122,8 +122,6 @@
 
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define APPLE_CONFIG_FILE "apple.conf"

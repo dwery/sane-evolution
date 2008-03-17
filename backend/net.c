@@ -75,8 +75,6 @@
 #define BACKEND_NAME    net
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define NET_CONFIG_FILE "net.conf"

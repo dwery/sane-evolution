@@ -64,8 +64,6 @@ typedef union
 
 #define U12_CONFIG_FILE "u12.conf"
 
-#ifndef PATH_MAX
-#endif
 
 #define _MEASURE_BASE 300UL
 #define _DEF_DPI      50

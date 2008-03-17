@@ -27,8 +27,6 @@
 #include <string.h>
 #include <sys/types.h>
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sane.h"
 #include "sane/sanei.h"

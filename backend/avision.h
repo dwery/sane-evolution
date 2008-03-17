@@ -59,8 +59,6 @@ typedef uint16_t uint16_t;
 typedef uint32_t uint32_t;
 #endif /* HAVE_STDINT_H */
 
-#ifndef PATH_MAX
-#endif
 
 typedef enum Avision_ConnectionType
 {

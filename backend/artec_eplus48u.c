@@ -98,8 +98,6 @@ Updates (C) 2001 by Henning Meier-Geinitz.
 
 #include "artec_eplus48u.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define _DEFAULT_DEVICE "/dev/usbscanner"
 #define ARTEC48U_CONFIG_FILE "artec_eplus48u.conf"

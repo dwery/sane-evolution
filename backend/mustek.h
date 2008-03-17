@@ -51,8 +51,6 @@
 
 /* Some constants */
 #define INQ_LEN	0x60		/* Length of SCSI inquiry */
-#ifndef PATH_MAX
-#endif
 #define MUSTEK_CONFIG_FILE "mustek.conf"
 
 #define MAX_WAITING_TIME 60	/* How long to wait for scanner to become ready */

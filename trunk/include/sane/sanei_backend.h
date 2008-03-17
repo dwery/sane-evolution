@@ -8,6 +8,7 @@
  * @sa sanei.h sanei_thread.h
  */
 
+#define SANE_CURRENT_VERSION (SANE_VERSION(V_MAJOR, V_MINOR, V_REV))
 
 /*
  * Compiler related options

@@ -241,7 +241,6 @@ static char *hp_backend_revision = "$Revision: 1.21 $";
 #include "hp-handle.h"
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 #ifndef NDEBUG

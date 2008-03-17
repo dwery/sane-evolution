@@ -59,7 +59,6 @@
 #define MA1509_WARMUP_TIME 30
 
 #ifndef PATH_MAX
-# define PATH_MAX 1024
 #endif
 
 #define MA1509_CONFIG_FILE "ma1509.conf"

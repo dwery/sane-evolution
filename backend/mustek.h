@@ -52,7 +52,6 @@
 /* Some constants */
 #define INQ_LEN	0x60		/* Length of SCSI inquiry */
 #ifndef PATH_MAX
-# define PATH_MAX 1024
 #endif
 #define MUSTEK_CONFIG_FILE "mustek.conf"
 

@@ -74,7 +74,6 @@
 #include "sane/sanei_thread.h"
 
 #ifndef PATH_MAX
-#define PATH_MAX        1024
 #endif
 
 #define EXPECTED_MAJOR       1

@@ -85,7 +85,6 @@ vim: ts=4 sw=4 noexpandtab
 #include "sane/sanei_scsi.h"
 #include "sane/sanei_debug.h"
 #ifndef PATH_MAX
-#	define PATH_MAX	1024
 #endif
 
 #define BACKEND_NAME	st400

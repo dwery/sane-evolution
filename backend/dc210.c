@@ -78,7 +78,6 @@
 #include "dc210.h"
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 #define MAGIC			(void *)0xab730324

@@ -81,7 +81,6 @@
 #define MICROTEK_CONFIG_FILE "microtek.conf"
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 

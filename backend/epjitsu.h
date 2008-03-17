@@ -193,7 +193,6 @@ struct scanner
 #define CONFIG_FILE "epjitsu.conf"
 
 #ifndef PATH_MAX
-#  define PATH_MAX 1024
 #endif
 
 #ifndef PATH_SEP

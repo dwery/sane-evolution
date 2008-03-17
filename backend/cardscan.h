@@ -126,7 +126,6 @@ struct scanner
 #define CONFIG_FILE "cardscan.conf"
 
 #ifndef PATH_MAX
-#  define PATH_MAX 1024
 #endif
 
 #ifndef PATH_SEP

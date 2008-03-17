@@ -85,7 +85,6 @@
 
 
 #ifndef PATH_MAX
-#define PATH_MAX	1024
 #endif
 
 #define ARTEC_CONFIG_FILE "artec.conf"

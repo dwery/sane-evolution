@@ -338,7 +338,6 @@
 #define  EPSON_CONFIG_FILE	"epson.conf"
 
 #ifndef  PATH_MAX
-#define  PATH_MAX	(1024)
 #endif
 
 #ifndef SANE_MM_PER_INCH

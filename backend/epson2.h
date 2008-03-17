@@ -39,7 +39,6 @@
 #define EPSON2_CONFIG_FILE      "epson2.conf"
 
 #ifndef PATH_MAX
-#define PATH_MAX                (1024)
 #endif
 
 #ifndef XtNumber

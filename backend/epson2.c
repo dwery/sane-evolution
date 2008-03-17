@@ -1595,7 +1595,8 @@ attach_one_net(const char *dev)
 }
 
 SANE_Status
-sane_init(SANE_Int * version_code, __sane_unused__ SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code,
+	  __sane_unused__ SANE_Auth_Callback authorize)
 {
 	size_t len;
 	FILE *fp;
@@ -4582,7 +4583,8 @@ filter_resolution_list(Epson_Scanner * s)
  */
 
 SANE_Status
-sane_set_io_mode(__sane_unused__ SANE_Handle handle, __sane_unused__ SANE_Bool non_blocking)
+sane_set_io_mode(__sane_unused__ SANE_Handle handle,
+		 __sane_unused__ SANE_Bool non_blocking)
 {
 	return SANE_STATUS_UNSUPPORTED;
 }
@@ -4594,7 +4596,8 @@ sane_set_io_mode(__sane_unused__ SANE_Handle handle, __sane_unused__ SANE_Bool n
  */
 
 SANE_Status
-sane_get_select_fd(__sane_unused__ SANE_Handle handle, __sane_unused__ SANE_Int * fd)
+sane_get_select_fd(__sane_unused__ SANE_Handle handle,
+		   __sane_unused__ SANE_Int * fd)
 {
 	return SANE_STATUS_UNSUPPORTED;
 }

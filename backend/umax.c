@@ -5206,7 +5206,8 @@ attach_scanner(const char *devicename, Umax_Device ** devp,
 
 	dev->y_range.min = SANE_FIX(0);
 	dev->y_range.quant = SANE_FIX(0);
-	dev->y_range.max = SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
+	dev->y_range.max =
+		SANE_FIX(dev->inquiry_fb_length * SANE_MM_PER_INCH);
 
 #if UMAX_RESOLUTION_PERCENT_STEP
 	dev->x_dpi_range.min = SANE_FIX(dev->inquiry_optical_res / 100);
@@ -8227,8 +8228,10 @@ sane_start(SANE_Handle handle)
 				scanner->device->x_resolution;
 		}
 
-		xbasedots = scanner->device->x_coordinate_base / SANE_MM_PER_INCH;
-		ybasedots = scanner->device->y_coordinate_base / SANE_MM_PER_INCH;
+		xbasedots =
+			scanner->device->x_coordinate_base / SANE_MM_PER_INCH;
+		ybasedots =
+			scanner->device->y_coordinate_base / SANE_MM_PER_INCH;
 
 #if 0
 		scanner->device->upper_left_x = ((int)

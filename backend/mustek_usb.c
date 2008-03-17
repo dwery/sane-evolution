@@ -161,8 +161,10 @@ calc_parameters(Mustek_Usb_Scanner * s)
 
 	s->tl_x = SANE_UNFIX(s->val[OPT_TL_X].w) / SANE_MM_PER_INCH;
 	s->tl_y = SANE_UNFIX(s->val[OPT_TL_Y].w) / SANE_MM_PER_INCH;
-	s->width = SANE_UNFIX(s->val[OPT_BR_X].w) / SANE_MM_PER_INCH - s->tl_x;
-	s->height = SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH - s->tl_y;
+	s->width =
+		SANE_UNFIX(s->val[OPT_BR_X].w) / SANE_MM_PER_INCH - s->tl_x;
+	s->height =
+		SANE_UNFIX(s->val[OPT_BR_Y].w) / SANE_MM_PER_INCH - s->tl_y;
 
 	if (s->width < 0) {
 		DBG(1, "calc_parameters: warning: tl_x > br_x\n");
@@ -199,8 +201,10 @@ calc_parameters(Mustek_Usb_Scanner * s)
 
 	s->val[OPT_TL_X].w = SANE_FIX(s->tl_x * SANE_MM_PER_INCH);
 	s->val[OPT_TL_Y].w = SANE_FIX(s->tl_y * SANE_MM_PER_INCH);
-	s->val[OPT_BR_X].w = SANE_FIX((s->tl_x + s->width) * SANE_MM_PER_INCH);
-	s->val[OPT_BR_Y].w = SANE_FIX((s->tl_y + s->height) * SANE_MM_PER_INCH);
+	s->val[OPT_BR_X].w =
+		SANE_FIX((s->tl_x + s->width) * SANE_MM_PER_INCH);
+	s->val[OPT_BR_Y].w =
+		SANE_FIX((s->tl_y + s->height) * SANE_MM_PER_INCH);
 
 	s->params.pixels_per_line = s->width_dots;
 	if (s->params.pixels_per_line < 0)

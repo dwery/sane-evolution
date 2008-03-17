@@ -900,7 +900,8 @@ sane_get_parameters(SANE_Handle h, SANE_Parameters * params)
 
 	/* Copy the options stored in the vals into the scaninfo */
 	params->pixels_per_line =
-		((cs->vals[OPT_BR_X] - cs->vals[OPT_TL_X]) * res) / SANE_MM_PER_INCH;
+		((cs->vals[OPT_BR_X] -
+		  cs->vals[OPT_TL_X]) * res) / SANE_MM_PER_INCH;
 	params->lines = ((cs->vals[OPT_BR_Y] - cs->vals[OPT_TL_Y]) * res)
 		/ SANE_MM_PER_INCH;
 

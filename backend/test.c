@@ -2496,7 +2496,8 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 		}
 	}
 
-	p->pixels_per_line = (SANE_Int) (res * (br_x - tl_x) / SANE_MM_PER_INCH);
+	p->pixels_per_line =
+		(SANE_Int) (res * (br_x - tl_x) / SANE_MM_PER_INCH);
 	if (test_device->val[opt_fuzzy_parameters].w == SANE_TRUE
 	    && test_device->scanning == SANE_FALSE)
 		p->pixels_per_line *= random_factor;

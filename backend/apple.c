@@ -679,19 +679,23 @@ scan_area_and_windows(Apple_Scanner * s)
 	if (s->hw->ScannerModel != COLORONESCANNER) {
 		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "spiral4x4"))
 			STORE16(WP + 27, 0)
-		else if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "bayer4x4"))
+				else
+		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "bayer4x4"))
 			STORE16(WP + 27, 1)
-		else if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "download"))
+				else
+		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "download"))
 			STORE16(WP + 27, 1)
-		else if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "spiral8x8"))
+				else
+		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "spiral8x8"))
 			STORE16(WP + 27, 3)
-		else if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "bayer8x8"))
+				else
+		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "bayer8x8"))
 			STORE16(WP + 27, 4)
-		else {
+				else {
 			DBG(ERROR_MESSAGE, "Cannot much haftone pattern %s\n",
 			    s->val[OPT_HALFTONE_PATTERN].s);
 			return SANE_STATUS_INVAL;
-		}
+			}
 	}
 /* Padding Type */
 	STORE8(WP + 29, 3);
@@ -983,8 +987,10 @@ calc_parameters(Apple_Scanner * s)
 	if (!Protect) {
 		s->val[OPT_TL_X].w = SANE_FIX(s->ulx * SANE_MM_PER_INCH);
 		s->val[OPT_TL_Y].w = SANE_FIX(s->uly * SANE_MM_PER_INCH);
-		s->val[OPT_BR_X].w = SANE_FIX((s->ulx + s->wx) * SANE_MM_PER_INCH);
-		s->val[OPT_BR_Y].w = SANE_FIX((s->uly + s->wy) * SANE_MM_PER_INCH);
+		s->val[OPT_BR_X].w =
+			SANE_FIX((s->ulx + s->wx) * SANE_MM_PER_INCH);
+		s->val[OPT_BR_Y].w =
+			SANE_FIX((s->uly + s->wy) * SANE_MM_PER_INCH);
 	} else
 		DBG(VARIABLE_CONTROL, "Not adapted. Protecting\n");
 
@@ -2252,8 +2258,8 @@ eliminated.
 			return SANE_STATUS_GOOD;
 
 		}		/* End of switch */
-	}			/* End of SET_VALUE */
-
+	}
+	/* End of SET_VALUE */
 	return SANE_STATUS_UNSUPPORTED;
 }
 

@@ -477,4 +477,3 @@ e2_close_scanner(Epson_Scanner * s)
 
 	s->fd = -1;
 }
-

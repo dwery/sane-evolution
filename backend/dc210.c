@@ -1015,9 +1015,9 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 
 	case SANE_ACTION_SET_AUTO:
 	default:
- 		return SANE_STATUS_UNSUPPORTED;	/* We are DUMB */
+		return SANE_STATUS_UNSUPPORTED;	/* We are DUMB */
 	}
-	
+
 	if (info)
 		*info = myinfo;
 

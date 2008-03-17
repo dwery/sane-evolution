@@ -88,8 +88,10 @@ static const SANE_Int dpi_list[] =
 #else
 static const SANE_Int dpi_list[] = { 4, 75, 150, 300, 600 };
 #endif
-static SANE_Range x_range = { SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0 };
-static SANE_Range y_range = { SANE_FIX(0), SANE_FIX(11.75 * SANE_MM_PER_INCH), 0 };
+static SANE_Range x_range =
+	{ SANE_FIX(0), SANE_FIX(8.5 * SANE_MM_PER_INCH), 0 };
+static SANE_Range y_range =
+	{ SANE_FIX(0), SANE_FIX(11.75 * SANE_MM_PER_INCH), 0 };
 static const SANE_Range u8_range = { 0, 255, 0 };
 
 struct coarse_t

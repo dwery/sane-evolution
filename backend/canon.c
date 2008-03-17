@@ -951,7 +951,8 @@ attach(const char *devnam, CANON_Device ** devp)
 	dev->info.x_range.max = (ebuf[20] << 24) + (ebuf[21] << 16)
 		+ (ebuf[22] << 8) + ebuf[23] - 1;
 	dev->info.x_range.max =
-		SANE_FIX(dev->info.x_range.max * SANE_MM_PER_INCH / dev->info.mud);
+		SANE_FIX(dev->info.x_range.max * SANE_MM_PER_INCH /
+			 dev->info.mud);
 	DBG(5, "x_range.max=%d\n", dev->info.x_range.max);
 	dev->info.x_range.quant = 0;
 
@@ -959,7 +960,8 @@ attach(const char *devnam, CANON_Device ** devp)
 	dev->info.y_range.max = (ebuf[24] << 24) + (ebuf[25] << 16)
 		+ (ebuf[26] << 8) + ebuf[27] - 1;
 	dev->info.y_range.max =
-		SANE_FIX(dev->info.y_range.max * SANE_MM_PER_INCH / dev->info.mud);
+		SANE_FIX(dev->info.y_range.max * SANE_MM_PER_INCH /
+			 dev->info.mud);
 	DBG(5, "y_range.max=%d\n", dev->info.y_range.max);
 	dev->info.y_range.quant = 0;
 

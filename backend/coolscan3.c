@@ -305,11 +305,12 @@ static int open_devices = 0;
 /* SANE entry points */
 
 SANE_Status
-sane_init(SANE_Int * version_code, __sane_unused__ SANE_Auth_Callback authorize)
+sane_init(SANE_Int * version_code,
+	  __sane_unused__ SANE_Auth_Callback authorize)
 {
 	DBG_INIT();
 	DBG(1, "coolscan3 backend, version %s initializing.\n",
-		BACKEND_VERSION);
+	    BACKEND_VERSION);
 
 	if (version_code)
 		*version_code = SANE_CURRENT_VERSION;
@@ -336,7 +337,8 @@ sane_exit(void)
 }
 
 SANE_Status
-sane_get_devices(const SANE_Device *** list, __sane_unused__ SANE_Bool local_only)
+sane_get_devices(const SANE_Device *** list,
+		 __sane_unused__ SANE_Bool local_only)
 {
 	char line[PATH_MAX], *p;
 	FILE *config;
@@ -970,7 +972,7 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 		s->option_list[i_option] = o;
 	}
 
-	s->compat_level = SANE_API(1, 0, 0); /* default level is 1.0 */
+	s->compat_level = SANE_API(1, 0, 0);	/* default level is 1.0 */
 	s->scanning = SANE_FALSE;
 	s->preview = SANE_FALSE;
 	s->negative = SANE_FALSE;
@@ -1048,8 +1050,8 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 
 	switch (a) {
 	case SANE_ACTION_CHECK_API_LEVEL:
-		s->compat_level = *(SANE_Word *)v;	/* frontend compat level */
-		*(SANE_Word *)v = SANE_API(1, 1, 0);	/* our level */
+		s->compat_level = *(SANE_Word *) v;	/* frontend compat level */
+		*(SANE_Word *) v = SANE_API(1, 1, 0);	/* our level */
 		break;
 
 	case SANE_ACTION_GET_VALUE:
@@ -1219,7 +1221,7 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 			s->negative = *(SANE_Word *) v;
 			break;
 		case CS3_OPTION_INFRARED:
-			if (s->compat_level < SANE_API(1,1,0))
+			if (s->compat_level < SANE_API(1, 1, 0))
 				return SANE_STATUS_INVAL;
 
 			s->infrared = *(SANE_Word *) v;
@@ -1667,7 +1669,8 @@ sane_set_io_mode(SANE_Handle h, SANE_Bool m)
 }
 
 SANE_Status
-sane_get_select_fd(__sane_unused__ SANE_Handle h, __sane_unused__ SANE_Int * fd)
+sane_get_select_fd(__sane_unused__ SANE_Handle h,
+		   __sane_unused__ SANE_Int * fd)
 {
 	DBG(10, "%s\n", __func__);
 
@@ -1944,7 +1947,8 @@ cs3_attach(const char *dev)
 }
 
 static SANE_Status
-cs3_scsi_sense_handler(__sane_unused__ int fd, u_char * sense_buffer, void *arg)
+cs3_scsi_sense_handler(__sane_unused__ int fd, u_char * sense_buffer,
+		       void *arg)
 {
 	cs3_t *s = (cs3_t *) arg;
 

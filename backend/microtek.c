@@ -1758,8 +1758,10 @@ parse_inquiry(Microtek_Info * mi, unsigned char *result)
 		break;
 	case 0x80:
 		/* Slide format, size is mm */
-		mi->max_x = (35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
-		mi->max_y = (35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_x =
+			(35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_y =
+			(35.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
 		break;
 	case 0x81:
 		mi->max_x = 5.0 * mi->base_resolution - 1;
@@ -1767,8 +1769,10 @@ parse_inquiry(Microtek_Info * mi, unsigned char *result)
 		break;
 	case 0x82:
 		/* Slide format, size is mm */
-		mi->max_x = (36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
-		mi->max_y = (36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_x =
+			(36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
+		mi->max_y =
+			(36.0 / SANE_MM_PER_INCH) * mi->base_resolution - 1;
 		break;
 	default:
 		/* Undefined document format code */

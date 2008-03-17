@@ -493,7 +493,6 @@ typedef struct
 #define PLUSTEK_CONFIG_FILE	"plustek_pp.conf"
 
 #ifndef PATH_MAX
-# define PATH_MAX 1024
 #endif
 
 /*

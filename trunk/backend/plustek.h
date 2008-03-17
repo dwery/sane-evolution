@@ -110,7 +110,6 @@
 #define PLUSTEK_CONFIG_FILE	"plustek.conf"
 
 #ifndef PATH_MAX
-# define PATH_MAX 1024
 #endif
 
 #define _MEASURE_BASE       300UL

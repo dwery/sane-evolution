@@ -28,7 +28,6 @@
 #include <sys/types.h>
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 #include "sane/sane.h"

@@ -479,7 +479,6 @@ struct fujitsu
 #define FUJITSU_CONFIG_FILE "fujitsu.conf"
 
 #ifndef PATH_MAX
-#  define PATH_MAX 1024
 #endif
 
 #ifndef PATH_SEP

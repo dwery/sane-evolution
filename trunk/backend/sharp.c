@@ -153,7 +153,6 @@
 #include <sharp.h>
 
 #ifndef PATH_MAX
-#define PATH_MAX	1024
 #endif
 
 #define DEFAULT_MUD_JX610 25

@@ -89,7 +89,6 @@
 #include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 #include "hs2p-scsi.c"

@@ -125,7 +125,6 @@
 #include "sane/sanei_backend.h"
 
 #ifndef PATH_MAX
-#define PATH_MAX	1024
 #endif
 
 #define DEFAULT_MUD_1200 1200

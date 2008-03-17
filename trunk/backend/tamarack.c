@@ -69,7 +69,6 @@
 #include "tamarack.h"
 
 #ifndef PATH_MAX
-# define PATH_MAX	1024
 #endif
 
 #define TAMARACK_CONFIG_FILE "tamarack.conf"

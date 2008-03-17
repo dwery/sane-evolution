@@ -114,7 +114,6 @@ typedef struct SM3840_Scan
 
 
 #ifndef PATH_MAX
-#define PATH_MAX	1024
 #endif
 
 #define SM3840_CONFIG_FILE "sm3840.conf"

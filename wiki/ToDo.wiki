@@ -19,6 +19,7 @@
 == Long term ==
 
  * extrapolate linux scsi driver from the scsi code mess
+ * review and compliance check for well known options 
 
 
 

@@ -17,6 +17,7 @@
 == For developers ==
 
  * ToDo
+ * WritingBackend
  * [FAQBackends]
  * SaneFlow
  * VerifiedBackends

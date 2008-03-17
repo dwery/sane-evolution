@@ -38,8 +38,6 @@
 
 #define EPSON2_CONFIG_FILE      "epson2.conf"
 
-#ifndef PATH_MAX
-#endif
 
 #ifndef XtNumber
 #define XtNumber(x)  (sizeof(x) / sizeof(x[0]))

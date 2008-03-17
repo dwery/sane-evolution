@@ -84,8 +84,6 @@
 #define ARTEC_LAST_MOD  "05/26/2001 17:28 EST"
 
 
-#ifndef PATH_MAX
-#endif
 
 #define ARTEC_CONFIG_FILE "artec.conf"
 #define ARTEC_MAX_READ_SIZE 32768

@@ -107,8 +107,6 @@
 
 #include "dc25.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define MAGIC			(void *)0xab730324
 #define DC25_CONFIG_FILE 	"dc25.conf"

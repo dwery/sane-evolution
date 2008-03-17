@@ -58,8 +58,6 @@
 /* Miscellaneous defines                                                      */
 /******************************************************************************/
 
-#ifndef PATH_MAX
-#endif
 
 #ifdef HAVE_AUTHORIZATION
 #ifndef PATH_SEP

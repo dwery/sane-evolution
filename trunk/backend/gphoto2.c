@@ -108,8 +108,6 @@
 
 #define CHECK_RET(f) {int res = f; if (res < 0) {DBG (1,"ERROR: %s\n", gp_result_as_string (res)); return (SANE_STATUS_INVAL);}}
 
-#ifndef PATH_MAX
-#endif
 
 #define MAGIC			(void *)0xab730324
 #define GPHOTO2_CONFIG_FILE 	"gphoto2.conf"

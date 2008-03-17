@@ -62,8 +62,6 @@
 #define BACKEND_NAME ricoh
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define RICOH_CONFIG_FILE "ricoh.conf"

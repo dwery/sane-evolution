@@ -69,8 +69,6 @@
 #define BACKEND_NAME	abaton
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define ABATON_CONFIG_FILE "abaton.conf"

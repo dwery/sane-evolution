@@ -100,8 +100,6 @@
 #define BACKEND_NAME dll
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #if defined(HAVE_OS2_H)
 # define DIR_SEP        ";"

@@ -240,8 +240,6 @@ static char *hp_backend_revision = "$Revision: 1.21 $";
 #include "hp-device.h"
 #include "hp-handle.h"
 
-#ifndef PATH_MAX
-#endif
 
 #ifndef NDEBUG
 #include <ctype.h>

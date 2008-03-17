@@ -66,8 +66,6 @@
 #define BACKEND_NAME ibm
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "sane/sanei_config.h"
 #define IBM_CONFIG_FILE "ibm.conf"

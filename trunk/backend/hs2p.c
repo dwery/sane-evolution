@@ -88,8 +88,6 @@
 #define BACKEND_NAME hs2p
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #include "hs2p-scsi.c"
 

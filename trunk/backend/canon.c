@@ -114,8 +114,6 @@
 
 #include <sane/sanei_backend.h>
 
-#ifndef PATH_MAX
-#endif
 
 #include <sane/sanei_config.h>
 #define CANON_CONFIG_FILE "canon.conf"

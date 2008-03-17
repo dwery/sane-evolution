@@ -73,8 +73,6 @@
 #include "sane/sanei_usb.h"
 #include "sane/sanei_thread.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define EXPECTED_MAJOR       1
 #define MINOR_VERSION        4

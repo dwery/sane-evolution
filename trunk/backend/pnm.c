@@ -58,8 +58,6 @@
 #define BACKEND_NAME	pnm
 #include "sane/sanei_backend.h"
 
-#ifndef PATH_MAX
-#endif
 
 #define MAGIC	(void *)0xab730324
 

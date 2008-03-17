@@ -80,8 +80,6 @@
 
 #define MICROTEK_CONFIG_FILE "microtek.conf"
 
-#ifndef PATH_MAX
-#endif
 
 
 #define SCSI_BUFF_SIZE sanei_scsi_max_request_size

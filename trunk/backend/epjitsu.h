@@ -192,8 +192,6 @@ struct scanner
 
 #define CONFIG_FILE "epjitsu.conf"
 
-#ifndef PATH_MAX
-#endif
 
 #ifndef PATH_SEP
 #ifdef HAVE_OS2_H

@@ -1,4 +1,5 @@
 #summary The status of the evolution
+#labels Featured
 
 The code base has been imported from SANE and
 some NewFeatures have been added. We are now testing them

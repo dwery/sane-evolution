@@ -4,9 +4,7 @@
  have changed since SANE 1.0 . Please refer to WritingBackend
  for the complete specs.
 
- * Indentation should be kept using the indent utility with the
- following options:
-
+ * Indentation should be kept using the indent utility with the following options:
 {{{
 -i8 --no-space-after-function-call-names --braces-on-if-line --cuddle-else \
 --honour-newlines --case-brace-indentation0

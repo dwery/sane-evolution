@@ -22,9 +22,12 @@
  * genesys
  * hp3500
  * hp5400
+ * hpsj5s
  * leo
  * lexmark
  * microtek
  * qcam
  * ricoh
+ * sharp
  * sm3600
+ * umax

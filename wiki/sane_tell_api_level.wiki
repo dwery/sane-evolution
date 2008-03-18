@@ -1,4 +1,5 @@
 #summary sane_tell_api_level()
+#labels Devel-Frontend
 
 Used by a frontend to tell a backend the supported API level.
 

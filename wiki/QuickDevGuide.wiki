@@ -1,29 +1,14 @@
-#summary Quick development reference for 1.1 backend authors
+#summary Quick development reference
 
 If, and only if, a frontend wants to enable 1.1 features
-in a backend, the following procedure SHOULD be used:
+in a backend, it will call either [sane_tell_api_level] or [sane_check_api_level].
 
-{{{
-        SANE_Int sane_version;
-        sane_init(&sane_version, NULL);
-
-        if (sane_version >= SANE_VERSION(1, 1, 0)) {
-                SANE_Int level = SANE_API(1, 1, 0);
-                result = sane_control_option(handle, 0,
-                                SANE_ACTION_CHECK_API_LEVEL, &level);
-        }
-}}}
-
-If the backend returns SANE_STATUS_GOOD to that sane_control_option
-call, the frontend knows that the backend correctly handles any
-SANE 1.1 feature. The backend will place its compatibility
-level in `level` .
+If the backend returns SANE_STATUS_GOOD to that calls,
+the frontend knows that the backend correctly handles any
+SANE 1.1 feature.
 
 When in SANE 1.1 mode a frontend should make sure that it behaves
 correctly if the backend returns something that was unexpected at
 the time of writing, like a new SANE_FRAME type.
 
-A frontend SHOULD NOT use this procedure to declare 1.0 compatibility
-as it would be pretty useless.
-
-You can take the coolscan3 driver as an example.
+You can take the coolscan3 and epson2 backends as an example.

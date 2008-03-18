@@ -2532,7 +2532,7 @@ sane_init(SANE_Int * version_code,
 	    "(C) 2002 - 2003 by Frank Zago, update 2003 - 2008 by Gerard Klaver\n");
 
 	if (version_code) {
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 	}
 
 	fp = sanei_config_open(TECO2_CONFIG_FILE);

@@ -915,14 +915,11 @@ read_image(pixma_sane_t * ss, void *buf, unsigned size, int *readlen)
 SANE_Status
 sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
-	int status, myversion;
+	SANE_Status status;
 
-	UNUSED(authorize);
+	if (version_code)
+	        *version_code = SANE_CURRENT_VERSION;
 
-	if (!version_code)
-		return SANE_STATUS_INVAL;
-	myversion = 100 * PIXMA_VERSION_MAJOR + PIXMA_VERSION_MINOR;
-	*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, myversion);
 	DBG_INIT();
 	sanei_thread_init();
 	pixma_set_debug_level(DBG_LEVEL);

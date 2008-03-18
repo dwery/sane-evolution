@@ -1505,7 +1505,7 @@ sane_init(SANE_Int * __sane_unused__ version_code,
 	    V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	if (inited)
 		DBG(3, "sane_init: warning: already inited\n");

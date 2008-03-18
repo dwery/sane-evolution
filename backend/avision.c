@@ -7451,8 +7451,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	sanei_thread_init();
 
 	if (version_code)
-		*version_code =
-			SANE_VERSION_CODE(V_MAJOR, V_MINOR, BACKEND_BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	fp = sanei_config_open(AVISION_CONFIG_FILE);
 	if (fp <= (FILE *) 0) {

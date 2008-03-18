@@ -734,8 +734,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	DBG(3, "backend by Jochen Eisinger <jochen.eisinger@gmx.net>\n");
 
 	if (version_code != NULL)
-		*version_code =
-			SANE_VERSION_CODE(V_MAJOR, V_MINOR, MUSTEK_PP_BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	sane_auth = authorize;
 

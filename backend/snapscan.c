@@ -669,23 +669,8 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	DBG(DL_VERBOSE, "%s: Snapscan backend version %d.%d.%d\n",
 	    me, EXPECTED_MAJOR, MINOR_VERSION, BUILD);
 
-	/* version check */
-	if (SANE_CURRENT_MAJOR != EXPECTED_MAJOR) {
-		DBG(DL_MAJOR_ERROR,
-		    "%s: this version of the SnapScan backend is intended for use\n"
-		    "with SANE major version %ld, but the major version of this SANE\n"
-		    "release is %ld. Sorry, but you need a different version of\n"
-		    "this backend.\n\n",
-		    me, (long) /*SANE_CURRENT_MAJOR */ V_MAJOR,
-		    (long) EXPECTED_MAJOR);
-		return SANE_STATUS_INVAL;
-	}
-
-	if (version_code != NULL) {
-		*version_code =
-			SANE_VERSION_CODE(SANE_CURRENT_MAJOR, MINOR_VERSION,
-					  BUILD);
-	}
+	if (version_code != NULL)
+		*version_code = SANE_CURRENT_VERSION;
 
 	auth = authorize;
 	/* Initialize data structures */

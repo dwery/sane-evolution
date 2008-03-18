@@ -705,7 +705,7 @@ sane_init(SANE_Int * versionP, SANE_Auth_Callback authorize)
 	    (void *) authorize);
 
 	if (versionP != NULL)
-		*versionP = SANE_VERSION_CODE(V_MAJOR, V_MINOR, 0);
+		*versionP = SANE_CURRENT_VERSION;
 
 	status = SANE_STATUS_GOOD;
 	if ((fp = sanei_config_open(ST400_CONFIG_FILE)) != NULL) {

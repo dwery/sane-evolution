@@ -1684,7 +1684,7 @@ sane_init(SANE_Int * version_code,
 	DBG(DBG_error, "(C) 2002 by Frank Zago\n");
 
 	if (version_code) {
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 	}
 
 	fp = sanei_config_open(MATSUSHITA_CONFIG_FILE);

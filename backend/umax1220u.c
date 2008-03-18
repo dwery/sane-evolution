@@ -588,7 +588,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	    V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	sanei_usb_init();
 	sanei_pv8630_init();

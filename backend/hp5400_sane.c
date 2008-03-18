@@ -542,7 +542,7 @@ sane_init(SANE_Int * piVersion, SANE_Auth_Callback pfnAuth)
 	}
 
 	if (piVersion != NULL) {
-		*piVersion = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*piVersion = SANE_CURRENT_VERSION;
 	}
 
 

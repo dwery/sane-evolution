@@ -3390,7 +3390,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	    MICROTEK_MAJOR, MICROTEK_MINOR, MICROTEK_PATCH);
 	/* return the SANE version we got compiled under */
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, 0);
+		*version_code = SANE_CURRENT_VERSION;
 
 	/* parse config file */
 	fp = sanei_config_open(MICROTEK_CONFIG_FILE);

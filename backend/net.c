@@ -680,9 +680,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	   the frontend to print them. This is done only for net and dll,
 	   because these backends are usually called by the frontend. */
 	if (version_code)
-		*version_code =
-			SANE_VERSION_CODE(SANE_DLL_V_MAJOR, SANE_DLL_V_MINOR,
-					  SANE_DLL_V_BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	DBG(1, "sane_init: SANE net backend version %s from %s\n",
 	    NET_VERSION, PACKAGE_STRING);

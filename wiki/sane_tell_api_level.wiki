@@ -1,0 +1,13 @@
+#summary sane_tell_api_level()
+
+Used by a frontend to tell a backend the supported API level.
+
+{{{
+        sane_init(&sane_version, NULL);
+        ...
+        sane_open(..., &handle);
+        ....
+
+        if(SANE_HAS_EVOLVED(sane_version))
+                sane_tell_api_level(handle, SANE_API(1, 1, 0));
+}}}

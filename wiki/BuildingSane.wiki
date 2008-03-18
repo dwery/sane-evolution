@@ -13,3 +13,8 @@ cd sane-evolution-read-only
 ./configure
 make
 }}}
+
+ * if you want to test without installing:
+{{{
+LD_LIBRARY_PATH=$(pwd)/backend/.libs tiffscan --list-devices
+}}}

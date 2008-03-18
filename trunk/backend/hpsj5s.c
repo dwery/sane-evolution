@@ -172,7 +172,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 
 	/*Inform about supported version */
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	/*Open configuration file for this backend */
 	config_file = sanei_config_open(HPSJ5S_CONFIG_FILE);

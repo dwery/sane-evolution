@@ -1947,7 +1947,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	num_devices = 1;	/* HOLD: only one device in this backend */
 
 	if (version_code != NULL)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	DBG(DBG_INFO, "sane_init: authorize %s null\n",
 	    authorize ? "!=" : "==");

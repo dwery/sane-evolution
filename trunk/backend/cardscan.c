@@ -282,7 +282,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	sanei_usb_init();
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	DBG(5, "sane_init: cardscan backend %d.%d.%d, from %s\n",
 	    V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);

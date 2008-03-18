@@ -3039,7 +3039,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	    _is_host_little_endian()? "little" : "big");
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	fp = sanei_config_open(BH_CONFIG_FILE);
 	if (fp) {

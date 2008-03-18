@@ -645,7 +645,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback UNUSEDARG authorize)
 	}
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, 0);
+		*version_code = SANE_CURRENT_VERSION;
 
 	fp = sanei_config_open(GPHOTO2_CONFIG_FILE);
 

@@ -963,7 +963,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	init_config_struct(&config);
 
 	if (version_code != NULL)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, 0);
+		*version_code = SANE_CURRENT_VERSION;
 
 	fp = sanei_config_open(U12_CONFIG_FILE);
 

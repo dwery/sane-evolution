@@ -87,9 +87,6 @@
 /* Maximum number of scanners */
 #define MAX_SCANNERS 32
 
-/* version number */
-#define DRIVER_VERSION SANE_VERSION_CODE( V_MAJOR, V_MINOR, 0 )
-
 /* size of buffer for socket communication */
 #define SOCK_BUF_SIZE 2048
 
@@ -257,7 +254,8 @@ sane_init(SANE_Int * version_code,
 	memset(gOpenScanners, 0, sizeof(gOpenScanners));
 
 	/* report version */
-	*version_code = DRIVER_VERSION;
+	if (version_code)
+		*version_code = SANE_CURRENT_VERSION;
 
 	/* init debug */
 	DBG_INIT();

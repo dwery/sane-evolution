@@ -1506,7 +1506,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	DBG(DBG_error, "(C) 2004-2006 by Gerard Klaver\n");
 
 	if (version_code) {
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 	}
 
 	DBG(DBG_proc, "sane_init: authorize %s null\n",

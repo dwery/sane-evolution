@@ -473,7 +473,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	DBG(2, "sane_init: version_code=%p\n", (void *) version_code);
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 #ifndef FAKE_USB
 	sanei_usb_init();

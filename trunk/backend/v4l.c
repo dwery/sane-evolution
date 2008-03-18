@@ -420,7 +420,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	    V_MINOR, BUILD, PACKAGE_STRING);
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	fp = sanei_config_open(V4L_CONFIG_FILE);
 	if (!fp) {

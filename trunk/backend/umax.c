@@ -6416,7 +6416,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	DBG(DBG_error, "EMAIL: Oliver.Rauch@rauch-domain.de\n");
 
 	if (version_code) {
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 	}
 
 	frontend_authorize_callback = authorize;	/* store frontend authorize callback */

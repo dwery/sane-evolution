@@ -62,6 +62,7 @@ typedef struct Net_Device
 	int ctl;		/* socket descriptor (or -1) */
 	Wire wire;
 	int auth_active;
+	int server_version;
 }
 Net_Device;
 

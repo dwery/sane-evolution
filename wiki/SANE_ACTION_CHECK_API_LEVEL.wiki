@@ -1,4 +1,5 @@
 #summary SANE_ACTION_CHECK_API_LEVEL
+#labels Devel-Backend
 
 May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 
@@ -6,20 +7,7 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 == frontend use ==
 
 The frontend must not make any assumption about the capabilities
-of the backend unless otherwise noted.
-
-{{{
-#include <sane/helper.h>
-
-        SANE_Int sane_version;
-        sane_init(&sane_version, NULL);
-
-        if (SANE_HAS_EVOLVED(sane_version)) {
-                SANE_Int level = SANE_API_LEVEL(1, 1, 0);
-                result = sane_check_api_level(handle, &level);
-        }
-}}}
-
+of the backend unless otherwise noted. See [sane_tell_api_level] and [sane_check_api_level].
 
 == backend implementation ==
 

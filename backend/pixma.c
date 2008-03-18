@@ -918,7 +918,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	SANE_Status status;
 
 	if (version_code)
-	        *version_code = SANE_CURRENT_VERSION;
+		*version_code = SANE_CURRENT_VERSION;
 
 	DBG_INIT();
 	sanei_thread_init();

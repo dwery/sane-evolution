@@ -686,7 +686,8 @@ scan_area_and_windows(Apple_Scanner * s)
 		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "download"))
 			STORE16(WP + 27, 1)
 				else
-		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "spiral8x8"))
+		if (!strcmp
+			    (s->val[OPT_HALFTONE_PATTERN].s, "spiral8x8"))
 			STORE16(WP + 27, 3)
 				else
 		if (!strcmp(s->val[OPT_HALFTONE_PATTERN].s, "bayer8x8"))

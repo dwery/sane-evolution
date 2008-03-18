@@ -4885,7 +4885,7 @@ sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 	    V_MAJOR, V_MINOR, BUILD, PACKAGE_STRING);
 
 	if (version_code)
-		*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, BUILD);
+		*version_code = SANE_CURRENT_VERSION;
 
 	DBG(DBG_proc, "sane_init: authorize %s null\n",
 	    authorize ? "!=" : "==");
@@ -5196,14 +5196,6 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	SANE_Word cap;
 	SANE_Int myinfo = 0;
 
-	DBG(DBG_io2,
-	    "sane_control_option: start: action = %s, option = %s (%d)\n",
-	    (action == SANE_ACTION_GET_VALUE) ? "get" : (action ==
-							 SANE_ACTION_SET_VALUE)
-	    ? "set" : (action ==
-		       SANE_ACTION_SET_AUTO) ? "set_auto" : "unknown",
-	    s->opt[option].name, option);
-
 	if (info)
 		*info = 0;
 
@@ -5371,7 +5363,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		DBG(DBG_warn,
 		    "sane_control_option: unknown action %d for option %d\n",
 		    action, option);
-		return SANE_STATUS_INVAL;
+		return SANE_STATUS_UNSUPPORTED;
 	}
 	if (info)
 		*info = myinfo;

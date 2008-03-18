@@ -9,7 +9,7 @@ you can check that your scanner still works with SANE Evolution.
 The degree of compatibility is very high, but having a positive
 report is important for us.
 
-As a developer, you can check our ToDo list and [issues http://code.google.com/p/sane-evolution/issues/list]
+As a developer, you can check our ToDo list and [http://code.google.com/p/sane-evolution/issues/list issues]
 and see if there's something you can work on. You can join
 our development mailing list and share your opinions. Your
 voice will be heard.

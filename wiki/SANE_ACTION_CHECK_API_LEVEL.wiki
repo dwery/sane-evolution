@@ -14,7 +14,7 @@ of the backend unless otherwise noted.
         SANE_Int sane_version;
         sane_init(&sane_version, NULL);
 
-        if (sane_version >= SANE_VERSION(1, 1, 0)) {
+        if (SANE_HAS_EVOLVED(sane_version)) {
                 SANE_Int level = SANE_API_LEVEL(1, 1, 0);
                 result = sane_check_api_level(handle, &level);
         }

@@ -1,4 +1,5 @@
 #summary Documentation of the SANE_STATUS_WARMING_UP return code
+#labels Devel-Frontend
 
 This return code might be used by a backend to inform
 any [APIOneOneZero 1.1.0] compliant frontend that the scanner
@@ -12,4 +13,4 @@ up condition and retry scanning after a while.
 
 This code must be returned only if the fronted has told
 the backend that it supports [APIOneOneZero 1.1.0] via
-[sane_tell_app_level] or [sane_check_api_level] .
+[sane_tell_api_level] or [sane_check_api_level] .

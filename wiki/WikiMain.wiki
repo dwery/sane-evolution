@@ -6,6 +6,7 @@
 
  * [Introduction]
  * [Why]
+ * HowCanIHelp
  * EvolutionStatus
  * NewFeatures
  * BuildingSane

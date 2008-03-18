@@ -1,4 +1,5 @@
 #summary Quick development reference
+#labels Devel-Frontend,Devel-Backend
 
 If, and only if, a frontend wants to enable 1.1 features
 in a backend, it will call either [sane_tell_api_level] or [sane_check_api_level].

@@ -463,7 +463,7 @@ connect_dev(Net_Device * dev)
 	}
 
 	status = reply.status;
-	version_code = reply.version_code;
+	dev->server_version = version_code = reply.version_code;
 	DBG(2, "connect_dev: freeing init reply (status=%s, remote "
 	    "version=%d.%d.%d)\n", sane_strstatus(status),
 	    SANE_VERSION_MAJOR(version_code),
@@ -1347,6 +1347,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	SANE_Control_Option_Reply reply;
 	SANE_Status status;
 	int need_auth;
+	int handled = TRUE;
 
 	DBG(3, "sane_control_option: option %d, action %d\n", option, action);
 
@@ -1402,11 +1403,28 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		req.value_type = s->opt.desc[option]->type;
 		req.value_size = 0;
 		break;
-
-	case SANE_ACTION_CHECK_API_LEVEL:
-		req.value_size = sizeof(u_int32_t);
+	default:
+		handled = FALSE;
 		break;
+		
 	}
+
+	if (!handled) {
+		handled = TRUE;
+		
+		switch (action) {
+		case SANE_ACTION_CHECK_API_LEVEL:
+			req.value_size = sizeof(u_int32_t);
+			break;
+
+		default:
+			handled = FALSE;
+			break;
+		}
+	}
+	
+	if (!handled)
+		return SANE_ACTION_UNSUPPORTED;
 
 	DBG(3, "sane_control_option: remote control option\n");
 	sanei_w_call(&s->hw->wire, SANE_NET_CONTROL_OPTION,

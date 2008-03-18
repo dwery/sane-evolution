@@ -1424,7 +1424,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	}
 	
 	if (!handled)
-		return SANE_ACTION_UNSUPPORTED;
+		return SANE_STATUS_UNSUPPORTED;
 
 	DBG(3, "sane_control_option: remote control option\n");
 	sanei_w_call(&s->hw->wire, SANE_NET_CONTROL_OPTION,

@@ -361,12 +361,15 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	if ((handle != (SANE_Handle) scanner_d) || (scanner_d == -1))
 		return SANE_STATUS_INVAL;	/* wrong device */
 
-	if ((option >= NELEMS(sod)) || (option < 0))	/*Supported only this option */
+	if ((option >= NELEMS(sod)) || (option < 0))	/* Supported only this option */
 		return SANE_STATUS_INVAL;
+
+	if (action != SANE_ACTION_GET_VALUE && action != SANE_ACTION_SET_VALUE)
+		return SANE_STATUS_UNSUPPORTED;
 
 	switch (option) {
 	case 0:		/*Number of options */
-		if (action != SANE_ACTION_GET_VALUE)	/*It can be only read */
+		if (action != SANE_ACTION_GET_VALUE)	/* It can be only read */
 			return SANE_STATUS_INVAL;
 
 		*((SANE_Int *) value) = NELEMS(sod);
@@ -376,7 +379,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		case SANE_ACTION_GET_VALUE:
 			*((SANE_Word *) value) = wWidth;
 			return SANE_STATUS_GOOD;
-		case SANE_ACTION_SET_VALUE:	/*info should be setted */
+		case SANE_ACTION_SET_VALUE:	/* info should be setted */
 			wWidth = *((SANE_Word *) value);
 			if (info != NULL)
 				*info = SANE_INFO_RELOAD_PARAMS;

@@ -7746,7 +7746,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 		}
 		}
 	}			/* else */
-	return SANE_STATUS_INVAL;
+
+	return SANE_STATUS_UNSUPPORTED;
 }
 
 

@@ -9,3 +9,7 @@ is warming up. It might be returned by
 
 A compliant frontend must inform the user of the warming
 up condition and retry scanning after a while.
+
+This code must be returned only if the fronted has told
+the backend that it supports [APIOneOneZero 1.1.0] via
+[sane_tell_app_level] or [sane_check_api_level] .

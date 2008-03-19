@@ -4,10 +4,11 @@
 
  * SANE development has traditionally been quite slow
 
- * The SANE 2.0 draft is still incomplete and no-one has committed building the core of it.
+ * The SANE 2.0 draft is still incomplete and no-one has committed building the core of it
 
- * No consensus could be reached to develop an improved version.
+ * No consensus could be reached to develop an improved version
+
+ * SANE people refused adding new features in SANE 1.0
 
 The only solution left was to fork SANE. SANE Evolution was then born
-in march 2008 and aims to produce a better SANE by slightly improving
-it over time.
+and aims to produce a better SANE by slightly improving it over time.

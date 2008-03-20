@@ -1,0 +1,9 @@
+#summary API Helpers
+#labels Devel-Frontend
+
+== since 1.1.0 ==
+
+ * [sane_tell_api_level]
+ * [sane_check_api_level]
+ * [sane_check_warm_up]
+ * [sane_get_scanner_info]

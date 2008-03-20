@@ -158,6 +158,8 @@ struct backend
 	u_int permanent:1;	/* is the backend preloaded? */
 	u_int loaded:1;		/* are the functions available? */
 	u_int inited:1;		/* has the backend been initialized? */
+	u_int evolved:1;
+	int api_level;
 	void *handle;		/* handle returned by dlopen() */
 	void *(*op[NUM_OPS]) (void);
 };
@@ -185,6 +187,8 @@ struct backend
   1 /* permanent */,                            \
   1 /* loaded */,                               \
   0 /* inited */,                               \
+  0 /* evolved */,				\
+  0 /* api_level */,				\
   0 /* handle */,                               \
   {                                             \
     BE_ENTRY(name,init),                        \
@@ -610,6 +614,9 @@ init(struct backend *be)
 
 	DBG(3, "init: initializing backend `%s'\n", be->name);
 
+	be->evolved = 0;
+	be->api_level = SANE_API(1, 0, 0); /* default level */
+
 	status = (*(op_init_t) be->op[OP_INIT]) (&version, auth_callback);
 	if (status != SANE_STATUS_GOOD)
 		return status;
@@ -623,6 +630,9 @@ init(struct backend *be)
 	DBG(4, "init: backend `%s' is version %d.%d.%d\n", be->name,
 	    SANE_VERSION_MAJOR(version), SANE_VERSION_MINOR(version),
 	    SANE_VERSION_BUILD(version));
+
+	if (SANE_HAS_EVOLVED(version))
+		be->evolved = 1;
 
 	be->inited = 1;
 
@@ -1157,10 +1167,27 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 		goto exit;
 	}
 
+	if (be->evolved) {
+		status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION]) (handle, 0,
+			SANE_ACTION_CHECK_API_LEVEL, &be->api_level, 0);
+
+		DBG(3, "backend api %d.%d.%d\n",
+				SANE_VERSION_MAJOR(be->api_level),
+				SANE_VERSION_MINOR(be->api_level),
+				SANE_VERSION_BUILD(be->api_level));
+		
+
+		/* restore default level in case of failure */
+		if (status != SANE_STATUS_GOOD) {
+			be->api_level = SANE_API(1, 0, 0);
+			status = SANE_STATUS_GOOD;
+		}	
+	}
+
 	s->be = be;
 	s->handle = handle;
 	*meta_handle = s;
-
+                                                                                                                            
 	DBG(3, "sane_open: open successful\n");
       exit:
 
@@ -1196,6 +1223,18 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		    SANE_Action action, void *value, SANE_Word * info)
 {
 	struct meta_scanner *s = handle;
+
+	switch (action) {
+		case SANE_ACTION_CHECK_API_LEVEL:
+		case SANE_ACTION_CHECK_WARM_UP:
+		case SANE_ACTION_GET_SCANNER_INFO:
+		case SANE_ACTION_GET_BACKEND_INFO:
+			if (s->be->api_level < SANE_API(1, 1, 0))
+				return SANE_STATUS_UNSUPPORTED;
+
+		default:
+			break;
+	}
 
 	DBG(3,
 	    "sane_control_option(handle=%p,option=%d,action=%d,value=%p,info=%p)\n",

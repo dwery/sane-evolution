@@ -248,6 +248,8 @@ struct Epson_Device
 	char *name;
 	char *model;
 
+	SANE_Scanner_Info si;
+
 
 	SANE_Device sane;
 	SANE_Int level;

@@ -5,7 +5,7 @@
  * Work on epson.[ch] file from the SANE package.
  * Please see those files for additional copyrights.
  *
- * Copyright (C) 2006-07 Tower Technologies
+ * Copyright (C) 2006-08 Tower Technologies
  * Author: Alessandro Zummo <a.zummo@towertech.it>
  *
  * This file is part of the SANE package.
@@ -721,7 +721,7 @@ e2_set_model(Epson_Scanner * s, unsigned char *model, size_t len)
 	dev->model = strndup((const char *) buf, len);
 	dev->sane.model = dev->model;
 
-	DBG(10, "%s: model is '%s'\n", __func__, dev->model);
+	strncpy(dev->si.model, dev->model, sizeof(dev->si.model) - 1);
 
 	free(buf);
 
@@ -1025,6 +1025,8 @@ e2_discover_capabilities(Epson_Scanner * s)
 		 * for the same unit (i.e. LP-A500 vs CX11) .
 		 */
 		e2_set_model(s, &buf[46], 16);
+		strncpy(dev->si.revision, (char *) &buf[62], 4);
+
 
 		dev->optical_res = le32atoh(&buf[4]);
 
@@ -1211,7 +1213,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 	struct Epson_Device *dev;
 	int port;
 
-	DBG(1, "%s\n", BACKEND_VERSION);
+	DBG(1, "%s: %s\n", BACKEND_VERSION, __func__);
 
 	DBG(7, "%s: devname = %s, type = %d\n", __func__, name, type);
 
@@ -1298,6 +1300,12 @@ attach(const char *name, Epson_Device * *devp, int type)
 	dev->res_list_size = 0;
 	dev->res_list = NULL;
 
+	/* scanner info */
+	memset(&dev->si, 0x00, sizeof(dev->si));
+	strcpy(dev->si.vendor, "Epson");
+	
+
+
 	if (dev->connection == SANE_EPSON_NET) {
 		unsigned char buf[5];
 
@@ -1353,6 +1361,8 @@ attach(const char *name, Epson_Device * *devp, int type)
 		DBG(1, " model   : %.16s\n", model);
 		DBG(1, " revision: %.4s\n", rev);
 
+		strncpy(dev->si.revision, rev, 4);
+
 		if (buf[0] != TYPE_PROCESSOR) {
 			DBG(1, "%s: device is not of processor type (%d)\n",
 			    __func__, buf[0]);
@@ -1380,6 +1390,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 
 		if (strncmp(model, "FilmScan 200", 12) == 0) {
 			dev->sane.type = "film scanner";
+			dev->si.type = SANE_SCANNER_FILM;
 			e2_set_model(s, (unsigned char *) model, 12);
 		}
 	}
@@ -2918,8 +2929,17 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 	switch (action) {
 	case SANE_ACTION_CHECK_API_LEVEL:
 		s->compat_level = *(SANE_Word *) value;
-		*(SANE_Word *) value = SANE_API(1, 0, 0);
-		break;
+		*(SANE_Word *) value = SANE_API(1, 1, 0);
+		return SANE_STATUS_GOOD;
+
+	case SANE_ACTION_GET_SCANNER_INFO:
+	{
+		SANE_Scanner_Info *si = (SANE_Scanner_Info *) value;
+
+		strcpy(si->vendor, "Epson");
+		strncpy(si->model, s->hw->model, 63);
+	}
+		return SANE_STATUS_GOOD;		
 
 	case SANE_ACTION_CHECK_WARM_UP:
 		if (value)
@@ -4503,21 +4523,20 @@ sane_cancel(SANE_Handle handle)
 		if (dummy == NULL) {
 			DBG(1, "Out of memory\n");
 			return;
-		} else {
+		} 
 
-			/* there is still data to read from the scanner */
-			s->canceling = SANE_TRUE;
+		/* there is still data to read from the scanner */
+		s->canceling = SANE_TRUE;
 
-			/* XXX check this condition, we used to check
-			 * for SANE_STATUS_CANCELLED  */
-			while (!s->eof &&
-			       (status == SANE_STATUS_GOOD
-				|| status == SANE_STATUS_DEVICE_BUSY)) {
-				/* empty body, the while condition does the processing */
-				status = sane_read(s, dummy,
-						   s->params.bytes_per_line,
-						   &len);
-			}
+		/* XXX check this condition, we used to check
+		 * for SANE_STATUS_CANCELLED  */
+		while (!s->eof &&
+		       (status == SANE_STATUS_GOOD
+			|| status == SANE_STATUS_DEVICE_BUSY)) {
+			/* empty body, the while condition does the processing */
+			status = sane_read(s, dummy,
+					   s->params.bytes_per_line,
+					   &len);
 			free(dummy);
 		}
 	}

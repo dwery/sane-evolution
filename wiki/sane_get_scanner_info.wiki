@@ -1,0 +1,19 @@
+#summary sane_get_scanner_info(SANE_Handle h, SANE_Scanner_Info *si)
+#labels Devel-Frontend
+
+Used by a frontend to fetch scanner information.
+It's an interface to [SANE_ACTION_GET_SCANNER_INFO].
+
+{{{
+#include <sane/helper.h>
+
+        SANE_Scanner_Info si;
+
+        sane_init(&sane_version, NULL);
+        ...
+        sane_open(..., &handle);
+        ....
+
+        if(SANE_HAS_EVOLVED(sane_version))
+                sane_get_scanner_info(handle, &si);
+}}}

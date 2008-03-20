@@ -1,10 +1,13 @@
-#summary Quick development reference
-#labels Devel-Frontend,Devel-Backend
+#summary Quick start guide for frontend developers
+#labels Devel-Frontend
 
-If, and only if, a frontend wants to enable 1.1 features
-in a backend, it will call either [sane_tell_api_level] or [sane_check_api_level].
+*If* a frontend wants to enable SANE Evolution features
+in a backend, it will either call [sane_tell_api_level] or [sane_check_api_level].
 
-When in SANE 1.1 mode a frontend should make sure that it behaves
+After that, the frontend can use the [APIHelpers] to
+access SANE Evolution features.
+
+When in evolved mode, a frontend should make sure that it behaves
 correctly if the backend returns something that was unexpected at
 the time of writing, like a new SANE_FRAME type.
 

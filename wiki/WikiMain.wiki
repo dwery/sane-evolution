@@ -17,6 +17,7 @@
 
 == For developers ==
 
+ * [APIHelpers]
  * [APILevelReference]
  * ToDo
  * WritingBackend

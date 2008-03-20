@@ -2,7 +2,7 @@
 #labels Devel-Frontend
 
 *If* a frontend wants to enable SANE Evolution features
-in a backend, it will either call [sane_tell_api_level] or [sane_check_api_level].
+in a backend, it will either call [sane_tell_api_level] or [sane_exchange_api_level].
 
 After that, the frontend can use the [APIHelpers] to
 access SANE Evolution features.

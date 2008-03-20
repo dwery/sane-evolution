@@ -7,7 +7,7 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 == frontend use ==
 
 The frontend must not make any assumption about the capabilities
-of the backend unless otherwise noted. See [sane_tell_api_level] and [sane_check_api_level].
+of the backend unless otherwise noted. See [sane_tell_api_level] and [sane_exchange_api_level].
 
 == backend implementation ==
 

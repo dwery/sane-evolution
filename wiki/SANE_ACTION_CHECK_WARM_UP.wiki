@@ -3,7 +3,7 @@
 
 == frontend use ==
 
-See [sane_chek_warm_up].
+See [sane_check_warm_up].
 
 If the returned code is [SANE_STATUS_WARMING_UP] the frontend
 should repoll after a reasonable interval. In the event of any other

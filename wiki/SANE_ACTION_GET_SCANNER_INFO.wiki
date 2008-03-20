@@ -8,15 +8,13 @@ See [sane_get_scanner_info].
 == backend implementation ==
 
 {{{
-        ...
-
         switch (action) {
         case SANE_ACTION_GET_SCANNER_INFO:
 
                 SANE_Scanner_Info *si = (SANE_Scanner_Info *) value;
 
                 strcpy(si->vendor, "Epson");
-                strncpy(si->model, s->hw->model, sizeof(si->mode) - 1);
+                strncpy(si->model, s->hw->model, sizeof(si->model) - 1);
 
                 ... fill other fields ...
 

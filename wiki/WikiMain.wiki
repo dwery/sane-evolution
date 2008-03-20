@@ -17,12 +17,12 @@
 
 == For developers ==
 
- * [APIHelpers]
- * [APILevelReference]
+ * A [QuickDevGuide quick start] for frontend developers
+ * [APIHelpers] for frontend developers
+ * [APILevelReference] for backend developers
  * ToDo
  * WritingBackend
  * [FAQBackends]
  * SaneFlow
  * VerifiedBackends
  * CodingGuidelines
- * QuickDevGuide

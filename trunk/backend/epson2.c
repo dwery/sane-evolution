@@ -2935,11 +2935,9 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 	case SANE_ACTION_GET_SCANNER_INFO:
 	{
 		SANE_Scanner_Info *si = (SANE_Scanner_Info *) value;
-
-		strcpy(si->vendor, "Epson");
-		strncpy(si->model, s->hw->model, 63);
-	}
+		memcpy(si, &s->hw->si, sizeof(SANE_Scanner_Info));
 		return SANE_STATUS_GOOD;		
+	}
 
 	case SANE_ACTION_CHECK_WARM_UP:
 		if (value)

@@ -1,0 +1,9 @@
+#summary SANE_CAP_DEPRECATED
+#labels Devel-Backend,Devel-Frontend
+
+A backend may set this flag to a capability
+to signal that it is outdated and will be eventually
+removed.
+
+When doing this, be sure to provide a better alternative
+or to explain why it has been deprecated.

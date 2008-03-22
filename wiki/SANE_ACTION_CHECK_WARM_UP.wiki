@@ -3,7 +3,9 @@
 
 == frontend use ==
 
-See [sane_check_warm_up].
+A frontend should be prepared to receive this code in response
+to [sane_start] . Optionally, it can check the warm up condition before scanning
+using [sane_check_warm_up].
 
 == backend implementation ==
 

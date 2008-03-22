@@ -1,0 +1,24 @@
+#summary SANE_Status sane_start(SANE_Handle handle)
+#labels Devel-Frontend
+
+{{{
+
+scan:
+        if (tries == 0) {
+                ... warn the user ...
+                return SANE_STATUS_IO_ERROR;
+        }
+
+        status = sane_start(handle);
+
+        if (status == SANE_STATUS_WARMING_UP) {
+                tries--;
+                ... wait some 10/15 secs ...
+                goto scan;
+        }
+
+        ...
+}}}
+
+Optionally an [Evolved] frontend can use [sane_check_warm_up] to test
+the warm up condition.

@@ -10,10 +10,9 @@
  * EvolutionStatus
  * NewFeatures
  * BuildingSane
- * [Backends]
- * NativeBackends
+ * [Backends], NativeBackends and DeprecatedBackends
  * CompatibleFrontends
- * DeprecatedBackends
+
 
 == For developers ==
 
@@ -21,8 +20,7 @@
  * [APIHelpers] for frontend developers
  * [APILevelReference] for backend developers
  * ToDo
- * WritingBackend
+ * WritingBackend and CodingGuidelines
  * [FAQBackends]
  * SaneFlow
  * VerifiedBackends
- * CodingGuidelines

@@ -3,12 +3,12 @@
 
 == Short term ==
 
+ * resync to SANE
  * Finish [APIOneOneZero 1.1.0] specs
  * fixup code indentation to one common style
  * get rid of alloca() calls and of the related #include
- * add api level check and protection
+ * ~~add api level check and protection~~
  * ~~convert .desc files to wiki pages~~
- * document frame types in the wiki
  * ~~fix MM_PER_INCH macros~~
  * find other duplicated macros
  * ~~fix #include ../~~
@@ -19,6 +19,7 @@
 
 == Long term ==
 
+ * document frame types in the wiki
  * extrapolate linux scsi driver from the scsi code mess
  * review and compliance check for well known options 
 

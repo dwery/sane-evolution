@@ -1,4 +1,5 @@
 #summary Coding guidelines
+#labels Devel-Frontend,Devel-Backend
 
  Here you get some coding guidelines, in particular those that
  have changed since SANE 1.0 . Please refer to WritingBackend
@@ -14,7 +15,7 @@
 
  * Do not use a plethora of #ifdef like in sanei/sanei_scsi.c
  * Handle default condition appropriately in switch statements
- * Linking against a single backend is deprecated. The dll layer should be used as it can provide support for further improvements to SANE
+ * [NoLink Linking] against a single backend is deprecated. The dll layer should be used as it can provide support for further improvements to SANE
  * Use C99
  * Do not use alloca()
  * Use #include "xxx.h" instead of #include "../include/xxx.h"

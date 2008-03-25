@@ -167,25 +167,8 @@ typedef unsigned int cs3_pixel_t;
  * that can provide the same features are appreciated.
  */
 
-#ifndef SANE_COOKIE
-#define SANE_COOKIE 0x0BADCAFE
-
-struct SANE_Cookie
-{
-	u_int16_t version;
-	const char *vendor;
-	const char *model;
-	const char *revision;
-};
-#endif
-
 typedef struct
 {
-	/* magic bits :( */
-	u_int32_t magic;
-	struct SANE_Cookie *cookie_ptr;
-	struct SANE_Cookie cookie;
-
 	/* interface */
 	cs3_interface_t interface;
 	int fd;
@@ -194,6 +177,7 @@ typedef struct
 	size_t n_cmd, n_send, n_recv;
 
 	/* device characteristics */
+	SANE_Scanner_Info si;
 	char vendor_string[9], product_string[17], revision_string[5];
 	cs3_type_t type;
 	int maxbits;
@@ -1054,6 +1038,13 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 		*(SANE_Word *) v = SANE_API(1, 1, 0);	/* our level */
 		break;
 
+	case SANE_ACTION_GET_SCANNER_INFO:
+	{
+		SANE_Scanner_Info *si = (SANE_Scanner_Info *) v;
+		memcpy(si, &s->si, sizeof(SANE_Scanner_Info));
+		return SANE_STATUS_GOOD;
+	}
+
 	case SANE_ACTION_GET_VALUE:
 
 		switch (n) {
@@ -1725,14 +1716,10 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 		return SANE_STATUS_NO_MEM;
 	memset(s, 0, sizeof(cs3_t));
 
-	/* fill magic bits */
-	s->magic = SANE_COOKIE;
-	s->cookie_ptr = &s->cookie;
-
-	s->cookie.version = 0x01;
-	s->cookie.vendor = s->vendor_string;
-	s->cookie.model = s->product_string;
-	s->cookie.revision = s->revision_string;
+	/* fill scanner info */
+	strncpy(s->si.vendor, s->vendor_string, 8);
+	strncpy(s->si.model, s->product_string, 16);
+	strncpy(s->si.revision, s->revision_string, 4);
 
 	s->send_buf = s->recv_buf = NULL;
 	s->send_buf_size = s->recv_buf_size = 0;

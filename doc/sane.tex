@@ -12,9 +12,9 @@
 \setlength{\marginparsep}{0pt}
 \addtolength{\topmargin}{-0.75in}
 
-\title{\huge SANE Standard Version 1.05}
+\title{\huge SANE Evolution Standard Version 1.1.0}
 \author{}
-\date{2006-04-02} 
+\date{2008-03-16} 
 
 \makeindex
 
@@ -379,14 +379,11 @@ to the SANE standard is made that may render an existing frontend or
 backend incompatible with the new standard, the major version number
 must be increased.  Thus, any frontend/backend pair is compatible
 provided the major version number of the SANE standard they implement
-is the same.  A frontend may implement backwards compatiblity by
-allowing major numbers that are smaller than the expected major number
-(provided the frontend really can cope with the older version).  In
-contrast, a backend always provides support for one and only one
-version of the standard.  If a specific application does require that
-two different versions of the same backend are accessible at the same
-time, it is possible to do so by installing the two versions under
-different names.
+is the same.  Within the same major version and starting with
+SANE Evolution 1.1.0 a backend can provide compliance with different
+API levels.  The details of each API level is maintained online
+at \url{http://www.sane-evolution.org}. A frontend must not make any assumption
+about the backends or their version.
 
 SANE version control also includes a minor version number and a build
 revision.  While control of these numbers remains with the implementor
@@ -394,7 +391,7 @@ of a backend, the recommended use is as follows.  The minor version is
 incremented with each official release of a backend.  The build
 revision is increased with each build of a backend.
 
-The SANE API provides the following five macros to manage version
+The SANE API provides the following macros to manage version
 numbers.
 \begin{quote}
   \begin{description}
@@ -1074,12 +1071,12 @@ SANE_Range;
 This function must be called before any other SANE function can be called.
 The behavior of a SANE backend is undefined if this function is not called
 first or if the status code returned by \code{sane\_init} is different from
-\code{\defn{SANE\_STATUS\_GOOD}}.  The version code of the backend is returned
-in the value pointed to by \code{version\_code}.  If that pointer is
-\code{NULL}, no version code is returned.  Argument \code{authorize} is either
-a pointer to a function that is invoked when the backend requires
-authentication for a specific resource or \code{NULL} if the frontend does not
-support authentication.
+\code{\defn{SANE\_STATUS\_GOOD}}.  The version code of SANE,
+\code{\defn{SANE\_CURRENT\_VERSION}}, is returned in the value pointed to by \code{version\_code}.
+If that pointer is \code{NULL}, no version code is returned.
+Argument \code{authorize} is either a pointer to a function that is invoked
+when the backend requires authentication for a specific resource or \code{NULL}
+if the frontend does not support authentication.
 \begin{quote}\index{sane\_init}
 \begin{verbatim}
 SANE_Status sane_init (SANE_Int * version_code,
@@ -1881,7 +1878,7 @@ mail with a subject of ``\code{help}'' to the above address.  The
 mailing list is archived and available through the SANE home page at
 URL:
 \begin{quote}
-\url{http://www.sane-project.org/}
+\url{http://www.sane-evolution.org/}
 \end{quote}
 
 \newpage

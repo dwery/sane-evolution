@@ -21,7 +21,9 @@
  */
 
 #define SANE_CURRENT_MAJOR	1
-#define SANE_HAS_EVOLVED	1
+#define SANE_HAS_EVOLVED(ver)	((ver) >= SANE_VERSION(1,1,0))
+
+#define SANE_CHECK_API(v,av,ar,ab) ((v) >= SANE_API((av),(ar),(ab)))
 
 #define SANE_VERSION_CODE(major, minor, build)	\
   (  (((SANE_Word) (major) &   0xff) << 24)	\
@@ -115,9 +117,11 @@ SANE_Device;
 #define SANE_CAP_INACTIVE		(1 << 5)
 #define SANE_CAP_ADVANCED		(1 << 6)
 #define SANE_CAP_ALWAYS_SETTABLE	(1 << 7)
+#define SANE_CAP_DEPRECATED		(1 << 16)	/* the frontend may warn the user if used */
 
 #define SANE_OPTION_IS_ACTIVE(cap)	(((cap) & SANE_CAP_INACTIVE) == 0)
 #define SANE_OPTION_IS_SETTABLE(cap)	(((cap) & SANE_CAP_SOFT_SELECT) != 0)
+#define SANE_OPTION_IS_DEPRECATED(cap)	(((cap) & SANE_CAP_DEPRECATED) != 0)
 
 #define SANE_INFO_INEXACT		(1 << 0)
 #define SANE_INFO_RELOAD_OPTIONS	(1 << 1)
@@ -167,7 +171,10 @@ typedef enum
 	SANE_ACTION_SET_VALUE,
 	SANE_ACTION_SET_AUTO,
 	SANE_ACTION_CHECK_API_LEVEL,
-	SANE_ACTION_CHECK_WARM_UP
+	SANE_ACTION_CHECK_WARM_UP,
+	SANE_ACTION_GET_SCANNER_INFO,
+	SANE_ACTION_GET_BACKEND_INFO,
+	SANE_ACTION_SET_SCAN_AREA
 }
 SANE_Action;
 
@@ -205,6 +212,47 @@ typedef struct
 	SANE_Int depth;
 }
 SANE_Parameters;
+
+typedef enum
+{
+	SANE_SCANNER_FLATBED,		/* standard flatbed scanner */
+	SANE_SCANNER_MFD,		/* multi function device */
+	SANE_SCANNER_SHEETFED,		/* sheetfed device */
+	SANE_SCANNER_BUSINESSCARD,	/* business cards scanner */
+	SANE_SCANNER_FILM,		/* film scanner */
+	SANE_SCANNER_HANDFED,		/* handfed scanners :) */
+	SANE_SCANNER_VIRTUAL,
+	SANE_SCANNER_CAMERA
+}
+SANE_Scanner_Type;
+
+#define SANE_CAPABILITY_ADF		(1 << 0L)
+#define SANE_CAPABILITY_DUPLEX		(1 << 1L)
+#define SANE_CAPABILITY_FILM_SLIDE	(1 << 2L)	/* device supports 35mm slides */
+#define SANE_CAPABILITY_FILM_APS	(1 << 3L)	/* device supports APS */
+
+typedef struct
+{
+	SANE_Char vendor[64];		/* Vendor name (Epson, HP, ..) */
+	SANE_Char model[64];		/* Scanner model */
+	SANE_Char revision[64];		/* Firmware version, if available */
+	SANE_Char serial[64];		/* Serial number, if available */
+
+	SANE_Word type;
+	SANE_Word flags;
+	SANE_Word capabilities;
+
+	SANE_Char unused[256];
+}
+SANE_Scanner_Info;
+
+typedef struct
+{
+	SANE_Word tlx;
+	SANE_Word tly;
+	SANE_Word brx;
+	SANE_Word bry;
+} SANE_Scan_Area;
 
 struct SANE_Auth_Data;
 

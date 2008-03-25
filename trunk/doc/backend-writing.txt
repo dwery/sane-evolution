@@ -255,38 +255,16 @@ PROGRAMMING
   "this is an awfully long string" can be written as "this is an "
   "awfully long string".
 
-* Use only ANSI C for your backend. C99 is not supported by the compilers of
-  some older platforms so please avoid using its features.
+* You can use C99 for your backend. If C99 is not supported on some
+  platform they an just start porting gcc.
 
 * Please do not depend on compiler specific features or, if you do, make
   the dependency conditional so other compilers will still be able to
   compile the files.  In particular:
 
     - do not use C++ style comments (//-line comments)
-
-    - do not declare dynamically sized automatic arrays; instead,
-      use alloca() after including "../include/lalloca.h".  For example:
-
-		void
-		func (int n)
-		{
-		  char buf[n];
-		}
-
-      should be re-written as:
-
-		#ifdef _AIX
-		# include "../include/lalloca.h" /* MUST come first for AIX! */
-		#endif
-
-		#include "../include/sane/config.h"
-		#include "../include/lalloca.h"
-			:
-		void
-		func (int n)
-		{
-		  char *buf = alloca (n);
-		}
+    - do not declare dynamically sized automatic arrays
+    - do not use lalloca
     - Don't use any #pragma directives---they're completely
       compiler-dependent.
 
@@ -295,13 +273,12 @@ PROGRAMMING
   depends on these libraries or headers, compile the backend only if they are 
   available (see pint for an example).
 
-* Use #include ".../include/sane/..." to include the sane header files
-  instead of #include <sane/...>. Otherwise problems with different installed
-  SANE versions may occur. Also this makes clear that the local files are used.
+* Do NOT use #include ".../include/sane/..." to include the sane header files
+  instead of #include "sane/...".
 
-* Don't forget to #include ".../include/sane/config.h" in your backend before
+* Don't forget to #include "sane/config.h" in your backend before
   any other includes. This must be done for any .c file that generates its own
-  object file. If you use lalloca.h see above for the correct includes.
+  object file.
 
 * Include sanei_backend.h after the other includes.
 
@@ -480,14 +457,14 @@ In sane-backends/doc/
   description file.
 
 
-INCLUDING INTO CVS
+INCLUDING INTO SVN
 ------------------
 
-* If you want to include your backend into CVS use the latest CVS to make
+* If you want to include your backend into SVN use the latest SVN to make
   patches. Check the mailing list and the bug-tracking system for information
   about bugs to avoid.
 
-* If your backend isn't included yet in the SANE CVS tree, write an email to
-  the SANE mailing list (sane-devel) and ask for inclusion. Usually one
+* If your backend isn't included yet in the SANE SVN tree, write an email to
+  the SANE mailing list (sane-evolution-devel) and ask for inclusion. Usually one
   of the developers will check the backend for common mistakes and test
-  compilation. If everything is ok the backend will be added to the CVS tree.
+  compilation. If everything is ok the backend will be added to the SVN tree.

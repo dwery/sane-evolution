@@ -1,7 +1,11 @@
 #summary A quick introduction to SANE Evolution
 #labels Featured
 
-SANE Evolution is a fork of the [http://www.sane-project.org SANE project]. It aims to produce an evolved version of SANE by adding features and small improvements
-while keeping compatibility.
+SANE Evolution is a fork of the SANE project. It aims to produce an [http://en.wikipedia.org/wiki/Evolution evolved] version of SANE by adding features and small improvements while keeping compatibility. 
 
-You can now think of SANE as Scanner Access Now Evolved.
+The fork began in march 2008 . You can read about features and [Why reasons] in the
+wiki. A quick description of the new features is [NewFeatures here].
+
+Developers and advanced users are encouraged to test SANE Evolution
+right now, using [CompatibleFrontends]. We expect to release SANE Evolution
+for the general public in mid april.

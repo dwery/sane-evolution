@@ -1,6 +1,26 @@
 #summary New features on SANE Evolution 1.1.0
 #labels Featured
 
+= User visible changes =
+
+== Handling of warming up condition ==
+
+The backend can now tell to the frontend that the scanner is warming
+up. This is currently supported by the epson2 backend.
+
+== More scanner information to frontends ==
+
+A frontend can retrieve information about the scanner,
+i.e. vendor, model, revision and serial number. Supported by
+tiffscan and epson2 and coolscan3 backends.
+
+== Infrared support ==
+
+Given that new frame types are available, tiffscan can
+use the coolscan3 driver to scan in RGB+infrared.
+
+= Details for developers =
+
 API details [APIOneOneZero here].
 
 == API protection ==
@@ -16,15 +36,10 @@ the new features we are going to introduce.
 
 Newer frame times have been introduced and protected by the API level
 framework. [SANE_FRAME_TEXT] has been obsoleted and replaced by
-[SANE_FRAME_XML] which will be fully doumented in this wiki.
-
-== Handling of warming up condition ==
-
-The backend can now tell to the frontend that the scanner is warming
-up. This is currently supported by the epson2 backend.
+[SANE_FRAME_XML] which will be fully doumented in this wiki. Other
+new frame types will be documented as well.
 
 == Coding style and rules ==
 
 A few coding guidelines and rules have been set in place. You
 can give them a look at CodingGuidelines .
-

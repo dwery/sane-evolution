@@ -4,8 +4,7 @@
  * [EvolutionStatus Status]
  * [NewFeatures New features]
  * [BuildingSane Building]
- * [Backends], NativeBackends and DeprecatedBackends
- * CompatibleFrontends
+ * [CompatibleFrontends Frontends]
 
  * Backends
    * [Backends Complete list]

@@ -12,7 +12,7 @@
    * [DeprecatedBackends Deprecated]
 
  * For developers
-   * A [QuickDevGuide quick start] for frontend developers
+   * [QuickDevGuide Quick start] for frontend developers
    * [APIHelpers] for frontend developers
    * [APILevelReference] for backend developers
    * ToDo

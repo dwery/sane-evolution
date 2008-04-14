@@ -1,4 +1,4 @@
 #summary Wiki main page
 
-  * [http://code.google.com/docreader/#p(sane-evolution)s(sane-evolution)t(sane-evolution) Documentation]
-  * [http://code.google.com/p/sane-evolution/w/list Wiki pages]
+  * [http://code.google.com/docreader/#p(sane-evolution)s(sane-evolution)t(sane-evolution) Wikified documentation]
+  * [http://code.google.com/p/sane-evolution/w/list All wiki pages]

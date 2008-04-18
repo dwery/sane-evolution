@@ -196,13 +196,15 @@ struct mode_param
 static struct mode_param mode_params[] = {
 	{0, 0x00, 0x30, 1},
 	{0, 0x00, 0x30, 8},
-	{1, 0x02, 0x00, 8}
+	{1, 0x02, 0x00, 8},
+	{0, 0x00, 0x30, 1}
 };
 
 static const SANE_String_Const mode_list[] = {
 	SANE_I18N("Binary"),
 	SANE_I18N("Gray"),
 	SANE_I18N("Color"),
+	SANE_I18N("Infrared"),
 	NULL
 };
 
@@ -1303,7 +1305,7 @@ attach(const char *name, Epson_Device * *devp, int type)
 	/* scanner info */
 	memset(&dev->si, 0x00, sizeof(dev->si));
 	strcpy(dev->si.vendor, "Epson");
-	
+
 
 
 	if (dev->connection == SANE_EPSON_NET) {
@@ -2936,7 +2938,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 	{
 		SANE_Scanner_Info *si = (SANE_Scanner_Info *) value;
 		memcpy(si, &s->hw->si, sizeof(SANE_Scanner_Info));
-		return SANE_STATUS_GOOD;		
+		return SANE_STATUS_GOOD;
 	}
 
 	case SANE_ACTION_CHECK_WARM_UP:
@@ -2998,7 +3000,6 @@ e2_set_extended_scanning_parameters(Epson_Scanner * s)
 	}
 
 	/* ESC D, set data format */
-	mparam = &mode_params[s->val[OPT_MODE].w];
 	buf[25] = mparam->depth;
 
 	/* ESC e, control option */
@@ -3007,14 +3008,18 @@ e2_set_extended_scanning_parameters(Epson_Scanner * s)
 		char extensionCtrl;
 		extensionCtrl = (s->hw->use_extension ? 1 : 0);
 		if (s->hw->use_extension && (s->val[OPT_ADF_MODE].w == 1))
-			extensionCtrl = 2;
+			extensionCtrl = 0x02;
 
 		/* Test for TPU2
 		 * Epson Perfection 4990 Command Specifications
 		 * JZIS-0075 Rev. A, page 31
 		 */
 		if (s->hw->use_extension && s->hw->TPU2)
-			extensionCtrl = 5;
+			extensionCtrl = 0x05;
+
+		/* Infrared */
+		if (s->val[OPT_MODE].w == 3)
+			extensionCtrl = 0x03;
 
 		/* ESC e */
 		buf[26] = extensionCtrl;
@@ -3447,14 +3452,23 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 
 	s->params.last_frame = SANE_TRUE;
 
-	if (mode_params[s->val[OPT_MODE].w].color) {
-		s->params.format = SANE_FRAME_RGB;
-		s->params.bytes_per_line =
-			3 * s->params.pixels_per_line * bytes_per_pixel;
-	} else {
+	switch (s->val[OPT_MODE].w) {
+	case 0:		/* binary */
+	case 1:		/* gray */
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
+		break;
+	case 2:		/* color */
+		s->params.format = SANE_FRAME_RGB;
+		s->params.bytes_per_line =
+			3 * s->params.pixels_per_line * bytes_per_pixel;
+		break;
+	case 3:		/* infrared */
+		s->params.format = SANE_FRAME_IR;
+		s->params.bytes_per_line =
+			s->params.pixels_per_line * s->params.depth / 8;
+		break;
 	}
 
 	if (NULL != params)
@@ -3588,14 +3602,23 @@ e2_init_parameters(Epson_Scanner * s)
 
 	s->params.last_frame = SANE_TRUE;
 
-	if (mode_params[s->val[OPT_MODE].w].color) {
-		s->params.format = SANE_FRAME_RGB;
-		s->params.bytes_per_line =
-			3 * s->params.pixels_per_line * bytes_per_pixel;
-	} else {
+	switch (s->val[OPT_MODE].w) {
+	case 0:		/* binary */
+	case 1:		/* gray */
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
+		break;
+	case 2:		/* color */
+		s->params.format = SANE_FRAME_RGB;
+		s->params.bytes_per_line =
+			3 * s->params.pixels_per_line * bytes_per_pixel;
+		break;
+	case 3:		/* infrared */
+		s->params.format = SANE_FRAME_IR;
+		s->params.bytes_per_line =
+			s->params.pixels_per_line * s->params.depth / 8;
+		break;
 	}
 
 	/*
@@ -3831,6 +3854,10 @@ sane_start(SANE_Handle handle)
 
 	/* calc scanning parameters */
 	e2_init_parameters(s);
+
+	/* enable infrared */
+	if (s->val[OPT_MODE].w == 3)
+		esci_enable_infrared(handle);
 
 	/* ESC , bay */
 	if (SANE_OPTION_IS_ACTIVE(s->opt[OPT_BAY].cap)) {
@@ -4521,7 +4548,7 @@ sane_cancel(SANE_Handle handle)
 		if (dummy == NULL) {
 			DBG(1, "Out of memory\n");
 			return;
-		} 
+		}
 
 		/* there is still data to read from the scanner */
 		s->canceling = SANE_TRUE;
@@ -4533,8 +4560,7 @@ sane_cancel(SANE_Handle handle)
 			|| status == SANE_STATUS_DEVICE_BUSY)) {
 			/* empty body, the while condition does the processing */
 			status = sane_read(s, dummy,
-					   s->params.bytes_per_line,
-					   &len);
+					   s->params.bytes_per_line, &len);
 			free(dummy);
 		}
 	}

@@ -24,6 +24,7 @@
 #include <ctype.h>
 
 #include <byteorder.h>
+#include <unistd.h>
 
 #include "epson2.h"
 #include "epson2-io.h"

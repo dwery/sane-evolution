@@ -565,7 +565,7 @@ esci_get_scanning_parameter(SANE_Handle handle, unsigned char *buf)
 	params[0] = FS;
 	params[1] = 'S';
 
-	status = e2_cmd_txrx(s, params, 2, buf, 64);
+	status = e2_txrx(s, params, 2, buf, 64);
 	if (status != SANE_STATUS_GOOD)
 		return status;
 

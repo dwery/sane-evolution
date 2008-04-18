@@ -200,13 +200,20 @@ static struct mode_param mode_params[] = {
 	{0, 0x00, 0x30, 1}
 };
 
-static const SANE_String_Const mode_list[] = {
+static SANE_String_Const mode_list[] = {
 	SANE_I18N("Binary"),
 	SANE_I18N("Gray"),
 	SANE_I18N("Color"),
 	SANE_I18N("Infrared"),
 	NULL
 };
+
+typedef enum {
+	MODE_BINARY,
+	MODE_GRAY,
+	MODE_COLOR,
+	MODE_INFRARED
+} mode_enums;
 
 static const SANE_String_Const adf_mode_list[] = {
 	SANE_I18N("Simplex"),
@@ -1760,6 +1767,11 @@ init_options(Epson_Scanner * s)
 	s->opt[OPT_MODE].constraint_type = SANE_CONSTRAINT_STRING_LIST;
 	s->opt[OPT_MODE].constraint.string_list = mode_list;
 	s->val[OPT_MODE].w = 0;	/* Binary */
+
+	/* disable infrared on unsupported scanners */
+	if (!e2_model(s, "GT-X800") && !e2_model(s, "GT-X700"))
+            	mode_list[MODE_INFRARED] = NULL;
+
 
 	/* bit depth */
 	s->opt[OPT_BIT_DEPTH].name = SANE_NAME_BIT_DEPTH;
@@ -3453,18 +3465,18 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 	s->params.last_frame = SANE_TRUE;
 
 	switch (s->val[OPT_MODE].w) {
-	case 0:		/* binary */
-	case 1:		/* gray */
+	case MODE_BINARY:
+	case MODE_GRAY:	
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
 		break;
-	case 2:		/* color */
+	case MODE_COLOR:
 		s->params.format = SANE_FRAME_RGB;
 		s->params.bytes_per_line =
 			3 * s->params.pixels_per_line * bytes_per_pixel;
 		break;
-	case 3:		/* infrared */
+	case MODE_INFRARED:
 		s->params.format = SANE_FRAME_IR;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
@@ -3603,18 +3615,18 @@ e2_init_parameters(Epson_Scanner * s)
 	s->params.last_frame = SANE_TRUE;
 
 	switch (s->val[OPT_MODE].w) {
-	case 0:		/* binary */
-	case 1:		/* gray */
+	case MODE_BINARY:
+	case MODE_GRAY:	
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
 		break;
-	case 2:		/* color */
+	case MODE_COLOR:
 		s->params.format = SANE_FRAME_RGB;
 		s->params.bytes_per_line =
 			3 * s->params.pixels_per_line * bytes_per_pixel;
 		break;
-	case 3:		/* infrared */
+	case MODE_INFRARED:
 		s->params.format = SANE_FRAME_IR;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
@@ -3856,7 +3868,7 @@ sane_start(SANE_Handle handle)
 	e2_init_parameters(s);
 
 	/* enable infrared */
-	if (s->val[OPT_MODE].w == 3)
+	if (s->val[OPT_MODE].w == MODE_INFRARED)
 		esci_enable_infrared(handle);
 
 	/* ESC , bay */

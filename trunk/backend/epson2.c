@@ -1574,8 +1574,6 @@ attach(const char *name, Epson_Device * *devp, int type)
 		dev->need_reset_on_source_change = SANE_TRUE;
 	}
 
-	e2_close_scanner(s);
-
 	/* we are done with this one, prepare for the next scanner */
 	num_devices++;
 	dev->next = first_dev;
@@ -1585,6 +1583,8 @@ attach(const char *name, Epson_Device * *devp, int type)
 		*devp = dev;
 
       free:
+	e2_close_scanner(s);
+
 	free(s);
 	return status;
 }

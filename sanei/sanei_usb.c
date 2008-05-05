@@ -55,6 +55,7 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
 #include <dirent.h>
+#include <time.h>
 
 #ifdef HAVE_RESMGR
 #include <resmgr.h>
@@ -177,7 +178,7 @@ cmsg;
 #include <kernel/OS.h>
 #endif /* __linux__ */
 
-static SANE_Bool inited = SANE_FALSE;
+static time_t last_time = 0;
 
 /* Debug level from sanei_init_debug */
 static SANE_Int debug_level;
@@ -322,15 +323,11 @@ sanei_usb_init(void)
 	SANE_Char devname[1024];
 	SANE_Int dn = 0;
 	int fd;
+	time_t curr_time = time(NULL);
 #ifdef HAVE_LIBUSB
 	struct usb_bus *bus;
 	struct usb_device *dev;
 #endif /* HAVE_LIBUSB */
-
-	if (inited)
-		return;
-
-	inited = SANE_TRUE;
 
 	DBG_INIT();
 #ifdef DBG_LEVEL
@@ -338,6 +335,15 @@ sanei_usb_init(void)
 #else
 	debug_level = 0;
 #endif
+
+	/* init only once per second */
+	if (last_time == curr_time) {
+		DBG(4, "sanei_usb_init: skipping probe: %lu\n",
+		    (unsigned long) last_time);
+		return;
+	}
+
+	last_time = curr_time;
 
 	memset(devices, 0, sizeof(devices));
 
@@ -431,10 +437,9 @@ sanei_usb_init(void)
 	if (DBG_LEVEL > 4)
 		usb_set_debug(255);
 #endif /* DBG_LEVEL */
-	if (!usb_get_busses()) {
-		usb_find_busses();
-		usb_find_devices();
-	}
+
+	usb_find_busses();
+	usb_find_devices();
 
 	/* Check for the matching device */
 	for (bus = usb_get_busses(); bus; bus = bus->next) {
@@ -485,6 +490,7 @@ sanei_usb_init(void)
 						bInterfaceClass) {
 					case USB_CLASS_VENDOR_SPEC:
 					case USB_CLASS_PER_INTERFACE:
+					case 6:	/* imaging? */
 					case 16:	/* data? */
 						found = SANE_TRUE;
 						break;
@@ -653,6 +659,45 @@ sanei_usb_attach_matching_devices(const char *name,
 		sanei_usb_find_devices(vendorID, productID, attach);
 	} else
 		(*attach) (name);
+}
+
+SANE_Status
+sanei_usb_get_vendor_product_byname(SANE_String_Const devname,
+				    SANE_Word * vendor, SANE_Word * product)
+{
+	int devcount;
+	SANE_Bool found = SANE_FALSE;
+
+	for (devcount = 0;
+	     devcount < MAX_DEVICES && devices[devcount].devname != 0;
+	     devcount++) {
+		if (strcmp(devices[devcount].devname, devname) == 0) {
+			found = SANE_TRUE;
+			break;
+		}
+	}
+
+	if (!found) {
+		DBG(1,
+		    "sanei_usb_get_vendor_product_byname: can't find device `%s' in list\n",
+		    devname);
+		return SANE_STATUS_INVAL;
+	}
+
+	if ((devices[devcount].vendor == 0)
+	    && (devices[devcount].product == 0)) {
+		DBG(1,
+		    "sanei_usb_get_vendor_product_byname: not support for this method\n");
+		return SANE_STATUS_UNSUPPORTED;
+	}
+
+	if (vendor)
+		*vendor = devices[devcount].vendor;
+
+	if (product)
+		*product = devices[devcount].product;
+
+	return SANE_STATUS_GOOD;
 }
 
 SANE_Status
@@ -1190,7 +1235,8 @@ sanei_usb_open(SANE_String_Const devname, SANE_Int * dn)
 				    interface->bAlternateSetting);
 				break;
 			case USB_DT_ENDPOINT:
-				endpoint = (struct usb_endpoint_descriptor *)
+				endpoint =
+					(struct usb_endpoint_descriptor *)
 					pDescHead;
 				address = endpoint->bEndpointAddress;
 				direction =

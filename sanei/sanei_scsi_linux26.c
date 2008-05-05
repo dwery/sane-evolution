@@ -1414,8 +1414,7 @@ sanei_scsi_find_devices(const char *findvendor,
 			    (number, dev_name, sizeof(dev_name), bus,
 			     channel, id, lun)
 			    && ((*attach) (dev_name) != SANE_STATUS_GOOD)) {
-				fclose(proc_fp);
-				return;
+			    	DBG(1,"sanei_scsi_find_devices: bad attach\n");
 			}
 		}
 		vendor[0] = model[0] = type[0] = 0;

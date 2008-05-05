@@ -605,8 +605,8 @@ init_option_descriptors(pixma_sane_t * ss)
 		ss->source_map[i] = PIXMA_SOURCE_ADF;
 		i++;
 	}
-#if 0
-	if (cfg->cap & PIXMA_CAP_ADFDUP) {
+#if 1
+	if ((cfg->cap & PIXMA_CAP_ADFDUP) == PIXMA_CAP_ADFDUP) {
 		ss->source_list[i] = SANE_I18N("ADF Duplex");
 		ss->source_map[i] = PIXMA_SOURCE_ADFDUP;
 		i++;
@@ -915,11 +915,14 @@ read_image(pixma_sane_t * ss, void *buf, unsigned size, int *readlen)
 SANE_Status
 sane_init(SANE_Int * version_code, SANE_Auth_Callback authorize)
 {
-	SANE_Status status;
+	int status, myversion;
 
-	if (version_code)
-		*version_code = SANE_CURRENT_VERSION;
+	UNUSED(authorize);
 
+	if (!version_code)
+		return SANE_STATUS_INVAL;
+	myversion = 100 * PIXMA_VERSION_MAJOR + PIXMA_VERSION_MINOR;
+	*version_code = SANE_VERSION_CODE(V_MAJOR, V_MINOR, myversion);
 	DBG_INIT();
 	sanei_thread_init();
 	pixma_set_debug_level(DBG_LEVEL);

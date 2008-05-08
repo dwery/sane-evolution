@@ -662,20 +662,24 @@ e2_peek_info_block(Epson_Scanner * s)
 {
 	SANE_Status status;
 
-	e2_recv(s, s->peek_buf, s->block ? 6 : 4, &status);
+	DBG(1, "%s\n", __func__);
+
+	e2_recv(s, &s->peek_buf, s->block ? 6 : 4, &status);
 	if (status != SANE_STATUS_GOOD)
 		return status;
 
 	s->peeked = SANE_TRUE;
 
-	if (s->peek_buf->code != STX) {
+	if (s->peek_buf.code != STX) {
 		DBG(1, "%s: got %02x, expected STX\n", __func__,
-		    s->peek_buf->code);
+		    s->peek_buf.code);
 		return SANE_STATUS_IO_ERROR;
 	}
 
-	if (s->peek_buf->status & STATUS_FER)
+	if (s->peek_buf.status & STATUS_FER) {
+		DBG(1, "%s: FER, checking warm up\n", __func__);
 		status = e2_check_warm_up(s);
+	}
 
 	return status;
 }
@@ -685,8 +689,10 @@ e2_read_info_block(Epson_Scanner * s, EpsonDataRec * result)
 {
 	SANE_Status status;
 
+	DBG(18, "%s\n", __func__);
+
 	if (s->peeked) {
-		memcpy(result, s->peek_buf, s->block ? 6 : 4);
+		memcpy(result, &s->peek_buf, s->block ? 6 : 4);
 		s->peeked = SANE_FALSE;
 	} else {
 		e2_recv(s, result, s->block ? 6 : 4, &status);
@@ -700,10 +706,12 @@ e2_read_info_block(Epson_Scanner * s, EpsonDataRec * result)
 		return SANE_STATUS_INVAL;
 	}
 
-	if (result->status & STATUS_FER)
+	if (result->status & STATUS_FER) {
+		DBG(1, "%s: STATUS_FER\n", __func__);
 		return SANE_STATUS_IO_ERROR;
+	}
 
-	return status;
+	return SANE_STATUS_GOOD;
 }
 
 
@@ -1223,8 +1231,6 @@ attach(const char *name, Epson_Device * *devp, int type)
 	struct Epson_Device *dev;
 	int port;
 
-	DBG(1, "%s: %s\n", BACKEND_VERSION, __func__);
-
 	DBG(7, "%s: devname = %s, type = %d\n", __func__, name, type);
 
 	for (dev = first_dev; dev; dev = dev->next) {
@@ -1624,8 +1630,8 @@ sane_init(SANE_Int * version_code,
 	FILE *fp;
 
 	DBG_INIT();
-	DBG(2, "%s: " PACKAGE " " VERSION "\n", __func__);
-
+	DBG(2, "%s: %s %s %s\n", __func__, PACKAGE, VERSION, BACKEND_VERSION);
+        
 	if (version_code != NULL)
 		*version_code = SANE_CURRENT_VERSION;
 
@@ -1684,6 +1690,8 @@ sane_init(SANE_Int * version_code,
 	/* read the option section and assign the connection type to the
 	   scanner structure - which we don't have at this time. So I have
 	   to come up with something :-) */
+
+	DBG(2, "%s: end\n", __func__);
 
 	return SANE_STATUS_GOOD;
 }
@@ -4002,6 +4010,8 @@ sane_start(SANE_Handle handle)
 	}
 
 	if (status == SANE_STATUS_WARMING_UP) {
+		DBG(1, "%s: warming up\n", __func__);
+
 		/* return to frontend for newer apps */
 		if (s->compat_level >= SANE_API(1, 1, 0))
 			return status;

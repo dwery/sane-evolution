@@ -341,7 +341,7 @@ struct Epson_Scanner
 	SANE_Word compat_level;
 
 	/* peek info block support */
-	EpsonDataRec *peek_buf;
+	EpsonDataRec peek_buf;
 	SANE_Bool peeked;
 };
 

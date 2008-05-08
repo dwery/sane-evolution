@@ -403,12 +403,6 @@ else
     BACKENDS="${BACKENDS} dell1600n_net"
   fi
 
-  if test "${ac_cv_header_sys_scanio_h}" = "no"; then
-    echo "*** disabling PINT backend (sys/scanio.h not found)"
-  else
-    BACKENDS="${BACKENDS} pint"
-  fi
-
   if test "${ac_cv_header_sys_socket_h}" = "no"; then
     echo "*** disabling net backend (sys/socket.h not found)"
   else
@@ -421,15 +415,6 @@ else
     BACKENDS="${BACKENDS} mustek_usb2"
   fi
 
-  AC_ARG_ENABLE(pnm-backend, 
-    AC_HELP_STRING([--enable-pnm-backend],
-                   [enable the pnm backend for testing frontends (possible
-                    security risk, see PROBLEMS file)]),
-    [
-    BACKENDS="${BACKENDS} pnm"
-    ], [
-    echo "*** disabling pnm backend (not selected manually)"
-  ])
 fi
 fi
 

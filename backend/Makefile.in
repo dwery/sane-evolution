@@ -160,7 +160,6 @@ DISTFILES = Makefile.in saned.conf.in sane_strstatus.c stubs.c \
   net.c net.conf.in net.h \
   niash.c niash_core.c niash_core.h niash_xfer.c niash_xfer.h \
   pie.c pie.conf.in pie-scsidef.h \
-  pint.c pint.h \
   pixma.c pixma.h pixma_common.c pixma_common.h pixma_mp150.c pixma_mp730.c \
   pixma_mp750.c pixma_sane_options.c pixma_sane_options.h pixma_io.h \
   pixma_io_sanei.c pixma_rename.h pixma_imageclass.c \
@@ -168,7 +167,6 @@ DISTFILES = Makefile.in saned.conf.in sane_strstatus.c stubs.c \
   plustek-usb.h plustek-usbhw.c plustek-usbimg.c plustek-usbio.c \
   plustek-usbmap.c plustek-usbscan.c plustek-usbshading.c plustek-usbcalfile.c \
   plustek-usbcal.c \
-  pnm.c \
   ricoh.c ricoh.conf.in ricoh.h ricoh-scsi.c \
   rts8891.c rts8891.h rts8891_low.h rts88xx_lib.c \
   rts8891_devices.c rts8891_low.c rts88xx_lib.h rts8891.conf.in \
@@ -485,7 +483,6 @@ libsane-pie.la: ../sanei/sanei_config2.lo
 libsane-pie.la: ../sanei/sanei_constrain_value.lo
 libsane-pie.la: ../sanei/sanei_scsi.lo
 libsane-pie.la: ../sanei/sanei_thread.lo
-libsane-pint.la: ../sanei/sanei_constrain_value.lo
 libsane-pixma.la: ../sanei/sanei_usb.lo
 libsane-pixma.la: ../sanei/sanei_thread.lo
 libsane-pixma.la: $(addsuffix .lo,$(EXTRA_pixma))
@@ -494,7 +491,6 @@ libsane-plustek.la: ../sanei/sanei_usb.lo
 libsane-plustek.la: ../sanei/sanei_lm983x.lo
 libsane-plustek.la: ../sanei/sanei_thread.lo
 libsane-plustek.la: ../sanei/sanei_access.lo
-libsane-pnm.la: ../sanei/sanei_constrain_value.lo
 libsane-ricoh.la: ../sanei/sanei_config2.lo
 libsane-ricoh.la: ../sanei/sanei_constrain_value.lo
 libsane-ricoh.la: ../sanei/sanei_scsi.lo

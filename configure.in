@@ -114,7 +114,6 @@ SANE_CHECK_TIFF
 SANE_CHECK_IEEE1284
 SANE_CHECK_PTHREAD
 SANE_CHECK_LOCKING
-SANE_CHECK_GPHOTO2
 dnl check sane to make sure we don't have two installations
 AC_CHECK_LIB(sane, sane_init, LIBSANE_EXISTS="yes")
 
@@ -361,7 +360,7 @@ else
     AC_MSG_NOTICE([Manually selected backends: ${BACKENDS}])
   else
     BACKENDS="abaton agfafocus apple artec artec_eplus48u as6e avision bh \
-	  canon canon630u cardscan coolscan coolscan2 coolscan3 dc25 dmc \
+	  canon canon630u cardscan coolscan2 coolscan3 dc25 dmc \
 	  epjitsu epson epson2 fujitsu genesys gt68xx \
 	  hp hp3500 hp3900 hp4200 hp5400 hp5590 hpljm1005 hs2p \
 	  ibm leo lexmark \
@@ -369,15 +368,6 @@ else
 	  nec niash pie pixma plustek ricoh rts8891 \
 	  s9036 sceptre sharp sm3600 sm3840 snapscan sp15c st400 stv680 \
 	  tamarack teco1 teco2 teco3 test u12 umax umax_pp umax1220u"
-
-    case "$host_os" in
-	gnu*) 
-	  echo "*** disabling PLUSTEK_PP backend (GNU/Hurd not supported)"
-	  ;;
-	*)
-	  BACKENDS="${BACKENDS} plustek_pp"
-	  ;;
-    esac
 
   if test "${sane_cv_use_libjpeg}" != "yes"; then
     echo "*** disabling DC210 backend (failed to find JPEG library)"
@@ -413,32 +403,10 @@ else
     BACKENDS="${BACKENDS} dell1600n_net"
   fi
 
-  if test "${HAVE_GPHOTO2}" != "true" \
-        -o "${sane_cv_use_libjpeg}" != "yes"; then
-    echo "*** disabling GPHOTO2 backend (not requested, or failed to find required libraries)"
-  else
-    BACKENDS="${BACKENDS} gphoto2"
-  fi
-
   if test "${ac_cv_header_sys_scanio_h}" = "no"; then
     echo "*** disabling PINT backend (sys/scanio.h not found)"
   else
     BACKENDS="${BACKENDS} pint"
-  fi
-
-  if test "${ac_cv_func_ioperm}" = "no" \
-      && test "${ac_cv_func__portaccess}" = "no"
-  then
-    echo "*** disabling qcam backend (ioperm or portaccess not found)"
-  else
-    BACKENDS="${BACKENDS} qcam"
-  fi
-
-  if test "${have_linux_ioctl_defines}" != "yes"
-  then
-    echo "*** disabling v4l (Video for Linux) backend"
-  else
-    BACKENDS="${BACKENDS} v4l"
   fi
 
   if test "${ac_cv_header_sys_socket_h}" = "no"; then

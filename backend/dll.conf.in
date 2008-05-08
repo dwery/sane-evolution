@@ -12,7 +12,6 @@ canon
 canon630u
 #canon_pp
 cardscan
-#coolscan
 #coolscan2
 coolscan3
 #dc25
@@ -24,7 +23,6 @@ epjitsu
 #epson
 epson2
 fujitsu
-#gphoto2
 genesys
 gt68xx
 hp
@@ -53,9 +51,7 @@ pie
 pint
 pixma
 plustek
-#plustek_pp
 #pnm
-qcam
 ricoh
 rts8891
 s9036
@@ -76,7 +72,6 @@ u12
 umax
 #umax_pp
 umax1220u
-#v4l
 #
 # The following backends are not included in the sane-backends distribution
 # If you want to use them, download them from their webpages and read their

@@ -615,7 +615,7 @@ init(struct backend *be)
 	DBG(3, "init: initializing backend `%s'\n", be->name);
 
 	be->evolved = 0;
-	be->api_level = SANE_API(1, 0, 0); /* default level */
+	be->api_level = SANE_API(1, 0, 0);	/* default level */
 
 	status = (*(op_init_t) be->op[OP_INIT]) (&version, auth_callback);
 	if (status != SANE_STATUS_GOOD)
@@ -1168,26 +1168,30 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 	}
 
 	if (be->evolved) {
-		status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION]) (handle, 0,
-			SANE_ACTION_CHECK_API_LEVEL, &be->api_level, 0);
+		status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION]) (handle,
+								     0,
+								     SANE_ACTION_CHECK_API_LEVEL,
+								     &be->
+								     api_level,
+								     0);
 
 		DBG(3, "backend api %d.%d.%d\n",
-				SANE_VERSION_MAJOR(be->api_level),
-				SANE_VERSION_MINOR(be->api_level),
-				SANE_VERSION_BUILD(be->api_level));
-		
+		    SANE_VERSION_MAJOR(be->api_level),
+		    SANE_VERSION_MINOR(be->api_level),
+		    SANE_VERSION_BUILD(be->api_level));
+
 
 		/* restore default level in case of failure */
 		if (status != SANE_STATUS_GOOD) {
 			be->api_level = SANE_API(1, 0, 0);
 			status = SANE_STATUS_GOOD;
-		}	
+		}
 	}
 
 	s->be = be;
 	s->handle = handle;
 	*meta_handle = s;
-                                                                                                                            
+
 	DBG(3, "sane_open: open successful\n");
       exit:
 
@@ -1225,15 +1229,15 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	struct meta_scanner *s = handle;
 
 	switch (action) {
-		case SANE_ACTION_CHECK_API_LEVEL:
-		case SANE_ACTION_CHECK_WARM_UP:
-		case SANE_ACTION_GET_SCANNER_INFO:
-		case SANE_ACTION_GET_BACKEND_INFO:
-			if (s->be->api_level < SANE_API(1, 1, 0))
-				return SANE_STATUS_UNSUPPORTED;
+	case SANE_ACTION_CHECK_API_LEVEL:
+	case SANE_ACTION_CHECK_WARM_UP:
+	case SANE_ACTION_GET_SCANNER_INFO:
+	case SANE_ACTION_GET_BACKEND_INFO:
+		if (s->be->api_level < SANE_API(1, 1, 0))
+			return SANE_STATUS_UNSUPPORTED;
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	DBG(3,

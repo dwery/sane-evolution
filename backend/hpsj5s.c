@@ -364,7 +364,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	if ((option >= NELEMS(sod)) || (option < 0))	/* Supported only this option */
 		return SANE_STATUS_INVAL;
 
-	if (action != SANE_ACTION_GET_VALUE && action != SANE_ACTION_SET_VALUE)
+	if (action != SANE_ACTION_GET_VALUE
+	    && action != SANE_ACTION_SET_VALUE)
 		return SANE_STATUS_UNSUPPORTED;
 
 	switch (option) {

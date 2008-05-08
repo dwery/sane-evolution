@@ -7745,8 +7745,8 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 			}
 		}
 		}
-	}			/* else */
-
+	}
+	/* else */
 	return SANE_STATUS_UNSUPPORTED;
 }
 

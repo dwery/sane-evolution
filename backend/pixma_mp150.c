@@ -993,7 +993,7 @@ mp150_fill_buffer(pixma_t * s, pixma_imagebuf_t * ib)
 		line_size = get_cis_ccd_line_size(s);
 		proc_buf_size = (2 * calc_shifting(s) + 2) * line_size;
 		mp->cb.buf = realloc(mp->cb.buf,
-				CMDBUF_SIZE + IMAGE_BLOCK_SIZE +
+				     CMDBUF_SIZE + IMAGE_BLOCK_SIZE +
 				     proc_buf_size);
 		if (!mp->cb.buf)
 			return PIXMA_ENOMEM;

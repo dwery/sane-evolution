@@ -163,15 +163,15 @@ snapscani_mutex_open(snapscan_mutex_t * sem_id, const char *dev)
 			    "%s: could not obtain IPC key for device %s: %s\n",
 			    me, dev, strerror(errno));
 			return 0;
-	}
+		}
 	}
 
 	*sem_id = semget(ipc_key, 1, IPC_CREAT | 0660);
 	if (*sem_id == -1) {
 		DBG(DL_MAJOR_ERROR, "%s: semget failed: %s\n", me,
 		    strerror(errno));
-	return 0;
-}
+		return 0;
+	}
 
 	semop(*sem_id, &sem_signal, 1);
 	return 1;

@@ -1778,7 +1778,7 @@ __hp_scl_inq(HpScsi scsi, HpScl scl, HpScl inq_cmnd,
 	RETURN_IF_FAIL(hp_scsi_flush(scsi));
 
 	RETURN_IF_FAIL(hp_scsi_scl(scsi, inq_cmnd, SCL_INQ_ID(scl)));
-	usleep(1000);           /* 500 works, too, but not 100 */
+	usleep(1000);		/* 500 works, too, but not 100 */
 
 	status = hp_scsi_read(scsi, buf, &bufsize, 1);
 	if (FAILED(status)) {

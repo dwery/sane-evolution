@@ -208,7 +208,8 @@ static SANE_String_Const mode_list[] = {
 	NULL
 };
 
-typedef enum {
+typedef enum
+{
 	MODE_BINARY,
 	MODE_GRAY,
 	MODE_COLOR,
@@ -1771,7 +1772,7 @@ init_options(Epson_Scanner * s)
 
 	/* disable infrared on unsupported scanners */
 	if (!e2_model(s, "GT-X800") && !e2_model(s, "GT-X700"))
-            	mode_list[MODE_INFRARED] = NULL;
+		mode_list[MODE_INFRARED] = NULL;
 
 
 	/* bit depth */
@@ -3467,7 +3468,7 @@ sane_get_parameters(SANE_Handle handle, SANE_Parameters * params)
 
 	switch (s->val[OPT_MODE].w) {
 	case MODE_BINARY:
-	case MODE_GRAY:	
+	case MODE_GRAY:
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;
@@ -3617,7 +3618,7 @@ e2_init_parameters(Epson_Scanner * s)
 
 	switch (s->val[OPT_MODE].w) {
 	case MODE_BINARY:
-	case MODE_GRAY:	
+	case MODE_GRAY:
 		s->params.format = SANE_FRAME_GRAY;
 		s->params.bytes_per_line =
 			s->params.pixels_per_line * s->params.depth / 8;

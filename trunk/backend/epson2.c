@@ -459,9 +459,8 @@ static size_t
 max_string_size(const SANE_String_Const strings[])
 {
 	size_t size, max_size = 0;
-	int i;
 
-	for (i = 0; strings[i]; i++) {
+	for (int i = 0; strings[i]; i++) {
 		size = strlen(strings[i]) + 1;
 		if (size > max_size)
 			max_size = size;
@@ -882,7 +881,7 @@ e2_discover_capabilities(Epson_Scanner * s)
 	 * this must be the first command on the FilmScan 200
 	 */
 	if (dev->connection != SANE_EPSON_NET) {
-		unsigned int n, k, x = 0, y = 0;
+		unsigned int x = 0, y = 0;
 		unsigned char *buf, *area;
 		size_t len;
 
@@ -894,7 +893,7 @@ e2_discover_capabilities(Epson_Scanner * s)
 
 		/* Setting available resolutions and xy ranges for sane frontend. */
 		/* cycle thru the resolutions, saving them in a list */
-		for (n = 2, k = 0; n < len; n += k) {
+		for (size_t n = 2, k = 0; n < len; n += k) {
 
 			area = buf + n;
 
@@ -1430,12 +1429,11 @@ attach(const char *name, Epson_Device * *devp, int type)
 		isLibUSB = (strncmp(name, "libusb:", strlen("libusb:")) == 0);
 
 		if ((!isLibUSB) && (strlen(name) == 0)) {
-			int i;
 			int numIds;
 
 			numIds = sanei_epson_getNumberOfUSBProductIds();
 
-			for (i = 0; i < numIds; i++) {
+			for (int i = 0; i < numIds; i++) {
 				product = sanei_epson_usb_product_ids[i];
 				vendor = 0x4b8;
 
@@ -1746,11 +1744,9 @@ sane_get_devices(const SANE_Device * **device_list, SANE_Bool local_only)
 static SANE_Status
 init_options(Epson_Scanner * s)
 {
-	int i;
-
 	DBG(5, "%s\n", __func__);
 
-	for (i = 0; i < NUM_OPTIONS; ++i) {
+	for (int i = 0; i < NUM_OPTIONS; ++i) {
 		s->opt[i].size = sizeof(SANE_Word);
 		s->opt[i].cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
 	}
@@ -1973,7 +1969,7 @@ init_options(Epson_Scanner * s)
 	memset(&s->gamma_table[2], 0, 256 * sizeof(SANE_Word));
 
 /*	memset(&s->gamma_table[3], 0, 256 * sizeof(SANE_Word)); */
-	for (i = 0; i < 256; i++) {
+	for (int i = 0; i < 256; i++) {
 		s->gamma_table[0][i] = i;
 		s->gamma_table[1][i] = i;
 		s->gamma_table[2][i] = i;
@@ -2406,7 +2402,6 @@ sane_open(SANE_String_Const name, SANE_Handle * handle)
 void
 sane_close(SANE_Handle handle)
 {
-	int i;
 	Epson_Scanner *s, *prev;
 
 	/*
@@ -2436,7 +2431,7 @@ sane_close(SANE_Handle handle)
 
 	e2_close_scanner(s);
 
-	for (i = 0; i < LINES_SHUFFLE_MAX; i++) {
+	for (int i = 0; i < LINES_SHUFFLE_MAX; i++) {
 		if (s->line_buffer[i] != NULL)
 			free(s->line_buffer[i]);
 	}
@@ -3946,9 +3941,8 @@ sane_start(SANE_Handle handle)
 
 	/* allocate buffers for color shuffling */
 	if (dev->color_shuffle == SANE_TRUE) {
-		int i;
 		/* initialize the line buffers */
-		for (i = 0; i < s->line_distance * 2 + 1; i++) {
+		for (int i = 0; i < s->line_distance * 2 + 1; i++) {
 			if (s->line_buffer[i] != NULL)
 				free(s->line_buffer[i]);
 
@@ -4122,9 +4116,7 @@ e2_copy_image_data(Epson_Scanner * s, SANE_Byte * data, SANE_Int max_length,
 		} else {
 
 			if (s->invert_image == SANE_TRUE) {
-				int i;
-
-				for (i = 0; i < max_length; i++) {
+				for (int i = 0; i < max_length; i++) {
 					data[i] =
 						(unsigned char) ~(s->ptr[i]);
 				}
@@ -4599,12 +4591,10 @@ filter_resolution_list(Epson_Scanner * s)
 		/* copy the short list */
 
 		/* filter out all values that are not 300 or 400 dpi based */
-		int i;
-
 		int new_size = 0;
 		SANE_Bool is_correct_resolution = SANE_FALSE;
 
-		for (i = 0; i < s->hw->res_list_size; i++) {
+		for (int i = 0; i < s->hw->res_list_size; i++) {
 			SANE_Word res;
 			res = s->hw->res_list[i];
 			if ((res < 100) || res == 150 || (0 == (res % 300))
@@ -4623,7 +4613,7 @@ filter_resolution_list(Epson_Scanner * s)
 		s->hw->resolution_list[0] = new_size;
 
 		if (is_correct_resolution == SANE_FALSE) {
-			for (i = 1; i <= new_size; i++) {
+			for (int i = 1; i <= new_size; i++) {
 				if (s->val[OPT_RESOLUTION].w <
 				    s->hw->resolution_list[i]) {
 					s->val[OPT_RESOLUTION].w =

@@ -307,11 +307,9 @@ sane_init(SANE_Int * version_code,
 void
 sane_exit(void)
 {
-	int i;
-
 	DBG(10, "%s\n", __func__);
 
-	for (i = 0; i < n_device_list; i++) {
+	for (int i = 0; i < n_device_list; i++) {
 		cs3_xfree(device_list[i]->name);
 		cs3_xfree(device_list[i]->vendor);
 		cs3_xfree(device_list[i]->model);
@@ -370,7 +368,6 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 {
 	SANE_Status status;
 	cs3_t *s;
-	int i_option;
 	unsigned int i_list;
 	SANE_Option_Descriptor o;
 	SANE_Word *word_list;
@@ -401,11 +398,11 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 
 	/* option descriptors */
 
-	for (i_option = 0; i_option < CS3_N_OPTIONS; i_option++) {
+	for (int i = 0; i < CS3_N_OPTIONS; i++) {
 		o.name = o.title = o.desc = NULL;
 		o.type = o.unit = o.cap = o.constraint_type = o.size = 0;
 		o.constraint.range = NULL;	/* only one union member needs to be NULLed */
-		switch (i_option) {
+		switch (i) {
 		case CS3_OPTION_NUM:
 			o.name = "";
 			o.title = SANE_TITLE_NUM_OPTIONS;
@@ -636,11 +633,11 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 		case CS3_OPTION_RESX:
 		case CS3_OPTION_RES:
 		case CS3_OPTION_PREVIEW_RESOLUTION:
-			if (i_option == CS3_OPTION_PREVIEW_RESOLUTION) {
+			if (i == CS3_OPTION_PREVIEW_RESOLUTION) {
 				o.name = "preview-resolution";
 				o.title = "Preview resolution";
 				o.desc = "Scanning resolution for preview mode in dpi, affecting both x and y directions";
-			} else if (i_option == CS3_OPTION_RES) {
+			} else if (i == CS3_OPTION_RES) {
 				o.name = "resolution";
 				o.title = "Resolution";
 				o.desc = "Scanning resolution in dpi, affecting both x and y directions";
@@ -653,10 +650,10 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 			o.unit = SANE_UNIT_DPI;
 			o.size = WSIZE;
 			o.cap = SANE_CAP_SOFT_SELECT | SANE_CAP_SOFT_DETECT;
-			if (i_option == CS3_OPTION_RESX)
+			if (i == CS3_OPTION_RESX)
 				o.cap |= SANE_CAP_INACTIVE |
 					SANE_CAP_ADVANCED;
-			if (i_option == CS3_OPTION_PREVIEW_RESOLUTION)
+			if (i == CS3_OPTION_PREVIEW_RESOLUTION)
 				o.cap |= SANE_CAP_ADVANCED;
 			o.constraint_type = SANE_CONSTRAINT_WORD_LIST;
 			word_list =
@@ -953,7 +950,7 @@ sane_open(SANE_String_Const name, SANE_Handle * h)
 			return SANE_STATUS_INVAL;
 			break;
 		}
-		s->option_list[i_option] = o;
+		s->option_list[i] = o;
 	}
 
 	s->compat_level = SANE_API(1, 0, 0);	/* default level is 1.0 */
@@ -1477,8 +1474,6 @@ sane_read(SANE_Handle h, SANE_Byte * buf, SANE_Int maxlen, SANE_Int * len)
 	cs3_t *s = (cs3_t *) h;
 	SANE_Status status;
 	ssize_t xfer_len_in, xfer_len_line, xfer_len_out;
-	unsigned long index;
-	int color;
 	u_int8_t *s8 = NULL;
 	u_int16_t *s16 = NULL;
 	SANE_Byte *line_buf_new;
@@ -1573,8 +1568,8 @@ sane_read(SANE_Handle h, SANE_Byte * buf, SANE_Int maxlen, SANE_Int * len)
 		return status;
 	}
 
-	for (index = 0; index < s->logical_width; index++) {
-		for (color = 0; color < s->n_colors; color++) {
+	for (unsigned long index = 0; index < s->logical_width; index++) {
+		for (int color = 0; color < s->n_colors; color++) {
 
 			int where = s->bytes_per_pixel
 				* (s->n_colors * index + color);
@@ -1675,9 +1670,9 @@ sane_get_select_fd(__sane_unused__ SANE_Handle h,
 static void
 cs3_trim(char *s)
 {
-	int i, l = strlen(s);
+	int l = strlen(s);
 
-	for (i = l - 1; i > 0; i--) {
+	for (int i = l - 1; i > 0; i--) {
 		if (s[i] == ' ')
 			s[i] = '\0';
 		else
@@ -1691,7 +1686,6 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 	SANE_Status status;
 	cs3_t *s;
 	char *prefix = NULL, *line;
-	int i;
 	int alloc_failed = 0;
 	SANE_Device **device_list_new;
 
@@ -1726,7 +1720,7 @@ cs3_open(const char *device, cs3_interface_t interface, cs3_t ** sp)
 
 	switch (interface) {
 	case CS3_INTERFACE_UNKNOWN:
-		for (i = 0; i < 2; i++) {
+		for (int i = 0; i < 2; i++) {
 			switch (i) {
 			case 1:
 				prefix = "usb:";
@@ -2044,11 +2038,10 @@ cs3_pack_word(cs3_t * s, unsigned long val)
 static SANE_Status
 cs3_parse_cmd(cs3_t * s, char *text)
 {
-	size_t i, j;
 	char c, h;
 	SANE_Status status;
 
-	for (i = 0; i < strlen(text); i += 2)
+	for (size_t i = 0; i < strlen(text); i += 2)
 		if (text[i] == ' ')
 			i--;	/* a bit dirty... advance by -1+2=1 */
 		else {
@@ -2056,7 +2049,7 @@ cs3_parse_cmd(cs3_t * s, char *text)
 				DBG(1,
 				    "BUG: cs3_parse_cmd(): Parser got invalid character.\n");
 			c = 0;
-			for (j = 0; j < 2; j++) {
+			for (size_t j = 0; j < 2; j++) {
 				h = tolower(text[i + j]);
 				if ((h >= 'a') && (h <= 'f'))
 					c += 10 + h - 'a';
@@ -2339,7 +2332,7 @@ static SANE_Status
 cs3_full_inquiry(cs3_t * s)
 {
 	SANE_Status status;
-	int pitch, pitch_max;
+	int pitch_max;
 	cs3_pixel_t pixel;
 
 	DBG(4, "%s\n", __func__);
@@ -2408,7 +2401,7 @@ cs3_full_inquiry(cs3_t * s)
 		(unsigned int *) cs3_xrealloc(s->resx_list,
 					      pitch_max *
 					      sizeof(unsigned int));
-	for (pitch = 1; pitch <= pitch_max; pitch++)
+	for (int pitch = 1; pitch <= pitch_max; pitch++)
 		s->resx_list[pitch - 1] = s->resx_max / pitch;
 
 	/* generate resolution list for y */
@@ -2419,7 +2412,7 @@ cs3_full_inquiry(cs3_t * s)
 					      pitch_max *
 					      sizeof(unsigned int));
 
-	for (pitch = 1; pitch <= pitch_max; pitch++)
+	for (int pitch = 1; pitch <= pitch_max; pitch++)
 		s->resy_list[pitch - 1] = s->resy_max / pitch;
 
 	s->unit_dpi = s->resx_max;
@@ -2647,7 +2640,7 @@ static SANE_Status
 cs3_get_exposure(cs3_t * s)
 {
 	SANE_Status status;
-	int i_color, colors = s->n_colors;
+	int colors = s->n_colors;
 
 	DBG(6, "%s\n", __func__);
 
@@ -2657,26 +2650,26 @@ cs3_get_exposure(cs3_t * s)
 	cs3_scanner_ready(s, CS3_STATUS_NO_DOCS);
 
 	/* GET WINDOW */
-	for (i_color = 0; i_color < colors; i_color++) {	/* XXXXXXXXXXXXX CCCCCCCCCCCCC */
+	for (int i = 0; i < colors; i++) {	/* XXXXXXXXXXXXX CCCCCCCCCCCCC */
 
 		cs3_init_buffer(s);
 		cs3_parse_cmd(s, "25 01 00 00 00");
-		cs3_pack_byte(s, cs3_colors[i_color]);
+		cs3_pack_byte(s, cs3_colors[i]);
 		cs3_parse_cmd(s, "00 00 3a 00");
 		s->n_recv = 58;
 		status = cs3_issue_cmd(s);
 		if (status != SANE_STATUS_GOOD)
 			return status;
 
-		s->real_exposure[cs3_colors[i_color]] =
+		s->real_exposure[cs3_colors[i]] =
 			65536 * (256 * s->recv_buf[54] + s->recv_buf[55]) +
 			256 * s->recv_buf[56] + s->recv_buf[57];
 
 		DBG(6,
 		    "%s, exposure for color %i: %li * 10ns\n",
 		    __func__,
-		    cs3_colors[i_color],
-		    s->real_exposure[cs3_colors[i_color]]);
+		    cs3_colors[i],
+		    s->real_exposure[cs3_colors[i]]);
 
 		DBG(6, "%02x %02x %02x %02x\n", s->recv_buf[48],
 		    s->recv_buf[49], s->recv_buf[50], s->recv_buf[51]);
@@ -2688,7 +2681,6 @@ cs3_get_exposure(cs3_t * s)
 static SANE_Status
 cs3_convert_options(cs3_t * s)
 {
-	int i_color;
 	unsigned long xmin, xmax, ymin, ymax;
 
 	DBG(4, "%s\n", __func__);
@@ -2784,9 +2776,9 @@ cs3_convert_options(cs3_t * s)
 	s->real_exposure[3] = s->exposure * s->exposure_b * 100.;
 
 	/* XXX IR? */
-	for (i_color = 0; i_color < 3; i_color++)
-		if (s->real_exposure[cs3_colors[i_color]] < 1)
-			s->real_exposure[cs3_colors[i_color]] = 1;
+	for (int i = 0; i < 3; i++)
+		if (s->real_exposure[cs3_colors[i]] < 1)
+			s->real_exposure[cs3_colors[i]] = 1;
 
 	s->n_colors = 3;	/* XXXXXXXXXXXXXX CCCCCCCCCCCCCC */
 	if (s->infrared)
@@ -2806,7 +2798,6 @@ static SANE_Status
 cs3_set_boundary(cs3_t * s)
 {
 	SANE_Status status;
-	int i_boundary;
 
 	/* Ariel - Check this function */
 	cs3_scanner_ready(s, CS3_STATUS_READY);
@@ -2821,7 +2812,7 @@ cs3_set_boundary(cs3_t * s)
 	cs3_pack_byte(s, (4 + s->n_frames * 16) & 0xff);
 	cs3_pack_byte(s, s->n_frames);
 	cs3_pack_byte(s, s->n_frames);
-	for (i_boundary = 0; i_boundary < s->n_frames; i_boundary++) {
+	for (int i_boundary = 0; i_boundary < s->n_frames; i_boundary++) {
 		unsigned long lvalue = s->frame_offset * i_boundary +
 			s->subframe / s->unit_mm;
 
@@ -2846,13 +2837,12 @@ cs3_set_boundary(cs3_t * s)
 static SANE_Status
 cs3_send_lut(cs3_t * s)
 {
-	int color;
 	SANE_Status status;
 	cs3_pixel_t *lut, pixel;
 
 	DBG(6, "%s\n", __func__);
 
-	for (color = 0; color < s->n_colors; color++) {
+	for (int color = 0; color < s->n_colors; color++) {
 		/*cs3_scanner_ready(s, CS3_STATUS_READY); */
 
 		switch (color) {
@@ -2900,11 +2890,10 @@ cs3_send_lut(cs3_t * s)
 static SANE_Status
 cs3_set_window(cs3_t * s, cs3_scan_t type)
 {
-	int color;
 	SANE_Status status = SANE_STATUS_INVAL;
 
 	/* SET WINDOW */
-	for (color = 0; color < s->n_colors; color++) {
+	for (int color = 0; color < s->n_colors; color++) {
 
 		DBG(8, "%s: color %d\n", __func__, cs3_colors[color]);
 

@@ -159,7 +159,7 @@ sanei_epson_net_write(Epson_Scanner * s, unsigned int cmd,
 	if (reply_len) {
 		s->netbuf = s->netptr = malloc(reply_len);
 		s->netlen = reply_len;
-		DBG(8, "allocated %lu bytes at %p\n",
+		DBG(18, "allocated %lu bytes at %p\n",
 		    (u_long) reply_len, s->netbuf);
 	}
 

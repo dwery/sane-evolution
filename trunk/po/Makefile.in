@@ -21,7 +21,7 @@ SRC_FILES = ../include/sane/saneopts.h ../backend/artec_eplus48u.c \
   ../backend/mustek.c ../backend/mustek_usb.c ../backend/mustek_usb2.c \
   ../backend/niash.c \
   ../backend/pixma.c ../backend/pixma_sane_options.c \
-  ../backend/plustek.c ../backend/plustek_pp.c \
+  ../backend/plustek.c \
   ../backend/pnm.c \
   ../backend/sceptre.c ../backend/sceptre.h  ../backend/sm3840.c \
   ../backend/snapscan.c ../backend/snapscan-options.c \

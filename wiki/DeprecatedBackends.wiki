@@ -18,6 +18,8 @@ around, but we need to move a bit on.
  * v4l
  * gphoto2
  * plustek_pp
+ * qcam
+
 
 
  

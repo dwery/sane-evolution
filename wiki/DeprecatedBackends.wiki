@@ -15,11 +15,12 @@ around, but we need to move a bit on.
 = Removed =
 
  * coolscan (use coolscan3)
- * v4l
  * gphoto2
+ * pint
  * plustek_pp
+ * pnm (use test)
  * qcam
-
+ * v4l
 
 
  

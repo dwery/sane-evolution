@@ -36,6 +36,9 @@ autotools-stamp:
 	ln -s /usr/share/misc/config.guess config.guess
 	touch autotools-stamp
 
+configure:
+	./autogen.sh
+
 config.status: autotools-stamp configure
 	dh_testdir
 
@@ -46,7 +49,7 @@ config.status: autotools-stamp configure
 		--localstatedir=/var \
 		--datadir=\$${prefix}/share \
 		--mandir=\$${prefix}/share/man \
-		--with-docdir=\$${prefix}/share/doc/libsane \
+		--with-docdir=\$${prefix}/share/doc/libsane-evolution \
 		--disable-locking \
 		--enable-static \
 		--with-gphoto2 \
@@ -76,7 +79,7 @@ real-clean:
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
 
-	rm -f debian/libsane.install debian/libsane.docs debian/libsane.dirs debian/libsane.udev
+	rm -f debian/libsane-evolution.install debian/libsane-evolution.docs debian/libsane-evolution.dirs debian/libsane-evolution.udev
 	rm -f config.sub config.guess
 
 	dh_clean
@@ -86,14 +89,14 @@ install: build
 	dh_testroot
 	dh_clean -k
 ifeq (linux,$(DEB_HOST_ARCH_OS))
-	cp debian/libsane.dirs.linux debian/libsane.dirs
+	cp debian/libsane-evolution.dirs.linux debian/libsane-evolution.dirs
 endif
 	dh_installdirs
 
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) install prefix=$(CURDIR)/debian/tmp/usr \
 			sysconfdir=$(CURDIR)/debian/tmp/etc \
-			docdir=$(CURDIR)/debian/tmp/usr/share/doc/libsane
+			docdir=$(CURDIR)/debian/tmp/usr/share/doc/libsane-evolution
 
 	# remove /usr/lib/sane/libsane.so.1 (libtool side-effect ?)
 	rm -f debian/tmp/usr/lib/sane/libsane.so.1
@@ -111,57 +114,57 @@ binary-arch: build install
 	dh_testroot
 
 	# install only the manpages for the backends which have been built
-	cp debian/libsane.install.in debian/libsane.install
+	cp debian/libsane-evolution.install.in debian/libsane-evolution.install
 	ls debian/tmp/usr/lib/sane/*.so | sed -e "s#.*/lib\([^.]\+\)[.]so#usr/share/man/man5/\1.5#" | { while read mp; do \
-		test -e debian/tmp/$$mp && echo $$mp >> debian/libsane.install; done }
+		test -e debian/tmp/$$mp && echo $$mp >> debian/libsane-evolution.install; done }
 
 	dh_install --sourcedir=debian/tmp
 
 ifeq (kfreebsd,$(DEB_HOST_ARCH_OS))
-	echo README.freebsd > debian/libsane.docs
+	echo README.freebsd > debian/libsane-evolution.docs
 endif
 ifeq (linux,$(DEB_HOST_ARCH_OS))
-	echo README.linux > debian/libsane.docs
+	echo README.linux > debian/libsane-evolution.docs
 endif
 
 	dh_installdocs
 
 	# move files that belong to libsane-dev
-	mv debian/libsane/usr/share/doc/libsane/sane.ps debian/libsane-dev/usr/share/doc/libsane-dev/
-	mv debian/libsane/usr/share/doc/libsane/backend-writing.txt debian/libsane-dev/usr/share/doc/libsane-dev/
-	rm -f debian/libsane/etc/sane.d/saned.conf
+	mv debian/libsane-evolution/usr/share/doc/libsane-evolution/sane.ps debian/libsane-evolution-dev/usr/share/doc/libsane-evolution-dev/
+	mv debian/libsane-evolution/usr/share/doc/libsane-evolution/backend-writing.txt debian/libsane-evolution-dev/usr/share/doc/libsane-evolution-dev/
+	rm -f debian/libsane-evolution/etc/sane.d/saned.conf
 
 	# move the html files into html/
-	install -d debian/libsane/usr/share/doc/libsane/html
-	mv debian/libsane/usr/share/doc/libsane/*.html debian/libsane/usr/share/doc/libsane/html/
+	install -d debian/libsane-evolution/usr/share/doc/libsane-evolution/html
+	mv debian/libsane-evolution/usr/share/doc/libsane-evolution/*.html debian/libsane-evolution/usr/share/doc/libsane-evolution/html/
 
 	# create the PATH_SANE_DATA_DIR/gt68xx directory in libsane
-	install -d debian/libsane/usr/share/sane/gt68xx
+	install -d debian/libsane-evolution/usr/share/sane/gt68xx
 
-	# create the /etc/sane.d/dll.d directory in libsane
-	install -d debian/libsane/etc/sane.d/dll.d
+	# create the /etc/sane.d/dll.d directory in libsane-evolution
+	install -d debian/libsane-evolution/etc/sane.d/dll.d
 
 ifeq (linux,$(DEB_HOST_ARCH_OS))
 	# udev support
 	# Generate the udev rules file
-	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m udev > $(CURDIR)/debian/libsane.udev
+	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m udev > $(CURDIR)/debian/libsane-evolution.udev
 	dh_installudev
 
 	# Generate a modprobe blacklist for scanner and hpusbscsi
-	echo "blacklist scanner" > $(CURDIR)/debian/libsane/etc/modprobe.d/libsane
-	echo "blacklist hpusbscsi" >> $(CURDIR)/debian/libsane/etc/modprobe.d/libsane
+	echo "blacklist scanner" > $(CURDIR)/debian/libsane-evolution/etc/modprobe.d/libsane-evolution
+	echo "blacklist hpusbscsi" >> $(CURDIR)/debian/libsane-evolution/etc/modprobe.d/libsane-evolution
 endif
 
 	# Install HAL fdi file
-	mkdir -p $(CURDIR)/debian/libsane/usr/share/hal/fdi/preprobe/10osvendor
-	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m hal > $(CURDIR)/debian/libsane/usr/share/hal/fdi/preprobe/10osvendor/20-libsane.fdi
+	mkdir -p $(CURDIR)/debian/libsane-evolution/usr/share/hal/fdi/preprobe/10osvendor
+	$(CURDIR)/tools/sane-desc -s $(CURDIR)/doc/descriptions -m hal > $(CURDIR)/debian/libsane-evolution/usr/share/hal/fdi/preprobe/10osvendor/20-libsane.fdi
 
 	# remove rpath from the binaries (wonderful tool !)
-	chrpath -d debian/sane-utils/usr/sbin/saned
-	chrpath -d debian/sane-utils/usr/bin/scanimage
+#	chrpath -d debian/sane-evolution-utils/usr/sbin/saned
+#	chrpath -d debian/sane-evolution-utils/usr/bin/scanimage
 
 	# install the xerox script as an example
-	dh_installexamples -plibsane tools/README tools/xerox
+#	dh_installexamples -plibsane tools/README tools/xerox
 
 #	dh_installdebconf	
 #	dh_installmenu
@@ -170,8 +173,8 @@ endif
 #	dh_undocumented
 	dh_installchangelogs ChangeLog
 	dh_link
-	dh_strip -plibsane --dbg-package=libsane-dbg
-	dh_strip -Nlibsane
+	dh_strip -plibsane-evolution --dbg-package=libsane-evolution-dbg
+	dh_strip -Nlibsane-evolution
 	dh_compress
 	dh_fixperms
 	dh_makeshlibs

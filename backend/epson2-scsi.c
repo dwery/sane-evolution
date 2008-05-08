@@ -8,20 +8,7 @@
 #include <sane/sanei_scsi.h>
 #include "epson2-scsi.h"
 
-#ifdef HAVE_STDDEF_H
-#include <stddef.h>
-#endif
-
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-
-#ifdef NEED_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-
 #include <string.h>		/* for memset and memcpy */
-#include <stdio.h>
 
 /* sense handler for the sanei_scsi_xxx comands */
 SANE_Status

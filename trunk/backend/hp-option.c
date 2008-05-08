@@ -63,7 +63,7 @@
 /* To be done: dont reallocate choice accessors */
 /* #define HP_ALLOC_CHOICEACC_ONCE 1 */
 /*
-                               #define HP_EXPERIMENTAL
+                                 #define HP_EXPERIMENTAL
 *//*
      #define STUBS
      extern int sanei_debug_hp; */

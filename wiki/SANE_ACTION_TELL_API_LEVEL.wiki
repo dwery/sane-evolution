@@ -1,4 +1,4 @@
-#summary SANE_ACTION_CHECK_API_LEVEL
+#summary SANE_ACTION_TELL_API_LEVEL
 #labels Devel-Backend
 
 May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
@@ -7,7 +7,7 @@ May be used only if SANE version is >= 1.1.0 . See QuickDevGuide.
 == frontend use ==
 
 The frontend must not make any assumption about the capabilities
-of the backend unless otherwise noted. See [sane_tell_api_level] and [sane_exchange_api_level].
+of the backend unless otherwise noted. See [sane_tell_api_level] and [sane_get_api_level].
 
 == backend implementation ==
 
@@ -18,9 +18,9 @@ if API level related features should be used.
         ...
 
         switch (action) {
-        case SANE_ACTION_CHECK_API_LEVEL:
+        case SANE_ACTION_TELL_API_LEVEL:
                 s->compat_level = *(SANE_Word *) value; /* frontend level */
-                *(SANE_Word *) value = SANE_API_LEVEL(1, 1, 0); /* backend level */
+                *(SANE_Word *) value = SANE_EVOLUTION_MAGIC /* protection cookie */
                 break;
 
         ...

@@ -2,7 +2,7 @@
 #labels Devel-Frontend
 
 Used by a frontend to tell a backend the supported API level.
-It's an interface to [SANE_ACTION_CHECK_API_LEVEL].
+It's an interface to [SANE_ACTION_TELL_API_LEVEL].
 
 {{{
 #include <sane/helper.h>

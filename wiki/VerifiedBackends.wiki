@@ -1,7 +1,7 @@
 #summary Verified 1.1 backends
 (alphabetic order)
 
-== SANE_ACTION_CHECK_API_LEVEL aware ==
+== SANE_ACTION_TELL_API_LEVEL aware ==
 
  * coolscan3
  * epson2

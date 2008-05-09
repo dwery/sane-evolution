@@ -1,3 +1,8 @@
+20080509 0.5
+	- bumped version
+	- add warning if sane evolution has not been detected
+	- implemented the new sane evolution protection api
+
 20080325 0.4
 	- added tiff orientation
 	- more verbosity available

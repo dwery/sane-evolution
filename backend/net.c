@@ -1413,7 +1413,7 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 		handled = TRUE;
 
 		switch (action) {
-		case SANE_ACTION_CHECK_API_LEVEL:
+		case SANE_ACTION_TELL_API_LEVEL:
 			req.value_size = sizeof(u_int32_t);
 			break;
 

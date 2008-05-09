@@ -159,7 +159,7 @@ struct backend
 	u_int loaded:1;		/* are the functions available? */
 	u_int inited:1;		/* has the backend been initialized? */
 	u_int evolved:1;
-	int api_level;
+	int api_level;		/* api level of the underlaying backend */
 	void *handle;		/* handle returned by dlopen() */
 	void *(*op[NUM_OPS]) (void);
 };
@@ -1168,24 +1168,35 @@ sane_open(SANE_String_Const full_name, SANE_Handle * meta_handle)
 	}
 
 	if (be->evolved) {
-		status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION]) (handle,
-								     0,
-								     SANE_ACTION_CHECK_API_LEVEL,
-								     &be->
-								     api_level,
-								     0);
+		status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION])
+			(handle, 0, SANE_ACTION_TELL_API_LEVEL,
+			 &be->api_level, 0);
 
-		DBG(3, "backend api %d.%d.%d\n",
+		if (status != SANE_STATUS_GOOD
+		    || be->api_level != SANE_EVOLUTION_MAGIC) {
+
+			be->evolved = FALSE;
+			be->api_level = SANE_API(1, 0, 0);
+			status = SANE_STATUS_GOOD;
+		} else {
+			status = (*(op_ctl_option_t) be->op[OP_CTL_OPTION])
+				(handle, 0, SANE_ACTION_GET_API_LEVEL,
+				 &be->api_level, 0);
+
+			/* restore default level in case of failure */
+			if (status != SANE_STATUS_GOOD) {
+				be->evolved = FALSE;
+				be->api_level = SANE_API(1, 0, 0);
+				status = SANE_STATUS_GOOD;
+			}
+		}
+
+		DBG(1, "backend api %d.%d.%d\n",
 		    SANE_VERSION_MAJOR(be->api_level),
 		    SANE_VERSION_MINOR(be->api_level),
 		    SANE_VERSION_BUILD(be->api_level));
-
-
-		/* restore default level in case of failure */
-		if (status != SANE_STATUS_GOOD) {
-			be->api_level = SANE_API(1, 0, 0);
-			status = SANE_STATUS_GOOD;
-		}
+	} else {
+		DBG(1, "evolution has not happened\n");
 	}
 
 	s->be = be;
@@ -1229,13 +1240,15 @@ sane_control_option(SANE_Handle handle, SANE_Int option,
 	struct meta_scanner *s = handle;
 
 	switch (action) {
-	case SANE_ACTION_CHECK_API_LEVEL:
+	case SANE_ACTION_TELL_API_LEVEL:
+	case SANE_ACTION_GET_API_LEVEL:
 	case SANE_ACTION_CHECK_WARM_UP:
 	case SANE_ACTION_GET_SCANNER_INFO:
 	case SANE_ACTION_GET_BACKEND_INFO:
 		if (s->be->api_level < SANE_API(1, 1, 0))
 			return SANE_STATUS_UNSUPPORTED;
 
+		/* XXX add othe actions */
 	default:
 		break;
 	}

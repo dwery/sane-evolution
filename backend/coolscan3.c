@@ -1030,10 +1030,14 @@ sane_control_option(SANE_Handle h, SANE_Int n, SANE_Action a, void *v,
 	DBG(24, "%s, option %i, action %i.\n", __func__, n, a);
 
 	switch (a) {
-	case SANE_ACTION_CHECK_API_LEVEL:
+	case SANE_ACTION_TELL_API_LEVEL:
 		s->compat_level = *(SANE_Word *) v;	/* frontend compat level */
-		*(SANE_Word *) v = SANE_API(1, 1, 0);	/* our level */
+		*(SANE_Word *) v = SANE_EVOLUTION_MAGIC; /* protection cookie */
 		break;
+
+	case SANE_ACTION_GET_API_LEVEL:
+		*(SANE_Word *) value = SANE_API(1, 1, 0);
+		return SANE_STATUS_GOOD;
 
 	case SANE_ACTION_GET_SCANNER_INFO:
 	{
@@ -2667,9 +2671,7 @@ cs3_get_exposure(cs3_t * s)
 
 		DBG(6,
 		    "%s, exposure for color %i: %li * 10ns\n",
-		    __func__,
-		    cs3_colors[i],
-		    s->real_exposure[cs3_colors[i]]);
+		    __func__, cs3_colors[i], s->real_exposure[cs3_colors[i]]);
 
 		DBG(6, "%02x %02x %02x %02x\n", s->recv_buf[48],
 		    s->recv_buf[49], s->recv_buf[50], s->recv_buf[51]);

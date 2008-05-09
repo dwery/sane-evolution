@@ -2946,8 +2946,14 @@ sane_control_option(SANE_Handle handle, SANE_Int option, SANE_Action action,
 		*info = 0;
 
 	switch (action) {
-	case SANE_ACTION_CHECK_API_LEVEL:
+	case SANE_ACTION_TELL_API_LEVEL:
+		/* save frontend API level */
 		s->compat_level = *(SANE_Word *) value;
+		/* set magic value for confirmation */
+		*(SANE_Word *) value = SANE_EVOLUTION_MAGIC;
+		return SANE_STATUS_GOOD;
+
+	case SANE_ACTION_GET_API_LEVEL:
 		*(SANE_Word *) value = SANE_API(1, 1, 0);
 		return SANE_STATUS_GOOD;
 

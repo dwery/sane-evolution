@@ -1679,8 +1679,8 @@ main(int argc, const char **argv)
 
 	memset(&si, 0x00, sizeof(si));
 
-	if (SANE_HAS_EVOLVED(version)) {
-		printf("SANE Evolution detected...\n");
+	if (sane_has_evolved(handle, version)) {
+		printf("... with SANE Evolution extensions!\n");
 
 		sane_tell_api_level(handle, SANE_API(1, 1, 0));
 		

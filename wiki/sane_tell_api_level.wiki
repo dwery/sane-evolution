@@ -12,6 +12,6 @@ It's an interface to [SANE_ACTION_CHECK_API_LEVEL].
         sane_open(..., &handle);
         ....
 
-        if(SANE_HAS_EVOLVED(sane_version))
+        if(sane_has_evolved(handle, sane_version))
                 sane_tell_api_level(handle, SANE_API(1, 1, 0));
 }}}

@@ -11,7 +11,7 @@ result code, the [SaneFlow flow] should proceed as usual. A frontend MAY differe
         ...
 
 warmup:
-        if (SANE_HAS_EVOLVED(...)) {
+        if (sane_has_evolved(handle, sane_version)) {
                 SANE_Int interval = 2; /* default interval is two seconds */
 
                 result = sane_check_warm_up(handle, &interval);
@@ -35,7 +35,7 @@ start:
 An helper function will be provided in sane/helper.h which properly implements
 this and can be used in place of sane_start() in the frontend's code. This
 can be used to quickly add a functionality. An advanced frontend might want
-to implement things differently in order to make the user is aware of the warmup
+to implement things differently in order to make sure the user is aware of the warmup
 condition.
 
 {{{

@@ -180,7 +180,7 @@ static SANE_String_Const halftone_list[] = {
 	SANE_I18N("5x5 custom"), SANE_I18N("4x4 custom"),
 	SANE_I18N("3x3 custom"),
 	SANE_I18N("2x2 custom"),
-	0
+	NULL
 };
 
 /* Range used for brightness and contrast */
@@ -1773,10 +1773,11 @@ encode_halftone(Mustek_Scanner * s)
 	SANE_String selection = s->val[OPT_HALFTONE_DIMENSION].s;
 	SANE_Int i = 0;
 
-	while ((halftone_list != 0)
+	while ((halftone_list[i] != NULL)
 	       && (strcmp(selection, halftone_list[i]) != 0)) {
 		i++;
 	}
+	
 	if (halftone_list[i] == 0)
 		return SANE_STATUS_INVAL;
 

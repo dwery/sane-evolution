@@ -7,7 +7,7 @@ As of Jan 2009 no release happened. SANE Evolution works nicely, it has
 a number of interesteing features but it's hard to maintain.
 
 I tried to address too many problems of SANE all at once. Meanwhile, SANE
-introducted some of the things we have been missing, even if they are not yet used
+introduced some of the things we have been missing, even if they are not yet used
 within SANE itself, like the types for infrared data.
 
 There's too much work for a man alone. 

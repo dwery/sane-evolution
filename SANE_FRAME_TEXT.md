@@ -1,0 +1,1 @@
+This frame type is deprecated. Please use [SANE\_FRAME\_XML](SANE_FRAME_XML.md) instead.
